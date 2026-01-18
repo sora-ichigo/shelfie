@@ -52,7 +52,7 @@ class ConfigManager {
 
   getOrDefault<K extends keyof AppConfig>(
     key: K,
-    defaultValue: NonNullable<AppConfig[K]>
+    defaultValue: NonNullable<AppConfig[K]>,
   ): NonNullable<AppConfig[K]> {
     const value = process.env[key];
     if (value === undefined) {
@@ -78,7 +78,7 @@ class ConfigManager {
         throw new ConfigError(
           "MISSING_REQUIRED",
           key,
-          `Required environment variable ${key} is not set`
+          `Required environment variable ${key} is not set`,
         );
       }
     }
@@ -88,7 +88,7 @@ class ConfigManager {
       throw new ConfigError(
         "INVALID_VALUE",
         "NODE_ENV",
-        `NODE_ENV must be one of: ${VALID_NODE_ENVS.join(", ")}`
+        `NODE_ENV must be one of: ${VALID_NODE_ENVS.join(", ")}`,
       );
     }
 
@@ -97,7 +97,7 @@ class ConfigManager {
       throw new ConfigError(
         "INVALID_VALUE",
         "LOG_LEVEL",
-        `LOG_LEVEL must be one of: ${VALID_LOG_LEVELS.join(", ")}`
+        `LOG_LEVEL must be one of: ${VALID_LOG_LEVELS.join(", ")}`,
       );
     }
   }

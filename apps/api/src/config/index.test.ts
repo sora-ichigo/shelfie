@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("ConfigManager", () => {
   const originalEnv = process.env;
@@ -87,9 +87,11 @@ describe("ConfigManager", () => {
         config.validate();
       } catch (e) {
         expect(e).toBeInstanceOf(ConfigError);
-        expect((e as InstanceType<typeof ConfigError>).key).toBe("DATABASE_URL");
+        expect((e as InstanceType<typeof ConfigError>).key).toBe(
+          "DATABASE_URL",
+        );
         expect((e as InstanceType<typeof ConfigError>).code).toBe(
-          "MISSING_REQUIRED"
+          "MISSING_REQUIRED",
         );
       }
     });
@@ -120,7 +122,9 @@ describe("ConfigManager", () => {
         config.validate();
       } catch (e) {
         expect(e).toBeInstanceOf(ConfigError);
-        expect((e as InstanceType<typeof ConfigError>).code).toBe("INVALID_VALUE");
+        expect((e as InstanceType<typeof ConfigError>).code).toBe(
+          "INVALID_VALUE",
+        );
       }
     });
 
@@ -136,7 +140,9 @@ describe("ConfigManager", () => {
         config.validate();
       } catch (e) {
         expect(e).toBeInstanceOf(ConfigError);
-        expect((e as InstanceType<typeof ConfigError>).code).toBe("INVALID_VALUE");
+        expect((e as InstanceType<typeof ConfigError>).code).toBe(
+          "INVALID_VALUE",
+        );
         expect((e as InstanceType<typeof ConfigError>).key).toBe("LOG_LEVEL");
       }
     });
