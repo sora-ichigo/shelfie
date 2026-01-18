@@ -1,0 +1,2 @@
+[hooks]
+  postCreate = pnpm install && cd apps/mobile && flutter pub get
