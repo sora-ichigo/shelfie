@@ -52,7 +52,7 @@ fi
 echo "Setting up mise tools..."
 cd "$PROJECT_DIR"
 mise trust --all 2>/dev/null || true
-mise install node pnpm terraform
+mise install node pnpm
 
 # mise の shim パスを PATH に追加
 MISE_SHIMS="$HOME/.local/share/mise/shims"
