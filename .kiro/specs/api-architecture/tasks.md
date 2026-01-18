@@ -3,14 +3,14 @@
 ## Tasks
 
 - [ ] 1. Core 環境設定基盤の構築
-- [ ] 1.1 環境変数管理機能を実装する
+- [x] 1.1 環境変数管理機能を実装する
   - ConfigManager を作成し、DATABASE_URL, NODE_ENV, LOG_LEVEL 等の環境変数を型安全に読み込む
   - 必須変数の存在チェックとバリデーション機能を実装する
   - デフォルト値の提供と開発・本番環境の判定機能を追加する
   - .env.example ファイルを作成し、必要な環境変数をテンプレート化する
   - _Requirements: 2.3, 6.2, 8.5_
 
-- [ ] 1.2 (P) ローカル開発用 Docker Compose を構成する
+- [x] 1.2 (P) ローカル開発用 Docker Compose を構成する
   - PostgreSQL 16+ コンテナの設定を作成する
   - Unix domain socket 経由での接続を設定する（ホストの 5432 ポート競合を回避）
   - socket ディレクトリ（./tmp/pg-socket）をホストにマウントする
