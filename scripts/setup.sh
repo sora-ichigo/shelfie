@@ -52,7 +52,7 @@ fi
 echo "Setting up mise tools..."
 cd "$PROJECT_DIR"
 mise trust --all 2>/dev/null || true
-mise install
+mise install node pnpm
 
 # mise の shim パスを PATH に追加
 MISE_SHIMS="$HOME/.local/share/mise/shims"
@@ -141,26 +141,6 @@ if pnpm install; then
 else
   echo "ERROR: pnpm install failed with exit code $?"
 fi
-
-# Flutter pub get（mobile アプリ用）
-echo "Installing Flutter dependencies..."
-if [ -d "$PROJECT_DIR/apps/mobile" ]; then
-  cd "$PROJECT_DIR/apps/mobile"
-  if command -v flutter &>/dev/null; then
-    if flutter pub get; then
-      echo "Flutter pub get completed successfully"
-    else
-      echo "WARNING: Flutter pub get failed with exit code $?"
-    fi
-  else
-    echo "WARNING: Flutter not found, skipping mobile dependencies"
-  fi
-else
-  echo "WARNING: apps/mobile directory not found"
-fi
-
-# プロジェクトルートに戻る
-cd "$PROJECT_DIR"
 
 # ビルド確認
 echo "Running typecheck..."
