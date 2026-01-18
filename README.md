@@ -14,6 +14,9 @@ mise install
 
 # 依存関係のインストール
 pnpm install
+
+# モバイルアプリの依存関係インストール
+pnpm mobile pub get
 ```
 
 ## 開発
@@ -24,6 +27,9 @@ pnpm dev:api
 
 # Web サーバー起動 (http://localhost:3000)
 pnpm dev:web
+
+# モバイルアプリ起動
+pnpm dev:mobile
 ```
 
 ## コマンド一覧
@@ -32,6 +38,8 @@ pnpm dev:web
 |----------|------|
 | `pnpm dev:api` | API サーバー起動 |
 | `pnpm dev:web` | Web サーバー起動 |
+| `pnpm dev:mobile` | モバイルアプリ起動 |
+| `pnpm mobile <cmd>` | Flutter コマンド実行 |
 | `pnpm build` | 全パッケージビルド |
 | `pnpm typecheck` | 型チェック |
 | `pnpm lint` | Biome lint |
@@ -46,7 +54,7 @@ shelfie/
 ├── apps/
 │   ├── api/             # GraphQL API サーバー (Express + Apollo Server)
 │   ├── web/             # 閲覧用 Web (Next.js)
-│   └── mobile/          # モバイルアプリ (Flutter) ※今後追加
+│   └── mobile/          # モバイルアプリ (Flutter)
 ├── packages/
 │   └── shared/          # 共有ユーティリティ
 ├── infra/
