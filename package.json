@@ -4,8 +4,10 @@
   "scripts": {
     "api": "pnpm --filter @shelfie/api",
     "web": "pnpm --filter @shelfie/web",
+    "mobile": "cd apps/mobile && flutter",
     "dev:api": "pnpm --filter @shelfie/api dev",
     "dev:web": "pnpm --filter @shelfie/web dev",
+    "dev:mobile": "cd apps/mobile && flutter run",
     "build": "pnpm -r build",
     "lint": "biome lint .",
     "format": "biome format . --write",

@@ -20,6 +20,7 @@ jobs:
     outputs:
       api: ${{ steps.filter.outputs.api }}
       web: ${{ steps.filter.outputs.web }}
+      mobile: ${{ steps.filter.outputs.mobile }}
       shared: ${{ steps.filter.outputs.shared }}
     steps:
       - uses: actions/checkout@v4
@@ -31,6 +32,8 @@ jobs:
               - 'apps/api/**'
             web:
               - 'apps/web/**'
+            mobile:
+              - 'apps/mobile/**'
             shared:
               - 'packages/shared/**'
               - 'package.json'
@@ -45,6 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          install_args: node pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm biome check apps/api
       - run: pnpm --filter @shelfie/api typecheck
@@ -58,7 +63,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          install_args: node pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm biome check apps/web
       - run: pnpm --filter @shelfie/web typecheck
       - run: pnpm --filter @shelfie/web build
+
+  mobile:
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+        with:
+          install_args: flutter
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
