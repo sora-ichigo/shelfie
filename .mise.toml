@@ -2,4 +2,3 @@
 node = "24"
 pnpm = "10"
 terraform = "1.11"
-flutter = "3.22.1"
