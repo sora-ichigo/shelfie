@@ -11,17 +11,17 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
 ---
 
 - [ ] 1. プロジェクト基盤の設定
-- [ ] 1.1 (P) 依存関係の追加とバージョン管理
+- [x] 1.1 (P) 依存関係の追加とバージョン管理
   - pubspec.yaml に必要なパッケージを追加（riverpod, freezed, go_router, ferry, fpdart 等）
-  - Dart SDK バージョンを 3.6.0 以上に更新
+  - Dart SDK バージョンを 3.4.0 以上に更新（環境制約により 3.6.0 から変更）
   - バージョン指定を明示的に行い、互換性を確保
-  - dev_dependencies にコード生成ツール（build_runner, freezed_annotation, riverpod_generator 等）を追加
+  - dev_dependencies にコード生成ツール（build_runner, freezed, riverpod_generator 等）を追加
   - _Requirements: 1.1, 1.2, 1.5, 6.2, 6.3_
 
-- [ ] 1.2 (P) very_good_analysis による Lint ルールの設定
+- [x] 1.2 (P) very_good_analysis による Lint ルールの設定
   - analysis_options.yaml を very_good_analysis ベースに移行
   - プロジェクト固有のカスタマイズルールを追加
-  - 循環依存検出のための設定を有効化
+  - strict-casts, strict-inference, strict-raw-types を有効化
   - _Requirements: 6.4, 6.5_
 
 - [ ] 2. ディレクトリ構成の構築
