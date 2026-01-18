@@ -48,6 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          install_args: node pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm biome check apps/api
       - run: pnpm --filter @shelfie/api typecheck
@@ -61,6 +63,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+        with:
+          install_args: node pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm biome check apps/web
       - run: pnpm --filter @shelfie/web typecheck
