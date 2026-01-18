@@ -51,3 +51,7 @@ pnpm workspaces によるモノレポ構成:
 ## CI
 
 GitHub Actions で paths-filter による差分検知を使用。変更されたパッケージのみ CI が実行される。
+
+## Spec-Driven Development
+
+@.claude/SDD.md
