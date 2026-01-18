@@ -1,0 +1,24 @@
+{
+  "name": "shelfie",
+  "private": true,
+  "scripts": {
+    "api": "pnpm --filter @shelfie/api",
+    "web": "pnpm --filter @shelfie/web",
+    "dev:api": "pnpm --filter @shelfie/api dev",
+    "dev:web": "pnpm --filter @shelfie/web dev",
+    "build": "pnpm -r build",
+    "lint": "biome lint .",
+    "format": "biome format . --write",
+    "check": "biome check .",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
+  }
+}

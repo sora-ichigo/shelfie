@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Test
+coverage/
+
+# Terraform
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/*.tfvars
+infra/terraform/.terraform.lock.hcl
+
+# Flutter
+apps/mobile/.dart_tool/
+apps/mobile/.packages
+apps/mobile/build/
+apps/mobile/*.iml
+apps/mobile/.metadata
+
+# Misc
+*.local
+.cache/
