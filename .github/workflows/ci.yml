@@ -38,14 +38,6 @@ jobs:
               - 'tsconfig.base.json'
               - 'biome.json'
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm check
-
   api:
     needs: changes
     if: ${{ needs.changes.outputs.api == 'true' || needs.changes.outputs.shared == 'true' }}
@@ -54,6 +46,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
       - run: pnpm install --frozen-lockfile
+      - run: pnpm biome check apps/api
       - run: pnpm --filter @shelfie/api typecheck
       - run: pnpm --filter @shelfie/api test
       - run: pnpm --filter @shelfie/api build
@@ -66,5 +59,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
       - run: pnpm install --frozen-lockfile
+      - run: pnpm biome check apps/web
       - run: pnpm --filter @shelfie/web typecheck
       - run: pnpm --filter @shelfie/web build
