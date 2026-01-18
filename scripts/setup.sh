@@ -142,26 +142,6 @@ else
   echo "ERROR: pnpm install failed with exit code $?"
 fi
 
-# Flutter pub get（mobile アプリ用）
-echo "Installing Flutter dependencies..."
-if [ -d "$PROJECT_DIR/apps/mobile" ]; then
-  cd "$PROJECT_DIR/apps/mobile"
-  if command -v flutter &>/dev/null; then
-    if flutter pub get; then
-      echo "Flutter pub get completed successfully"
-    else
-      echo "WARNING: Flutter pub get failed with exit code $?"
-    fi
-  else
-    echo "WARNING: Flutter not found, skipping mobile dependencies"
-  fi
-else
-  echo "WARNING: apps/mobile directory not found"
-fi
-
-# プロジェクトルートに戻る
-cd "$PROJECT_DIR"
-
 # ビルド確認
 echo "Running typecheck..."
 if pnpm typecheck; then
