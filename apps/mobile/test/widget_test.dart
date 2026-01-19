@@ -1,30 +1,76 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:shelfie/main.dart';
+import 'package:shelfie/app/app.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('ShelfieApp', () {
+    testWidgets('アプリが正常に起動すること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      // アプリが起動してウィジェットが表示されることを確認
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    testWidgets('ダークモードテーマが適用されていること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      final materialApp =
+          tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+      // ダークモードが適用されていることを確認
+      expect(materialApp.theme?.brightness, equals(Brightness.dark));
+    });
+
+    testWidgets('AppTheme のテーマが適用されていること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
+
+      final materialApp =
+          tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+      // Material 3 が有効になっていることを確認
+      expect(materialApp.theme?.useMaterial3, isTrue);
+
+      // シードカラーが正しく設定されていることを確認
+      expect(
+        materialApp.theme?.colorScheme.primary,
+        equals(AppTheme.theme.colorScheme.primary),
+      );
+    });
+
+    testWidgets('プレースホルダーホーム画面が表示されること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
+
+      // Welcome メッセージが表示されていることを確認
+      expect(find.text('Welcome to Shelfie'), findsOneWidget);
+    });
+
+    testWidgets('AppBar に Shelfie タイトルが表示されること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
+
+      // AppBar のタイトルが表示されていることを確認
+      expect(find.text('Shelfie'), findsOneWidget);
+    });
   });
 }

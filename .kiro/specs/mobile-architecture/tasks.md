@@ -78,16 +78,16 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - ~~4.3 の AppTheme と連携~~
   - ~~_Requirements: 4.5, 1.1_~~
 
-- [ ] 5. 状態管理基盤の実装
-- [ ] 5.1 ProviderScope とルートレベル Provider の設定
+- [x] 5. 状態管理基盤の実装
+- [x] 5.1 ProviderScope とルートレベル Provider の設定
   - main.dart で ProviderScope を使用してアプリ全体をラップ
   - runZonedGuarded 内で ErrorHandler を初期化
   - アプリ起動時の初期化処理（Hive, Firebase 等）を構築
   - Provider のスコープを適切に分離する設計を実装
-  - 3.2 の ErrorHandler、4.4 の ThemeModeNotifier を統合
+  - 3.2 の ErrorHandler を統合（注: ThemeModeNotifier はスキップ済み、ダークモード固定）
   - _Requirements: 1.1, 1.4, 8.2_
 
-- [ ] 5.2 (P) Riverpod コード生成の設定
+- [x] 5.2 (P) Riverpod コード生成の設定
   - riverpod_annotation を使用した Provider 定義のパターンを確立
   - build_runner による自動生成の設定とコマンドを整備
   - StateNotifier と AsyncNotifier の使い分けガイドラインを確立
