@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 
 /// アプリケーション全体のテーマ定義
@@ -9,22 +10,45 @@ import 'package:shelfie/core/theme/app_typography.dart';
 ///
 /// 現在はダークモードのみをサポートする。
 abstract final class AppTheme {
-  /// アプリのプライマリカラーのシード
-  static const seedColor = Color(0xFF6750A4);
+  /// アプリのプライマリカラーのシード（ブランドプライマリカラー）
+  static const seedColor = Color(0xFF4FD1C5);
 
   /// ダークモードの ThemeData を生成（デフォルト）
   static ThemeData dark() {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.dark,
+      surface: const Color(0xFF0A0A0A),
+      onSurface: Colors.white,
     );
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: colorScheme,
+      scaffoldBackgroundColor: const Color(0xFF0A0A0A),
       textTheme: AppTypography.textTheme,
       extensions: const [AppColors.dark],
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          minimumSize: const Size(double.infinity, 56),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.white,
+          minimumSize: const Size(double.infinity, 56),
+          side: const BorderSide(color: Colors.white, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+        ),
+      ),
     );
   }
 

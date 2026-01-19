@@ -23,6 +23,57 @@ void main() {
         expect(colors.onInfo, isA<Color>());
       });
 
+      group('Brand colors', () {
+        test('brandPrimary はターコイズ色 (#4FD1C5) で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.brandPrimary, equals(const Color(0xFF4FD1C5)));
+        });
+
+        test('brandAccent はゴールド色 (#F6C94A) で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.brandAccent, equals(const Color(0xFFF6C94A)));
+        });
+
+        test('brandBackground はダーク色 (#0A0A0A) で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.brandBackground, equals(const Color(0xFF0A0A0A)));
+        });
+      });
+
+      group('Surface colors', () {
+        test('surfacePrimary は定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.surfacePrimary, equals(const Color(0xFF0A0A0A)));
+        });
+
+        test('surfaceElevated は定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.surfaceElevated, equals(const Color(0xFF1A1A1A)));
+        });
+
+        test('surfaceOverlay は60%不透明度で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.surfaceOverlay, equals(const Color(0x99000000)));
+        });
+      });
+
+      group('Text colors', () {
+        test('textPrimary は白色で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.textPrimary, equals(const Color(0xFFFFFFFF)));
+        });
+
+        test('textSecondary はグレー色で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.textSecondary, equals(const Color(0xFFA0A0A0)));
+        });
+
+        test('textLink は白色で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.textLink, equals(const Color(0xFFFFFFFF)));
+        });
+      });
+
       test('ダークモードの success カラーは緑系', () {
         const colors = AppColors.dark;
         expect(colors.success.green, greaterThan(colors.success.red));
@@ -95,13 +146,10 @@ void main() {
     group('lerp', () {
       test('lerp で2つのカラースキーム間を補間できる', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final interpolated = base.lerp(target, 0.5);
@@ -113,13 +161,10 @@ void main() {
 
       test('lerp(0.0) は元のカラーを返す', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final interpolated = base.lerp(target, 0.0);
@@ -131,13 +176,10 @@ void main() {
 
       test('lerp(1.0) は対象のカラーを返す', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final interpolated = base.lerp(target, 1.0);
