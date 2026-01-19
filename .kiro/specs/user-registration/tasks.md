@@ -3,7 +3,7 @@
 ## Tasks
 
 - [ ] 1. データベーススキーマ拡張
-- [ ] 1.1 users テーブルに Firebase UID カラムを追加
+- [x] 1.1 users テーブルに Firebase UID カラムを追加
   - firebase_uid カラムを NOT NULL、UNIQUE 制約付きで追加
   - firebase_uid にインデックスを作成
   - Drizzle スキーマ定義を更新

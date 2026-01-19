@@ -21,6 +21,7 @@ describe("UserService", () => {
       const mockUser: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -33,6 +34,7 @@ describe("UserService", () => {
       if (result.success) {
         expect(result.data.id).toBe(1);
         expect(result.data.email).toBe("test@example.com");
+        expect(result.data.firebaseUid).toBe("firebase-uid-test");
       }
     });
 
@@ -56,6 +58,7 @@ describe("UserService", () => {
       const mockUser: User = {
         id: 1,
         email: "new@example.com",
+        firebaseUid: "firebase-uid-new",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -63,11 +66,15 @@ describe("UserService", () => {
       vi.mocked(mockRepo.create).mockResolvedValue(mockUser);
 
       const service = createUserService(mockRepo);
-      const result = await service.createUser({ email: "new@example.com" });
+      const result = await service.createUser({
+        email: "new@example.com",
+        firebaseUid: "firebase-uid-new",
+      });
 
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.email).toBe("new@example.com");
+        expect(result.data.firebaseUid).toBe("firebase-uid-new");
       }
     });
 
@@ -76,6 +83,7 @@ describe("UserService", () => {
       const existingUser: User = {
         id: 1,
         email: "existing@example.com",
+        firebaseUid: "firebase-uid-existing",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -84,6 +92,7 @@ describe("UserService", () => {
       const service = createUserService(mockRepo);
       const result = await service.createUser({
         email: "existing@example.com",
+        firebaseUid: "firebase-uid-new-attempt",
       });
 
       expect(result.success).toBe(false);
@@ -100,12 +109,14 @@ describe("UserService", () => {
         {
           id: 1,
           email: "user1@example.com",
+          firebaseUid: "firebase-uid-1",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           id: 2,
           email: "user2@example.com",
+          firebaseUid: "firebase-uid-2",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

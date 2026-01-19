@@ -8,6 +8,7 @@ export interface GetUserInput {
 
 export interface CreateUserInput {
   email: string;
+  firebaseUid: string;
 }
 
 export type UserServiceErrors =
@@ -45,7 +46,10 @@ export function createUserService(repository: UserRepository): UserService {
           message: `Email ${input.email} is already registered`,
         });
       }
-      const user = await repository.create({ email: input.email });
+      const user = await repository.create({
+        email: input.email,
+        firebaseUid: input.firebaseUid,
+      });
       return ok(user);
     },
 

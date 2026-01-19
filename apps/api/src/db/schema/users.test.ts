@@ -1,6 +1,11 @@
 import { getTableName } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
-import { type NewUser, type User, users } from "./users.js";
+import {
+  type NewUser,
+  type User,
+  USERS_FIREBASE_UID_INDEX_NAME,
+  users,
+} from "./users.js";
 
 describe("users schema", () => {
   describe("table definition", () => {
@@ -23,6 +28,14 @@ describe("users schema", () => {
       expect(emailColumn.notNull).toBe(true);
     });
 
+    it("should have firebase_uid column as non-null unique text", () => {
+      const firebaseUidColumn = users.firebaseUid;
+
+      expect(firebaseUidColumn.name).toBe("firebase_uid");
+      expect(firebaseUidColumn.notNull).toBe(true);
+      expect(firebaseUidColumn.isUnique).toBe(true);
+    });
+
     it("should have created_at column with default now", () => {
       const createdAtColumn = users.createdAt;
 
@@ -40,17 +53,25 @@ describe("users schema", () => {
     });
   });
 
+  describe("index definition", () => {
+    it("should have firebase_uid index name constant", () => {
+      expect(USERS_FIREBASE_UID_INDEX_NAME).toBe("idx_users_firebase_uid");
+    });
+  });
+
   describe("type inference", () => {
     it("should infer User type for select operations", () => {
       const user: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-123",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.id).toBe(1);
       expect(user.email).toBe("test@example.com");
+      expect(user.firebaseUid).toBe("firebase-uid-123");
       expect(user.createdAt).toBeInstanceOf(Date);
       expect(user.updatedAt).toBeInstanceOf(Date);
     });
@@ -58,19 +79,31 @@ describe("users schema", () => {
     it("should infer NewUser type for insert operations (id should be optional)", () => {
       const newUser: NewUser = {
         email: "new@example.com",
+        firebaseUid: "firebase-uid-456",
       };
 
       expect(newUser.email).toBe("new@example.com");
+      expect(newUser.firebaseUid).toBe("firebase-uid-456");
       expect("id" in newUser).toBe(false);
     });
 
     it("should allow createdAt and updatedAt to be optional in NewUser", () => {
       const newUserMinimal: NewUser = {
         email: "minimal@example.com",
+        firebaseUid: "firebase-uid-789",
       };
 
       expect(newUserMinimal.createdAt).toBeUndefined();
       expect(newUserMinimal.updatedAt).toBeUndefined();
+    });
+
+    it("should require firebaseUid in NewUser", () => {
+      const newUser: NewUser = {
+        email: "test@example.com",
+        firebaseUid: "required-firebase-uid",
+      };
+
+      expect(newUser.firebaseUid).toBeDefined();
     });
   });
 });

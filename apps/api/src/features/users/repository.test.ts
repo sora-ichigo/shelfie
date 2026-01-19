@@ -50,12 +50,14 @@ describe("UserRepository", () => {
       const user: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.id).toBe(1);
       expect(user.email).toBe("test@example.com");
+      expect(user.firebaseUid).toBe("firebase-uid-test");
     });
   });
 
@@ -72,9 +74,11 @@ describe("UserRepository", () => {
     it("should use NewUser type for create input", () => {
       const newUser: NewUser = {
         email: "test@example.com",
+        firebaseUid: "firebase-uid-new",
       };
 
       expect(newUser.email).toBe("test@example.com");
+      expect(newUser.firebaseUid).toBe("firebase-uid-new");
       expect((newUser as Record<string, unknown>).id).toBeUndefined();
     });
 
@@ -82,12 +86,14 @@ describe("UserRepository", () => {
       const user: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-output",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.id).toBeDefined();
       expect(user.email).toBeDefined();
+      expect(user.firebaseUid).toBeDefined();
       expect(user.createdAt).toBeInstanceOf(Date);
       expect(user.updatedAt).toBeInstanceOf(Date);
     });
