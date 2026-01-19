@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 void main() {
   group('ShelfieApp', () {
@@ -12,6 +13,7 @@ void main() {
           child: ShelfieApp(),
         ),
       );
+      await tester.pumpAndSettle();
 
       // アプリが起動してウィジェットが表示されることを確認
       expect(find.byType(MaterialApp), findsOneWidget);
@@ -23,6 +25,7 @@ void main() {
           child: ShelfieApp(),
         ),
       );
+      await tester.pumpAndSettle();
 
       final materialApp =
           tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -37,6 +40,7 @@ void main() {
           child: ShelfieApp(),
         ),
       );
+      await tester.pumpAndSettle();
 
       final materialApp =
           tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -51,26 +55,66 @@ void main() {
       );
     });
 
-    testWidgets('プレースホルダーホーム画面が表示されること', (WidgetTester tester) async {
+    testWidgets('未認証時にログイン画面が表示されること', (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: ShelfieApp(),
         ),
       );
+      await tester.pumpAndSettle();
 
-      // Welcome メッセージが表示されていることを確認
-      expect(find.text('Welcome to Shelfie'), findsOneWidget);
+      // 未認証時はログイン画面にリダイレクトされる
+      expect(find.text('Login Screen'), findsOneWidget);
     });
 
-    testWidgets('AppBar に Shelfie タイトルが表示されること', (WidgetTester tester) async {
+    testWidgets('認証済みでホーム画面が表示されること', (WidgetTester tester) async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      // ログイン状態にする
+      container.read(authStateProvider.notifier).login(
+            userId: 'test-user',
+            token: 'test-token',
+          );
+
+      await tester.pumpWidget(
+        ProviderScope(
+          parent: container,
+          child: const ShelfieApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // 認証済みはホーム画面が表示される
+      // NavigationBar のラベルとコンテンツの両方に 'Home' があるので、複数見つかることを確認
+      expect(find.text('Home'), findsWidgets);
+    });
+
+    testWidgets('AppBar に Login タイトルが表示されること（未認証時）',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: ShelfieApp(),
         ),
       );
+      await tester.pumpAndSettle();
 
-      // AppBar のタイトルが表示されていることを確認
-      expect(find.text('Shelfie'), findsOneWidget);
+      // 未認証時はログイン画面の AppBar タイトルが表示される
+      expect(find.text('Login'), findsOneWidget);
+    });
+
+    testWidgets('go_router が正しく統合されていること', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: ShelfieApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // MaterialApp.router が使用されていることを確認
+      final materialApp =
+          tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(materialApp.routerConfig, isNotNull);
     });
   });
 }

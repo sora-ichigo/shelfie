@@ -93,34 +93,34 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - StateNotifier と AsyncNotifier の使い分けガイドラインを確立
   - _Requirements: 1.1, 1.5_
 
-- [ ] 6. ルーティングシステムの実装
-- [ ] 6.1 AppRouter の基本設定
+- [x] 6. ルーティングシステムの実装
+- [x] 6.1 AppRouter の基本設定
   - go_router を使用した GoRouter インスタンスを Riverpod Provider として提供
   - 初期ルートとエラーハンドリング（onException）を設定
   - デバッグモードでのログ出力を有効化
   - _Requirements: 2.1_
 
-- [ ] 6.2 型安全なルートパラメータの定義
+- [x] 6.2 型安全なルートパラメータの定義
   - ルートパスとパラメータを型安全に定義する仕組みを構築
   - pathParameters と queryParameters の型変換を実装
   - ルート定義の一元管理を実現
   - 6.1 の AppRouter に組み込む
   - _Requirements: 2.2_
 
-- [ ] 6.3 ネストナビゲーションの実装
+- [x] 6.3 ネストナビゲーションの実装
   - ShellRoute を使用したタブバーナビゲーションを構築
   - 各タブの状態保持を実現
   - タブ間の遷移とサブルートの管理
   - _Requirements: 2.4_
 
-- [ ] 6.4 認証ガードの実装
+- [x] 6.4 認証ガードの実装
   - 認証状態を監視する AuthProvider を作成
   - redirect コールバックで認証状態に基づくルートガードを実装
   - 未認証時のログイン画面へのリダイレクトを実装
   - refreshListenable で認証状態変更を監視
   - _Requirements: 2.5_
 
-- [ ] 6.5 ディープリンク対応
+- [x] 6.5 ディープリンク対応
   - カスタム URL スキームの設定
   - ディープリンク受信時の正しい画面遷移を実装
   - 不正な URL パラメータのバリデーションとフォールバック
