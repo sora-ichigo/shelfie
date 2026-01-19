@@ -25,7 +25,7 @@ class WelcomeLogo extends StatelessWidget {
         ),
         Text(
           'Shelfie',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.spaceGrotesk(
             fontSize: 56,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.0,

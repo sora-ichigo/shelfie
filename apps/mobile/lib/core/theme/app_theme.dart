@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
@@ -27,7 +28,7 @@ abstract final class AppTheme {
       brightness: Brightness.dark,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: const Color(0xFF0A0A0A),
-      textTheme: AppTypography.textTheme,
+      textTheme: GoogleFonts.interTextTheme(AppTypography.textTheme),
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
