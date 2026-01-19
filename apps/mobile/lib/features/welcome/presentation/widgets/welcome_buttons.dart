@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class WelcomeButtons extends StatelessWidget {
@@ -14,6 +13,10 @@ class WelcomeButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseTextStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -23,11 +26,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onLoginPressed,
             child: Text(
               'ログイン',
-              style: GoogleFonts.notoSansJp(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.25,
-              ),
+              style: baseTextStyle?.copyWith(color: Colors.black),
             ),
           ),
         ),
@@ -38,11 +37,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onRegisterPressed,
             child: Text(
               '新規登録',
-              style: GoogleFonts.notoSansJp(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.25,
-              ),
+              style: baseTextStyle?.copyWith(color: Colors.white),
             ),
           ),
         ),

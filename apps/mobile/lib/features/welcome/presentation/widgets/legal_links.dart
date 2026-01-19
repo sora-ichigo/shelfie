@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 
 class LegalLinks extends StatelessWidget {
@@ -15,19 +14,16 @@ class LegalLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
     final textColor = colors?.textSecondary ?? const Color(0xFFA0A0A0);
     final linkColor = colors?.textLink ?? Colors.white;
 
-    final textStyle = GoogleFonts.notoSansJp(
-      fontSize: 12,
-      fontWeight: FontWeight.w400,
-      letterSpacing: 0.2,
-      height: 1.4,
+    final textStyle = theme.textTheme.bodySmall?.copyWith(
       color: textColor,
     );
 
-    final linkStyle = textStyle.copyWith(
+    final linkStyle = textStyle?.copyWith(
       color: linkColor,
       decoration: TextDecoration.underline,
       decorationColor: linkColor,

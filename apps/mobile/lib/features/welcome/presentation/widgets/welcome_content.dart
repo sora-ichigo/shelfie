@@ -36,7 +36,7 @@ class WelcomeContent extends StatelessWidget {
                     const Expanded(
                       flex: 3,
                       child: Align(
-                        alignment: Alignment(0.0, -0.3),
+                        alignment: Alignment(0.0, -0.4),
                         child: WelcomeLogo(),
                       ),
                     ),
