@@ -50,33 +50,33 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - 3.1 の Failure 型を使用して例外を分類
   - _Requirements: 8.2, 8.3, 8.5_
 
-- [ ] 4. テーマとデザインシステムの実装
-- [ ] 4.1 (P) カスタムカラースキームの定義
+- [x] 4. テーマとデザインシステムの実装
+- [x] 4.1 (P) カスタムカラースキームの定義
   - ThemeExtension を継承した AppColors クラスを作成
-  - ライトモード用とダークモード用のカラー定義を実装
+  - ダークモード用のカラー定義を実装（ライトモードは当面サポートしない）
   - lerp メソッドによるアニメーション対応を実装
   - success, warning, info などのセマンティックカラーを定義
   - _Requirements: 4.2_
 
-- [ ] 4.2 (P) タイポグラフィとスペーシングの定義
+- [x] 4.2 (P) タイポグラフィとスペーシングの定義
   - AppTypography クラスでカスタムテキストスタイルを定義
   - AppSpacing クラスで一貫したスペーシング定数を定義
   - Material 3 のタイポグラフィシステムとの統合
   - _Requirements: 4.2_
 
-- [ ] 4.3 AppTheme の統合
+- [x] 4.3 AppTheme の統合
   - Material 3 ベースの ThemeData を生成する AppTheme クラスを作成
-  - ライトモードとダークモードの両方の ThemeData を提供
+  - ダークモードの ThemeData のみを提供（ライトモードは当面サポートしない）
   - カスタム拡張（AppColors, AppTypography）を ThemeData に統合
   - 4.1, 4.2 で作成したコンポーネントを組み込む
   - _Requirements: 4.1, 4.3_
 
-- [ ] 4.4 テーマモード状態管理の実装
-  - Riverpod を使用した ThemeModeNotifier を作成
-  - システムテーマの変更を監視し自動的にテーマを切り替える機能を実装
-  - SharedPreferences によるテーマ設定の永続化を実装
-  - 4.3 の AppTheme と連携
-  - _Requirements: 4.5, 1.1_
+- ~~4.4 テーマモード状態管理の実装~~ **(スキップ: ダークモード固定のため不要)**
+  - ~~Riverpod を使用した ThemeModeNotifier を作成~~
+  - ~~システムテーマの変更を監視し自動的にテーマを切り替える機能を実装~~
+  - ~~SharedPreferences によるテーマ設定の永続化を実装~~
+  - ~~4.3 の AppTheme と連携~~
+  - ~~_Requirements: 4.5, 1.1_~~
 
 - [ ] 5. 状態管理基盤の実装
 - [ ] 5.1 ProviderScope とルートレベル Provider の設定
