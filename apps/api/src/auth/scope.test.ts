@@ -1,11 +1,7 @@
-import { describe, expect, it } from "vitest";
 import { GraphQLError } from "graphql";
-import {
-  requireAuth,
-  requireEmailVerified,
-  type AuthenticatedContext,
-} from "./scope";
+import { describe, expect, it } from "vitest";
 import type { GraphQLContext } from "../graphql/context";
+import { requireAuth, requireEmailVerified } from "./scope";
 
 describe("Auth Scope", () => {
   describe("requireAuth", () => {
@@ -41,7 +37,9 @@ describe("Auth Scope", () => {
       try {
         requireAuth(context);
       } catch (error) {
-        expect((error as GraphQLError).extensions?.code).toBe("UNAUTHENTICATED");
+        expect((error as GraphQLError).extensions?.code).toBe(
+          "UNAUTHENTICATED",
+        );
       }
     });
   });
@@ -73,7 +71,9 @@ describe("Auth Scope", () => {
       };
 
       expect(() => requireEmailVerified(context)).toThrow(GraphQLError);
-      expect(() => requireEmailVerified(context)).toThrow("Email verification required");
+      expect(() => requireEmailVerified(context)).toThrow(
+        "Email verification required",
+      );
 
       try {
         requireEmailVerified(context);
@@ -89,7 +89,9 @@ describe("Auth Scope", () => {
       };
 
       expect(() => requireEmailVerified(context)).toThrow(GraphQLError);
-      expect(() => requireEmailVerified(context)).toThrow("Authentication required");
+      expect(() => requireEmailVerified(context)).toThrow(
+        "Authentication required",
+      );
     });
   });
 });

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import {
-  extractBearerToken,
-  createAuthContext,
   type AuthenticatedUser,
+  createAuthContext,
+  extractBearerToken,
 } from "./middleware";
 
 vi.mock("./firebase", () => ({

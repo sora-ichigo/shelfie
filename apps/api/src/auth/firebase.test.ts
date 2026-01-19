@@ -47,15 +47,18 @@ describe("Firebase Auth", () => {
   describe("getFirebaseAuthConfig", () => {
     it("環境変数から Firebase 設定を読み取る", () => {
       process.env.FIREBASE_PROJECT_ID = "test-project";
-      process.env.FIREBASE_CLIENT_EMAIL = "test@example.iam.gserviceaccount.com";
-      process.env.FIREBASE_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----";
+      process.env.FIREBASE_CLIENT_EMAIL =
+        "test@example.iam.gserviceaccount.com";
+      process.env.FIREBASE_PRIVATE_KEY =
+        "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----";
 
       const config = getFirebaseAuthConfig();
 
       expect(config).toEqual({
         projectId: "test-project",
         clientEmail: "test@example.iam.gserviceaccount.com",
-        privateKey: "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----",
+        privateKey:
+          "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----",
       });
     });
 
@@ -67,12 +70,16 @@ describe("Firebase Auth", () => {
 
     it("privateKey のエスケープされた改行を変換する", () => {
       process.env.FIREBASE_PROJECT_ID = "test-project";
-      process.env.FIREBASE_CLIENT_EMAIL = "test@example.iam.gserviceaccount.com";
-      process.env.FIREBASE_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----\\ntest\\n-----END PRIVATE KEY-----";
+      process.env.FIREBASE_CLIENT_EMAIL =
+        "test@example.iam.gserviceaccount.com";
+      process.env.FIREBASE_PRIVATE_KEY =
+        "-----BEGIN PRIVATE KEY-----\\ntest\\n-----END PRIVATE KEY-----";
 
       const config = getFirebaseAuthConfig();
 
-      expect(config?.privateKey).toBe("-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----");
+      expect(config?.privateKey).toBe(
+        "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----",
+      );
     });
   });
 
@@ -81,7 +88,8 @@ describe("Firebase Auth", () => {
       const config: FirebaseAuthConfig = {
         projectId: "test-project",
         clientEmail: "test@example.iam.gserviceaccount.com",
-        privateKey: "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----",
+        privateKey:
+          "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----",
       };
 
       const result = initializeFirebaseAuth(config);
@@ -98,7 +106,9 @@ describe("Firebase Auth", () => {
   describe("verifyIdToken", () => {
     it("有効なトークンを検証して DecodedIdToken を返す", async () => {
       const admin = await import("firebase-admin");
-      const mockVerifyIdToken = (admin as unknown as { __mockVerifyIdToken: ReturnType<typeof vi.fn> }).__mockVerifyIdToken;
+      const mockVerifyIdToken = (
+        admin as unknown as { __mockVerifyIdToken: ReturnType<typeof vi.fn> }
+      ).__mockVerifyIdToken;
 
       const mockDecodedToken = {
         uid: "user-123",
@@ -126,7 +136,9 @@ describe("Firebase Auth", () => {
 
     it("無効なトークンの場合は null を返す", async () => {
       const admin = await import("firebase-admin");
-      const mockVerifyIdToken = (admin as unknown as { __mockVerifyIdToken: ReturnType<typeof vi.fn> }).__mockVerifyIdToken;
+      const mockVerifyIdToken = (
+        admin as unknown as { __mockVerifyIdToken: ReturnType<typeof vi.fn> }
+      ).__mockVerifyIdToken;
 
       mockVerifyIdToken.mockRejectedValueOnce(new Error("Token is invalid"));
 

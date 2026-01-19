@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createCorsOptions, getCorsOrigin, type CorsConfig } from "./cors";
+import { type CorsConfig, createCorsOptions, getCorsOrigin } from "./cors";
 
 describe("CORS Security", () => {
   const originalEnv = process.env;

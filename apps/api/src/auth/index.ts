@@ -1,20 +1,20 @@
 export {
-  getFirebaseAuthConfig,
-  initializeFirebaseAuth,
-  verifyIdToken,
   type DecodedIdToken,
   type FirebaseAuthConfig,
   type FirebaseAuthResult,
+  getFirebaseAuthConfig,
+  initializeFirebaseAuth,
+  verifyIdToken,
 } from "./firebase";
 
 export {
+  type AuthenticatedUser,
   createAuthContext,
   extractBearerToken,
-  type AuthenticatedUser,
 } from "./middleware";
 
 export {
+  type AuthenticatedContext,
   requireAuth,
   requireEmailVerified,
-  type AuthenticatedContext,
 } from "./scope";

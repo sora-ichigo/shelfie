@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
-  type DepthLimitConfig,
   calculateQueryCost,
   createDepthLimitRule,
   DEFAULT_DEPTH_LIMIT,
+  type DepthLimitConfig,
   type QueryCostAnalysis,
 } from "./graphql-security";
 

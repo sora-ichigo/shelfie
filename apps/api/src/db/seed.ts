@@ -1,8 +1,8 @@
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { sql } from "drizzle-orm";
-import * as schema from "./schema/index.js";
 import { config } from "../config/index.js";
+import * as schema from "./schema/index.js";
 
 export interface SeedData {
   users: Array<{

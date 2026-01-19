@@ -1,15 +1,14 @@
 export {
-  createDepthLimitRule,
+  type CorsConfig,
+  type CorsOptions,
+  createCorsOptions,
+  getCorsOrigin,
+} from "./cors";
+export {
   calculateQueryCost,
+  createDepthLimitRule,
   DEFAULT_DEPTH_LIMIT,
   type DepthLimitConfig,
   type DepthLimitRule,
   type QueryCostAnalysis,
 } from "./graphql-security";
-
-export {
-  createCorsOptions,
-  getCorsOrigin,
-  type CorsConfig,
-  type CorsOptions,
-} from "./cors";
