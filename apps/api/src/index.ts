@@ -94,7 +94,10 @@ async function shutdown(): Promise<void> {
 
     logger.info("Graceful shutdown completed");
   } catch (err) {
-    logger.error("Error during graceful shutdown", err instanceof Error ? err : new Error(String(err)));
+    logger.error(
+      "Error during graceful shutdown",
+      err instanceof Error ? err : new Error(String(err)),
+    );
     throw err;
   }
 

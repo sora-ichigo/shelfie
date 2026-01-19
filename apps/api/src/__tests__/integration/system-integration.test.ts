@@ -2,10 +2,7 @@ import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../config";
-import type {
-  DatabaseConnection,
-  DrizzleClient,
-} from "../../db";
+import type { DatabaseConnection, DrizzleClient } from "../../db";
 import type { GraphQLContext } from "../../graphql/context";
 
 describe("System Integration Tests", () => {

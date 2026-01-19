@@ -1,14 +1,7 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
 import type { Express } from "express";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-} from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../config";
 import type { DatabaseConnection, DrizzleClient } from "../../db";
 import { users } from "../../db/schema";
@@ -274,7 +267,9 @@ describe("End-to-End Validation Tests", () => {
       });
 
       expect(response.ok).toBe(true);
-      expect(response.headers.get("content-type")).toContain("application/json");
+      expect(response.headers.get("content-type")).toContain(
+        "application/json",
+      );
 
       const result = (await response.json()) as GraphQLResponse<{
         health: string;
