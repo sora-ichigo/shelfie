@@ -51,9 +51,9 @@ void main() {
           expect(colors.surfaceElevated, equals(const Color(0xFF1A1A1A)));
         });
 
-        test('surfaceOverlay は60%不透明度で定義されている', () {
+        test('surfaceOverlay は30%不透明度で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfaceOverlay, equals(const Color(0x99000000)));
+          expect(colors.surfaceOverlay, equals(const Color(0x4D000000)));
         });
       });
 

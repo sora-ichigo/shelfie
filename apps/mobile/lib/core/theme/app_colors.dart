@@ -85,7 +85,7 @@ class AppColors extends ThemeExtension<AppColors> {
     brandBackground: Color(0xFF0A0A0A),
     surfacePrimary: Color(0xFF0A0A0A),
     surfaceElevated: Color(0xFF1A1A1A),
-    surfaceOverlay: Color(0x99000000),
+    surfaceOverlay: Color(0x4D000000),
     textPrimary: Color(0xFFFFFFFF),
     textSecondary: Color(0xFFA0A0A0),
     textLink: Color(0xFFFFFFFF),

@@ -7,7 +7,7 @@ class WelcomeBackground extends StatelessWidget {
   const WelcomeBackground({
     super.key,
     this.blurSigma = 10.0,
-    this.opacity = 0.3,
+    this.opacity = 0.6,
   });
 
   final double blurSigma;
