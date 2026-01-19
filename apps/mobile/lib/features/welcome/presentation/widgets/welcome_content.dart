@@ -6,11 +6,11 @@ import 'package:shelfie/features/welcome/presentation/widgets/welcome_logo.dart'
 
 class WelcomeContent extends StatelessWidget {
   const WelcomeContent({
-    super.key,
     required this.onLoginPressed,
     required this.onRegisterPressed,
     required this.onTermsPressed,
     required this.onPrivacyPressed,
+    super.key,
   });
 
   final VoidCallback onLoginPressed;

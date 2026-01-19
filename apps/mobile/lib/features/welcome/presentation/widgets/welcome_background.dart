@@ -13,9 +13,7 @@ class WelcomeBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColors>();
 
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
+    return SizedBox.expand(
       child: Stack(
         fit: StackFit.expand,
         children: [

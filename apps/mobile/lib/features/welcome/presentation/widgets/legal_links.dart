@@ -4,9 +4,9 @@ import 'package:shelfie/core/theme/app_colors.dart';
 
 class LegalLinks extends StatelessWidget {
   const LegalLinks({
-    super.key,
     required this.onTermsPressed,
     required this.onPrivacyPressed,
+    super.key,
   });
 
   final VoidCallback onTermsPressed;

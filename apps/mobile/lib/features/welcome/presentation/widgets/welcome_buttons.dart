@@ -3,9 +3,9 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 
 class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({
-    super.key,
     required this.onLoginPressed,
     required this.onRegisterPressed,
+    super.key,
   });
 
   final VoidCallback onLoginPressed;

@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
+import 'package:shelfie/features/welcome/presentation/widgets/legal_links.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_background.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_buttons.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_logo.dart';
-import 'package:shelfie/features/welcome/presentation/widgets/legal_links.dart';
 
 void main() {
   group('WelcomeScreen', () {
