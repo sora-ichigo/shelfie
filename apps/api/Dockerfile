@@ -50,6 +50,4 @@ COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 
 USER node
 
-EXPOSE 4000
-
 CMD ["node", "apps/api/dist/index.js"]
