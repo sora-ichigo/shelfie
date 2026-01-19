@@ -90,20 +90,20 @@
   - Service 層での Result 型使用パターンを確立する
   - _Requirements: 7.1_
 
-- [ ] 7. Feature モジュール基盤の構築
-- [ ] 7.1 Feature モジュールテンプレートを作成する
+- [x] 7. Feature モジュール基盤の構築
+- [x] 7.1 Feature モジュールテンプレートを作成する
   - Feature 内の resolver/service/repository レイヤー構成を定義する
   - FeatureModule インターフェースを実装する
   - Feature の公開 API パターンを確立する
   - _Requirements: 4.1, 4.2, 4.6_
 
-- [ ] 7.2 Feature 間依存ルールを確立する
+- [x] 7.2 Feature 間依存ルールを確立する
   - 共通ユーティリティと Feature 固有コードの境界を定義する
   - Feature 間の明示的なインターフェースアクセスパターンを実装する
   - 循環依存を防止する設計ガイドラインを確立する
   - _Requirements: 4.3, 4.5, 4.6_
 
-- [ ] 7.3 サンプル Feature（users）を実装する
+- [x] 7.3 サンプル Feature（users）を実装する
   - users Feature を作成し、テンプレートの動作を検証する
   - User 型の Pothos 定義、Resolver、Service、Repository の連携を実装する
   - Task 2.3 で定義した users テーブルと統合する
