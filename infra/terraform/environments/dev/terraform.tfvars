@@ -10,3 +10,13 @@ allow_unauthenticated = true
 # GitHub Actions CD
 github_owner = "sora-ichigo"
 github_repo  = "shelfie"
+
+# Environment Variables
+environment_variables = {
+  NODE_ENV = "production"
+}
+
+# Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
+secret_environment_variables = {
+  DATABASE_URL = "shelfie-api-database-url"
+}

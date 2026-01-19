@@ -34,6 +34,13 @@ resource "google_artifact_registry_repository_iam_member" "api_reader" {
   member     = "serviceAccount:${google_service_account.api_runner.email}"
 }
 
+resource "google_secret_manager_secret_iam_member" "api_secret_accessor" {
+  for_each  = var.secret_environment_variables
+  secret_id = each.value
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${google_service_account.api_runner.email}"
+}
+
 resource "google_cloud_run_v2_service_iam_member" "invoker" {
   count    = var.allow_unauthenticated ? 1 : 0
   location = google_cloud_run_v2_service.api.location
@@ -80,6 +87,19 @@ resource "google_cloud_run_v2_service" "api" {
         content {
           name  = env.key
           value = env.value
+        }
+      }
+
+      dynamic "env" {
+        for_each = var.secret_environment_variables
+        content {
+          name = env.key
+          value_source {
+            secret_key_ref {
+              secret  = env.value
+              version = "latest"
+            }
+          }
         }
       }
     }
