@@ -1,0 +1,23 @@
+targets:
+  $default:
+    builders:
+      ferry_generator:
+        enabled: true
+        options:
+          schema: shelfie|lib/core/graphql/schema.graphql
+          output_dir: lib/core/graphql/__generated__
+          type_overrides:
+            DateTime: DateTime
+            ID: String
+
+      freezed:
+        enabled: true
+
+      riverpod_generator:
+        enabled: true
+
+      json_serializable:
+        enabled: true
+        options:
+          explicit_to_json: true
+          include_if_null: false

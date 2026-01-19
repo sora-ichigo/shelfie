@@ -127,28 +127,28 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - 6.1-6.4 の基盤上に構築
   - _Requirements: 2.3_
 
-- [ ] 7. GraphQL API 連携基盤の実装
-- [ ] 7.1 Ferry クライアントの設定
+- [x] 7. GraphQL API 連携基盤の実装
+- [x] 7.1 Ferry クライアントの設定
   - Ferry Client を Riverpod Provider として構築
   - HttpLink を使用した API エンドポイント設定
   - 認証トークンをヘッダーに含める仕組みを実装
   - デフォルトの FetchPolicy を設定
   - _Requirements: 7.1_
 
-- [ ] 7.2 オフラインキャッシュの実装
+- [x] 7.2 オフラインキャッシュの実装
   - Hive の初期化と HiveStore の設定
   - キャッシュファースト戦略の実装
   - キャッシュクリア機能の提供
   - 7.1 の Ferry クライアントと統合
   - _Requirements: 7.3_
 
-- [ ] 7.3 GraphQL コード生成の設定
+- [x] 7.3 GraphQL コード生成の設定
   - ferry_generator の設定ファイルを作成
   - スキーマ取得とコード生成のスクリプトを整備
   - 生成されるモデルと操作クラスの配置場所を決定
   - _Requirements: 7.2_
 
-- [ ] 7.4 BaseRepository の実装
+- [x] 7.4 BaseRepository の実装
   - Either<Failure, T> を返す共通リポジトリ基底クラスを作成
   - GraphQL 操作（クエリ、ミューテーション）の実行とエラー変換を実装
   - ネットワークエラー、GraphQL エラー、タイムアウトの分類を行う
