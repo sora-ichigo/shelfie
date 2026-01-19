@@ -58,7 +58,11 @@ describe("SchemaBuilder", () => {
     it("should accept user with uid", () => {
       const context: GraphQLContext = {
         requestId: "test-request-id",
-        user: { uid: "user-123" },
+        user: {
+          uid: "user-123",
+          email: "user@example.com",
+          emailVerified: true,
+        },
       };
 
       expect(context.user?.uid).toBe("user-123");

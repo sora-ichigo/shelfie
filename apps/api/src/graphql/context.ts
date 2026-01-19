@@ -1,8 +1,6 @@
-export interface DecodedUser {
-  uid: string;
-}
+import type { AuthenticatedUser } from "../auth";
 
 export interface GraphQLContext {
   requestId: string;
-  user: DecodedUser | null;
+  user: AuthenticatedUser | null;
 }

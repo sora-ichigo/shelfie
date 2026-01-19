@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import express, { type Express } from "express";
+import { createAuthContext } from "../auth";
 import { config } from "../config";
 import { createErrorHandler } from "../errors";
 import { logger } from "../logger";
@@ -31,9 +32,11 @@ export function createExpressApp(
       context: async ({ req }) => {
         const requestId =
           (req.headers["x-request-id"] as string) || randomUUID();
+        const authHeader = req.headers.authorization;
+        const user = await createAuthContext(authHeader);
         return {
           requestId,
-          user: null,
+          user,
         };
       },
     }),

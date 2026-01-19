@@ -109,19 +109,19 @@
   - Task 2.3 で定義した users テーブルと統合する
   - _Requirements: 4.1, 4.2, 4.4_
 
-- [ ] 8. セキュリティ基盤の構築
-- [ ] 8.1 (P) GraphQL セキュリティ設定を実装する
+- [x] 8. セキュリティ基盤の構築
+- [x] 8.1 (P) GraphQL セキュリティ設定を実装する
   - クエリ深度制限を設定する
   - クエリコスト分析の方針を定義する
   - レート制限の実装方針を文書化する
   - _Requirements: 8.2, 8.4_
 
-- [ ] 8.2 (P) CORS とセキュリティヘッダーを設定する
+- [x] 8.2 (P) CORS とセキュリティヘッダーを設定する
   - CORS 設定を環境変数から読み込む機能を実装する
   - 開発・本番環境での CORS ポリシーを定義する
   - _Requirements: 8.3_
 
-- [ ] 8.3 Firebase Auth 統合を実装する
+- [x] 8.3 Firebase Auth 統合を実装する
   - firebase-admin SDK をインストールし初期化処理を実装する
   - Authorization ヘッダーから ID Token を検証する middleware を作成する
   - GraphQL Context に検証済みユーザー情報（DecodedIdToken）を注入する

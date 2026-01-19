@@ -2,7 +2,7 @@ import SchemaBuilder from "@pothos/core";
 import { DateTimeResolver } from "graphql-scalars";
 import type { GraphQLContext } from "./context";
 
-export type { DecodedUser, GraphQLContext } from "./context";
+export type { GraphQLContext } from "./context";
 
 interface SchemaTypes {
   Context: GraphQLContext;
