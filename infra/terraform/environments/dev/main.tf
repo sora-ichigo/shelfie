@@ -6,12 +6,23 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 7.0"
     }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 7.0"
+    }
   }
 }
 
 provider "google" {
   project = var.project_id
   region  = var.region
+}
+
+provider "google-beta" {
+  project               = var.project_id
+  region                = var.region
+  user_project_override = true
+  billing_project       = var.project_id
 }
 
 module "api_cloud_run" {
@@ -81,4 +92,47 @@ output "github_actions_workload_identity_provider" {
 output "github_actions_service_account_email" {
   description = "Service account email for GitHub Actions"
   value       = module.github_actions_wif.service_account_email
+}
+
+# =============================================================================
+# Firebase Authentication
+# =============================================================================
+
+module "firebase_auth" {
+  source = "../../modules/firebase-auth"
+
+  providers = {
+    google-beta = google-beta
+  }
+
+  project_id         = var.project_id
+  environment        = var.environment
+  authorized_domains = ["localhost", "${var.project_id}.firebaseapp.com", "${var.project_id}.web.app"]
+
+  android_package_name = "app.shelfie.shelfie"
+  ios_bundle_id        = "app.shelfie.shelfie"
+
+  depends_on = [module.api_cloud_run]
+}
+
+output "firebase_project_id" {
+  description = "Firebase Project ID"
+  value       = module.firebase_auth.firebase_project_id
+}
+
+output "firebase_authorized_domains" {
+  description = "Authorized domains for Firebase Authentication"
+  value       = module.firebase_auth.identity_platform_authorized_domains
+}
+
+output "android_config_json" {
+  description = "google-services.json content for Android (base64 encoded)"
+  value       = module.firebase_auth.android_config_json
+  sensitive   = true
+}
+
+output "ios_config_plist" {
+  description = "GoogleService-Info.plist content for iOS (base64 encoded)"
+  value       = module.firebase_auth.ios_config_plist
+  sensitive   = true
 }
