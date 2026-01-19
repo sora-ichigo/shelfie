@@ -1,7 +1,11 @@
+import dotenv from "dotenv";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
+import path from "node:path";
 import { Pool } from "pg";
 import { afterAll, beforeAll, beforeEach } from "vitest";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.test.local") });
 
 let testPool: Pool | null = null;
 
