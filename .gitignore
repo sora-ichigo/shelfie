@@ -45,6 +45,9 @@ apps/mobile/build/
 apps/mobile/*.iml
 apps/mobile/.metadata
 
+# PostgreSQL socket directory
+apps/api/tmp/
+
 # Misc
 *.local
 .cache/

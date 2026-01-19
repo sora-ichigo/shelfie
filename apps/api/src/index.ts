@@ -1,31 +1,157 @@
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@as-integrations/express4";
-import express from "express";
+import type { Server } from "node:http";
+import type { ApolloServer } from "@apollo/server";
+import { config } from "./config";
+import {
+  createDatabaseConnection,
+  createDrizzleClient,
+  type DatabaseConnection,
+  type DrizzleClient,
+} from "./db";
+import type { GraphQLContext } from "./graphql/context";
+import { createApolloServer, createExpressApp } from "./graphql/server";
+import { logger } from "./logger";
 
-const typeDefs = `#graphql
-  type Query {
-    hello: String
+interface ServerComponents {
+  dbConnection: DatabaseConnection;
+  drizzleClient: DrizzleClient;
+  apolloServer: ApolloServer<GraphQLContext>;
+  httpServer: Server;
+}
+
+let components: ServerComponents | null = null;
+
+async function initialize(): Promise<ServerComponents> {
+  logger.info("Starting server initialization...");
+
+  logger.info("Step 1/5: Validating configuration...");
+  config.validate();
+  logger.info("Configuration validated successfully");
+
+  logger.info("Step 2/5: Establishing database connection...");
+  const dbConnection = createDatabaseConnection();
+  await dbConnection.connect({ maxRetries: 3, retryDelayMs: 1000 });
+  const isHealthy = await dbConnection.healthCheck();
+  if (!isHealthy) {
+    throw new Error("Database health check failed");
   }
-`;
+  logger.info("Database connection established");
 
-const resolvers = {
-  Query: {
-    hello: () => "Hello from Shelfie API!",
-  },
-};
+  logger.info("Step 3/5: Initializing Drizzle ORM client...");
+  const drizzleClient = createDrizzleClient(dbConnection.getPool());
+  logger.info("Drizzle ORM client initialized");
 
-async function main() {
-  const app = express();
-  const server = new ApolloServer({ typeDefs, resolvers });
+  logger.info("Step 4/5: Building GraphQL schema...");
+  const apolloServer = createApolloServer();
+  logger.info("GraphQL schema built");
 
-  await server.start();
+  logger.info("Step 5/5: Starting Apollo Server...");
+  await apolloServer.start();
+  logger.info("Apollo Server started");
 
-  app.use("/graphql", express.json(), expressMiddleware(server));
+  const port = config.getOrDefault("PORT", 4000);
+  const app = createExpressApp(apolloServer);
 
-  const port = process.env.PORT || 4000;
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/graphql`);
+  return new Promise((resolve) => {
+    const httpServer = app.listen(port, () => {
+      logger.info(`Server running at http://localhost:${port}/graphql`);
+      resolve({
+        dbConnection,
+        drizzleClient,
+        apolloServer,
+        httpServer,
+      });
+    });
   });
 }
 
+async function shutdown(): Promise<void> {
+  if (!components) {
+    logger.warn("Shutdown called but no components initialized");
+    return;
+  }
+
+  logger.info("Starting graceful shutdown...");
+
+  try {
+    const currentComponents = components;
+
+    logger.info("Step 1/3: Stopping HTTP server...");
+    await new Promise<void>((resolve, reject) => {
+      currentComponents.httpServer.close((err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+    logger.info("HTTP server stopped");
+
+    logger.info("Step 2/3: Stopping Apollo Server...");
+    await currentComponents.apolloServer.stop();
+    logger.info("Apollo Server stopped");
+
+    logger.info("Step 3/3: Closing database connection...");
+    await currentComponents.dbConnection.disconnect();
+    logger.info("Database connection closed");
+
+    logger.info("Graceful shutdown completed");
+  } catch (err) {
+    logger.error(
+      "Error during graceful shutdown",
+      err instanceof Error ? err : new Error(String(err)),
+    );
+    throw err;
+  }
+
+  components = null;
+}
+
+function setupShutdownHandlers(): void {
+  let isShuttingDown = false;
+
+  const handleShutdown = async (signal: string) => {
+    if (isShuttingDown) {
+      logger.warn(`Received ${signal} but shutdown already in progress`);
+      return;
+    }
+
+    isShuttingDown = true;
+    logger.info(`Received ${signal}, initiating graceful shutdown...`);
+
+    try {
+      await shutdown();
+      process.exit(0);
+    } catch {
+      process.exit(1);
+    }
+  };
+
+  process.on("SIGTERM", () => handleShutdown("SIGTERM"));
+  process.on("SIGINT", () => handleShutdown("SIGINT"));
+
+  process.on("uncaughtException", (err) => {
+    logger.error("Uncaught exception", err);
+    handleShutdown("uncaughtException").catch(() => process.exit(1));
+  });
+
+  process.on("unhandledRejection", (reason) => {
+    const err = reason instanceof Error ? reason : new Error(String(reason));
+    logger.error("Unhandled rejection", err);
+    handleShutdown("unhandledRejection").catch(() => process.exit(1));
+  });
+}
+
+async function main(): Promise<void> {
+  try {
+    setupShutdownHandlers();
+    components = await initialize();
+  } catch (err) {
+    logger.error(
+      "Failed to start server",
+      err instanceof Error ? err : new Error(String(err)),
+    );
+    process.exit(1);
+  }
+}
+
 main();
+
+export { initialize, shutdown, type ServerComponents };
