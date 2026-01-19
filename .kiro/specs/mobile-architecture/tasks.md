@@ -35,14 +35,14 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
 - [ ] 3. エラーハンドリング基盤の実装
-- [ ] 3.1 (P) Failure 型階層の定義
+- [x] 3.1 (P) Failure 型階層の定義
   - freezed を使用して Failure sealed class を定義
   - NetworkFailure, ServerFailure, AuthFailure, ValidationFailure, UnexpectedFailure のサブタイプを実装
   - 各 Failure 型にユーザー向けメッセージを提供する userMessage getter を実装
   - エラーコードとスタックトレースの保持をサポート
   - _Requirements: 8.1, 8.4_
 
-- [ ] 3.2 グローバルエラーハンドラの実装
+- [x] 3.2 グローバルエラーハンドラの実装
   - ErrorHandler クラスを作成し、未処理例外をキャッチする仕組みを構築
   - FlutterError.onError と PlatformDispatcher.instance.onError を設定
   - Failure タイプに応じた構造化ログ出力を実装
