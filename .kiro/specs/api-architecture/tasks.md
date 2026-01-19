@@ -54,13 +54,13 @@
   - _Requirements: 5.3, 5.4, 5.5, 5.6_
 
 - [ ] 4. GraphQL スキーマ基盤の構築
-- [ ] 4.1 Pothos SchemaBuilder を初期化する
+- [x] 4.1 Pothos SchemaBuilder を初期化する
   - SchemaBuilder インスタンスの初期化と設定を実装する
   - 基本スカラー型（DateTime 等）の定義を追加する
   - GraphQL Context 型を定義する
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [ ] 4.2 Apollo Server との統合を実装する
+- [x] 4.2 Apollo Server との統合を実装する
   - Pothos で構築したスキーマを Apollo Server に接続する
   - 既存の Express 構成との互換性を確認する
   - GraphQL Playground（Apollo Sandbox）を開発環境で有効化する

@@ -11,10 +11,7 @@ export interface SeedData {
 }
 
 export const seedData: SeedData = {
-  users: [
-    { email: "admin@example.com" },
-    { email: "user@example.com" },
-  ],
+  users: [{ email: "admin@example.com" }, { email: "user@example.com" }],
 };
 
 async function createPool(): Promise<Pool> {
