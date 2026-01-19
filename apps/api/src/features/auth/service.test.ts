@@ -1,0 +1,471 @@
+import { describe, expect, it, vi, beforeEach } from "vitest";
+import {
+  createAuthService,
+  validatePassword,
+  mapFirebaseError,
+  type AuthService,
+  type AuthServiceError,
+  type FirebaseAuth,
+} from "./service.js";
+import type { UserService } from "../users/service.js";
+import type { LoggerService } from "../../logger/index.js";
+import type { User } from "../../db/schema/users.js";
+
+function createMockUserService(): UserService {
+  return {
+    getUserById: vi.fn(),
+    createUser: vi.fn(),
+    getUsers: vi.fn(),
+    getUserByFirebaseUid: vi.fn(),
+    createUserWithFirebase: vi.fn(),
+  };
+}
+
+function createMockLogger(): LoggerService {
+  return {
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    child: vi.fn().mockReturnThis(),
+  };
+}
+
+describe("validatePassword", () => {
+  it("should return ok when password is 8 characters or more", () => {
+    const result = validatePassword("password");
+    expect(result.success).toBe(true);
+  });
+
+  it("should return ok when password is exactly 8 characters", () => {
+    const result = validatePassword("12345678");
+    expect(result.success).toBe(true);
+  });
+
+  it("should return ok when password is longer than 8 characters", () => {
+    const result = validatePassword("longpassword123");
+    expect(result.success).toBe(true);
+  });
+
+  it("should return error when password is less than 8 characters", () => {
+    const result = validatePassword("short");
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_PASSWORD");
+      expect(result.error.requirements).toContain("8文字以上");
+    }
+  });
+
+  it("should return error when password is empty", () => {
+    const result = validatePassword("");
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_PASSWORD");
+    }
+  });
+
+  it("should return error when password is 7 characters", () => {
+    const result = validatePassword("1234567");
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_PASSWORD");
+    }
+  });
+});
+
+describe("mapFirebaseError", () => {
+  it("should map auth/email-already-exists to EMAIL_ALREADY_EXISTS", () => {
+    const firebaseError = { code: "auth/email-already-exists" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("EMAIL_ALREADY_EXISTS");
+    expect(result.message).toBe("このメールアドレスは既に使用されています");
+  });
+
+  it("should map auth/invalid-password to INVALID_PASSWORD", () => {
+    const firebaseError = { code: "auth/invalid-password" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("INVALID_PASSWORD");
+  });
+
+  it("should map auth/weak-password to INVALID_PASSWORD", () => {
+    const firebaseError = { code: "auth/weak-password" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("INVALID_PASSWORD");
+    expect(result.message).toBe("パスワードは8文字以上で入力してください");
+  });
+
+  it("should map auth/user-not-found to USER_NOT_FOUND", () => {
+    const firebaseError = { code: "auth/user-not-found" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("USER_NOT_FOUND");
+    expect(result.message).toBe(
+      "指定されたメールアドレスのユーザーが見つかりません",
+    );
+  });
+
+  it("should map auth/too-many-requests to RATE_LIMIT_EXCEEDED", () => {
+    const firebaseError = { code: "auth/too-many-requests" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("RATE_LIMIT_EXCEEDED");
+    expect(result.message).toBe(
+      "リクエストが多すぎます。しばらく時間をおいてから再度お試しください",
+    );
+  });
+
+  it("should map auth/internal-error to INTERNAL_ERROR", () => {
+    const firebaseError = { code: "auth/internal-error" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("INTERNAL_ERROR");
+    expect(result.message).toBe("予期しないエラーが発生しました");
+  });
+
+  it("should map auth/network-request-failed to NETWORK_ERROR", () => {
+    const firebaseError = { code: "auth/network-request-failed" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("NETWORK_ERROR");
+    expect(result.message).toBe("ネットワークエラーが発生しました");
+    if (result.code === "NETWORK_ERROR") {
+      expect(result.retryable).toBe(true);
+    }
+  });
+
+  it("should map unknown error to FIREBASE_ERROR", () => {
+    const firebaseError = { code: "auth/unknown-error" };
+    const result = mapFirebaseError(firebaseError);
+
+    expect(result.code).toBe("FIREBASE_ERROR");
+    if (result.code === "FIREBASE_ERROR") {
+      expect(result.originalCode).toBe("auth/unknown-error");
+    }
+  });
+});
+
+function createMockFirebaseAuth(): FirebaseAuth {
+  return {
+    createUser: vi.fn(),
+    getUserByEmail: vi.fn(),
+    generateEmailVerificationLink: vi.fn(),
+  };
+}
+
+describe("AuthService.register", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should register user successfully", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
+      "https://example.com/verify",
+    );
+
+    const result = await authService.register({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.user.email).toBe("test@example.com");
+      expect(result.data.firebaseUid).toBe("firebase-uid-123");
+      expect(result.data.emailVerified).toBe(false);
+    }
+    expect(mockFirebaseAuth.createUser).toHaveBeenCalledWith(
+      "test@example.com",
+      "password123",
+    );
+    expect(mockUserService.createUserWithFirebase).toHaveBeenCalledWith({
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+    });
+  });
+
+  it("should return error when password is too short", async () => {
+    const result = await authService.register({
+      email: "test@example.com",
+      password: "short",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_PASSWORD");
+    }
+    expect(mockFirebaseAuth.createUser).not.toHaveBeenCalled();
+  });
+
+  it("should return error when email already exists in Firebase", async () => {
+    vi.mocked(mockFirebaseAuth.createUser).mockRejectedValue({
+      code: "auth/email-already-exists",
+    });
+
+    const result = await authService.register({
+      email: "existing@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("EMAIL_ALREADY_EXISTS");
+    }
+  });
+
+  it("should return error when email already exists in local database", async () => {
+    vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
+      success: false,
+      error: {
+        code: "EMAIL_ALREADY_EXISTS",
+        message: "Email already exists",
+      },
+    });
+
+    const result = await authService.register({
+      email: "existing@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("EMAIL_ALREADY_EXISTS");
+    }
+  });
+
+  it("should handle network error from Firebase", async () => {
+    vi.mocked(mockFirebaseAuth.createUser).mockRejectedValue({
+      code: "auth/network-request-failed",
+    });
+
+    const result = await authService.register({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("NETWORK_ERROR");
+      if (result.error.code === "NETWORK_ERROR") {
+        expect(result.error.retryable).toBe(true);
+      }
+    }
+  });
+
+  it("should still succeed even if verification email fails", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue(
+      new Error("Failed to send email"),
+    );
+
+    const result = await authService.register({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(true);
+    expect(mockLogger.warn).toHaveBeenCalled();
+  });
+
+  it("should log successful registration", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    await authService.register({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "User registered successfully",
+      expect.objectContaining({ feature: "auth", userId: "1" }),
+    );
+  });
+});
+
+describe("AuthService.resendVerificationEmail", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should resend verification email successfully", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
+      "https://example.com/verify",
+    );
+
+    const result = await authService.resendVerificationEmail({
+      email: "test@example.com",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.success).toBe(true);
+    }
+    expect(mockFirebaseAuth.generateEmailVerificationLink).toHaveBeenCalledWith(
+      "test@example.com",
+    );
+  });
+
+  it("should return error when user is not found", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue(null);
+
+    const result = await authService.resendVerificationEmail({
+      email: "nonexistent@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("USER_NOT_FOUND");
+    }
+  });
+
+  it("should return error when email is already verified", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: true,
+    });
+
+    const result = await authService.resendVerificationEmail({
+      email: "verified@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("EMAIL_ALREADY_VERIFIED");
+      expect(result.error.message).toBe("メールアドレスは既に確認済みです");
+    }
+  });
+
+  it("should return error when rate limit is exceeded", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue({
+      code: "auth/too-many-requests",
+    });
+
+    const result = await authService.resendVerificationEmail({
+      email: "test@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("RATE_LIMIT_EXCEEDED");
+    }
+  });
+
+  it("should handle Firebase getUserByEmail error", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockRejectedValue({
+      code: "auth/internal-error",
+    });
+
+    const result = await authService.resendVerificationEmail({
+      email: "test@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INTERNAL_ERROR");
+    }
+    expect(mockLogger.error).toHaveBeenCalled();
+  });
+
+  it("should log successful resend", async () => {
+    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
+      uid: "firebase-uid-123",
+      emailVerified: false,
+    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
+      "https://example.com/verify",
+    );
+
+    await authService.resendVerificationEmail({
+      email: "test@example.com",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Verification email resent",
+      expect.objectContaining({ feature: "auth", email: "test@example.com" }),
+    );
+  });
+});
