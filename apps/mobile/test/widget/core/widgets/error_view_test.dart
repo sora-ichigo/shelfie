@@ -5,7 +5,11 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 
+import '../../../helpers/test_helpers.dart';
+
 void main() {
+  setUpAll(registerTestFallbackValues);
+
   Widget buildTestWidget({required Widget child}) {
     return MaterialApp(
       theme: AppTheme.theme,
@@ -266,6 +270,49 @@ void main() {
         final messagePosition = tester.getCenter(message);
 
         expect(iconPosition.dy, lessThan(messagePosition.dy));
+      });
+    });
+
+    group('dark mode', () {
+      testWidgets('displays correctly in dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(child: ErrorView(failure: TestFailures.network)),
+        );
+
+        final context = tester.element(find.byType(ErrorView));
+        final theme = Theme.of(context);
+
+        expect(theme.brightness, equals(Brightness.dark));
+        expect(find.byIcon(Icons.wifi_off), findsOneWidget);
+      });
+
+      testWidgets('uses dark theme AppColors for icons', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(child: ErrorView(failure: TestFailures.network)),
+        );
+
+        final context = tester.element(find.byType(ErrorView));
+        final appColors = Theme.of(context).extension<AppColors>();
+
+        expect(appColors, isNotNull);
+        expect(appColors, equals(AppColors.dark));
+
+        final icon = tester.widget<Icon>(find.byIcon(Icons.wifi_off));
+        expect(icon.color, equals(AppColors.dark.warning));
+      });
+
+      testWidgets('retry button is visible in dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(
+            child: ErrorView(
+              failure: TestFailures.network,
+              onRetry: () {},
+            ),
+          ),
+        );
+
+        expect(find.byType(ElevatedButton), findsOneWidget);
+        expect(find.text('Retry'), findsOneWidget);
       });
     });
   });

@@ -5,7 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/routing/app_router.dart';
 
+import '../../helpers/test_helpers.dart';
+
 void main() {
+  setUpAll(registerTestFallbackValues);
   group('AppRouter', () {
     group('6.1 AppRouter の基本設定', () {
       test('appRouterProvider が GoRouter インスタンスを提供する', () {

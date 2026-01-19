@@ -3,7 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 
+import '../../../helpers/test_helpers.dart';
+
 void main() {
+  setUpAll(registerTestFallbackValues);
+
   Widget buildTestWidget({required Widget child}) {
     return MaterialApp(
       theme: AppTheme.theme,
@@ -111,6 +115,36 @@ void main() {
             equals(theme.colorScheme.primary),
           ),
         );
+      });
+    });
+
+    group('dark mode', () {
+      testWidgets('displays correctly in dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(child: const LoadingIndicator()),
+        );
+
+        final context = tester.element(find.byType(LoadingIndicator));
+        final theme = Theme.of(context);
+
+        expect(theme.brightness, equals(Brightness.dark));
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      });
+
+      testWidgets('message text is visible in dark theme', (tester) async {
+        const message = 'Loading...';
+        await tester.pumpWidget(
+          buildTestWidget(child: const LoadingIndicator(message: message)),
+        );
+
+        final context = tester.element(find.byType(LoadingIndicator));
+        final theme = Theme.of(context);
+
+        expect(theme.brightness, equals(Brightness.dark));
+        expect(find.text(message), findsOneWidget);
+
+        final text = tester.widget<Text>(find.text(message));
+        expect(text.style?.color, isNotNull);
       });
     });
   });

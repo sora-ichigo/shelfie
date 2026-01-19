@@ -84,4 +84,11 @@ jobs:
           install_args: flutter
       - run: flutter pub get
       - run: flutter analyze
-      - run: flutter test
+      - name: Run tests with coverage
+        run: flutter test --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: apps/mobile/coverage/lcov.info
+          flags: mobile
+          fail_ci_if_error: false

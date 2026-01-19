@@ -3,7 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 
+import '../../../helpers/test_helpers.dart';
+
 void main() {
+  setUpAll(registerTestFallbackValues);
+
   Widget buildTestWidget({required Widget child}) {
     return MaterialApp(
       theme: AppTheme.theme,
@@ -215,6 +219,48 @@ void main() {
           textWidget.style?.color,
           equals(theme.colorScheme.onSurfaceVariant),
         );
+      });
+    });
+
+    group('dark mode', () {
+      testWidgets('displays correctly in dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(child: const EmptyState(message: 'No items')),
+        );
+
+        final context = tester.element(find.byType(EmptyState));
+        final theme = Theme.of(context);
+
+        expect(theme.brightness, equals(Brightness.dark));
+        expect(find.byIcon(Icons.inbox_outlined), findsOneWidget);
+      });
+
+      testWidgets('icon color matches dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(child: const EmptyState(message: 'No items')),
+        );
+
+        final context = tester.element(find.byType(EmptyState));
+        final theme = Theme.of(context);
+
+        expect(theme.brightness, equals(Brightness.dark));
+
+        final icon = tester.widget<Icon>(find.byIcon(Icons.inbox_outlined));
+        expect(icon.color, equals(theme.colorScheme.onSurfaceVariant));
+      });
+
+      testWidgets('action button is visible in dark theme', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(
+            child: EmptyState(
+              message: 'No items',
+              onAction: () {},
+              actionText: 'Add Item',
+            ),
+          ),
+        );
+
+        expect(find.text('Add Item'), findsOneWidget);
       });
     });
   });
