@@ -114,3 +114,17 @@ variable "environment_variables" {
   type        = map(string)
   default     = {}
 }
+
+# =============================================================================
+# GitHub Actions Configuration
+# =============================================================================
+
+variable "github_owner" {
+  description = "GitHub repository owner (organization or user)"
+  type        = string
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+}
