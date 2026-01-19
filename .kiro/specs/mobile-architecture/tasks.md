@@ -177,15 +177,15 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - アクションボタンのサポート
   - _Requirements: 4.4_
 
-- [ ] 9. アプリケーション統合
-- [ ] 9.1 ShelfieApp ウィジェットの実装
+- [x] 9. アプリケーション統合
+- [x] 9.1 ShelfieApp ウィジェットの実装
   - MaterialApp.router を使用したアプリルートウィジェットを作成
-  - AppRouter、AppTheme、ThemeModeNotifier を統合
+  - AppRouter、AppTheme を統合（注: ThemeModeNotifier はスキップ済み、ダークモード固定）
   - ProviderScope 内での適切な初期化順序を確保
   - 1-8 の全コンポーネントを統合
   - _Requirements: 1.1, 2.1, 4.1_
 
-- [ ] 9.2 状態変更による UI 再描画の最適化
+- [x] 9.2 状態変更による UI 再描画の最適化
   - Consumer ウィジェットを使用した選択的リビルドを実装
   - Provider の依存関係を適切に分離
   - 不要な再描画を防ぐための select 使用パターンを確立
