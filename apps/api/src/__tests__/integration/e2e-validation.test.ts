@@ -1,9 +1,11 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
+import { eq } from "drizzle-orm";
+import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { Express } from "express";
+import type { Pool } from "pg";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../config";
-import type { DatabaseConnection, DrizzleClient } from "../../db";
 import { users } from "../../db/schema";
 import type { GraphQLContext } from "../../graphql/context";
 
@@ -21,26 +23,27 @@ interface GraphQLResponse<T = unknown> {
 }
 
 describe("End-to-End Validation Tests", () => {
-  let dbConnection: DatabaseConnection;
-  let drizzleClient: DrizzleClient;
+  let pool: Pool;
+  let db: NodePgDatabase;
   let server: ApolloServer<GraphQLContext>;
   let app: Express;
   let httpServer: Server;
   let baseUrl: string;
+  let closePoolFn: () => Promise<void>;
 
   beforeAll(async () => {
-    const { createDatabaseConnection } = await import("../../db/connection");
-    const { createDrizzleClient } = await import("../../db/client");
+    const dbModule = await import("../../db");
     const { createApolloServer, createExpressApp } = await import(
       "../../graphql/server"
     );
 
     config.validate();
 
-    dbConnection = createDatabaseConnection();
-    await dbConnection.connect({ maxRetries: 1, retryDelayMs: 100 });
+    pool = dbModule.getPool();
+    await pool.query("SELECT 1");
 
-    drizzleClient = createDrizzleClient(dbConnection.getPool());
+    db = dbModule.getDb();
+    closePoolFn = dbModule.closePool;
 
     server = createApolloServer();
     await server.start();
@@ -54,7 +57,7 @@ describe("End-to-End Validation Tests", () => {
   afterAll(async () => {
     httpServer.close();
     await server.stop();
-    await dbConnection.disconnect();
+    await closePoolFn();
   });
 
   async function executeQuery<T>(
@@ -102,13 +105,10 @@ describe("End-to-End Validation Tests", () => {
     const testFirebaseUid = `firebase-e2e-${Date.now()}`;
 
     afterEach(async () => {
-      const db = drizzleClient.getDb();
-      const { eq } = await import("drizzle-orm");
       await db.delete(users).where(eq(users.email, testEmail));
     });
 
     it("should CREATE records in database", async () => {
-      const db = drizzleClient.getDb();
       const result = await db
         .insert(users)
         .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-create` })
@@ -121,9 +121,6 @@ describe("End-to-End Validation Tests", () => {
     });
 
     it("should READ records from database", async () => {
-      const db = drizzleClient.getDb();
-      const { eq } = await import("drizzle-orm");
-
       await db
         .insert(users)
         .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-read` });
@@ -138,9 +135,6 @@ describe("End-to-End Validation Tests", () => {
     });
 
     it("should UPDATE records in database", async () => {
-      const db = drizzleClient.getDb();
-      const { eq } = await import("drizzle-orm");
-
       const [inserted] = await db
         .insert(users)
         .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-update` })
@@ -160,9 +154,6 @@ describe("End-to-End Validation Tests", () => {
     });
 
     it("should DELETE records from database", async () => {
-      const db = drizzleClient.getDb();
-      const { eq } = await import("drizzle-orm");
-
       await db
         .insert(users)
         .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-delete` });
@@ -178,13 +169,10 @@ describe("End-to-End Validation Tests", () => {
     });
 
     it("should support transactions", async () => {
-      const db = drizzleClient.getDb();
-      const { eq } = await import("drizzle-orm");
-
       let insertedId: number | null = null;
 
       try {
-        await drizzleClient.transaction(async (tx) => {
+        await db.transaction(async (tx) => {
           const [inserted] = await tx
             .insert(users)
             .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-tx` })
