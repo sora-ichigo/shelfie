@@ -115,6 +115,12 @@ variable "environment_variables" {
   default     = {}
 }
 
+variable "secret_environment_variables" {
+  description = "Environment variables sourced from Secret Manager. Map of env var name to secret name."
+  type        = map(string)
+  default     = {}
+}
+
 # =============================================================================
 # GitHub Actions Configuration
 # =============================================================================

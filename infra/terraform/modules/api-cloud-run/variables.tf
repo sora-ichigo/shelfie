@@ -133,3 +133,13 @@ variable "environment_variables" {
   type        = map(string)
   default     = {}
 }
+
+# =============================================================================
+# Secret Manager
+# =============================================================================
+
+variable "secret_environment_variables" {
+  description = "Environment variables sourced from Secret Manager. Map of env var name to secret name."
+  type        = map(string)
+  default     = {}
+}

@@ -29,9 +29,10 @@ module "api_cloud_run" {
   max_instances         = var.max_instances
   request_timeout       = var.request_timeout
   service_account_id    = var.service_account_id
-  allow_unauthenticated = var.allow_unauthenticated
-  ingress               = var.ingress
-  environment_variables = var.environment_variables
+  allow_unauthenticated        = var.allow_unauthenticated
+  ingress                      = var.ingress
+  environment_variables        = var.environment_variables
+  secret_environment_variables = var.secret_environment_variables
 }
 
 output "cloud_run_service_url" {
