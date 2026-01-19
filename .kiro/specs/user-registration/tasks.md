@@ -10,13 +10,13 @@
   - マイグレーションファイルを生成・適用
   - _Requirements: 1.2_
 
-- [ ] 2. Users Feature 拡張
-- [ ] 2.1 UserRepository に Firebase UID 検索機能を追加
+- [x] 2. Users Feature 拡張
+- [x] 2.1 UserRepository に Firebase UID 検索機能を追加
   - Firebase UID でユーザーを検索するメソッドを実装
   - 既存の Repository パターンに従って実装
   - _Requirements: 1.2_
 
-- [ ] 2.2 (P) UserService に Firebase 連携ユーザー作成機能を追加
+- [x] 2.2 (P) UserService に Firebase 連携ユーザー作成機能を追加
   - Firebase UID 付きでユーザーを作成するメソッドを実装
   - Firebase UID でユーザーを取得するメソッドを実装
   - 既存の Service パターンと Result 型を使用

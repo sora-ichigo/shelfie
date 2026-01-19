@@ -38,10 +38,40 @@ describe("UserRepository", () => {
 
       expect(typeof repository.findById).toBe("function");
       expect(typeof repository.findByEmail).toBe("function");
+      expect(typeof repository.findByFirebaseUid).toBe("function");
       expect(typeof repository.findMany).toBe("function");
       expect(typeof repository.create).toBe("function");
       expect(typeof repository.update).toBe("function");
       expect(typeof repository.delete).toBe("function");
+    });
+  });
+
+  describe("findByFirebaseUid", () => {
+    it("should return user when found by Firebase UID", async () => {
+      const mockDb = createMockDb();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-12345",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      mockDb.setResults([mockUser]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByFirebaseUid("firebase-uid-12345");
+
+      expect(result).toEqual(mockUser);
+    });
+
+    it("should return null when user not found by Firebase UID", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByFirebaseUid("non-existent-uid");
+
+      expect(result).toBeNull();
     });
   });
 
