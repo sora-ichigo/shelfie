@@ -147,14 +147,14 @@
   - GraphQL Resolver のエンドツーエンドテストを作成する
   - _Requirements: 6.4, 6.5, 6.6_
 
-- [ ] 10. ドキュメント成果物の作成
-- [ ] 10.1 開発者ドキュメントを作成する
+- [x] 10. ドキュメント成果物の作成
+- [x] 10.1 開発者ドキュメントを作成する
   - 技術選定の決定と理由を docs/api-architecture.md に記載する
   - ディレクトリ構成ガイドラインを docs/api-directory-structure.md に記載する
   - 新機能追加時のディレクトリ作成手順を文書化する
   - _Requirements: 9.1, 9.2, 9.4_
 
-- [ ] 10.2 Steering ドキュメントを更新する
+- [x] 10.2 Steering ドキュメントを更新する
   - .kiro/steering/tech.md に API 技術スタック情報を反映する
   - .kiro/steering/structure.md に apps/api ディレクトリ構成を反映する
   - 開発者ドキュメントと steering ドキュメントの整合性を確認する
