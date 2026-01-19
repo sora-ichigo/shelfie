@@ -75,8 +75,8 @@
   - リクエストコンテキスト（requestId, userId 等）の付与機能を実装する
   - _Requirements: 7.2, 7.3, 7.5_
 
-- [ ] 6. エラーハンドリング基盤の構築
-- [ ] 6.1 GraphQL エラーハンドラーを実装する
+- [x] 6. エラーハンドリング基盤の構築
+- [x] 6.1 GraphQL エラーハンドラーを実装する
   - GraphQL エラーの標準フォーマットを定義する
   - エラーカテゴリ（USER_ERROR, SYSTEM_ERROR, BUSINESS_ERROR）を実装する
   - formatError フックを実装し、本番環境でのスタックトレースマスキングを行う
@@ -84,7 +84,7 @@
   - Logger との統合によるエラーログ出力を実装する
   - _Requirements: 7.1, 7.4_
 
-- [ ] 6.2 (P) Result 型パターンを実装する
+- [x] 6.2 (P) Result 型パターンを実装する
   - ドメインエラー用の Result 型ユーティリティを作成する
   - DomainError インターフェースを定義する
   - Service 層での Result 型使用パターンを確立する

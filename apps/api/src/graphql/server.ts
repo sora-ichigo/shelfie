@@ -2,13 +2,20 @@ import { randomUUID } from "node:crypto";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@as-integrations/express4";
 import express, { type Express } from "express";
+import { config } from "../config";
+import { createErrorHandler } from "../errors";
+import { logger } from "../logger";
 import type { GraphQLContext } from "./context";
 import { schema } from "./schema";
 
 export function createApolloServer() {
+  const errorHandler = createErrorHandler(logger, config.isProduction());
+
   return new ApolloServer<GraphQLContext>({
     schema,
     introspection: true,
+    formatError: (formattedError, error) =>
+      errorHandler.formatError(formattedError, error),
   });
 }
 
