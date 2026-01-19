@@ -53,3 +53,31 @@ output "service_account_email" {
   description = "Email of the Cloud Run service account"
   value       = module.api_cloud_run.service_account_email
 }
+
+# =============================================================================
+# GitHub Actions Workload Identity Federation
+# =============================================================================
+
+module "github_actions_wif" {
+  source = "../../modules/github-actions-wif"
+
+  project_id                   = var.project_id
+  github_owner                 = var.github_owner
+  github_repo                  = var.github_repo
+  artifact_registry_location   = var.region
+  artifact_registry_repository = "shelfie-api"
+  cloud_run_service_name       = var.service_name
+  cloud_run_location           = var.region
+
+  depends_on = [module.api_cloud_run]
+}
+
+output "github_actions_workload_identity_provider" {
+  description = "Workload Identity Provider for GitHub Actions"
+  value       = module.github_actions_wif.workload_identity_provider
+}
+
+output "github_actions_service_account_email" {
+  description = "Service account email for GitHub Actions"
+  value       = module.github_actions_wif.service_account_email
+}
