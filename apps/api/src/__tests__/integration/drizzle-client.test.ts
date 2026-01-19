@@ -22,11 +22,15 @@ describe("DrizzleClient Integration Tests", () => {
         const db = client.getDb();
         const result = await db
           .insert(users)
-          .values({ email: "create-test@example.com" })
+          .values({
+            email: "create-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-1`,
+          })
           .returning();
 
         expect(result).toHaveLength(1);
         expect(result[0].email).toBe("create-test@example.com");
+        expect(result[0].firebaseUid).toBeDefined();
         expect(result[0].id).toBeGreaterThan(0);
         expect(result[0].createdAt).toBeInstanceOf(Date);
         expect(result[0].updatedAt).toBeInstanceOf(Date);
@@ -34,11 +38,12 @@ describe("DrizzleClient Integration Tests", () => {
 
       it("should insert multiple users", async () => {
         const db = client.getDb();
+        const timestamp = Date.now();
         const result = await db
           .insert(users)
           .values([
-            { email: "batch1@example.com" },
-            { email: "batch2@example.com" },
+            { email: "batch1@example.com", firebaseUid: `firebase-${timestamp}-b1` },
+            { email: "batch2@example.com", firebaseUid: `firebase-${timestamp}-b2` },
           ])
           .returning();
 
@@ -51,7 +56,10 @@ describe("DrizzleClient Integration Tests", () => {
     describe("Read (Select)", () => {
       it("should select all users", async () => {
         const db = client.getDb();
-        await db.insert(users).values({ email: "select-all@example.com" });
+        await db.insert(users).values({
+          email: "select-all@example.com",
+          firebaseUid: `firebase-${Date.now()}-selectall`,
+        });
 
         const result = await db.select().from(users);
 
@@ -65,7 +73,10 @@ describe("DrizzleClient Integration Tests", () => {
         const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "select-by-id@example.com" })
+          .values({
+            email: "select-by-id@example.com",
+            firebaseUid: `firebase-${Date.now()}-byid`,
+          })
           .returning();
 
         const result = await db
@@ -79,7 +90,10 @@ describe("DrizzleClient Integration Tests", () => {
 
       it("should select user by email", async () => {
         const db = client.getDb();
-        await db.insert(users).values({ email: "select-by-email@example.com" });
+        await db.insert(users).values({
+          email: "select-by-email@example.com",
+          firebaseUid: `firebase-${Date.now()}-byemail`,
+        });
 
         const result = await db
           .select()
@@ -106,7 +120,10 @@ describe("DrizzleClient Integration Tests", () => {
         const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "before-update@example.com" })
+          .values({
+            email: "before-update@example.com",
+            firebaseUid: `firebase-${Date.now()}-update`,
+          })
           .returning();
 
         const [updated] = await db
@@ -123,7 +140,10 @@ describe("DrizzleClient Integration Tests", () => {
         const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "timestamp-test@example.com" })
+          .values({
+            email: "timestamp-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-timestamp`,
+          })
           .returning();
 
         await new Promise((resolve) => setTimeout(resolve, 10));
@@ -149,7 +169,10 @@ describe("DrizzleClient Integration Tests", () => {
         const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "delete-test@example.com" })
+          .values({
+            email: "delete-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-delete`,
+          })
           .returning();
 
         await db.delete(users).where(eq(users.id, inserted.id));
@@ -169,7 +192,10 @@ describe("DrizzleClient Integration Tests", () => {
       const result = await client.transaction(async (tx) => {
         const [user] = await tx
           .insert(users)
-          .values({ email: "tx-commit@example.com" })
+          .values({
+            email: "tx-commit@example.com",
+            firebaseUid: `firebase-${Date.now()}-txcommit`,
+          })
           .returning();
         return user;
       });
@@ -185,11 +211,15 @@ describe("DrizzleClient Integration Tests", () => {
     });
 
     it("should rollback transaction on error", async () => {
-      const emailToCheck = `tx-rollback-${Date.now()}@example.com`;
+      const timestamp = Date.now();
+      const emailToCheck = `tx-rollback-${timestamp}@example.com`;
 
       await expect(
         client.transaction(async (tx) => {
-          await tx.insert(users).values({ email: emailToCheck });
+          await tx.insert(users).values({
+            email: emailToCheck,
+            firebaseUid: `firebase-${timestamp}-txrollback`,
+          });
           throw new Error("Force rollback");
         }),
       ).rejects.toThrow(QueryError);
@@ -203,15 +233,22 @@ describe("DrizzleClient Integration Tests", () => {
     });
 
     it("should support nested operations in transaction", async () => {
+      const timestamp = Date.now();
       const result = await client.transaction(async (tx) => {
         const [user1] = await tx
           .insert(users)
-          .values({ email: "tx-nested-1@example.com" })
+          .values({
+            email: "tx-nested-1@example.com",
+            firebaseUid: `firebase-${timestamp}-nested1`,
+          })
           .returning();
 
         const [user2] = await tx
           .insert(users)
-          .values({ email: "tx-nested-2@example.com" })
+          .values({
+            email: "tx-nested-2@example.com",
+            firebaseUid: `firebase-${timestamp}-nested2`,
+          })
           .returning();
 
         const allUsers = await tx.select().from(users);
@@ -228,7 +265,10 @@ describe("DrizzleClient Integration Tests", () => {
   describe("Raw SQL Queries", () => {
     it("should execute raw SELECT query", async () => {
       const db = client.getDb();
-      await db.insert(users).values({ email: "raw-select@example.com" });
+      await db.insert(users).values({
+        email: "raw-select@example.com",
+        firebaseUid: `firebase-${Date.now()}-rawselect`,
+      });
 
       const result = await client.rawQuery<{ email: string }>(
         "SELECT email FROM users WHERE email = $1",
@@ -241,7 +281,10 @@ describe("DrizzleClient Integration Tests", () => {
 
     it("should execute raw COUNT query", async () => {
       const db = client.getDb();
-      await db.insert(users).values({ email: "raw-count@example.com" });
+      await db.insert(users).values({
+        email: "raw-count@example.com",
+        firebaseUid: `firebase-${Date.now()}-rawcount`,
+      });
 
       const result = await client.rawQuery<{ count: string }>(
         "SELECT COUNT(*) as count FROM users WHERE email LIKE $1",

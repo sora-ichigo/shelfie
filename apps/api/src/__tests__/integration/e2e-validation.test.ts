@@ -99,6 +99,7 @@ describe("End-to-End Validation Tests", () => {
 
   describe("Requirement 2.4: Database Operations (CRUD) Verification", () => {
     const testEmail = `test-${Date.now()}@example.com`;
+    const testFirebaseUid = `firebase-e2e-${Date.now()}`;
 
     afterEach(async () => {
       const db = drizzleClient.getDb();
@@ -110,11 +111,12 @@ describe("End-to-End Validation Tests", () => {
       const db = drizzleClient.getDb();
       const result = await db
         .insert(users)
-        .values({ email: testEmail })
+        .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-create` })
         .returning();
 
       expect(result).toHaveLength(1);
       expect(result[0].email).toBe(testEmail);
+      expect(result[0].firebaseUid).toBe(`${testFirebaseUid}-create`);
       expect(result[0].id).toBeDefined();
     });
 
@@ -122,7 +124,9 @@ describe("End-to-End Validation Tests", () => {
       const db = drizzleClient.getDb();
       const { eq } = await import("drizzle-orm");
 
-      await db.insert(users).values({ email: testEmail });
+      await db
+        .insert(users)
+        .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-read` });
 
       const result = await db
         .select()
@@ -139,7 +143,7 @@ describe("End-to-End Validation Tests", () => {
 
       const [inserted] = await db
         .insert(users)
-        .values({ email: testEmail })
+        .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-update` })
         .returning();
 
       const updatedEmail = `updated-${testEmail}`;
@@ -159,7 +163,9 @@ describe("End-to-End Validation Tests", () => {
       const db = drizzleClient.getDb();
       const { eq } = await import("drizzle-orm");
 
-      await db.insert(users).values({ email: testEmail });
+      await db
+        .insert(users)
+        .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-delete` });
 
       await db.delete(users).where(eq(users.email, testEmail));
 
@@ -181,7 +187,7 @@ describe("End-to-End Validation Tests", () => {
         await drizzleClient.transaction(async (tx) => {
           const [inserted] = await tx
             .insert(users)
-            .values({ email: testEmail })
+            .values({ email: testEmail, firebaseUid: `${testFirebaseUid}-tx` })
             .returning();
           insertedId = inserted.id;
 

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { afterAll, beforeAll, beforeEach } from "vitest";
+import { afterAll, beforeEach } from "vitest";
 
 dotenv.config({ path: path.resolve(__dirname, ".env.test.local") });
 
@@ -25,20 +25,6 @@ function getGlobalTestPool(): Pool {
     });
   }
   return testPool;
-}
-
-async function runMigrations(): Promise<void> {
-  const pool = getGlobalTestPool();
-  const db = drizzle(pool);
-
-  await db.execute(sql`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      email TEXT NOT NULL,
-      created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMP NOT NULL DEFAULT NOW()
-    )
-  `);
 }
 
 async function cleanupAllTables(): Promise<void> {
@@ -65,10 +51,6 @@ async function closeGlobalTestPool(): Promise<void> {
   }
 }
 
-beforeAll(async () => {
-  await runMigrations();
-});
-
 beforeEach(async () => {
   await cleanupAllTables();
 });
@@ -77,4 +59,4 @@ afterAll(async () => {
   await closeGlobalTestPool();
 });
 
-export { getGlobalTestPool, cleanupAllTables, runMigrations };
+export { getGlobalTestPool, cleanupAllTables };

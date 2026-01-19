@@ -5,13 +5,7 @@ import {
   QueryError,
 } from "./client.js";
 import { users } from "./schema/users.js";
-import {
-  cleanupTestDatabase,
-  closeTestPool,
-  dropTestTables,
-  getTestPool,
-  setupTestDatabase,
-} from "./test-utils.js";
+import { closeTestPool, getTestPool } from "./test-utils.js";
 
 describe("DrizzleClient", () => {
   let client: DrizzleClient;
@@ -19,15 +13,9 @@ describe("DrizzleClient", () => {
   beforeAll(async () => {
     const pool = getTestPool();
     client = createDrizzleClient(pool);
-    await setupTestDatabase();
-  });
-
-  afterEach(async () => {
-    await cleanupTestDatabase();
   });
 
   afterAll(async () => {
-    await dropTestTables();
     await closeTestPool();
   });
 
@@ -50,12 +38,15 @@ describe("DrizzleClient", () => {
     it("should allow inserting and selecting data", async () => {
       const db = client.getDb();
 
-      await db.insert(users).values({ email: "test@example.com" });
+      await db
+        .insert(users)
+        .values({ email: "test@example.com", firebaseUid: "firebase-uid-1" });
 
       const result = await db.select().from(users);
 
       expect(result).toHaveLength(1);
       expect(result[0].email).toBe("test@example.com");
+      expect(result[0].firebaseUid).toBe("firebase-uid-1");
       expect(result[0].id).toBe(1);
     });
   });
@@ -63,18 +54,24 @@ describe("DrizzleClient", () => {
   describe("transaction", () => {
     it("should execute callback within a transaction context", async () => {
       const result = await client.transaction(async (tx) => {
-        await tx.insert(users).values({ email: "tx@example.com" });
+        await tx
+          .insert(users)
+          .values({ email: "tx@example.com", firebaseUid: "firebase-uid-tx" });
         const inserted = await tx.select().from(users);
         return inserted[0];
       });
 
       expect(result.email).toBe("tx@example.com");
+      expect(result.firebaseUid).toBe("firebase-uid-tx");
     });
 
     it("should rollback on error", async () => {
       await expect(
         client.transaction(async (tx) => {
-          await tx.insert(users).values({ email: "rollback@example.com" });
+          await tx.insert(users).values({
+            email: "rollback@example.com",
+            firebaseUid: "firebase-uid-rollback",
+          });
           throw new Error("Force rollback");
         }),
       ).rejects.toThrow(QueryError);
@@ -89,7 +86,9 @@ describe("DrizzleClient", () => {
   describe("rawQuery", () => {
     it("should execute raw SQL query", async () => {
       const db = client.getDb();
-      await db.insert(users).values({ email: "raw@example.com" });
+      await db
+        .insert(users)
+        .values({ email: "raw@example.com", firebaseUid: "firebase-uid-raw" });
 
       const result = await client.rawQuery<{ id: number; email: string }>(
         "SELECT id, email FROM users WHERE email = $1",
@@ -102,7 +101,9 @@ describe("DrizzleClient", () => {
 
     it("should execute raw SQL query without params", async () => {
       const db = client.getDb();
-      await db.insert(users).values({ email: "count@example.com" });
+      await db
+        .insert(users)
+        .values({ email: "count@example.com", firebaseUid: "firebase-uid-cnt" });
 
       const result = await client.rawQuery<{ count: string }>(
         "SELECT count(*) FROM users",
