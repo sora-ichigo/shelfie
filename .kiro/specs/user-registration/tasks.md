@@ -49,20 +49,20 @@
   - 未登録ユーザー、検証済みユーザー、レート制限のエラーハンドリング
   - _Requirements: 2.3, 2.4, 2.5_
 
-- [ ] 4. GraphQL API 実装
-- [ ] 4.1 GraphQL エラー型と入力型を定義
+- [x] 4. GraphQL API 実装
+- [x] 4.1 GraphQL エラー型と入力型を定義
   - AuthError 型と AuthErrorCode enum を定義
   - RegisterUserInput、ResendVerificationEmailInput 入力型を定義
   - RegisterUserPayload、ResendVerificationEmailPayload 出力型を定義
   - _Requirements: 4.4_
 
-- [ ] 4.2 registerUser Mutation を実装
+- [x] 4.2 registerUser Mutation を実装
   - Pothos で registerUser Mutation を定義
   - AuthService の register メソッドを呼び出す Resolver を実装
   - 成功時にユーザー情報を返し、失敗時にエラーを返す
   - _Requirements: 4.1, 4.3, 4.4_
 
-- [ ] 4.3 (P) resendVerificationEmail Mutation を実装
+- [x] 4.3 (P) resendVerificationEmail Mutation を実装
   - Pothos で resendVerificationEmail Mutation を定義
   - AuthService の resendVerificationEmail メソッドを呼び出す Resolver を実装
   - 成功時に success: true を返し、失敗時にエラーを返す
