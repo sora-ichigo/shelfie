@@ -1,5 +1,7 @@
 [copy]
 	include = infra/terraform/environments/dev/.envrc
+	include = apps/api/.env
+	include = apps/api/.env.test.local
 
 [hooks]
   postCreate = pnpm install && cd apps/mobile && flutter pub get
