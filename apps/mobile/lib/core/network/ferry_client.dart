@@ -15,7 +15,7 @@ const String _ferryCacheBoxName = 'ferry_graphql_cache';
 /// テスト時にはオーバーライドして異なるエンドポイントを使用可能。
 @Riverpod(keepAlive: true)
 String apiEndpoint(ApiEndpointRef ref) {
-  // TODO: 環境変数または設定ファイルから取得
+  // TODO(shelfie): 環境変数または設定ファイルから取得
   return 'https://api.shelfie.example.com/graphql';
 }
 
@@ -25,7 +25,7 @@ String apiEndpoint(ApiEndpointRef ref) {
 /// null の場合は未認証状態を示す。
 @Riverpod(keepAlive: true)
 String? authToken(AuthTokenRef ref) {
-  // TODO: SecureStorage から取得する実装に置き換え
+  // TODO(shelfie): SecureStorage から取得する実装に置き換え
   return null;
 }
 

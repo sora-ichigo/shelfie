@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -91,12 +90,12 @@ void main() {
       });
 
       test('BookDetailParams が型安全なパラメータ取得を提供する', () {
-        final params = BookDetailParams(bookId: 'test-id');
+        const params = BookDetailParams(bookId: 'test-id');
         expect(params.bookId, 'test-id');
       });
 
       test('SearchParams がクエリパラメータの型変換を提供する', () {
-        final params = SearchParams(query: 'dart', page: 1);
+        const params = SearchParams(query: 'dart', page: 1);
         expect(params.query, 'dart');
         expect(params.page, 1);
       });

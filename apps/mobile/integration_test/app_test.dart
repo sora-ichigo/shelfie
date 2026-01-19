@@ -1,7 +1,7 @@
-/// インテグレーションテスト
-///
-/// アプリの起動、認証フロー、エラーリカバリをテストする。
-/// flutter test integration_test/app_test.dart で実行。
+// インテグレーションテスト
+// アプリの起動、認証フロー、エラーリカバリをテストする。
+// flutter test integration_test/app_test.dart で実行。
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

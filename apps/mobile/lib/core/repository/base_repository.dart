@@ -111,9 +111,13 @@ abstract class BaseRepository {
 
         lastResult = result;
       } on SocketException {
-        lastResult = left(const NetworkFailure(message: 'No internet connection'));
+        lastResult = left(
+          const NetworkFailure(message: 'No internet connection'),
+        );
       } on TimeoutException {
-        lastResult = left(const NetworkFailure(message: 'Request timeout'));
+        lastResult = left(
+          const NetworkFailure(message: 'Request timeout'),
+        );
       } catch (e) {
         // その他のエラーはリトライしない
         return left(UnexpectedFailure(message: e.toString()));
@@ -125,7 +129,9 @@ abstract class BaseRepository {
       }
     }
 
-    return lastResult ?? left(const NetworkFailure(message: 'Max retries exceeded'));
+    return lastResult ?? left(
+      const NetworkFailure(message: 'Max retries exceeded'),
+    );
   }
 
   /// ローディング状態を管理しながらクエリを実行する
@@ -149,7 +155,8 @@ abstract class BaseRepository {
   ) {
     // GraphQL エラーのチェック
     if (response.hasErrors) {
-      final errorMessage = response.graphqlErrors?.firstOrNull?.message ?? 'Unknown GraphQL error';
+      final errorMessage = response.graphqlErrors?.firstOrNull?.message ??
+          'Unknown GraphQL error';
       return left(
         ServerFailure(
           message: errorMessage,

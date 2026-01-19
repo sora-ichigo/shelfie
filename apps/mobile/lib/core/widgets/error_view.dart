@@ -45,7 +45,7 @@ class ErrorView extends StatelessWidget {
               size: 64,
               color: _getIconColor(theme, appColors),
             ),
-            SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.md),
             Text(
               failure.userMessage,
               style: theme.textTheme.bodyLarge?.copyWith(
@@ -54,7 +54,7 @@ class ErrorView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.lg),
               ElevatedButton(
                 onPressed: onRetry,
                 child: Text(retryButtonText),

@@ -119,7 +119,10 @@ void main() {
         });
 
         // 初期化順序を確認
-        expect(initializationOrder, ['hive', 'error_handler', 'provider_scope']);
+        expect(
+          initializationOrder,
+          ['hive', 'error_handler', 'provider_scope'],
+        );
       });
     });
   });

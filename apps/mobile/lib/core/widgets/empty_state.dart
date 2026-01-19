@@ -53,7 +53,7 @@ class EmptyState extends StatelessWidget {
               size: 64,
               color: onSurfaceVariant,
             ),
-            SizedBox(height: AppSpacing.md),
+            const SizedBox(height: AppSpacing.md),
             if (title != null) ...[
               Text(
                 title!,
@@ -62,7 +62,7 @@ class EmptyState extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: AppSpacing.xs),
+              const SizedBox(height: AppSpacing.xs),
             ],
             Text(
               message,
@@ -72,7 +72,7 @@ class EmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onAction != null) ...[
-              SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.lg),
               ElevatedButton(
                 onPressed: onAction,
                 child: Text(actionText),

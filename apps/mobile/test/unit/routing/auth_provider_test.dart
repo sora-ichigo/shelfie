@@ -1,7 +1,6 @@
-/// AuthProvider のユニットテスト
-///
-/// AuthStateNotifier と認証状態管理のテスト。
-/// 10.1 のテストユーティリティを使用する。
+// AuthProvider のユニットテスト
+// AuthStateNotifier と認証状態管理のテスト。
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -93,7 +92,7 @@ void main() {
 
     group('AuthState copyWith', () {
       test('copyWith で一部のフィールドのみ変更できること', () {
-        final state = TestAuthStates.authenticated;
+        const state = TestAuthStates.authenticated;
 
         final updated = state.copyWith(userId: 'new-user');
 
@@ -103,7 +102,7 @@ void main() {
       });
 
       test('copyWith で全てのフィールドを変更できること', () {
-        final state = TestAuthStates.unauthenticated;
+        const state = TestAuthStates.unauthenticated;
 
         final updated = state.copyWith(
           isAuthenticated: true,

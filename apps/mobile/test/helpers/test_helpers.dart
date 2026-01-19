@@ -1,5 +1,4 @@
-/// テストユーティリティとヘルパー関数
-library;
+// テストユーティリティとヘルパー関数
 
 import 'package:ferry/ferry.dart';
 import 'package:flutter/material.dart';

@@ -27,9 +27,7 @@ class LoadingIndicator extends StatelessWidget {
     final indicator = _buildIndicator(context);
 
     if (fullScreen) {
-      return SizedBox(
-        width: double.infinity,
-        height: double.infinity,
+      return SizedBox.expand(
         child: Center(child: indicator),
       );
     }
@@ -48,7 +46,7 @@ class LoadingIndicator extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const CircularProgressIndicator(),
-        SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.md),
         Text(
           message!,
           style: theme.textTheme.bodyMedium?.copyWith(

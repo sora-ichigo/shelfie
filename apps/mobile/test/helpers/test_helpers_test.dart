@@ -1,11 +1,11 @@
-/// テストユーティリティのテスト
+// テストユーティリティのテスト
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/app/providers.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 import 'test_helpers.dart';

@@ -121,7 +121,7 @@ void main() {
       });
 
       test(
-          'isProductionProvider が false の場合、'
+          'isProductionProvider が false の場合、 '
           'errorHandler.isProduction も false であること', () {
         final container = ProviderContainer(
           overrides: [

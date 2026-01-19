@@ -85,11 +85,15 @@ void main() {
       expect(nameWatchCount, equals(1));
 
       // email を更新 -> name は変わらないのでコールバックは呼ばれない
-      container.read(userNotifierProvider.notifier).updateEmail('new@example.com');
+      container
+          .read(userNotifierProvider.notifier)
+          .updateEmail('new@example.com');
       expect(nameWatchCount, equals(1));
 
       // avatar を更新 -> name は変わらないのでコールバックは呼ばれない
-      container.read(userNotifierProvider.notifier).updateAvatar('https://example.com/new-avatar.png');
+      container.read(userNotifierProvider.notifier).updateAvatar(
+            'https://example.com/new-avatar.png',
+          );
       expect(nameWatchCount, equals(1));
     });
 
@@ -112,11 +116,15 @@ void main() {
       expect(watchCount, equals(1));
 
       // email を更新 -> コールバックが呼ばれる
-      container.read(userNotifierProvider.notifier).updateEmail('new@example.com');
+      container
+          .read(userNotifierProvider.notifier)
+          .updateEmail('new@example.com');
       expect(watchCount, equals(2));
 
       // avatar を更新 -> コールバックが呼ばれる
-      container.read(userNotifierProvider.notifier).updateAvatar('https://example.com/new-avatar.png');
+      container.read(userNotifierProvider.notifier).updateAvatar(
+            'https://example.com/new-avatar.png',
+          );
       expect(watchCount, equals(3));
     });
 
@@ -139,11 +147,15 @@ void main() {
       expect(watchCount, equals(1));
 
       // email を更新 -> コールバックが呼ばれる
-      container.read(userNotifierProvider.notifier).updateEmail('new@example.com');
+      container
+          .read(userNotifierProvider.notifier)
+          .updateEmail('new@example.com');
       expect(watchCount, equals(2));
 
       // avatar を更新 -> name も email も変わらないのでコールバックは呼ばれない
-      container.read(userNotifierProvider.notifier).updateAvatar('https://example.com/new-avatar.png');
+      container.read(userNotifierProvider.notifier).updateAvatar(
+            'https://example.com/new-avatar.png',
+          );
       expect(watchCount, equals(2));
     });
   });

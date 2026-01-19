@@ -28,6 +28,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.4.7
+  gql_exec: any
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1

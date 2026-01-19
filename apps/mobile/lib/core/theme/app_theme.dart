@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
-import 'app_typography.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_typography.dart';
 
 /// アプリケーション全体のテーマ定義
 ///

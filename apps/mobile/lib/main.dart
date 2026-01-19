@@ -25,8 +25,8 @@ void main() {
 
       // アプリを ProviderScope でラップして起動
       runApp(
-        ProviderScope(
-          child: const _AppInitializer(),
+        const ProviderScope(
+          child: _AppInitializer(),
         ),
       );
     },
@@ -63,8 +63,7 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
   void _initializeApp() {
     // ErrorHandler を初期化して、
     // FlutterError.onError と PlatformDispatcher.instance.onError を設定
-    final errorHandler = ref.read(errorHandlerProvider);
-    errorHandler.initialize();
+    ref.read(errorHandlerProvider).initialize();
     setState(() {
       _initialized = true;
     });
