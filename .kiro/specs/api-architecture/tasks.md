@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] 1. Core 環境設定基盤の構築
+- [x] 1. Core 環境設定基盤の構築
 - [x] 1.1 環境変数管理機能を実装する
   - ConfigManager を作成し、DATABASE_URL, NODE_ENV, LOG_LEVEL 等の環境変数を型安全に読み込む
   - 必須変数の存在チェックとバリデーション機能を実装する
@@ -18,7 +18,7 @@
   - テスト用データベースを同一コンテナ内に作成する
   - _Requirements: 2.1, 6.1, 6.6_
 
-- [ ] 2. データベース接続基盤の構築
+- [x] 2. データベース接続基盤の構築
 - [x] 2.1 PostgreSQL 接続とコネクションプーリングを実装する
   - pg Pool を使用したコネクションプーリング機能を作成する
   - 接続タイムアウトとリトライ戦略を実装する
@@ -53,7 +53,7 @@
   - シードデータの管理方法を確立する
   - _Requirements: 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 4. GraphQL スキーマ基盤の構築
+- [x] 4. GraphQL スキーマ基盤の構築
 - [x] 4.1 Pothos SchemaBuilder を初期化する
   - SchemaBuilder インスタンスの初期化と設定を実装する
   - 基本スカラー型（DateTime 等）の定義を追加する
@@ -66,7 +66,7 @@
   - GraphQL Playground（Apollo Sandbox）を開発環境で有効化する
   - _Requirements: 1.4, 1.5_
 
-- [ ] 5. ロギング基盤の構築
+- [x] 5. ロギング基盤の構築
 - [x] 5.1 (P) Pino ロガーを実装する
   - Pino インスタンスの初期化と設定を作成する
   - ログレベル（debug, info, warn, error）の管理機能を実装する
@@ -160,14 +160,14 @@
   - 開発者ドキュメントと steering ドキュメントの整合性を確認する
   - _Requirements: 9.3, 9.4, 9.5, 9.6_
 
-- [ ] 11. システム統合と検証
-- [ ] 11.1 全コンポーネントの統合を完了する
+- [x] 11. システム統合と検証
+- [x] 11.1 全コンポーネントの統合を完了する
   - サーバー起動時の初期化シーケンスを実装する（ConfigManager -> DatabaseConnection -> DrizzleClient -> SchemaBuilder -> Apollo Server）
   - Graceful shutdown 処理を全コンポーネントに適用する
   - 開発サーバー起動（pnpm dev:api）の動作を確認する
   - _Requirements: 1.4, 2.2, 6.1_
 
-- [ ] 11.2 エンドツーエンド検証を実行する
+- [x] 11.2 エンドツーエンド検証を実行する
   - GraphQL Playground からのクエリ実行を確認する
   - データベース操作（CRUD）の動作を検証する
   - エラーハンドリングとロギングの動作を確認する
