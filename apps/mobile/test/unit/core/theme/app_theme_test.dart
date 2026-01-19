@@ -1,0 +1,196 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/core/theme/app_typography.dart';
+
+import '../../../helpers/test_helpers.dart';
+
+void main() {
+  setUpAll(registerTestFallbackValues);
+  group('AppTheme', () {
+    group('dark', () {
+      test('ダークモードの ThemeData を返す', () {
+        final theme = AppTheme.dark();
+
+        expect(theme, isA<ThemeData>());
+        expect(theme.brightness, equals(Brightness.dark));
+      });
+
+      test('Material 3 が有効になっている', () {
+        final theme = AppTheme.dark();
+
+        expect(theme.useMaterial3, isTrue);
+      });
+
+      test('AppColors.dark が拡張として含まれている', () {
+        final theme = AppTheme.dark();
+
+        final colors = theme.extension<AppColors>();
+        expect(colors, isNotNull);
+        expect(colors, equals(AppColors.dark));
+      });
+
+      test('AppTypography の textTheme が適用されている', () {
+        final theme = AppTheme.dark();
+
+        expect(theme.textTheme.displayLarge?.fontSize,
+            equals(AppTypography.displayLarge.fontSize));
+        expect(theme.textTheme.bodyMedium?.fontSize,
+            equals(AppTypography.bodyMedium.fontSize));
+      });
+
+      test('ColorScheme がダークモードで設定されている', () {
+        final theme = AppTheme.dark();
+
+        expect(theme.colorScheme.brightness, equals(Brightness.dark));
+      });
+    });
+
+    group('theme', () {
+      test('デフォルトテーマはダークモードを返す', () {
+        final theme = AppTheme.theme;
+
+        expect(theme, isA<ThemeData>());
+        expect(theme.brightness, equals(Brightness.dark));
+      });
+
+      test('theme と dark() は同じ値を返す', () {
+        final defaultTheme = AppTheme.theme;
+        final darkTheme = AppTheme.dark();
+
+        expect(defaultTheme.brightness, equals(darkTheme.brightness));
+        expect(defaultTheme.useMaterial3, equals(darkTheme.useMaterial3));
+      });
+    });
+
+    group('seedColor', () {
+      test('デフォルトのシードカラーが定義されている', () {
+        expect(AppTheme.seedColor, isA<Color>());
+      });
+    });
+
+    group('ThemeData integration', () {
+      testWidgets('MaterialApp でダークテーマが正しく適用される', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: AppTheme.dark(),
+            home: Builder(
+              builder: (context) {
+                final theme = Theme.of(context);
+                expect(theme.brightness, equals(Brightness.dark));
+                expect(theme.extension<AppColors>(), isNotNull);
+                return const SizedBox();
+              },
+            ),
+          ),
+        );
+      });
+
+      testWidgets('MaterialApp で AppTheme.theme が正しく適用される', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            theme: AppTheme.theme,
+            home: Builder(
+              builder: (context) {
+                final theme = Theme.of(context);
+                expect(theme.brightness, equals(Brightness.dark));
+                expect(theme.extension<AppColors>(), isNotNull);
+                return const SizedBox();
+              },
+            ),
+          ),
+        );
+      });
+    });
+
+    group('ThemeExtension access', () {
+      testWidgets('context から AppColors にアクセスできること', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(
+            child: Builder(
+              builder: (context) {
+                final appColors = Theme.of(context).extension<AppColors>();
+                expect(appColors, isNotNull);
+                expect(appColors!.success, isA<Color>());
+                expect(appColors.warning, isA<Color>());
+                expect(appColors.info, isA<Color>());
+                return const SizedBox();
+              },
+            ),
+          ),
+        );
+      });
+
+      testWidgets('ダークモードで AppColors.dark が使用されること', (tester) async {
+        await tester.pumpWidget(
+          buildTestWidget(
+            child: Builder(
+              builder: (context) {
+                final appColors = Theme.of(context).extension<AppColors>();
+                expect(appColors, equals(AppColors.dark));
+                return const SizedBox();
+              },
+            ),
+          ),
+        );
+      });
+    });
+
+    group('ThemeExtension animation', () {
+      test('AppColors.lerp が正しく動作すること', () {
+        const base = AppColors.dark;
+        const target = AppColors(
+          success: Color(0xFF00FF00),
+          warning: Color(0xFFFF0000),
+          info: Color(0xFF0000FF),
+          onSuccess: Color(0xFFFFFFFF),
+          onWarning: Color(0xFFFFFFFF),
+          onInfo: Color(0xFFFFFFFF),
+        );
+
+        final mid = base.lerp(target, 0.5);
+
+        expect(mid, isA<AppColors>());
+        expect(mid.success, isNot(equals(base.success)));
+        expect(mid.success, isNot(equals(target.success)));
+      });
+
+      test('lerp(0.0) は元の値を返すこと', () {
+        const base = AppColors.dark;
+        const target = AppColors(
+          success: Color(0xFF00FF00),
+          warning: Color(0xFFFF0000),
+          info: Color(0xFF0000FF),
+          onSuccess: Color(0xFFFFFFFF),
+          onWarning: Color(0xFFFFFFFF),
+          onInfo: Color(0xFFFFFFFF),
+        );
+
+        final result = base.lerp(target, 0.0);
+
+        expect(result.success, equals(base.success));
+        expect(result.warning, equals(base.warning));
+        expect(result.info, equals(base.info));
+      });
+
+      test('lerp(1.0) は対象の値を返すこと', () {
+        const base = AppColors.dark;
+        const target = AppColors(
+          success: Color(0xFF00FF00),
+          warning: Color(0xFFFF0000),
+          info: Color(0xFF0000FF),
+          onSuccess: Color(0xFFFFFFFF),
+          onWarning: Color(0xFFFFFFFF),
+          onInfo: Color(0xFFFFFFFF),
+        );
+
+        final result = base.lerp(target, 1.0);
+
+        expect(result.success, equals(target.success));
+        expect(result.warning, equals(target.warning));
+        expect(result.info, equals(target.info));
+      });
+    });
+  });
+}

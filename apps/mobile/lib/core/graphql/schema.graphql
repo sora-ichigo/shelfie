@@ -1,0 +1,32 @@
+"""
+Shelfie GraphQL Schema
+
+このスキーマは開発用のプレースホルダーです。
+実際のスキーマは API サーバーから取得してください。
+
+スキーマ取得方法:
+1. API サーバーが起動している状態で以下のコマンドを実行:
+   npx get-graphql-schema http://localhost:4000/graphql > lib/core/graphql/schema.graphql
+
+2. または、apollo rover を使用:
+   rover graph introspect http://localhost:4000/graphql > lib/core/graphql/schema.graphql
+"""
+
+type Query {
+  """
+  アプリケーションのヘルスチェック
+  """
+  health: HealthCheck!
+}
+
+type Mutation {
+  """
+  ダミーミューテーション（プレースホルダー）
+  """
+  noop: Boolean!
+}
+
+type HealthCheck {
+  status: String!
+  timestamp: String!
+}
