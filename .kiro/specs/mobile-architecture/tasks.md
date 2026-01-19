@@ -25,7 +25,7 @@ Feature-first + Clean Architecture を採用した Shelfie モバイルアプリ
   - _Requirements: 6.4, 6.5_
 
 - [ ] 2. ディレクトリ構成の構築
-- [ ] 2.1 Feature-first ディレクトリ構造の作成
+- [x] 2.1 Feature-first ディレクトリ構造の作成
   - lib/app/ ディレクトリにアプリケーション設定ファイルを配置
   - lib/core/ に共通コンポーネント（error, network, theme, widgets, utils）のサブディレクトリを作成
   - lib/routing/ にルーティング関連ファイルを配置
