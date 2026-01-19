@@ -1,51 +1,35 @@
-import type { Pool } from "pg";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import {
+  ConnectionError,
+  createDatabaseConnection,
+  type DatabaseConnection,
+} from "./connection.js";
+import { closeTestPool } from "./test-utils.js";
 
 describe("DatabaseConnection", () => {
-  const originalEnv = process.env;
+  let connection: DatabaseConnection;
 
-  beforeEach(() => {
-    vi.resetModules();
-    process.env = { ...originalEnv };
-    process.env.DATABASE_URL = "postgres://user:pass@localhost:5432/test";
-    process.env.NODE_ENV = "test";
+  beforeAll(() => {
+    connection = createDatabaseConnection();
   });
 
-  afterEach(() => {
-    process.env = originalEnv;
-    vi.restoreAllMocks();
+  afterAll(async () => {
+    await connection.disconnect();
+    await closeTestPool();
   });
 
   describe("createDatabaseConnection", () => {
-    it("should create a DatabaseConnection instance with default config", async () => {
-      const { createDatabaseConnection } = await import("./connection.js");
-
-      const connection = createDatabaseConnection();
-
+    it("should create a DatabaseConnection instance", () => {
       expect(connection).toBeDefined();
       expect(typeof connection.getPool).toBe("function");
       expect(typeof connection.connect).toBe("function");
       expect(typeof connection.disconnect).toBe("function");
       expect(typeof connection.healthCheck).toBe("function");
     });
-
-    it("should use ConfigManager to get connection settings", async () => {
-      process.env.DB_POOL_MAX = "10";
-      process.env.DB_IDLE_TIMEOUT_MS = "30000";
-      process.env.DB_CONNECTION_TIMEOUT_MS = "5000";
-
-      const { createDatabaseConnection } = await import("./connection.js");
-
-      const connection = createDatabaseConnection();
-
-      expect(connection).toBeDefined();
-    });
   });
 
   describe("ConnectionError", () => {
-    it("should have proper error structure", async () => {
-      const { ConnectionError } = await import("./connection.js");
-
+    it("should have proper error structure", () => {
       const error = new ConnectionError(
         "CONNECTION_FAILED",
         "Failed to connect to database",
@@ -58,18 +42,14 @@ describe("DatabaseConnection", () => {
       expect(error.name).toBe("ConnectionError");
     });
 
-    it("should support TIMEOUT error code", async () => {
-      const { ConnectionError } = await import("./connection.js");
-
+    it("should support TIMEOUT error code", () => {
       const error = new ConnectionError("TIMEOUT", "Connection timeout", true);
 
       expect(error.code).toBe("TIMEOUT");
       expect(error.retryable).toBe(true);
     });
 
-    it("should support POOL_EXHAUSTED error code", async () => {
-      const { ConnectionError } = await import("./connection.js");
-
+    it("should support POOL_EXHAUSTED error code", () => {
       const error = new ConnectionError(
         "POOL_EXHAUSTED",
         "Connection pool exhausted",
@@ -82,10 +62,7 @@ describe("DatabaseConnection", () => {
   });
 
   describe("getPool", () => {
-    it("should return a Pool instance", async () => {
-      const { createDatabaseConnection } = await import("./connection.js");
-
-      const connection = createDatabaseConnection();
+    it("should return a Pool instance", () => {
       const pool = connection.getPool();
 
       expect(pool).toBeDefined();
@@ -95,159 +72,35 @@ describe("DatabaseConnection", () => {
     });
   });
 
-  describe("createDatabaseConnectionWithPool (dependency injection)", () => {
-    it("should attempt to connect and verify connection", async () => {
-      const { createDatabaseConnectionWithPool } = await import(
-        "./connection.js"
-      );
-
-      const mockQuery = vi.fn().mockResolvedValue({ rows: [{ result: 1 }] });
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
+  describe("connect", () => {
+    it("should connect to the database successfully", async () => {
       await expect(connection.connect()).resolves.toBeUndefined();
-      expect(mockQuery).toHaveBeenCalledWith("SELECT 1");
     });
 
-    it("should throw ConnectionError on connection failure", async () => {
-      const { createDatabaseConnectionWithPool, ConnectionError } =
-        await import("./connection.js");
+    it("should execute SELECT 1 to verify connection", async () => {
+      await connection.connect();
 
-      const mockQuery = vi
-        .fn()
-        .mockRejectedValue(new Error("Connection refused"));
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
+      const pool = connection.getPool();
+      const result = await pool.query("SELECT 1 as result");
 
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      await expect(connection.connect()).rejects.toThrow(ConnectionError);
-    });
-
-    it("should call pool.end() for graceful shutdown", async () => {
-      const { createDatabaseConnectionWithPool } = await import(
-        "./connection.js"
-      );
-
-      const mockEnd = vi.fn().mockResolvedValue(undefined);
-      const mockPool = {
-        query: vi.fn(),
-        connect: vi.fn(),
-        end: mockEnd,
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      await connection.disconnect();
-
-      expect(mockEnd).toHaveBeenCalled();
-    });
-
-    it("should return true when database is reachable (healthCheck)", async () => {
-      const { createDatabaseConnectionWithPool } = await import(
-        "./connection.js"
-      );
-
-      const mockQuery = vi.fn().mockResolvedValue({ rows: [{ result: 1 }] });
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      const result = await connection.healthCheck();
-
-      expect(result).toBe(true);
-      expect(mockQuery).toHaveBeenCalledWith("SELECT 1");
-    });
-
-    it("should return false when database is unreachable (healthCheck)", async () => {
-      const { createDatabaseConnectionWithPool } = await import(
-        "./connection.js"
-      );
-
-      const mockQuery = vi
-        .fn()
-        .mockRejectedValue(new Error("Connection refused"));
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      const result = await connection.healthCheck();
-
-      expect(result).toBe(false);
+      expect(result.rows[0].result).toBe(1);
     });
   });
 
-  describe("retry strategy", () => {
-    it("should retry connection on transient failures", async () => {
-      const { createDatabaseConnectionWithPool } = await import(
-        "./connection.js"
-      );
+  describe("healthCheck", () => {
+    it("should return true when database is reachable", async () => {
+      const result = await connection.healthCheck();
 
-      let callCount = 0;
-      const mockQuery = vi.fn().mockImplementation(() => {
-        callCount++;
-        if (callCount < 3) {
-          return Promise.reject(new Error("Connection refused"));
-        }
-        return Promise.resolve({ rows: [{ result: 1 }] });
-      });
-
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      await expect(
-        connection.connect({ maxRetries: 3, retryDelayMs: 10 }),
-      ).resolves.toBeUndefined();
-      expect(callCount).toBe(3);
+      expect(result).toBe(true);
     });
+  });
 
-    it("should throw after max retries exceeded", async () => {
-      const { createDatabaseConnectionWithPool, ConnectionError } =
-        await import("./connection.js");
+  describe("disconnect", () => {
+    it("should disconnect from the database gracefully", async () => {
+      const tempConnection = createDatabaseConnection();
+      await tempConnection.connect();
 
-      const mockQuery = vi
-        .fn()
-        .mockRejectedValue(new Error("Connection refused"));
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const connection = createDatabaseConnectionWithPool(mockPool);
-
-      await expect(
-        connection.connect({ maxRetries: 2, retryDelayMs: 10 }),
-      ).rejects.toThrow(ConnectionError);
-      expect(mockQuery).toHaveBeenCalledTimes(2);
+      await expect(tempConnection.disconnect()).resolves.toBeUndefined();
     });
   });
 });

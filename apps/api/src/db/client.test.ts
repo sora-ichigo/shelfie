@@ -1,34 +1,38 @@
-import type { Pool } from "pg";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import {
+  createDrizzleClient,
+  type DrizzleClient,
+  QueryError,
+} from "./client.js";
+import { users } from "./schema/users.js";
+import {
+  cleanupTestDatabase,
+  closeTestPool,
+  dropTestTables,
+  getTestPool,
+  setupTestDatabase,
+} from "./test-utils.js";
 
 describe("DrizzleClient", () => {
-  const originalEnv = process.env;
+  let client: DrizzleClient;
 
-  beforeEach(() => {
-    vi.resetModules();
-    process.env = { ...originalEnv };
-    process.env.DATABASE_URL = "postgres://user:pass@localhost:5432/test";
-    process.env.NODE_ENV = "test";
+  beforeAll(async () => {
+    const pool = getTestPool();
+    client = createDrizzleClient(pool);
+    await setupTestDatabase();
   });
 
-  afterEach(() => {
-    process.env = originalEnv;
-    vi.restoreAllMocks();
+  afterEach(async () => {
+    await cleanupTestDatabase();
+  });
+
+  afterAll(async () => {
+    await dropTestTables();
+    await closeTestPool();
   });
 
   describe("createDrizzleClient", () => {
-    it("should create a Drizzle client from a Pool instance", async () => {
-      const { createDrizzleClient } = await import("./client.js");
-
-      const mockPool = {
-        query: vi.fn(),
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const client = createDrizzleClient(mockPool);
-
+    it("should create a Drizzle client from a Pool instance", () => {
       expect(client).toBeDefined();
       expect(typeof client.getDb).toBe("function");
       expect(typeof client.transaction).toBe("function");
@@ -37,102 +41,79 @@ describe("DrizzleClient", () => {
   });
 
   describe("getDb", () => {
-    it("should return a Drizzle database instance", async () => {
-      const { createDrizzleClient } = await import("./client.js");
-
-      const mockPool = {
-        query: vi.fn(),
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const client = createDrizzleClient(mockPool);
+    it("should return a Drizzle database instance", () => {
       const db = client.getDb();
 
       expect(db).toBeDefined();
+    });
+
+    it("should allow inserting and selecting data", async () => {
+      const db = client.getDb();
+
+      await db.insert(users).values({ email: "test@example.com" });
+
+      const result = await db.select().from(users);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].email).toBe("test@example.com");
+      expect(result[0].id).toBe(1);
     });
   });
 
   describe("transaction", () => {
     it("should execute callback within a transaction context", async () => {
-      const { createDrizzleClient } = await import("./client.js");
+      const result = await client.transaction(async (tx) => {
+        await tx.insert(users).values({ email: "tx@example.com" });
+        const inserted = await tx.select().from(users);
+        return inserted[0];
+      });
 
-      const mockPool = {
-        query: vi.fn(),
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
+      expect(result.email).toBe("tx@example.com");
+    });
 
-      const client = createDrizzleClient(mockPool);
+    it("should rollback on error", async () => {
+      await expect(
+        client.transaction(async (tx) => {
+          await tx.insert(users).values({ email: "rollback@example.com" });
+          throw new Error("Force rollback");
+        }),
+      ).rejects.toThrow(QueryError);
 
-      const callback = vi.fn().mockResolvedValue("result");
+      const db = client.getDb();
+      const result = await db.select().from(users);
 
-      const result = await client.transaction(callback);
-
-      expect(callback).toHaveBeenCalled();
-      expect(result).toBe("result");
+      expect(result).toHaveLength(0);
     });
   });
 
   describe("rawQuery", () => {
     it("should execute raw SQL query", async () => {
-      const { createDrizzleClient } = await import("./client.js");
+      const db = client.getDb();
+      await db.insert(users).values({ email: "raw@example.com" });
 
-      const mockQueryResult = { rows: [{ id: 1, name: "test" }] };
-      const mockQuery = vi.fn().mockResolvedValue(mockQueryResult);
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const client = createDrizzleClient(mockPool);
-
-      const result = await client.rawQuery<{ id: number; name: string }>(
-        "SELECT * FROM users WHERE id = $1",
-        [1],
+      const result = await client.rawQuery<{ id: number; email: string }>(
+        "SELECT id, email FROM users WHERE email = $1",
+        ["raw@example.com"],
       );
 
-      expect(result).toEqual([{ id: 1, name: "test" }]);
-      expect(mockQuery).toHaveBeenCalledWith(
-        "SELECT * FROM users WHERE id = $1",
-        [1],
-      );
+      expect(result).toHaveLength(1);
+      expect(result[0].email).toBe("raw@example.com");
     });
 
     it("should execute raw SQL query without params", async () => {
-      const { createDrizzleClient } = await import("./client.js");
+      const db = client.getDb();
+      await db.insert(users).values({ email: "count@example.com" });
 
-      const mockQueryResult = { rows: [{ count: 10 }] };
-      const mockQuery = vi.fn().mockResolvedValue(mockQueryResult);
-      const mockPool = {
-        query: mockQuery,
-        connect: vi.fn(),
-        end: vi.fn(),
-        on: vi.fn(),
-      } as unknown as Pool;
-
-      const client = createDrizzleClient(mockPool);
-
-      const result = await client.rawQuery<{ count: number }>(
+      const result = await client.rawQuery<{ count: string }>(
         "SELECT count(*) FROM users",
       );
 
-      expect(result).toEqual([{ count: 10 }]);
-      expect(mockQuery).toHaveBeenCalledWith(
-        "SELECT count(*) FROM users",
-        undefined,
-      );
+      expect(Number.parseInt(result[0].count, 10)).toBe(1);
     });
   });
 
   describe("QueryError", () => {
-    it("should have proper error structure for QUERY_FAILED", async () => {
-      const { QueryError } = await import("./client.js");
-
+    it("should have proper error structure for QUERY_FAILED", () => {
       const error = new QueryError(
         "QUERY_FAILED",
         "Failed to execute query",
@@ -145,9 +126,7 @@ describe("DrizzleClient", () => {
       expect(error.name).toBe("QueryError");
     });
 
-    it("should have proper error structure for CONSTRAINT_VIOLATION", async () => {
-      const { QueryError } = await import("./client.js");
-
+    it("should have proper error structure for CONSTRAINT_VIOLATION", () => {
       const error = new QueryError(
         "CONSTRAINT_VIOLATION",
         "Unique constraint violated",
@@ -158,9 +137,7 @@ describe("DrizzleClient", () => {
       expect(error.detail).toBeUndefined();
     });
 
-    it("should have proper error structure for TRANSACTION_FAILED", async () => {
-      const { QueryError } = await import("./client.js");
-
+    it("should have proper error structure for TRANSACTION_FAILED", () => {
       const error = new QueryError("TRANSACTION_FAILED", "Transaction aborted");
 
       expect(error.code).toBe("TRANSACTION_FAILED");
