@@ -33,11 +33,14 @@ class WelcomeContent extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(height: 1),
                     const Expanded(
-                      flex: 2,
-                      child: Center(child: WelcomeLogo()),
+                      flex: 3,
+                      child: Align(
+                        alignment: Alignment(0.0, -0.3),
+                        child: WelcomeLogo(),
+                      ),
                     ),
+                    SizedBox(height: AppSpacing.xxl),
                     Column(
                       children: [
                         WelcomeButtons(

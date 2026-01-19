@@ -6,7 +6,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 class WelcomeLogo extends StatelessWidget {
   const WelcomeLogo({
     super.key,
-    this.logoSize = 80.0,
+    this.logoSize = 100.0,
   });
 
   final double logoSize;
@@ -23,13 +23,12 @@ class WelcomeLogo extends StatelessWidget {
           primaryColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
           accentColor: colors?.brandAccent ?? const Color(0xFFF6C94A),
         ),
-        SizedBox(height: AppSpacing.md),
         Text(
           'Shelfie',
-          style: GoogleFonts.notoSansJp(
-            fontSize: 40,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
+          style: GoogleFonts.poppins(
+            fontSize: 56,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.0,
             height: 1.2,
             color: colors?.textPrimary ?? Colors.white,
           ),
@@ -64,21 +63,22 @@ class _LogoIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: size,
+      width: size * 1.2,
       height: size,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Icon(
-            Icons.menu_book_rounded,
+            Icons.auto_stories_outlined,
             size: size,
             color: primaryColor,
           ),
           Positioned(
-            right: 0,
-            top: 0,
+            right: -size * 0.05,
+            top: -size * 0.1,
             child: Icon(
-              Icons.star_rounded,
-              size: size * 0.3,
+              Icons.auto_awesome,
+              size: size * 0.35,
               color: accentColor,
             ),
           ),
