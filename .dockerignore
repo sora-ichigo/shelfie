@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+*.tsbuildinfo
+
+# Version control
+.git
+.gitignore
+
+# IDE and editor
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+coverage
+.nyc_output
+
+# Unnecessary applications for API build
+apps/mobile
+apps/web
+
+# Infrastructure
+infra
+
+# CI/CD
+.github
+
+# Kiro specs
+.kiro
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
