@@ -12,7 +12,6 @@ export default defineConfig({
     fileParallelism: false,
     env: {
       NODE_ENV: "test",
-      DATABASE_URL: "postgres://localhost:5432/shelfie_test",
     },
   },
 });
