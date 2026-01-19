@@ -66,4 +66,14 @@ describe("Auth Feature Module", () => {
 
     expect(typeof feature.registerTypes).toBe("function");
   });
+
+  it("should have registerMutations method", () => {
+    const feature = createAuthFeature({
+      firebaseAuth: createMockFirebaseAuth(),
+      userService: createMockUserService(),
+      logger: createMockLogger(),
+    });
+
+    expect(typeof feature.registerMutations).toBe("function");
+  });
 });

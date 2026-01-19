@@ -1,8 +1,10 @@
 import type { DomainError, Result } from "../errors/result.js";
+import type { Builder } from "../graphql/builder.js";
 
 export interface FeatureModule<TPublicApi> {
   name: string;
-  registerTypes(builder: unknown): void;
+  registerTypes(builder: Builder): void;
+  registerMutations?(builder: Builder): void;
   getPublicApi(): TPublicApi;
 }
 

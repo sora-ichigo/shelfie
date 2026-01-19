@@ -1,5 +1,6 @@
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import type { FeatureModule } from "../index.js";
+import type { Builder } from "../../graphql/builder.js";
 import { createUserRepository, type UserRepository } from "./repository.js";
 import { createUserService, type UserService } from "./service.js";
 import { registerUserTypes } from "./types.js";
@@ -20,7 +21,7 @@ export function createUsersFeature(
   return {
     name: USERS_FEATURE_NAME,
 
-    registerTypes(builder: unknown): void {
+    registerTypes(builder: Builder): void {
       registerUserTypes(builder);
     },
 

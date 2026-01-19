@@ -1,11 +1,13 @@
 import type { FeatureModule } from "../index.js";
 import type { UserService } from "../users/service.js";
 import type { LoggerService } from "../../logger/index.js";
+import type { Builder } from "../../graphql/builder.js";
 import {
   createAuthService,
   type AuthService,
   type FirebaseAuth,
 } from "./service.js";
+import { registerAuthTypes, registerAuthMutations } from "./types.js";
 
 export const AUTH_FEATURE_NAME = "auth";
 
@@ -31,8 +33,12 @@ export function createAuthFeature(
   return {
     name: AUTH_FEATURE_NAME,
 
-    registerTypes(_builder: unknown): void {
-      // GraphQL types will be registered in Task 4
+    registerTypes(builder: Builder): void {
+      registerAuthTypes(builder);
+    },
+
+    registerMutations(builder: Builder): void {
+      registerAuthMutations(builder, service);
     },
 
     getPublicApi(): AuthPublicApi {
@@ -51,3 +57,5 @@ export type {
   ResendVerificationOutput,
   AuthServiceError,
 } from "./service.js";
+export { registerAuthTypes, registerAuthMutations, AuthError } from "./types.js";
+export type { AuthErrorCode } from "./types.js";

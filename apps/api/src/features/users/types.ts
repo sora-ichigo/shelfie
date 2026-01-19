@@ -1,28 +1,20 @@
-interface FieldBuilder {
-  exposeInt: (field: string, opts: { description: string }) => unknown;
-  exposeString: (field: string, opts: { description: string }) => unknown;
-  expose: (
-    field: string,
-    opts: { type: string; description: string },
-  ) => unknown;
+import type { User } from "../../db/schema/users.js";
+import type { Builder } from "../../graphql/builder.js";
+
+type UserObjectRef = ReturnType<typeof createUserRef>;
+
+function createUserRef(builder: Builder) {
+  return builder.objectRef<User>("User");
 }
 
-interface PothosBuilder {
-  objectType: (
-    name: string,
-    options: {
-      description: string;
-      fields: (t: FieldBuilder) => Record<string, unknown>;
-    },
-  ) => void;
-}
+export let UserRef: UserObjectRef;
 
-export function registerUserTypes(builder: unknown): void {
-  const schemaBuilder = builder as PothosBuilder;
+export function registerUserTypes(builder: Builder): void {
+  UserRef = createUserRef(builder);
 
-  schemaBuilder.objectType("User", {
+  UserRef.implement({
     description: "A user in the system",
-    fields: (t: FieldBuilder) => ({
+    fields: (t) => ({
       id: t.exposeInt("id", {
         description: "The unique identifier of the user",
       }),
