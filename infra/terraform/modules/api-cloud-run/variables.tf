@@ -49,6 +49,12 @@ variable "image_tag" {
   default     = "latest"
 }
 
+variable "container_port" {
+  description = "Port the container listens on"
+  type        = number
+  default     = 4000
+}
+
 # =============================================================================
 # Resource Limits and Scaling
 # =============================================================================

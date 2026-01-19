@@ -65,7 +65,7 @@ resource "google_cloud_run_v2_service" "api" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.api.repository_id}/${var.image_name}:${var.image_tag}"
 
       ports {
-        container_port = 4000
+        container_port = var.container_port
       }
 
       resources {
