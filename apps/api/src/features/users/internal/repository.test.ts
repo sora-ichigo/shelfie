@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { NewUser, User } from "../../db/schema/users.js";
+import type { NewUser, User } from "../../../db/schema/users.js";
 import { createUserRepository } from "./repository.js";
 
 function createMockDb() {
@@ -32,7 +32,7 @@ function createMockDb() {
 
 describe("UserRepository", () => {
   describe("interface compliance", () => {
-    it("should implement FeatureRepository methods", () => {
+    it("should implement UserRepository methods", () => {
       const mockDb = createMockDb();
       const repository = createUserRepository(mockDb.query as never);
 

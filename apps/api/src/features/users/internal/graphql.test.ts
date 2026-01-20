@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createTestBuilder } from "../../graphql/builder.js";
-import { registerUserTypes } from "./types.js";
+import { createTestBuilder } from "../../../graphql/builder.js";
+import { registerUserTypes } from "./graphql.js";
 
 describe("User GraphQL Types", () => {
   describe("User type", () => {

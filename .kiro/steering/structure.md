@@ -76,13 +76,17 @@ apps/api/
 │   │   └── result.ts            # Result 型ユーティリティ
 │   │
 │   ├── features/                # Feature モジュール
-│   │   ├── index.ts             # FeatureModule インターフェース
-│   │   ├── registry.ts          # FeatureRegistry
-│   │   └── users/               # サンプル Feature
-│   │       ├── index.ts         # Feature Module export
-│   │       ├── types.ts         # Pothos 型定義・Resolver
-│   │       ├── service.ts       # ビジネスロジック
-│   │       └── repository.ts    # データアクセス
+│   │   ├── users/               # Users Feature
+│   │   │   ├── index.ts         # 公開 API（Barrel Export）
+│   │   │   └── internal/        # 内部実装
+│   │   │       ├── graphql.ts   # Pothos 型定義・Resolver
+│   │   │       ├── service.ts   # ビジネスロジック
+│   │   │       └── repository.ts # データアクセス
+│   │   └── auth/                # Auth Feature
+│   │       ├── index.ts         # 公開 API（Barrel Export）
+│   │       └── internal/        # 内部実装
+│   │           ├── graphql.ts   # GraphQL 型定義・Mutation
+│   │           └── service.ts   # 認証ビジネスロジック
 │   │
 │   └── __tests__/               # テスト
 │       ├── setup.test.ts        # テストセットアップ検証
@@ -97,26 +101,45 @@ apps/api/
 
 ## Feature モジュール構成
 
-各 Feature は以下の構成に従う:
+各 Feature は Barrel Export パターンに従い、`internal/` ディレクトリで実装を隔離する:
 
 ```
 features/[feature-name]/
-├── index.ts         # FeatureModule export（公開 API）
-├── types.ts         # Pothos 型定義・Resolver
-├── service.ts       # ビジネスロジック
-├── repository.ts    # データアクセス
-├── service.test.ts  # Service のユニットテスト
-└── repository.test.ts  # Repository のユニットテスト
+├── index.ts              # 公開 API の re-export（Barrel Export）
+├── index.test.ts         # 公開 API のテスト
+└── internal/             # 内部実装（慣習による隔離）
+    ├── graphql.ts        # Pothos 型定義・Resolver
+    ├── graphql.test.ts   # GraphQL 型のテスト
+    ├── service.ts        # ビジネスロジック + インターフェース
+    ├── service.test.ts   # Service のユニットテスト
+    ├── repository.ts     # データアクセス + インターフェース
+    └── repository.test.ts  # Repository のユニットテスト
 ```
 
 ### レイヤー責務
 
 | File | Layer | Responsibility |
 |------|-------|----------------|
-| types.ts | GraphQL | 型定義、Query/Mutation Resolver |
-| service.ts | Domain | ビジネスロジック、バリデーション |
-| repository.ts | Data | Drizzle によるデータアクセス |
-| index.ts | Interface | Feature の公開 API |
+| graphql.ts | GraphQL | Pothos 型定義、Query/Mutation Resolver |
+| service.ts | Domain | ビジネスロジック、バリデーション、インターフェース定義 |
+| repository.ts | Data | Drizzle によるデータアクセス、インターフェース定義 |
+| index.ts | Interface | 公開 API の re-export |
+
+### Barrel Export パターン
+
+`index.ts` は公開すべき型と関数のみを re-export する:
+
+```typescript
+// features/users/index.ts
+export type { User, NewUser } from "./internal/repository.js";
+export type { UserService } from "./internal/service.js";
+
+export { createUserRepository } from "./internal/repository.js";
+export { createUserService } from "./internal/service.js";
+export { registerUserTypes } from "./internal/graphql.js";
+```
+
+`internal/` 配下のファイルは直接インポートせず、必ず `index.ts` 経由でアクセスする。
 
 ## 共通モジュールと Feature の関係
 
@@ -146,15 +169,21 @@ features/[feature-name]/
 
 | Test Type | Location | Naming |
 |-----------|----------|--------|
-| ユニットテスト | 対象ファイルと同階層 | `*.test.ts` |
+| Feature ユニットテスト | `features/[name]/internal/` | `*.test.ts` |
+| Feature 公開 API テスト | `features/[name]/` | `index.test.ts` |
+| コアモジュールテスト | 対象ファイルと同階層 | `*.test.ts` |
 | 統合テスト | `src/__tests__/integration/` | `*.test.ts` |
 
 ## 新規 Feature 追加時のチェックリスト
 
-1. `src/features/[name]/` ディレクトリを作成
-2. `index.ts`, `types.ts`, `service.ts`, `repository.ts` を作成
-3. 必要に応じて `src/db/schema/[name].ts` にテーブル定義を追加
-4. `src/db/schema/index.ts` でスキーマを export
-5. `src/graphql/schema.ts` で Feature を登録
-6. マイグレーションを生成・適用
-7. テストを追加
+1. `src/features/[name]/` と `src/features/[name]/internal/` ディレクトリを作成
+2. `internal/` に実装ファイルを作成:
+   - `repository.ts` - データアクセス層とインターフェース
+   - `service.ts` - ビジネスロジックとインターフェース
+   - `graphql.ts` - GraphQL 型定義と Resolver
+3. `index.ts` で公開 API を re-export
+4. 必要に応じて `src/db/schema/[name].ts` にテーブル定義を追加
+5. `src/db/schema/index.ts` でスキーマを export
+6. `src/graphql/schema.ts` で Feature の GraphQL 型を登録
+7. マイグレーションを生成・適用
+8. テストを追加（`internal/` 配下に配置）

@@ -1,5 +1,5 @@
-import type { User } from "../../db/schema/users.js";
-import type { Builder } from "../../graphql/builder.js";
+import type { User } from "../../../db/schema/users.js";
+import type { Builder } from "../../../graphql/builder.js";
 
 type UserObjectRef = ReturnType<typeof createUserRef>;
 

@@ -1,7 +1,7 @@
-import type { User } from "../../db/schema/users.js";
-import type { Builder } from "../../graphql/builder.js";
+import type { User } from "../../../db/schema/users.js";
+import type { Builder } from "../../../graphql/builder.js";
+import { UserRef } from "../../users/internal/graphql.js";
 import type { AuthService, AuthServiceError } from "./service.js";
-import { UserRef } from "../users/types.js";
 
 export const AUTH_ERROR_CODES = [
   "EMAIL_ALREADY_EXISTS",

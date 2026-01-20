@@ -1,7 +1,7 @@
-import type { User } from "../../db/schema/users.js";
-import { type DomainError, err, ok, type Result } from "../../errors/result.js";
-import type { LoggerService } from "../../logger/index.js";
-import type { UserService } from "../users/service.js";
+import type { User } from "../../../db/schema/users.js";
+import { err, ok, type Result } from "../../../errors/result.js";
+import type { LoggerService } from "../../../logger/index.js";
+import type { UserService } from "../../users/index.js";
 
 export interface RegisterUserInput {
   email: string;

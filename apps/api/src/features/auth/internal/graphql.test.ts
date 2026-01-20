@@ -6,9 +6,9 @@ import type {
   GraphQLSchema,
   GraphQLUnionType,
 } from "graphql";
-import { createTestBuilder } from "../../graphql/builder.js";
-import { registerAuthTypes, registerAuthMutations } from "./types.js";
-import { registerUserTypes } from "../users/types.js";
+import { createTestBuilder } from "../../../graphql/builder.js";
+import { registerAuthTypes, registerAuthMutations } from "./graphql.js";
+import { registerUserTypes } from "../../users/internal/graphql.js";
 import type { AuthService } from "./service.js";
 
 describe("Auth GraphQL Types", () => {

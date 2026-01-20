@@ -80,7 +80,7 @@ graph TB
 **Architecture Integration**:
 - **Selected pattern**: Feature-first + Clean Architecture（既存パターンを継承）
 - **Domain/feature boundaries**: Auth Feature が認証ロジックを担当、Users Feature がユーザーデータ永続化を担当
-- **Existing patterns preserved**: Service/Repository 分離、Result 型によるエラーハンドリング、FeatureModule インターフェース
+- **Existing patterns preserved**: Service/Repository 分離、Result 型によるエラーハンドリング、Barrel Export パターン
 - **New components rationale**: Auth Feature を新設し、認証関連のビジネスロジックを Users Feature から分離することで単一責任原則を維持
 - **Steering compliance**: Feature モジュール構成規則に従い、Core モジュールへの依存方向を遵守
 

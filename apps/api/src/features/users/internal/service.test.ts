@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { User } from "../../db/schema/users.js";
+import type { User } from "../../../db/schema/users.js";
 import type { UserRepository } from "./repository.js";
 import { createUserService } from "./service.js";
 

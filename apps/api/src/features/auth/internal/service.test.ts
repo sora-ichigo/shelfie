@@ -3,13 +3,11 @@ import {
   createAuthService,
   validatePassword,
   mapFirebaseError,
-  type AuthService,
-  type AuthServiceError,
-  type FirebaseAuth,
 } from "./service.js";
-import type { UserService } from "../users/service.js";
-import type { LoggerService } from "../../logger/index.js";
-import type { User } from "../../db/schema/users.js";
+import type { AuthService, AuthServiceError, FirebaseAuth } from "./service.js";
+import type { UserService } from "../../users/index.js";
+import type { LoggerService } from "../../../logger/index.js";
+import type { User } from "../../../db/schema/users.js";
 
 function createMockUserService(): UserService {
   return {

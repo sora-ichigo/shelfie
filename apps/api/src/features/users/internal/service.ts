@@ -1,6 +1,10 @@
-import type { User } from "../../db/schema/users.js";
-import { type DomainError, err, ok, type Result } from "../../errors/result.js";
+import type { User } from "../../../db/schema/users.js";
+import { type DomainError, err, ok, type Result } from "../../../errors/result.js";
 import type { UserRepository } from "./repository.js";
+
+export type UserServiceErrors =
+  | { code: "USER_NOT_FOUND"; message: string }
+  | { code: "EMAIL_ALREADY_EXISTS"; message: string };
 
 export interface GetUserInput {
   id: number;
@@ -11,12 +15,6 @@ export interface CreateUserInput {
   firebaseUid: string;
 }
 
-export type CreateUserWithFirebaseInput = CreateUserInput;
-
-export type UserServiceErrors =
-  | { code: "USER_NOT_FOUND"; message: string }
-  | { code: "EMAIL_ALREADY_EXISTS"; message: string };
-
 export interface UserService {
   getUserById(input: GetUserInput): Promise<Result<User, UserServiceErrors>>;
   createUser(input: CreateUserInput): Promise<Result<User, UserServiceErrors>>;
@@ -25,7 +23,7 @@ export interface UserService {
     firebaseUid: string,
   ): Promise<Result<User, UserServiceErrors>>;
   createUserWithFirebase(
-    input: CreateUserWithFirebaseInput,
+    input: CreateUserInput,
   ): Promise<Result<User, UserServiceErrors>>;
 }
 
@@ -80,7 +78,7 @@ export function createUserService(repository: UserRepository): UserService {
     },
 
     async createUserWithFirebase(
-      input: CreateUserWithFirebaseInput,
+      input: CreateUserInput,
     ): Promise<Result<User, UserServiceErrors>> {
       const existingUser = await repository.findByEmail(input.email);
       if (existingUser) {
