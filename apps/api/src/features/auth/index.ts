@@ -11,7 +11,5 @@ export type {
   FirebaseAuth,
   RegisterUserInput,
   RegisterUserOutput,
-  ResendVerificationInput,
-  ResendVerificationOutput,
 } from "./internal/service.js";
 export { createAuthService } from "./internal/service.js";

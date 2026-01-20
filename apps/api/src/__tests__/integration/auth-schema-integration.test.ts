@@ -74,9 +74,6 @@ describe("Auth Feature Schema Integration Tests", () => {
         result.data?.__type?.enumValues?.map((v) => v.name) ?? [];
       expect(enumValues).toContain("EMAIL_ALREADY_EXISTS");
       expect(enumValues).toContain("INVALID_PASSWORD");
-      expect(enumValues).toContain("USER_NOT_FOUND");
-      expect(enumValues).toContain("EMAIL_ALREADY_VERIFIED");
-      expect(enumValues).toContain("RATE_LIMIT_EXCEEDED");
       expect(enumValues).toContain("NETWORK_ERROR");
       expect(enumValues).toContain("INTERNAL_ERROR");
     });
@@ -137,32 +134,6 @@ describe("Auth Feature Schema Integration Tests", () => {
         result.data?.__type?.inputFields?.map((f) => f.name) ?? [];
       expect(fieldNames).toContain("email");
       expect(fieldNames).toContain("password");
-    });
-
-    it("should have ResendVerificationEmailInput type registered", async () => {
-      const result = await executeQuery<{
-        __type: {
-          name: string;
-          inputFields: Array<{ name: string }>;
-        } | null;
-      }>(`
-        query {
-          __type(name: "ResendVerificationEmailInput") {
-            name
-            inputFields {
-              name
-            }
-          }
-        }
-      `);
-
-      expect(result.errors).toBeUndefined();
-      expect(result.data?.__type).not.toBeNull();
-      expect(result.data?.__type?.name).toBe("ResendVerificationEmailInput");
-
-      const fieldNames =
-        result.data?.__type?.inputFields?.map((f) => f.name) ?? [];
-      expect(fieldNames).toContain("email");
     });
 
     it("should have User type registered", async () => {
@@ -233,46 +204,6 @@ describe("Auth Feature Schema Integration Tests", () => {
       expect(registerUserMutation).toBeDefined();
       expect(
         registerUserMutation?.args.find((a) => a.name === "input"),
-      ).toBeDefined();
-    });
-
-    it("should have resendVerificationEmail mutation available", async () => {
-      const result = await executeQuery<{
-        __schema: {
-          mutationType: {
-            fields: Array<{
-              name: string;
-              args: Array<{ name: string; type: { name: string | null } }>;
-            }>;
-          } | null;
-        };
-      }>(`
-        query {
-          __schema {
-            mutationType {
-              fields {
-                name
-                args {
-                  name
-                  type {
-                    name
-                  }
-                }
-              }
-            }
-          }
-        }
-      `);
-
-      expect(result.errors).toBeUndefined();
-
-      const mutationFields = result.data?.__schema?.mutationType?.fields ?? [];
-      const resendMutation = mutationFields.find(
-        (f) => f.name === "resendVerificationEmail",
-      );
-      expect(resendMutation).toBeDefined();
-      expect(
-        resendMutation?.args.find((a) => a.name === "input"),
       ).toBeDefined();
     });
   });

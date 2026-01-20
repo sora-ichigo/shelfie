@@ -44,9 +44,6 @@ describe("Auth GraphQL Types", () => {
       const values = enumType.getValues().map((v) => v.name);
       expect(values).toContain("EMAIL_ALREADY_EXISTS");
       expect(values).toContain("INVALID_PASSWORD");
-      expect(values).toContain("USER_NOT_FOUND");
-      expect(values).toContain("EMAIL_ALREADY_VERIFIED");
-      expect(values).toContain("RATE_LIMIT_EXCEEDED");
       expect(values).toContain("NETWORK_ERROR");
       expect(values).toContain("INTERNAL_ERROR");
     });
@@ -77,24 +74,11 @@ describe("Auth GraphQL Types", () => {
       expect(fields.password).toBeDefined();
     });
   });
-
-  describe("ResendVerificationEmailInput type", () => {
-    it("should define ResendVerificationEmailInput input type with email", () => {
-      const inputType = schema.getType(
-        "ResendVerificationEmailInput",
-      ) as GraphQLInputObjectType;
-
-      expect(inputType).toBeDefined();
-      const fields = inputType.getFields();
-      expect(fields.email).toBeDefined();
-    });
-  });
 });
 
 describe("Auth GraphQL Mutations Schema", () => {
   const createMockAuthService = (): AuthService => ({
     register: vi.fn(),
-    resendVerificationEmail: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {
@@ -141,34 +125,6 @@ describe("Auth GraphQL Mutations Schema", () => {
     expect(args?.[0].name).toBe("input");
     expect(args?.[0].type.toString()).toBe("RegisterUserInput!");
   });
-
-  it("should define resendVerificationEmail mutation with Result union type", () => {
-    const mockAuthService = createMockAuthService();
-    const schema = createSchemaWithMutations(mockAuthService);
-    const mutationType = schema.getMutationType();
-
-    expect(mutationType).toBeDefined();
-    const fields = mutationType?.getFields();
-    expect(fields?.resendVerificationEmail).toBeDefined();
-
-    const resendField = fields?.resendVerificationEmail;
-    expect(resendField?.type.toString()).toBe(
-      "MutationResendVerificationEmailResult",
-    );
-
-    const resultType = schema.getType(
-      "MutationResendVerificationEmailResult",
-    ) as GraphQLUnionType;
-    expect(resultType).toBeDefined();
-    const unionTypes = resultType.getTypes().map((t) => t.name);
-    expect(unionTypes).toContain("MutationResendVerificationEmailSuccess");
-    expect(unionTypes).toContain("AuthError");
-
-    const args = resendField?.args;
-    expect(args?.length).toBe(1);
-    expect(args?.[0].name).toBe("input");
-    expect(args?.[0].type.toString()).toBe("ResendVerificationEmailInput!");
-  });
 });
 
 describe("mapServiceErrorToAuthError", () => {
@@ -202,34 +158,6 @@ describe("mapServiceErrorToAuthError", () => {
     expect(result.retryable).toBe(false);
   });
 
-  it("should map USER_NOT_FOUND error with email field", () => {
-    const error: AuthServiceError = {
-      code: "USER_NOT_FOUND",
-      message: "指定されたメールアドレスのユーザーが見つかりません",
-    };
-
-    const result = mapServiceErrorToAuthError(error);
-
-    expect(result).toBeInstanceOf(AuthError);
-    expect(result.code).toBe("USER_NOT_FOUND");
-    expect(result.field).toBe("email");
-    expect(result.retryable).toBe(false);
-  });
-
-  it("should map EMAIL_ALREADY_VERIFIED error with email field", () => {
-    const error: AuthServiceError = {
-      code: "EMAIL_ALREADY_VERIFIED",
-      message: "メールアドレスは既に確認済みです",
-    };
-
-    const result = mapServiceErrorToAuthError(error);
-
-    expect(result).toBeInstanceOf(AuthError);
-    expect(result.code).toBe("EMAIL_ALREADY_VERIFIED");
-    expect(result.field).toBe("email");
-    expect(result.retryable).toBe(false);
-  });
-
   it("should map NETWORK_ERROR with retryable flag", () => {
     const error: AuthServiceError = {
       code: "NETWORK_ERROR",
@@ -241,20 +169,6 @@ describe("mapServiceErrorToAuthError", () => {
 
     expect(result).toBeInstanceOf(AuthError);
     expect(result.code).toBe("NETWORK_ERROR");
-    expect(result.field).toBeNull();
-    expect(result.retryable).toBe(true);
-  });
-
-  it("should map RATE_LIMIT_EXCEEDED with retryable flag", () => {
-    const error: AuthServiceError = {
-      code: "RATE_LIMIT_EXCEEDED",
-      message: "リクエストが多すぎます",
-    };
-
-    const result = mapServiceErrorToAuthError(error);
-
-    expect(result).toBeInstanceOf(AuthError);
-    expect(result.code).toBe("RATE_LIMIT_EXCEEDED");
     expect(result.field).toBeNull();
     expect(result.retryable).toBe(true);
   });
