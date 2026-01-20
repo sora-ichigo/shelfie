@@ -68,6 +68,73 @@ void main() {
       test('デフォルトのシードカラーが定義されている', () {
         expect(AppTheme.seedColor, isA<Color>());
       });
+
+      test('シードカラーはブランドプライマリカラー (#4FD1C5) である', () {
+        expect(AppTheme.seedColor, equals(const Color(0xFF4FD1C5)));
+      });
+    });
+
+    group('Button themes', () {
+      test('FilledButton のデフォルトスタイルが定義されている', () {
+        final theme = AppTheme.dark();
+        final filledButtonTheme = theme.filledButtonTheme;
+
+        expect(filledButtonTheme, isNotNull);
+        expect(filledButtonTheme.style, isNotNull);
+      });
+
+      test('FilledButton は白背景・黒文字である', () {
+        final theme = AppTheme.dark();
+        final style = theme.filledButtonTheme.style!;
+
+        final bgColor = style.backgroundColor?.resolve({});
+        final fgColor = style.foregroundColor?.resolve({});
+
+        expect(bgColor, equals(Colors.white));
+        expect(fgColor, equals(Colors.black));
+      });
+
+      test('FilledButton の高さは 56px である', () {
+        final theme = AppTheme.dark();
+        final style = theme.filledButtonTheme.style!;
+
+        final minSize = style.minimumSize?.resolve({});
+        expect(minSize?.height, equals(56.0));
+      });
+
+      test('OutlinedButton のデフォルトスタイルが定義されている', () {
+        final theme = AppTheme.dark();
+        final outlinedButtonTheme = theme.outlinedButtonTheme;
+
+        expect(outlinedButtonTheme, isNotNull);
+        expect(outlinedButtonTheme.style, isNotNull);
+      });
+
+      test('OutlinedButton は白枠・白文字である', () {
+        final theme = AppTheme.dark();
+        final style = theme.outlinedButtonTheme.style!;
+
+        final fgColor = style.foregroundColor?.resolve({});
+        final side = style.side?.resolve({});
+
+        expect(fgColor, equals(Colors.white));
+        expect(side?.color, equals(Colors.white));
+      });
+
+      test('OutlinedButton の高さは 56px である', () {
+        final theme = AppTheme.dark();
+        final style = theme.outlinedButtonTheme.style!;
+
+        final minSize = style.minimumSize?.resolve({});
+        expect(minSize?.height, equals(56.0));
+      });
+    });
+
+    group('scaffoldBackgroundColor', () {
+      test('scaffoldBackgroundColor はブランド背景色 (#0A0A0A) である', () {
+        final theme = AppTheme.dark();
+        expect(theme.scaffoldBackgroundColor, equals(const Color(0xFF0A0A0A)));
+      });
     });
 
     group('ThemeData integration', () {
@@ -140,13 +207,10 @@ void main() {
     group('ThemeExtension animation', () {
       test('AppColors.lerp が正しく動作すること', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final mid = base.lerp(target, 0.5);
@@ -158,13 +222,10 @@ void main() {
 
       test('lerp(0.0) は元の値を返すこと', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final result = base.lerp(target, 0.0);
@@ -176,13 +237,10 @@ void main() {
 
       test('lerp(1.0) は対象の値を返すこと', () {
         const base = AppColors.dark;
-        const target = AppColors(
-          success: Color(0xFF00FF00),
-          warning: Color(0xFFFF0000),
-          info: Color(0xFF0000FF),
-          onSuccess: Color(0xFFFFFFFF),
-          onWarning: Color(0xFFFFFFFF),
-          onInfo: Color(0xFFFFFFFF),
+        final target = base.copyWith(
+          success: const Color(0xFF00FF00),
+          warning: const Color(0xFFFF0000),
+          info: const Color(0xFF0000FF),
         );
 
         final result = base.lerp(target, 1.0);

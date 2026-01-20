@@ -36,8 +36,12 @@ void main() {
         );
 
         // ダークモードのテーマが適用されていることを確認
-        expect(materialApp.theme, equals(AppTheme.theme));
         expect(materialApp.theme?.brightness, equals(Brightness.dark));
+        expect(materialApp.theme?.useMaterial3, isTrue);
+        expect(
+          materialApp.theme?.scaffoldBackgroundColor,
+          equals(AppTheme.theme.scaffoldBackgroundColor),
+        );
       });
 
       testWidgets('AppRouter が統合されていること', (tester) async {
@@ -185,9 +189,8 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // 初期状態（未認証）ではログイン画面が表示される
-        // AppBar のタイトルを確認
-        expect(find.widgetWithText(AppBar, 'Login'), findsOneWidget);
+        // 初期状態（未認証）ではウェルカム画面が表示される
+        expect(find.text('Shelfie'), findsOneWidget);
 
         // 認証状態を変更
         final container = ProviderScope.containerOf(
@@ -199,8 +202,8 @@ void main() {
             );
         await tester.pumpAndSettle();
 
-        // 認証後はホーム画面が表示される（ログイン AppBar が消える）
-        expect(find.widgetWithText(AppBar, 'Login'), findsNothing);
+        // 認証後はホーム画面が表示される（ウェルカム画面が消える）
+        expect(find.text('読書家のための本棚'), findsNothing);
         // ホームタブのコンテンツが表示される
         expect(find.byType(NavigationBar), findsOneWidget);
       });

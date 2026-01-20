@@ -55,7 +55,7 @@ void main() {
       );
     });
 
-    testWidgets('未認証時にログイン画面が表示されること', (WidgetTester tester) async {
+    testWidgets('未認証時にウェルカム画面が表示されること', (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: ShelfieApp(),
@@ -63,8 +63,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // 未認証時はログイン画面にリダイレクトされる
-      expect(find.text('Login Screen'), findsOneWidget);
+      // 未認証時はウェルカム画面にリダイレクトされる
+      expect(find.text('Shelfie'), findsOneWidget);
     });
 
     testWidgets('認証済みでホーム画面が表示されること', (WidgetTester tester) async {
@@ -90,7 +90,7 @@ void main() {
       expect(find.text('Home'), findsWidgets);
     });
 
-    testWidgets('AppBar に Login タイトルが表示されること（未認証時）',
+    testWidgets('ウェルカム画面でログインボタンが表示されること（未認証時）',
         (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
@@ -99,8 +99,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // 未認証時はログイン画面の AppBar タイトルが表示される
-      expect(find.text('Login'), findsOneWidget);
+      // 未認証時はウェルカム画面のログインボタンが表示される
+      expect(find.text('ログイン'), findsOneWidget);
     });
 
     testWidgets('go_router が正しく統合されていること', (WidgetTester tester) async {

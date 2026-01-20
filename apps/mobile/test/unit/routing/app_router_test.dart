@@ -251,11 +251,11 @@ void main() {
         container.read(appRouterProvider).go(AppRoutes.profileTab);
         await tester.pumpAndSettle();
 
-        // ログイン画面にリダイレクトされることを確認
+        // ウェルカム画面にリダイレクトされることを確認
         final currentLocation =
             container.read(appRouterProvider).routerDelegate
                 .currentConfiguration.uri.path;
-        expect(currentLocation, AppRoutes.login);
+        expect(currentLocation, AppRoutes.welcome);
       });
 
       testWidgets('認証済みユーザーは保護されたルートにアクセスできる', (tester) async {
@@ -376,14 +376,14 @@ void main() {
         container.read(appRouterProvider).go('/invalid/deep/link/path');
         await tester.pumpAndSettle();
 
-        // エラーページまたはホームにリダイレクトされることを確認
+        // エラーページまたはウェルカムにリダイレクトされることを確認
         final currentLocation =
             container.read(appRouterProvider).routerDelegate
                 .currentConfiguration.uri.path;
-        // 不正なルートは onException でエラーページに遷移するか、ホームにリダイレクトされる
+        // 不正なルートは onException でエラーページに遷移するか、未認証時はウェルカムにリダイレクトされる
         expect(
           currentLocation == AppRoutes.error ||
-              currentLocation == AppRoutes.login,
+              currentLocation == AppRoutes.welcome,
           isTrue,
         );
       });

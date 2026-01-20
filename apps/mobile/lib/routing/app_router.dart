@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -24,8 +25,14 @@ abstract final class AppRoutes {
   /// ホーム画面
   static const home = '/';
 
+  /// ウェルカム画面
+  static const welcome = '/welcome';
+
   /// ログイン画面
   static const login = '/auth/login';
+
+  /// 新規登録画面
+  static const register = '/auth/register';
 
   /// ホームタブ
   static const homeTab = '/home';
@@ -179,20 +186,26 @@ GoRouter appRouter(AppRouterRef ref) {
 /// 認証ガード
 ///
 /// 認証状態に基づいてルートをリダイレクトする。
-/// - 未認証時: 保護されたルートからログイン画面へリダイレクト
-/// - 認証済み時: ログイン画面からホームへリダイレクト
+/// - 未認証時: 保護されたルートからウェルカム画面へリダイレクト
+/// - 認証済み時: ウェルカム/認証ルートからホームへリダイレクト
 String? _guardRoute(AuthState authState, GoRouterState state) {
+  return guardRoute(authState, state);
+}
+
+/// 認証ガード（テスト用に公開）
+String? guardRoute(AuthState authState, GoRouterState state) {
   final isAuthenticated = authState.isAuthenticated;
   final currentLocation = state.matchedLocation;
   final isAuthRoute = currentLocation.startsWith('/auth');
+  final isWelcomeRoute = currentLocation == AppRoutes.welcome;
 
-  // 未認証かつ認証ルート以外 → ログイン画面へ
-  if (!isAuthenticated && !isAuthRoute) {
-    return AppRoutes.login;
+  // 未認証かつ認証ルートでもウェルカムでもない → ウェルカム画面へ
+  if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
+    return AppRoutes.welcome;
   }
 
-  // 認証済みかつ認証ルート → ホームへ
-  if (isAuthenticated && isAuthRoute) {
+  // 認証済みかつ（認証ルート または ウェルカム） → ホームへ
+  if (isAuthenticated && (isAuthRoute || isWelcomeRoute)) {
     return AppRoutes.home;
   }
 
@@ -202,10 +215,22 @@ String? _guardRoute(AuthState authState, GoRouterState state) {
 /// ルート定義を構築
 List<RouteBase> _buildRoutes() {
   return [
+    // ウェルカム画面
+    GoRoute(
+      path: AppRoutes.welcome,
+      builder: (context, state) => const WelcomeScreen(),
+    ),
+
     // 認証関連ルート
     GoRoute(
       path: AppRoutes.login,
       builder: (context, state) => const _LoginScreen(),
+    ),
+
+    // 新規登録画面（モック）
+    GoRoute(
+      path: AppRoutes.register,
+      builder: (context, state) => const _RegisterScreen(),
     ),
 
     // エラー画面
@@ -326,6 +351,19 @@ class _LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: const Center(child: Text('Login Screen')),
+    );
+  }
+}
+
+/// プレースホルダー: 新規登録画面
+class _RegisterScreen extends StatelessWidget {
+  const _RegisterScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Register')),
+      body: const Center(child: Text('Register Screen')),
     );
   }
 }
