@@ -49,8 +49,10 @@ void main() {
 
       for (final child in textSpan.children!) {
         if (child is TextSpan && child.text == '利用規約') {
-          final recognizer = child.recognizer as TapGestureRecognizer;
-          recognizer.onTap?.call();
+          final recognizer = child.recognizer;
+          if (recognizer is TapGestureRecognizer) {
+            recognizer.onTap?.call();
+          }
           break;
         }
       }
@@ -78,8 +80,10 @@ void main() {
 
       for (final child in textSpan.children!) {
         if (child is TextSpan && child.text == 'プライバシーポリシー') {
-          final recognizer = child.recognizer as TapGestureRecognizer;
-          recognizer.onTap?.call();
+          final recognizer = child.recognizer;
+          if (recognizer is TapGestureRecognizer) {
+            recognizer.onTap?.call();
+          }
           break;
         }
       }

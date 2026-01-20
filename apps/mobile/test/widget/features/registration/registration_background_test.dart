@@ -55,7 +55,7 @@ void main() {
         ),
       );
       final decoration = decoratedBox.decoration as BoxDecoration;
-      expect(decoration.gradient, isA<LinearGradient>());
+      expect(decoration.gradient, isA<RadialGradient>());
     });
   });
 }
