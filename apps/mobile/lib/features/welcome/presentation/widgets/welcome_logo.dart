@@ -6,7 +6,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 class WelcomeLogo extends StatelessWidget {
   const WelcomeLogo({
     super.key,
-    this.logoSize = 100.0,
+    this.logoSize = 60.0,
   });
 
   final double logoSize;
@@ -26,7 +26,7 @@ class WelcomeLogo extends StatelessWidget {
         Text(
           'Shelfie',
           style: GoogleFonts.spaceGrotesk(
-            fontSize: 56,
+            fontSize: 64,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.0,
             height: 1.2,
@@ -37,8 +37,8 @@ class WelcomeLogo extends StatelessWidget {
         Text(
           '読書家のための本棚',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
-          ),
+                color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+              ),
         ),
       ],
     );
