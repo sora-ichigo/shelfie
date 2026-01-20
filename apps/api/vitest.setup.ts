@@ -3,11 +3,12 @@ import dotenv from "dotenv";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { afterAll, beforeEach } from "vitest";
+import { afterAll, beforeAll, beforeEach } from "vitest";
 
 dotenv.config({ path: path.resolve(__dirname, ".env.test.local") });
 
 let testPool: Pool | null = null;
+let migrationChecked = false;
 
 function getTestDatabaseUrl(): string {
   const url = process.env.DATABASE_URL;
@@ -25,6 +26,26 @@ function getGlobalTestPool(): Pool {
     });
   }
   return testPool;
+}
+
+async function checkMigrations(): Promise<void> {
+  if (migrationChecked) return;
+
+  const pool = getGlobalTestPool();
+  const db = drizzle(pool);
+
+  const tables = await db.execute<{ tablename: string }>(sql`
+    SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename != 'drizzle_migrations'
+  `);
+
+  if (tables.rows.length === 0) {
+    throw new Error(
+      "No tables found in test database. Please run migrations first:\n" +
+        "  pnpm --filter @shelfie/api test:db:migrate",
+    );
+  }
+
+  migrationChecked = true;
 }
 
 async function cleanupAllTables(): Promise<void> {
@@ -50,6 +71,10 @@ async function closeGlobalTestPool(): Promise<void> {
     testPool = null;
   }
 }
+
+beforeAll(async () => {
+  await checkMigrations();
+});
 
 beforeEach(async () => {
   await cleanupAllTables();
