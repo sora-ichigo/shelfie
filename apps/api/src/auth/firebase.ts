@@ -64,3 +64,54 @@ export async function verifyIdToken(
     return null;
   }
 }
+
+export interface FirebaseAuthAdapter {
+  createUser(
+    email: string,
+    password: string,
+  ): Promise<{ uid: string; emailVerified: boolean }>;
+  getUserByEmail(
+    email: string,
+  ): Promise<{ uid: string; emailVerified: boolean } | null>;
+  generateEmailVerificationLink(email: string): Promise<string>;
+}
+
+export function createFirebaseAuthAdapter(): FirebaseAuthAdapter {
+  return {
+    async createUser(
+      email: string,
+      password: string,
+    ): Promise<{ uid: string; emailVerified: boolean }> {
+      const userRecord = await admin.auth().createUser({
+        email,
+        password,
+      });
+      return {
+        uid: userRecord.uid,
+        emailVerified: userRecord.emailVerified,
+      };
+    },
+
+    async getUserByEmail(
+      email: string,
+    ): Promise<{ uid: string; emailVerified: boolean } | null> {
+      try {
+        const userRecord = await admin.auth().getUserByEmail(email);
+        return {
+          uid: userRecord.uid,
+          emailVerified: userRecord.emailVerified,
+        };
+      } catch (error) {
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code === "auth/user-not-found") {
+          return null;
+        }
+        throw error;
+      }
+    },
+
+    async generateEmailVerificationLink(email: string): Promise<string> {
+      return admin.auth().generateEmailVerificationLink(email);
+    },
+  };
+}

@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] 1. データベーススキーマ拡張
+- [x] 1. データベーススキーマ拡張
 - [x] 1.1 users テーブルに Firebase UID カラムを追加
   - firebase_uid カラムを NOT NULL、UNIQUE 制約付きで追加
   - firebase_uid にインデックスを作成
@@ -87,10 +87,12 @@
   - データベースへの保存確認を含む
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-- [ ] 6. Feature モジュール統合
-- [ ] 6.1 Auth Feature を GraphQL スキーマに登録
-  - FeatureModule インターフェースに従って Auth Feature を実装
-  - FeatureRegistry に Auth Feature を登録
+- [x] 6. Feature モジュール統合
+- [x] 6.1 Auth Feature を GraphQL スキーマに登録
+  - Barrel Export パターンを使用して Auth Feature を実装
+  - graphql/schema.ts に registerAuthTypes、registerAuthMutations を直接インポート
+  - registerUserTypes で User 型を登録
+  - FirebaseAuth アダプターを作成し AuthService に依存関係を注入
   - GraphQL スキーマに Auth 型と Mutation を統合
-  - 全体の動作確認
+  - 全体の動作確認（統合テストで検証）
   - _Requirements: 4.1, 4.2, 4.3, 4.4_
