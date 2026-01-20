@@ -44,20 +44,3 @@ export function createExpressApp(
 
   return app;
 }
-
-export async function startServer(port: number = 4000) {
-  const server = createApolloServer();
-  await server.start();
-
-  const app = createExpressApp(server);
-
-  return new Promise<{
-    server: ApolloServer<GraphQLContext>;
-    httpServer: ReturnType<Express["listen"]>;
-  }>((resolve) => {
-    const httpServer = app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}/graphql`);
-      resolve({ server, httpServer });
-    });
-  });
-}

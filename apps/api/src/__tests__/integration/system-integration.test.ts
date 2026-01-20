@@ -1,26 +1,27 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
+import { sql } from "drizzle-orm";
+import type { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { Pool } from "pg";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { config } from "../../config";
-import type { DatabaseConnection, DrizzleClient } from "../../db";
 import type { GraphQLContext } from "../../graphql/context";
 
 describe("System Integration Tests", () => {
   describe("Initialization Sequence", () => {
-    it("should initialize components in correct order: ConfigManager -> DatabaseConnection -> DrizzleClient -> SchemaBuilder -> Apollo Server", async () => {
+    it("should initialize components in correct order: ConfigManager -> Pool -> Db -> SchemaBuilder -> Apollo Server", async () => {
       const initOrder: string[] = [];
 
       config.validate();
       initOrder.push("ConfigManager");
 
-      const { createDatabaseConnection } = await import("../../db/connection");
-      const dbConnection = createDatabaseConnection();
-      await dbConnection.connect({ maxRetries: 1, retryDelayMs: 100 });
-      initOrder.push("DatabaseConnection");
+      const { getPool, getDb, closePool } = await import("../../db");
+      const pool = getPool();
+      await pool.query("SELECT 1");
+      initOrder.push("Pool");
 
-      const { createDrizzleClient } = await import("../../db/client");
-      createDrizzleClient(dbConnection.getPool());
-      initOrder.push("DrizzleClient");
+      getDb();
+      initOrder.push("Db");
 
       const { buildSchema } = await import("../../graphql/schema");
       buildSchema();
@@ -33,36 +34,37 @@ describe("System Integration Tests", () => {
 
       expect(initOrder).toEqual([
         "ConfigManager",
-        "DatabaseConnection",
-        "DrizzleClient",
+        "Pool",
+        "Db",
         "SchemaBuilder",
         "ApolloServer",
       ]);
 
       await server.stop();
-      await dbConnection.disconnect();
+      await closePool();
     });
   });
 
   describe("Graceful Shutdown", () => {
-    let dbConnection: DatabaseConnection;
-    let drizzleClient: DrizzleClient;
+    let pool: Pool;
+    let db: NodePgDatabase;
     let server: ApolloServer<GraphQLContext>;
     let httpServer: Server;
+    let closePoolFn: () => Promise<void>;
 
     beforeAll(async () => {
-      const { createDatabaseConnection } = await import("../../db/connection");
-      const { createDrizzleClient } = await import("../../db/client");
+      const dbModule = await import("../../db");
       const { createApolloServer, createExpressApp } = await import(
         "../../graphql/server"
       );
 
       config.validate();
 
-      dbConnection = createDatabaseConnection();
-      await dbConnection.connect({ maxRetries: 1, retryDelayMs: 100 });
+      pool = dbModule.getPool();
+      await pool.query("SELECT 1");
 
-      drizzleClient = createDrizzleClient(dbConnection.getPool());
+      db = dbModule.getDb();
+      closePoolFn = dbModule.closePool;
 
       server = createApolloServer();
       await server.start();
@@ -78,21 +80,21 @@ describe("System Integration Tests", () => {
       if (server) {
         await server.stop();
       }
-      if (dbConnection) {
-        await dbConnection.disconnect();
+      if (closePoolFn) {
+        await closePoolFn();
       }
     });
 
-    it("should shutdown database connection gracefully", async () => {
-      const isHealthyBefore = await dbConnection.healthCheck();
-      expect(isHealthyBefore).toBe(true);
+    it("should query database when pool is connected", async () => {
+      const result = await pool.query("SELECT 1 as result");
+      expect(result.rows[0].result).toBe(1);
     });
 
-    it("should allow queries before shutdown", async () => {
-      const result = await drizzleClient.rawQuery<{ result: number }>(
-        "SELECT 1 as result",
+    it("should allow queries via drizzle before shutdown", async () => {
+      const result = await db.execute<{ result: number }>(
+        sql`SELECT 1 as result`,
       );
-      expect(result[0].result).toBe(1);
+      expect(result.rows[0].result).toBe(1);
     });
   });
 

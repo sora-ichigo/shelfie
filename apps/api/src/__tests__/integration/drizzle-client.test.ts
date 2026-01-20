@@ -1,44 +1,49 @@
 import { eq } from "drizzle-orm";
+import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { beforeAll, describe, expect, it } from "vitest";
 import { getGlobalTestPool } from "../../../vitest.setup.js";
-import {
-  createDrizzleClient,
-  type DrizzleClient,
-  QueryError,
-} from "../../db/client.js";
 import { users } from "../../db/schema/users.js";
 
-describe("DrizzleClient Integration Tests", () => {
-  let client: DrizzleClient;
+describe("Drizzle ORM Integration Tests", () => {
+  let db: NodePgDatabase;
 
   beforeAll(() => {
     const pool = getGlobalTestPool();
-    client = createDrizzleClient(pool);
+    db = drizzle(pool);
   });
 
   describe("CRUD Operations", () => {
     describe("Create (Insert)", () => {
       it("should insert a single user", async () => {
-        const db = client.getDb();
         const result = await db
           .insert(users)
-          .values({ email: "create-test@example.com" })
+          .values({
+            email: "create-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-1`,
+          })
           .returning();
 
         expect(result).toHaveLength(1);
         expect(result[0].email).toBe("create-test@example.com");
+        expect(result[0].firebaseUid).toBeDefined();
         expect(result[0].id).toBeGreaterThan(0);
         expect(result[0].createdAt).toBeInstanceOf(Date);
         expect(result[0].updatedAt).toBeInstanceOf(Date);
       });
 
       it("should insert multiple users", async () => {
-        const db = client.getDb();
+        const timestamp = Date.now();
         const result = await db
           .insert(users)
           .values([
-            { email: "batch1@example.com" },
-            { email: "batch2@example.com" },
+            {
+              email: "batch1@example.com",
+              firebaseUid: `firebase-${timestamp}-b1`,
+            },
+            {
+              email: "batch2@example.com",
+              firebaseUid: `firebase-${timestamp}-b2`,
+            },
           ])
           .returning();
 
@@ -50,8 +55,10 @@ describe("DrizzleClient Integration Tests", () => {
 
     describe("Read (Select)", () => {
       it("should select all users", async () => {
-        const db = client.getDb();
-        await db.insert(users).values({ email: "select-all@example.com" });
+        await db.insert(users).values({
+          email: "select-all@example.com",
+          firebaseUid: `firebase-${Date.now()}-selectall`,
+        });
 
         const result = await db.select().from(users);
 
@@ -62,10 +69,12 @@ describe("DrizzleClient Integration Tests", () => {
       });
 
       it("should select user by id", async () => {
-        const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "select-by-id@example.com" })
+          .values({
+            email: "select-by-id@example.com",
+            firebaseUid: `firebase-${Date.now()}-byid`,
+          })
           .returning();
 
         const result = await db
@@ -78,8 +87,10 @@ describe("DrizzleClient Integration Tests", () => {
       });
 
       it("should select user by email", async () => {
-        const db = client.getDb();
-        await db.insert(users).values({ email: "select-by-email@example.com" });
+        await db.insert(users).values({
+          email: "select-by-email@example.com",
+          firebaseUid: `firebase-${Date.now()}-byemail`,
+        });
 
         const result = await db
           .select()
@@ -91,7 +102,6 @@ describe("DrizzleClient Integration Tests", () => {
       });
 
       it("should return empty array for non-existent user", async () => {
-        const db = client.getDb();
         const result = await db
           .select()
           .from(users)
@@ -103,10 +113,12 @@ describe("DrizzleClient Integration Tests", () => {
 
     describe("Update", () => {
       it("should update user email", async () => {
-        const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "before-update@example.com" })
+          .values({
+            email: "before-update@example.com",
+            firebaseUid: `firebase-${Date.now()}-update`,
+          })
           .returning();
 
         const [updated] = await db
@@ -120,10 +132,12 @@ describe("DrizzleClient Integration Tests", () => {
       });
 
       it("should update updatedAt timestamp", async () => {
-        const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "timestamp-test@example.com" })
+          .values({
+            email: "timestamp-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-timestamp`,
+          })
           .returning();
 
         await new Promise((resolve) => setTimeout(resolve, 10));
@@ -146,10 +160,12 @@ describe("DrizzleClient Integration Tests", () => {
 
     describe("Delete", () => {
       it("should delete user by id", async () => {
-        const db = client.getDb();
         const [inserted] = await db
           .insert(users)
-          .values({ email: "delete-test@example.com" })
+          .values({
+            email: "delete-test@example.com",
+            firebaseUid: `firebase-${Date.now()}-delete`,
+          })
           .returning();
 
         await db.delete(users).where(eq(users.id, inserted.id));
@@ -166,17 +182,19 @@ describe("DrizzleClient Integration Tests", () => {
 
   describe("Transaction Operations", () => {
     it("should commit transaction on success", async () => {
-      const result = await client.transaction(async (tx) => {
+      const result = await db.transaction(async (tx) => {
         const [user] = await tx
           .insert(users)
-          .values({ email: "tx-commit@example.com" })
+          .values({
+            email: "tx-commit@example.com",
+            firebaseUid: `firebase-${Date.now()}-txcommit`,
+          })
           .returning();
         return user;
       });
 
       expect(result.email).toBe("tx-commit@example.com");
 
-      const db = client.getDb();
       const [found] = await db
         .select()
         .from(users)
@@ -185,16 +203,19 @@ describe("DrizzleClient Integration Tests", () => {
     });
 
     it("should rollback transaction on error", async () => {
-      const emailToCheck = `tx-rollback-${Date.now()}@example.com`;
+      const timestamp = Date.now();
+      const emailToCheck = `tx-rollback-${timestamp}@example.com`;
 
       await expect(
-        client.transaction(async (tx) => {
-          await tx.insert(users).values({ email: emailToCheck });
+        db.transaction(async (tx) => {
+          await tx.insert(users).values({
+            email: emailToCheck,
+            firebaseUid: `firebase-${timestamp}-txrollback`,
+          });
           throw new Error("Force rollback");
         }),
-      ).rejects.toThrow(QueryError);
+      ).rejects.toThrow("Force rollback");
 
-      const db = client.getDb();
       const result = await db
         .select()
         .from(users)
@@ -203,15 +224,22 @@ describe("DrizzleClient Integration Tests", () => {
     });
 
     it("should support nested operations in transaction", async () => {
-      const result = await client.transaction(async (tx) => {
+      const timestamp = Date.now();
+      const result = await db.transaction(async (tx) => {
         const [user1] = await tx
           .insert(users)
-          .values({ email: "tx-nested-1@example.com" })
+          .values({
+            email: "tx-nested-1@example.com",
+            firebaseUid: `firebase-${timestamp}-nested1`,
+          })
           .returning();
 
         const [user2] = await tx
           .insert(users)
-          .values({ email: "tx-nested-2@example.com" })
+          .values({
+            email: "tx-nested-2@example.com",
+            firebaseUid: `firebase-${timestamp}-nested2`,
+          })
           .returning();
 
         const allUsers = await tx.select().from(users);
@@ -222,65 +250,6 @@ describe("DrizzleClient Integration Tests", () => {
       expect(result.user1.email).toBe("tx-nested-1@example.com");
       expect(result.user2.email).toBe("tx-nested-2@example.com");
       expect(result.count).toBeGreaterThanOrEqual(2);
-    });
-  });
-
-  describe("Raw SQL Queries", () => {
-    it("should execute raw SELECT query", async () => {
-      const db = client.getDb();
-      await db.insert(users).values({ email: "raw-select@example.com" });
-
-      const result = await client.rawQuery<{ email: string }>(
-        "SELECT email FROM users WHERE email = $1",
-        ["raw-select@example.com"],
-      );
-
-      expect(result).toHaveLength(1);
-      expect(result[0].email).toBe("raw-select@example.com");
-    });
-
-    it("should execute raw COUNT query", async () => {
-      const db = client.getDb();
-      await db.insert(users).values({ email: "raw-count@example.com" });
-
-      const result = await client.rawQuery<{ count: string }>(
-        "SELECT COUNT(*) as count FROM users WHERE email LIKE $1",
-        ["%raw-count%"],
-      );
-
-      expect(Number.parseInt(result[0].count, 10)).toBeGreaterThanOrEqual(1);
-    });
-
-    it("should handle raw query errors", async () => {
-      await expect(
-        client.rawQuery("SELECT * FROM nonexistent_table"),
-      ).rejects.toThrow(QueryError);
-    });
-  });
-
-  describe("QueryError structure", () => {
-    it("should provide proper error information for query failures", () => {
-      const queryError = new QueryError(
-        "QUERY_FAILED",
-        "Query execution failed",
-        "Syntax error near SELECT",
-      );
-
-      expect(queryError.code).toBe("QUERY_FAILED");
-      expect(queryError.message).toBe("Query execution failed");
-      expect(queryError.detail).toBe("Syntax error near SELECT");
-      expect(queryError.name).toBe("QueryError");
-    });
-
-    it("should handle constraint violations", () => {
-      const constraintError = new QueryError(
-        "CONSTRAINT_VIOLATION",
-        "Unique constraint violated",
-        "Key (email)=(test@example.com) already exists",
-      );
-
-      expect(constraintError.code).toBe("CONSTRAINT_VIOLATION");
-      expect(constraintError.detail).toContain("email");
     });
   });
 });

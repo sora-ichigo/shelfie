@@ -61,6 +61,7 @@ describe("Test Setup", () => {
 
       expect(columns).toContainEqual({ name: "id", type: "integer" });
       expect(columns).toContainEqual({ name: "email", type: "text" });
+      expect(columns).toContainEqual({ name: "firebase_uid", type: "text" });
       expect(columns).toContainEqual({
         name: "created_at",
         type: "timestamp without time zone",
@@ -89,7 +90,7 @@ describe("Test Setup", () => {
       const db = drizzle(pool);
 
       await db.execute(
-        sql`INSERT INTO users (email) VALUES ('test@example.com')`,
+        sql`INSERT INTO users (email, firebase_uid) VALUES ('test@example.com', 'firebase-setup-test')`,
       );
 
       const resultAfterInsert = await db.execute<{ count: string }>(

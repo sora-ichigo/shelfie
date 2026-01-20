@@ -1,5 +1,7 @@
 export {
+  createFirebaseAuthAdapter,
   type DecodedIdToken,
+  type FirebaseAuthAdapter,
   type FirebaseAuthConfig,
   type FirebaseAuthResult,
   getFirebaseAuthConfig,

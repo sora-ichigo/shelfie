@@ -566,24 +566,21 @@ interface ConfigError {
 ##### Service Interface
 
 ```typescript
-// Feature Module の公開インターフェース
-interface FeatureModule<TPublicApi> {
-  name: string;
-  registerTypes(builder: SchemaBuilder): void;
-  getPublicApi(): TPublicApi;
-}
+// Feature は Barrel Export パターンで公開 API を定義
+// features/[name]/index.ts
+export type { Entity } from "./internal/repository.js";
+export type { EntityService } from "./internal/service.js";
+export { createEntityRepository } from "./internal/repository.js";
+export { createEntityService } from "./internal/service.js";
+export { registerEntityTypes } from "./internal/graphql.js";
 
-// Feature 内のレイヤー構成
-interface FeatureResolver<TContext> {
-  registerQueries(builder: SchemaBuilder): void;
-  registerMutations(builder: SchemaBuilder): void;
-}
-
-interface FeatureService<TInput, TOutput> {
+// internal/service.ts - インターフェースと実装を同一ファイルに定義
+export interface FeatureService<TInput, TOutput> {
   execute(input: TInput): Promise<Result<TOutput, DomainError>>;
 }
 
-interface FeatureRepository<TEntity, TId> {
+// internal/repository.ts - インターフェースと実装を同一ファイルに定義
+export interface FeatureRepository<TEntity, TId> {
   findById(id: TId): Promise<TEntity | null>;
   findMany(filter: Partial<TEntity>): Promise<TEntity[]>;
   create(entity: Omit<TEntity, "id">): Promise<TEntity>;
@@ -604,10 +601,10 @@ interface DomainError {
 
 - Preconditions: Core コンポーネントが初期化済み
 - Postconditions: Feature の型がスキーマに登録される
-- Invariants: Feature 間の直接依存は禁止、公開 API 経由のみ
+- Invariants: Feature 間は公開 API（index.ts）経由のみでアクセス可能
 
 **Implementation Notes**
-- Integration: 各 Feature は index.ts で FeatureModule を export
+- Integration: 各 Feature は index.ts で公開 API を Barrel Export
 - Validation: 循環依存の静的チェック
 - Risks: 公開 API の過度な肥大化
 
@@ -847,23 +844,20 @@ apps/api/
 │   │   ├── builder.ts           # Pothos SchemaBuilder
 │   │   ├── schema.ts            # スキーマ構築
 │   │   └── context.ts           # GraphQL Context 型
-│   ├── lib/
-│   │   ├── logger.ts            # Pino ラッパー
-│   │   ├── errors.ts            # ErrorHandler
+│   ├── logger/
+│   │   └── index.ts             # Pino ラッパー
+│   ├── errors/
+│   │   ├── index.ts             # ErrorHandler
 │   │   └── result.ts            # Result 型ユーティリティ
 │   └── features/
 │       └── [feature-name]/
-│           ├── index.ts         # Feature Module export
-│           ├── types.ts         # Pothos 型定義
-│           ├── resolver.ts      # GraphQL Resolver
-│           ├── service.ts       # ビジネスロジック
-│           ├── repository.ts    # データアクセス
-│           └── schema.ts        # Drizzle テーブル定義
+│           ├── index.ts         # 公開 API（Barrel Export）
+│           └── internal/        # 内部実装
+│               ├── graphql.ts   # Pothos 型定義・Resolver
+│               ├── service.ts   # ビジネスロジック + インターフェース
+│               └── repository.ts # データアクセス + インターフェース
 ├── drizzle/
 │   └── migrations/              # マイグレーションファイル
-├── test/
-│   ├── setup.ts                 # テストセットアップ
-│   └── [feature-name]/          # Feature 単位のテスト
 ├── drizzle.config.ts            # Drizzle Kit 設定
 ├── docker-compose.yml           # ローカル開発用 DB
 └── .env.example                 # 環境変数テンプレート

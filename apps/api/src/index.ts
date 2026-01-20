@@ -1,19 +1,12 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
 import { config } from "./config";
-import {
-  createDatabaseConnection,
-  createDrizzleClient,
-  type DatabaseConnection,
-  type DrizzleClient,
-} from "./db";
+import { closePool, getDb, getPool } from "./db";
 import type { GraphQLContext } from "./graphql/context";
 import { createApolloServer, createExpressApp } from "./graphql/server";
 import { logger } from "./logger";
 
 interface ServerComponents {
-  dbConnection: DatabaseConnection;
-  drizzleClient: DrizzleClient;
   apolloServer: ApolloServer<GraphQLContext>;
   httpServer: Server;
 }
@@ -23,28 +16,20 @@ let components: ServerComponents | null = null;
 async function initialize(): Promise<ServerComponents> {
   logger.info("Starting server initialization...");
 
-  logger.info("Step 1/5: Validating configuration...");
+  logger.info("Step 1/4: Validating configuration...");
   config.validate();
   logger.info("Configuration validated successfully");
 
-  logger.info("Step 2/5: Establishing database connection...");
-  const dbConnection = createDatabaseConnection();
-  await dbConnection.connect({ maxRetries: 3, retryDelayMs: 1000 });
-  const isHealthy = await dbConnection.healthCheck();
-  if (!isHealthy) {
-    throw new Error("Database health check failed");
-  }
+  logger.info("Step 2/4: Establishing database connection...");
+  const pool = getPool();
+  await pool.query("SELECT 1");
   logger.info("Database connection established");
 
-  logger.info("Step 3/5: Initializing Drizzle ORM client...");
-  const drizzleClient = createDrizzleClient(dbConnection.getPool());
-  logger.info("Drizzle ORM client initialized");
-
-  logger.info("Step 4/5: Building GraphQL schema...");
+  logger.info("Step 3/4: Building GraphQL schema...");
   const apolloServer = createApolloServer();
   logger.info("GraphQL schema built");
 
-  logger.info("Step 5/5: Starting Apollo Server...");
+  logger.info("Step 4/4: Starting Apollo Server...");
   await apolloServer.start();
   logger.info("Apollo Server started");
 
@@ -55,8 +40,6 @@ async function initialize(): Promise<ServerComponents> {
     const httpServer = app.listen(port, () => {
       logger.info(`Server running at http://localhost:${port}/graphql`);
       resolve({
-        dbConnection,
-        drizzleClient,
         apolloServer,
         httpServer,
       });
@@ -89,7 +72,7 @@ async function shutdown(): Promise<void> {
     logger.info("Apollo Server stopped");
 
     logger.info("Step 3/3: Closing database connection...");
-    await currentComponents.dbConnection.disconnect();
+    await closePool();
     logger.info("Database connection closed");
 
     logger.info("Graceful shutdown completed");
@@ -154,4 +137,4 @@ async function main(): Promise<void> {
 
 main();
 
-export { initialize, shutdown, type ServerComponents };
+export { initialize, shutdown, type ServerComponents, getDb, getPool };

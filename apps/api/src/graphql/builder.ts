@@ -1,11 +1,26 @@
 import SchemaBuilder from "@pothos/core";
+import ErrorsPlugin from "@pothos/plugin-errors";
+import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 import { DateTimeResolver } from "graphql-scalars";
+import type { AuthenticatedUser } from "../auth/index.js";
 import type { GraphQLContext } from "./context";
 
 export type { GraphQLContext } from "./context";
 
-interface SchemaTypes {
+export interface AuthenticatedContext extends GraphQLContext {
+  user: AuthenticatedUser;
+}
+
+export interface SchemaTypes {
   Context: GraphQLContext;
+  AuthScopes: {
+    loggedIn: boolean;
+    emailVerified: boolean;
+  };
+  AuthContexts: {
+    loggedIn: AuthenticatedContext;
+    emailVerified: AuthenticatedContext;
+  };
   Scalars: {
     DateTime: {
       Input: Date;
@@ -15,7 +30,21 @@ interface SchemaTypes {
 }
 
 function createBuilder() {
-  const builder = new SchemaBuilder<SchemaTypes>({});
+  const builder = new SchemaBuilder<SchemaTypes>({
+    plugins: [ScopeAuthPlugin, ErrorsPlugin],
+    scopeAuth: {
+      authScopes: (context) => ({
+        loggedIn: !!context.user,
+        emailVerified: !!context.user?.emailVerified,
+      }),
+      unauthorizedError: (_parent, _context, _info, result) => {
+        return new Error(result.message);
+      },
+    },
+    errors: {
+      defaultTypes: [],
+    },
+  });
 
   builder.addScalarType("DateTime", DateTimeResolver, {});
 
@@ -23,6 +52,8 @@ function createBuilder() {
 }
 
 export const builder = createBuilder();
+
+export type Builder = typeof builder;
 
 export function createTestBuilder() {
   return createBuilder();

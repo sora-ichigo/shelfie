@@ -7,11 +7,15 @@ import * as schema from "./schema/index.js";
 export interface SeedData {
   users: Array<{
     email: string;
+    firebaseUid: string;
   }>;
 }
 
 export const seedData: SeedData = {
-  users: [{ email: "admin@example.com" }, { email: "user@example.com" }],
+  users: [
+    { email: "admin@example.com", firebaseUid: "firebase-admin-seed" },
+    { email: "user@example.com", firebaseUid: "firebase-user-seed" },
+  ],
 };
 
 async function createPool(): Promise<Pool> {

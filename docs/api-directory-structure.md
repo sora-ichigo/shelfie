@@ -40,13 +40,17 @@ apps/api/
 │   │   ├── index.ts             # ErrorHandler
 │   │   └── result.ts            # Result 型ユーティリティ
 │   ├── features/
-│   │   ├── index.ts             # FeatureModule インターフェース
-│   │   ├── registry.ts          # FeatureRegistry
-│   │   └── users/               # サンプル Feature
-│   │       ├── index.ts         # Feature Module export
-│   │       ├── types.ts         # Pothos 型定義・Resolver
-│   │       ├── service.ts       # ビジネスロジック
-│   │       └── repository.ts    # データアクセス
+│   │   ├── users/               # Users Feature
+│   │   │   ├── index.ts         # 公開 API（Barrel Export）
+│   │   │   └── internal/        # 内部実装
+│   │   │       ├── graphql.ts   # Pothos 型定義・Resolver
+│   │   │       ├── service.ts   # ビジネスロジック
+│   │   │       └── repository.ts # データアクセス
+│   │   └── auth/                # Auth Feature
+│   │       ├── index.ts         # 公開 API（Barrel Export）
+│   │       └── internal/        # 内部実装
+│   │           ├── graphql.ts   # GraphQL 型定義・Mutation
+│   │           └── service.ts   # 認証ビジネスロジック
 │   └── __tests__/
 │       ├── setup.test.ts        # テストセットアップ検証
 │       └── integration/         # 統合テスト
@@ -128,28 +132,31 @@ logger.error("Failed to connect", error, { feature: "db" });
 
 ### `src/features/`
 
-Feature-based モジュール構成のコア。
+Feature-based モジュール構成。Barrel Export パターンで公開 API を管理。
 
-- `index.ts`: FeatureModule インターフェース
-- `registry.ts`: FeatureRegistry（Feature の登録・管理）
-- `[feature-name]/`: 各機能のモジュール
+- `[feature-name]/index.ts`: 公開 API の re-export
+- `[feature-name]/internal/`: 内部実装（慣習による隔離）
+  - `graphql.ts`: GraphQL 型定義・Resolver
+  - `service.ts`: ビジネスロジック + インターフェース
+  - `repository.ts`: データアクセス + インターフェース
 
 ## 新機能追加ガイドライン
 
 ### 1. Feature ディレクトリの作成
 
 ```bash
-mkdir -p src/features/books
+mkdir -p src/features/books/internal
 ```
 
 ### 2. 必要なファイルの作成
 
 ```
 src/features/books/
-├── index.ts       # Feature Module export
-├── types.ts       # Pothos 型定義・Resolver
-├── service.ts     # ビジネスロジック
-└── repository.ts  # データアクセス
+├── index.ts              # 公開 API（Barrel Export）
+└── internal/
+    ├── graphql.ts        # Pothos 型定義・Resolver
+    ├── service.ts        # ビジネスロジック + インターフェース
+    └── repository.ts     # データアクセス + インターフェース
 ```
 
 ### 3. スキーマ定義（テーブルが必要な場合）
@@ -180,24 +187,26 @@ export * from "./books";
 
 ### 4. Repository の実装
 
-`src/features/books/repository.ts`:
+`src/features/books/internal/repository.ts`:
 
 ```typescript
 import { eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { books, type Book, type NewBook } from "../../db/schema";
+import { books, type Book, type NewBook } from "../../../db/schema";
+
+export type { Book, NewBook } from "../../../db/schema/books.js";
 
 export interface BookRepository {
-  findById(id: number): Promise<Book | undefined>;
+  findById(id: number): Promise<Book | null>;
   findMany(): Promise<Book[]>;
   create(data: NewBook): Promise<Book>;
 }
 
 export function createBookRepository(db: NodePgDatabase): BookRepository {
   return {
-    async findById(id: number): Promise<Book | undefined> {
+    async findById(id: number): Promise<Book | null> {
       const result = await db.select().from(books).where(eq(books.id, id));
-      return result[0];
+      return result[0] ?? null;
     },
 
     async findMany(): Promise<Book[]> {
@@ -214,21 +223,24 @@ export function createBookRepository(db: NodePgDatabase): BookRepository {
 
 ### 5. Service の実装
 
-`src/features/books/service.ts`:
+`src/features/books/internal/service.ts`:
 
 ```typescript
-import { ok, err, type Result, type DomainError } from "../../errors";
-import type { Book, NewBook } from "../../db/schema";
-import type { BookRepository } from "./repository";
+import { ok, err, type Result, type DomainError } from "../../../errors/result.js";
+import type { Book, NewBook } from "./repository.js";
+import type { BookRepository } from "./repository.js";
+
+export type BookServiceError =
+  | { code: "BOOK_NOT_FOUND"; message: string };
 
 export interface BookService {
-  getBook(id: number): Promise<Result<Book, DomainError>>;
+  getBook(id: number): Promise<Result<Book, BookServiceError>>;
   createBook(data: NewBook): Promise<Result<Book, DomainError>>;
 }
 
 export function createBookService(repository: BookRepository): BookService {
   return {
-    async getBook(id: number): Promise<Result<Book, DomainError>> {
+    async getBook(id: number): Promise<Result<Book, BookServiceError>> {
       const book = await repository.findById(id);
       if (!book) {
         return err({ code: "BOOK_NOT_FOUND", message: "Book not found" });
@@ -246,85 +258,72 @@ export function createBookService(repository: BookRepository): BookService {
 
 ### 6. GraphQL 型定義
 
-`src/features/books/types.ts`:
+`src/features/books/internal/graphql.ts`:
 
 ```typescript
-import { builder } from "../../graphql/builder";
+import type { Book } from "../../../db/schema/books.js";
+import type { Builder } from "../../../graphql/builder.js";
 
-export const BookType = builder.objectRef<{ id: number; title: string; isbn: string | null }>("Book");
+let BookRef: ReturnType<Builder["objectRef"]<Book>> | null = null;
 
-export function registerBookTypes(builder: unknown) {
-  const b = builder as typeof import("../../graphql/builder").builder;
+export { BookRef };
 
-  BookType.implement({
+export function registerBookTypes(builder: Builder): void {
+  BookRef = builder.objectRef<Book>("Book");
+
+  BookRef.implement({
     fields: (t) => ({
       id: t.exposeInt("id"),
       title: t.exposeString("title"),
       isbn: t.exposeString("isbn", { nullable: true }),
     }),
   });
+}
 
-  b.queryField("book", (t) =>
-    t.field({
-      type: BookType,
+export function registerBookQueries(builder: Builder, service: BookService): void {
+  builder.queryFields((t) => ({
+    book: t.field({
+      type: BookRef,
       nullable: true,
       args: {
         id: t.arg.int({ required: true }),
       },
-      resolve: async (_parent, args, _context) => {
-        // Service を使用して実装
-        return null;
+      resolve: async (_parent, { id }) => {
+        const result = await service.getBook(id);
+        return result.success ? result.data : null;
       },
-    })
-  );
+    }),
+  }));
 }
 ```
 
-### 7. Feature Module の作成
+### 7. 公開 API の定義（Barrel Export）
 
 `src/features/books/index.ts`:
 
 ```typescript
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-import type { FeatureModule } from "../index";
-import { createBookRepository, type BookRepository } from "./repository";
-import { createBookService, type BookService } from "./service";
-import { registerBookTypes } from "./types";
+// 型の re-export（公開 API）
+export type { Book, NewBook } from "./internal/repository.js";
+export type { BookService } from "./internal/service.js";
 
-export const BOOKS_FEATURE_NAME = "books";
-
-export interface BooksPublicApi {
-  service: BookService;
-  repository: BookRepository;
-}
-
-export function createBooksFeature(db: NodePgDatabase): FeatureModule<BooksPublicApi> {
-  const repository = createBookRepository(db);
-  const service = createBookService(repository);
-
-  return {
-    name: BOOKS_FEATURE_NAME,
-
-    registerTypes(builder: unknown): void {
-      registerBookTypes(builder);
-    },
-
-    getPublicApi(): BooksPublicApi {
-      return { service, repository };
-    },
-  };
-}
+// ファクトリ関数の re-export
+export { createBookRepository } from "./internal/repository.js";
+export { createBookService } from "./internal/service.js";
+export { registerBookTypes, registerBookQueries } from "./internal/graphql.js";
 ```
 
-### 8. Feature の登録
+### 8. GraphQL スキーマへの登録
 
 `src/graphql/schema.ts` に追加:
 
 ```typescript
-import { createBooksFeature } from "../features/books";
+import { registerBookTypes, registerBookQueries } from "../features/books";
 
-// Feature 登録
-registry.register(createBooksFeature(db));
+// 型の登録
+registerBookTypes(builder);
+
+// クエリの登録（Service を渡す）
+registerBookQueries(builder, bookService);
 ```
 
 ### 9. マイグレーションの生成と適用
@@ -338,36 +337,39 @@ pnpm --filter @shelfie/api db:migrate
 
 ### 禁止事項
 
-- Feature 間の直接的なファイルインポート
-- 他 Feature の内部実装への依存
+- 他 Feature の `internal/` への直接インポート
 - 循環依存
 
 ### 許可される依存
 
 - 共通モジュール（`config`, `db`, `errors`, `logger`）への依存
-- FeatureRegistry 経由での公開 API アクセス
+- 他 Feature の公開 API（`index.ts` からの export）への依存
 
 ```typescript
 // OK: 公開 API 経由でアクセス
-const usersApi = registry.getPublicApi<UsersPublicApi>("users");
-const user = await usersApi.service.getUser(userId);
+import { createUserService, type UserService } from "../users";
 
-// NG: 直接インポート
-import { userService } from "../users/service";
+// NG: internal への直接インポート
+import { createUserService } from "../users/internal/service";
 ```
 
 ## テストの配置
 
 ### ユニットテスト
 
-各モジュールと同じディレクトリに配置:
+`internal/` 配下に実装ファイルと同じディレクトリに配置:
 
 ```
 src/features/books/
-├── service.ts
-├── service.test.ts     # service のユニットテスト
-├── repository.ts
-└── repository.test.ts  # repository のユニットテスト
+├── index.ts              # 公開 API
+├── index.test.ts         # 公開 API のテスト
+└── internal/
+    ├── graphql.ts
+    ├── graphql.test.ts   # GraphQL 型のテスト
+    ├── service.ts
+    ├── service.test.ts   # service のユニットテスト
+    ├── repository.ts
+    └── repository.test.ts  # repository のユニットテスト
 ```
 
 ### 統合テスト

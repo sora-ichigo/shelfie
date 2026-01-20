@@ -1,15 +1,23 @@
-import { describe, expect, it, vi } from "vitest";
-import {
-  type AuthenticatedUser,
-  createAuthContext,
-  extractBearerToken,
-} from "./middleware";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import { type AuthenticatedUser, extractBearerToken } from "./middleware";
 
 vi.mock("./firebase", () => ({
   verifyIdToken: vi.fn(),
 }));
 
 describe("Auth Middleware", () => {
+  let createAuthContext: typeof import("./middleware").createAuthContext;
+  let mockVerifyIdToken: Mock;
+
+  beforeEach(async () => {
+    vi.resetModules();
+    const firebaseModule = await import("./firebase");
+    mockVerifyIdToken = vi.mocked(firebaseModule.verifyIdToken);
+    mockVerifyIdToken.mockReset();
+    const middlewareModule = await import("./middleware");
+    createAuthContext = middlewareModule.createAuthContext;
+  });
+
   describe("extractBearerToken", () => {
     it("Authorization ヘッダーから Bearer トークンを抽出する", () => {
       const authHeader = "Bearer abc123xyz";
@@ -41,9 +49,6 @@ describe("Auth Middleware", () => {
 
   describe("createAuthContext", () => {
     it("有効なトークンで認証済みユーザーを返す", async () => {
-      const { verifyIdToken } = await import("./firebase");
-      const mockVerifyIdToken = vi.mocked(verifyIdToken);
-
       const mockDecodedToken = {
         uid: "user-123",
         email: "user@example.com",
@@ -60,7 +65,7 @@ describe("Auth Middleware", () => {
         },
       };
 
-      mockVerifyIdToken.mockResolvedValueOnce(mockDecodedToken);
+      mockVerifyIdToken.mockResolvedValue(mockDecodedToken);
 
       const user = await createAuthContext("Bearer valid-token");
 
@@ -77,10 +82,7 @@ describe("Auth Middleware", () => {
     });
 
     it("無効なトークンの場合は null を返す", async () => {
-      const { verifyIdToken } = await import("./firebase");
-      const mockVerifyIdToken = vi.mocked(verifyIdToken);
-
-      mockVerifyIdToken.mockResolvedValueOnce(null);
+      mockVerifyIdToken.mockResolvedValue(null);
 
       const user = await createAuthContext("Bearer invalid-token");
       expect(user).toBeNull();

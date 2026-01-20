@@ -1,32 +1,84 @@
-"""
-Shelfie GraphQL Schema
+"""Error object for authentication operations"""
+type AuthError {
+  """Error code"""
+  code: AuthErrorCode
 
-このスキーマは開発用のプレースホルダーです。
-実際のスキーマは API サーバーから取得してください。
+  """Field that caused the error, if applicable"""
+  field: String
 
-スキーマ取得方法:
-1. API サーバーが起動している状態で以下のコマンドを実行:
-   npx get-graphql-schema http://localhost:4000/graphql > lib/core/graphql/schema.graphql
+  """Human-readable error message"""
+  message: String
 
-2. または、apollo rover を使用:
-   rover graph introspect http://localhost:4000/graphql > lib/core/graphql/schema.graphql
-"""
-
-type Query {
-  """
-  アプリケーションのヘルスチェック
-  """
-  health: HealthCheck!
+  """Whether the operation can be retried"""
+  retryable: Boolean
 }
+
+"""Error codes for authentication operations"""
+enum AuthErrorCode {
+  EMAIL_ALREADY_EXISTS
+  EMAIL_ALREADY_VERIFIED
+  INTERNAL_ERROR
+  INVALID_PASSWORD
+  NETWORK_ERROR
+  RATE_LIMIT_EXCEEDED
+  USER_NOT_FOUND
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
 
 type Mutation {
-  """
-  ダミーミューテーション（プレースホルダー）
-  """
-  noop: Boolean!
+  """Register a new user with email and password"""
+  registerUser(input: RegisterUserInput!): MutationRegisterUserResult
+
+  """Resend verification email to a user"""
+  resendVerificationEmail(input: ResendVerificationEmailInput!): MutationResendVerificationEmailResult
 }
 
-type HealthCheck {
-  status: String!
-  timestamp: String!
+union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
+
+type MutationRegisterUserSuccess {
+  data: User!
+}
+
+union MutationResendVerificationEmailResult = AuthError | MutationResendVerificationEmailSuccess
+
+type MutationResendVerificationEmailSuccess {
+  data: Boolean!
+}
+
+type Query {
+  health: String
+}
+
+"""Input for user registration"""
+input RegisterUserInput {
+  """Email address"""
+  email: String!
+
+  """Password"""
+  password: String!
+}
+
+"""Input for resending verification email"""
+input ResendVerificationEmailInput {
+  """Email address"""
+  email: String!
+}
+
+"""A user in the system"""
+type User {
+  """When the user was created"""
+  createdAt: DateTime
+
+  """The email address of the user"""
+  email: String
+
+  """The unique identifier of the user"""
+  id: Int
+
+  """When the user was last updated"""
+  updatedAt: DateTime
 }

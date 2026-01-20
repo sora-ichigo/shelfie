@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { NewUser, User } from "../../db/schema/users.js";
+import type { NewUser, User } from "../../../db/schema/users.js";
 import { createUserRepository } from "./repository.js";
 
 function createMockDb() {
@@ -32,16 +32,46 @@ function createMockDb() {
 
 describe("UserRepository", () => {
   describe("interface compliance", () => {
-    it("should implement FeatureRepository methods", () => {
+    it("should implement UserRepository methods", () => {
       const mockDb = createMockDb();
       const repository = createUserRepository(mockDb.query as never);
 
       expect(typeof repository.findById).toBe("function");
       expect(typeof repository.findByEmail).toBe("function");
+      expect(typeof repository.findByFirebaseUid).toBe("function");
       expect(typeof repository.findMany).toBe("function");
       expect(typeof repository.create).toBe("function");
       expect(typeof repository.update).toBe("function");
       expect(typeof repository.delete).toBe("function");
+    });
+  });
+
+  describe("findByFirebaseUid", () => {
+    it("should return user when found by Firebase UID", async () => {
+      const mockDb = createMockDb();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-12345",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      mockDb.setResults([mockUser]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByFirebaseUid("firebase-uid-12345");
+
+      expect(result).toEqual(mockUser);
+    });
+
+    it("should return null when user not found by Firebase UID", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByFirebaseUid("non-existent-uid");
+
+      expect(result).toBeNull();
     });
   });
 
@@ -50,12 +80,14 @@ describe("UserRepository", () => {
       const user: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.id).toBe(1);
       expect(user.email).toBe("test@example.com");
+      expect(user.firebaseUid).toBe("firebase-uid-test");
     });
   });
 
@@ -72,9 +104,11 @@ describe("UserRepository", () => {
     it("should use NewUser type for create input", () => {
       const newUser: NewUser = {
         email: "test@example.com",
+        firebaseUid: "firebase-uid-new",
       };
 
       expect(newUser.email).toBe("test@example.com");
+      expect(newUser.firebaseUid).toBe("firebase-uid-new");
       expect((newUser as Record<string, unknown>).id).toBeUndefined();
     });
 
@@ -82,12 +116,14 @@ describe("UserRepository", () => {
       const user: User = {
         id: 1,
         email: "test@example.com",
+        firebaseUid: "firebase-uid-output",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.id).toBeDefined();
       expect(user.email).toBeDefined();
+      expect(user.firebaseUid).toBeDefined();
       expect(user.createdAt).toBeInstanceOf(Date);
       expect(user.updatedAt).toBeInstanceOf(Date);
     });

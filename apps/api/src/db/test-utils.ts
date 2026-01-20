@@ -30,10 +30,15 @@ export async function setupTestDatabase(): Promise<void> {
   await db.execute(sql`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      email TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      firebase_uid TEXT NOT NULL UNIQUE,
       created_at TIMESTAMP NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMP NOT NULL DEFAULT NOW()
     )
+  `);
+
+  await db.execute(sql`
+    CREATE INDEX IF NOT EXISTS idx_users_firebase_uid ON users(firebase_uid)
   `);
 }
 

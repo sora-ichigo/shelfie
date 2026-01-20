@@ -72,6 +72,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm biome check apps/api
       - run: pnpm --filter @shelfie/api typecheck
+      - run: pnpm --filter @shelfie/api test:db:migrate
       - run: pnpm --filter @shelfie/api test
       - run: pnpm --filter @shelfie/api build
       - name: Build Docker image

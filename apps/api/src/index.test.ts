@@ -1,8 +1,8 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
+import type { Pool } from "pg";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { config } from "./config";
-import type { DatabaseConnection } from "./db";
 import type { GraphQLContext } from "./graphql/context";
 
 describe("Server Initialization", () => {
@@ -24,20 +24,19 @@ describe("Server Initialization", () => {
   });
 
   describe("Initialization Sequence Verification", () => {
-    it("should follow correct component order: ConfigManager -> DatabaseConnection -> DrizzleClient -> SchemaBuilder -> Apollo Server", async () => {
+    it("should follow correct component order: ConfigManager -> Pool -> Db -> SchemaBuilder -> Apollo Server", async () => {
       const initOrder: string[] = [];
 
       config.validate();
       initOrder.push("ConfigManager");
 
-      const { createDatabaseConnection } = await import("./db/connection");
-      const dbConnection = createDatabaseConnection();
-      await dbConnection.connect({ maxRetries: 1, retryDelayMs: 100 });
-      initOrder.push("DatabaseConnection");
+      const { getPool, getDb, closePool } = await import("./db");
+      const pool = getPool();
+      await pool.query("SELECT 1");
+      initOrder.push("Pool");
 
-      const { createDrizzleClient } = await import("./db/client");
-      createDrizzleClient(dbConnection.getPool());
-      initOrder.push("DrizzleClient");
+      getDb();
+      initOrder.push("Db");
 
       const { buildSchema } = await import("./graphql/schema");
       buildSchema();
@@ -50,26 +49,26 @@ describe("Server Initialization", () => {
 
       expect(initOrder).toEqual([
         "ConfigManager",
-        "DatabaseConnection",
-        "DrizzleClient",
+        "Pool",
+        "Db",
         "SchemaBuilder",
         "ApolloServer",
       ]);
 
       await server.stop();
-      await dbConnection.disconnect();
+      await closePool();
     });
   });
 
   describe("Graceful Shutdown Verification", () => {
-    let dbConnection: DatabaseConnection;
+    let pool: Pool;
     let server: ApolloServer<GraphQLContext>;
     let httpServer: Server;
     let isManuallyShutdown: boolean;
+    let closePoolFn: () => Promise<void>;
 
     beforeEach(async () => {
-      const { createDatabaseConnection } = await import("./db/connection");
-      const { createDrizzleClient } = await import("./db/client");
+      const db = await import("./db");
       const { createApolloServer, createExpressApp } = await import(
         "./graphql/server"
       );
@@ -78,10 +77,11 @@ describe("Server Initialization", () => {
 
       config.validate();
 
-      dbConnection = createDatabaseConnection();
-      await dbConnection.connect({ maxRetries: 1, retryDelayMs: 100 });
+      pool = db.getPool();
+      await pool.query("SELECT 1");
 
-      createDrizzleClient(dbConnection.getPool());
+      db.getDb();
+      closePoolFn = db.closePool;
 
       server = createApolloServer();
       await server.start();
@@ -100,8 +100,8 @@ describe("Server Initialization", () => {
       if (server) {
         await server.stop();
       }
-      if (dbConnection) {
-        await dbConnection.disconnect();
+      if (closePoolFn) {
+        await closePoolFn();
       }
     });
 
@@ -118,12 +118,12 @@ describe("Server Initialization", () => {
       await server.stop();
     });
 
-    it("should close database connection gracefully", async () => {
-      const isHealthyBefore = await dbConnection.healthCheck();
-      expect(isHealthyBefore).toBe(true);
+    it("should query database before shutdown", async () => {
+      const result = await pool.query("SELECT 1 as result");
+      expect(result.rows[0].result).toBe(1);
     });
 
-    it("should execute shutdown steps in correct order: HTTP -> Apollo -> Database", async () => {
+    it("should execute shutdown steps in correct order: HTTP -> Apollo -> Pool", async () => {
       isManuallyShutdown = true;
       const shutdownOrder: string[] = [];
 
@@ -137,10 +137,10 @@ describe("Server Initialization", () => {
       await server.stop();
       shutdownOrder.push("Apollo");
 
-      await dbConnection.disconnect();
-      shutdownOrder.push("Database");
+      await closePoolFn();
+      shutdownOrder.push("Pool");
 
-      expect(shutdownOrder).toEqual(["HTTP", "Apollo", "Database"]);
+      expect(shutdownOrder).toEqual(["HTTP", "Apollo", "Pool"]);
     });
   });
 });
