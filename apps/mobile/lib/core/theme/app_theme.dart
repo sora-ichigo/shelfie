@@ -23,12 +23,14 @@ abstract final class AppTheme {
       onSurface: Colors.white,
     );
 
+    final textTheme = GoogleFonts.interTextTheme(AppTypography.textTheme);
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: const Color(0xFF0A0A0A),
-      textTheme: GoogleFonts.interTextTheme(AppTypography.textTheme),
+      textTheme: textTheme,
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
