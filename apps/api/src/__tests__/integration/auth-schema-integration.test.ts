@@ -1,15 +1,7 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
 import type { Express } from "express";
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { GraphQLContext } from "../../graphql/context.js";
 import { createApolloServer, createExpressApp } from "../../graphql/server.js";
 
@@ -113,8 +105,7 @@ describe("Auth Feature Schema Integration Tests", () => {
       expect(result.data?.__type).not.toBeNull();
       expect(result.data?.__type?.name).toBe("AuthError");
 
-      const fieldNames =
-        result.data?.__type?.fields?.map((f) => f.name) ?? [];
+      const fieldNames = result.data?.__type?.fields?.map((f) => f.name) ?? [];
       expect(fieldNames).toContain("code");
       expect(fieldNames).toContain("message");
       expect(fieldNames).toContain("field");
@@ -195,8 +186,7 @@ describe("Auth Feature Schema Integration Tests", () => {
       expect(result.data?.__type).not.toBeNull();
       expect(result.data?.__type?.name).toBe("User");
 
-      const fieldNames =
-        result.data?.__type?.fields?.map((f) => f.name) ?? [];
+      const fieldNames = result.data?.__type?.fields?.map((f) => f.name) ?? [];
       expect(fieldNames).toContain("id");
       expect(fieldNames).toContain("email");
       expect(fieldNames).toContain("createdAt");
@@ -236,8 +226,7 @@ describe("Auth Feature Schema Integration Tests", () => {
       expect(result.errors).toBeUndefined();
       expect(result.data?.__schema?.mutationType).not.toBeNull();
 
-      const mutationFields =
-        result.data?.__schema?.mutationType?.fields ?? [];
+      const mutationFields = result.data?.__schema?.mutationType?.fields ?? [];
       const registerUserMutation = mutationFields.find(
         (f) => f.name === "registerUser",
       );
@@ -277,8 +266,7 @@ describe("Auth Feature Schema Integration Tests", () => {
 
       expect(result.errors).toBeUndefined();
 
-      const mutationFields =
-        result.data?.__schema?.mutationType?.fields ?? [];
+      const mutationFields = result.data?.__schema?.mutationType?.fields ?? [];
       const resendMutation = mutationFields.find(
         (f) => f.name === "resendVerificationEmail",
       );

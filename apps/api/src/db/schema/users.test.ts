@@ -2,8 +2,8 @@ import { getTableName } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
   type NewUser,
-  type User,
   USERS_FIREBASE_UID_INDEX_NAME,
+  type User,
   users,
 } from "./users.js";
 

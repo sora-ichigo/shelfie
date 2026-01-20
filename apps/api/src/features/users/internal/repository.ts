@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { type NewUser, type User, users } from "../../../db/schema/users.js";
 
-export type { User, NewUser } from "../../../db/schema/users.js";
+export type { NewUser, User } from "../../../db/schema/users.js";
 
 export interface UserRepository {
   findById(id: number): Promise<User | null>;

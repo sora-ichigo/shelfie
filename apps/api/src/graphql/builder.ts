@@ -2,8 +2,8 @@ import SchemaBuilder from "@pothos/core";
 import ErrorsPlugin from "@pothos/plugin-errors";
 import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 import { DateTimeResolver } from "graphql-scalars";
-import type { GraphQLContext } from "./context";
 import type { AuthenticatedUser } from "../auth/index.js";
+import type { GraphQLContext } from "./context";
 
 export type { GraphQLContext } from "./context";
 

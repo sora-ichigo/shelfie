@@ -62,7 +62,9 @@ export function mapServiceErrorToAuthError(error: AuthServiceError): AuthError {
 }
 
 function createRegisterUserInputRef(builder: Builder) {
-  return builder.inputRef<{ email: string; password: string }>("RegisterUserInput");
+  return builder.inputRef<{ email: string; password: string }>(
+    "RegisterUserInput",
+  );
 }
 
 function createResendVerificationEmailInputRef(builder: Builder) {
@@ -70,11 +72,14 @@ function createResendVerificationEmailInputRef(builder: Builder) {
 }
 
 type RegisterUserInputRef = ReturnType<typeof createRegisterUserInputRef>;
-type ResendVerificationEmailInputRef = ReturnType<typeof createResendVerificationEmailInputRef>;
+type ResendVerificationEmailInputRef = ReturnType<
+  typeof createResendVerificationEmailInputRef
+>;
 
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
-let ResendVerificationEmailInputRef: ResendVerificationEmailInputRef | null = null;
+let ResendVerificationEmailInputRef: ResendVerificationEmailInputRef | null =
+  null;
 
 export function registerAuthTypes(builder: Builder): void {
   AuthErrorCodeEnumRef = builder.enumType("AuthErrorCode", {
@@ -93,6 +98,7 @@ export function registerAuthTypes(builder: Builder): void {
     description: "Error object for authentication operations",
     fields: (t) => ({
       code: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
         type: AuthErrorCodeEnumRef!,
         description: "Error code",
         resolve: (parent) => parent.code,
@@ -121,7 +127,8 @@ export function registerAuthTypes(builder: Builder): void {
     }),
   });
 
-  ResendVerificationEmailInputRef = createResendVerificationEmailInputRef(builder);
+  ResendVerificationEmailInputRef =
+    createResendVerificationEmailInputRef(builder);
   ResendVerificationEmailInputRef.implement({
     description: "Input for resending verification email",
     fields: (t) => ({
@@ -144,6 +151,7 @@ export function registerAuthMutations(
         },
         args: {
           input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
             type: RegisterUserInputRef!,
             required: true,
           }),
@@ -168,6 +176,7 @@ export function registerAuthMutations(
         },
         args: {
           input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
             type: ResendVerificationEmailInputRef!,
             required: true,
           }),

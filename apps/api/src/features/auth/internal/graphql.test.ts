@@ -1,4 +1,3 @@
-import { describe, expect, it, beforeAll, vi } from "vitest";
 import type {
   GraphQLEnumType,
   GraphQLInputObjectType,
@@ -6,14 +5,15 @@ import type {
   GraphQLSchema,
   GraphQLUnionType,
 } from "graphql";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
-import {
-  registerAuthTypes,
-  registerAuthMutations,
-  mapServiceErrorToAuthError,
-  AuthError,
-} from "./graphql.js";
 import { registerUserTypes } from "../../users/internal/graphql.js";
+import {
+  AuthError,
+  mapServiceErrorToAuthError,
+  registerAuthMutations,
+  registerAuthTypes,
+} from "./graphql.js";
 import type { AuthService, AuthServiceError } from "./service.js";
 
 describe("Auth GraphQL Types", () => {
@@ -124,9 +124,13 @@ describe("Auth GraphQL Mutations Schema", () => {
     expect(fields?.registerUser).toBeDefined();
 
     const registerUserField = fields?.registerUser;
-    expect(registerUserField?.type.toString()).toBe("MutationRegisterUserResult");
+    expect(registerUserField?.type.toString()).toBe(
+      "MutationRegisterUserResult",
+    );
 
-    const resultType = schema.getType("MutationRegisterUserResult") as GraphQLUnionType;
+    const resultType = schema.getType(
+      "MutationRegisterUserResult",
+    ) as GraphQLUnionType;
     expect(resultType).toBeDefined();
     const unionTypes = resultType.getTypes().map((t) => t.name);
     expect(unionTypes).toContain("MutationRegisterUserSuccess");
@@ -148,9 +152,13 @@ describe("Auth GraphQL Mutations Schema", () => {
     expect(fields?.resendVerificationEmail).toBeDefined();
 
     const resendField = fields?.resendVerificationEmail;
-    expect(resendField?.type.toString()).toBe("MutationResendVerificationEmailResult");
+    expect(resendField?.type.toString()).toBe(
+      "MutationResendVerificationEmailResult",
+    );
 
-    const resultType = schema.getType("MutationResendVerificationEmailResult") as GraphQLUnionType;
+    const resultType = schema.getType(
+      "MutationResendVerificationEmailResult",
+    ) as GraphQLUnionType;
     expect(resultType).toBeDefined();
     const unionTypes = resultType.getTypes().map((t) => t.name);
     expect(unionTypes).toContain("MutationResendVerificationEmailSuccess");
@@ -283,7 +291,12 @@ describe("mapServiceErrorToAuthError", () => {
 
 describe("AuthError class", () => {
   it("should create AuthError with all properties", () => {
-    const error = new AuthError("EMAIL_ALREADY_EXISTS", "Test message", "email", false);
+    const error = new AuthError(
+      "EMAIL_ALREADY_EXISTS",
+      "Test message",
+      "email",
+      false,
+    );
 
     expect(error).toBeInstanceOf(Error);
     expect(error.name).toBe("AuthError");

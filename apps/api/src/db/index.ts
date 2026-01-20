@@ -21,7 +21,10 @@ export function getPool(): Pool {
       connectionString: getDatabaseUrl(),
       max: config.getOrDefault("DB_POOL_MAX", 20),
       idleTimeoutMillis: config.getOrDefault("DB_IDLE_TIMEOUT_MS", 30000),
-      connectionTimeoutMillis: config.getOrDefault("DB_CONNECTION_TIMEOUT_MS", 5000),
+      connectionTimeoutMillis: config.getOrDefault(
+        "DB_CONNECTION_TIMEOUT_MS",
+        5000,
+      ),
     });
 
     pool.on("error", (err) => {

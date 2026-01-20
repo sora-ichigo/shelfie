@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { lexicographicSortSchema, printSchema } from "graphql";
 import { writeFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { lexicographicSortSchema, printSchema } from "graphql";
 import { buildSchema } from "./schema.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

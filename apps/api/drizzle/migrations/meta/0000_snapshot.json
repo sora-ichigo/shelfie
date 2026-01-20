@@ -75,16 +75,12 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         },
         "users_firebase_uid_unique": {
           "name": "users_firebase_uid_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "firebase_uid"
-          ]
+          "columns": ["firebase_uid"]
         }
       },
       "policies": {},

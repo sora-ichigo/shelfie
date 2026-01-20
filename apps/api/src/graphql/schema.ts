@@ -1,17 +1,17 @@
-import { builder } from "./builder.js";
 import { createFirebaseAuthAdapter } from "../auth/index.js";
 import { getDb } from "../db/index.js";
-import { logger } from "../logger/index.js";
 import {
-  registerAuthTypes,
-  registerAuthMutations,
   createAuthService,
+  registerAuthMutations,
+  registerAuthTypes,
 } from "../features/auth/index.js";
 import {
-  registerUserTypes,
   createUserRepository,
   createUserService,
+  registerUserTypes,
 } from "../features/users/index.js";
+import { logger } from "../logger/index.js";
+import { builder } from "./builder.js";
 
 registerUserTypes(builder);
 registerAuthTypes(builder);

@@ -1,5 +1,10 @@
 import type { User } from "../../../db/schema/users.js";
-import { type DomainError, err, ok, type Result } from "../../../errors/result.js";
+import {
+  type DomainError,
+  err,
+  ok,
+  type Result,
+} from "../../../errors/result.js";
 import type { UserRepository } from "./repository.js";
 
 export type UserServiceErrors =

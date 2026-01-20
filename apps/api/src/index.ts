@@ -1,7 +1,7 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
 import { config } from "./config";
-import { getDb, getPool, closePool } from "./db";
+import { closePool, getDb, getPool } from "./db";
 import type { GraphQLContext } from "./graphql/context";
 import { createApolloServer, createExpressApp } from "./graphql/server";
 import { logger } from "./logger";

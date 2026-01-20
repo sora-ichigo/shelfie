@@ -91,7 +91,9 @@ describe("System Integration Tests", () => {
     });
 
     it("should allow queries via drizzle before shutdown", async () => {
-      const result = await db.execute<{ result: number }>(sql`SELECT 1 as result`);
+      const result = await db.execute<{ result: number }>(
+        sql`SELECT 1 as result`,
+      );
       expect(result.rows[0].result).toBe(1);
     });
   });

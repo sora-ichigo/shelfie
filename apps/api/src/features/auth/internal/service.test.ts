@@ -1,13 +1,13 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { User } from "../../../db/schema/users.js";
+import type { LoggerService } from "../../../logger/index.js";
+import type { UserService } from "../../users/index.js";
+import type { AuthService, FirebaseAuth } from "./service.js";
 import {
   createAuthService,
-  validatePassword,
   mapFirebaseError,
+  validatePassword,
 } from "./service.js";
-import type { AuthService, AuthServiceError, FirebaseAuth } from "./service.js";
-import type { UserService } from "../../users/index.js";
-import type { LoggerService } from "../../../logger/index.js";
-import type { User } from "../../../db/schema/users.js";
 
 function createMockUserService(): UserService {
   return {
@@ -418,9 +418,11 @@ describe("AuthService.resendVerificationEmail", () => {
       uid: "firebase-uid-123",
       emailVerified: false,
     });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue({
-      code: "auth/too-many-requests",
-    });
+    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue(
+      {
+        code: "auth/too-many-requests",
+      },
+    );
 
     const result = await authService.resendVerificationEmail({
       email: "test@example.com",

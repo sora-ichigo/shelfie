@@ -154,9 +154,13 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
           });
           return err(mapFirebaseError(firebaseError as { code: string }));
         }
-        logger.error("Unknown error during Firebase createUser", error as Error, {
-          feature: "auth",
-        });
+        logger.error(
+          "Unknown error during Firebase createUser",
+          error as Error,
+          {
+            feature: "auth",
+          },
+        );
         return err({
           code: "INTERNAL_ERROR",
           message: "予期しないエラーが発生しました",
@@ -188,7 +192,7 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
 
       try {
         await firebaseAuth.generateEmailVerificationLink(input.email);
-      } catch (error) {
+      } catch {
         logger.warn("Failed to send verification email", {
           feature: "auth",
           email: input.email,

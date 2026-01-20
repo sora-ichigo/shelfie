@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { type AuthenticatedUser, extractBearerToken } from "./middleware";
 
 vi.mock("./firebase", () => ({

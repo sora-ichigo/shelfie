@@ -36,8 +36,14 @@ describe("Drizzle ORM Integration Tests", () => {
         const result = await db
           .insert(users)
           .values([
-            { email: "batch1@example.com", firebaseUid: `firebase-${timestamp}-b1` },
-            { email: "batch2@example.com", firebaseUid: `firebase-${timestamp}-b2` },
+            {
+              email: "batch1@example.com",
+              firebaseUid: `firebase-${timestamp}-b1`,
+            },
+            {
+              email: "batch2@example.com",
+              firebaseUid: `firebase-${timestamp}-b2`,
+            },
           ])
           .returning();
 

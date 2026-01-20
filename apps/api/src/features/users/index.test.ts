@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  createUserRepository,
-  createUserService,
-} from "./index.js";
+import { createUserRepository, createUserService } from "./index.js";
 
 describe("Users Feature exports", () => {
   it("should export createUserRepository", () => {

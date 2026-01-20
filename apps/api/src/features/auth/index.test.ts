@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
-  createAuthService,
-  registerAuthTypes,
-  registerAuthMutations,
   AUTH_ERROR_CODES,
   AuthError,
+  createAuthService,
+  registerAuthMutations,
+  registerAuthTypes,
 } from "./index.js";
 
 describe("Auth Feature exports", () => {
