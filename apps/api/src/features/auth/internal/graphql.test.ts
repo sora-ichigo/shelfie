@@ -7,9 +7,14 @@ import type {
   GraphQLUnionType,
 } from "graphql";
 import { createTestBuilder } from "../../../graphql/builder.js";
-import { registerAuthTypes, registerAuthMutations } from "./graphql.js";
+import {
+  registerAuthTypes,
+  registerAuthMutations,
+  mapServiceErrorToAuthError,
+  AuthError,
+} from "./graphql.js";
 import { registerUserTypes } from "../../users/internal/graphql.js";
-import type { AuthService } from "./service.js";
+import type { AuthService, AuthServiceError } from "./service.js";
 
 describe("Auth GraphQL Types", () => {
   let schema: GraphQLSchema;
@@ -155,5 +160,149 @@ describe("Auth GraphQL Mutations Schema", () => {
     expect(args?.length).toBe(1);
     expect(args?.[0].name).toBe("input");
     expect(args?.[0].type.toString()).toBe("ResendVerificationEmailInput!");
+  });
+});
+
+describe("mapServiceErrorToAuthError", () => {
+  it("should map EMAIL_ALREADY_EXISTS error with email field", () => {
+    const error: AuthServiceError = {
+      code: "EMAIL_ALREADY_EXISTS",
+      message: "このメールアドレスは既に使用されています",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("EMAIL_ALREADY_EXISTS");
+    expect(result.message).toBe("このメールアドレスは既に使用されています");
+    expect(result.field).toBe("email");
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map INVALID_PASSWORD error with password field", () => {
+    const error: AuthServiceError = {
+      code: "INVALID_PASSWORD",
+      message: "パスワードは8文字以上で入力してください",
+      requirements: ["8文字以上"],
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("INVALID_PASSWORD");
+    expect(result.field).toBe("password");
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map USER_NOT_FOUND error with email field", () => {
+    const error: AuthServiceError = {
+      code: "USER_NOT_FOUND",
+      message: "指定されたメールアドレスのユーザーが見つかりません",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("USER_NOT_FOUND");
+    expect(result.field).toBe("email");
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map EMAIL_ALREADY_VERIFIED error with email field", () => {
+    const error: AuthServiceError = {
+      code: "EMAIL_ALREADY_VERIFIED",
+      message: "メールアドレスは既に確認済みです",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("EMAIL_ALREADY_VERIFIED");
+    expect(result.field).toBe("email");
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map NETWORK_ERROR with retryable flag", () => {
+    const error: AuthServiceError = {
+      code: "NETWORK_ERROR",
+      message: "ネットワークエラーが発生しました",
+      retryable: true,
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("NETWORK_ERROR");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(true);
+  });
+
+  it("should map RATE_LIMIT_EXCEEDED with retryable flag", () => {
+    const error: AuthServiceError = {
+      code: "RATE_LIMIT_EXCEEDED",
+      message: "リクエストが多すぎます",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("RATE_LIMIT_EXCEEDED");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(true);
+  });
+
+  it("should map FIREBASE_ERROR to INTERNAL_ERROR", () => {
+    const error: AuthServiceError = {
+      code: "FIREBASE_ERROR",
+      message: "Firebase認証でエラーが発生しました",
+      originalCode: "auth/unknown-error",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("INTERNAL_ERROR");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map INTERNAL_ERROR correctly", () => {
+    const error: AuthServiceError = {
+      code: "INTERNAL_ERROR",
+      message: "予期しないエラーが発生しました",
+    };
+
+    const result = mapServiceErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("INTERNAL_ERROR");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(false);
+  });
+});
+
+describe("AuthError class", () => {
+  it("should create AuthError with all properties", () => {
+    const error = new AuthError("EMAIL_ALREADY_EXISTS", "Test message", "email", false);
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.name).toBe("AuthError");
+    expect(error.code).toBe("EMAIL_ALREADY_EXISTS");
+    expect(error.message).toBe("Test message");
+    expect(error.field).toBe("email");
+    expect(error.retryable).toBe(false);
+  });
+
+  it("should create AuthError with default values", () => {
+    const error = new AuthError("INTERNAL_ERROR", "Error message");
+
+    expect(error.field).toBeNull();
+    expect(error.retryable).toBe(false);
+  });
+
+  it("should create AuthError with retryable flag", () => {
+    const error = new AuthError("NETWORK_ERROR", "Network error", null, true);
+
+    expect(error.retryable).toBe(true);
   });
 });

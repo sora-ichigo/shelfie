@@ -68,20 +68,20 @@
   - 成功時に success: true を返し、失敗時にエラーを返す
   - _Requirements: 4.2, 4.4_
 
-- [ ] 5. 統合テスト
-- [ ] 5.1 AuthService のユニットテストを作成
+- [x] 5. 統合テスト
+- [x] 5.1 AuthService のユニットテストを作成
   - パスワードバリデーションの各ケースをテスト
   - Firebase エラーマッピングの各ケースをテスト
   - ユーザー登録の正常系・異常系をテスト（Firebase モック使用）
   - 確認メール再送信の正常系・異常系をテスト
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 5.2 (P) UserRepository/UserService のユニットテストを作成
+- [x] 5.2 (P) UserRepository/UserService のユニットテストを作成
   - Firebase UID でのユーザー検索テスト
   - Firebase UID 付きユーザー作成テスト
   - _Requirements: 1.2_
 
-- [ ] 5.3 GraphQL Mutation の統合テストを作成
+- [x] 5.3 GraphQL Mutation の統合テストを作成
   - registerUser Mutation の正常系・異常系をテスト
   - resendVerificationEmail Mutation の正常系・異常系をテスト
   - データベースへの保存確認を含む
