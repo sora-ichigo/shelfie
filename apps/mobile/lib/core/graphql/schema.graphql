@@ -16,12 +16,9 @@ type AuthError {
 """Error codes for authentication operations"""
 enum AuthErrorCode {
   EMAIL_ALREADY_EXISTS
-  EMAIL_ALREADY_VERIFIED
   INTERNAL_ERROR
   INVALID_PASSWORD
   NETWORK_ERROR
-  RATE_LIMIT_EXCEEDED
-  USER_NOT_FOUND
 }
 
 """
@@ -32,21 +29,12 @@ scalar DateTime
 type Mutation {
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
-
-  """Resend verification email to a user"""
-  resendVerificationEmail(input: ResendVerificationEmailInput!): MutationResendVerificationEmailResult
 }
 
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
   data: User!
-}
-
-union MutationResendVerificationEmailResult = AuthError | MutationResendVerificationEmailSuccess
-
-type MutationResendVerificationEmailSuccess {
-  data: Boolean!
 }
 
 type Query {
@@ -60,12 +48,6 @@ input RegisterUserInput {
 
   """Password"""
   password: String!
-}
-
-"""Input for resending verification email"""
-input ResendVerificationEmailInput {
-  """Email address"""
-  email: String!
 }
 
 """A user in the system"""

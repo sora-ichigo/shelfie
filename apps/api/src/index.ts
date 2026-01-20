@@ -1,5 +1,9 @@
 import type { Server } from "node:http";
 import type { ApolloServer } from "@apollo/server";
+import {
+  getFirebaseAuthConfig,
+  initializeFirebaseAuth,
+} from "./auth/firebase.js";
 import { config } from "./config";
 import { closePool, getDb, getPool } from "./db";
 import type { GraphQLContext } from "./graphql/context";
@@ -16,20 +20,29 @@ let components: ServerComponents | null = null;
 async function initialize(): Promise<ServerComponents> {
   logger.info("Starting server initialization...");
 
-  logger.info("Step 1/4: Validating configuration...");
+  logger.info("Step 1/5: Validating configuration...");
   config.validate();
   logger.info("Configuration validated successfully");
 
-  logger.info("Step 2/4: Establishing database connection...");
+  logger.info("Step 2/5: Initializing Firebase Auth...");
+  const firebaseConfig = getFirebaseAuthConfig();
+  if (firebaseConfig) {
+    initializeFirebaseAuth(firebaseConfig);
+    logger.info("Firebase Auth initialized");
+  } else {
+    logger.warn("Firebase Auth not configured, skipping initialization");
+  }
+
+  logger.info("Step 3/5: Establishing database connection...");
   const pool = getPool();
   await pool.query("SELECT 1");
   logger.info("Database connection established");
 
-  logger.info("Step 3/4: Building GraphQL schema...");
+  logger.info("Step 4/5: Building GraphQL schema...");
   const apolloServer = createApolloServer();
   logger.info("GraphQL schema built");
 
-  logger.info("Step 4/4: Starting Apollo Server...");
+  logger.info("Step 5/5: Starting Apollo Server...");
   await apolloServer.start();
   logger.info("Apollo Server started");
 

@@ -95,26 +95,6 @@ describe("mapFirebaseError", () => {
     expect(result.message).toBe("パスワードは8文字以上で入力してください");
   });
 
-  it("should map auth/user-not-found to USER_NOT_FOUND", () => {
-    const firebaseError = { code: "auth/user-not-found" };
-    const result = mapFirebaseError(firebaseError);
-
-    expect(result.code).toBe("USER_NOT_FOUND");
-    expect(result.message).toBe(
-      "指定されたメールアドレスのユーザーが見つかりません",
-    );
-  });
-
-  it("should map auth/too-many-requests to RATE_LIMIT_EXCEEDED", () => {
-    const firebaseError = { code: "auth/too-many-requests" };
-    const result = mapFirebaseError(firebaseError);
-
-    expect(result.code).toBe("RATE_LIMIT_EXCEEDED");
-    expect(result.message).toBe(
-      "リクエストが多すぎます。しばらく時間をおいてから再度お試しください",
-    );
-  });
-
   it("should map auth/internal-error to INTERNAL_ERROR", () => {
     const firebaseError = { code: "auth/internal-error" };
     const result = mapFirebaseError(firebaseError);
@@ -148,8 +128,6 @@ describe("mapFirebaseError", () => {
 function createMockFirebaseAuth(): FirebaseAuth {
   return {
     createUser: vi.fn(),
-    getUserByEmail: vi.fn(),
-    generateEmailVerificationLink: vi.fn(),
   };
 }
 
@@ -187,9 +165,6 @@ describe("AuthService.register", () => {
       success: true,
       data: mockUser,
     });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
-      "https://example.com/verify",
-    );
 
     const result = await authService.register({
       email: "test@example.com",
@@ -284,36 +259,6 @@ describe("AuthService.register", () => {
     }
   });
 
-  it("should still succeed even if verification email fails", async () => {
-    const mockUser: User = {
-      id: 1,
-      email: "test@example.com",
-      firebaseUid: "firebase-uid-123",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
-      uid: "firebase-uid-123",
-      emailVerified: false,
-    });
-    vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
-      success: true,
-      data: mockUser,
-    });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue(
-      new Error("Failed to send email"),
-    );
-
-    const result = await authService.register({
-      email: "test@example.com",
-      password: "password123",
-    });
-
-    expect(result.success).toBe(true);
-    expect(mockLogger.warn).toHaveBeenCalled();
-  });
-
   it("should log successful registration", async () => {
     const mockUser: User = {
       id: 1,
@@ -340,132 +285,6 @@ describe("AuthService.register", () => {
     expect(mockLogger.info).toHaveBeenCalledWith(
       "User registered successfully",
       expect.objectContaining({ feature: "auth", userId: "1" }),
-    );
-  });
-});
-
-describe("AuthService.resendVerificationEmail", () => {
-  let mockFirebaseAuth: FirebaseAuth;
-  let mockUserService: UserService;
-  let mockLogger: LoggerService;
-  let authService: AuthService;
-
-  beforeEach(() => {
-    mockFirebaseAuth = createMockFirebaseAuth();
-    mockUserService = createMockUserService();
-    mockLogger = createMockLogger();
-    authService = createAuthService({
-      firebaseAuth: mockFirebaseAuth,
-      userService: mockUserService,
-      logger: mockLogger,
-    });
-  });
-
-  it("should resend verification email successfully", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
-      uid: "firebase-uid-123",
-      emailVerified: false,
-    });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
-      "https://example.com/verify",
-    );
-
-    const result = await authService.resendVerificationEmail({
-      email: "test@example.com",
-    });
-
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.success).toBe(true);
-    }
-    expect(mockFirebaseAuth.generateEmailVerificationLink).toHaveBeenCalledWith(
-      "test@example.com",
-    );
-  });
-
-  it("should return error when user is not found", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue(null);
-
-    const result = await authService.resendVerificationEmail({
-      email: "nonexistent@example.com",
-    });
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.code).toBe("USER_NOT_FOUND");
-    }
-  });
-
-  it("should return error when email is already verified", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
-      uid: "firebase-uid-123",
-      emailVerified: true,
-    });
-
-    const result = await authService.resendVerificationEmail({
-      email: "verified@example.com",
-    });
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.code).toBe("EMAIL_ALREADY_VERIFIED");
-      expect(result.error.message).toBe("メールアドレスは既に確認済みです");
-    }
-  });
-
-  it("should return error when rate limit is exceeded", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
-      uid: "firebase-uid-123",
-      emailVerified: false,
-    });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockRejectedValue(
-      {
-        code: "auth/too-many-requests",
-      },
-    );
-
-    const result = await authService.resendVerificationEmail({
-      email: "test@example.com",
-    });
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.code).toBe("RATE_LIMIT_EXCEEDED");
-    }
-  });
-
-  it("should handle Firebase getUserByEmail error", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockRejectedValue({
-      code: "auth/internal-error",
-    });
-
-    const result = await authService.resendVerificationEmail({
-      email: "test@example.com",
-    });
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.code).toBe("INTERNAL_ERROR");
-    }
-    expect(mockLogger.error).toHaveBeenCalled();
-  });
-
-  it("should log successful resend", async () => {
-    vi.mocked(mockFirebaseAuth.getUserByEmail).mockResolvedValue({
-      uid: "firebase-uid-123",
-      emailVerified: false,
-    });
-    vi.mocked(mockFirebaseAuth.generateEmailVerificationLink).mockResolvedValue(
-      "https://example.com/verify",
-    );
-
-    await authService.resendVerificationEmail({
-      email: "test@example.com",
-    });
-
-    expect(mockLogger.info).toHaveBeenCalledWith(
-      "Verification email resent",
-      expect.objectContaining({ feature: "auth", email: "test@example.com" }),
     );
   });
 });

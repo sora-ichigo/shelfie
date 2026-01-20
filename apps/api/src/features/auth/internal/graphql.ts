@@ -6,9 +6,6 @@ import type { AuthService, AuthServiceError } from "./service.js";
 export const AUTH_ERROR_CODES = [
   "EMAIL_ALREADY_EXISTS",
   "INVALID_PASSWORD",
-  "USER_NOT_FOUND",
-  "EMAIL_ALREADY_VERIFIED",
-  "RATE_LIMIT_EXCEEDED",
   "NETWORK_ERROR",
   "INTERNAL_ERROR",
 ] as const;
@@ -37,8 +34,6 @@ export class AuthError extends Error {
 function mapErrorCodeToField(code: string): string | null {
   switch (code) {
     case "EMAIL_ALREADY_EXISTS":
-    case "USER_NOT_FOUND":
-    case "EMAIL_ALREADY_VERIFIED":
       return "email";
     case "INVALID_PASSWORD":
       return "password";
@@ -48,7 +43,7 @@ function mapErrorCodeToField(code: string): string | null {
 }
 
 function isRetryableError(code: string): boolean {
-  return code === "NETWORK_ERROR" || code === "RATE_LIMIT_EXCEEDED";
+  return code === "NETWORK_ERROR";
 }
 
 export function mapServiceErrorToAuthError(error: AuthServiceError): AuthError {
@@ -67,19 +62,10 @@ function createRegisterUserInputRef(builder: Builder) {
   );
 }
 
-function createResendVerificationEmailInputRef(builder: Builder) {
-  return builder.inputRef<{ email: string }>("ResendVerificationEmailInput");
-}
-
 type RegisterUserInputRef = ReturnType<typeof createRegisterUserInputRef>;
-type ResendVerificationEmailInputRef = ReturnType<
-  typeof createResendVerificationEmailInputRef
->;
 
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
-let ResendVerificationEmailInputRef: ResendVerificationEmailInputRef | null =
-  null;
 
 export function registerAuthTypes(builder: Builder): void {
   AuthErrorCodeEnumRef = builder.enumType("AuthErrorCode", {
@@ -126,15 +112,6 @@ export function registerAuthTypes(builder: Builder): void {
       password: t.string({ required: true, description: "Password" }),
     }),
   });
-
-  ResendVerificationEmailInputRef =
-    createResendVerificationEmailInputRef(builder);
-  ResendVerificationEmailInputRef.implement({
-    description: "Input for resending verification email",
-    fields: (t) => ({
-      email: t.string({ required: true, description: "Email address" }),
-    }),
-  });
 }
 
 export function registerAuthMutations(
@@ -167,30 +144,6 @@ export function registerAuthMutations(
           }
 
           return result.data.user;
-        },
-      }),
-      resendVerificationEmail: t.boolean({
-        description: "Resend verification email to a user",
-        errors: {
-          types: [AuthError],
-        },
-        args: {
-          input: t.arg({
-            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
-            type: ResendVerificationEmailInputRef!,
-            required: true,
-          }),
-        },
-        resolve: async (_parent, { input }): Promise<boolean> => {
-          const result = await authService.resendVerificationEmail({
-            email: input.email,
-          });
-
-          if (!result.success) {
-            throw mapServiceErrorToAuthError(result.error);
-          }
-
-          return result.data.success;
         },
       }),
     }),
