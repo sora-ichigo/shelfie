@@ -125,7 +125,9 @@ function createRegisterUserInputRef(builder: Builder) {
 type RegisterUserInputRef = ReturnType<typeof createRegisterUserInputRef>;
 
 function createLoginUserInputRef(builder: Builder) {
-  return builder.inputRef<{ email: string; password: string }>("LoginUserInput");
+  return builder.inputRef<{ email: string; password: string }>(
+    "LoginUserInput",
+  );
 }
 
 type LoginUserInputRef = ReturnType<typeof createLoginUserInputRef>;
@@ -157,7 +159,9 @@ function createRefreshTokenResultRef(builder: Builder) {
   return builder.objectRef<RefreshTokenResultData>("RefreshTokenResult");
 }
 
-type RefreshTokenResultObjectRef = ReturnType<typeof createRefreshTokenResultRef>;
+type RefreshTokenResultObjectRef = ReturnType<
+  typeof createRefreshTokenResultRef
+>;
 
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
@@ -382,7 +386,10 @@ export function registerAuthMutations(
             required: true,
           }),
         },
-        resolve: async (_parent, { input }): Promise<RefreshTokenResultData> => {
+        resolve: async (
+          _parent,
+          { input },
+        ): Promise<RefreshTokenResultData> => {
           const result = await authService.refreshToken(input.refreshToken);
 
           if (!result.success) {

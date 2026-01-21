@@ -64,7 +64,9 @@ export interface AuthService {
     input: RegisterUserInput,
   ): Promise<Result<RegisterUserOutput, AuthServiceError>>;
   getCurrentUser(firebaseUid: string): Promise<Result<User, LoginServiceError>>;
-  login(input: LoginUserInput): Promise<Result<LoginUserOutput, LoginServiceError>>;
+  login(
+    input: LoginUserInput,
+  ): Promise<Result<LoginUserOutput, LoginServiceError>>;
   refreshToken(
     refreshToken: string,
   ): Promise<Result<RefreshTokenOutput, LoginServiceError>>;
@@ -309,7 +311,11 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         email: input.email,
       });
 
-      let firebaseResult: { uid: string; idToken: string; refreshToken: string };
+      let firebaseResult: {
+        uid: string;
+        idToken: string;
+        refreshToken: string;
+      };
       try {
         firebaseResult = await firebaseAuth.signIn(input.email, input.password);
       } catch (error) {
@@ -382,7 +388,9 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
             feature: "auth",
             errorCode: firebaseError.code,
           });
-          return err(mapFirebaseRefreshError(firebaseError as { code: string }));
+          return err(
+            mapFirebaseRefreshError(firebaseError as { code: string }),
+          );
         }
         logger.error(
           "Unknown error during Firebase refreshToken",

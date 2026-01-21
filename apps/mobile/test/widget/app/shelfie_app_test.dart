@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/app/app.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 void main() {
