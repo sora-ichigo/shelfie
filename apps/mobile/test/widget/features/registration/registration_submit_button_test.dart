@@ -18,7 +18,7 @@ void main() {
         ),
       );
 
-      expect(find.text('認証コードを送信'), findsOneWidget);
+      expect(find.text('アカウントを作成'), findsOneWidget);
       expect(find.byType(FilledButton), findsOneWidget);
     });
 

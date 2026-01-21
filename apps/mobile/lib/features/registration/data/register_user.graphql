@@ -1,0 +1,17 @@
+mutation RegisterUser($input: RegisterUserInput!) {
+  registerUser(input: $input) {
+    ... on MutationRegisterUserSuccess {
+      data {
+        id
+        email
+        createdAt
+      }
+    }
+    ... on AuthError {
+      code
+      message
+      field
+      retryable
+    }
+  }
+}

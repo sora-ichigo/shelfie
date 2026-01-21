@@ -9,18 +9,19 @@ class RegistrationSubmitButton extends ConsumerWidget {
     super.key,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(registrationFormStateProvider);
     final isValid = ref.read(registrationFormStateProvider.notifier).isValid;
+    final isEnabled = isValid && onPressed != null;
 
     return SizedBox(
       width: double.infinity,
       height: 56,
       child: FilledButton(
-        onPressed: isValid ? onPressed : null,
+        onPressed: isEnabled ? onPressed : null,
         style: FilledButton.styleFrom(
           backgroundColor: Colors.white,
           disabledBackgroundColor: Colors.white.withOpacity(0.5),
@@ -31,9 +32,9 @@ class RegistrationSubmitButton extends ConsumerWidget {
           ),
         ),
         child: Text(
-          '認証コードを送信',
+          'アカウントを作成',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: isValid ? Colors.black : Colors.black.withOpacity(0.5),
+                color: isEnabled ? Colors.black : Colors.black.withOpacity(0.5),
                 fontWeight: FontWeight.w600,
               ),
         ),

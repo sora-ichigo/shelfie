@@ -75,7 +75,7 @@ void main() {
       );
 
       expect(find.byType(RegistrationSubmitButton), findsOneWidget);
-      expect(find.text('認証コードを送信'), findsOneWidget);
+      expect(find.text('アカウントを作成'), findsOneWidget);
     });
 
     testWidgets('利用規約リンクが表示される', (tester) async {
