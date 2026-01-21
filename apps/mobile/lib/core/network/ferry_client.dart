@@ -2,9 +2,12 @@ import 'dart:io' show Platform;
 
 import 'package:ferry/ferry.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/token_service.dart';
 
 part 'ferry_client.g.dart';
 
@@ -49,8 +52,7 @@ String apiEndpoint(ApiEndpointRef ref) {
 /// null の場合は未認証状態を示す。
 @Riverpod(keepAlive: true)
 String? authToken(AuthTokenRef ref) {
-  // TODO(shelfie): SecureStorage から取得する実装に置き換え
-  return null;
+  return ref.watch(authStateProvider.select((s) => s.token));
 }
 
 /// Hive Box Provider
@@ -125,6 +127,40 @@ Client ferryClient(FerryClientRef ref) {
       OperationType.subscription: FetchPolicy.CacheAndNetwork,
     },
   );
+}
+
+/// トークンリフレッシュを行うかどうかのフラグ Provider
+///
+/// 認証が必要な API リクエスト前にトークンの有効性を確認し、
+/// 必要に応じてリフレッシュする。
+@riverpod
+Future<bool> ensureValidToken(EnsureValidTokenRef ref) async {
+  final tokenService = ref.read(tokenServiceProvider);
+  return tokenService.ensureValidToken();
+}
+
+/// 認証付き API リクエスト用ヘルパー
+///
+/// API リクエスト前にトークンの有効性を確認し、
+/// 必要に応じてリフレッシュしてからクライアントを返す。
+///
+/// 使用方法:
+/// ```dart
+/// final client = await ref.read(authenticatedClientProvider.future);
+/// final response = await client.request(yourRequest).first;
+/// ```
+@riverpod
+Future<Client> authenticatedClient(AuthenticatedClientRef ref) async {
+  final tokenService = ref.read(tokenServiceProvider);
+  final isValid = await tokenService.ensureValidToken();
+
+  if (!isValid) {
+    debugPrint('[AuthenticatedClient] Token validation failed');
+  }
+
+  // トークン更新後、最新のクライアントを返す
+  // authTokenProvider が更新されているため、ferryClient も最新のトークンを持つ
+  return ref.watch(ferryClientProvider);
 }
 
 /// キャッシュクリア Provider

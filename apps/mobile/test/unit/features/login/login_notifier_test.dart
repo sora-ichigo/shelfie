@@ -1,7 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/login/application/login_form_state.dart';
 import 'package:shelfie/features/login/application/login_notifier.dart';
+import 'package:shelfie/features/login/data/login_repository.dart';
+
+class MockLoginRepository extends Mock implements LoginRepository {}
+
+class MockSecureStorageService extends Mock implements SecureStorageService {}
 
 void main() {
   group('LoginState', () {
@@ -19,10 +28,14 @@ void main() {
       const state = LoginState.success(
         userId: 'test-user-id',
         email: 'test@example.com',
+        idToken: 'test-id-token',
+        refreshToken: 'test-refresh-token',
       );
       expect(state, isA<LoginStateSuccess>());
       expect((state as LoginStateSuccess).userId, equals('test-user-id'));
       expect(state.email, equals('test@example.com'));
+      expect(state.idToken, equals('test-id-token'));
+      expect(state.refreshToken, equals('test-refresh-token'));
     });
 
     test('error 状態を作成できる', () {
@@ -41,9 +54,32 @@ void main() {
 
   group('LoginNotifier', () {
     late ProviderContainer container;
+    late MockLoginRepository mockRepository;
+    late MockSecureStorageService mockStorage;
 
     setUp(() {
-      container = ProviderContainer();
+      mockRepository = MockLoginRepository();
+      mockStorage = MockSecureStorageService();
+
+      when(() => mockStorage.saveAuthData(
+            userId: any(named: 'userId'),
+            email: any(named: 'email'),
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.updateTokens(
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+      when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
+      container = ProviderContainer(
+        overrides: [
+          loginRepositoryProvider.overrideWithValue(mockRepository),
+          secureStorageServiceProvider.overrideWithValue(mockStorage),
+        ],
+      );
     });
 
     tearDown(() {
@@ -56,6 +92,22 @@ void main() {
     });
 
     test('login は loading 状態を経由して success になる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
+          ),
+        ),
+      );
+
       final formNotifier = container.read(loginFormStateProvider.notifier);
       formNotifier.updateEmail('test@example.com');
       formNotifier.updatePassword('password123');
@@ -71,9 +123,90 @@ void main() {
 
       expect(states, contains(isA<LoginStateLoading>()));
       expect(states.last, isA<LoginStateSuccess>());
+      expect(
+        (states.last as LoginStateSuccess).idToken,
+        equals('test-id-token'),
+      );
+    });
+
+    test('login 失敗時は error 状態になる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => left(
+          const InvalidCredentialsError(
+            'メールアドレスまたはパスワードが正しくありません',
+          ),
+        ),
+      );
+
+      final formNotifier = container.read(loginFormStateProvider.notifier);
+      formNotifier.updateEmail('test@example.com');
+      formNotifier.updatePassword('wrong-password');
+
+      final loginNotifier = container.read(loginNotifierProvider.notifier);
+
+      final states = <LoginState>[];
+      container.listen(loginNotifierProvider, (previous, next) {
+        states.add(next);
+      });
+
+      await loginNotifier.login();
+
+      expect(states, contains(isA<LoginStateLoading>()));
+      expect(states.last, isA<LoginStateError>());
+      expect(
+        (states.last as LoginStateError).message,
+        contains('メールアドレスまたはパスワード'),
+      );
+    });
+
+    test('login 成功時に authState にトークンがセットされる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
+          ),
+        ),
+      );
+
+      final formNotifier = container.read(loginFormStateProvider.notifier);
+      formNotifier.updateEmail('test@example.com');
+      formNotifier.updatePassword('password123');
+
+      await container.read(loginNotifierProvider.notifier).login();
+
+      expect(container.read(authStateProvider).token, equals('test-id-token'));
     });
 
     test('reset で初期状態に戻る', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
+          ),
+        ),
+      );
+
       final formNotifier = container.read(loginFormStateProvider.notifier);
       formNotifier.updateEmail('test@example.com');
       formNotifier.updatePassword('password123');

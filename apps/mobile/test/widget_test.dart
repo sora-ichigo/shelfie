@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/app/app.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/routing/app_router.dart';
+
+import 'helpers/test_helpers.dart';
 
 void main() {
   group('ShelfieApp', () {
@@ -68,13 +70,15 @@ void main() {
     });
 
     testWidgets('認証済みでホーム画面が表示されること', (WidgetTester tester) async {
-      final container = ProviderContainer();
+      final container = createTestContainer();
       addTearDown(container.dispose);
 
       // ログイン状態にする
-      container.read(authStateProvider.notifier).login(
+      await container.read(authStateProvider.notifier).login(
             userId: 'test-user',
+            email: 'test@example.com',
             token: 'test-token',
+            refreshToken: 'test-refresh-token',
           );
 
       await tester.pumpWidget(

@@ -39,6 +39,9 @@ linter:
 
     # Relax strict rules (especially for test files)
     lines_longer_than_80_chars: false
+    # Disable unnecessary_lambdas for mocktail patterns
+    # (mocktail requires when(() => method()) syntax)
+    unnecessary_lambdas: false
     cascade_invocations: false
     require_trailing_commas: false
     avoid_redundant_argument_values: false

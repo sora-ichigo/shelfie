@@ -29,25 +29,5 @@ final appRouterProvider = Provider<GoRouter>.internal(
 );
 
 typedef AppRouterRef = ProviderRef<GoRouter>;
-String _$authStateNotifierHash() => r'506e3ee0a4a6d22e707559d59e961809bfb1a7a3';
-
-/// 認証状態管理 Notifier
-///
-/// refreshListenable で使用するため、状態変更時に通知を行う。
-///
-/// Copied from [AuthStateNotifier].
-@ProviderFor(AuthStateNotifier)
-final authStateNotifierProvider =
-    NotifierProvider<AuthStateNotifier, AuthState>.internal(
-  AuthStateNotifier.new,
-  name: r'authStateNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authStateNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$AuthStateNotifier = Notifier<AuthState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

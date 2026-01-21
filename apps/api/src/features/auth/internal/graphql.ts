@@ -12,6 +12,7 @@ export const LOGIN_ERROR_CODES = [
   "TOKEN_EXPIRED",
   "USER_NOT_FOUND",
   "UNAUTHENTICATED",
+  "INVALID_CREDENTIALS",
 ] as const;
 
 export type LoginErrorCode = (typeof LOGIN_ERROR_CODES)[number];
@@ -123,8 +124,51 @@ function createRegisterUserInputRef(builder: Builder) {
 
 type RegisterUserInputRef = ReturnType<typeof createRegisterUserInputRef>;
 
+function createLoginUserInputRef(builder: Builder) {
+  return builder.inputRef<{ email: string; password: string }>(
+    "LoginUserInput",
+  );
+}
+
+type LoginUserInputRef = ReturnType<typeof createLoginUserInputRef>;
+
+interface LoginResultData {
+  user: User;
+  idToken: string;
+  refreshToken: string;
+}
+
+interface RefreshTokenResultData {
+  idToken: string;
+  refreshToken: string;
+}
+
+function createLoginResultRef(builder: Builder) {
+  return builder.objectRef<LoginResultData>("LoginResult");
+}
+
+type LoginResultObjectRef = ReturnType<typeof createLoginResultRef>;
+
+function createRefreshTokenInputRef(builder: Builder) {
+  return builder.inputRef<{ refreshToken: string }>("RefreshTokenInput");
+}
+
+type RefreshTokenInputRef = ReturnType<typeof createRefreshTokenInputRef>;
+
+function createRefreshTokenResultRef(builder: Builder) {
+  return builder.objectRef<RefreshTokenResultData>("RefreshTokenResult");
+}
+
+type RefreshTokenResultObjectRef = ReturnType<
+  typeof createRefreshTokenResultRef
+>;
+
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
+let LoginUserInputRef: LoginUserInputRef | null = null;
+let LoginResultRef: LoginResultObjectRef | null = null;
+let RefreshTokenInputRef: RefreshTokenInputRef | null = null;
+let RefreshTokenResultRef: RefreshTokenResultObjectRef | null = null;
 
 type AuthErrorDataObjectRef = ReturnType<typeof createAuthErrorDataRef>;
 
@@ -204,6 +248,63 @@ export function registerAuthTypes(builder: Builder): void {
       password: t.string({ required: true, description: "Password" }),
     }),
   });
+
+  LoginUserInputRef = createLoginUserInputRef(builder);
+  LoginUserInputRef.implement({
+    description: "Input for user login",
+    fields: (t) => ({
+      email: t.string({ required: true, description: "Email address" }),
+      password: t.string({ required: true, description: "Password" }),
+    }),
+  });
+
+  LoginResultRef = createLoginResultRef(builder);
+  LoginResultRef.implement({
+    description: "Result of successful login",
+    fields: (t) => ({
+      user: t.field({
+        type: UserRef,
+        nullable: false,
+        description: "Logged in user",
+        resolve: (parent) => parent.user,
+      }),
+      idToken: t.string({
+        nullable: false,
+        description: "Firebase ID token for API authentication",
+        resolve: (parent) => parent.idToken,
+      }),
+      refreshToken: t.string({
+        nullable: false,
+        description: "Firebase refresh token for obtaining new ID tokens",
+        resolve: (parent) => parent.refreshToken,
+      }),
+    }),
+  });
+
+  RefreshTokenInputRef = createRefreshTokenInputRef(builder);
+  RefreshTokenInputRef.implement({
+    description: "Input for token refresh",
+    fields: (t) => ({
+      refreshToken: t.string({ required: true, description: "Refresh token" }),
+    }),
+  });
+
+  RefreshTokenResultRef = createRefreshTokenResultRef(builder);
+  RefreshTokenResultRef.implement({
+    description: "Result of successful token refresh",
+    fields: (t) => ({
+      idToken: t.string({
+        nullable: false,
+        description: "New Firebase ID token",
+        resolve: (parent) => parent.idToken,
+      }),
+      refreshToken: t.string({
+        nullable: false,
+        description: "New refresh token",
+        resolve: (parent) => parent.refreshToken,
+      }),
+    }),
+  });
 }
 
 export { AuthErrorDataRef };
@@ -238,6 +339,67 @@ export function registerAuthMutations(
           }
 
           return result.data.user;
+        },
+      }),
+      loginUser: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: LoginResultRef!,
+        description: "Login with email and password",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: LoginUserInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (_parent, { input }): Promise<LoginResultData> => {
+          const result = await authService.login({
+            email: input.email,
+            password: input.password,
+          });
+
+          if (!result.success) {
+            throw mapLoginErrorToAuthError(result.error);
+          }
+
+          return {
+            user: result.data.user,
+            idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
+          };
+        },
+      }),
+      refreshToken: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: RefreshTokenResultRef!,
+        description: "Refresh ID token using refresh token",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: RefreshTokenInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (
+          _parent,
+          { input },
+        ): Promise<RefreshTokenResultData> => {
+          const result = await authService.refreshToken(input.refreshToken);
+
+          if (!result.success) {
+            throw mapLoginErrorToAuthError(result.error);
+          }
+
+          return {
+            idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
+          };
         },
       }),
     }),

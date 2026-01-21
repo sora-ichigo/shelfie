@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/app/providers.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/routing/app_router.dart';
 
 import 'test_helpers.dart';
 
@@ -109,9 +109,11 @@ void main() {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -135,9 +137,11 @@ void main() {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(

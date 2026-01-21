@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/app/app.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/routing/app_router.dart';
+
+import '../../helpers/test_helpers.dart';
 
 void main() {
   group('ShelfieApp', () {
@@ -182,8 +187,20 @@ void main() {
       });
 
       testWidgets('authStateProvider の変更で UI が更新されること', (tester) async {
+        final mockStorage = MockSecureStorageService();
+        when(() => mockStorage.saveAuthData(
+              userId: any(named: 'userId'),
+              email: any(named: 'email'),
+              idToken: any(named: 'idToken'),
+              refreshToken: any(named: 'refreshToken'),
+            )).thenAnswer((_) async {});
+        when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
         await tester.pumpWidget(
           ProviderScope(
+            overrides: [
+              secureStorageServiceProvider.overrideWithValue(mockStorage),
+            ],
             child: const ShelfieApp(),
           ),
         );
@@ -196,9 +213,11 @@ void main() {
         final container = ProviderScope.containerOf(
           tester.element(find.byType(ShelfieApp)),
         );
-        container.read(authStateNotifierProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
         await tester.pumpAndSettle();
 

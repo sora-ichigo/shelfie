@@ -98,6 +98,8 @@ describe("Auth GraphQL Mutations Schema", () => {
   const createMockAuthService = (): AuthService => ({
     register: vi.fn(),
     getCurrentUser: vi.fn(),
+    login: vi.fn(),
+    refreshToken: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {
@@ -273,10 +275,11 @@ describe("LOGIN_ERROR_CODES", () => {
     expect(LOGIN_ERROR_CODES).toContain("TOKEN_EXPIRED");
     expect(LOGIN_ERROR_CODES).toContain("USER_NOT_FOUND");
     expect(LOGIN_ERROR_CODES).toContain("UNAUTHENTICATED");
+    expect(LOGIN_ERROR_CODES).toContain("INVALID_CREDENTIALS");
   });
 
-  it("should have 4 error codes", () => {
-    expect(LOGIN_ERROR_CODES.length).toBe(4);
+  it("should have 5 error codes", () => {
+    expect(LOGIN_ERROR_CODES.length).toBe(5);
   });
 });
 

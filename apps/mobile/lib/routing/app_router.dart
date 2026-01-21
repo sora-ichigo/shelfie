@@ -6,19 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
-
-/// 認証状態プロバイダのエイリアス
-///
-/// 短い名前でアクセスできるようにするためのエイリアス。
-/// 生成されたプロバイダ名は authStateNotifierProvider だが、
-/// より直感的な authStateProvider としてエクスポートする。
-// ignore: non_constant_identifier_names
-final authStateProvider = authStateNotifierProvider;
 
 /// ルートパス定義
 ///
@@ -93,57 +86,6 @@ class SearchParams {
   final int page;
 }
 
-/// 認証状態
-@immutable
-class AuthState {
-  const AuthState({
-    this.isAuthenticated = false,
-    this.userId,
-    this.token,
-  });
-
-  final bool isAuthenticated;
-  final String? userId;
-  final String? token;
-
-  AuthState copyWith({
-    bool? isAuthenticated,
-    String? userId,
-    String? token,
-  }) {
-    return AuthState(
-      isAuthenticated: isAuthenticated ?? this.isAuthenticated,
-      userId: userId ?? this.userId,
-      token: token ?? this.token,
-    );
-  }
-}
-
-/// 認証状態管理 Notifier
-///
-/// refreshListenable で使用するため、状態変更時に通知を行う。
-@Riverpod(keepAlive: true)
-class AuthStateNotifier extends _$AuthStateNotifier {
-  @override
-  AuthState build() {
-    return const AuthState();
-  }
-
-  /// ログイン
-  void login({required String userId, required String token}) {
-    state = AuthState(
-      isAuthenticated: true,
-      userId: userId,
-      token: token,
-    );
-  }
-
-  /// ログアウト
-  void logout() {
-    state = const AuthState();
-  }
-}
-
 /// 認証状態変更を監視するための ChangeNotifier ラッパー
 ///
 /// GoRouter の refreshListenable は Listenable を必要とするため、
@@ -190,12 +132,12 @@ GoRouter appRouter(AppRouterRef ref) {
 /// 認証状態に基づいてルートをリダイレクトする。
 /// - 未認証時: 保護されたルートからウェルカム画面へリダイレクト
 /// - 認証済み時: ウェルカム/認証ルートからホームへリダイレクト
-String? _guardRoute(AuthState authState, GoRouterState state) {
+String? _guardRoute(AuthStateData authState, GoRouterState state) {
   return guardRoute(authState, state);
 }
 
 /// 認証ガード（テスト用に公開）
-String? guardRoute(AuthState authState, GoRouterState state) {
+String? guardRoute(AuthStateData authState, GoRouterState state) {
   final isAuthenticated = authState.isAuthenticated;
   final currentLocation = state.matchedLocation;
   final isAuthRoute = currentLocation.startsWith('/auth');

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:shelfie/app/app.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 void main() {
@@ -54,9 +55,11 @@ void main() {
 
         expect(find.textContaining('Login'), findsWidgets);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpAndSettle();
@@ -68,9 +71,11 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -84,7 +89,7 @@ void main() {
 
         expect(find.textContaining('Home'), findsWidgets);
 
-        container.read(authStateProvider.notifier).logout();
+        await container.read(authStateProvider.notifier).logout();
 
         await tester.pumpAndSettle();
 
@@ -97,9 +102,11 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -133,9 +140,11 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -188,9 +197,11 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(

@@ -7,10 +7,39 @@ import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:ferry_exec/ferry_exec.dart';
 import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
+import 'package:shelfie/core/auth/__generated__/refresh_token.data.gql.dart'
+    show
+        GRefreshTokenData_refreshToken,
+        GRefreshTokenData,
+        GRefreshTokenData_refreshToken__asAuthError,
+        GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
+        GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
+        GRefreshTokenData_refreshToken__base;
+import 'package:shelfie/core/auth/__generated__/refresh_token.req.gql.dart'
+    show GRefreshTokenReq;
+import 'package:shelfie/core/auth/__generated__/refresh_token.var.gql.dart'
+    show GRefreshTokenVars;
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
-    show GAuthErrorCode, GRegisterUserInput;
+    show
+        GAuthErrorCode,
+        GLoginUserInput,
+        GRefreshTokenInput,
+        GRegisterUserInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
+import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
+    show
+        GLoginUserData_loginUser,
+        GLoginUserData,
+        GLoginUserData_loginUser__asAuthError,
+        GLoginUserData_loginUser__asMutationLoginUserSuccess,
+        GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
+        GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
+        GLoginUserData_loginUser__base;
+import 'package:shelfie/features/login/data/__generated__/login_user.req.gql.dart'
+    show GLoginUserReq;
+import 'package:shelfie/features/login/data/__generated__/login_user.var.gql.dart'
+    show GLoginUserVars;
 import 'package:shelfie/features/registration/data/__generated__/register_user.data.gql.dart'
     show
         GRegisterUserData_registerUser,
@@ -29,10 +58,29 @@ part 'serializers.gql.g.dart';
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
+  ..add(GLoginUserData_loginUser.serializer)
+  ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GAuthErrorCode,
+  GLoginUserData,
+  GLoginUserData_loginUser__asAuthError,
+  GLoginUserData_loginUser__asMutationLoginUserSuccess,
+  GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
+  GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
+  GLoginUserData_loginUser__base,
+  GLoginUserInput,
+  GLoginUserReq,
+  GLoginUserVars,
+  GRefreshTokenData,
+  GRefreshTokenData_refreshToken__asAuthError,
+  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
+  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
+  GRefreshTokenData_refreshToken__base,
+  GRefreshTokenInput,
+  GRefreshTokenReq,
+  GRefreshTokenVars,
   GRegisterUserData,
   GRegisterUserData_registerUser__asAuthError,
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess,

@@ -2,7 +2,7 @@
 // AuthStateNotifier と認証状態管理のテスト。
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shelfie/routing/app_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -31,7 +31,9 @@ void main() {
 
         container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         final authState = container.read(authStateProvider);
@@ -47,11 +49,15 @@ void main() {
 
         container.read(authStateProvider.notifier).login(
               userId: 'user-1',
+              email: 'user1@example.com',
               token: 'token-1',
+              refreshToken: 'refresh-token-1',
             );
         container.read(authStateProvider.notifier).login(
               userId: 'user-2',
+              email: 'user2@example.com',
               token: 'token-2',
+              refreshToken: 'refresh-token-2',
             );
 
         final authState = container.read(authStateProvider);
@@ -68,7 +74,9 @@ void main() {
 
         container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
         container.read(authStateProvider.notifier).logout();
 
@@ -132,7 +140,9 @@ void main() {
 
         container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         expect(notificationCount, equals(1));
@@ -149,7 +159,9 @@ void main() {
 
         container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         // 通常の参照を取得後も状態が保持されることを確認

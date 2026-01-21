@@ -1,0 +1,21 @@
+mutation LoginUser($input: LoginUserInput!) {
+  loginUser(input: $input) {
+    ... on MutationLoginUserSuccess {
+      data {
+        user {
+          id
+          email
+          createdAt
+        }
+        idToken
+        refreshToken
+      }
+    }
+    ... on AuthError {
+      code
+      message
+      field
+      retryable
+    }
+  }
+}
