@@ -13,10 +13,13 @@ github_repo  = "shelfie"
 
 # Environment Variables
 environment_variables = {
-  NODE_ENV = "production"
+  NODE_ENV              = "production"
+  FIREBASE_PROJECT_ID   = "shelfie-development-484809"
+  FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@shelfie-development-484809.iam.gserviceaccount.com"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
 secret_environment_variables = {
-  DATABASE_URL = "shelfie-api-database-url"
+  DATABASE_URL         = "shelfie-api-database-url"
+  FIREBASE_PRIVATE_KEY = "shelfie-api-firebase-private-key"
 }
