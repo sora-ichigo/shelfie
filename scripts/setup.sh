@@ -142,6 +142,38 @@ else
   echo "ERROR: pnpm install failed with exit code $?"
 fi
 
+# テスト用データベースのセットアップ
+echo "Setting up test database..."
+
+# shelfie ユーザーとテスト用データベースを作成
+psql -h localhost -U postgres -c "CREATE USER shelfie WITH PASSWORD 'shelfie';" 2>/dev/null || echo "User shelfie may already exist"
+psql -h localhost -U postgres -c "CREATE DATABASE shelfie_test OWNER shelfie;" 2>/dev/null || echo "Database shelfie_test may already exist"
+psql -h localhost -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE shelfie_test TO shelfie;" 2>/dev/null || true
+
+# .env.test.local の作成
+ENV_TEST_LOCAL="$PROJECT_DIR/apps/api/.env.test.local"
+if [ ! -f "$ENV_TEST_LOCAL" ]; then
+  echo "Creating .env.test.local..."
+  cat > "$ENV_TEST_LOCAL" << 'EOF'
+# Test Database Configuration
+DATABASE_URL=postgres://shelfie:shelfie@localhost:5432/shelfie_test
+
+# Required for tests
+NODE_ENV=test
+EOF
+  echo ".env.test.local created"
+else
+  echo ".env.test.local already exists"
+fi
+
+# テスト用DBマイグレーション
+echo "Running test database migrations..."
+if pnpm --filter @shelfie/api test:db:migrate; then
+  echo "Test database migrations completed successfully"
+else
+  echo "WARNING: Test database migrations failed"
+fi
+
 # ビルド確認
 echo "Running typecheck..."
 if pnpm typecheck; then
