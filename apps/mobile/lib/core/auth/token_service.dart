@@ -191,15 +191,15 @@ class TokenService {
     final result = await _refreshWithHttpLink(currentRefreshToken);
 
     return result.fold(
-      (error) {
+      (error) async {
         debugPrint('[TokenService] Token refresh failed: $error');
         if (error is InvalidTokenError || error is TokenExpiredError) {
-          ref.read(authStateProvider.notifier).logout();
+          await ref.read(authStateProvider.notifier).logout();
         }
         return false;
       },
-      (tokenInfo) {
-        ref.read(authStateProvider.notifier).updateTokens(
+      (tokenInfo) async {
+        await ref.read(authStateProvider.notifier).updateTokens(
               token: tokenInfo.idToken,
               refreshToken: tokenInfo.refreshToken,
             );

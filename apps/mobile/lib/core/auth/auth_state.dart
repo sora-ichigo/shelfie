@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/storage/secure_storage_service.dart';
 
 part 'auth_state.g.dart';
 
@@ -65,12 +66,12 @@ class AuthState extends _$AuthState {
     return const AuthStateData.initial();
   }
 
-  void login({
+  Future<void> login({
     required String userId,
     required String email,
     required String token,
     required String refreshToken,
-  }) {
+  }) async {
     state = AuthStateData(
       isAuthenticated: true,
       userId: userId,
@@ -78,19 +79,55 @@ class AuthState extends _$AuthState {
       token: token,
       refreshToken: refreshToken,
     );
-  }
 
-  void updateTokens({
-    required String token,
-    required String refreshToken,
-  }) {
-    state = state.copyWith(
-      token: token,
+    final storage = ref.read(secureStorageServiceProvider);
+    await storage.saveAuthData(
+      userId: userId,
+      email: email,
+      idToken: token,
       refreshToken: refreshToken,
     );
   }
 
-  void logout() {
+  Future<void> updateTokens({
+    required String token,
+    required String refreshToken,
+  }) async {
+    state = state.copyWith(
+      token: token,
+      refreshToken: refreshToken,
+    );
+
+    final storage = ref.read(secureStorageServiceProvider);
+    await storage.updateTokens(
+      idToken: token,
+      refreshToken: refreshToken,
+    );
+  }
+
+  Future<void> logout() async {
     state = const AuthStateData.initial();
+
+    final storage = ref.read(secureStorageServiceProvider);
+    await storage.clearAuthData();
+  }
+
+  Future<bool> restoreSession() async {
+    final storage = ref.read(secureStorageServiceProvider);
+    final authData = await storage.loadAuthData();
+
+    if (authData == null) {
+      return false;
+    }
+
+    state = AuthStateData(
+      isAuthenticated: true,
+      userId: authData.userId,
+      email: authData.email,
+      token: authData.idToken,
+      refreshToken: authData.refreshToken,
+    );
+
+    return true;
   }
 }

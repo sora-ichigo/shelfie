@@ -1,3 +1,4 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
@@ -41,31 +42,29 @@ class LoginNotifier extends _$LoginNotifier {
       password: formState.password,
     );
 
-    result.fold(
-      (error) {
-        final (String message, String? field) = switch (error) {
+    switch (result) {
+      case Left(:final value):
+        final (String message, String? field) = switch (value) {
           InvalidCredentialsError(:final message) => (message, null),
           UserNotFoundError(:final message) => (message, null),
           NetworkError(:final message) => (message, null),
           UnknownError(:final message) => (message, null),
         };
         state = LoginState.error(message: message, field: field);
-      },
-      (user) {
-        ref.read(authStateProvider.notifier).login(
-              userId: user.id.toString(),
-              email: user.email,
-              token: user.idToken,
-              refreshToken: user.refreshToken,
+      case Right(:final value):
+        await ref.read(authStateProvider.notifier).login(
+              userId: value.id.toString(),
+              email: value.email,
+              token: value.idToken,
+              refreshToken: value.refreshToken,
             );
         state = LoginState.success(
-          userId: user.id.toString(),
-          email: user.email,
-          idToken: user.idToken,
-          refreshToken: user.refreshToken,
+          userId: value.id.toString(),
+          email: value.email,
+          idToken: value.idToken,
+          refreshToken: value.refreshToken,
         );
-      },
-    );
+    }
   }
 
   void reset() {

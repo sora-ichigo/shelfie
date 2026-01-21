@@ -8,6 +8,7 @@ import 'package:shelfie/core/error/error_handler.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 /// テスト用 ProviderContainer を作成するヘルパー
@@ -26,8 +27,25 @@ ProviderContainer createTestContainer({
   List<Override> overrides = const [],
   ProviderContainer? parent,
 }) {
+  final mockStorage = MockSecureStorageService();
+  when(() => mockStorage.saveAuthData(
+        userId: any(named: 'userId'),
+        email: any(named: 'email'),
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.updateTokens(
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+  when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
   return ProviderContainer(
-    overrides: overrides,
+    overrides: [
+      secureStorageServiceProvider.overrideWithValue(mockStorage),
+      ...overrides,
+    ],
     parent: parent,
   );
 }
@@ -48,8 +66,25 @@ Widget buildTestWidget({
   List<Override> overrides = const [],
   ThemeData? theme,
 }) {
+  final mockStorage = MockSecureStorageService();
+  when(() => mockStorage.saveAuthData(
+        userId: any(named: 'userId'),
+        email: any(named: 'email'),
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.updateTokens(
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+  when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
   return ProviderScope(
-    overrides: overrides,
+    overrides: [
+      secureStorageServiceProvider.overrideWithValue(mockStorage),
+      ...overrides,
+    ],
     child: MaterialApp(
       theme: theme ?? AppTheme.theme,
       home: Scaffold(body: child),
@@ -87,8 +122,25 @@ Widget buildTestWidgetWithRouter({
         overrides: overrides,
       );
 
+  final mockStorage = MockSecureStorageService();
+  when(() => mockStorage.saveAuthData(
+        userId: any(named: 'userId'),
+        email: any(named: 'email'),
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.updateTokens(
+        idToken: any(named: 'idToken'),
+        refreshToken: any(named: 'refreshToken'),
+      )).thenAnswer((_) async {});
+  when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+  when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
   return ProviderScope(
     parent: testContainer,
+    overrides: [
+      secureStorageServiceProvider.overrideWithValue(mockStorage),
+    ],
     child: MaterialApp.router(
       theme: theme ?? AppTheme.theme,
       routerConfig: testContainer.read(appRouterProvider),
@@ -103,6 +155,9 @@ Widget buildTestWidgetWithRouter({
 
 /// Ferry Client モック
 class MockClient extends Mock implements Client {}
+
+/// SecureStorageService モック
+class MockSecureStorageService extends Mock implements SecureStorageService {}
 
 /// Logger モック
 class MockLogger extends Mock implements Logger {}

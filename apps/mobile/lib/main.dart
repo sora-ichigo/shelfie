@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/app/providers.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 
 /// アプリケーションのエントリポイント
 ///
@@ -64,13 +65,19 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
     _initializeApp();
   }
 
-  void _initializeApp() {
+  Future<void> _initializeApp() async {
     // ErrorHandler を初期化して、
     // FlutterError.onError と PlatformDispatcher.instance.onError を設定
     ref.read(errorHandlerProvider).initialize();
-    setState(() {
-      _initialized = true;
-    });
+
+    // セキュアストレージから認証状態を復元
+    await ref.read(authStateProvider.notifier).restoreSession();
+
+    if (mounted) {
+      setState(() {
+        _initialized = true;
+      });
+    }
   }
 
   @override

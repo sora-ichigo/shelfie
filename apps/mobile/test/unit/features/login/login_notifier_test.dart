@@ -3,11 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/login/application/login_form_state.dart';
 import 'package:shelfie/features/login/application/login_notifier.dart';
 import 'package:shelfie/features/login/data/login_repository.dart';
 
 class MockLoginRepository extends Mock implements LoginRepository {}
+
+class MockSecureStorageService extends Mock implements SecureStorageService {}
 
 void main() {
   group('LoginState', () {
@@ -52,12 +55,29 @@ void main() {
   group('LoginNotifier', () {
     late ProviderContainer container;
     late MockLoginRepository mockRepository;
+    late MockSecureStorageService mockStorage;
 
     setUp(() {
       mockRepository = MockLoginRepository();
+      mockStorage = MockSecureStorageService();
+
+      when(() => mockStorage.saveAuthData(
+            userId: any(named: 'userId'),
+            email: any(named: 'email'),
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.updateTokens(
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+      when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+
       container = ProviderContainer(
         overrides: [
           loginRepositoryProvider.overrideWithValue(mockRepository),
+          secureStorageServiceProvider.overrideWithValue(mockStorage),
         ],
       );
     });

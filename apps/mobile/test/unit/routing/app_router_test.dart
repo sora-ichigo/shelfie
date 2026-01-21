@@ -12,7 +12,7 @@ void main() {
   group('AppRouter', () {
     group('6.1 AppRouter の基本設定', () {
       test('appRouterProvider が GoRouter インスタンスを提供する', () {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
@@ -25,7 +25,7 @@ void main() {
         expect(AppRoutes.home, '/');
 
         // GoRouter が正常に作成され、ルートが設定されていることを確認
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
@@ -36,7 +36,7 @@ void main() {
       });
 
       test('onException でエラーハンドリングが設定されている', () async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
@@ -50,7 +50,7 @@ void main() {
       });
 
       test('デバッグモードでログ出力が有効になる', () {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
@@ -63,7 +63,7 @@ void main() {
       test('ProviderScope 経由で GoRouter を取得できる', () async {
         await expectLater(
           () async {
-            final container = ProviderContainer();
+            final container = createTestContainer();
             addTearDown(container.dispose);
             final router = container.read(appRouterProvider);
             return router;
@@ -129,7 +129,7 @@ void main() {
       });
 
       testWidgets('タブ間の遷移が正しく動作する', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         await tester.pumpWidget(
@@ -155,7 +155,7 @@ void main() {
       });
 
       testWidgets('サブルートから親ルートに戻れる', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         await tester.pumpWidget(
@@ -181,7 +181,7 @@ void main() {
 
     group('6.4 認証ガード', () {
       test('AuthStateNotifier が認証状態を管理する', () {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final authState = container.read(authStateProvider);
@@ -191,7 +191,7 @@ void main() {
       });
 
       test('認証状態が変更可能である', () {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         // 初期状態は未認証
@@ -227,7 +227,7 @@ void main() {
       });
 
       test('AuthState が ChangeNotifier を実装している', () {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         final authNotifier = container.read(authStateProvider.notifier);
@@ -237,7 +237,7 @@ void main() {
       });
 
       testWidgets('未認証時にログイン画面へリダイレクトされる', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         await tester.pumpWidget(
@@ -262,7 +262,7 @@ void main() {
       });
 
       testWidgets('認証済みユーザーは保護されたルートにアクセスできる', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         // 先にログイン
@@ -296,7 +296,7 @@ void main() {
 
       testWidgets('認証済みユーザーがログイン画面にアクセスするとホームにリダイレクトされる',
           (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         // 先にログイン
@@ -336,7 +336,7 @@ void main() {
       });
 
       testWidgets('ディープリンクから正しい画面に遷移する', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         // 認証済み状態にする
@@ -368,7 +368,7 @@ void main() {
       });
 
       testWidgets('不正な URL パラメータの場合はフォールバックが動作する', (tester) async {
-        final container = ProviderContainer();
+        final container = createTestContainer();
         addTearDown(container.dispose);
 
         await tester.pumpWidget(
