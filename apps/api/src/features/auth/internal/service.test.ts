@@ -288,3 +288,158 @@ describe("AuthService.register", () => {
     );
   });
 });
+
+describe("AuthService.getCurrentUser", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should return user when user exists", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    const result = await authService.getCurrentUser("firebase-uid-123");
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.id).toBe(1);
+      expect(result.data.email).toBe("test@example.com");
+      expect(result.data.firebaseUid).toBe("firebase-uid-123");
+    }
+    expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+      "firebase-uid-123",
+    );
+  });
+
+  it("should return USER_NOT_FOUND when user does not exist", async () => {
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: false,
+      error: {
+        code: "USER_NOT_FOUND",
+        message: "User with Firebase UID firebase-uid-123 not found",
+      },
+    });
+
+    const result = await authService.getCurrentUser("firebase-uid-123");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("USER_NOT_FOUND");
+    }
+  });
+
+  it("should log when getting current user", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    await authService.getCurrentUser("firebase-uid-123");
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Getting current user",
+      expect.objectContaining({
+        feature: "auth",
+        firebaseUid: "firebase-uid-123",
+      }),
+    );
+  });
+
+  it("should log success when user is found", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    await authService.getCurrentUser("firebase-uid-123");
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Current user retrieved successfully",
+      expect.objectContaining({
+        feature: "auth",
+        userId: "1",
+      }),
+    );
+  });
+
+  it("should log warning when user is not found", async () => {
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: false,
+      error: {
+        code: "USER_NOT_FOUND",
+        message: "User not found",
+      },
+    });
+
+    await authService.getCurrentUser("firebase-uid-123");
+
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      "User not found for Firebase UID",
+      expect.objectContaining({
+        feature: "auth",
+        firebaseUid: "firebase-uid-123",
+      }),
+    );
+  });
+
+  it("should not log the ID token itself", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    await authService.getCurrentUser("firebase-uid-123");
+
+    for (const call of vi.mocked(mockLogger.info).mock.calls) {
+      const logData = call[1] as Record<string, unknown>;
+      expect(logData).not.toHaveProperty("token");
+      expect(logData).not.toHaveProperty("idToken");
+    }
+  });
+});

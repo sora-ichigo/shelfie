@@ -18,13 +18,35 @@ enum AuthErrorCode {
   EMAIL_ALREADY_EXISTS
   INTERNAL_ERROR
   INVALID_PASSWORD
+  INVALID_TOKEN
   NETWORK_ERROR
+  TOKEN_EXPIRED
+  UNAUTHENTICATED
+  USER_NOT_FOUND
+}
+
+"""Error object for query results"""
+type AuthErrorResult {
+  """Error code"""
+  code: AuthErrorCode
+
+  """Field that caused the error, if applicable"""
+  field: String
+
+  """Human-readable error message"""
+  message: String
+
+  """Whether the operation can be retried"""
+  retryable: Boolean
 }
 
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
+
+"""Result of me query - either User or AuthErrorResult"""
+union MeResult = AuthErrorResult | User
 
 type Mutation {
   """Register a new user with email and password"""
@@ -39,6 +61,9 @@ type MutationRegisterUserSuccess {
 
 type Query {
   health: String
+
+  """Get the currently authenticated user"""
+  me: MeResult
 }
 
 """Input for user registration"""
