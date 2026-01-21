@@ -197,7 +197,7 @@ void main() {
         final container = ProviderScope.containerOf(
           tester.element(find.byType(ShelfieApp)),
         );
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',

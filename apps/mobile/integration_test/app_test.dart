@@ -55,7 +55,7 @@ void main() {
 
         expect(find.textContaining('Login'), findsWidgets);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -71,7 +71,7 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -89,7 +89,7 @@ void main() {
 
         expect(find.textContaining('Home'), findsWidgets);
 
-        container.read(authStateProvider.notifier).logout();
+        await container.read(authStateProvider.notifier).logout();
 
         await tester.pumpAndSettle();
 
@@ -102,7 +102,7 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -140,7 +140,7 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -197,7 +197,7 @@ void main() {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',

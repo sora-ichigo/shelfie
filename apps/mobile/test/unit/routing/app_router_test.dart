@@ -190,7 +190,7 @@ void main() {
         expect(authState.isAuthenticated, isFalse);
       });
 
-      test('認証状態が変更可能である', () {
+      test('認証状態が変更可能である', () async {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
@@ -201,7 +201,7 @@ void main() {
         );
 
         // ログイン
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'user-123',
               email: 'test@example.com',
               token: 'test-token',
@@ -218,7 +218,7 @@ void main() {
         );
 
         // ログアウト
-        container.read(authStateProvider.notifier).logout();
+        await container.read(authStateProvider.notifier).logout();
 
         expect(
           container.read(authStateProvider).isAuthenticated,
@@ -266,7 +266,7 @@ void main() {
         addTearDown(container.dispose);
 
         // 先にログイン
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'user-123',
               email: 'test@example.com',
               token: 'test-token',
@@ -300,7 +300,7 @@ void main() {
         addTearDown(container.dispose);
 
         // 先にログイン
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'user-123',
               email: 'test@example.com',
               token: 'test-token',
@@ -340,7 +340,7 @@ void main() {
         addTearDown(container.dispose);
 
         // 認証済み状態にする
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'user-123',
               email: 'test@example.com',
               token: 'test-token',

@@ -99,6 +99,7 @@ describe("Auth GraphQL Mutations Schema", () => {
     register: vi.fn(),
     getCurrentUser: vi.fn(),
     login: vi.fn(),
+    refreshToken: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {

@@ -72,7 +72,7 @@ void main() {
       addTearDown(container.dispose);
 
       // ログイン状態にする
-      container.read(authStateProvider.notifier).login(
+      await container.read(authStateProvider.notifier).login(
             userId: 'test-user',
             email: 'test@example.com',
             token: 'test-token',

@@ -109,7 +109,7 @@ void main() {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -137,7 +137,7 @@ void main() {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
