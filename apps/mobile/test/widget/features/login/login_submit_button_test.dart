@@ -43,9 +43,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            loginFormStateProvider.overrideWith(
-              () => _ValidLoginFormState(),
-            ),
+            loginFormStateProvider.overrideWith(_ValidLoginFormState.new),
           ],
           child: MaterialApp(
             theme: AppTheme.dark(),
@@ -64,9 +62,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            loginFormStateProvider.overrideWith(
-              () => _ValidLoginFormState(),
-            ),
+            loginFormStateProvider.overrideWith(_ValidLoginFormState.new),
           ],
           child: MaterialApp(
             theme: AppTheme.dark(),
