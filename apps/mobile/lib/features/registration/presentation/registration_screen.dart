@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/features/registration/application/registration_notifier.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_background.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_form.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_header.dart';
@@ -13,6 +14,17 @@ class RegistrationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<RegistrationState>(
+      registrationNotifierProvider,
+      (previous, next) => _handleRegistrationState(context, ref, next),
+    );
+
+    final isLoading = ref.watch(
+      registrationNotifierProvider.select(
+        (state) => state is RegistrationStateLoading,
+      ),
+    );
+
     return Scaffold(
       body: Stack(
         children: [
@@ -30,7 +42,8 @@ class RegistrationScreen extends ConsumerWidget {
                   const RegistrationForm(),
                   const SizedBox(height: AppSpacing.lg),
                   RegistrationSubmitButton(
-                    onPressed: () => _onSubmitPressed(context),
+                    onPressed:
+                        isLoading ? null : () => _onSubmitPressed(context, ref),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   RegistrationLegalLinks(
@@ -41,9 +54,40 @@ class RegistrationScreen extends ConsumerWidget {
               ),
             ),
           ),
+          if (isLoading)
+            const ColoredBox(
+              color: Colors.black26,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  void _handleRegistrationState(
+    BuildContext context,
+    WidgetRef ref,
+    RegistrationState state,
+  ) {
+    switch (state) {
+      case RegistrationStateSuccess(:final user):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('アカウントを作成しました: ${user.email}')),
+        );
+        // TODO(shelfie): ホーム画面への遷移
+      case RegistrationStateError(:final message):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      case RegistrationStateInitial():
+      case RegistrationStateLoading():
+        break;
+    }
   }
 
   void _onBackPressed(BuildContext context) {
@@ -54,10 +98,8 @@ class RegistrationScreen extends ConsumerWidget {
     }
   }
 
-  void _onSubmitPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('認証コードを送信しました（モック）')),
-    );
+  void _onSubmitPressed(BuildContext context, WidgetRef ref) {
+    ref.read(registrationNotifierProvider.notifier).register();
   }
 
   void _onTermsPressed(BuildContext context) {

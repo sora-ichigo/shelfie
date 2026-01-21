@@ -1,0 +1,28 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'registration_repository.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$registrationRepositoryHash() =>
+    r'e56f10485be3df8808906a7d273c75256927d340';
+
+/// See also [registrationRepository].
+@ProviderFor(registrationRepository)
+final registrationRepositoryProvider =
+    AutoDisposeProvider<RegistrationRepository>.internal(
+  registrationRepository,
+  name: r'registrationRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$registrationRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef RegistrationRepositoryRef
+    = AutoDisposeProviderRef<RegistrationRepository>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

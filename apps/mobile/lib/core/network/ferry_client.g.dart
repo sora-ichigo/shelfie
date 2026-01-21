@@ -6,12 +6,15 @@ part of 'ferry_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$apiEndpointHash() => r'a4eddf9ed293115a0b88752c2204b8506430b7d5';
+String _$apiEndpointHash() => r'49ffd8fe3d80a58fbc4169b49798e614ecbf3bbe';
 
 /// API エンドポイント Provider
 ///
 /// GraphQL API のベース URL を提供する。
 /// テスト時にはオーバーライドして異なるエンドポイントを使用可能。
+///
+/// 環境変数 `API_BASE_URL` が設定されている場合はそれを使用し、
+/// 未設定の場合はプラットフォームに応じたローカル開発用URLを返す。
 ///
 /// Copied from [apiEndpoint].
 @ProviderFor(apiEndpoint)

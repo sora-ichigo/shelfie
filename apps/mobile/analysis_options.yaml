@@ -12,6 +12,7 @@ analyzer:
   # Exclude generated files from analysis
   exclude:
     - "**/*.g.dart"
+    - "**/*.gql.dart"
     - "**/*.freezed.dart"
     - "**/*.gr.dart"
     - "**/generated/**"

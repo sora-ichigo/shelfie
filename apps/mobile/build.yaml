@@ -1,14 +1,22 @@
 targets:
   $default:
     builders:
-      ferry_generator:
+      ferry_generator|graphql_builder:
         enabled: true
         options:
           schema: shelfie|lib/core/graphql/schema.graphql
-          output_dir: lib/core/graphql/__generated__
           type_overrides:
-            DateTime: DateTime
-            ID: String
+            DateTime:
+              name: DateTime
+            ID:
+              name: String
+      ferry_generator|serializer_builder:
+        enabled: true
+        options:
+          schema: shelfie|lib/core/graphql/schema.graphql
+          custom_serializers:
+            - import: 'package:shelfie/core/graphql/custom_serializers.dart'
+              name: Iso8601DateTimeSerializer
 
       freezed:
         enabled: true
