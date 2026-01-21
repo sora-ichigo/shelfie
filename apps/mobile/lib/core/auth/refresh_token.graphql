@@ -1,0 +1,16 @@
+mutation RefreshToken($input: RefreshTokenInput!) {
+  refreshToken(input: $input) {
+    ... on MutationRefreshTokenSuccess {
+      data {
+        idToken
+        refreshToken
+      }
+    }
+    ... on AuthError {
+      code
+      message
+      field
+      retryable
+    }
+  }
+}

@@ -15,6 +15,7 @@ sealed class LoginState with _$LoginState {
     required String userId,
     required String email,
     required String idToken,
+    required String refreshToken,
   }) = LoginStateSuccess;
   const factory LoginState.error({
     required String message,
@@ -51,11 +52,17 @@ class LoginNotifier extends _$LoginNotifier {
         state = LoginState.error(message: message, field: field);
       },
       (user) {
-        ref.read(authStateProvider.notifier).setToken(user.idToken);
+        ref.read(authStateProvider.notifier).login(
+              userId: user.id.toString(),
+              email: user.email,
+              token: user.idToken,
+              refreshToken: user.refreshToken,
+            );
         state = LoginState.success(
           userId: user.id.toString(),
           email: user.email,
           idToken: user.idToken,
+          refreshToken: user.refreshToken,
         );
       },
     );

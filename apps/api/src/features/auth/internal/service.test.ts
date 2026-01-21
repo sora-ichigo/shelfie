@@ -129,6 +129,7 @@ function createMockFirebaseAuth(): FirebaseAuth {
   return {
     createUser: vi.fn(),
     signIn: vi.fn(),
+    refreshToken: vi.fn(),
   };
 }
 
@@ -462,7 +463,7 @@ describe("AuthService.login", () => {
     });
   });
 
-  it("should login user successfully and return user with idToken", async () => {
+  it("should login user successfully and return user with idToken and refreshToken", async () => {
     const mockUser: User = {
       id: 1,
       email: "test@example.com",
@@ -474,6 +475,7 @@ describe("AuthService.login", () => {
     vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
       uid: "firebase-uid-123",
       idToken: "mock-id-token",
+      refreshToken: "mock-refresh-token",
     });
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
       success: true,
@@ -489,6 +491,7 @@ describe("AuthService.login", () => {
     if (result.success) {
       expect(result.data.user.email).toBe("test@example.com");
       expect(result.data.idToken).toBe("mock-id-token");
+      expect(result.data.refreshToken).toBe("mock-refresh-token");
     }
     expect(mockFirebaseAuth.signIn).toHaveBeenCalledWith(
       "test@example.com",
@@ -535,6 +538,7 @@ describe("AuthService.login", () => {
     vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
       uid: "firebase-uid-123",
       idToken: "mock-id-token",
+      refreshToken: "mock-refresh-token",
     });
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
       success: false,
@@ -586,6 +590,7 @@ describe("AuthService.login", () => {
     vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
       uid: "firebase-uid-123",
       idToken: "mock-id-token",
+      refreshToken: "mock-refresh-token",
     });
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
       success: true,
@@ -621,6 +626,84 @@ describe("AuthService.login", () => {
       const logData = call[1] as Record<string, unknown>;
       expect(logData).not.toHaveProperty("password");
       expect(JSON.stringify(logData)).not.toContain("secret-password");
+    }
+  });
+});
+
+describe("AuthService.refreshToken", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should refresh token successfully and return new idToken and refreshToken", async () => {
+    vi.mocked(mockFirebaseAuth.refreshToken).mockResolvedValue({
+      idToken: "new-id-token",
+      refreshToken: "new-refresh-token",
+    });
+
+    const result = await authService.refreshToken("old-refresh-token");
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.idToken).toBe("new-id-token");
+      expect(result.data.refreshToken).toBe("new-refresh-token");
+    }
+    expect(mockFirebaseAuth.refreshToken).toHaveBeenCalledWith(
+      "old-refresh-token",
+    );
+  });
+
+  it("should return error when refresh token is invalid", async () => {
+    vi.mocked(mockFirebaseAuth.refreshToken).mockRejectedValue({
+      code: "auth/invalid-refresh-token",
+    });
+
+    const result = await authService.refreshToken("invalid-refresh-token");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_TOKEN");
+    }
+  });
+
+  it("should return error when refresh token is expired", async () => {
+    vi.mocked(mockFirebaseAuth.refreshToken).mockRejectedValue({
+      code: "auth/token-expired",
+    });
+
+    const result = await authService.refreshToken("expired-refresh-token");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("TOKEN_EXPIRED");
+    }
+  });
+
+  it("should handle network error", async () => {
+    vi.mocked(mockFirebaseAuth.refreshToken).mockRejectedValue({
+      code: "auth/network-request-failed",
+    });
+
+    const result = await authService.refreshToken("refresh-token");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("NETWORK_ERROR");
+      if (result.error.code === "NETWORK_ERROR") {
+        expect(result.error.retryable).toBe(true);
+      }
     }
   });
 });

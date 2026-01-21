@@ -65,6 +65,30 @@ abstract class GLoginUserInput
       );
 }
 
+abstract class GRefreshTokenInput
+    implements Built<GRefreshTokenInput, GRefreshTokenInputBuilder> {
+  GRefreshTokenInput._();
+
+  factory GRefreshTokenInput(
+          [void Function(GRefreshTokenInputBuilder b) updates]) =
+      _$GRefreshTokenInput;
+
+  String get refreshToken;
+  static Serializer<GRefreshTokenInput> get serializer =>
+      _$gRefreshTokenInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GRefreshTokenInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GRefreshTokenInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GRefreshTokenInput.serializer,
+        json,
+      );
+}
+
 abstract class GRegisterUserInput
     implements Built<GRegisterUserInput, GRegisterUserInputBuilder> {
   GRegisterUserInput._();
@@ -98,6 +122,10 @@ const Map<String, Set<String>> possibleTypesMap = {
   'MutationLoginUserResult': {
     'AuthError',
     'MutationLoginUserSuccess',
+  },
+  'MutationRefreshTokenResult': {
+    'AuthError',
+    'MutationRefreshTokenSuccess',
   },
   'MutationRegisterUserResult': {
     'AuthError',

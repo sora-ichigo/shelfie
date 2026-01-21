@@ -8,6 +8,7 @@ mutation LoginUser($input: LoginUserInput!) {
           createdAt
         }
         idToken
+        refreshToken
       }
     }
     ... on AuthError {

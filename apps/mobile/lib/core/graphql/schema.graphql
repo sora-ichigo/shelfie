@@ -51,6 +51,9 @@ type LoginResult {
   """Firebase ID token for API authentication"""
   idToken: String!
 
+  """Firebase refresh token for obtaining new ID tokens"""
+  refreshToken: String!
+
   """Logged in user"""
   user: User!
 }
@@ -71,6 +74,9 @@ type Mutation {
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
 
+  """Refresh ID token using refresh token"""
+  refreshToken(input: RefreshTokenInput!): MutationRefreshTokenResult
+
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
 }
@@ -79,6 +85,12 @@ union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
 
 type MutationLoginUserSuccess {
   data: LoginResult!
+}
+
+union MutationRefreshTokenResult = AuthError | MutationRefreshTokenSuccess
+
+type MutationRefreshTokenSuccess {
+  data: RefreshTokenResult!
 }
 
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
@@ -92,6 +104,21 @@ type Query {
 
   """Get the currently authenticated user"""
   me: MeResult!
+}
+
+"""Input for token refresh"""
+input RefreshTokenInput {
+  """Refresh token"""
+  refreshToken: String!
+}
+
+"""Result of successful token refresh"""
+type RefreshTokenResult {
+  """New Firebase ID token"""
+  idToken: String!
+
+  """New refresh token"""
+  refreshToken: String!
 }
 
 """Input for user registration"""

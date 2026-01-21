@@ -157,6 +157,7 @@ abstract class GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   String get G__typename;
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user get user;
   String get idToken;
+  String get refreshToken;
   static Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess_data>
       get serializer =>
           _$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataSerializer;

@@ -26,11 +26,13 @@ void main() {
         userId: 'test-user-id',
         email: 'test@example.com',
         idToken: 'test-id-token',
+        refreshToken: 'test-refresh-token',
       );
       expect(state, isA<LoginStateSuccess>());
       expect((state as LoginStateSuccess).userId, equals('test-user-id'));
       expect(state.email, equals('test@example.com'));
       expect(state.idToken, equals('test-id-token'));
+      expect(state.refreshToken, equals('test-refresh-token'));
     });
 
     test('error 状態を作成できる', () {
@@ -81,6 +83,7 @@ void main() {
             id: 1,
             email: 'test@example.com',
             idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
           ),
         ),
       );
@@ -153,6 +156,7 @@ void main() {
             id: 1,
             email: 'test@example.com',
             idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
           ),
         ),
       );
@@ -163,7 +167,7 @@ void main() {
 
       await container.read(loginNotifierProvider.notifier).login();
 
-      expect(container.read(authStateProvider), equals('test-id-token'));
+      expect(container.read(authStateProvider).token, equals('test-id-token'));
     });
 
     test('reset で初期状態に戻る', () async {
@@ -178,6 +182,7 @@ void main() {
             id: 1,
             email: 'test@example.com',
             idToken: 'test-id-token',
+            refreshToken: 'test-refresh-token',
           ),
         ),
       );

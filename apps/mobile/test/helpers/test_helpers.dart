@@ -7,6 +7,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/error_handler.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 /// テスト用 ProviderContainer を作成するヘルパー
@@ -143,13 +144,15 @@ abstract class TestFailures {
 /// AuthState フィクスチャ
 abstract class TestAuthStates {
   /// 未認証状態
-  static const unauthenticated = AuthState();
+  static const unauthenticated = AuthStateData();
 
   /// 認証済み状態
-  static const authenticated = AuthState(
+  static const authenticated = AuthStateData(
     isAuthenticated: true,
     userId: 'test-user-id',
+    email: 'test@example.com',
     token: 'test-token',
+    refreshToken: 'test-refresh-token',
   );
 }
 

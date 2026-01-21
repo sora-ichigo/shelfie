@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 void main() {
@@ -196,9 +197,11 @@ void main() {
         final container = ProviderScope.containerOf(
           tester.element(find.byType(ShelfieApp)),
         );
-        container.read(authStateNotifierProvider.notifier).login(
+        container.read(authStateProvider.notifier).login(
               userId: 'test-user',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
         await tester.pumpAndSettle();
 

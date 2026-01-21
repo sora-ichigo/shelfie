@@ -4,14 +4,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:gql/ast.dart' as _i1;
 
-const LoginUser = _i1.OperationDefinitionNode(
+const RefreshToken = _i1.OperationDefinitionNode(
   type: _i1.OperationType.mutation,
-  name: _i1.NameNode(value: 'LoginUser'),
+  name: _i1.NameNode(value: 'RefreshToken'),
   variableDefinitions: [
     _i1.VariableDefinitionNode(
       variable: _i1.VariableNode(name: _i1.NameNode(value: 'input')),
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'LoginUserInput'),
+        name: _i1.NameNode(value: 'RefreshTokenInput'),
         isNonNull: true,
       ),
       defaultValue: _i1.DefaultValueNode(value: null),
@@ -21,7 +21,7 @@ const LoginUser = _i1.OperationDefinitionNode(
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
     _i1.FieldNode(
-      name: _i1.NameNode(value: 'loginUser'),
+      name: _i1.NameNode(value: 'refreshToken'),
       alias: null,
       arguments: [
         _i1.ArgumentNode(
@@ -34,7 +34,7 @@ const LoginUser = _i1.OperationDefinitionNode(
         _i1.InlineFragmentNode(
           typeCondition: _i1.TypeConditionNode(
               on: _i1.NamedTypeNode(
-            name: _i1.NameNode(value: 'MutationLoginUserSuccess'),
+            name: _i1.NameNode(value: 'MutationRefreshTokenSuccess'),
             isNonNull: false,
           )),
           directives: [],
@@ -45,35 +45,6 @@ const LoginUser = _i1.OperationDefinitionNode(
               arguments: [],
               directives: [],
               selectionSet: _i1.SelectionSetNode(selections: [
-                _i1.FieldNode(
-                  name: _i1.NameNode(value: 'user'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: _i1.SelectionSetNode(selections: [
-                    _i1.FieldNode(
-                      name: _i1.NameNode(value: 'id'),
-                      alias: null,
-                      arguments: [],
-                      directives: [],
-                      selectionSet: null,
-                    ),
-                    _i1.FieldNode(
-                      name: _i1.NameNode(value: 'email'),
-                      alias: null,
-                      arguments: [],
-                      directives: [],
-                      selectionSet: null,
-                    ),
-                    _i1.FieldNode(
-                      name: _i1.NameNode(value: 'createdAt'),
-                      alias: null,
-                      arguments: [],
-                      directives: [],
-                      selectionSet: null,
-                    ),
-                  ]),
-                ),
                 _i1.FieldNode(
                   name: _i1.NameNode(value: 'idToken'),
                   alias: null,
@@ -134,4 +105,4 @@ const LoginUser = _i1.OperationDefinitionNode(
     )
   ]),
 );
-const document = _i1.DocumentNode(definitions: [LoginUser]);
+const document = _i1.DocumentNode(definitions: [RefreshToken]);

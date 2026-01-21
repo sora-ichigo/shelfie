@@ -212,6 +212,9 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
       'idToken',
       serializers.serialize(object.idToken,
           specifiedType: const FullType(String)),
+      'refreshToken',
+      serializers.serialize(object.refreshToken,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -242,6 +245,10 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
           break;
         case 'idToken':
           result.idToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'refreshToken':
+          result.refreshToken = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -766,6 +773,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   final GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user user;
   @override
   final String idToken;
+  @override
+  final String refreshToken;
 
   factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data(
           [void Function(
@@ -776,7 +785,10 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
           ._build();
 
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._(
-      {required this.G__typename, required this.user, required this.idToken})
+      {required this.G__typename,
+      required this.user,
+      required this.idToken,
+      required this.refreshToken})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename,
@@ -788,6 +800,10 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
         idToken,
         r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
         'idToken');
+    BuiltValueNullFieldError.checkNotNull(
+        refreshToken,
+        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+        'refreshToken');
   }
 
   @override
@@ -809,7 +825,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
     return other is GLoginUserData_loginUser__asMutationLoginUserSuccess_data &&
         G__typename == other.G__typename &&
         user == other.user &&
-        idToken == other.idToken;
+        idToken == other.idToken &&
+        refreshToken == other.refreshToken;
   }
 
   @override
@@ -818,6 +835,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
     _$hash = $jc(_$hash, G__typename.hashCode);
     _$hash = $jc(_$hash, user.hashCode);
     _$hash = $jc(_$hash, idToken.hashCode);
+    _$hash = $jc(_$hash, refreshToken.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -828,7 +846,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
             r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data')
           ..add('G__typename', G__typename)
           ..add('user', user)
-          ..add('idToken', idToken))
+          ..add('idToken', idToken)
+          ..add('refreshToken', refreshToken))
         .toString();
   }
 }
@@ -856,6 +875,10 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
   String? get idToken => _$this._idToken;
   set idToken(String? idToken) => _$this._idToken = idToken;
 
+  String? _refreshToken;
+  String? get refreshToken => _$this._refreshToken;
+  set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
+
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder() {
     GLoginUserData_loginUser__asMutationLoginUserSuccess_data
         ._initializeBuilder(this);
@@ -867,6 +890,7 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
       _G__typename = $v.G__typename;
       _user = $v.user.toBuilder();
       _idToken = $v.idToken;
+      _refreshToken = $v.refreshToken;
       _$v = null;
     }
     return this;
@@ -903,7 +927,11 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
               idToken: BuiltValueNullFieldError.checkNotNull(
                   idToken,
                   r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-                  'idToken'));
+                  'idToken'),
+              refreshToken: BuiltValueNullFieldError.checkNotNull(
+                  refreshToken,
+                  r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                  'refreshToken'));
     } catch (_) {
       late String _$failedField;
       try {

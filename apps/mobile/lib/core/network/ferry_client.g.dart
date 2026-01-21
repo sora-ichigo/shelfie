@@ -28,7 +28,7 @@ final apiEndpointProvider = Provider<String>.internal(
 );
 
 typedef ApiEndpointRef = ProviderRef<String>;
-String _$authTokenHash() => r'50293c603de83fec0c41584b2a0d1eb52d491f1b';
+String _$authTokenHash() => r'199cac0e3c0e854bcbe3ef0e79913b0f0c3aa6da';
 
 /// 認証トークン Provider
 ///
@@ -140,6 +140,53 @@ final ferryClientProvider = Provider<Client>.internal(
 );
 
 typedef FerryClientRef = ProviderRef<Client>;
+String _$ensureValidTokenHash() => r'50b1a418e163227379430f92647a214b20a7c474';
+
+/// トークンリフレッシュを行うかどうかのフラグ Provider
+///
+/// 認証が必要な API リクエスト前にトークンの有効性を確認し、
+/// 必要に応じてリフレッシュする。
+///
+/// Copied from [ensureValidToken].
+@ProviderFor(ensureValidToken)
+final ensureValidTokenProvider = AutoDisposeFutureProvider<bool>.internal(
+  ensureValidToken,
+  name: r'ensureValidTokenProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$ensureValidTokenHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef EnsureValidTokenRef = AutoDisposeFutureProviderRef<bool>;
+String _$authenticatedClientHash() =>
+    r'053f9d18ada3c7047731e2ee4c4110b15f36d25d';
+
+/// 認証付き API リクエスト用ヘルパー
+///
+/// API リクエスト前にトークンの有効性を確認し、
+/// 必要に応じてリフレッシュしてからクライアントを返す。
+///
+/// 使用方法:
+/// ```dart
+/// final client = await ref.read(authenticatedClientProvider.future);
+/// final response = await client.request(yourRequest).first;
+/// ```
+///
+/// Copied from [authenticatedClient].
+@ProviderFor(authenticatedClient)
+final authenticatedClientProvider = AutoDisposeFutureProvider<Client>.internal(
+  authenticatedClient,
+  name: r'authenticatedClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authenticatedClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AuthenticatedClientRef = AutoDisposeFutureProviderRef<Client>;
 String _$clearCacheHash() => r'b96d3cb1424a934f770c1913ce2f0f5c2c7ce1b6';
 
 /// Copied from Dart SDK

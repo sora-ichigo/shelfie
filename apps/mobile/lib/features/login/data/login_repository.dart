@@ -38,12 +38,14 @@ class LoggedInUser {
     required this.id,
     required this.email,
     required this.idToken,
+    required this.refreshToken,
     this.createdAt,
   });
 
   final int id;
   final String email;
   final String idToken;
+  final String refreshToken;
   final DateTime? createdAt;
 }
 
@@ -111,6 +113,7 @@ class LoginRepository {
             id: userData.id ?? 0,
             email: userData.email ?? '',
             idToken: loginData.idToken,
+            refreshToken: loginData.refreshToken,
             createdAt: userData.createdAt,
           ),
         );

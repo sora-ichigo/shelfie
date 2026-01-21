@@ -133,6 +133,12 @@ type LoginUserInputRef = ReturnType<typeof createLoginUserInputRef>;
 interface LoginResultData {
   user: User;
   idToken: string;
+  refreshToken: string;
+}
+
+interface RefreshTokenResultData {
+  idToken: string;
+  refreshToken: string;
 }
 
 function createLoginResultRef(builder: Builder) {
@@ -141,10 +147,24 @@ function createLoginResultRef(builder: Builder) {
 
 type LoginResultObjectRef = ReturnType<typeof createLoginResultRef>;
 
+function createRefreshTokenInputRef(builder: Builder) {
+  return builder.inputRef<{ refreshToken: string }>("RefreshTokenInput");
+}
+
+type RefreshTokenInputRef = ReturnType<typeof createRefreshTokenInputRef>;
+
+function createRefreshTokenResultRef(builder: Builder) {
+  return builder.objectRef<RefreshTokenResultData>("RefreshTokenResult");
+}
+
+type RefreshTokenResultObjectRef = ReturnType<typeof createRefreshTokenResultRef>;
+
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
 let LoginUserInputRef: LoginUserInputRef | null = null;
 let LoginResultRef: LoginResultObjectRef | null = null;
+let RefreshTokenInputRef: RefreshTokenInputRef | null = null;
+let RefreshTokenResultRef: RefreshTokenResultObjectRef | null = null;
 
 type AuthErrorDataObjectRef = ReturnType<typeof createAuthErrorDataRef>;
 
@@ -249,6 +269,36 @@ export function registerAuthTypes(builder: Builder): void {
         description: "Firebase ID token for API authentication",
         resolve: (parent) => parent.idToken,
       }),
+      refreshToken: t.string({
+        nullable: false,
+        description: "Firebase refresh token for obtaining new ID tokens",
+        resolve: (parent) => parent.refreshToken,
+      }),
+    }),
+  });
+
+  RefreshTokenInputRef = createRefreshTokenInputRef(builder);
+  RefreshTokenInputRef.implement({
+    description: "Input for token refresh",
+    fields: (t) => ({
+      refreshToken: t.string({ required: true, description: "Refresh token" }),
+    }),
+  });
+
+  RefreshTokenResultRef = createRefreshTokenResultRef(builder);
+  RefreshTokenResultRef.implement({
+    description: "Result of successful token refresh",
+    fields: (t) => ({
+      idToken: t.string({
+        nullable: false,
+        description: "New Firebase ID token",
+        resolve: (parent) => parent.idToken,
+      }),
+      refreshToken: t.string({
+        nullable: false,
+        description: "New refresh token",
+        resolve: (parent) => parent.refreshToken,
+      }),
     }),
   });
 }
@@ -314,6 +364,34 @@ export function registerAuthMutations(
           return {
             user: result.data.user,
             idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
+          };
+        },
+      }),
+      refreshToken: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: RefreshTokenResultRef!,
+        description: "Refresh ID token using refresh token",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: RefreshTokenInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (_parent, { input }): Promise<RefreshTokenResultData> => {
+          const result = await authService.refreshToken(input.refreshToken);
+
+          if (!result.success) {
+            throw mapLoginErrorToAuthError(result.error);
+          }
+
+          return {
+            idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
           };
         },
       }),

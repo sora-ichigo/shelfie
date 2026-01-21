@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -185,7 +186,7 @@ void main() {
 
         final authState = container.read(authStateProvider);
 
-        expect(authState, isA<AuthState>());
+        expect(authState, isA<AuthStateData>());
         expect(authState.isAuthenticated, isFalse);
       });
 
@@ -202,7 +203,9 @@ void main() {
         // ログイン
         container.read(authStateProvider.notifier).login(
               userId: 'user-123',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         expect(
@@ -230,7 +233,7 @@ void main() {
         final authNotifier = container.read(authStateProvider.notifier);
 
         // refreshListenable で使用するため ChangeNotifier を継承している必要がある
-        expect(authNotifier, isA<Notifier<AuthState>>());
+        expect(authNotifier, isA<Notifier<AuthStateData>>());
       });
 
       testWidgets('未認証時にログイン画面へリダイレクトされる', (tester) async {
@@ -265,7 +268,9 @@ void main() {
         // 先にログイン
         container.read(authStateProvider.notifier).login(
               userId: 'user-123',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -297,7 +302,9 @@ void main() {
         // 先にログイン
         container.read(authStateProvider.notifier).login(
               userId: 'user-123',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(
@@ -335,7 +342,9 @@ void main() {
         // 認証済み状態にする
         container.read(authStateProvider.notifier).login(
               userId: 'user-123',
+              email: 'test@example.com',
               token: 'test-token',
+              refreshToken: 'test-refresh-token',
             );
 
         await tester.pumpWidget(

@@ -151,6 +151,15 @@ const LoginResult = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'refreshToken'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'user'),
       directives: [],
       args: [],
@@ -224,6 +233,25 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'refreshToken'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'input'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'RefreshTokenInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationRefreshTokenResult'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'registerUser'),
       directives: [],
       args: [
@@ -269,6 +297,36 @@ const MutationLoginUserSuccess = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'LoginResult'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationRefreshTokenResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRefreshTokenResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'AuthError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationRefreshTokenSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationRefreshTokenSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRefreshTokenSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'RefreshTokenResult'),
         isNonNull: true,
       ),
     )
@@ -324,6 +382,46 @@ const Query = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MeResult'),
+        isNonNull: true,
+      ),
+    ),
+  ],
+);
+const RefreshTokenInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'RefreshTokenInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'refreshToken'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    )
+  ],
+);
+const RefreshTokenResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'RefreshTokenResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'idToken'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'refreshToken'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
         isNonNull: true,
       ),
     ),
@@ -407,9 +505,13 @@ const document = _i1.DocumentNode(definitions: [
   Mutation,
   MutationLoginUserResult,
   MutationLoginUserSuccess,
+  MutationRefreshTokenResult,
+  MutationRefreshTokenSuccess,
   MutationRegisterUserResult,
   MutationRegisterUserSuccess,
   Query,
+  RefreshTokenInput,
+  RefreshTokenResult,
   RegisterUserInput,
   User,
 ]);

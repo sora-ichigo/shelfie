@@ -22,6 +22,12 @@ export interface LoginUserInput {
 export interface LoginUserOutput {
   user: User;
   idToken: string;
+  refreshToken: string;
+}
+
+export interface RefreshTokenOutput {
+  idToken: string;
+  refreshToken: string;
 }
 
 export type AuthServiceError =
@@ -34,6 +40,8 @@ export type AuthServiceError =
 export type LoginServiceError =
   | { code: "USER_NOT_FOUND"; message: string }
   | { code: "INVALID_CREDENTIALS"; message: string }
+  | { code: "INVALID_TOKEN"; message: string }
+  | { code: "TOKEN_EXPIRED"; message: string }
   | { code: "NETWORK_ERROR"; message: string; retryable: boolean }
   | { code: "INTERNAL_ERROR"; message: string };
 
@@ -45,7 +53,10 @@ export interface FirebaseAuth {
   signIn(
     email: string,
     password: string,
-  ): Promise<{ uid: string; idToken: string }>;
+  ): Promise<{ uid: string; idToken: string; refreshToken: string }>;
+  refreshToken(
+    refreshToken: string,
+  ): Promise<{ idToken: string; refreshToken: string }>;
 }
 
 export interface AuthService {
@@ -54,6 +65,9 @@ export interface AuthService {
   ): Promise<Result<RegisterUserOutput, AuthServiceError>>;
   getCurrentUser(firebaseUid: string): Promise<Result<User, LoginServiceError>>;
   login(input: LoginUserInput): Promise<Result<LoginUserOutput, LoginServiceError>>;
+  refreshToken(
+    refreshToken: string,
+  ): Promise<Result<RefreshTokenOutput, LoginServiceError>>;
 }
 
 const MIN_PASSWORD_LENGTH = 8;
@@ -137,6 +151,42 @@ export function mapFirebaseLoginError(firebaseError: {
       return {
         code: "INTERNAL_ERROR",
         message: "ログイン中にエラーが発生しました",
+      };
+  }
+}
+
+export function mapFirebaseRefreshError(firebaseError: {
+  code: string;
+}): LoginServiceError {
+  const { code } = firebaseError;
+
+  switch (code) {
+    case "auth/invalid-refresh-token":
+      return {
+        code: "INVALID_TOKEN",
+        message: "リフレッシュトークンが無効です",
+      };
+    case "auth/token-expired":
+      return {
+        code: "TOKEN_EXPIRED",
+        message: "リフレッシュトークンが期限切れです",
+      };
+    case "auth/user-disabled":
+    case "auth/user-not-found":
+      return {
+        code: "USER_NOT_FOUND",
+        message: "ユーザーが見つかりません",
+      };
+    case "auth/network-request-failed":
+      return {
+        code: "NETWORK_ERROR",
+        message: "ネットワークエラーが発生しました",
+        retryable: true,
+      };
+    default:
+      return {
+        code: "INTERNAL_ERROR",
+        message: "トークンのリフレッシュ中にエラーが発生しました",
       };
   }
 }
@@ -259,7 +309,7 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         email: input.email,
       });
 
-      let firebaseResult: { uid: string; idToken: string };
+      let firebaseResult: { uid: string; idToken: string; refreshToken: string };
       try {
         firebaseResult = await firebaseAuth.signIn(input.email, input.password);
       } catch (error) {
@@ -303,7 +353,49 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
       return ok({
         user: userResult.data,
         idToken: firebaseResult.idToken,
+        refreshToken: firebaseResult.refreshToken,
       });
+    },
+
+    async refreshToken(
+      refreshTokenValue: string,
+    ): Promise<Result<RefreshTokenOutput, LoginServiceError>> {
+      logger.info("Token refresh attempt", {
+        feature: "auth",
+      });
+
+      try {
+        const result = await firebaseAuth.refreshToken(refreshTokenValue);
+
+        logger.info("Token refreshed successfully", {
+          feature: "auth",
+        });
+
+        return ok({
+          idToken: result.idToken,
+          refreshToken: result.refreshToken,
+        });
+      } catch (error) {
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code) {
+          logger.warn("Firebase refreshToken failed", {
+            feature: "auth",
+            errorCode: firebaseError.code,
+          });
+          return err(mapFirebaseRefreshError(firebaseError as { code: string }));
+        }
+        logger.error(
+          "Unknown error during Firebase refreshToken",
+          error as Error,
+          {
+            feature: "auth",
+          },
+        );
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "トークンのリフレッシュ中にエラーが発生しました",
+        });
+      }
     },
   };
 }
