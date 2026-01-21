@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
@@ -222,10 +223,10 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) => const WelcomeScreen(),
     ),
 
-    // 認証関連ルート
+    // ログイン画面
     GoRoute(
       path: AppRoutes.login,
-      builder: (context, state) => const _LoginScreen(),
+      builder: (context, state) => const LoginScreen(),
     ),
 
     // 新規登録画面
@@ -339,19 +340,6 @@ class _MainShellState extends State<_MainShell> {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// プレースホルダー: ログイン画面
-class _LoginScreen extends StatelessWidget {
-  const _LoginScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: const Center(child: Text('Login Screen')),
     );
   }
 }

@@ -28,11 +28,11 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   void _onLoginPressed(BuildContext context) {
-    context.go(AppRoutes.login);
+    context.push(AppRoutes.login);
   }
 
   void _onRegisterPressed(BuildContext context) {
-    context.go(AppRoutes.register);
+    context.push(AppRoutes.register);
   }
 
   void _onTermsPressed(BuildContext context) {
