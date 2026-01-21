@@ -9,12 +9,19 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
 import { registerUserTypes } from "../../users/internal/graphql.js";
 import {
+  AUTH_ERROR_CODES,
   AuthError,
+  LOGIN_ERROR_CODES,
+  mapLoginErrorToAuthError,
   mapServiceErrorToAuthError,
   registerAuthMutations,
   registerAuthTypes,
 } from "./graphql.js";
-import type { AuthService, AuthServiceError } from "./service.js";
+import type {
+  AuthService,
+  AuthServiceError,
+  LoginServiceError,
+} from "./service.js";
 
 describe("Auth GraphQL Types", () => {
   let schema: GraphQLSchema;
@@ -46,6 +53,17 @@ describe("Auth GraphQL Types", () => {
       expect(values).toContain("INVALID_PASSWORD");
       expect(values).toContain("NETWORK_ERROR");
       expect(values).toContain("INTERNAL_ERROR");
+    });
+
+    it("should include login-related error codes", () => {
+      const enumType = schema.getType("AuthErrorCode") as GraphQLEnumType;
+
+      expect(enumType).toBeDefined();
+      const values = enumType.getValues().map((v) => v.name);
+      expect(values).toContain("INVALID_TOKEN");
+      expect(values).toContain("TOKEN_EXPIRED");
+      expect(values).toContain("USER_NOT_FOUND");
+      expect(values).toContain("UNAUTHENTICATED");
     });
   });
 
@@ -231,5 +249,83 @@ describe("AuthError class", () => {
     const error = new AuthError("NETWORK_ERROR", "Network error", null, true);
 
     expect(error.retryable).toBe(true);
+  });
+
+  it("should create AuthError with login-related error codes", () => {
+    const tokenError = new AuthError("INVALID_TOKEN", "Invalid token");
+    expect(tokenError.code).toBe("INVALID_TOKEN");
+
+    const expiredError = new AuthError("TOKEN_EXPIRED", "Token expired");
+    expect(expiredError.code).toBe("TOKEN_EXPIRED");
+
+    const notFoundError = new AuthError("USER_NOT_FOUND", "User not found");
+    expect(notFoundError.code).toBe("USER_NOT_FOUND");
+
+    const unauthError = new AuthError("UNAUTHENTICATED", "Unauthenticated");
+    expect(unauthError.code).toBe("UNAUTHENTICATED");
+  });
+});
+
+describe("LOGIN_ERROR_CODES", () => {
+  it("should define all login-related error codes", () => {
+    expect(LOGIN_ERROR_CODES).toContain("INVALID_TOKEN");
+    expect(LOGIN_ERROR_CODES).toContain("TOKEN_EXPIRED");
+    expect(LOGIN_ERROR_CODES).toContain("USER_NOT_FOUND");
+    expect(LOGIN_ERROR_CODES).toContain("UNAUTHENTICATED");
+  });
+
+  it("should have 4 error codes", () => {
+    expect(LOGIN_ERROR_CODES.length).toBe(4);
+  });
+});
+
+describe("AUTH_ERROR_CODES includes login error codes", () => {
+  it("should include all login error codes in AUTH_ERROR_CODES", () => {
+    for (const code of LOGIN_ERROR_CODES) {
+      expect(AUTH_ERROR_CODES).toContain(code);
+    }
+  });
+});
+
+describe("mapLoginErrorToAuthError", () => {
+  it("should map USER_NOT_FOUND error correctly", () => {
+    const error: LoginServiceError = {
+      code: "USER_NOT_FOUND",
+      message: "User not found",
+    };
+
+    const result = mapLoginErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("USER_NOT_FOUND");
+    expect(result.message).toBe("User not found");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should map INTERNAL_ERROR correctly", () => {
+    const error: LoginServiceError = {
+      code: "INTERNAL_ERROR",
+      message: "Internal error",
+    };
+
+    const result = mapLoginErrorToAuthError(error);
+
+    expect(result).toBeInstanceOf(AuthError);
+    expect(result.code).toBe("INTERNAL_ERROR");
+    expect(result.message).toBe("Internal error");
+    expect(result.field).toBeNull();
+    expect(result.retryable).toBe(false);
+  });
+
+  it("should set retryable to true for TOKEN_EXPIRED", () => {
+    const error: LoginServiceError = {
+      code: "TOKEN_EXPIRED" as "USER_NOT_FOUND",
+      message: "Token expired",
+    };
+
+    const result = mapLoginErrorToAuthError(error as LoginServiceError);
+
+    expect(result.retryable).toBe(true);
   });
 });

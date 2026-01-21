@@ -3,6 +3,7 @@ import { getDb } from "../db/index.js";
 import {
   createAuthService,
   registerAuthMutations,
+  registerAuthQueries,
   registerAuthTypes,
 } from "../features/auth/index.js";
 import {
@@ -35,6 +36,7 @@ const authService = createAuthService({
 });
 
 registerAuthMutations(builder, authService);
+registerAuthQueries(builder, authService);
 
 export function buildSchema() {
   return builder.toSchema();

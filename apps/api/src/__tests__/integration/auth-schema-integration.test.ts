@@ -216,4 +216,127 @@ describe("Auth Feature Schema Integration Tests", () => {
       expect(result.data?.health).toBe("ok");
     });
   });
+
+  describe("Schema Introspection - Login Error Codes", () => {
+    it("should have login-related error codes in AuthErrorCode enum", async () => {
+      const result = await executeQuery<{
+        __type: { name: string; enumValues: Array<{ name: string }> } | null;
+      }>(`
+        query {
+          __type(name: "AuthErrorCode") {
+            name
+            enumValues {
+              name
+            }
+          }
+        }
+      `);
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.__type).not.toBeNull();
+
+      const enumValues =
+        result.data?.__type?.enumValues?.map((v) => v.name) ?? [];
+      expect(enumValues).toContain("INVALID_TOKEN");
+      expect(enumValues).toContain("TOKEN_EXPIRED");
+      expect(enumValues).toContain("USER_NOT_FOUND");
+      expect(enumValues).toContain("UNAUTHENTICATED");
+    });
+  });
+
+  describe("Schema Introspection - me Query", () => {
+    it("should have me query available", async () => {
+      const result = await executeQuery<{
+        __schema: {
+          queryType: {
+            fields: Array<{
+              name: string;
+              type: { name: string | null; kind: string };
+            }>;
+          } | null;
+        };
+      }>(`
+        query {
+          __schema {
+            queryType {
+              fields {
+                name
+                type {
+                  name
+                  kind
+                }
+              }
+            }
+          }
+        }
+      `);
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.__schema?.queryType).not.toBeNull();
+
+      const queryFields = result.data?.__schema?.queryType?.fields ?? [];
+      const meQuery = queryFields.find((f) => f.name === "me");
+      expect(meQuery).toBeDefined();
+    });
+
+    it("should have MeResult union type defined", async () => {
+      const result = await executeQuery<{
+        __type: {
+          name: string;
+          kind: string;
+          possibleTypes: Array<{ name: string }>;
+        } | null;
+      }>(`
+        query {
+          __type(name: "MeResult") {
+            name
+            kind
+            possibleTypes {
+              name
+            }
+          }
+        }
+      `);
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.__type).not.toBeNull();
+      expect(result.data?.__type?.name).toBe("MeResult");
+      expect(result.data?.__type?.kind).toBe("UNION");
+
+      const possibleTypes =
+        result.data?.__type?.possibleTypes?.map((t) => t.name) ?? [];
+      expect(possibleTypes).toContain("User");
+      expect(possibleTypes).toContain("AuthErrorResult");
+    });
+  });
+
+  describe("me Query Execution", () => {
+    it("should return UNAUTHENTICATED error when no authorization header", async () => {
+      const result = await executeQuery<{
+        me:
+          | { __typename: "User"; id: number; email: string }
+          | { __typename: "AuthErrorResult"; code: string; message: string };
+      }>(`
+        query {
+          me {
+            ... on User {
+              __typename
+              id
+              email
+            }
+            ... on AuthErrorResult {
+              __typename
+              code
+              message
+            }
+          }
+        }
+      `);
+
+      expect(result.data?.me?.__typename).toBe("AuthErrorResult");
+      if (result.data?.me?.__typename === "AuthErrorResult") {
+        expect(result.data.me.code).toBe("UNAUTHENTICATED");
+      }
+    });
+  });
 });

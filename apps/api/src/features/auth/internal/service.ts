@@ -21,6 +21,10 @@ export type AuthServiceError =
   | { code: "FIREBASE_ERROR"; message: string; originalCode: string }
   | { code: "INTERNAL_ERROR"; message: string };
 
+export type LoginServiceError =
+  | { code: "USER_NOT_FOUND"; message: string }
+  | { code: "INTERNAL_ERROR"; message: string };
+
 export interface FirebaseAuth {
   createUser(
     email: string,
@@ -32,6 +36,7 @@ export interface AuthService {
   register(
     input: RegisterUserInput,
   ): Promise<Result<RegisterUserOutput, AuthServiceError>>;
+  getCurrentUser(firebaseUid: string): Promise<Result<User, LoginServiceError>>;
 }
 
 const MIN_PASSWORD_LENGTH = 8;
@@ -171,6 +176,35 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         firebaseUid: firebaseUser.uid,
         emailVerified: firebaseUser.emailVerified,
       });
+    },
+
+    async getCurrentUser(
+      firebaseUid: string,
+    ): Promise<Result<User, LoginServiceError>> {
+      logger.info("Getting current user", {
+        feature: "auth",
+        firebaseUid,
+      });
+
+      const userResult = await userService.getUserByFirebaseUid(firebaseUid);
+
+      if (!userResult.success) {
+        logger.warn("User not found for Firebase UID", {
+          feature: "auth",
+          firebaseUid,
+        });
+        return err({
+          code: "USER_NOT_FOUND",
+          message: "ユーザーが見つかりません",
+        });
+      }
+
+      logger.info("Current user retrieved successfully", {
+        feature: "auth",
+        userId: String(userResult.data.id),
+      });
+
+      return ok(userResult.data);
     },
   };
 }
