@@ -1,4 +1,5 @@
 import 'package:ferry/ferry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
@@ -59,6 +60,8 @@ class RegistrationRepository {
     required String email,
     required String password,
   }) async {
+    debugPrint('[RegistrationRepository] registerUser called with email: $email');
+
     final request = GRegisterUserReq(
       (b) => b
         ..vars.input = GRegisterUserInput(
@@ -69,22 +72,35 @@ class RegistrationRepository {
     );
 
     try {
+      debugPrint('[RegistrationRepository] Sending GraphQL request...');
       final response = await client.request(request).first;
+      debugPrint('[RegistrationRepository] Response received');
+      debugPrint('[RegistrationRepository] hasErrors: ${response.hasErrors}');
+      debugPrint('[RegistrationRepository] linkException: ${response.linkException}');
+      debugPrint('[RegistrationRepository] graphqlErrors: ${response.graphqlErrors}');
+      debugPrint('[RegistrationRepository] response.data: ${response.data}');
+      debugPrint('[RegistrationRepository] response.data?.registerUser: ${response.data?.registerUser}');
 
       if (response.hasErrors) {
+        debugPrint('[RegistrationRepository] Error details:');
+        debugPrint('  - graphqlErrors: ${response.graphqlErrors?.map((e) => '${e.message} (${e.extensions})').toList()}');
+        debugPrint('  - linkException: ${response.linkException}');
         final errorMessage = response.graphqlErrors?.first.message ??
             'ユーザー登録に失敗しました';
         return left(UnknownError(errorMessage));
       }
 
       final result = response.data?.registerUser;
+      debugPrint('[RegistrationRepository] result type: ${result.runtimeType}');
       if (result == null) {
+        debugPrint('[RegistrationRepository] Result is null');
         return left(const UnknownError('レスポンスが空です'));
       }
 
       if (result
           is GRegisterUserData_registerUser__asMutationRegisterUserSuccess) {
         final userData = result.data;
+        debugPrint('[RegistrationRepository] Registration successful! userId: ${userData.id}');
         return right(
           RegisteredUser(
             id: userData.id ?? 0,
@@ -95,11 +111,15 @@ class RegistrationRepository {
       }
 
       if (result is GRegisterUserData_registerUser__asAuthError) {
+        debugPrint('[RegistrationRepository] AuthError received: code=${result.code}, message=${result.message}');
         return left(_mapAuthError(result));
       }
 
+      debugPrint('[RegistrationRepository] Unexpected response type: ${result.runtimeType}');
       return left(const UnknownError('予期しないレスポンス形式です'));
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('[RegistrationRepository] Exception caught: $e');
+      debugPrint('[RegistrationRepository] StackTrace: $stackTrace');
       return left(UnknownError(e.toString()));
     }
   }

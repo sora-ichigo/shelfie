@@ -14,6 +14,9 @@ targets:
         enabled: true
         options:
           schema: shelfie|lib/core/graphql/schema.graphql
+          custom_serializers:
+            - import: 'package:shelfie/core/graphql/custom_serializers.dart'
+              name: Iso8601DateTimeSerializer
 
       freezed:
         enabled: true

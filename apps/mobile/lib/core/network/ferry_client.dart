@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:ferry/ferry.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:gql_http_link/gql_http_link.dart';
@@ -9,14 +11,36 @@ part 'ferry_client.g.dart';
 /// GraphQL キャッシュ用の Hive Box 名
 const String _ferryCacheBoxName = 'ferry_graphql_cache';
 
+/// ビルド時に指定された API ベース URL
+///
+/// `--dart-define=API_BASE_URL=https://api.example.com` で指定可能。
+/// 未指定の場合は空文字列となり、ローカル開発用URLが使用される。
+const String _apiBaseUrl = String.fromEnvironment('API_BASE_URL');
+
+/// ローカル開発用のAPIエンドポイントを取得
+///
+/// - iOS シミュレーター: localhost が使用可能
+/// - Android エミュレーター: 10.0.2.2 を使用（ホストマシンへのアクセス）
+String _getLocalApiEndpoint() {
+  if (Platform.isAndroid) {
+    return 'http://10.0.2.2:4000/graphql';
+  }
+  return 'http://localhost:4000/graphql';
+}
+
 /// API エンドポイント Provider
 ///
 /// GraphQL API のベース URL を提供する。
 /// テスト時にはオーバーライドして異なるエンドポイントを使用可能。
+///
+/// 環境変数 `API_BASE_URL` が設定されている場合はそれを使用し、
+/// 未設定の場合はプラットフォームに応じたローカル開発用URLを返す。
 @Riverpod(keepAlive: true)
 String apiEndpoint(ApiEndpointRef ref) {
-  // TODO(shelfie): 環境変数または設定ファイルから取得
-  return 'https://api.shelfie.example.com/graphql';
+  if (_apiBaseUrl.isNotEmpty) {
+    return '$_apiBaseUrl/graphql';
+  }
+  return _getLocalApiEndpoint();
 }
 
 /// 認証トークン Provider

@@ -9,6 +9,8 @@ import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
     show GAuthErrorCode, GRegisterUserInput;
+import 'package:shelfie/core/graphql/custom_serializers.dart'
+    show Iso8601DateTimeSerializer;
 import 'package:shelfie/features/registration/data/__generated__/register_user.data.gql.dart'
     show
         GRegisterUserData_registerUser,
@@ -26,6 +28,7 @@ part 'serializers.gql.g.dart';
 
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
+  ..add(Iso8601DateTimeSerializer())
   ..add(GRegisterUserData_registerUser.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
