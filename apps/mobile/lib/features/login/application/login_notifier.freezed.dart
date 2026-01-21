@@ -20,7 +20,8 @@ mixin _$LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String userId, String email) success,
+    required TResult Function(String userId, String email, String idToken)
+        success,
     required TResult Function(String message, String? field) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +29,7 @@ mixin _$LoginState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String userId, String email)? success,
+    TResult? Function(String userId, String email, String idToken)? success,
     TResult? Function(String message, String? field)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ mixin _$LoginState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String userId, String email)? success,
+    TResult Function(String userId, String email, String idToken)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +127,8 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String userId, String email) success,
+    required TResult Function(String userId, String email, String idToken)
+        success,
     required TResult Function(String message, String? field) error,
   }) {
     return initial();
@@ -137,7 +139,7 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String userId, String email)? success,
+    TResult? Function(String userId, String email, String idToken)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return initial?.call();
@@ -148,7 +150,7 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String userId, String email)? success,
+    TResult Function(String userId, String email, String idToken)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -240,7 +242,8 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String userId, String email) success,
+    required TResult Function(String userId, String email, String idToken)
+        success,
     required TResult Function(String message, String? field) error,
   }) {
     return loading();
@@ -251,7 +254,7 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String userId, String email)? success,
+    TResult? Function(String userId, String email, String idToken)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return loading?.call();
@@ -262,7 +265,7 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String userId, String email)? success,
+    TResult Function(String userId, String email, String idToken)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -320,7 +323,7 @@ abstract class _$$LoginStateSuccessImplCopyWith<$Res> {
           $Res Function(_$LoginStateSuccessImpl) then) =
       __$$LoginStateSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String userId, String email});
+  $Res call({String userId, String email, String idToken});
 }
 
 /// @nodoc
@@ -336,6 +339,7 @@ class __$$LoginStateSuccessImplCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
     Object? email = null,
+    Object? idToken = null,
   }) {
     return _then(_$LoginStateSuccessImpl(
       userId: null == userId
@@ -346,6 +350,10 @@ class __$$LoginStateSuccessImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      idToken: null == idToken
+          ? _value.idToken
+          : idToken // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -353,16 +361,19 @@ class __$$LoginStateSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoginStateSuccessImpl implements LoginStateSuccess {
-  const _$LoginStateSuccessImpl({required this.userId, required this.email});
+  const _$LoginStateSuccessImpl(
+      {required this.userId, required this.email, required this.idToken});
 
   @override
   final String userId;
   @override
   final String email;
+  @override
+  final String idToken;
 
   @override
   String toString() {
-    return 'LoginState.success(userId: $userId, email: $email)';
+    return 'LoginState.success(userId: $userId, email: $email, idToken: $idToken)';
   }
 
   @override
@@ -371,11 +382,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
         (other.runtimeType == runtimeType &&
             other is _$LoginStateSuccessImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.idToken, idToken) || other.idToken == idToken));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId, email);
+  int get hashCode => Object.hash(runtimeType, userId, email, idToken);
 
   @JsonKey(ignore: true)
   @override
@@ -389,10 +401,11 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String userId, String email) success,
+    required TResult Function(String userId, String email, String idToken)
+        success,
     required TResult Function(String message, String? field) error,
   }) {
-    return success(userId, email);
+    return success(userId, email, idToken);
   }
 
   @override
@@ -400,10 +413,10 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String userId, String email)? success,
+    TResult? Function(String userId, String email, String idToken)? success,
     TResult? Function(String message, String? field)? error,
   }) {
-    return success?.call(userId, email);
+    return success?.call(userId, email, idToken);
   }
 
   @override
@@ -411,12 +424,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String userId, String email)? success,
+    TResult Function(String userId, String email, String idToken)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(userId, email);
+      return success(userId, email, idToken);
     }
     return orElse();
   }
@@ -462,10 +475,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
 abstract class LoginStateSuccess implements LoginState {
   const factory LoginStateSuccess(
       {required final String userId,
-      required final String email}) = _$LoginStateSuccessImpl;
+      required final String email,
+      required final String idToken}) = _$LoginStateSuccessImpl;
 
   String get userId;
   String get email;
+  String get idToken;
   @JsonKey(ignore: true)
   _$$LoginStateSuccessImplCopyWith<_$LoginStateSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -546,7 +561,8 @@ class _$LoginStateErrorImpl implements LoginStateError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String userId, String email) success,
+    required TResult Function(String userId, String email, String idToken)
+        success,
     required TResult Function(String message, String? field) error,
   }) {
     return error(message, field);
@@ -557,7 +573,7 @@ class _$LoginStateErrorImpl implements LoginStateError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String userId, String email)? success,
+    TResult? Function(String userId, String email, String idToken)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return error?.call(message, field);
@@ -568,7 +584,7 @@ class _$LoginStateErrorImpl implements LoginStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String userId, String email)? success,
+    TResult Function(String userId, String email, String idToken)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {

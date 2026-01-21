@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/features/login/application/login_form_state.dart';
+import 'package:shelfie/features/login/data/login_repository.dart';
 
 part 'login_notifier.freezed.dart';
 part 'login_notifier.g.dart';
@@ -12,6 +14,7 @@ sealed class LoginState with _$LoginState {
   const factory LoginState.success({
     required String userId,
     required String email,
+    required String idToken,
   }) = LoginStateSuccess;
   const factory LoginState.error({
     required String message,
@@ -28,14 +31,33 @@ class LoginNotifier extends _$LoginNotifier {
 
   Future<void> login() async {
     final formState = ref.read(loginFormStateProvider);
+    final repository = ref.read(loginRepositoryProvider);
 
     state = const LoginState.loading();
 
-    await Future<void>.delayed(const Duration(seconds: 1));
-
-    state = LoginState.success(
-      userId: 'mock-user-id',
+    final result = await repository.login(
       email: formState.email,
+      password: formState.password,
+    );
+
+    result.fold(
+      (error) {
+        final (String message, String? field) = switch (error) {
+          InvalidCredentialsError(:final message) => (message, null),
+          UserNotFoundError(:final message) => (message, null),
+          NetworkError(:final message) => (message, null),
+          UnknownError(:final message) => (message, null),
+        };
+        state = LoginState.error(message: message, field: field);
+      },
+      (user) {
+        ref.read(authStateProvider.notifier).setToken(user.idToken);
+        state = LoginState.success(
+          userId: user.id.toString(),
+          email: user.email,
+          idToken: user.idToken,
+        );
+      },
     );
   }
 

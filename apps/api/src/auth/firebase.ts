@@ -70,6 +70,40 @@ export interface FirebaseAuthAdapter {
     email: string,
     password: string,
   ): Promise<{ uid: string; emailVerified: boolean }>;
+  signIn(
+    email: string,
+    password: string,
+  ): Promise<{ uid: string; idToken: string }>;
+}
+
+interface FirebaseSignInResponse {
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+  registered: boolean;
+}
+
+interface FirebaseErrorResponse {
+  error: {
+    code: number;
+    message: string;
+    errors: Array<{ message: string; domain: string; reason: string }>;
+  };
+}
+
+function mapFirebaseRestErrorCode(message: string): string {
+  if (message.includes("INVALID_LOGIN_CREDENTIALS")) {
+    return "auth/invalid-credential";
+  }
+  if (message.includes("EMAIL_NOT_FOUND")) {
+    return "auth/user-not-found";
+  }
+  if (message.includes("INVALID_PASSWORD")) {
+    return "auth/wrong-password";
+  }
+  return "auth/internal-error";
 }
 
 export function createFirebaseAuthAdapter(): FirebaseAuthAdapter {
@@ -85,6 +119,44 @@ export function createFirebaseAuthAdapter(): FirebaseAuthAdapter {
       return {
         uid: userRecord.uid,
         emailVerified: userRecord.emailVerified,
+      };
+    },
+
+    async signIn(
+      email: string,
+      password: string,
+    ): Promise<{ uid: string; idToken: string }> {
+      const apiKey = process.env.FIREBASE_WEB_API_KEY;
+      if (!apiKey) {
+        throw { code: "auth/internal-error" };
+      }
+
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as FirebaseErrorResponse;
+        const errorCode = mapFirebaseRestErrorCode(
+          errorData.error?.message || "",
+        );
+        throw { code: errorCode };
+      }
+
+      const data = (await response.json()) as FirebaseSignInResponse;
+      return {
+        uid: data.localId,
+        idToken: data.idToken,
       };
     },
   };

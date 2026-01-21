@@ -28,7 +28,7 @@ final apiEndpointProvider = Provider<String>.internal(
 );
 
 typedef ApiEndpointRef = ProviderRef<String>;
-String _$authTokenHash() => r'ced0ba3482546940f46aa8d02504119bbea4d5da';
+String _$authTokenHash() => r'50293c603de83fec0c41584b2a0d1eb52d491f1b';
 
 /// 認証トークン Provider
 ///

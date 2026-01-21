@@ -12,6 +12,7 @@ export const LOGIN_ERROR_CODES = [
   "TOKEN_EXPIRED",
   "USER_NOT_FOUND",
   "UNAUTHENTICATED",
+  "INVALID_CREDENTIALS",
 ] as const;
 
 export type LoginErrorCode = (typeof LOGIN_ERROR_CODES)[number];
@@ -123,8 +124,27 @@ function createRegisterUserInputRef(builder: Builder) {
 
 type RegisterUserInputRef = ReturnType<typeof createRegisterUserInputRef>;
 
+function createLoginUserInputRef(builder: Builder) {
+  return builder.inputRef<{ email: string; password: string }>("LoginUserInput");
+}
+
+type LoginUserInputRef = ReturnType<typeof createLoginUserInputRef>;
+
+interface LoginResultData {
+  user: User;
+  idToken: string;
+}
+
+function createLoginResultRef(builder: Builder) {
+  return builder.objectRef<LoginResultData>("LoginResult");
+}
+
+type LoginResultObjectRef = ReturnType<typeof createLoginResultRef>;
+
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
+let LoginUserInputRef: LoginUserInputRef | null = null;
+let LoginResultRef: LoginResultObjectRef | null = null;
 
 type AuthErrorDataObjectRef = ReturnType<typeof createAuthErrorDataRef>;
 
@@ -204,6 +224,33 @@ export function registerAuthTypes(builder: Builder): void {
       password: t.string({ required: true, description: "Password" }),
     }),
   });
+
+  LoginUserInputRef = createLoginUserInputRef(builder);
+  LoginUserInputRef.implement({
+    description: "Input for user login",
+    fields: (t) => ({
+      email: t.string({ required: true, description: "Email address" }),
+      password: t.string({ required: true, description: "Password" }),
+    }),
+  });
+
+  LoginResultRef = createLoginResultRef(builder);
+  LoginResultRef.implement({
+    description: "Result of successful login",
+    fields: (t) => ({
+      user: t.field({
+        type: UserRef,
+        nullable: false,
+        description: "Logged in user",
+        resolve: (parent) => parent.user,
+      }),
+      idToken: t.string({
+        nullable: false,
+        description: "Firebase ID token for API authentication",
+        resolve: (parent) => parent.idToken,
+      }),
+    }),
+  });
 }
 
 export { AuthErrorDataRef };
@@ -238,6 +285,36 @@ export function registerAuthMutations(
           }
 
           return result.data.user;
+        },
+      }),
+      loginUser: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: LoginResultRef!,
+        description: "Login with email and password",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: LoginUserInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (_parent, { input }): Promise<LoginResultData> => {
+          const result = await authService.login({
+            email: input.email,
+            password: input.password,
+          });
+
+          if (!result.success) {
+            throw mapLoginErrorToAuthError(result.error);
+          }
+
+          return {
+            user: result.data.user,
+            idToken: result.data.idToken,
+          };
         },
       }),
     }),

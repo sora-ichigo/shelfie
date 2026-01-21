@@ -1,7 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/features/login/application/login_form_state.dart';
 import 'package:shelfie/features/login/application/login_notifier.dart';
+import 'package:shelfie/features/login/data/login_repository.dart';
+
+class MockLoginRepository extends Mock implements LoginRepository {}
 
 void main() {
   group('LoginState', () {
@@ -19,10 +25,12 @@ void main() {
       const state = LoginState.success(
         userId: 'test-user-id',
         email: 'test@example.com',
+        idToken: 'test-id-token',
       );
       expect(state, isA<LoginStateSuccess>());
       expect((state as LoginStateSuccess).userId, equals('test-user-id'));
       expect(state.email, equals('test@example.com'));
+      expect(state.idToken, equals('test-id-token'));
     });
 
     test('error 状態を作成できる', () {
@@ -41,9 +49,15 @@ void main() {
 
   group('LoginNotifier', () {
     late ProviderContainer container;
+    late MockLoginRepository mockRepository;
 
     setUp(() {
-      container = ProviderContainer();
+      mockRepository = MockLoginRepository();
+      container = ProviderContainer(
+        overrides: [
+          loginRepositoryProvider.overrideWithValue(mockRepository),
+        ],
+      );
     });
 
     tearDown(() {
@@ -56,6 +70,21 @@ void main() {
     });
 
     test('login は loading 状態を経由して success になる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+          ),
+        ),
+      );
+
       final formNotifier = container.read(loginFormStateProvider.notifier);
       formNotifier.updateEmail('test@example.com');
       formNotifier.updatePassword('password123');
@@ -71,9 +100,88 @@ void main() {
 
       expect(states, contains(isA<LoginStateLoading>()));
       expect(states.last, isA<LoginStateSuccess>());
+      expect(
+        (states.last as LoginStateSuccess).idToken,
+        equals('test-id-token'),
+      );
+    });
+
+    test('login 失敗時は error 状態になる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => left(
+          const InvalidCredentialsError(
+            'メールアドレスまたはパスワードが正しくありません',
+          ),
+        ),
+      );
+
+      final formNotifier = container.read(loginFormStateProvider.notifier);
+      formNotifier.updateEmail('test@example.com');
+      formNotifier.updatePassword('wrong-password');
+
+      final loginNotifier = container.read(loginNotifierProvider.notifier);
+
+      final states = <LoginState>[];
+      container.listen(loginNotifierProvider, (previous, next) {
+        states.add(next);
+      });
+
+      await loginNotifier.login();
+
+      expect(states, contains(isA<LoginStateLoading>()));
+      expect(states.last, isA<LoginStateError>());
+      expect(
+        (states.last as LoginStateError).message,
+        contains('メールアドレスまたはパスワード'),
+      );
+    });
+
+    test('login 成功時に authState にトークンがセットされる', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+          ),
+        ),
+      );
+
+      final formNotifier = container.read(loginFormStateProvider.notifier);
+      formNotifier.updateEmail('test@example.com');
+      formNotifier.updatePassword('password123');
+
+      await container.read(loginNotifierProvider.notifier).login();
+
+      expect(container.read(authStateProvider), equals('test-id-token'));
     });
 
     test('reset で初期状態に戻る', () async {
+      when(
+        () => mockRepository.login(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer(
+        (_) async => right(
+          const LoggedInUser(
+            id: 1,
+            email: 'test@example.com',
+            idToken: 'test-id-token',
+          ),
+        ),
+      );
+
       final formNotifier = container.read(loginFormStateProvider.notifier);
       formNotifier.updateEmail('test@example.com');
       formNotifier.updatePassword('password123');

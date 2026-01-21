@@ -128,6 +128,7 @@ describe("mapFirebaseError", () => {
 function createMockFirebaseAuth(): FirebaseAuth {
   return {
     createUser: vi.fn(),
+    signIn: vi.fn(),
   };
 }
 
@@ -440,6 +441,186 @@ describe("AuthService.getCurrentUser", () => {
       const logData = call[1] as Record<string, unknown>;
       expect(logData).not.toHaveProperty("token");
       expect(logData).not.toHaveProperty("idToken");
+    }
+  });
+});
+
+describe("AuthService.login", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should login user successfully and return user with idToken", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "mock-id-token",
+    });
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    const result = await authService.login({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.user.email).toBe("test@example.com");
+      expect(result.data.idToken).toBe("mock-id-token");
+    }
+    expect(mockFirebaseAuth.signIn).toHaveBeenCalledWith(
+      "test@example.com",
+      "password123",
+    );
+    expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+      "firebase-uid-123",
+    );
+  });
+
+  it("should return INVALID_CREDENTIALS when email/password is wrong", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/invalid-credential",
+    });
+
+    const result = await authService.login({
+      email: "test@example.com",
+      password: "wrong-password",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_CREDENTIALS");
+    }
+  });
+
+  it("should return INVALID_CREDENTIALS when user does not exist in Firebase", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/user-not-found",
+    });
+
+    const result = await authService.login({
+      email: "nonexistent@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_CREDENTIALS");
+    }
+  });
+
+  it("should return USER_NOT_FOUND when user exists in Firebase but not in local DB", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "mock-id-token",
+    });
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: false,
+      error: {
+        code: "USER_NOT_FOUND",
+        message: "User not found",
+      },
+    });
+
+    const result = await authService.login({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("USER_NOT_FOUND");
+    }
+  });
+
+  it("should handle network error from Firebase", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/network-request-failed",
+    });
+
+    const result = await authService.login({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("NETWORK_ERROR");
+      if (result.error.code === "NETWORK_ERROR") {
+        expect(result.error.retryable).toBe(true);
+      }
+    }
+  });
+
+  it("should log successful login", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "mock-id-token",
+    });
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+
+    await authService.login({
+      email: "test@example.com",
+      password: "password123",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "User logged in successfully",
+      expect.objectContaining({ feature: "auth", userId: "1" }),
+    );
+  });
+
+  it("should not log password in logs", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/invalid-credential",
+    });
+
+    await authService.login({
+      email: "test@example.com",
+      password: "secret-password",
+    });
+
+    for (const call of [
+      ...vi.mocked(mockLogger.info).mock.calls,
+      ...vi.mocked(mockLogger.warn).mock.calls,
+      ...vi.mocked(mockLogger.error).mock.calls,
+    ]) {
+      const logData = call[1] as Record<string, unknown>;
+      expect(logData).not.toHaveProperty("password");
+      expect(JSON.stringify(logData)).not.toContain("secret-password");
     }
   });
 });

@@ -17,10 +17,21 @@ class GAuthErrorCode extends EnumClass {
 
   static const GAuthErrorCode INTERNAL_ERROR = _$gAuthErrorCodeINTERNAL_ERROR;
 
+  static const GAuthErrorCode INVALID_CREDENTIALS =
+      _$gAuthErrorCodeINVALID_CREDENTIALS;
+
   static const GAuthErrorCode INVALID_PASSWORD =
       _$gAuthErrorCodeINVALID_PASSWORD;
 
+  static const GAuthErrorCode INVALID_TOKEN = _$gAuthErrorCodeINVALID_TOKEN;
+
   static const GAuthErrorCode NETWORK_ERROR = _$gAuthErrorCodeNETWORK_ERROR;
+
+  static const GAuthErrorCode TOKEN_EXPIRED = _$gAuthErrorCodeTOKEN_EXPIRED;
+
+  static const GAuthErrorCode UNAUTHENTICATED = _$gAuthErrorCodeUNAUTHENTICATED;
+
+  static const GAuthErrorCode USER_NOT_FOUND = _$gAuthErrorCodeUSER_NOT_FOUND;
 
   static Serializer<GAuthErrorCode> get serializer =>
       _$gAuthErrorCodeSerializer;
@@ -28,6 +39,30 @@ class GAuthErrorCode extends EnumClass {
   static BuiltSet<GAuthErrorCode> get values => _$gAuthErrorCodeValues;
 
   static GAuthErrorCode valueOf(String name) => _$gAuthErrorCodeValueOf(name);
+}
+
+abstract class GLoginUserInput
+    implements Built<GLoginUserInput, GLoginUserInputBuilder> {
+  GLoginUserInput._();
+
+  factory GLoginUserInput([void Function(GLoginUserInputBuilder b) updates]) =
+      _$GLoginUserInput;
+
+  String get email;
+  String get password;
+  static Serializer<GLoginUserInput> get serializer =>
+      _$gLoginUserInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GLoginUserInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GLoginUserInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GLoginUserInput.serializer,
+        json,
+      );
 }
 
 abstract class GRegisterUserInput
@@ -56,8 +91,16 @@ abstract class GRegisterUserInput
 }
 
 const Map<String, Set<String>> possibleTypesMap = {
+  'MeResult': {
+    'AuthErrorResult',
+    'User',
+  },
+  'MutationLoginUserResult': {
+    'AuthError',
+    'MutationLoginUserSuccess',
+  },
   'MutationRegisterUserResult': {
     'AuthError',
     'MutationRegisterUserSuccess',
-  }
+  },
 };

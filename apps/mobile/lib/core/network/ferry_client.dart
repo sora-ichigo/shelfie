@@ -5,6 +5,7 @@ import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 
 part 'ferry_client.g.dart';
 
@@ -49,8 +50,7 @@ String apiEndpoint(ApiEndpointRef ref) {
 /// null の場合は未認証状態を示す。
 @Riverpod(keepAlive: true)
 String? authToken(AuthTokenRef ref) {
-  // TODO(shelfie): SecureStorage から取得する実装に置き換え
-  return null;
+  return ref.watch(authStateProvider);
 }
 
 /// Hive Box Provider

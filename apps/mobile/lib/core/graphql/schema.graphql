@@ -17,6 +17,7 @@ type AuthError {
 enum AuthErrorCode {
   EMAIL_ALREADY_EXISTS
   INTERNAL_ERROR
+  INVALID_CREDENTIALS
   INVALID_PASSWORD
   INVALID_TOKEN
   NETWORK_ERROR
@@ -45,12 +46,39 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Result of successful login"""
+type LoginResult {
+  """Firebase ID token for API authentication"""
+  idToken: String!
+
+  """Logged in user"""
+  user: User!
+}
+
+"""Input for user login"""
+input LoginUserInput {
+  """Email address"""
+  email: String!
+
+  """Password"""
+  password: String!
+}
+
 """Result of me query - either User or AuthErrorResult"""
 union MeResult = AuthErrorResult | User
 
 type Mutation {
+  """Login with email and password"""
+  loginUser(input: LoginUserInput!): MutationLoginUserResult
+
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
+}
+
+union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
+
+type MutationLoginUserSuccess {
+  data: LoginResult!
 }
 
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
@@ -63,7 +91,7 @@ type Query {
   health: String
 
   """Get the currently authenticated user"""
-  me: MeResult
+  me: MeResult!
 }
 
 """Input for user registration"""
