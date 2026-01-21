@@ -273,16 +273,14 @@ export function registerAuthQueries(
     },
   });
 
-  builder.queryField("me", (t) =>
-    t.field({
+  builder.queryFields((t) => ({
+    me: t.field({
       // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthQueries
       type: MeResultRef!,
+      nullable: false,
       description: "Get the currently authenticated user",
-      resolve: async (
-        _parent,
-        _args,
-        context,
-      ): Promise<User | AuthErrorData> => {
+      // biome-ignore lint/suspicious/noExplicitAny: Pothos type inference issue with union types
+      resolve: async (_parent, _args, context): Promise<any> => {
         if (!context.user) {
           return createAuthErrorData(
             "UNAUTHENTICATED",
@@ -301,5 +299,5 @@ export function registerAuthQueries(
         return result.data;
       },
     }),
-  );
+  }));
 }

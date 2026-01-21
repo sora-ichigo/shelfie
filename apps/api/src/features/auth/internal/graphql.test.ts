@@ -97,6 +97,7 @@ describe("Auth GraphQL Types", () => {
 describe("Auth GraphQL Mutations Schema", () => {
   const createMockAuthService = (): AuthService => ({
     register: vi.fn(),
+    getCurrentUser: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {
