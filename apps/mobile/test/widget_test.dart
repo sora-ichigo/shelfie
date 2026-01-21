@@ -5,6 +5,8 @@ import 'package:shelfie/app/app.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 
+import 'helpers/test_helpers.dart';
+
 void main() {
   group('ShelfieApp', () {
     testWidgets('アプリが正常に起動すること', (WidgetTester tester) async {
@@ -68,7 +70,7 @@ void main() {
     });
 
     testWidgets('認証済みでホーム画面が表示されること', (WidgetTester tester) async {
-      final container = ProviderContainer();
+      final container = createTestContainer();
       addTearDown(container.dispose);
 
       // ログイン状態にする
