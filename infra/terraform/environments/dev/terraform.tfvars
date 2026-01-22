@@ -20,6 +20,7 @@ environment_variables = {
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
 secret_environment_variables = {
-  DATABASE_URL         = "shelfie-api-database-url"
-  FIREBASE_PRIVATE_KEY = "shelfie-api-firebase-private-key"
+  DATABASE_URL           = "shelfie-api-database-url"
+  FIREBASE_PRIVATE_KEY   = "shelfie-api-firebase-private-key"
+  GOOGLE_BOOKS_API_KEY   = "shelfie-api-google-books-api-key"
 }

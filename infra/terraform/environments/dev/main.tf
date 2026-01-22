@@ -28,18 +28,18 @@ provider "google-beta" {
 module "api_cloud_run" {
   source = "../../modules/api-cloud-run"
 
-  project_id            = var.project_id
-  region                = var.region
-  environment           = var.environment
-  service_name          = var.service_name
-  image_name            = var.image_name
-  image_tag             = var.image_tag
-  cpu_limit             = var.cpu_limit
-  memory_limit          = var.memory_limit
-  min_instances         = var.min_instances
-  max_instances         = var.max_instances
-  request_timeout       = var.request_timeout
-  service_account_id    = var.service_account_id
+  project_id                   = var.project_id
+  region                       = var.region
+  environment                  = var.environment
+  service_name                 = var.service_name
+  image_name                   = var.image_name
+  image_tag                    = var.image_tag
+  cpu_limit                    = var.cpu_limit
+  memory_limit                 = var.memory_limit
+  min_instances                = var.min_instances
+  max_instances                = var.max_instances
+  request_timeout              = var.request_timeout
+  service_account_id           = var.service_account_id
   allow_unauthenticated        = var.allow_unauthenticated
   ingress                      = var.ingress
   environment_variables        = var.environment_variables
@@ -134,5 +134,26 @@ output "android_config_json" {
 output "ios_config_plist" {
   description = "GoogleService-Info.plist content for iOS (base64 encoded)"
   value       = module.firebase_auth.ios_config_plist
+  sensitive   = true
+}
+
+# =============================================================================
+# Google Books API
+# =============================================================================
+
+module "google_books_api" {
+  source = "../../modules/google-books-api"
+
+  providers = {
+    google-beta = google-beta
+  }
+
+  project_id  = var.project_id
+  environment = var.environment
+}
+
+output "google_books_api_key" {
+  description = "Google Books API key for server-side use"
+  value       = module.google_books_api.api_key
   sensitive   = true
 }
