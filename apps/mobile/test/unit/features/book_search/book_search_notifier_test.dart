@@ -632,7 +632,8 @@ void main() {
           states.add(next);
         });
 
-        unawaited(notifier.loadMore());
+        // ignore: unawaited_futures
+        notifier.loadMore();
         await Future<void>.delayed(const Duration(milliseconds: 10));
 
         expect(states, contains(isA<BookSearchLoadingMore>()));

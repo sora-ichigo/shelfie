@@ -63,9 +63,9 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          if (_controller != null)
+          if (_controller case final controller?)
             MobileScanner(
-              controller: _controller!,
+              controller: controller,
               onDetect: _onBarcodeDetected,
               errorBuilder: (context, error, child) {
                 if (error.errorCode == MobileScannerErrorCode.permissionDenied) {

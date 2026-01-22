@@ -10,7 +10,6 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart';
-import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.var.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.data.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.req.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/search_books.data.gql.dart';
@@ -56,11 +55,11 @@ class UserBook {
     required this.externalId,
     required this.title,
     required this.authors,
+    required this.addedAt,
     this.publisher,
     this.publishedDate,
     this.isbn,
     this.coverImageUrl,
-    required this.addedAt,
   });
 
   final int id;

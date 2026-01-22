@@ -14,7 +14,7 @@ class ISBNExtractor {
       return null;
     }
 
-    final cleaned = barcode.replaceAll(RegExp(r'[^0-9X]'), '');
+    final cleaned = barcode.replaceAll(RegExp('[^0-9X]'), '');
 
     if (cleaned.length == 13 && isValidISBN13(cleaned)) {
       return cleaned;
