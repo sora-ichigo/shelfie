@@ -57,7 +57,6 @@ graph TB
     end
 
     subgraph Database[PostgreSQL]
-        BooksTable[(books)]
         UserBooksTable[(user_books)]
     end
 
@@ -72,7 +71,6 @@ graph TB
     BookSearchService --> ExternalBookRepository
     BookShelfService --> BookShelfRepository
     ExternalBookRepository --> GoogleBooksAPI
-    BookShelfRepository --> BooksTable
     BookShelfRepository --> UserBooksTable
 ```
 
@@ -490,9 +488,8 @@ function createExternalBookRepository(
 | Requirements | 3.2, 3.4 |
 
 **Responsibilities & Constraints**
-- books テーブルへの書籍データ保存
-- user_books テーブルへのユーザー-書籍関連付け
-- 重複チェック（ISBN + userId）
+- user_books テーブルへの書籍データ保存（書籍情報を内包）
+- 重複チェック（externalId + userId）
 
 **Dependencies**
 - Inbound: BookShelfService - データ操作リクエスト (P0)
@@ -504,11 +501,9 @@ function createExternalBookRepository(
 
 ```typescript
 interface BookShelfRepository {
-  findBookByISBN(isbn: string): Promise<Book | null>;
-  findUserBook(userId: number, bookId: number): Promise<UserBook | null>;
-  createBook(book: NewBook): Promise<Book>;
+  findUserBookByExternalId(userId: number, externalId: string): Promise<UserBook | null>;
   createUserBook(userBook: NewUserBook): Promise<UserBook>;
-  findOrCreateBook(book: NewBook): Promise<Book>;
+  getUserBooks(userId: number): Promise<UserBook[]>;
 }
 
 function createBookShelfRepository(db: DrizzleDb): BookShelfRepository;
@@ -601,7 +596,6 @@ class BookSearchNotifier extends _$BookSearchNotifier {
 ```mermaid
 erDiagram
     User ||--o{ UserBook : owns
-    Book ||--o{ UserBook : referenced_by
 
     User {
         int id PK
@@ -611,53 +605,26 @@ erDiagram
         datetime updatedAt
     }
 
-    Book {
+    UserBook {
         int id PK
-        string externalId UK
+        int userId FK
+        string externalId
         string title
         string[] authors
         string publisher
         string publishedDate
-        string isbn UK
+        string isbn
         string coverImageUrl
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    UserBook {
-        int id PK
-        int userId FK
-        int bookId FK
         datetime addedAt
     }
 ```
 
-**Aggregates**: UserBook は User と Book の関連を管理。Book は外部 API のデータスナップショット。
+**Aggregates**: UserBook はユーザーの本棚に追加された書籍を管理。各ユーザーが追加時点の書籍スナップショットを独立して保持。
 **Business Rules**:
-- 同一ユーザーが同一 ISBN の書籍を複数回追加できない（userId + bookId の一意制約）
-- Book は ISBN または externalId で識別（両方 nullable だが少なくとも一方は必須）
+- 同一ユーザーが同一 externalId の書籍を複数回追加できない（userId + externalId の一意制約）
+- 異なるユーザーは同じ書籍を独立したレコードとして保持可能（データの独立性を確保）
 
 ### Physical Data Model
-
-**books テーブル**
-
-```sql
-CREATE TABLE books (
-  id SERIAL PRIMARY KEY,
-  external_id TEXT UNIQUE,
-  title TEXT NOT NULL,
-  authors TEXT[] NOT NULL DEFAULT '{}',
-  publisher TEXT,
-  published_date TEXT,
-  isbn TEXT UNIQUE,
-  cover_image_url TEXT,
-  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
-);
-
-CREATE INDEX idx_books_isbn ON books(isbn);
-CREATE INDEX idx_books_external_id ON books(external_id);
-```
 
 **user_books テーブル**
 
@@ -665,9 +632,15 @@ CREATE INDEX idx_books_external_id ON books(external_id);
 CREATE TABLE user_books (
   id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  book_id INTEGER NOT NULL REFERENCES books(id) ON DELETE CASCADE,
+  external_id TEXT NOT NULL,
+  title TEXT NOT NULL,
+  authors TEXT[] NOT NULL DEFAULT '{}',
+  publisher TEXT,
+  published_date TEXT,
+  isbn TEXT,
+  cover_image_url TEXT,
   added_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  UNIQUE(user_id, book_id)
+  UNIQUE(user_id, external_id)
 );
 
 CREATE INDEX idx_user_books_user_id ON user_books(user_id);
