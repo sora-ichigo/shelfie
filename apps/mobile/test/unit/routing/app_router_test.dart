@@ -125,7 +125,7 @@ void main() {
       test('各タブのルートが定義されている', () {
         expect(AppRoutes.homeTab, '/home');
         expect(AppRoutes.searchTab, '/search');
-        expect(AppRoutes.profileTab, '/profile');
+        expect(AppRoutes.settingsTab, '/settings');
       });
 
       testWidgets('タブ間の遷移が正しく動作する', (tester) async {
@@ -147,8 +147,8 @@ void main() {
         container.read(appRouterProvider).go(AppRoutes.searchTab);
         await tester.pumpAndSettle();
 
-        // プロファイルタブへ遷移
-        container.read(appRouterProvider).go(AppRoutes.profileTab);
+        // 設定タブへ遷移
+        container.read(appRouterProvider).go(AppRoutes.settingsTab);
         await tester.pumpAndSettle();
 
         expect(find.byType(MaterialApp), findsOneWidget);
@@ -251,7 +251,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // 保護されたルートへアクセスを試みる
-        container.read(appRouterProvider).go(AppRoutes.profileTab);
+        container.read(appRouterProvider).go(AppRoutes.settingsTab);
         await tester.pumpAndSettle();
 
         // ウェルカム画面にリダイレクトされることを確認
@@ -284,14 +284,14 @@ void main() {
         await tester.pumpAndSettle();
 
         // 保護されたルートへアクセス
-        container.read(appRouterProvider).go(AppRoutes.profileTab);
+        container.read(appRouterProvider).go(AppRoutes.settingsTab);
         await tester.pumpAndSettle();
 
-        // プロファイル画面に遷移していることを確認
+        // 設定画面に遷移していることを確認
         final currentLocation =
             container.read(appRouterProvider).routerDelegate
                 .currentConfiguration.uri.path;
-        expect(currentLocation, AppRoutes.profileTab);
+        expect(currentLocation, AppRoutes.settingsTab);
       });
 
       testWidgets('認証済みユーザーがログイン画面にアクセスするとホームにリダイレクトされる',
