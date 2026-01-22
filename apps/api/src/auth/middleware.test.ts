@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { type AuthenticatedUser, extractBearerToken } from "./middleware";
 
 vi.mock("./firebase", () => ({
@@ -8,14 +8,21 @@ vi.mock("./firebase", () => ({
 describe("Auth Middleware", () => {
   let createAuthContext: typeof import("./middleware").createAuthContext;
   let mockVerifyIdToken: Mock;
+  const originalEnv = process.env;
 
   beforeEach(async () => {
     vi.resetModules();
+    process.env = { ...originalEnv };
+    delete process.env.DEV_USER_ID;
     const firebaseModule = await import("./firebase");
     mockVerifyIdToken = vi.mocked(firebaseModule.verifyIdToken);
     mockVerifyIdToken.mockReset();
     const middlewareModule = await import("./middleware");
     createAuthContext = middlewareModule.createAuthContext;
+  });
+
+  afterEach(() => {
+    process.env = originalEnv;
   });
 
   describe("extractBearerToken", () => {
@@ -85,6 +92,32 @@ describe("Auth Middleware", () => {
       mockVerifyIdToken.mockResolvedValue(null);
 
       const user = await createAuthContext("Bearer invalid-token");
+      expect(user).toBeNull();
+    });
+
+    it("DEV_USER_ID が設定されている場合は開発用ユーザーを返す", async () => {
+      process.env.DEV_USER_ID = "dev-user-123";
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined);
+
+      expect(user).toEqual({
+        uid: "dev-user-123",
+        email: "dev@example.com",
+        emailVerified: true,
+      } satisfies AuthenticatedUser);
+      expect(mockVerifyIdToken).not.toHaveBeenCalled();
+    });
+
+    it("DEV_USER_ID が設定されていても本番環境では無視される", async () => {
+      process.env.DEV_USER_ID = "dev-user-123";
+      process.env.NODE_ENV = "production";
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined);
+
       expect(user).toBeNull();
     });
   });

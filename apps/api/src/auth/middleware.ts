@@ -1,3 +1,4 @@
+import { config } from "../config";
 import { verifyIdToken } from "./firebase";
 
 export interface AuthenticatedUser {
@@ -20,9 +21,31 @@ export function extractBearerToken(
   return authorizationHeader.slice(7);
 }
 
+function getDevUser(): AuthenticatedUser | null {
+  if (config.isProduction()) {
+    return null;
+  }
+
+  const devUserId = process.env.DEV_USER_ID;
+  if (!devUserId) {
+    return null;
+  }
+
+  return {
+    uid: devUserId,
+    email: "dev@example.com",
+    emailVerified: true,
+  };
+}
+
 export async function createAuthContext(
   authorizationHeader: string | undefined,
 ): Promise<AuthenticatedUser | null> {
+  const devUser = getDevUser();
+  if (devUser) {
+    return devUser;
+  }
+
   const token = extractBearerToken(authorizationHeader);
 
   if (!token) {
