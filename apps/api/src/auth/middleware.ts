@@ -23,21 +23,9 @@ export function extractBearerToken(
   return authorizationHeader.slice(7);
 }
 
-async function getDevUser(): Promise<AuthenticatedUser | null> {
-  if (config.isProduction()) {
-    return null;
-  }
-
-  const devUserId = process.env.DEV_USER_ID;
-  if (!devUserId) {
-    return null;
-  }
-
-  const userId = Number.parseInt(devUserId, 10);
-  if (Number.isNaN(userId)) {
-    return null;
-  }
-
+async function getDevUserById(
+  userId: number,
+): Promise<AuthenticatedUser | null> {
   const db = getDb();
   const result = await db
     .select({ firebaseUid: users.firebaseUid, email: users.email })
@@ -57,10 +45,31 @@ async function getDevUser(): Promise<AuthenticatedUser | null> {
   };
 }
 
+async function getDevUser(
+  devUserIdHeader: string | undefined,
+): Promise<AuthenticatedUser | null> {
+  if (config.isProduction()) {
+    return null;
+  }
+
+  const devUserIdStr = devUserIdHeader ?? process.env.DEV_USER_ID;
+  if (!devUserIdStr) {
+    return null;
+  }
+
+  const userId = Number.parseInt(devUserIdStr, 10);
+  if (Number.isNaN(userId)) {
+    return null;
+  }
+
+  return getDevUserById(userId);
+}
+
 export async function createAuthContext(
   authorizationHeader: string | undefined,
+  devUserIdHeader?: string,
 ): Promise<AuthenticatedUser | null> {
-  const devUser = await getDevUser();
+  const devUser = await getDevUser(devUserIdHeader);
   if (devUser) {
     return devUser;
   }

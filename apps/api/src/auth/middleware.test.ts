@@ -170,5 +170,76 @@ describe("Auth Middleware", () => {
 
       expect(user).toBeNull();
     });
+
+    it("X-Dev-User-Id ヘッダーが設定されている場合はDBからユーザーを取得して返す", async () => {
+      mockLimit.mockResolvedValue([
+        { firebaseUid: "firebase-uid-456", email: "header-user@example.com" },
+      ]);
+
+      const user = await createAuthContext(undefined, "1");
+
+      expect(user).toEqual({
+        uid: "firebase-uid-456",
+        email: "header-user@example.com",
+        emailVerified: true,
+      } satisfies AuthenticatedUser);
+      expect(mockVerifyIdToken).not.toHaveBeenCalled();
+    });
+
+    it("X-Dev-User-Id ヘッダーが数値でない場合は通常の認証フローに進む", async () => {
+      mockVerifyIdToken.mockResolvedValue(null);
+
+      const user = await createAuthContext(undefined, "not-a-number");
+
+      expect(user).toBeNull();
+    });
+
+    it("X-Dev-User-Id ヘッダーのユーザーが存在しない場合は通常の認証フローに進む", async () => {
+      mockLimit.mockResolvedValue([]);
+      mockVerifyIdToken.mockResolvedValue(null);
+
+      const user = await createAuthContext(undefined, "999");
+
+      expect(user).toBeNull();
+    });
+
+    it("X-Dev-User-Id ヘッダーが設定されていても本番環境では無視される", async () => {
+      process.env.NODE_ENV = "production";
+      mockLimit.mockResolvedValue([
+        { firebaseUid: "firebase-uid-456", email: "header-user@example.com" },
+      ]);
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined, "1");
+
+      expect(user).toBeNull();
+    });
+
+    it("X-Dev-User-Id ヘッダーが DEV_USER_ID 環境変数より優先される", async () => {
+      process.env.DEV_USER_ID = "2";
+      mockLimit.mockImplementation(async () => {
+        const whereArg = mockWhere.mock.calls[mockWhere.mock.calls.length - 1];
+        if (whereArg && JSON.stringify(whereArg).includes("1")) {
+          return [
+            {
+              firebaseUid: "header-user-uid",
+              email: "header-user@example.com",
+            },
+          ];
+        }
+        return [{ firebaseUid: "env-user-uid", email: "env-user@example.com" }];
+      });
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined, "1");
+
+      expect(user).toEqual({
+        uid: "header-user-uid",
+        email: "header-user@example.com",
+        emailVerified: true,
+      } satisfies AuthenticatedUser);
+    });
   });
 });
