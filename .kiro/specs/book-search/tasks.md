@@ -13,8 +13,8 @@
 
 ## Task 2: 外部書籍 API 連携の実装
 
-- [ ] 2. 外部書籍 API 連携の実装
-- [ ] 2.1 (P) Google Books API クライアントの実装
+- [x] 2. 外部書籍 API 連携の実装
+- [x] 2.1 (P) Google Books API クライアントの実装
   - Google Books API への HTTP リクエスト機能を実装する
   - キーワード検索（q パラメータ）に対応する
   - ISBN 検索（q=isbn:XXX）に対応する
@@ -23,13 +23,13 @@
   - API キーを環境変数から取得する
   - _Requirements: 4.1, 4.3_
 
-- [ ] 2.2 Google Books API レスポンスを内部 Book 型にマッピングする
+- [x] 2.2 Google Books API レスポンスを内部 Book 型にマッピングする
   - volumeInfo からタイトル、著者、出版社、出版年を抽出する
   - industryIdentifiers から ISBN-13 または ISBN-10 を抽出する
   - imageLinks からカバー画像 URL を抽出する
   - _Requirements: 4.2, 4.5_
 
-- [ ] 2.3 外部 API エラーハンドリングの実装
+- [x] 2.3 外部 API エラーハンドリングの実装
   - ネットワークエラーを検出して適切なエラー型に変換する
   - タイムアウトエラーを検出して適切なエラー型に変換する
   - レートリミットエラーを検出して適切なエラー型に変換する
