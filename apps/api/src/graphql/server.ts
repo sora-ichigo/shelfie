@@ -6,6 +6,7 @@ import { createAuthContext } from "../auth";
 import { config } from "../config";
 import { createErrorHandler } from "../errors";
 import { logger } from "../logger";
+import { createAltairMiddleware } from "./altair";
 import type { GraphQLContext } from "./context";
 import { schema } from "./schema";
 
@@ -41,6 +42,10 @@ export function createExpressApp(
       },
     }),
   );
+
+  if (!config.isProduction()) {
+    app.use("/altair", createAltairMiddleware());
+  }
 
   return app;
 }
