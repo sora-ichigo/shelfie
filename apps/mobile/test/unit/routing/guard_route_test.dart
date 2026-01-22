@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
@@ -10,8 +9,6 @@ class MockGoRouterState extends Mock implements GoRouterState {}
 
 class MockSessionValidator extends Mock implements SessionValidator {}
 
-class MockRef extends Mock implements Ref {}
-
 class MockAuthStateNotifier extends Mock implements AuthState {}
 
 void main() {
@@ -22,17 +19,13 @@ void main() {
   group('guardRoute', () {
     late MockGoRouterState mockState;
     late MockSessionValidator mockSessionValidator;
-    late MockRef mockRef;
     late MockAuthStateNotifier mockAuthStateNotifier;
 
     setUp(() {
       mockState = MockGoRouterState();
       mockSessionValidator = MockSessionValidator();
-      mockRef = MockRef();
       mockAuthStateNotifier = MockAuthStateNotifier();
 
-      when(() => mockRef.read(authStateProvider.notifier))
-          .thenReturn(mockAuthStateNotifier);
       when(() => mockAuthStateNotifier.logout()).thenAnswer((_) async {});
     });
 
@@ -41,7 +34,7 @@ void main() {
       when(() => mockState.matchedLocation).thenReturn('/');
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -56,7 +49,7 @@ void main() {
       when(() => mockState.matchedLocation).thenReturn('/welcome');
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -76,7 +69,7 @@ void main() {
       when(() => mockState.matchedLocation).thenReturn('/welcome');
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -99,7 +92,7 @@ void main() {
       );
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -126,7 +119,7 @@ void main() {
       );
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -151,7 +144,7 @@ void main() {
       );
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -167,7 +160,7 @@ void main() {
       when(() => mockState.matchedLocation).thenReturn('/auth/login');
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
@@ -187,7 +180,7 @@ void main() {
       when(() => mockState.matchedLocation).thenReturn('/auth/login');
 
       final result = await guardRoute(
-        ref: mockRef,
+        authStateNotifier: mockAuthStateNotifier,
         authState: authState,
         state: mockState,
         sessionValidator: mockSessionValidator,
