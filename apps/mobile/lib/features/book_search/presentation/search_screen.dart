@@ -50,26 +50,28 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
     );
 
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ScreenHeader(
-            title: '検索',
-            onProfileTap: () => context.push(AppRoutes.account),
-          ),
-          Padding(
-            padding: AppSpacing.vertical(AppSpacing.sm),
-            child: SearchBarWidget(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              onScanPressed: _onScanPressed,
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ScreenHeader(
+              title: '検索',
+              onProfileTap: () => context.push(AppRoutes.account),
             ),
-          ),
-          Expanded(
-            child: _buildBody(state),
-          ),
-        ],
+            Padding(
+              padding: AppSpacing.vertical(AppSpacing.sm),
+              child: SearchBarWidget(
+                controller: _searchController,
+                onChanged: _onSearchChanged,
+                onScanPressed: _onScanPressed,
+              ),
+            ),
+            Expanded(
+              child: _buildBody(state),
+            ),
+          ],
+        ),
       ),
     );
   }

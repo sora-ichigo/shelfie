@@ -89,9 +89,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // 認証済みはホーム画面が表示される
-      // NavigationBar のラベルとコンテンツの両方に 'Home' があるので、複数見つかることを確認
-      expect(find.text('Home'), findsWidgets);
+      // 認証済みは本棚画面が表示される
+      expect(find.text('本棚'), findsWidgets);
     });
 
     testWidgets('ウェルカム画面でログインボタンが表示されること（未認証時）',
