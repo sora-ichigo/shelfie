@@ -9,6 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
@@ -39,8 +40,8 @@ abstract final class AppRoutes {
   /// 検索タブ
   static const searchTab = '/search';
 
-  /// 設定タブ
-  static const settingsTab = '/settings';
+  /// アカウント画面
+  static const account = '/account';
 
   /// エラー画面
   static const error = '/error';
@@ -118,6 +119,7 @@ class AuthChangeNotifier extends ChangeNotifier {
 @Riverpod(keepAlive: true)
 GoRouter appRouter(AppRouterRef ref) {
   final authState = ref.watch(authStateProvider);
+  final authStateNotifier = ref.read(authStateProvider.notifier);
   final authChangeNotifier = AuthChangeNotifier(ref);
   final sessionValidator = ref.watch(sessionValidatorProvider);
 
@@ -128,10 +130,10 @@ GoRouter appRouter(AppRouterRef ref) {
     debugLogDiagnostics: kDebugMode,
     refreshListenable: authChangeNotifier,
     redirect: (context, state) => _guardRoute(
-      ref: ref,
       authState: authState,
       state: state,
       sessionValidator: sessionValidator,
+      authStateNotifier: authStateNotifier,
     ),
     onException: (context, state, router) {
       router.go(AppRoutes.error);
@@ -147,25 +149,25 @@ GoRouter appRouter(AppRouterRef ref) {
 /// - 認証済み時: me クエリでセッションを検証し、無効ならログアウト
 /// - セッション有効時: ウェルカム/認証ルートからホームへリダイレクト
 Future<String?> _guardRoute({
-  required AppRouterRef ref,
   required AuthStateData authState,
   required GoRouterState state,
   required SessionValidator sessionValidator,
+  required AuthState authStateNotifier,
 }) async {
   return guardRoute(
-    ref: ref,
     authState: authState,
     state: state,
     sessionValidator: sessionValidator,
+    authStateNotifier: authStateNotifier,
   );
 }
 
 /// 認証ガード（テスト用に公開）
 Future<String?> guardRoute({
-  required Ref ref,
   required AuthStateData authState,
   required GoRouterState state,
   required SessionValidator sessionValidator,
+  required AuthState authStateNotifier,
 }) async {
   final isAuthenticated = authState.isAuthenticated;
   final currentLocation = state.matchedLocation;
@@ -184,7 +186,7 @@ Future<String?> guardRoute({
     if (result is SessionInvalid || result is SessionValidationFailed) {
       debugPrint('[guardRoute] Session invalid or validation failed: $result');
       // セッションが無効な場合はログアウトしてウェルカム画面へ
-      await ref.read(authStateProvider.notifier).logout();
+      await authStateNotifier.logout();
       return AppRoutes.welcome;
     }
   }
@@ -224,11 +226,17 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) => const _ErrorScreen(),
     ),
 
+    // アカウント画面（タブバーなし）
+    GoRoute(
+      path: AppRoutes.account,
+      builder: (context, state) => const _AccountScreen(),
+    ),
+
     // メインシェル（タブナビゲーション）
     ShellRoute(
       builder: (context, state, child) => _MainShell(child: child),
       routes: [
-        // ホーム
+        // ホーム（本棚）
         GoRoute(
           path: AppRoutes.home,
           pageBuilder: (context, state) => const NoTransitionPage(
@@ -257,13 +265,6 @@ List<RouteBase> _buildRoutes() {
               ),
             ),
           ],
-        ),
-        // 設定
-        GoRoute(
-          path: AppRoutes.settingsTab,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: _SettingsScreen(),
-          ),
         ),
         // 本詳細
         GoRoute(
@@ -307,8 +308,6 @@ class _MainShellState extends State<_MainShell> {
               context.go(AppRoutes.homeTab);
             case 1:
               context.go(AppRoutes.searchTab);
-            case 2:
-              context.go(AppRoutes.settingsTab);
           }
         },
         items: [
@@ -331,16 +330,6 @@ class _MainShellState extends State<_MainShell> {
                       const Color(0xFF4FD1C5),
             ),
             label: '検索',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_outlined),
-            activeIcon: _ActiveTabIcon(
-              icon: Icons.settings,
-              indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
-                      const Color(0xFF4FD1C5),
-            ),
-            label: '設定',
           ),
         ],
       ),
@@ -413,23 +402,41 @@ class _ErrorScreen extends StatelessWidget {
   }
 }
 
-/// プレースホルダー: ホーム画面
+/// プレースホルダー: ホーム画面（本棚）
 class _HomeScreen extends StatelessWidget {
   const _HomeScreen();
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Home'));
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ScreenHeader(
+            title: '本棚',
+            onProfileTap: () => context.push(AppRoutes.account),
+          ),
+          const Expanded(
+            child: Center(child: Text('本棚コンテンツ')),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-/// プレースホルダー: 設定画面
-class _SettingsScreen extends StatelessWidget {
-  const _SettingsScreen();
+/// プレースホルダー: アカウント画面
+class _AccountScreen extends StatelessWidget {
+  const _AccountScreen();
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Settings'));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('アカウント'),
+      ),
+      body: const Center(child: Text('アカウント設定')),
+    );
   }
 }
 
