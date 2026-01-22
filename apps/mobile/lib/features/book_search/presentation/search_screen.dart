@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
+import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
@@ -11,6 +13,7 @@ import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart'
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -47,12 +50,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('書籍検索'),
-      ),
-      body: Column(
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          ScreenHeader(
+            title: '検索',
+            onProfileTap: () => context.push(AppRoutes.account),
+          ),
           Padding(
             padding: AppSpacing.vertical(AppSpacing.sm),
             child: SearchBarWidget(
