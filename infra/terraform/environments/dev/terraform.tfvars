@@ -16,6 +16,7 @@ environment_variables = {
   NODE_ENV              = "production"
   FIREBASE_PROJECT_ID   = "shelfie-development-484809"
   FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@shelfie-development-484809.iam.gserviceaccount.com"
+  FIREBASE_WEB_API_KEY  = "AIzaSyArNAv_mVB9Q9PeGBqSslhuJn04FcF_BZo"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
