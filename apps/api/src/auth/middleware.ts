@@ -1,4 +1,6 @@
+import { eq } from "drizzle-orm";
 import { config } from "../config";
+import { getDb, users } from "../db";
 import { verifyIdToken } from "./firebase";
 
 export interface AuthenticatedUser {
@@ -21,7 +23,7 @@ export function extractBearerToken(
   return authorizationHeader.slice(7);
 }
 
-function getDevUser(): AuthenticatedUser | null {
+async function getDevUser(): Promise<AuthenticatedUser | null> {
   if (config.isProduction()) {
     return null;
   }
@@ -31,9 +33,26 @@ function getDevUser(): AuthenticatedUser | null {
     return null;
   }
 
+  const userId = Number.parseInt(devUserId, 10);
+  if (Number.isNaN(userId)) {
+    return null;
+  }
+
+  const db = getDb();
+  const result = await db
+    .select({ firebaseUid: users.firebaseUid, email: users.email })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  const user = result[0];
+  if (!user) {
+    return null;
+  }
+
   return {
-    uid: devUserId,
-    email: "dev@example.com",
+    uid: user.firebaseUid,
+    email: user.email,
     emailVerified: true,
   };
 }
@@ -41,7 +60,7 @@ function getDevUser(): AuthenticatedUser | null {
 export async function createAuthContext(
   authorizationHeader: string | undefined,
 ): Promise<AuthenticatedUser | null> {
-  const devUser = getDevUser();
+  const devUser = await getDevUser();
   if (devUser) {
     return devUser;
   }

@@ -5,6 +5,18 @@ vi.mock("./firebase", () => ({
   verifyIdToken: vi.fn(),
 }));
 
+const mockSelect = vi.fn();
+const mockFrom = vi.fn();
+const mockWhere = vi.fn();
+const mockLimit = vi.fn();
+
+vi.mock("../db", () => ({
+  getDb: () => ({
+    select: mockSelect,
+  }),
+  users: { id: "id", firebaseUid: "firebaseUid", email: "email" },
+}));
+
 describe("Auth Middleware", () => {
   let createAuthContext: typeof import("./middleware").createAuthContext;
   let mockVerifyIdToken: Mock;
@@ -14,6 +26,12 @@ describe("Auth Middleware", () => {
     vi.resetModules();
     process.env = { ...originalEnv };
     delete process.env.DEV_USER_ID;
+
+    mockSelect.mockReturnValue({ from: mockFrom });
+    mockFrom.mockReturnValue({ where: mockWhere });
+    mockWhere.mockReturnValue({ limit: mockLimit });
+    mockLimit.mockResolvedValue([]);
+
     const firebaseModule = await import("./firebase");
     mockVerifyIdToken = vi.mocked(firebaseModule.verifyIdToken);
     mockVerifyIdToken.mockReset();
@@ -95,23 +113,47 @@ describe("Auth Middleware", () => {
       expect(user).toBeNull();
     });
 
-    it("DEV_USER_ID が設定されている場合は開発用ユーザーを返す", async () => {
-      process.env.DEV_USER_ID = "dev-user-123";
+    it("DEV_USER_ID が設定されている場合はDBからユーザーを取得して返す", async () => {
+      process.env.DEV_USER_ID = "1";
+      mockLimit.mockResolvedValue([
+        { firebaseUid: "firebase-uid-123", email: "user@example.com" },
+      ]);
       vi.resetModules();
       const middlewareModule = await import("./middleware");
 
       const user = await middlewareModule.createAuthContext(undefined);
 
       expect(user).toEqual({
-        uid: "dev-user-123",
-        email: "dev@example.com",
+        uid: "firebase-uid-123",
+        email: "user@example.com",
         emailVerified: true,
       } satisfies AuthenticatedUser);
       expect(mockVerifyIdToken).not.toHaveBeenCalled();
     });
 
+    it("DEV_USER_ID が数値でない場合は null を返す", async () => {
+      process.env.DEV_USER_ID = "not-a-number";
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined);
+
+      expect(user).toBeNull();
+    });
+
+    it("DEV_USER_ID のユーザーが存在しない場合は null を返す", async () => {
+      process.env.DEV_USER_ID = "999";
+      mockLimit.mockResolvedValue([]);
+      vi.resetModules();
+      const middlewareModule = await import("./middleware");
+
+      const user = await middlewareModule.createAuthContext(undefined);
+
+      expect(user).toBeNull();
+    });
+
     it("DEV_USER_ID が設定されていても本番環境では無視される", async () => {
-      process.env.DEV_USER_ID = "dev-user-123";
+      process.env.DEV_USER_ID = "1";
       process.env.NODE_ENV = "production";
       vi.resetModules();
       const middlewareModule = await import("./middleware");
