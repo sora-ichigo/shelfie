@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
+import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
@@ -41,6 +43,9 @@ abstract final class AppRoutes {
 
   /// エラー画面
   static const error = '/error';
+
+  /// ISBN スキャン画面
+  static const isbnScan = '/search/isbn-scan';
 
   /// 本詳細画面パスを生成
   static String bookDetail({required String bookId}) => '/books/$bookId';
@@ -204,13 +209,19 @@ List<RouteBase> _buildRoutes() {
         // 検索
         GoRoute(
           path: AppRoutes.searchTab,
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: _SearchScreen(
-              params: SearchParams.fromQueryParameters(
-                queryParameters: state.uri.queryParameters,
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: SearchScreen(),
+          ),
+          routes: [
+            // ISBN スキャン画面（モーダル）
+            GoRoute(
+              path: 'isbn-scan',
+              pageBuilder: (context, state) => const MaterialPage(
+                fullscreenDialog: true,
+                child: ISBNScanScreen(),
               ),
             ),
-          ),
+          ],
         ),
         // 設定
         GoRoute(
@@ -374,20 +385,6 @@ class _HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(child: Text('Home'));
-  }
-}
-
-/// プレースホルダー: 検索画面
-class _SearchScreen extends StatelessWidget {
-  const _SearchScreen({required this.params});
-
-  final SearchParams params;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Search: ${params.query}, Page: ${params.page}'),
-    );
   }
 }
 
