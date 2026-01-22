@@ -77,21 +77,21 @@
 
 ## Task 5: GraphQL スキーマと Resolver の実装
 
-- [ ] 5. GraphQL スキーマと Resolver の実装
-- [ ] 5.1 GraphQL 型定義の実装
+- [x] 5. GraphQL スキーマと Resolver の実装
+- [x] 5.1 GraphQL 型定義の実装
   - Pothos を使用して Book 型を定義する（id, title, authors, publisher, publishedDate, isbn, coverImageUrl）
   - SearchBooksResult 型を定義する（items, totalCount, hasMore）
   - AddBookInput 入力型を定義する
   - UserBook 型を定義する（id, book, addedAt）
   - _Requirements: 5.3, 5.4, 5.5_
 
-- [ ] 5.2 検索 Query の実装
+- [x] 5.2 検索 Query の実装
   - searchBooks Query を実装する（query, limit, offset パラメータ）
   - searchBookByISBN Query を実装する（isbn パラメータ）
   - 入力バリデーションエラーを GraphQL エラーとして返却する
   - _Requirements: 5.1, 6.2_
 
-- [ ] 5.3 本棚追加 Mutation の実装
+- [x] 5.3 本棚追加 Mutation の実装
   - addBookToShelf Mutation を実装する（bookInput パラメータ）
   - 認証スコープ（ScopeAuth）を設定して未認証ユーザーを拒否する
   - 重複エラーを GraphQL エラーとして返却する
@@ -204,7 +204,7 @@
 ## Task 12: 全体統合とルーティング設定
 
 - [ ] 12. 全体統合とルーティング設定
-- [ ] 12.1 API Feature 統合
+- [x] 12.1 API Feature 統合
   - books Feature を GraphQL スキーマに登録する
   - 環境変数に Google Books API キーを追加する
   - サービスの依存性注入を設定する

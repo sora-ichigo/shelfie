@@ -29,7 +29,10 @@ export function createBookShelfRepository(
         .select()
         .from(userBooks)
         .where(
-          and(eq(userBooks.userId, userId), eq(userBooks.externalId, externalId)),
+          and(
+            eq(userBooks.userId, userId),
+            eq(userBooks.externalId, externalId),
+          ),
         );
       return result[0] ?? null;
     },

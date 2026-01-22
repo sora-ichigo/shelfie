@@ -142,9 +142,7 @@ describe("BookShelfService", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.code).toBe("DUPLICATE_BOOK");
-        expect(result.error.message).toBe(
-          "This book is already in your shelf",
-        );
+        expect(result.error.message).toBe("This book is already in your shelf");
       }
       expect(mockRepository.mockCreateUserBook).not.toHaveBeenCalled();
       expect(mockLogger.info).toHaveBeenCalledWith(

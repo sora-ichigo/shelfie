@@ -56,9 +56,8 @@ describe("books Feature public API", () => {
     });
 
     it("ExternalBookRepository 型がエクスポートされている", () => {
-      const repo: ExternalBookRepository = createExternalBookRepository(
-        "test-key",
-      );
+      const repo: ExternalBookRepository =
+        createExternalBookRepository("test-key");
       expect(typeof repo.searchByQuery).toBe("function");
       expect(typeof repo.searchByISBN).toBe("function");
     });

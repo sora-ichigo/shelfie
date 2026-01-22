@@ -101,9 +101,10 @@ function validateIsbnInput(
   return ok({ isbn: normalizeIsbn(isbn) });
 }
 
-function mapExternalApiError(
-  externalError: { code: string; message: string },
-): BookSearchErrors {
+function mapExternalApiError(externalError: {
+  code: string;
+  message: string;
+}): BookSearchErrors {
   switch (externalError.code) {
     case "NETWORK_ERROR":
     case "TIMEOUT_ERROR":

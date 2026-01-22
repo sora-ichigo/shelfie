@@ -1,4 +1,5 @@
 import { createFirebaseAuthAdapter } from "../auth/index.js";
+import { config } from "../config/index.js";
 import { getDb } from "../db/index.js";
 import {
   createAuthService,
@@ -6,6 +7,15 @@ import {
   registerAuthQueries,
   registerAuthTypes,
 } from "../features/auth/index.js";
+import {
+  createBookSearchService,
+  createBookShelfRepository,
+  createBookShelfService,
+  createExternalBookRepository,
+  registerBooksMutations,
+  registerBooksQueries,
+  registerBooksTypes,
+} from "../features/books/index.js";
 import {
   createUserRepository,
   createUserService,
@@ -16,6 +26,7 @@ import { builder } from "./builder.js";
 
 registerUserTypes(builder);
 registerAuthTypes(builder);
+registerBooksTypes(builder);
 
 builder.queryType({
   fields: (t) => ({
@@ -35,8 +46,19 @@ const authService = createAuthService({
   logger,
 });
 
+const googleBooksApiKey = config.getOrDefault("GOOGLE_BOOKS_API_KEY", "");
+const externalBookRepository = createExternalBookRepository(googleBooksApiKey);
+const bookSearchService = createBookSearchService(
+  externalBookRepository,
+  logger,
+);
+const bookShelfRepository = createBookShelfRepository(db);
+const bookShelfService = createBookShelfService(bookShelfRepository, logger);
+
 registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);
+registerBooksQueries(builder, bookSearchService);
+registerBooksMutations(builder, bookShelfService, userService);
 
 export function buildSchema() {
   return builder.toSchema();

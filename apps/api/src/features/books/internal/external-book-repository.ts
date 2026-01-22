@@ -19,7 +19,10 @@ export interface ExternalBookRepository {
     limit: number,
     offset: number,
   ): Promise<
-    Result<{ items: GoogleBooksVolume[]; totalItems: number }, ExternalApiErrors>
+    Result<
+      { items: GoogleBooksVolume[]; totalItems: number },
+      ExternalApiErrors
+    >
   >;
 
   searchByISBN(
@@ -47,9 +50,7 @@ function buildSearchUrl(
 }
 
 function isAbortError(error: unknown): boolean {
-  return (
-    error instanceof DOMException && error.name === "AbortError"
-  );
+  return error instanceof DOMException && error.name === "AbortError";
 }
 
 async function fetchWithTimeout(
@@ -75,8 +76,7 @@ async function fetchWithTimeout(
 
     return err({
       code: "NETWORK_ERROR",
-      message:
-        error instanceof Error ? error.message : "Unknown network error",
+      message: error instanceof Error ? error.message : "Unknown network error",
     });
   }
 }

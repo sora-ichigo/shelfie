@@ -41,9 +41,10 @@ function extractIsbn(
   return null;
 }
 
-function extractCoverImageUrl(
-  imageLinks?: { thumbnail?: string; smallThumbnail?: string },
-): string | null {
+function extractCoverImageUrl(imageLinks?: {
+  thumbnail?: string;
+  smallThumbnail?: string;
+}): string | null {
   if (!imageLinks) {
     return null;
   }

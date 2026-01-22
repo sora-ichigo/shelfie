@@ -320,7 +320,9 @@ describe("BookSearchService", () => {
           ok(mockVolume),
         );
 
-        const result = await service.searchBookByISBN({ isbn: "9784123456789" });
+        const result = await service.searchBookByISBN({
+          isbn: "9784123456789",
+        });
 
         expect(result.success).toBe(true);
         if (result.success) {
@@ -387,10 +389,14 @@ describe("BookSearchService", () => {
       it("should accept valid ISBN-13 format", async () => {
         vi.mocked(mockRepository.searchByISBN).mockResolvedValue(ok(null));
 
-        const result = await service.searchBookByISBN({ isbn: "9784123456789" });
+        const result = await service.searchBookByISBN({
+          isbn: "9784123456789",
+        });
 
         expect(result.success).toBe(true);
-        expect(mockRepository.searchByISBN).toHaveBeenCalledWith("9784123456789");
+        expect(mockRepository.searchByISBN).toHaveBeenCalledWith(
+          "9784123456789",
+        );
       });
 
       it("should strip hyphens from ISBN", async () => {
@@ -401,7 +407,9 @@ describe("BookSearchService", () => {
         });
 
         expect(result.success).toBe(true);
-        expect(mockRepository.searchByISBN).toHaveBeenCalledWith("9784123456789");
+        expect(mockRepository.searchByISBN).toHaveBeenCalledWith(
+          "9784123456789",
+        );
       });
     });
 
@@ -411,7 +419,9 @@ describe("BookSearchService", () => {
           err({ code: "NETWORK_ERROR", message: "Network failure" }),
         );
 
-        const result = await service.searchBookByISBN({ isbn: "9784123456789" });
+        const result = await service.searchBookByISBN({
+          isbn: "9784123456789",
+        });
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -424,7 +434,9 @@ describe("BookSearchService", () => {
           err({ code: "TIMEOUT_ERROR", message: "Request timeout" }),
         );
 
-        const result = await service.searchBookByISBN({ isbn: "9784123456789" });
+        const result = await service.searchBookByISBN({
+          isbn: "9784123456789",
+        });
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -441,7 +453,9 @@ describe("BookSearchService", () => {
           }),
         );
 
-        const result = await service.searchBookByISBN({ isbn: "9784123456789" });
+        const result = await service.searchBookByISBN({
+          isbn: "9784123456789",
+        });
 
         expect(result.success).toBe(false);
         if (!result.success) {
