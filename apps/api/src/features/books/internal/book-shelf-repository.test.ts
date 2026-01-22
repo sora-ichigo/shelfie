@@ -5,13 +5,24 @@ import { createBookShelfRepository } from "./book-shelf-repository.js";
 function createMockDb() {
   const mockResults: unknown[] = [];
 
+  const returningFn = vi.fn().mockImplementation(() => Promise.resolve(mockResults));
+  const whereFn = vi.fn().mockImplementation(() => {
+    const chainAfterWhere = Promise.resolve(mockResults);
+    (chainAfterWhere as unknown as { returning: typeof returningFn }).returning = returningFn;
+    return chainAfterWhere;
+  });
+  const setFn = vi.fn().mockImplementation(() => ({ where: whereFn, returning: returningFn }));
+  const updateFn = vi.fn().mockImplementation(() => ({ set: setFn }));
+
   const mockQuery = {
     select: vi.fn().mockReturnThis(),
     from: vi.fn().mockReturnThis(),
-    where: vi.fn().mockImplementation(() => Promise.resolve(mockResults)),
+    where: whereFn,
     insert: vi.fn().mockReturnThis(),
     values: vi.fn().mockReturnThis(),
-    returning: vi.fn().mockImplementation(() => Promise.resolve(mockResults)),
+    returning: returningFn,
+    update: updateFn,
+    set: setFn,
   };
 
   return {
@@ -176,6 +187,120 @@ describe("BookShelfRepository", () => {
       const result = await repository.getUserBooks(100);
 
       expect(result).toEqual([]);
+    });
+  });
+
+  describe("findUserBookById", () => {
+    it("should return user book when found by ID", async () => {
+      const mockDb = createMockDb();
+      const mockUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: "Test Publisher",
+        publishedDate: "2024-01-01",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+      };
+      mockDb.setResults([mockUserBook]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.findUserBookById(1);
+
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should return null when user book not found by ID", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.findUserBookById(999);
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("updateUserBook", () => {
+    it("should update reading status and return updated user book", async () => {
+      const mockDb = createMockDb();
+      const updatedUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: "Test Publisher",
+        publishedDate: "2024-01-01",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        addedAt: new Date(),
+        readingStatus: "completed",
+        completedAt: new Date(),
+        note: null,
+        noteUpdatedAt: null,
+      };
+      mockDb.setResults([updatedUserBook]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.updateUserBook(1, {
+        readingStatus: "completed",
+        completedAt: updatedUserBook.completedAt,
+      });
+
+      expect(result).toEqual(updatedUserBook);
+      expect(mockDb.query.update).toHaveBeenCalled();
+    });
+
+    it("should update note and noteUpdatedAt", async () => {
+      const mockDb = createMockDb();
+      const noteUpdatedAt = new Date();
+      const updatedUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: "Great book!",
+        noteUpdatedAt,
+      };
+      mockDb.setResults([updatedUserBook]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.updateUserBook(1, {
+        note: "Great book!",
+        noteUpdatedAt,
+      });
+
+      expect(result).toEqual(updatedUserBook);
+      expect(result?.note).toBe("Great book!");
+      expect(result?.noteUpdatedAt).toEqual(noteUpdatedAt);
+    });
+
+    it("should return null when user book to update not found", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.updateUserBook(999, {
+        readingStatus: "reading",
+      });
+
+      expect(result).toBeNull();
     });
   });
 

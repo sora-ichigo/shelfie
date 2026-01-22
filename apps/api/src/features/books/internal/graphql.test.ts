@@ -28,6 +28,8 @@ function createMockShelfService(): BookShelfService {
   return {
     addBookToShelf: vi.fn(),
     getUserBookByExternalId: vi.fn(),
+    updateReadingStatus: vi.fn(),
+    updateReadingNote: vi.fn(),
   };
 }
 
@@ -436,6 +438,60 @@ describe("BooksGraphQL Mutations Schema", () => {
     const args = addBookField?.args;
     expect(args?.find((a) => a.name === "bookInput")?.type.toString()).toBe(
       "AddBookInput!",
+    );
+  });
+
+  it("should define updateReadingStatus mutation with userBookId and status parameters", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const schema = createSchemaWithMutations(
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.updateReadingStatus).toBeDefined();
+
+    const updateStatusField = fields?.updateReadingStatus;
+    expect(updateStatusField?.type.toString()).toContain("UserBook");
+
+    const args = updateStatusField?.args;
+    expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
+      "Int!",
+    );
+    expect(args?.find((a) => a.name === "status")?.type.toString()).toBe(
+      "ReadingStatus!",
+    );
+  });
+
+  it("should define updateReadingNote mutation with userBookId and note parameters", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const schema = createSchemaWithMutations(
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.updateReadingNote).toBeDefined();
+
+    const updateNoteField = fields?.updateReadingNote;
+    expect(updateNoteField?.type.toString()).toContain("UserBook");
+
+    const args = updateNoteField?.args;
+    expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
+      "Int!",
+    );
+    expect(args?.find((a) => a.name === "note")?.type.toString()).toBe(
+      "String!",
     );
   });
 });
@@ -1214,6 +1270,496 @@ describe("BooksGraphQL Resolver Behavior", () => {
           {} as never,
         ),
       ).rejects.toThrow("Database connection failed");
+    });
+  });
+
+  describe("updateReadingStatus resolver", () => {
+    it("should call shelfService.updateReadingStatus with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+      };
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateStatusField?.resolve?.(
+        {},
+        { userBookId: 1, status: "reading" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateReadingStatus).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        status: "reading",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateStatusField?.resolve?.(
+          {},
+          { userBookId: 1, status: "reading" },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateReadingStatus).not.toHaveBeenCalled();
+    });
+
+    it("should throw error when shelfService returns not found error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        err({
+          code: "BOOK_NOT_FOUND",
+          message: "Book not found in shelf",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateStatusField?.resolve?.(
+          {},
+          { userBookId: 999, status: "reading" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("Book not found in shelf");
+    });
+
+    it("should throw error when shelfService returns forbidden error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        err({
+          code: "FORBIDDEN",
+          message: "You are not allowed to update this book",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateStatusField?.resolve?.(
+          {},
+          { userBookId: 1, status: "reading" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("You are not allowed to update this book");
+    });
+  });
+
+  describe("updateReadingNote resolver", () => {
+    it("should call shelfService.updateReadingNote with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: "Great book!",
+        noteUpdatedAt: new Date(),
+      };
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateNoteField?.resolve?.(
+        {},
+        { userBookId: 1, note: "Great book!" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateReadingNote).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        note: "Great book!",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should allow empty note (delete note)", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: "",
+        noteUpdatedAt: new Date(),
+      };
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateNoteField?.resolve?.(
+        {},
+        { userBookId: 1, note: "" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockShelfService.updateReadingNote).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        note: "",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateNoteField?.resolve?.(
+          {},
+          { userBookId: 1, note: "Some note" },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateReadingNote).not.toHaveBeenCalled();
+    });
+
+    it("should throw error when shelfService returns not found error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        err({
+          code: "BOOK_NOT_FOUND",
+          message: "Book not found in shelf",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateNoteField?.resolve?.(
+          {},
+          { userBookId: 999, note: "Some note" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("Book not found in shelf");
+    });
+
+    it("should throw error when shelfService returns forbidden error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        err({
+          code: "FORBIDDEN",
+          message: "You are not allowed to update this book",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateNoteField?.resolve?.(
+          {},
+          { userBookId: 1, note: "Some note" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("You are not allowed to update this book");
     });
   });
 });

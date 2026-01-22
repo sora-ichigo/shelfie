@@ -12,6 +12,8 @@ export { createBookSearchService } from "./internal/book-search-service.js";
 export type {
   BookShelfRepository,
   NewUserBook,
+  ReadingStatusValue,
+  UpdateUserBookInput,
   UserBook,
 } from "./internal/book-shelf-repository.js";
 export { createBookShelfRepository } from "./internal/book-shelf-repository.js";
@@ -20,6 +22,8 @@ export type {
   AddBookToShelfInput,
   BookShelfErrors,
   BookShelfService,
+  UpdateReadingNoteInput,
+  UpdateReadingStatusInput,
 } from "./internal/book-shelf-service.js";
 export { createBookShelfService } from "./internal/book-shelf-service.js";
 export type {

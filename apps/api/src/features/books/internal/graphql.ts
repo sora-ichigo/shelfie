@@ -534,5 +534,98 @@ export function registerBooksMutations(
         return result.data;
       },
     }),
+    updateReadingStatus: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the reading status of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        status: t.arg({
+          type: ReadingStatusRef,
+          required: true,
+        }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateReadingStatus({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          status: args.status,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
+    updateReadingNote: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the reading note of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        note: t.arg.string({ required: true }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateReadingNote({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          note: args.note,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
   }));
 }

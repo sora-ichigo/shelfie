@@ -33,26 +33,26 @@
   - 未登録の場合は null を返却
   - _Requirements: 3.1, 4.1_
 
-- [ ] 2.4 updateReadingStatus ミューテーションを実装
+- [x] 2.4 updateReadingStatus ミューテーションを実装
   - userBookId と status を受け取り、読書状態を更新
   - status が COMPLETED の場合は completedAt を現在日時に自動設定
   - 所有者チェックを行い、他ユーザーのデータは更新不可
   - _Requirements: 5.3, 5.4, 5.6_
 
-- [ ] 2.5 updateReadingNote ミューテーションを実装
+- [x] 2.5 updateReadingNote ミューテーションを実装
   - userBookId と note を受け取り、読書メモを更新
   - noteUpdatedAt を現在日時に自動設定
   - 空文字での保存を許可（メモ削除として扱う）
   - 所有者チェックを行い、他ユーザーのデータは更新不可
   - _Requirements: 6.4, 6.5, 6.7_
 
-- [ ] 3. API ビジネスロジック実装
-- [ ] 3.1 BookShelfService に読書状態更新メソッドを追加
+- [x] 3. API ビジネスロジック実装
+- [x] 3.1 BookShelfService に読書状態更新メソッドを追加
   - updateReadingStatus メソッドを実装し、状態変更時の日時自動設定ロジックを含める
   - COMPLETED 選択時に completedAt を設定、他の状態選択時は completedAt をクリア
   - _Requirements: 5.3, 5.4_
 
-- [ ] 3.2 (P) BookShelfService に読書メモ更新メソッドを追加
+- [x] 3.2 (P) BookShelfService に読書メモ更新メソッドを追加
   - updateReadingNote メソッドを実装し、更新日時の自動設定ロジックを含める
   - メモが空文字でも保存可能とする
   - _Requirements: 6.4, 6.5_
