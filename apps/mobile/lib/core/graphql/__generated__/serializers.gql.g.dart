@@ -8,6 +8,11 @@ part of 'serializers.gql.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(FetchPolicy.serializer)
+      ..add(GAddBookInput.serializer)
+      ..add(GAddBookToShelfData.serializer)
+      ..add(GAddBookToShelfData_addBookToShelf.serializer)
+      ..add(GAddBookToShelfReq.serializer)
+      ..add(GAddBookToShelfVars.serializer)
       ..add(GAuthErrorCode.serializer)
       ..add(GLoginUserData.serializer)
       ..add(GLoginUserData_loginUser__asAuthError.serializer)
@@ -39,7 +44,32 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRegisterUserData_registerUser__base.serializer)
       ..add(GRegisterUserInput.serializer)
       ..add(GRegisterUserReq.serializer)
-      ..add(GRegisterUserVars.serializer))
+      ..add(GRegisterUserVars.serializer)
+      ..add(GSearchBookByISBNData.serializer)
+      ..add(GSearchBookByISBNData_searchBookByISBN.serializer)
+      ..add(GSearchBookByISBNReq.serializer)
+      ..add(GSearchBookByISBNVars.serializer)
+      ..add(GSearchBooksData.serializer)
+      ..add(GSearchBooksData_searchBooks.serializer)
+      ..add(GSearchBooksData_searchBooks_items.serializer)
+      ..add(GSearchBooksReq.serializer)
+      ..add(GSearchBooksVars.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GSearchBooksData_searchBooks_items)]),
+          () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

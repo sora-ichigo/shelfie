@@ -1,0 +1,11 @@
+query SearchBookByISBN($isbn: String!) {
+  searchBookByISBN(isbn: $isbn) {
+    id
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+  }
+}

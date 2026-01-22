@@ -100,15 +100,15 @@
 
 ## Task 6: モバイルアプリ GraphQL クライアントの実装
 
-- [ ] 6. モバイルアプリ GraphQL クライアントの実装
-- [ ] 6.1 (P) GraphQL クエリとミューテーションの定義
+- [x] 6. モバイルアプリ GraphQL クライアントの実装
+- [x] 6.1 (P) GraphQL クエリとミューテーションの定義
   - searchBooks クエリを定義する
   - searchBookByISBN クエリを定義する
   - addBookToShelf ミューテーションを定義する
   - Ferry でコード生成を実行する
   - _Requirements: 5.1, 5.2_
 
-- [ ] 6.2 (P) 書籍検索リポジトリの実装
+- [x] 6.2 (P) 書籍検索リポジトリの実装
   - Ferry クライアントを使用して GraphQL API と通信する
   - 検索結果を Either<Failure, T> 型で返却する
   - API エラーを適切な Failure 型に変換する

@@ -21,12 +21,34 @@ import 'package:shelfie/core/auth/__generated__/refresh_token.var.gql.dart'
     show GRefreshTokenVars;
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
     show
+        GAddBookInput,
         GAuthErrorCode,
         GLoginUserInput,
         GRefreshTokenInput,
         GRegisterUserInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
+import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart'
+    show GAddBookToShelfData, GAddBookToShelfData_addBookToShelf;
+import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart'
+    show GAddBookToShelfReq;
+import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.var.gql.dart'
+    show GAddBookToShelfVars;
+import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.data.gql.dart'
+    show GSearchBookByISBNData, GSearchBookByISBNData_searchBookByISBN;
+import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.req.gql.dart'
+    show GSearchBookByISBNReq;
+import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.var.gql.dart'
+    show GSearchBookByISBNVars;
+import 'package:shelfie/features/book_search/data/__generated__/search_books.data.gql.dart'
+    show
+        GSearchBooksData,
+        GSearchBooksData_searchBooks,
+        GSearchBooksData_searchBooks_items;
+import 'package:shelfie/features/book_search/data/__generated__/search_books.req.gql.dart'
+    show GSearchBooksReq;
+import 'package:shelfie/features/book_search/data/__generated__/search_books.var.gql.dart'
+    show GSearchBooksVars;
 import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
     show
         GLoginUserData_loginUser,
@@ -63,6 +85,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(GRegisterUserData_registerUser.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
+  GAddBookInput,
+  GAddBookToShelfData,
+  GAddBookToShelfData_addBookToShelf,
+  GAddBookToShelfReq,
+  GAddBookToShelfVars,
   GAuthErrorCode,
   GLoginUserData,
   GLoginUserData_loginUser__asAuthError,
@@ -89,5 +116,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRegisterUserInput,
   GRegisterUserReq,
   GRegisterUserVars,
+  GSearchBookByISBNData,
+  GSearchBookByISBNData_searchBookByISBN,
+  GSearchBookByISBNReq,
+  GSearchBookByISBNVars,
+  GSearchBooksData,
+  GSearchBooksData_searchBooks,
+  GSearchBooksData_searchBooks_items,
+  GSearchBooksReq,
+  GSearchBooksVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

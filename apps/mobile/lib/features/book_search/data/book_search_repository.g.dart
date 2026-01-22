@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_notifier.dart';
+part of 'book_search_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loginNotifierHash() => r'158328eec683c159e75fd54bec07537b211fc27c';
+String _$bookSearchRepositoryHash() =>
+    r'5641cc0de18fbcc0acf849bd26f0e24846793d94';
 
-/// See also [LoginNotifier].
-@ProviderFor(LoginNotifier)
-final loginNotifierProvider =
-    AutoDisposeNotifierProvider<LoginNotifier, LoginState>.internal(
-  LoginNotifier.new,
-  name: r'loginNotifierProvider',
+/// See also [bookSearchRepository].
+@ProviderFor(bookSearchRepository)
+final bookSearchRepositoryProvider =
+    AutoDisposeProvider<BookSearchRepository>.internal(
+  bookSearchRepository,
+  name: r'bookSearchRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$loginNotifierHash,
+      : _$bookSearchRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$LoginNotifier = AutoDisposeNotifier<LoginState>;
+typedef BookSearchRepositoryRef = AutoDisposeProviderRef<BookSearchRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
