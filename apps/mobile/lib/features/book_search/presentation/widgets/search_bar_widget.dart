@@ -22,20 +22,34 @@ class SearchBarWidget extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: controller,
-              onChanged: onChanged,
-              decoration: InputDecoration(
-                hintText: '書籍を検索...',
-                prefixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSpacing.sm),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: AppSpacing.vertical(AppSpacing.sm),
-              ),
+            child: ValueListenableBuilder<TextEditingValue>(
+              valueListenable: controller ?? TextEditingController(),
+              builder: (context, value, child) {
+                return TextField(
+                  controller: controller,
+                  onChanged: onChanged,
+                  decoration: InputDecoration(
+                    hintText: '書籍を検索...',
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: value.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              controller?.clear();
+                              onChanged('');
+                            },
+                          )
+                        : null,
+                    filled: true,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(AppSpacing.sm),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: AppSpacing.vertical(AppSpacing.sm),
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
