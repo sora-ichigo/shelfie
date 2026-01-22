@@ -1,0 +1,201 @@
+import { describe, expect, it, vi } from "vitest";
+import type { NewUserBook, UserBook } from "../../../db/schema/books.js";
+import { createBookShelfRepository } from "./book-shelf-repository.js";
+
+function createMockDb() {
+  const mockResults: unknown[] = [];
+
+  const mockQuery = {
+    select: vi.fn().mockReturnThis(),
+    from: vi.fn().mockReturnThis(),
+    where: vi.fn().mockImplementation(() => Promise.resolve(mockResults)),
+    insert: vi.fn().mockReturnThis(),
+    values: vi.fn().mockReturnThis(),
+    returning: vi.fn().mockImplementation(() => Promise.resolve(mockResults)),
+  };
+
+  return {
+    query: mockQuery,
+    setResults: (results: unknown[]) => {
+      mockResults.length = 0;
+      mockResults.push(...results);
+    },
+    clearMocks: () => {
+      vi.clearAllMocks();
+      mockResults.length = 0;
+    },
+  };
+}
+
+describe("BookShelfRepository", () => {
+  describe("interface compliance", () => {
+    it("should implement BookShelfRepository methods", () => {
+      const mockDb = createMockDb();
+      const repository = createBookShelfRepository(mockDb.query as never);
+
+      expect(typeof repository.findUserBookByExternalId).toBe("function");
+      expect(typeof repository.createUserBook).toBe("function");
+      expect(typeof repository.getUserBooks).toBe("function");
+    });
+  });
+
+  describe("findUserBookByExternalId", () => {
+    it("should return user book when found by user ID and external ID", async () => {
+      const mockDb = createMockDb();
+      const mockUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: "Test Publisher",
+        publishedDate: "2024-01-01",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        addedAt: new Date(),
+      };
+      mockDb.setResults([mockUserBook]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.findUserBookByExternalId(
+        100,
+        "google-book-123",
+      );
+
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should return null when user book not found", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.findUserBookByExternalId(
+        100,
+        "non-existent-id",
+      );
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("createUserBook", () => {
+    it("should create a new user book and return it", async () => {
+      const mockDb = createMockDb();
+      const newUserBook: NewUserBook = {
+        userId: 100,
+        externalId: "google-book-456",
+        title: "New Book",
+        authors: ["Author Two"],
+        publisher: "Publisher Inc",
+        publishedDate: "2024-06-15",
+        isbn: "9789876543210",
+        coverImageUrl: "https://example.com/new-cover.jpg",
+      };
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: newUserBook.userId,
+        externalId: newUserBook.externalId,
+        title: newUserBook.title,
+        authors: newUserBook.authors ?? [],
+        publisher: newUserBook.publisher ?? null,
+        publishedDate: newUserBook.publishedDate ?? null,
+        isbn: newUserBook.isbn ?? null,
+        coverImageUrl: newUserBook.coverImageUrl ?? null,
+        addedAt: new Date(),
+      };
+      mockDb.setResults([createdUserBook]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.createUserBook(newUserBook);
+
+      expect(result).toEqual(createdUserBook);
+      expect(mockDb.query.insert).toHaveBeenCalled();
+    });
+  });
+
+  describe("getUserBooks", () => {
+    it("should return all books for a user", async () => {
+      const mockDb = createMockDb();
+      const mockUserBooks: UserBook[] = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "book-1",
+          title: "Book One",
+          authors: ["Author A"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+        },
+        {
+          id: 2,
+          userId: 100,
+          externalId: "book-2",
+          title: "Book Two",
+          authors: ["Author B", "Author C"],
+          publisher: "Publisher X",
+          publishedDate: "2023-01-01",
+          isbn: "9781111111111",
+          coverImageUrl: "https://example.com/book2.jpg",
+          addedAt: new Date(),
+        },
+      ];
+      mockDb.setResults(mockUserBooks);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.getUserBooks(100);
+
+      expect(result).toEqual(mockUserBooks);
+      expect(result).toHaveLength(2);
+    });
+
+    it("should return empty array when user has no books", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.getUserBooks(100);
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe("types", () => {
+    it("should use NewUserBook type for create input", () => {
+      const newUserBook: NewUserBook = {
+        userId: 100,
+        externalId: "test-external-id",
+        title: "Test Title",
+        authors: [],
+      };
+
+      expect(newUserBook.userId).toBe(100);
+      expect(newUserBook.externalId).toBe("test-external-id");
+      expect(newUserBook.title).toBe("Test Title");
+      expect((newUserBook as Record<string, unknown>).id).toBeUndefined();
+    });
+
+    it("should use UserBook type for output", () => {
+      const userBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "test-external-id",
+        title: "Test Title",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+      };
+
+      expect(userBook.id).toBeDefined();
+      expect(userBook.userId).toBe(100);
+      expect(userBook.externalId).toBe("test-external-id");
+      expect(userBook.addedAt).toBeInstanceOf(Date);
+    });
+  });
+});
