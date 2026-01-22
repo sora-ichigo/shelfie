@@ -7,7 +7,9 @@ import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
+import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -141,10 +143,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(bookSearchNotifierProvider.notifier).searchBooksWithDebounce(query);
   }
 
-  void _onScanPressed() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('ISBNスキャン機能は準備中です')),
+  Future<void> _onScanPressed() async {
+    final isbn = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => const ISBNScanScreen(),
+      ),
     );
+
+    if (isbn != null && mounted) {
+      await ISBNScanResultDialog.show(context, isbn);
+    }
   }
 
   void _onRetry() {

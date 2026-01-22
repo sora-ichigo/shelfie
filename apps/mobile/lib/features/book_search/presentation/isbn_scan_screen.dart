@@ -1,0 +1,335 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/features/book_search/domain/isbn_extractor.dart';
+
+/// ISBN スキャン画面
+///
+/// カメラを使用して書籍のバーコード（EAN-13/ISBN-13）をスキャンし、
+/// ISBN を抽出する画面。
+class ISBNScanScreen extends ConsumerStatefulWidget {
+  const ISBNScanScreen({
+    super.key,
+    this.testCameraPermissionDenied = false,
+  });
+
+  /// テスト用: カメラ権限拒否状態をシミュレート
+  final bool testCameraPermissionDenied;
+
+  @override
+  ConsumerState<ISBNScanScreen> createState() => _ISBNScanScreenState();
+}
+
+class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
+  MobileScannerController? _controller;
+  bool _isScanning = true;
+  bool _cameraPermissionDenied = false;
+  String? _lastScannedISBN;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.testCameraPermissionDenied) {
+      _cameraPermissionDenied = true;
+    } else {
+      _initializeCamera();
+    }
+  }
+
+  void _initializeCamera() {
+    _controller = MobileScannerController(
+      detectionSpeed: DetectionSpeed.normal,
+      facing: CameraFacing.back,
+      formats: [BarcodeFormat.ean13, BarcodeFormat.ean8],
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (_cameraPermissionDenied) {
+      return _buildPermissionDeniedView(theme);
+    }
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          if (_controller != null)
+            MobileScanner(
+              controller: _controller!,
+              onDetect: _onBarcodeDetected,
+              errorBuilder: (context, error, child) {
+                if (error.errorCode == MobileScannerErrorCode.permissionDenied) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      setState(() {
+                        _cameraPermissionDenied = true;
+                      });
+                    }
+                  });
+                }
+                return Center(
+                  child: Text(
+                    'カメラの初期化に失敗しました',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                );
+              },
+            ),
+          _buildScanOverlay(theme),
+          _buildTopBar(theme),
+          _buildInstructionText(theme),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPermissionDeniedView(ThemeData theme) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: Center(
+        child: Padding(
+          padding: AppSpacing.all(AppSpacing.lg),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.camera_alt_outlined,
+                size: 64,
+                color: Colors.white54,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                'カメラへのアクセスが拒否されています',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                '本のバーコードをスキャンするには、設定からカメラへのアクセスを許可してください。',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white70,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              FilledButton.icon(
+                onPressed: _openAppSettings,
+                icon: const Icon(Icons.settings),
+                label: const Text('設定を開く'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopBar(ThemeData theme) {
+    return SafeArea(
+      child: Padding(
+        padding: AppSpacing.all(AppSpacing.md),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            if (_controller != null)
+              IconButton(
+                icon: const Icon(
+                  Icons.flash_off,
+                  color: Colors.white,
+                ),
+                onPressed: () => _controller?.toggleTorch(),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScanOverlay(ThemeData theme) {
+    return Container(
+      key: const Key('scan_overlay'),
+      child: CustomPaint(
+        painter: _ScanOverlayPainter(
+          borderColor: theme.colorScheme.primary,
+        ),
+        child: const SizedBox.expand(),
+      ),
+    );
+  }
+
+  Widget _buildInstructionText(ThemeData theme) {
+    return Positioned(
+      bottom: 100,
+      left: 0,
+      right: 0,
+      child: Text(
+        'バーコードを枠内に合わせてください',
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: Colors.white,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  void _onBarcodeDetected(BarcodeCapture capture) {
+    if (!_isScanning) return;
+
+    for (final barcode in capture.barcodes) {
+      final rawValue = barcode.rawValue;
+      if (rawValue == null) continue;
+
+      final isbn = ISBNExtractor.extractISBN(rawValue);
+      if (isbn != null && isbn != _lastScannedISBN) {
+        _lastScannedISBN = isbn;
+        _isScanning = false;
+        _controller?.stop();
+        Navigator.of(context).pop(isbn);
+        return;
+      }
+    }
+  }
+
+  Future<void> _openAppSettings() async {
+    // 設定アプリを開く（プラットフォーム固有の実装が必要）
+    // 現時点では、ユーザーに手動で設定を開くよう促す
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('設定アプリからカメラへのアクセスを許可してください'),
+        ),
+      );
+    }
+  }
+}
+
+/// スキャンオーバーレイのカスタムペインター
+class _ScanOverlayPainter extends CustomPainter {
+  _ScanOverlayPainter({required this.borderColor});
+
+  final Color borderColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    const scanAreaWidth = 280.0;
+    const scanAreaHeight = 150.0;
+
+    final scanRect = Rect.fromCenter(
+      center: center,
+      width: scanAreaWidth,
+      height: scanAreaHeight,
+    );
+
+    // 半透明の黒いオーバーレイ
+    final backgroundPaint = Paint()
+      ..color = Colors.black.withOpacity(0.6);
+
+    // スキャン領域以外を塗りつぶす
+    final path = Path()
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..addRRect(
+        RRect.fromRectAndRadius(scanRect, const Radius.circular(12)),
+      )
+      ..fillType = PathFillType.evenOdd;
+
+    canvas.drawPath(path, backgroundPaint);
+
+    // スキャン領域の枠線
+    final borderPaint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3;
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(scanRect, const Radius.circular(12)),
+      borderPaint,
+    );
+
+    // コーナーのアクセント
+    const cornerLength = 30.0;
+    const cornerOffset = 6.0;
+    final cornerPaint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round;
+
+    // 左上
+    canvas
+      ..drawLine(
+        Offset(scanRect.left - cornerOffset, scanRect.top + 12),
+        Offset(scanRect.left - cornerOffset, scanRect.top - cornerOffset),
+        cornerPaint,
+      )
+      ..drawLine(
+        Offset(scanRect.left - cornerOffset, scanRect.top - cornerOffset),
+        Offset(scanRect.left + cornerLength, scanRect.top - cornerOffset),
+        cornerPaint,
+      )
+
+      // 右上
+      ..drawLine(
+        Offset(scanRect.right - cornerLength, scanRect.top - cornerOffset),
+        Offset(scanRect.right + cornerOffset, scanRect.top - cornerOffset),
+        cornerPaint,
+      )
+      ..drawLine(
+        Offset(scanRect.right + cornerOffset, scanRect.top - cornerOffset),
+        Offset(scanRect.right + cornerOffset, scanRect.top + cornerLength),
+        cornerPaint,
+      )
+
+      // 左下
+      ..drawLine(
+        Offset(scanRect.left - cornerOffset, scanRect.bottom - cornerLength),
+        Offset(scanRect.left - cornerOffset, scanRect.bottom + cornerOffset),
+        cornerPaint,
+      )
+      ..drawLine(
+        Offset(scanRect.left - cornerOffset, scanRect.bottom + cornerOffset),
+        Offset(scanRect.left + cornerLength, scanRect.bottom + cornerOffset),
+        cornerPaint,
+      )
+
+      // 右下
+      ..drawLine(
+        Offset(scanRect.right - cornerLength, scanRect.bottom + cornerOffset),
+        Offset(scanRect.right + cornerOffset, scanRect.bottom + cornerOffset),
+        cornerPaint,
+      )
+      ..drawLine(
+        Offset(scanRect.right + cornerOffset, scanRect.bottom + cornerOffset),
+        Offset(scanRect.right + cornerOffset, scanRect.bottom - cornerLength),
+        cornerPaint,
+      );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
