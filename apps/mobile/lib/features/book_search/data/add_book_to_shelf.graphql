@@ -1,0 +1,13 @@
+mutation AddBookToShelf($bookInput: AddBookInput!) {
+  addBookToShelf(bookInput: $bookInput) {
+    id
+    externalId
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+    addedAt
+  }
+}

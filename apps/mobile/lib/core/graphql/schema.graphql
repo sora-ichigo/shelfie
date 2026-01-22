@@ -71,6 +71,9 @@ input LoginUserInput {
 union MeResult = AuthErrorResult | User
 
 type Mutation {
+  """Add a book to the user's shelf"""
+  addBookToShelf(bookInput: AddBookInput!): UserBook!
+
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
 
@@ -104,6 +107,12 @@ type Query {
 
   """Get the currently authenticated user"""
   me: MeResult!
+
+  """Search for a book by ISBN"""
+  searchBookByISBN(isbn: String!): Book
+
+  """Search for books by keyword"""
+  searchBooks(query: String!, limit: Int, offset: Int): SearchBooksResult!
 }
 
 """Input for token refresh"""
@@ -143,4 +152,94 @@ type User {
 
   """When the user was last updated"""
   updatedAt: DateTime
+}
+
+"""A book from the search results"""
+type Book {
+  """The unique identifier of the book"""
+  id: String!
+
+  """The title of the book"""
+  title: String!
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+}
+
+"""Search results containing a list of books"""
+type SearchBooksResult {
+  """The list of books found"""
+  items: [Book!]!
+
+  """The total number of books found"""
+  totalCount: Int!
+
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+}
+
+"""Input for adding a book to the shelf"""
+input AddBookInput {
+  """The external ID of the book"""
+  externalId: String!
+
+  """The title of the book"""
+  title: String!
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+}
+
+"""A book in the user's shelf"""
+type UserBook {
+  """The unique identifier of the user book"""
+  id: Int!
+
+  """The external ID of the book"""
+  externalId: String!
+
+  """The title of the book"""
+  title: String!
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """When the book was added to the shelf"""
+  addedAt: DateTime!
 }

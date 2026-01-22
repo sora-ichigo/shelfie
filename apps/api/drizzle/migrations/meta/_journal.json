@@ -8,6 +8,13 @@
       "when": 1768829540466,
       "tag": "0000_eager_sasquatch",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1769062615820,
+      "tag": "0001_user_books",
+      "breakpoints": true
     }
   ]
 }

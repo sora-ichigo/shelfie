@@ -22,7 +22,14 @@ interface SecurityEnvConfig {
   FIREBASE_PRIVATE_KEY?: string;
 }
 
-type AppConfig = DatabaseEnvConfig & ServerEnvConfig & SecurityEnvConfig;
+interface ExternalApiConfig {
+  GOOGLE_BOOKS_API_KEY?: string;
+}
+
+type AppConfig = DatabaseEnvConfig &
+  ServerEnvConfig &
+  SecurityEnvConfig &
+  ExternalApiConfig;
 
 type ConfigErrorCode = "MISSING_REQUIRED" | "INVALID_VALUE";
 

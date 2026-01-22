@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
@@ -196,10 +197,16 @@ void main() {
             )).thenAnswer((_) async {});
         when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
 
+        final mockSessionValidator = MockSessionValidator();
+        when(() => mockSessionValidator.validate()).thenAnswer(
+          (_) async => const SessionValid(userId: 1, email: 'test@example.com'),
+        );
+
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
               secureStorageServiceProvider.overrideWithValue(mockStorage),
+              sessionValidatorProvider.overrideWithValue(mockSessionValidator),
             ],
             child: const ShelfieApp(),
           ),

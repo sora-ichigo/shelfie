@@ -114,6 +114,34 @@ abstract class GRegisterUserInput
       );
 }
 
+abstract class GAddBookInput
+    implements Built<GAddBookInput, GAddBookInputBuilder> {
+  GAddBookInput._();
+
+  factory GAddBookInput([void Function(GAddBookInputBuilder b) updates]) =
+      _$GAddBookInput;
+
+  String get externalId;
+  String get title;
+  BuiltList<String> get authors;
+  String? get publisher;
+  String? get publishedDate;
+  String? get isbn;
+  String? get coverImageUrl;
+  static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GAddBookInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GAddBookInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GAddBookInput.serializer,
+        json,
+      );
+}
+
 const Map<String, Set<String>> possibleTypesMap = {
   'MeResult': {
     'AuthErrorResult',
