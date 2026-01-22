@@ -63,6 +63,38 @@ final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
   _$gAuthErrorCodeUSER_NOT_FOUND,
 ]);
 
+const GReadingStatus _$gReadingStatusBACKLOG =
+    const GReadingStatus._('BACKLOG');
+const GReadingStatus _$gReadingStatusREADING =
+    const GReadingStatus._('READING');
+const GReadingStatus _$gReadingStatusCOMPLETED =
+    const GReadingStatus._('COMPLETED');
+const GReadingStatus _$gReadingStatusDROPPED =
+    const GReadingStatus._('DROPPED');
+
+GReadingStatus _$gReadingStatusValueOf(String name) {
+  switch (name) {
+    case 'BACKLOG':
+      return _$gReadingStatusBACKLOG;
+    case 'READING':
+      return _$gReadingStatusREADING;
+    case 'COMPLETED':
+      return _$gReadingStatusCOMPLETED;
+    case 'DROPPED':
+      return _$gReadingStatusDROPPED;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GReadingStatus> _$gReadingStatusValues =
+    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
+  _$gReadingStatusBACKLOG,
+  _$gReadingStatusREADING,
+  _$gReadingStatusCOMPLETED,
+  _$gReadingStatusDROPPED,
+]);
+
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
     new _$GAuthErrorCodeSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
@@ -73,6 +105,8 @@ Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
     new _$GRegisterUserInputSerializer();
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
     new _$GAddBookInputSerializer();
+Serializer<GReadingStatus> _$gReadingStatusSerializer =
+    new _$GReadingStatusSerializer();
 
 class _$GAuthErrorCodeSerializer
     implements PrimitiveSerializer<GAuthErrorCode> {
@@ -334,6 +368,24 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
 
     return result.build();
   }
+}
+
+class _$GReadingStatusSerializer
+    implements PrimitiveSerializer<GReadingStatus> {
+  @override
+  final Iterable<Type> types = const <Type>[GReadingStatus];
+  @override
+  final String wireName = 'GReadingStatus';
+
+  @override
+  Object serialize(Serializers serializers, GReadingStatus object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GReadingStatus deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GReadingStatus.valueOf(serialized as String);
 }
 
 class _$GLoginUserInput extends GLoginUserInput {

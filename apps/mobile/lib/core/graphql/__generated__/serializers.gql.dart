@@ -34,10 +34,32 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GAddBookInput,
         GAuthErrorCode,
         GLoginUserInput,
+        GReadingStatus,
         GRefreshTokenInput,
         GRegisterUserInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
+import 'package:shelfie/features/book_detail/data/__generated__/book_detail.data.gql.dart'
+    show
+        GBookDetailData,
+        GBookDetailData_bookDetail,
+        GBookDetailData_bookDetail_userBook;
+import 'package:shelfie/features/book_detail/data/__generated__/book_detail.req.gql.dart'
+    show GBookDetailReq;
+import 'package:shelfie/features/book_detail/data/__generated__/book_detail.var.gql.dart'
+    show GBookDetailVars;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart'
+    show GUpdateReadingNoteData, GUpdateReadingNoteData_updateReadingNote;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart'
+    show GUpdateReadingNoteReq;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.var.gql.dart'
+    show GUpdateReadingNoteVars;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.data.gql.dart'
+    show GUpdateReadingStatusData, GUpdateReadingStatusData_updateReadingStatus;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.req.gql.dart'
+    show GUpdateReadingStatusReq;
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.var.gql.dart'
+    show GUpdateReadingStatusVars;
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart'
     show GAddBookToShelfData, GAddBookToShelfData_addBookToShelf;
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart'
@@ -102,6 +124,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAddBookToShelfReq,
   GAddBookToShelfVars,
   GAuthErrorCode,
+  GBookDetailData,
+  GBookDetailData_bookDetail,
+  GBookDetailData_bookDetail_userBook,
+  GBookDetailReq,
+  GBookDetailVars,
   GGetMeData,
   GGetMeData_me__asAuthErrorResult,
   GGetMeData_me__asUser,
@@ -117,6 +144,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserInput,
   GLoginUserReq,
   GLoginUserVars,
+  GReadingStatus,
   GRefreshTokenData,
   GRefreshTokenData_refreshToken__asAuthError,
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
@@ -142,5 +170,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSearchBooksData_searchBooks_items,
   GSearchBooksReq,
   GSearchBooksVars,
+  GUpdateReadingNoteData,
+  GUpdateReadingNoteData_updateReadingNote,
+  GUpdateReadingNoteReq,
+  GUpdateReadingNoteVars,
+  GUpdateReadingStatusData,
+  GUpdateReadingStatusData_updateReadingStatus,
+  GUpdateReadingStatusReq,
+  GUpdateReadingStatusVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

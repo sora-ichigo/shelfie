@@ -1,0 +1,17 @@
+mutation UpdateReadingNote($userBookId: Int!, $note: String!) {
+  updateReadingNote(userBookId: $userBookId, note: $note) {
+    id
+    externalId
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+    addedAt
+    readingStatus
+    completedAt
+    note
+    noteUpdatedAt
+  }
+}

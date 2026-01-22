@@ -1,0 +1,17 @@
+mutation UpdateReadingStatus($userBookId: Int!, $status: ReadingStatus!) {
+  updateReadingStatus(userBookId: $userBookId, status: $status) {
+    id
+    externalId
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+    addedAt
+    readingStatus
+    completedAt
+    note
+    noteUpdatedAt
+  }
+}

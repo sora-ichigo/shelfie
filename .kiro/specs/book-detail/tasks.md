@@ -62,8 +62,8 @@
   - 本棚追加状態の判定に使用
   - _Requirements: 3.1, 4.1_
 
-- [ ] 4. モバイル GraphQL クエリ・ミューテーション定義
-- [ ] 4.1 Ferry 用 GraphQL オペレーションファイルを作成
+- [x] 4. モバイル GraphQL クエリ・ミューテーション定義
+- [x] 4.1 Ferry 用 GraphQL オペレーションファイルを作成
   - bookDetail クエリを定義
   - userBookByExternalId クエリを定義
   - updateReadingStatus ミューテーションを定義

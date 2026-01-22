@@ -82,6 +82,12 @@ type Mutation {
 
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
+
+  """Update the reading status of a book in the user's shelf"""
+  updateReadingStatus(userBookId: Int!, status: ReadingStatus!): UserBook!
+
+  """Update the reading note of a book in the user's shelf"""
+  updateReadingNote(userBookId: Int!, note: String!): UserBook!
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
@@ -113,6 +119,12 @@ type Query {
 
   """Search for books by keyword"""
   searchBooks(query: String!, limit: Int, offset: Int): SearchBooksResult!
+
+  """Get detailed information about a book by ID"""
+  bookDetail(bookId: String!): BookDetail!
+
+  """Get the user's reading record for a book by external ID"""
+  userBookByExternalId(externalId: String!): UserBook
 }
 
 """Input for token refresh"""
@@ -214,6 +226,18 @@ input AddBookInput {
   coverImageUrl: String
 }
 
+"""Reading status of a book in the user's shelf"""
+enum ReadingStatus {
+  """Unread (backlog)"""
+  BACKLOG
+  """Currently reading"""
+  READING
+  """Finished reading"""
+  COMPLETED
+  """Dropped/Not reading"""
+  DROPPED
+}
+
 """A book in the user's shelf"""
 type UserBook {
   """The unique identifier of the user book"""
@@ -242,4 +266,58 @@ type UserBook {
 
   """When the book was added to the shelf"""
   addedAt: DateTime!
+
+  """The reading status of the book"""
+  readingStatus: ReadingStatus!
+
+  """When the book was marked as completed"""
+  completedAt: DateTime
+
+  """User's reading note for the book"""
+  note: String
+
+  """When the note was last updated"""
+  noteUpdatedAt: DateTime
+}
+
+"""Detailed information about a book"""
+type BookDetail {
+  """The unique identifier of the book"""
+  id: String!
+
+  """The title of the book"""
+  title: String!
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The number of pages in the book"""
+  pageCount: Int
+
+  """The categories/genres of the book"""
+  categories: [String!]
+
+  """The description of the book"""
+  description: String
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The Amazon URL for the book"""
+  amazonUrl: String
+
+  """The info link for the book (Google Books)"""
+  infoLink: String
+
+  """The user's reading record for this book (if added to shelf)"""
+  userBook: UserBook
 }

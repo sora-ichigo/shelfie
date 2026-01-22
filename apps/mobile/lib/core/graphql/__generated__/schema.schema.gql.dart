@@ -142,6 +142,25 @@ abstract class GAddBookInput
       );
 }
 
+class GReadingStatus extends EnumClass {
+  const GReadingStatus._(String name) : super(name);
+
+  static const GReadingStatus BACKLOG = _$gReadingStatusBACKLOG;
+
+  static const GReadingStatus READING = _$gReadingStatusREADING;
+
+  static const GReadingStatus COMPLETED = _$gReadingStatusCOMPLETED;
+
+  static const GReadingStatus DROPPED = _$gReadingStatusDROPPED;
+
+  static Serializer<GReadingStatus> get serializer =>
+      _$gReadingStatusSerializer;
+
+  static BuiltSet<GReadingStatus> get values => _$gReadingStatusValues;
+
+  static GReadingStatus valueOf(String name) => _$gReadingStatusValueOf(name);
+}
+
 const Map<String, Set<String>> possibleTypesMap = {
   'MeResult': {
     'AuthErrorResult',
