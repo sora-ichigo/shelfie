@@ -207,6 +207,9 @@ export function registerBooksQueries(
       type: SearchBooksResultRef,
       nullable: false,
       description: "Search for books by keyword",
+      authScopes: {
+        loggedIn: true,
+      },
       args: {
         query: t.arg.string({ required: true }),
         limit: t.arg.int({ required: false }),
@@ -232,6 +235,9 @@ export function registerBooksQueries(
       type: BookRef,
       nullable: true,
       description: "Search for a book by ISBN",
+      authScopes: {
+        loggedIn: true,
+      },
       args: {
         isbn: t.arg.string({ required: true }),
       },

@@ -301,7 +301,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const result = await searchBooksField?.resolve?.(
         {},
         { query: "test", limit: 10, offset: 0 },
-        { requestId: "test", user: null },
+        { requestId: "test", user: { uid: "test-uid", email: "test@example.com", emailVerified: true } },
         {} as never,
       );
 
@@ -335,7 +335,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         searchBooksField?.resolve?.(
           {},
           { query: "", limit: 10, offset: 0 },
-          { requestId: "test", user: null },
+          { requestId: "test", user: { uid: "test-uid", email: "test@example.com", emailVerified: true } },
           {} as never,
         ),
       ).rejects.toThrow("Search query cannot be empty");
@@ -370,7 +370,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const result = await searchByISBNField?.resolve?.(
         {},
         { isbn: "9781234567890" },
-        { requestId: "test", user: null },
+        { requestId: "test", user: { uid: "test-uid", email: "test@example.com", emailVerified: true } },
         {} as never,
       );
 
@@ -396,7 +396,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const result = await searchByISBNField?.resolve?.(
         {},
         { isbn: "0000000000" },
-        { requestId: "test", user: null },
+        { requestId: "test", user: { uid: "test-uid", email: "test@example.com", emailVerified: true } },
         {} as never,
       );
 
@@ -425,7 +425,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         searchByISBNField?.resolve?.(
           {},
           { isbn: "invalid" },
-          { requestId: "test", user: null },
+          { requestId: "test", user: { uid: "test-uid", email: "test@example.com", emailVerified: true } },
           {} as never,
         ),
       ).rejects.toThrow("ISBN must be 10 or 13 digits");

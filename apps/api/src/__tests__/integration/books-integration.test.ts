@@ -153,6 +153,8 @@ describe("Books Feature Integration Tests", () => {
     return { id: row.id, firebaseUid: row.firebase_uid };
   }
 
+  const authHeaders = { "x-test-user-uid": "test-user-for-search" };
+
   describe("Task 10.1: 検索 Query の統合テスト", () => {
     describe("searchBooks Query - Validation", () => {
       it("should return validation error when query is empty", async () => {
@@ -169,6 +171,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { query: "   " },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
@@ -189,6 +192,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { query: "test", limit: 100 },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
@@ -209,6 +213,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { query: "test", limit: -1 },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
@@ -229,6 +234,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { isbn: "" },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
@@ -247,6 +253,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { isbn: "12345" },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
@@ -265,6 +272,7 @@ describe("Books Feature Integration Tests", () => {
           }
         `,
           { isbn: "abcdefghijk" },
+          authHeaders,
         );
 
         expect(result.errors).toBeDefined();
