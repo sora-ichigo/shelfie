@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
@@ -35,8 +36,8 @@ abstract final class AppRoutes {
   /// 検索タブ
   static const searchTab = '/search';
 
-  /// プロファイルタブ
-  static const profileTab = '/profile';
+  /// 設定タブ
+  static const settingsTab = '/settings';
 
   /// エラー画面
   static const error = '/error';
@@ -211,11 +212,11 @@ List<RouteBase> _buildRoutes() {
             ),
           ),
         ),
-        // プロファイル
+        // 設定
         GoRoute(
-          path: AppRoutes.profileTab,
+          path: AppRoutes.settingsTab,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: _ProfileScreen(),
+            child: _SettingsScreen(),
           ),
         ),
         // 本詳細
@@ -249,9 +250,9 @@ class _MainShellState extends State<_MainShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
@@ -261,27 +262,80 @@ class _MainShellState extends State<_MainShell> {
             case 1:
               context.go(AppRoutes.searchTab);
             case 2:
-              context.go(AppRoutes.profileTab);
+              context.go(AppRoutes.settingsTab);
           }
         },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.auto_stories_outlined),
+            activeIcon: _ActiveTabIcon(
+              icon: Icons.auto_stories,
+              indicatorColor:
+                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
+                      const Color(0xFF4FD1C5),
+            ),
+            label: '本棚',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.search_outlined),
-            selectedIcon: Icon(Icons.search),
-            label: 'Search',
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.search),
+            activeIcon: _ActiveTabIcon(
+              icon: Icons.search,
+              indicatorColor:
+                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
+                      const Color(0xFF4FD1C5),
+            ),
+            label: '検索',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.settings_outlined),
+            activeIcon: _ActiveTabIcon(
+              icon: Icons.settings,
+              indicatorColor:
+                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
+                      const Color(0xFF4FD1C5),
+            ),
+            label: '設定',
           ),
         ],
       ),
+    );
+  }
+}
+
+/// アクティブタブのアイコン（上部インジケーター付き）
+class _ActiveTabIcon extends StatelessWidget {
+  const _ActiveTabIcon({
+    required this.icon,
+    required this.indicatorColor,
+  });
+
+  final IconData icon;
+  final Color indicatorColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconSize = Theme.of(context)
+            .bottomNavigationBarTheme
+            .selectedIconTheme
+            ?.size ??
+        32;
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
+      children: [
+        Icon(icon, size: iconSize),
+        Positioned(
+          top: -8,
+          child: Container(
+            width: iconSize,
+            height: 3,
+            decoration: BoxDecoration(
+              color: indicatorColor,
+              borderRadius: BorderRadius.circular(1.5),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -337,13 +391,13 @@ class _SearchScreen extends StatelessWidget {
   }
 }
 
-/// プレースホルダー: プロファイル画面
-class _ProfileScreen extends StatelessWidget {
-  const _ProfileScreen();
+/// プレースホルダー: 設定画面
+class _SettingsScreen extends StatelessWidget {
+  const _SettingsScreen();
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Profile'));
+    return const Center(child: Text('Settings'));
   }
 }
 

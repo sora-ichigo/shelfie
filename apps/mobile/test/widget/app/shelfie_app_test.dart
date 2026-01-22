@@ -224,7 +224,7 @@ void main() {
         // 認証後はホーム画面が表示される（ウェルカム画面が消える）
         expect(find.text('読書家のための本棚'), findsNothing);
         // ホームタブのコンテンツが表示される
-        expect(find.byType(NavigationBar), findsOneWidget);
+        expect(find.byType(BottomNavigationBar), findsOneWidget);
       });
     });
   });
