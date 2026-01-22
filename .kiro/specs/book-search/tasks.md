@@ -116,14 +116,14 @@
 
 ## Task 7: モバイルアプリ状態管理の実装
 
-- [ ] 7. モバイルアプリ状態管理の実装
-- [ ] 7.1 書籍検索状態モデルの定義
+- [x] 7. モバイルアプリ状態管理の実装
+- [x] 7.1 書籍検索状態モデルの定義
   - freezed を使用して BookSearchState を定義する（initial, loading, success, empty, error）
   - Book モデルを定義する
   - Failure 型を拡張してネットワークエラー、認証エラー、バリデーションエラーに対応する
   - _Requirements: 6.5_
 
-- [ ] 7.2 BookSearchNotifier の実装
+- [x] 7.2 BookSearchNotifier の実装
   - 300ms のデバウンス付きキーワード検索機能を実装する
   - ISBN 検索機能を実装する
   - 本棚追加機能を実装する
