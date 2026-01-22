@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  type ExternalBookRepository,
   createExternalBookRepository,
+  type ExternalBookRepository,
 } from "./external-book-repository.js";
 
 describe("ExternalBookRepository", () => {

@@ -2,8 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 import type { UserBook } from "../../../db/schema/books.js";
 import type { BookShelfRepository } from "./book-shelf-repository.js";
 import {
-  createBookShelfService,
   type AddBookToShelfInput,
+  createBookShelfService,
 } from "./book-shelf-service.js";
 
 function createMockRepository(): BookShelfRepository & {

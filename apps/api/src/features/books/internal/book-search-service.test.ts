@@ -1,13 +1,12 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { ok, err } from "../../../errors/result.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { err, ok } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import type { ExternalBookRepository } from "./external-book-repository.js";
 import type { GoogleBooksVolume } from "./book-mapper.js";
 import {
-  createBookSearchService,
   type BookSearchService,
-  type BookSearchErrors,
+  createBookSearchService,
 } from "./book-search-service.js";
+import type { ExternalBookRepository } from "./external-book-repository.js";
 
 function createMockLogger(): LoggerService {
   return {

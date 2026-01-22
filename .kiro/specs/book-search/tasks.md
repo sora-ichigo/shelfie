@@ -173,14 +173,14 @@
 
 ## Task 10: API 統合テストの実装
 
-- [ ] 10. API 統合テストの実装
-- [ ] 10.1 (P) 検索 Query の統合テスト
+- [x] 10. API 統合テストの実装
+- [x] 10.1 (P) 検索 Query の統合テスト
   - searchBooks Query のテストを実装する
   - searchBookByISBN Query のテストを実装する
   - 外部 API をモックして正常系・異常系をテストする
   - _Requirements: 1.1, 1.5, 1.6, 2.3, 2.4_
 
-- [ ] 10.2 (P) 本棚追加 Mutation の統合テスト
+- [x] 10.2 (P) 本棚追加 Mutation の統合テスト
   - addBookToShelf Mutation の正常系テストを実装する
   - 重複追加時のエラーテストを実装する
   - 未認証時のエラーテストを実装する

@@ -1,6 +1,6 @@
 import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import { mapGoogleBooksVolume, type Book } from "./book-mapper.js";
+import { type Book, mapGoogleBooksVolume } from "./book-mapper.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
 
 export type BookSearchErrors =
@@ -112,8 +112,6 @@ function mapExternalApiError(externalError: {
         code: "NETWORK_ERROR",
         message: externalError.message,
       };
-    case "RATE_LIMIT_ERROR":
-    case "API_ERROR":
     default:
       return {
         code: "EXTERNAL_API_ERROR",

@@ -1,6 +1,6 @@
+import type { UserBook } from "../../../db/schema/books.js";
 import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import type { UserBook } from "../../../db/schema/books.js";
 import type { BookShelfRepository } from "./book-shelf-repository.js";
 
 export type BookShelfErrors =
