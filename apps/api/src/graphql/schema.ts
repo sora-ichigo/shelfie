@@ -57,7 +57,7 @@ const bookShelfService = createBookShelfService(bookShelfRepository, logger);
 
 registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);
-registerBooksQueries(builder, bookSearchService);
+registerBooksQueries(builder, bookSearchService, bookShelfService, userService);
 registerBooksMutations(builder, bookShelfService, userService);
 
 export function buildSchema() {

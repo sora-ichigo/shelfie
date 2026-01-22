@@ -28,6 +28,10 @@ export interface ExternalBookRepository {
   searchByISBN(
     isbn: string,
   ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>>;
+
+  getBookById(
+    bookId: string,
+  ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>>;
 }
 
 const GOOGLE_BOOKS_API_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
@@ -155,6 +159,30 @@ export function createExternalBookRepository(
       }
 
       return ok(data.items[0]);
+    },
+
+    async getBookById(
+      bookId: string,
+    ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>> {
+      const url = `${GOOGLE_BOOKS_API_BASE_URL}/${encodeURIComponent(bookId)}?key=${apiKey}`;
+      const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
+
+      if (!fetchResult.success) {
+        return fetchResult;
+      }
+
+      const response = fetchResult.data;
+
+      if (response.status === 404) {
+        return ok(null);
+      }
+
+      if (!response.ok) {
+        return err(handleHttpError(response));
+      }
+
+      const data = (await response.json()) as GoogleBooksVolume;
+      return ok(data);
     },
   };
 }

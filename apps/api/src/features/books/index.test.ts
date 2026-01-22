@@ -208,6 +208,10 @@ describe("books Feature public API", () => {
         isbn: null,
         coverImageUrl: null,
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       expect(userBook.id).toBe(1);
     });

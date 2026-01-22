@@ -53,6 +53,10 @@ describe("BookShelfRepository", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       mockDb.setResults([mockUserBook]);
 
@@ -103,6 +107,10 @@ describe("BookShelfRepository", () => {
         isbn: newUserBook.isbn ?? null,
         coverImageUrl: newUserBook.coverImageUrl ?? null,
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       mockDb.setResults([createdUserBook]);
 
@@ -129,6 +137,10 @@ describe("BookShelfRepository", () => {
           isbn: null,
           coverImageUrl: null,
           addedAt: new Date(),
+          readingStatus: "backlog",
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
         },
         {
           id: 2,
@@ -141,6 +153,10 @@ describe("BookShelfRepository", () => {
           isbn: "9781111111111",
           coverImageUrl: "https://example.com/book2.jpg",
           addedAt: new Date(),
+          readingStatus: "reading",
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
         },
       ];
       mockDb.setResults(mockUserBooks);
@@ -190,6 +206,10 @@ describe("BookShelfRepository", () => {
         isbn: null,
         coverImageUrl: null,
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
 
       expect(userBook.id).toBeDefined();

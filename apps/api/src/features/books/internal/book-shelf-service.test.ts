@@ -54,6 +54,10 @@ describe("BookShelfService", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
 
@@ -117,6 +121,10 @@ describe("BookShelfService", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       mockRepository.mockFindUserBookByExternalId.mockResolvedValue(
         existingUserBook,
@@ -214,6 +222,10 @@ describe("BookShelfService", () => {
         isbn: null,
         coverImageUrl: null,
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
 

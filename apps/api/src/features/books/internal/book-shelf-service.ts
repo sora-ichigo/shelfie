@@ -27,6 +27,11 @@ export interface BookShelfService {
   addBookToShelf(
     input: AddBookToShelfInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
+
+  getUserBookByExternalId(
+    userId: number,
+    externalId: string,
+  ): Promise<Result<UserBook | null, BookShelfErrors>>;
 }
 
 export function createBookShelfService(
@@ -81,6 +86,38 @@ export function createBookShelfService(
       } catch (error) {
         logger.error(
           "Database error while adding book to shelf",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userId: String(userId),
+            externalId,
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async getUserBookByExternalId(
+      userId: number,
+      externalId: string,
+    ): Promise<Result<UserBook | null, BookShelfErrors>> {
+      try {
+        const userBook = await repository.findUserBookByExternalId(
+          userId,
+          externalId,
+        );
+
+        return ok(userBook);
+      } catch (error) {
+        logger.error(
+          "Database error while fetching user book by external ID",
           error instanceof Error ? error : new Error(String(error)),
           {
             feature: "books",

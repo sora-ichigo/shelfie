@@ -15,19 +15,19 @@
   - マイグレーションを生成・適用し、既存レコードに影響がないことを確認
   - _Requirements: 4.2, 4.3, 4.4, 4.5, 4.6, 5.2_
 
-- [ ] 2. API GraphQL スキーマ拡張
-- [ ] 2.1 ReadingStatus enum と UserBook 型拡張を定義
+- [x] 2. API GraphQL スキーマ拡張
+- [x] 2.1 ReadingStatus enum と UserBook 型拡張を定義
   - ReadingStatus enum（BACKLOG, READING, COMPLETED, DROPPED）を Pothos で定義
   - UserBook 型に readingStatus、completedAt、note、noteUpdatedAt フィールドを追加
   - _Requirements: 4.2, 5.2_
 
-- [ ] 2.2 (P) bookDetail クエリを実装
+- [x] 2.2 (P) bookDetail クエリを実装
   - Google Books API から書籍詳細情報を取得するクエリを実装
   - 表紙画像、タイトル、著者、出版社、発売日、ページ数、ジャンル、ISBN、説明文を返却
   - Amazon URL と infoLink を生成して返却
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 7.1, 7.2_
 
-- [ ] 2.3 (P) userBookByExternalId クエリを実装
+- [x] 2.3 (P) userBookByExternalId クエリを実装
   - externalId（Google Books ID）でユーザーの本棚登録を検索するクエリを実装
   - 認証必須とし、ログインユーザーの登録のみ返却
   - 未登録の場合は null を返却
@@ -57,7 +57,7 @@
   - メモが空文字でも保存可能とする
   - _Requirements: 6.4, 6.5_
 
-- [ ] 3.3 (P) getUserBookByExternalId メソッドを実装
+- [x] 3.3 (P) getUserBookByExternalId メソッドを実装
   - externalId とユーザー ID で本棚登録を検索するメソッドを実装
   - 本棚追加状態の判定に使用
   - _Requirements: 3.1, 4.1_
