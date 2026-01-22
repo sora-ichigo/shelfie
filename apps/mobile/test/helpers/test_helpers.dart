@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/error/error_handler.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
@@ -41,9 +42,15 @@ ProviderContainer createTestContainer({
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
 
+  final mockSessionValidator = MockSessionValidator();
+  when(() => mockSessionValidator.validate()).thenAnswer(
+    (_) async => const SessionValid(userId: 1, email: 'test@example.com'),
+  );
+
   return ProviderContainer(
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
+      sessionValidatorProvider.overrideWithValue(mockSessionValidator),
       ...overrides,
     ],
     parent: parent,
@@ -80,9 +87,15 @@ Widget buildTestWidget({
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
 
+  final mockSessionValidator = MockSessionValidator();
+  when(() => mockSessionValidator.validate()).thenAnswer(
+    (_) async => const SessionValid(userId: 1, email: 'test@example.com'),
+  );
+
   return ProviderScope(
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
+      sessionValidatorProvider.overrideWithValue(mockSessionValidator),
       ...overrides,
     ],
     child: MaterialApp(
@@ -136,10 +149,16 @@ Widget buildTestWidgetWithRouter({
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
 
+  final mockSessionValidator = MockSessionValidator();
+  when(() => mockSessionValidator.validate()).thenAnswer(
+    (_) async => const SessionValid(userId: 1, email: 'test@example.com'),
+  );
+
   return ProviderScope(
     parent: testContainer,
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
+      sessionValidatorProvider.overrideWithValue(mockSessionValidator),
     ],
     child: MaterialApp.router(
       theme: theme ?? AppTheme.theme,
@@ -155,6 +174,9 @@ Widget buildTestWidgetWithRouter({
 
 /// Ferry Client モック
 class MockClient extends Mock implements Client {}
+
+/// SessionValidator モック
+class MockSessionValidator extends Mock implements SessionValidator {}
 
 /// SecureStorageService モック
 class MockSecureStorageService extends Mock implements SecureStorageService {}

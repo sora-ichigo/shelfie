@@ -1,0 +1,12 @@
+query GetMe {
+  me {
+    ... on User {
+      id
+      email
+    }
+    ... on AuthErrorResult {
+      code
+      message
+    }
+  }
+}

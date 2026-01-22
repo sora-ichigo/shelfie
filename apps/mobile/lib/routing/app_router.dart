@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
@@ -112,12 +113,13 @@ class AuthChangeNotifier extends ChangeNotifier {
 /// - 初期ルート: /
 /// - デバッグモードでログ出力有効
 /// - onException でエラーハンドリング
-/// - redirect で認証ガード
+/// - redirect で認証ガード（me クエリでセッション検証）
 /// - ShellRoute でタブナビゲーション
 @Riverpod(keepAlive: true)
 GoRouter appRouter(AppRouterRef ref) {
   final authState = ref.watch(authStateProvider);
   final authChangeNotifier = AuthChangeNotifier(ref);
+  final sessionValidator = ref.watch(sessionValidatorProvider);
 
   ref.onDispose(authChangeNotifier.dispose);
 
@@ -125,7 +127,12 @@ GoRouter appRouter(AppRouterRef ref) {
     initialLocation: AppRoutes.home,
     debugLogDiagnostics: kDebugMode,
     refreshListenable: authChangeNotifier,
-    redirect: (context, state) => _guardRoute(authState, state),
+    redirect: (context, state) => _guardRoute(
+      ref: ref,
+      authState: authState,
+      state: state,
+      sessionValidator: sessionValidator,
+    ),
     onException: (context, state, router) {
       router.go(AppRoutes.error);
     },
@@ -137,13 +144,29 @@ GoRouter appRouter(AppRouterRef ref) {
 ///
 /// 認証状態に基づいてルートをリダイレクトする。
 /// - 未認証時: 保護されたルートからウェルカム画面へリダイレクト
-/// - 認証済み時: ウェルカム/認証ルートからホームへリダイレクト
-String? _guardRoute(AuthStateData authState, GoRouterState state) {
-  return guardRoute(authState, state);
+/// - 認証済み時: me クエリでセッションを検証し、無効ならログアウト
+/// - セッション有効時: ウェルカム/認証ルートからホームへリダイレクト
+Future<String?> _guardRoute({
+  required AppRouterRef ref,
+  required AuthStateData authState,
+  required GoRouterState state,
+  required SessionValidator sessionValidator,
+}) async {
+  return guardRoute(
+    ref: ref,
+    authState: authState,
+    state: state,
+    sessionValidator: sessionValidator,
+  );
 }
 
 /// 認証ガード（テスト用に公開）
-String? guardRoute(AuthStateData authState, GoRouterState state) {
+Future<String?> guardRoute({
+  required Ref ref,
+  required AuthStateData authState,
+  required GoRouterState state,
+  required SessionValidator sessionValidator,
+}) async {
   final isAuthenticated = authState.isAuthenticated;
   final currentLocation = state.matchedLocation;
   final isAuthRoute = currentLocation.startsWith('/auth');
@@ -152,6 +175,18 @@ String? guardRoute(AuthStateData authState, GoRouterState state) {
   // 未認証かつ認証ルートでもウェルカムでもない → ウェルカム画面へ
   if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
     return AppRoutes.welcome;
+  }
+
+  // 認証済みの場合、me クエリでセッションを検証
+  if (isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
+    final result = await sessionValidator.validate();
+
+    if (result is SessionInvalid || result is SessionValidationFailed) {
+      debugPrint('[guardRoute] Session invalid or validation failed: $result');
+      // セッションが無効な場合はログアウトしてウェルカム画面へ
+      await ref.read(authStateProvider.notifier).logout();
+      return AppRoutes.welcome;
+    }
   }
 
   // 認証済みかつ（認証ルート または ウェルカム） → ホームへ

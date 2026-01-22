@@ -7,6 +7,16 @@ import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:ferry_exec/ferry_exec.dart';
 import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
+import 'package:shelfie/core/auth/__generated__/me.data.gql.dart'
+    show
+        GGetMeData_me,
+        GGetMeData,
+        GGetMeData_me__asAuthErrorResult,
+        GGetMeData_me__asUser,
+        GGetMeData_me__base;
+import 'package:shelfie/core/auth/__generated__/me.req.gql.dart' show GGetMeReq;
+import 'package:shelfie/core/auth/__generated__/me.var.gql.dart'
+    show GGetMeVars;
 import 'package:shelfie/core/auth/__generated__/refresh_token.data.gql.dart'
     show
         GRefreshTokenData_refreshToken,
@@ -80,6 +90,7 @@ part 'serializers.gql.g.dart';
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
+  ..add(GGetMeData_me.serializer)
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
@@ -91,6 +102,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAddBookToShelfReq,
   GAddBookToShelfVars,
   GAuthErrorCode,
+  GGetMeData,
+  GGetMeData_me__asAuthErrorResult,
+  GGetMeData_me__asUser,
+  GGetMeData_me__base,
+  GGetMeReq,
+  GGetMeVars,
   GLoginUserData,
   GLoginUserData_loginUser__asAuthError,
   GLoginUserData_loginUser__asMutationLoginUserSuccess,
