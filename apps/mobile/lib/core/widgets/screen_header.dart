@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class ScreenHeader extends StatelessWidget {
@@ -14,8 +13,6 @@ class ScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>();
-
     return Padding(
       padding: const EdgeInsets.only(
         left: AppSpacing.md,
@@ -37,8 +34,15 @@ class ScreenHeader extends StatelessWidget {
             child: Container(
               width: 48,
               height: 48,
-              decoration: BoxDecoration(
-                color: appColors?.brandPrimary ?? const Color(0xFF4FD1C5),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF00BC7D),
+                    Color(0xFF009689),
+                  ],
+                ),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
