@@ -6,8 +6,8 @@
 
 ---
 
-- [ ] 1. データベーススキーマ拡張
-- [ ] 1.1 userBooks テーブルに読書記録フィールドを追加
+- [x] 1. データベーススキーマ拡張
+- [x] 1.1 userBooks テーブルに読書記録フィールドを追加
   - reading_status カラム（enum: backlog, reading, completed, dropped）を追加し、デフォルト値を 'backlog' に設定
   - completed_at カラム（タイムスタンプ、nullable）を追加
   - note カラム（テキスト、nullable）を追加

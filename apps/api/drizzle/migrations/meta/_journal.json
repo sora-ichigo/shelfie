@@ -15,6 +15,13 @@
       "when": 1769062615820,
       "tag": "0001_user_books",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1769091507031,
+      "tag": "0002_supreme_snowbird",
+      "breakpoints": true
     }
   ]
 }

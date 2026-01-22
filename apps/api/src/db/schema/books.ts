@@ -1,12 +1,20 @@
 import {
   index,
   integer,
+  pgEnum,
   pgTable,
   text,
   timestamp,
   unique,
 } from "drizzle-orm/pg-core";
 import { users } from "./users";
+
+export const readingStatusEnum = pgEnum("reading_status", [
+  "backlog",
+  "reading",
+  "completed",
+  "dropped",
+]);
 
 export const USER_BOOKS_USER_ID_INDEX_NAME = "idx_user_books_user_id";
 export const USER_BOOKS_USER_ID_EXTERNAL_ID_UNIQUE_NAME =
@@ -29,6 +37,12 @@ export const userBooks = pgTable(
     addedAt: timestamp("added_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
+    readingStatus: readingStatusEnum("reading_status")
+      .notNull()
+      .default("backlog"),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    note: text("note"),
+    noteUpdatedAt: timestamp("note_updated_at", { withTimezone: true }),
   },
   (table) => [
     index(USER_BOOKS_USER_ID_INDEX_NAME).on(table.userId),
