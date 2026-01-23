@@ -169,20 +169,20 @@
   - 共有ボタンで OS 標準の共有シートを表示（share_plus パッケージを使用）
   - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 11. テスト実装
-- [ ] 11.1 (P) API ユニットテストを実装
+- [x] 11. テスト実装
+- [x] 11.1 (P) API ユニットテストを実装
   - BookShelfService の読書状態更新ロジックをテスト（completedAt の自動設定含む）
   - BookShelfService の読書メモ更新ロジックをテスト（noteUpdatedAt の自動設定含む）
   - ReadingStatus enum のシリアライズ/デシリアライズをテスト
   - _Requirements: 5.3, 5.4, 6.4, 6.5_
 
-- [ ] 11.2 (P) モバイルユニットテストを実装
+- [x] 11.2 (P) モバイルユニットテストを実装
   - BookDetailNotifier の状態遷移をテスト（loading → loaded → error）
   - BookDetailRepository の GraphQL レスポンスマッピングをテスト
   - エラーハンドリングのテスト（ネットワークエラー、認証エラー、権限エラー）
   - _Requirements: 3.4, 5.6, 6.7_
 
-- [ ] 11.3 モバイルウィジェットテストを実装
+- [x] 11.3 モバイルウィジェットテストを実装
   - BookDetailScreen の本棚追加済み/未追加の UI 分岐をテスト
   - ReadingStatusModal のステータス選択、保存/キャンセルをテスト
   - ReadingNoteModal のテキスト入力、保存/キャンセルをテスト
