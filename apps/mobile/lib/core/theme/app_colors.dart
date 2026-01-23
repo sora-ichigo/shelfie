@@ -72,6 +72,12 @@ class AppColors extends ThemeExtension<AppColors> {
   /// リンクテキストカラー
   final Color textLink;
 
+  /// プライマリカラー（ターコイズ）- 直接アクセス用
+  static const Color primary = Color(0xFF4FD1C5);
+
+  /// プライマリライトカラー - グラデーション用
+  static const Color primaryLight = Color(0xFF81E6D9);
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     success: Color(0xFF81C784),

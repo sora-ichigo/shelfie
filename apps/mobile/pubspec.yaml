@@ -9,6 +9,7 @@ environment:
 dependencies:
   built_collection: any
   built_value: any
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.6
   ferry: ^0.16.1+2
   ferry_flutter: ^0.9.1+1
@@ -23,6 +24,7 @@ dependencies:
   google_fonts: ^6.2.1
   gql_http_link: ^1.2.0
   hive_flutter: ^1.1.0
+  intl: ^0.20.2
   json_annotation: ^4.9.0
   mobile_scanner: ^6.0.2
   riverpod_annotation: ^2.3.5

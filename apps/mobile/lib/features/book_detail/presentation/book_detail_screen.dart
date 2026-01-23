@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -43,15 +44,24 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final state = ref.watch(bookDetailNotifierProvider(widget.bookId));
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(AppSpacing.sm),
+          child: _CircleIconButton(
+            icon: Icons.close,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: _onSharePressed,
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            child: _CircleIconButton(
+              icon: Icons.share,
+              onPressed: _onSharePressed,
+            ),
           ),
         ],
       ),
@@ -68,41 +78,63 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       return const LoadingIndicator(fullScreen: true);
     }
 
-    return SingleChildScrollView(
-      padding: AppSpacing.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BookInfoSection(bookDetail: bookDetail),
-          const SizedBox(height: AppSpacing.lg),
-          if (bookDetail.isInShelf)
-            ReadingRecordSection(
-              userBook: bookDetail.userBook!,
-              onStatusTap: _onStatusTap,
-              onNoteTap: _onNoteTap,
-            )
-          else
-            _buildAddToShelfButton(),
-          if (bookDetail.amazonUrl != null || bookDetail.infoLink != null) ...[
-            const SizedBox(height: AppSpacing.lg),
-            ExternalLinksSection(
-              amazonUrl: bookDetail.amazonUrl,
-              infoLink: bookDetail.infoLink,
-              onLinkTap: _onLinkTap,
-            ),
-          ],
-        ],
-      ),
+    return Stack(
+      children: [
+        _buildBackgroundGradient(),
+        SingleChildScrollView(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + kToolbarHeight + AppSpacing.md,
+            left: AppSpacing.md,
+            right: AppSpacing.md,
+            bottom: AppSpacing.md,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              BookInfoSection(
+                bookDetail: bookDetail,
+                isInShelf: bookDetail.isInShelf,
+                onAddToShelfPressed: _onAddToShelfPressed,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              if (bookDetail.isInShelf)
+                ReadingRecordSection(
+                  userBook: bookDetail.userBook!,
+                  onStatusTap: _onStatusTap,
+                  onNoteTap: _onNoteTap,
+                ),
+              if (bookDetail.amazonUrl != null || bookDetail.infoLink != null) ...[
+                const SizedBox(height: AppSpacing.lg),
+                ExternalLinksSection(
+                  amazonUrl: bookDetail.amazonUrl,
+                  infoLink: bookDetail.infoLink,
+                  onLinkTap: _onLinkTap,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildAddToShelfButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: _onAddToShelfPressed,
-        icon: const Icon(Icons.add),
-        label: const Text('本棚に追加'),
+  Widget _buildBackgroundGradient() {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 400,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.primary.withOpacity(0.3),
+              Colors.transparent,
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -170,5 +202,36 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onRetry() {
     ref.read(bookDetailNotifierProvider(widget.bookId).notifier).loadBookDetail();
+  }
+}
+
+class _CircleIconButton extends StatelessWidget {
+  const _CircleIconButton({
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.primary,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onPressed,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 20,
+          ),
+        ),
+      ),
+    );
   }
 }
