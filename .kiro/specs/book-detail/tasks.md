@@ -94,8 +94,8 @@
   - ネットワークエラー・タイムアウトを適切にハンドリング
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 3.2, 3.4, 5.3, 5.6, 6.4, 6.7_
 
-- [ ] 7. モバイル Application 層実装
-- [ ] 7.1 BookDetailNotifier を実装
+- [x] 7. モバイル Application 層実装
+- [x] 7.1 BookDetailNotifier を実装
   - @riverpod アノテーションで状態管理プロバイダーを定義
   - loadBookDetail で書籍詳細と本棚追加状態を取得
   - addToShelf で本棚追加処理を実行し、成功時に状態を更新
