@@ -84,8 +84,8 @@
   - DuplicateBookFailure を追加（既に本棚に追加済み）
   - _Requirements: 3.4, 5.6, 6.7_
 
-- [ ] 6. モバイル Data 層実装
-- [ ] 6.1 BookDetailRepository を実装
+- [x] 6. モバイル Data 層実装
+- [x] 6.1 BookDetailRepository を実装
   - Ferry クライアントを使用して GraphQL API と通信
   - getBookDetail メソッドで書籍詳細を取得し、Either 型で結果を返却
   - addBookToShelf メソッドで本棚追加を実行（既存の addUserBook ミューテーションを使用）
