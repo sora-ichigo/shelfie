@@ -169,7 +169,8 @@ void main() {
 
         // サブルートへ遷移
         container.read(appRouterProvider).go('/books/test-book');
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 100));
 
         // 戻る
         container.read(appRouterProvider).go(AppRoutes.home);
@@ -359,7 +360,7 @@ void main() {
 
         // ディープリンクをシミュレート
         container.read(appRouterProvider).go('/books/deep-link-book');
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         final currentLocation =
             container.read(appRouterProvider).routerDelegate

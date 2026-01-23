@@ -10,6 +10,7 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
@@ -269,11 +270,12 @@ List<RouteBase> _buildRoutes() {
         // 本詳細
         GoRoute(
           path: '/books/:bookId',
-          builder: (context, state) => _BookDetailScreen(
-            params: BookDetailParams.fromState(
+          builder: (context, state) {
+            final params = BookDetailParams.fromState(
               pathParameters: state.pathParameters,
-            ),
-          ),
+            );
+            return BookDetailScreen(bookId: params.bookId);
+          },
         ),
       ],
     ),
@@ -440,17 +442,3 @@ class _AccountScreen extends StatelessWidget {
   }
 }
 
-/// プレースホルダー: 本詳細画面
-class _BookDetailScreen extends StatelessWidget {
-  const _BookDetailScreen({required this.params});
-
-  final BookDetailParams params;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Book: ${params.bookId}')),
-      body: Center(child: Text('Book ID: ${params.bookId}')),
-    );
-  }
-}

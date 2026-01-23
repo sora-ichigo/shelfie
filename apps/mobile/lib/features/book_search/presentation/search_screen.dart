@@ -138,6 +138,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           final book = books[index];
           return BookListItem(
             book: book,
+            onTap: () => _onBookTap(book),
             onAddPressed: () => _onAddToShelf(book),
             isAddingToShelf: _addingBooks.contains(book.id),
           );
@@ -172,6 +173,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _loadMore() {
     ref.read(bookSearchNotifierProvider.notifier).loadMore();
+  }
+
+  void _onBookTap(Book book) {
+    context.push(AppRoutes.bookDetail(bookId: book.id));
   }
 
   Future<void> _onAddToShelf(Book book) async {

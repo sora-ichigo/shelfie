@@ -6,11 +6,13 @@ import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
+import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/external_links_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
 ///
@@ -117,8 +119,16 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     );
   }
 
-  void _onSharePressed() {
-    // TODO: Implement share functionality
+  Future<void> _onSharePressed() async {
+    final state = ref.read(bookDetailNotifierProvider(widget.bookId));
+    final bookDetail = state.value;
+    if (bookDetail == null) return;
+
+    final shareService = ref.read(shareServiceProvider);
+    await shareService.shareBook(
+      title: bookDetail.title,
+      url: bookDetail.amazonUrl ?? bookDetail.infoLink,
+    );
   }
 
   void _onAddToShelfPressed() {
@@ -152,7 +162,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Future<void> _onLinkTap(String url) async {
-    // TODO: Implement url_launcher
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   void _onRetry() {

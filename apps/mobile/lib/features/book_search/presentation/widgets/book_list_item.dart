@@ -7,11 +7,13 @@ class BookListItem extends StatelessWidget {
     required this.book,
     required this.onAddPressed,
     super.key,
+    this.onTap,
     this.isAddingToShelf = false,
   });
 
   final Book book;
   final VoidCallback onAddPressed;
+  final VoidCallback? onTap;
   final bool isAddingToShelf;
 
   @override
@@ -19,6 +21,7 @@ class BookListItem extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListTile(
+      onTap: onTap,
       contentPadding: AppSpacing.horizontal(AppSpacing.md),
       leading: _buildCoverImage(theme),
       title: Text(
