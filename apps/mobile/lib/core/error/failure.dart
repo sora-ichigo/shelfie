@@ -54,6 +54,29 @@ sealed class Failure with _$Failure {
     StackTrace? stackTrace,
   }) = UnexpectedFailure;
 
+  /// リソースが見つからないエラー
+  ///
+  /// 書籍やユーザーデータなど、要求されたリソースが
+  /// 存在しない場合のエラーを表す。
+  const factory Failure.notFound({
+    required String message,
+  }) = NotFoundFailure;
+
+  /// 権限エラー
+  ///
+  /// ユーザーが許可されていない操作を実行しようとした場合のエラーを表す。
+  /// 他ユーザーのデータを更新しようとした場合などが該当する。
+  const factory Failure.forbidden({
+    required String message,
+  }) = ForbiddenFailure;
+
+  /// 重複書籍エラー
+  ///
+  /// 既に本棚に追加済みの書籍を再度追加しようとした場合のエラーを表す。
+  const factory Failure.duplicateBook({
+    required String message,
+  }) = DuplicateBookFailure;
+
   /// ユーザー向けの表示メッセージ
   ///
   /// 各エラータイプに応じた、ユーザーフレンドリーなメッセージを返す。
@@ -64,5 +87,8 @@ sealed class Failure with _$Failure {
         auth: (msg) => '再度ログインしてください',
         validation: (msg, fieldErrors) => msg,
         unexpected: (msg, stackTrace) => '予期しないエラーが発生しました',
+        notFound: (msg) => 'お探しの情報が見つかりませんでした',
+        forbidden: (msg) => 'この操作は許可されていません',
+        duplicateBook: (msg) => 'この書籍は既に本棚に追加されています',
       );
 }

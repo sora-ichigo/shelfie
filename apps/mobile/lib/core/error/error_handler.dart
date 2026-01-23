@@ -106,6 +106,24 @@ class ErrorHandler {
           crashlyticsReporter.recordError(msg, stackTrace);
         }
       },
+      notFound: (msg) {
+        logger.warning(
+          'NotFound failure: $msg',
+          error: failure,
+        );
+      },
+      forbidden: (msg) {
+        logger.warning(
+          'Forbidden failure: $msg',
+          error: failure,
+        );
+      },
+      duplicateBook: (msg) {
+        logger.info(
+          'DuplicateBook failure: $msg',
+          error: failure,
+        );
+      },
     );
   }
 

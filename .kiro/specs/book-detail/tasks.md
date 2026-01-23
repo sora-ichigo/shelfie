@@ -71,14 +71,14 @@
   - コード生成を実行して型安全なクライアントコードを生成
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 3.2, 4.1, 4.2, 5.3, 6.4_
 
-- [ ] 5. モバイル Domain 層実装
-- [ ] 5.1 (P) BookDetail エンティティと ReadingStatus enum を定義
+- [x] 5. モバイル Domain 層実装
+- [x] 5.1 (P) BookDetail エンティティと ReadingStatus enum を定義
   - freezed で BookDetail モデルを定義（表紙、タイトル、著者、書誌情報、説明文、外部リンク）
   - ReadingStatus enum（backlog, reading, completed, dropped）を定義
   - 欠損フィールドを nullable で表現
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 5.2_
 
-- [ ] 5.2 (P) Failure 型を拡張
+- [x] 5.2 (P) Failure 型を拡張
   - NotFoundFailure を追加（書籍が見つからない場合）
   - ForbiddenFailure を追加（権限エラー）
   - DuplicateBookFailure を追加（既に本棚に追加済み）
