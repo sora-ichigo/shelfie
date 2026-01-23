@@ -8,7 +8,9 @@ import 'package:shelfie/features/book_detail/application/book_detail_notifier.da
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/external_links_section.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 
 /// 本詳細画面
 ///
@@ -124,11 +126,29 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onStatusTap() {
-    // TODO: Implement status modal
+    final state = ref.read(bookDetailNotifierProvider(widget.bookId));
+    final userBook = state.value?.userBook;
+    if (userBook == null) return;
+
+    showReadingStatusModal(
+      context: context,
+      currentStatus: userBook.readingStatus,
+      userBookId: userBook.id,
+      externalId: widget.bookId,
+    );
   }
 
   void _onNoteTap() {
-    // TODO: Implement note modal
+    final state = ref.read(bookDetailNotifierProvider(widget.bookId));
+    final userBook = state.value?.userBook;
+    if (userBook == null) return;
+
+    showReadingNoteModal(
+      context: context,
+      currentNote: userBook.note,
+      userBookId: userBook.id,
+      externalId: widget.bookId,
+    );
   }
 
   Future<void> _onLinkTap(String url) async {

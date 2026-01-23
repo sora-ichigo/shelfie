@@ -141,8 +141,8 @@
   - タップ時に url_launcher で外部ブラウザまたはアプリ内 WebView を開く
   - _Requirements: 7.1, 7.2, 7.3_
 
-- [ ] 9. モバイル Presentation 層 - モーダルシート
-- [ ] 9.1 ReadingStatusModal を実装
+- [x] 9. モバイル Presentation 層 - モーダルシート
+- [x] 9.1 ReadingStatusModal を実装
   - showModalBottomSheet で画面下部からスライドアップ表示
   - 4 つの読書状態（積読/読書中/読了/読まない）をラジオボタンで表示
   - 現在の状態を初期選択として設定
@@ -152,7 +152,7 @@
   - 変更がない場合は保存ボタンを無効化
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 9.2 ReadingNoteModal を実装
+- [x] 9.2 ReadingNoteModal を実装
   - showModalBottomSheet で画面下部からスライドアップ表示（isScrollControlled: true でキーボード対応）
   - 複数行テキストエリアを配置
   - 既存メモがある場合は初期値として表示
