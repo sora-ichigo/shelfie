@@ -48,12 +48,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(AppSpacing.sm),
-          child: _CircleIconButton(
-            icon: Icons.close,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           Padding(
@@ -216,20 +213,19 @@ class _CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.primary,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 20,
-          ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: const BoxDecoration(
+          gradient: AppColors.actionGradient,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 20,
         ),
       ),
     );

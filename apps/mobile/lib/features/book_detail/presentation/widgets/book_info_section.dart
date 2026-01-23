@@ -103,11 +103,7 @@ class BookInfoSection extends StatelessWidget {
       height: 56,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [AppColors.primary, AppColors.primaryLight],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+          gradient: AppColors.actionGradient,
           borderRadius: BorderRadius.circular(28),
         ),
         child: ElevatedButton.icon(

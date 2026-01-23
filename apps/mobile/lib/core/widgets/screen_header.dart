@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class ScreenHeader extends StatelessWidget {
@@ -35,14 +36,7 @@ class ScreenHeader extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF00BC7D),
-                    Color(0xFF009689),
-                  ],
-                ),
+                gradient: AppColors.actionGradient,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
