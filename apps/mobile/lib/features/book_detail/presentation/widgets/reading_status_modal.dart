@@ -149,6 +149,7 @@ class _ReadingStatusModalContentState
 
   Widget _buildStatusButton(ThemeData theme, ReadingStatus status) {
     final isSelected = _selectedStatus == status;
+    final statusColor = _getStatusColor(status);
 
     return InkWell(
       onTap: _isSaving
@@ -164,12 +165,11 @@ class _ReadingStatusModalContentState
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.5)
+              ? statusColor.withOpacity(0.3)
               : theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color:
-                isSelected ? AppColors.primary : Colors.white.withOpacity(0.2),
+            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -178,12 +178,21 @@ class _ReadingStatusModalContentState
             status.displayName,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? Colors.white : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : const Color(0xFF99A1AF),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Color _getStatusColor(ReadingStatus status) {
+    return switch (status) {
+      ReadingStatus.backlog => const Color(0xFFFFB74D),
+      ReadingStatus.reading => const Color(0xFF64B5F6),
+      ReadingStatus.completed => const Color(0xFF81C784),
+      ReadingStatus.dropped => const Color(0xFF90A4AE),
+    };
   }
 
   Widget _buildActionButtons(ThemeData theme) {

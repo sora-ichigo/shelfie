@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
 /// 読書記録セクション
 ///
@@ -56,7 +57,7 @@ class ReadingRecordSection extends StatelessWidget {
           _buildTableRow(
             context,
             label: '読書状態',
-            value: shelfEntry.readingStatus.displayName,
+            valueWidget: _buildStatusTag(context, shelfEntry.readingStatus),
             onTap: onStatusTap,
             position: _RowPosition.first,
           ),
@@ -64,7 +65,8 @@ class ReadingRecordSection extends StatelessWidget {
             context,
             label: '追加日',
             value: _formatDate(shelfEntry.addedAt),
-            position: hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+            position:
+                hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
           ),
           if (hasCompletedDate)
             _buildTableRow(
@@ -81,16 +83,20 @@ class ReadingRecordSection extends StatelessWidget {
   Widget _buildTableRow(
     BuildContext context, {
     required String label,
-    required String value,
+    String? value,
+    Widget? valueWidget,
     required _RowPosition position,
     VoidCallback? onTap,
+    bool showChevron = true,
   }) {
     final theme = Theme.of(context);
 
     final borderRadius = switch (position) {
-      _RowPosition.first => const BorderRadius.vertical(top: Radius.circular(8)),
+      _RowPosition.first =>
+        const BorderRadius.vertical(top: Radius.circular(8)),
       _RowPosition.middle => BorderRadius.zero,
-      _RowPosition.last => const BorderRadius.vertical(bottom: Radius.circular(8)),
+      _RowPosition.last =>
+        const BorderRadius.vertical(bottom: Radius.circular(8)),
     };
 
     final border = switch (position) {
@@ -122,17 +128,22 @@ class ReadingRecordSection extends StatelessWidget {
           ),
           Row(
             children: [
-              Text(
-                value,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
+              if (valueWidget != null)
+                valueWidget
+              else if (value != null)
+                Text(
+                  value,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Icon(
-                Icons.chevron_right,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+              if (onTap != null && showChevron) ...[
+                const SizedBox(width: AppSpacing.xs),
+                Icon(
+                  Icons.chevron_right,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ],
             ],
           ),
         ],
@@ -147,6 +158,40 @@ class ReadingRecordSection extends StatelessWidget {
     }
 
     return content;
+  }
+
+  Widget _buildStatusTag(BuildContext context, ReadingStatus status) {
+    final color = _getStatusColor(status);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xs,
+      ),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(36),
+        border: Border.all(
+          color: color.withOpacity(0.5),
+        ),
+      ),
+      child: Text(
+        status.displayName,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(ReadingStatus status) {
+    return switch (status) {
+      ReadingStatus.backlog => const Color(0xFFFFB74D),
+      ReadingStatus.reading => const Color(0xFF64B5F6),
+      ReadingStatus.completed => const Color(0xFF81C784),
+      ReadingStatus.dropped => const Color(0xFF90A4AE),
+    };
   }
 
   String _formatDate(DateTime date) {
