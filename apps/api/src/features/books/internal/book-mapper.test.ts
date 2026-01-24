@@ -245,7 +245,9 @@ describe("BookMapper", () => {
 
       const detail = mapRakutenBooksItemToDetail(item);
 
-      expect(detail.amazonUrl).toBe("https://www.amazon.co.jp/dp/9781234567890");
+      expect(detail.amazonUrl).toBe(
+        "https://www.amazon.co.jp/dp/9781234567890",
+      );
     });
 
     it("itemUrl を rakutenBooksUrl として返す", () => {

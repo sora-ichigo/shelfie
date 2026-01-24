@@ -160,7 +160,9 @@ describe("BookSearchService", () => {
           expect(book.publisher).toBe("Publisher Name");
           expect(book.publishedDate).toBe("2023-05-15");
           expect(book.isbn).toBe("9781234567890");
-          expect(book.coverImageUrl).toBe("https://books.rakuten.co.jp/cover.jpg");
+          expect(book.coverImageUrl).toBe(
+            "https://books.rakuten.co.jp/cover.jpg",
+          );
         }
       });
     });

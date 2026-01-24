@@ -21,10 +21,7 @@ export interface ExternalBookRepository {
     limit: number,
     offset: number,
   ): Promise<
-    Result<
-      { items: RakutenBooksItem[]; totalItems: number },
-      ExternalApiErrors
-    >
+    Result<{ items: RakutenBooksItem[]; totalItems: number }, ExternalApiErrors>
   >;
 
   searchByISBN(

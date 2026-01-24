@@ -38,7 +38,10 @@ function parseAuthors(author: string): string[] {
   if (!author) {
     return [];
   }
-  return author.split("/").map((a) => a.trim()).filter(Boolean);
+  return author
+    .split("/")
+    .map((a) => a.trim())
+    .filter(Boolean);
 }
 
 function parseSalesDate(salesDate: string): string | null {
@@ -61,7 +64,9 @@ function parseSalesDate(salesDate: string): string | null {
 }
 
 function extractCoverImageUrl(item: RakutenBooksItem): string | null {
-  return item.largeImageUrl ?? item.mediumImageUrl ?? item.smallImageUrl ?? null;
+  return (
+    item.largeImageUrl ?? item.mediumImageUrl ?? item.smallImageUrl ?? null
+  );
 }
 
 export function mapRakutenBooksItem(item: RakutenBooksItem): Book {
@@ -100,7 +105,9 @@ function generateAmazonUrl(isbn: string | null): string | null {
   return `https://www.amazon.co.jp/dp/${isbn}`;
 }
 
-export function mapRakutenBooksItemToDetail(item: RakutenBooksItem): BookDetail {
+export function mapRakutenBooksItemToDetail(
+  item: RakutenBooksItem,
+): BookDetail {
   const isbn = item.isbn;
 
   return {

@@ -47,7 +47,8 @@ const authService = createAuthService({
 });
 
 const rakutenApplicationId = config.getOrDefault("RAKUTEN_APPLICATION_ID", "");
-const externalBookRepository = createExternalBookRepository(rakutenApplicationId);
+const externalBookRepository =
+  createExternalBookRepository(rakutenApplicationId);
 const bookSearchService = createBookSearchService(
   externalBookRepository,
   logger,
