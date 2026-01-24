@@ -76,22 +76,22 @@
   - Android: AndroidManifest.xml に `CAMERA`, `READ_MEDIA_IMAGES` パーミッションを追加
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 5. Mobile: Application 層実装
-- [ ] 5.1 ProfileFormState を実装
+- [x] 5. Mobile: Application 層実装
+- [x] 5.1 ProfileFormState を実装
   - freezed による ProfileFormData クラスを定義（name, email, pendingAvatarImage, hasChanges）
   - ProfileFormState Notifier を実装
   - `initialize`, `updateName`, `updateEmail`, `setAvatarImage` メソッドを実装
   - バリデーション状態計算（nameError, emailError, isValid, hasEmailChanged）を実装
   - _Requirements: 2.4, 2.5, 2.6, 3.6_
 
-- [ ] 5.2 AccountNotifier を実装
+- [x] 5.2 AccountNotifier を実装
   - AccountRepository からプロフィール情報を取得
   - AsyncValue<UserProfile> による状態管理を実装
   - `refresh` メソッドを実装
   - authStateProvider との連携を実装
   - _Requirements: 1.2_
 
-- [ ] 5.3 ProfileEditNotifier を実装
+- [x] 5.3 ProfileEditNotifier を実装
   - freezed による ProfileEditState sealed クラスを定義（initial, loading, success, error）
   - `save` メソッドを実装（バリデーション実行、API 呼び出し、結果ハンドリング）
   - `setAvatarImage` メソッドを実装
@@ -99,44 +99,44 @@
   - メールアドレス変更時は確認メール送信処理を呼び出す
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 4.4, 5.1, 5.2_
 
-- [ ] 6. Mobile: Presentation 層 - 共通ウィジェット
-- [ ] 6.1 (P) AccountHeader ウィジェットを実装
+- [x] 6. Mobile: Presentation 層 - 共通ウィジェット
+- [x] 6.1 (P) AccountHeader ウィジェットを実装
   - 「アカウント」タイトルを表示
   - 閉じるボタン（×）を配置し、タップで前画面に戻る
   - _Requirements: 1.1, 1.7_
 
-- [ ] 6.2 (P) ProfileCard ウィジェットを実装
+- [x] 6.2 (P) ProfileCard ウィジェットを実装
   - ユーザーアバター、氏名、ユーザー名（@形式）を表示
   - 登録冊数、読書開始年を表示
   - UserProfile を受け取り表示に変換
   - _Requirements: 1.2_
 
-- [ ] 6.3 (P) AccountMenuSection ウィジェットを実装
+- [x] 6.3 (P) AccountMenuSection ウィジェットを実装
   - セクションタイトルとメニュー項目リストを表示
   - 各メニュー項目に右矢印アイコン（>）を表示
   - バッジ表示に対応（プレミアムプラン、テーマ設定）
   - タップコールバックを受け取る
   - _Requirements: 1.3, 1.4, 1.5, 1.6, 6.5_
 
-- [ ] 6.4 (P) ProfileEditHeader ウィジェットを実装
+- [x] 6.4 (P) ProfileEditHeader ウィジェットを実装
   - 「プロフィール編集」タイトルを表示
   - 閉じるボタン（×）と保存ボタン（チェックマーク）を配置
   - 保存ボタンの有効/無効状態を制御可能にする
   - _Requirements: 2.2_
 
-- [ ] 6.5 (P) AvatarEditor ウィジェットを実装
+- [x] 6.5 (P) AvatarEditor ウィジェットを実装
   - 編集可能なアバター表示（鉛筆アイコン付き）
   - タップでボトムシート表示をトリガー
   - 選択済み画像のプレビュー表示
   - _Requirements: 2.3, 4.1_
 
-- [ ] 6.6 (P) ImageSourceBottomSheet ウィジェットを実装
+- [x] 6.6 (P) ImageSourceBottomSheet ウィジェットを実装
   - カメラ撮影オプションを表示
   - ギャラリーから選択オプションを表示
   - 選択結果をコールバックで返却
   - _Requirements: 4.1_
 
-- [ ] 6.7 (P) ProfileEditForm ウィジェットを実装
+- [x] 6.7 (P) ProfileEditForm ウィジェットを実装
   - 氏名入力フィールド（現在の氏名を初期値として表示）
   - メールアドレス入力フィールド（現在のメールアドレスを初期値として表示）
   - メールアドレス変更に関する注意書きを表示
