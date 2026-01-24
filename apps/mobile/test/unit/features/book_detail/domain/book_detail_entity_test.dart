@@ -28,7 +28,7 @@ void main() {
           description: 'A book about Flutter development',
           thumbnailUrl: 'https://example.com/cover.jpg',
           amazonUrl: 'https://amazon.com/dp/12345',
-          googleBooksUrl: 'https://books.google.com/books?id=abc123',
+          rakutenBooksUrl: 'https://books.rakuten.co.jp/rb/abc123',
         );
 
         expect(bookDetail.id, equals('abc123'));
@@ -41,7 +41,7 @@ void main() {
         expect(bookDetail.description, equals('A book about Flutter development'));
         expect(bookDetail.thumbnailUrl, equals('https://example.com/cover.jpg'));
         expect(bookDetail.amazonUrl, equals('https://amazon.com/dp/12345'));
-        expect(bookDetail.googleBooksUrl, equals('https://books.google.com/books?id=abc123'));
+        expect(bookDetail.rakutenBooksUrl, equals('https://books.rakuten.co.jp/rb/abc123'));
       });
 
       test('should have null optional fields by default', () {
@@ -58,7 +58,7 @@ void main() {
         expect(bookDetail.description, isNull);
         expect(bookDetail.thumbnailUrl, isNull);
         expect(bookDetail.amazonUrl, isNull);
-        expect(bookDetail.googleBooksUrl, isNull);
+        expect(bookDetail.rakutenBooksUrl, isNull);
       });
 
       test('should allow empty authors list', () {

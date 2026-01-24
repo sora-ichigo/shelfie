@@ -149,10 +149,10 @@ class _$GBookDetailData_bookDetailSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.googleBooksUrl;
+    value = object.rakutenBooksUrl;
     if (value != null) {
       result
-        ..add('googleBooksUrl')
+        ..add('rakutenBooksUrl')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -231,8 +231,8 @@ class _$GBookDetailData_bookDetailSerializer
           result.amazonUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'googleBooksUrl':
-          result.googleBooksUrl = serializers.deserialize(value,
+        case 'rakutenBooksUrl':
+          result.rakutenBooksUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'userBook':
@@ -559,7 +559,7 @@ class _$GBookDetailData_bookDetail extends GBookDetailData_bookDetail {
   @override
   final String? amazonUrl;
   @override
-  final String? googleBooksUrl;
+  final String? rakutenBooksUrl;
   @override
   final GBookDetailData_bookDetail_userBook? userBook;
 
@@ -580,7 +580,7 @@ class _$GBookDetailData_bookDetail extends GBookDetailData_bookDetail {
       this.isbn,
       this.coverImageUrl,
       this.amazonUrl,
-      this.googleBooksUrl,
+      this.rakutenBooksUrl,
       this.userBook})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -618,7 +618,7 @@ class _$GBookDetailData_bookDetail extends GBookDetailData_bookDetail {
         isbn == other.isbn &&
         coverImageUrl == other.coverImageUrl &&
         amazonUrl == other.amazonUrl &&
-        googleBooksUrl == other.googleBooksUrl &&
+        rakutenBooksUrl == other.rakutenBooksUrl &&
         userBook == other.userBook;
   }
 
@@ -637,7 +637,7 @@ class _$GBookDetailData_bookDetail extends GBookDetailData_bookDetail {
     _$hash = $jc(_$hash, isbn.hashCode);
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
     _$hash = $jc(_$hash, amazonUrl.hashCode);
-    _$hash = $jc(_$hash, googleBooksUrl.hashCode);
+    _$hash = $jc(_$hash, rakutenBooksUrl.hashCode);
     _$hash = $jc(_$hash, userBook.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -658,7 +658,7 @@ class _$GBookDetailData_bookDetail extends GBookDetailData_bookDetail {
           ..add('isbn', isbn)
           ..add('coverImageUrl', coverImageUrl)
           ..add('amazonUrl', amazonUrl)
-          ..add('googleBooksUrl', googleBooksUrl)
+          ..add('rakutenBooksUrl', rakutenBooksUrl)
           ..add('userBook', userBook))
         .toString();
   }
@@ -722,10 +722,10 @@ class GBookDetailData_bookDetailBuilder
   String? get amazonUrl => _$this._amazonUrl;
   set amazonUrl(String? amazonUrl) => _$this._amazonUrl = amazonUrl;
 
-  String? _googleBooksUrl;
-  String? get googleBooksUrl => _$this._googleBooksUrl;
-  set googleBooksUrl(String? googleBooksUrl) =>
-      _$this._googleBooksUrl = googleBooksUrl;
+  String? _rakutenBooksUrl;
+  String? get rakutenBooksUrl => _$this._rakutenBooksUrl;
+  set rakutenBooksUrl(String? rakutenBooksUrl) =>
+      _$this._rakutenBooksUrl = rakutenBooksUrl;
 
   GBookDetailData_bookDetail_userBookBuilder? _userBook;
   GBookDetailData_bookDetail_userBookBuilder get userBook =>
@@ -752,7 +752,7 @@ class GBookDetailData_bookDetailBuilder
       _isbn = $v.isbn;
       _coverImageUrl = $v.coverImageUrl;
       _amazonUrl = $v.amazonUrl;
-      _googleBooksUrl = $v.googleBooksUrl;
+      _rakutenBooksUrl = $v.rakutenBooksUrl;
       _userBook = $v.userBook?.toBuilder();
       _$v = null;
     }
@@ -793,7 +793,7 @@ class GBookDetailData_bookDetailBuilder
               isbn: isbn,
               coverImageUrl: coverImageUrl,
               amazonUrl: amazonUrl,
-              googleBooksUrl: googleBooksUrl,
+              rakutenBooksUrl: rakutenBooksUrl,
               userBook: _userBook?.build());
     } catch (_) {
       late String _$failedField;

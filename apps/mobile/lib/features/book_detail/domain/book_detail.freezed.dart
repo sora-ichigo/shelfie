@@ -49,8 +49,8 @@ mixin _$BookDetail {
   /// Amazon URL
   String? get amazonUrl => throw _privateConstructorUsedError;
 
-  /// Google Books URL
-  String? get googleBooksUrl => throw _privateConstructorUsedError;
+  /// 楽天ブックス URL
+  String? get rakutenBooksUrl => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookDetailCopyWith<BookDetail> get copyWith =>
@@ -75,7 +75,7 @@ abstract class $BookDetailCopyWith<$Res> {
       String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
-      String? googleBooksUrl});
+      String? rakutenBooksUrl});
 }
 
 /// @nodoc
@@ -102,7 +102,7 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
     Object? isbn = freezed,
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
-    Object? googleBooksUrl = freezed,
+    Object? rakutenBooksUrl = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -149,9 +149,9 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
           ? _value.amazonUrl
           : amazonUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      googleBooksUrl: freezed == googleBooksUrl
-          ? _value.googleBooksUrl
-          : googleBooksUrl // ignore: cast_nullable_to_non_nullable
+      rakutenBooksUrl: freezed == rakutenBooksUrl
+          ? _value.rakutenBooksUrl
+          : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -177,7 +177,7 @@ abstract class _$$BookDetailImplCopyWith<$Res>
       String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
-      String? googleBooksUrl});
+      String? rakutenBooksUrl});
 }
 
 /// @nodoc
@@ -202,7 +202,7 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     Object? isbn = freezed,
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
-    Object? googleBooksUrl = freezed,
+    Object? rakutenBooksUrl = freezed,
   }) {
     return _then(_$BookDetailImpl(
       id: null == id
@@ -249,9 +249,9 @@ class __$$BookDetailImplCopyWithImpl<$Res>
           ? _value.amazonUrl
           : amazonUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      googleBooksUrl: freezed == googleBooksUrl
-          ? _value.googleBooksUrl
-          : googleBooksUrl // ignore: cast_nullable_to_non_nullable
+      rakutenBooksUrl: freezed == rakutenBooksUrl
+          ? _value.rakutenBooksUrl
+          : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -272,7 +272,7 @@ class _$BookDetailImpl implements _BookDetail {
       this.isbn,
       this.thumbnailUrl,
       this.amazonUrl,
-      this.googleBooksUrl})
+      this.rakutenBooksUrl})
       : _authors = authors,
         _categories = categories;
 
@@ -336,13 +336,13 @@ class _$BookDetailImpl implements _BookDetail {
   @override
   final String? amazonUrl;
 
-  /// Google Books URL
+  /// 楽天ブックス URL
   @override
-  final String? googleBooksUrl;
+  final String? rakutenBooksUrl;
 
   @override
   String toString() {
-    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, googleBooksUrl: $googleBooksUrl)';
+    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, rakutenBooksUrl: $rakutenBooksUrl)';
   }
 
   @override
@@ -368,8 +368,8 @@ class _$BookDetailImpl implements _BookDetail {
                 other.thumbnailUrl == thumbnailUrl) &&
             (identical(other.amazonUrl, amazonUrl) ||
                 other.amazonUrl == amazonUrl) &&
-            (identical(other.googleBooksUrl, googleBooksUrl) ||
-                other.googleBooksUrl == googleBooksUrl));
+            (identical(other.rakutenBooksUrl, rakutenBooksUrl) ||
+                other.rakutenBooksUrl == rakutenBooksUrl));
   }
 
   @override
@@ -386,7 +386,7 @@ class _$BookDetailImpl implements _BookDetail {
       isbn,
       thumbnailUrl,
       amazonUrl,
-      googleBooksUrl);
+      rakutenBooksUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -408,7 +408,7 @@ abstract class _BookDetail implements BookDetail {
       final String? isbn,
       final String? thumbnailUrl,
       final String? amazonUrl,
-      final String? googleBooksUrl}) = _$BookDetailImpl;
+      final String? rakutenBooksUrl}) = _$BookDetailImpl;
 
   @override
 
@@ -456,8 +456,8 @@ abstract class _BookDetail implements BookDetail {
   String? get amazonUrl;
   @override
 
-  /// Google Books URL
-  String? get googleBooksUrl;
+  /// 楽天ブックス URL
+  String? get rakutenBooksUrl;
   @override
   @JsonKey(ignore: true)
   _$$BookDetailImplCopyWith<_$BookDetailImpl> get copyWith =>

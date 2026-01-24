@@ -156,7 +156,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             AppSpacing.md,
         left: AppSpacing.md,
         right: AppSpacing.md,
-        bottom: AppSpacing.md,
+        bottom: AppSpacing.xxl,
       ),
       child: BookInfoSection(
         bookDetail: bookDetail,
@@ -214,7 +214,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shareService = ref.read(shareServiceProvider);
     await shareService.shareBook(
       title: bookDetail.title,
-      url: bookDetail.amazonUrl ?? bookDetail.googleBooksUrl,
+      url: bookDetail.amazonUrl ?? bookDetail.rakutenBooksUrl,
     );
   }
 

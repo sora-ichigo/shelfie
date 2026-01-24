@@ -64,7 +64,7 @@ abstract class GBookDetailData_bookDetail
   String? get isbn;
   String? get coverImageUrl;
   String? get amazonUrl;
-  String? get googleBooksUrl;
+  String? get rakutenBooksUrl;
   GBookDetailData_bookDetail_userBook? get userBook;
   static Serializer<GBookDetailData_bookDetail> get serializer =>
       _$gBookDetailDataBookDetailSerializer;

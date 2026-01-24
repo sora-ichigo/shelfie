@@ -255,7 +255,7 @@ class BookDetailRepository {
       isbn: bookDetail.isbn,
       thumbnailUrl: bookDetail.coverImageUrl,
       amazonUrl: bookDetail.amazonUrl,
-      googleBooksUrl: bookDetail.googleBooksUrl,
+      rakutenBooksUrl: bookDetail.rakutenBooksUrl,
     );
   }
 

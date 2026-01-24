@@ -11,7 +11,7 @@ query BookDetail($bookId: String!) {
     isbn
     coverImageUrl
     amazonUrl
-    googleBooksUrl
+    rakutenBooksUrl
     userBook {
       id
       externalId
