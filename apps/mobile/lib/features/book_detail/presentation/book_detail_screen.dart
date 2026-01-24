@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/circle_icon_button.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
@@ -55,9 +54,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: AppSpacing.sm),
-            child: CircleIconButton(
-              icon: Icons.share,
+            padding: const EdgeInsets.only(right: AppSpacing.xs),
+            child: IconButton(
+              icon: const Icon(Icons.share),
               onPressed: _onSharePressed,
             ),
           ),
