@@ -132,7 +132,7 @@ export function createExternalBookRepository(
       const page = offsetToPage(offset, hits);
 
       const url = buildSearchUrl(applicationId, {
-        title: query,
+        keyword: query,
         hits,
         page,
       });

@@ -350,7 +350,7 @@ export function registerBooksQueries(
     searchBooks: t.field({
       type: SearchBooksResultRef,
       nullable: false,
-      description: "Search for books by keyword",
+      description: "Search for books by keyword (matches title, author, etc.)",
       authScopes: {
         loggedIn: true,
       },
