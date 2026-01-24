@@ -127,16 +127,18 @@ sequenceDiagram
 **Key Decisions**:
 - 画面表示時に `myShelf` クエリを実行してサーバーから最新データを取得
 - 取得したデータで `ShelfState` を更新し、SSOT を維持
-- 検索・ソート・グループ化はクライアント側でフィルタリング（サーバー負荷軽減）
+- 検索・ソートはサーバーサイドで実行（大量データ対応、ページネーションとの整合性）
+- グループ化のみクライアント側で実行（UI表示の問題であり、ページネーションとの併用が複雑なため）
+- ページネーションは無限スクロール方式で実装（1ページ20件）
 
 ## Requirements Traceability
 
 | Requirement | Summary | Components | Interfaces | Flows |
 |-------------|---------|------------|------------|-------|
 | 1.1, 1.2, 1.3 | ヘッダー表示・プロフィール遷移 | BookShelfScreen, ScreenHeader | onProfileTap callback | - |
-| 3.1, 3.2, 3.3, 3.4 | 書籍検索 | SearchFilterBar, BookShelfNotifier | searchQuery state, filterBooks() | クライアント側フィルタ |
-| 4.1, 4.2, 4.3, 4.4, 4.5 | ソート機能 | SearchFilterBar, BookShelfNotifier | SortOption enum, sortBooks() | - |
-| 5.1, 5.2, 5.3, 5.4, 5.5 | グループ化フィルター | SearchFilterBar, BookShelfNotifier | GroupOption enum, groupBooks() | - |
+| 3.1, 3.2, 3.3, 3.4, 3.5 | 書籍検索 | SearchFilterBar, BookShelfNotifier | searchQuery param, myShelf query | サーバーサイド検索 |
+| 4.1, 4.2, 4.3, 4.4, 4.5, 4.6 | ソート機能 | SearchFilterBar, BookShelfNotifier | SortOption enum, myShelf query | サーバーサイドソート |
+| 5.1, 5.2, 5.3, 5.4, 5.5 | グループ化フィルター | SearchFilterBar, BookShelfNotifier | GroupOption enum, groupBooks() | クライアント側グループ化 |
 | 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7 | 書籍グリッド表示 | BookGrid, BookCard | ShelfBookItem model | - |
 | 7.1 | 書籍詳細遷移 | BookCard | onTap callback | go_router push |
 | 8.1, 8.2, 8.3, 8.4 | ボトムナビゲーション | MainShell (既存) | - | ShellRoute |
@@ -144,6 +146,7 @@ sequenceDiagram
 | 10.1, 10.2 | 空の本棚状態 | BookShelfScreen, EmptyState | - | - |
 | 11.1, 11.2 | ローディング状態 | BookShelfScreen, LoadingIndicator | BookShelfLoading state | - |
 | 12.1, 12.2, 12.3 | エラー状態 | BookShelfScreen, ErrorView | BookShelfError state, onRetry | - |
+| 13.1, 13.2, 13.3, 13.4, 13.5 | ページネーション | BookShelfNotifier, BookGrid | limit/offset params, hasMore state | 無限スクロール |
 
 ## Components and Interfaces
 
@@ -313,14 +316,15 @@ class BookCardProps {
 
 | Field | Detail |
 |-------|--------|
-| Intent | 本棚画面の状態管理。データ取得、フィルタリング、ソート、グループ化を担当 |
-| Requirements | 3.3, 3.4, 4.4, 4.5, 5.4, 5.5, 11.1, 12.1, 12.2, 12.3 |
+| Intent | 本棚画面の状態管理。サーバーサイドでの検索・ソート・ページネーション、クライアント側でのグループ化を担当 |
+| Requirements | 3.3, 3.4, 3.5, 4.4, 4.5, 4.6, 5.4, 5.5, 11.1, 12.1, 12.2, 12.3, 13.1, 13.2, 13.3, 13.4, 13.5 |
 
 **Responsibilities & Constraints**
-- 初期化時に `myShelf` クエリを実行
-- 検索クエリによるフィルタリング（タイトル・著者名の部分一致）
-- ソートオプションによる並び替え
-- グループ化オプションによるグルーピング
+- 初期化時に `myShelf` クエリを実行（ページネーション、ソート、検索パラメータ付き）
+- 検索クエリをサーバーに送信（タイトル・著者名の部分一致）
+- ソートオプションをサーバーに送信
+- グループ化オプションによるクライアント側グルーピング
+- 無限スクロールによる追加データ取得
 - ShelfState への同期
 
 **Dependencies**
@@ -338,23 +342,26 @@ class BookShelfNotifier extends _$BookShelfNotifier {
   @override
   Future<BookShelfState> build();
 
-  /// 検索クエリを設定（デバウンス適用済み）
+  /// 検索クエリを設定（サーバーサイド検索、デバウンス適用済み）
   void setSearchQuery(String query);
 
-  /// ソートオプションを設定
+  /// ソートオプションを設定（サーバーサイドソート）
   void setSortOption(SortOption option);
 
-  /// グループ化オプションを設定
+  /// グループ化オプションを設定（クライアント側グルーピング）
   void setGroupOption(GroupOption option);
 
-  /// データを再取得
+  /// 次のページを取得（無限スクロール用）
+  Future<void> loadMore();
+
+  /// データを再取得（最初のページから）
   Future<void> refresh();
 }
 ```
 
 - Preconditions: ユーザーが認証済みであること
 - Postconditions: ShelfState が最新のサーバーデータと同期されること
-- Invariants: displayBooks は常にフィルタ・ソート・グループ条件を反映
+- Invariants: displayBooks は常にサーバーからの検索・ソート結果とクライアント側グループ条件を反映
 
 ##### State Management
 
@@ -365,17 +372,19 @@ sealed class BookShelfState with _$BookShelfState {
   /// 初期状態
   const factory BookShelfState.initial() = BookShelfInitial;
 
-  /// ローディング中
+  /// ローディング中（初回読み込み）
   const factory BookShelfState.loading() = BookShelfLoading;
 
   /// 読み込み完了
   const factory BookShelfState.loaded({
-    required List<ShelfBookItem> allBooks,
-    required List<ShelfBookItem> displayBooks,
+    required List<ShelfBookItem> books,
     required String searchQuery,
     required SortOption sortOption,
     required GroupOption groupOption,
     required Map<String, List<ShelfBookItem>> groupedBooks,
+    required bool hasMore,
+    required bool isLoadingMore,
+    required int totalCount,
   }) = BookShelfLoaded;
 
   /// エラー
@@ -385,8 +394,8 @@ sealed class BookShelfState with _$BookShelfState {
 }
 
 extension BookShelfLoadedX on BookShelfLoaded {
-  bool get isEmpty => allBooks.isEmpty;
-  bool get isFiltered => displayBooks.length < allBooks.length;
+  bool get isEmpty => books.isEmpty;
+  bool get hasSearchQuery => searchQuery.isNotEmpty;
 }
 ```
 
@@ -463,29 +472,68 @@ class ShelfBookItem with _$ShelfBookItem {
 
 ### Logical Data Model
 
-**GraphQL Query (既存)**:
+**GraphQL Query (拡張が必要)**:
 
 ```graphql
-query MyShelf {
-  myShelf {
-    id
-    externalId
-    title
-    authors
-    readingStatus
-    note
-    noteUpdatedAt
-    addedAt
-    completedAt
+# 入力型
+input MyShelfInput {
+  """検索クエリ（タイトル・著者名の部分一致）"""
+  query: String
+  """ソートフィールド"""
+  sortBy: ShelfSortField
+  """ソート順序"""
+  sortOrder: SortOrder
+  """取得件数（デフォルト: 20）"""
+  limit: Int
+  """オフセット（デフォルト: 0）"""
+  offset: Int
+}
+
+enum ShelfSortField {
+  ADDED_AT
+  TITLE
+  AUTHOR
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+# レスポンス型
+type MyShelfResult {
+  """書籍リスト"""
+  items: [UserBook!]!
+  """総件数"""
+  totalCount: Int!
+  """次のページがあるか"""
+  hasMore: Boolean!
+}
+
+query MyShelf($input: MyShelfInput) {
+  myShelf(input: $input) {
+    items {
+      id
+      externalId
+      title
+      authors
+      coverImageUrl
+      readingStatus
+      addedAt
+      completedAt
+    }
+    totalCount
+    hasMore
   }
 }
 ```
 
-**Note**: 現在の `myShelf` クエリには `coverImageUrl` が含まれていない。カバー画像表示には以下のオプションがある:
-1. クエリを拡張して `coverImageUrl` を追加（推奨）
-2. `externalId` から別途取得（パフォーマンス懸念）
+**Note**: 現在の `myShelf` クエリはページネーション・ソート・検索に対応していない。API 拡張が必要。
 
-**Implementation Decision**: フェーズ1では `coverImageUrl` なしで実装し、プレースホルダー画像を表示。フェーズ2でクエリ拡張を検討。
+**Implementation Decision**:
+1. API側で `myShelf` クエリを拡張（input引数、MyShelfResult返却）
+2. `coverImageUrl` もクエリに含める
+3. グループ化はクライアント側で実装（ページネーションとの併用が複雑なため）
 
 ## Error Handling
 
