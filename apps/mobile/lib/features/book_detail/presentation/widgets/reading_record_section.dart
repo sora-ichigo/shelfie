@@ -1,227 +1,157 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
 /// 読書記録セクション
 ///
-/// 読書状態、追加日、読了日、メモを表示する。
+/// 読書状態、追加日、読了日を表示する。
 class ReadingRecordSection extends StatelessWidget {
   const ReadingRecordSection({
     required this.shelfEntry,
     required this.onStatusTap,
-    required this.onNoteTap,
     super.key,
   });
 
   final ShelfEntry shelfEntry;
   final VoidCallback onStatusTap;
-  final VoidCallback onNoteTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '読書記録',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+    return Container(
+      width: double.infinity,
+      padding: AppSpacing.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.2),
         ),
-        const SizedBox(height: AppSpacing.sm),
-        _buildStatusField(context),
-        const SizedBox(height: AppSpacing.sm),
-        _buildAddedDateField(context),
-        if (shelfEntry.isCompleted && shelfEntry.completedAt != null) ...[
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '読書記録',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: AppSpacing.sm),
-          _buildCompletedDateField(context),
+          _buildRecordTable(context),
         ],
-        const SizedBox(height: AppSpacing.md),
-        _buildNoteField(context),
-      ],
+      ),
     );
   }
 
-  Widget _buildStatusField(BuildContext context) {
-    final theme = Theme.of(context);
+  Widget _buildRecordTable(BuildContext context) {
+    final hasCompletedDate =
+        shelfEntry.isCompleted && shelfEntry.completedAt != null;
 
-    return InkWell(
-      onTap: onStatusTap,
+    return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: AppSpacing.all(AppSpacing.sm),
-        decoration: BoxDecoration(
-          border: Border.all(color: theme.colorScheme.outline),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  _getStatusIcon(shelfEntry.readingStatus),
-                  size: 20,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Text(
-                  '読書状態',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  shelfEntry.readingStatus.displayName,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Icon(
-                  Icons.chevron_right,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAddedDateField(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: AppSpacing.horizontal(AppSpacing.sm),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          Text(
-            '追加日',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+          _buildTableRow(
+            context,
+            label: '読書状態',
+            value: shelfEntry.readingStatus.displayName,
+            onTap: onStatusTap,
+            position: _RowPosition.first,
+          ),
+          _buildTableRow(
+            context,
+            label: '追加日',
+            value: _formatDate(shelfEntry.addedAt),
+            position: hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+          ),
+          if (hasCompletedDate)
+            _buildTableRow(
+              context,
+              label: '読了日',
+              value: _formatDate(shelfEntry.completedAt!),
+              position: _RowPosition.last,
             ),
-          ),
-          Text(
-            _formatDate(shelfEntry.addedAt),
-            style: theme.textTheme.bodyMedium,
-          ),
         ],
       ),
     );
   }
 
-  Widget _buildCompletedDateField(BuildContext context) {
+  Widget _buildTableRow(
+    BuildContext context, {
+    required String label,
+    required String value,
+    required _RowPosition position,
+    VoidCallback? onTap,
+  }) {
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: AppSpacing.horizontal(AppSpacing.sm),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            '読了日',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          Text(
-            _formatDate(shelfEntry.completedAt!),
-            style: theme.textTheme.bodyMedium,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNoteField(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      onTap: onNoteTap,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        width: double.infinity,
-        padding: AppSpacing.all(AppSpacing.sm),
-        decoration: BoxDecoration(
-          border: Border.all(color: theme.colorScheme.outline),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.note_alt_outlined,
-                      size: 20,
-                      color: theme.colorScheme.primary,
-                    ),
-                    const SizedBox(width: AppSpacing.sm),
-                    Text(
-                      '読書メモ',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ],
-            ),
-            if (shelfEntry.hasNote) ...[
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                shelfEntry.note!,
-                style: theme.textTheme.bodyMedium,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-            if (shelfEntry.noteUpdatedAt != null) ...[
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconData _getStatusIcon(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => Icons.bookmark_outline,
-      ReadingStatus.reading => Icons.auto_stories,
-      ReadingStatus.completed => Icons.check_circle_outline,
-      ReadingStatus.dropped => Icons.cancel_outlined,
+    final borderRadius = switch (position) {
+      _RowPosition.first => const BorderRadius.vertical(top: Radius.circular(8)),
+      _RowPosition.middle => BorderRadius.zero,
+      _RowPosition.last => const BorderRadius.vertical(bottom: Radius.circular(8)),
     };
+
+    final border = switch (position) {
+      _RowPosition.first || _RowPosition.middle => Border(
+          left: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+          right: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+          top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+        ),
+      _RowPosition.last => Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.3),
+        ),
+    };
+
+    final content = Container(
+      padding: AppSpacing.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withOpacity(0.4),
+        borderRadius: borderRadius,
+        border: border,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          Row(
+            children: [
+              Text(
+                value,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Icon(
+                Icons.chevron_right,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    if (onTap != null) {
+      return InkWell(
+        onTap: onTap,
+        child: content,
+      );
+    }
+
+    return content;
   }
 
   String _formatDate(DateTime date) {
-    return '${date.year}年${date.month.toString().padLeft(2, '0')}月${date.day.toString().padLeft(2, '0')}日';
-  }
-
-  String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.year}/${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+    return '${date.year}年${date.month}月${date.day}日';
   }
 }
+
+enum _RowPosition { first, middle, last }
