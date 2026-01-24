@@ -272,14 +272,7 @@ class BookInfoSection extends StatelessWidget {
       width: double.infinity,
       padding: AppSpacing.all(AppSpacing.md),
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          center: const Alignment(0.8, 1.2),
-          radius: 1.5,
-          colors: [
-            AppColors.primary.withOpacity(0.2),
-            theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-          ],
-        ),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: theme.colorScheme.outline.withOpacity(0.2),

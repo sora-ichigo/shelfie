@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -33,6 +34,8 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isAddingToShelf = false;
   bool _isRemovingFromShelf = false;
+  Color? _dominantColor;
+  String? _extractedThumbnailUrl;
 
   @override
   void initState() {
@@ -67,18 +70,79 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           ),
         ],
       ),
-      body: state.when(
-        data: (bookDetail) => _buildContent(bookDetail),
-        loading: () => const LoadingIndicator(fullScreen: true),
-        error: (error, _) => _buildErrorView(error),
+      body: Stack(
+        children: [
+          _buildBackgroundGradient(),
+          state.when(
+            data: (bookDetail) => _buildContent(bookDetail),
+            loading: () => const LoadingIndicator(fullScreen: true),
+            error: (error, _) => _buildErrorView(error),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildBackgroundGradient() {
+    final theme = Theme.of(context);
+    final gradientColor = _dominantColor ?? Colors.black;
+
+    return Positioned.fill(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(0.8, -0.3),
+            radius: 1.5,
+            colors: [
+              gradientColor.withOpacity(0.2),
+              theme.colorScheme.surface,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _extractDominantColor(String? thumbnailUrl) async {
+    if (thumbnailUrl == null || thumbnailUrl == _extractedThumbnailUrl) {
+      return;
+    }
+
+    _extractedThumbnailUrl = thumbnailUrl;
+
+    try {
+      final paletteGenerator = await PaletteGenerator.fromImageProvider(
+        NetworkImage(thumbnailUrl),
+        size: const Size(100, 150),
+        maximumColorCount: 10,
+      );
+
+      if (!mounted) return;
+
+      final color = paletteGenerator.dominantColor?.color ??
+          paletteGenerator.vibrantColor?.color ??
+          paletteGenerator.mutedColor?.color;
+
+      if (color != null) {
+        setState(() {
+          _dominantColor = color;
+        });
+      }
+    } catch (e) {
+      debugPrint('Failed to extract color from $thumbnailUrl: $e');
+    }
   }
 
   Widget _buildContent(BookDetail? bookDetail) {
     if (bookDetail == null) {
       return const LoadingIndicator(fullScreen: true);
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _extractDominantColor(bookDetail.thumbnailUrl);
+    });
 
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[widget.bookId]),
