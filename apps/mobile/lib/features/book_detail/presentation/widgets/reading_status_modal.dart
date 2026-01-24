@@ -21,7 +21,6 @@ Future<void> showReadingStatusModal({
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
     builder: (context) => _ReadingStatusModalContent(
       currentStatus: currentStatus,
       userBookId: userBookId,
@@ -64,43 +63,37 @@ class _ReadingStatusModalContentState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceModal,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: AppSpacing.all(AppSpacing.md),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildDragHandle(theme),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                '読書状態を変更',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+    return SafeArea(
+      child: Padding(
+        padding: AppSpacing.all(AppSpacing.md),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildDragHandle(theme),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '読書状態を変更',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: AppSpacing.lg),
-              _buildStatusGrid(theme),
-              if (_error != null) ...[
-                const SizedBox(height: AppSpacing.sm),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    _error!.userMessage,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.error,
-                    ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+            _buildStatusGrid(theme),
+            if (_error != null) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  _error!.userMessage,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.error,
                   ),
                 ),
-              ],
-              const SizedBox(height: AppSpacing.lg),
-              _buildActionButtons(theme),
+              ),
             ],
-          ),
+            const SizedBox(height: AppSpacing.lg),
+            _buildActionButtons(theme),
+          ],
         ),
       ),
     );
