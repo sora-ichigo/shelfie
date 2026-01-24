@@ -160,8 +160,28 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     );
   }
 
-  void _onAddToShelfPressed() {
-    // TODO: Implement add to shelf functionality
+  Future<void> _onAddToShelfPressed() async {
+    final result = await ref
+        .read(bookDetailNotifierProvider(widget.bookId).notifier)
+        .addToShelf();
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('本棚に追加しました')),
+        );
+      },
+    );
   }
 
   void _onStatusTap() {

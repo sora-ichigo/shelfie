@@ -5,6 +5,8 @@ import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    hide UserBook;
 
 part 'book_detail_notifier.g.dart';
 
@@ -66,6 +68,45 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       case Right(:final value):
         state = AsyncData(currentBookDetail.copyWith(userBook: value));
         return right(value);
+    }
+  }
+
+  Future<Either<Failure, void>> addToShelf() async {
+    final currentState = state;
+    if (!currentState.hasValue || currentState.value == null) {
+      return left(
+        const UnexpectedFailure(message: 'BookDetail is not loaded'),
+      );
+    }
+
+    final currentBookDetail = currentState.value!;
+    if (currentBookDetail.isInShelf) {
+      return left(
+        const DuplicateBookFailure(message: 'Book is already in shelf'),
+      );
+    }
+
+    final repository = ref.read(bookSearchRepositoryProvider);
+    final result = await repository.addBookToShelf(
+      externalId: currentBookDetail.id,
+      title: currentBookDetail.title,
+      authors: currentBookDetail.authors,
+      publisher: currentBookDetail.publisher,
+      publishedDate: currentBookDetail.publishedDate,
+      coverImageUrl: currentBookDetail.thumbnailUrl,
+    );
+
+    switch (result) {
+      case Left(:final value):
+        return left(value);
+      case Right(:final value):
+        final newUserBook = UserBook(
+          id: value.id,
+          readingStatus: ReadingStatus.backlog,
+          addedAt: value.addedAt,
+        );
+        state = AsyncData(currentBookDetail.copyWith(userBook: newUserBook));
+        return right(null);
     }
   }
 
