@@ -143,6 +143,7 @@ describe("books Feature public API", () => {
         updateUserBook: vi.fn(),
         deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
+        getUserBooksWithPagination: vi.fn(),
       };
       const mockLogger = {
         debug: () => {},
@@ -158,6 +159,7 @@ describe("books Feature public API", () => {
       expect(typeof service.addBookToShelf).toBe("function");
       expect(typeof service.updateReadingStatus).toBe("function");
       expect(typeof service.updateReadingNote).toBe("function");
+      expect(typeof service.getUserBooksWithPagination).toBe("function");
     });
 
     it("BookShelfRepository 型がエクスポートされている", () => {
@@ -168,12 +170,14 @@ describe("books Feature public API", () => {
         updateUserBook: vi.fn(),
         deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
+        getUserBooksWithPagination: vi.fn(),
       };
       expect(typeof repo.findUserBookByExternalId).toBe("function");
       expect(typeof repo.findUserBookById).toBe("function");
       expect(typeof repo.createUserBook).toBe("function");
       expect(typeof repo.updateUserBook).toBe("function");
       expect(typeof repo.getUserBooks).toBe("function");
+      expect(typeof repo.getUserBooksWithPagination).toBe("function");
     });
 
     it("BookShelfErrors 型がエクスポートされている", () => {

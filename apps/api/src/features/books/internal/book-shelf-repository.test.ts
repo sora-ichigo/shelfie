@@ -310,6 +310,15 @@ describe("BookShelfRepository", () => {
     });
   });
 
+  describe("getUserBooksWithPagination", () => {
+    it("should be defined as a method on the repository", () => {
+      const mockDb = createMockDb();
+      const repository = createBookShelfRepository(mockDb.query as never);
+
+      expect(typeof repository.getUserBooksWithPagination).toBe("function");
+    });
+  });
+
   describe("types", () => {
     it("should use NewUserBook type for create input", () => {
       const newUserBook: NewUserBook = {

@@ -35,6 +35,10 @@ type AddBookInputRef = ReturnType<typeof createAddBookInputRef>;
 type UserBookObjectRef = ReturnType<typeof createUserBookRef>;
 type ReadingStatusEnumRef = ReturnType<typeof createReadingStatusEnumRef>;
 type BookDetailObjectRef = ReturnType<typeof createBookDetailRef>;
+type ShelfSortFieldEnumRef = ReturnType<typeof createShelfSortFieldEnumRef>;
+type SortOrderEnumRef = ReturnType<typeof createSortOrderEnumRef>;
+type MyShelfInputRef = ReturnType<typeof createMyShelfInputRef>;
+type MyShelfResultRef = ReturnType<typeof createMyShelfResultRef>;
 
 function createBookRef(builder: Builder) {
   return builder.objectRef<Book>("Book");
@@ -84,12 +88,77 @@ function createBookDetailRef(builder: Builder) {
   return builder.objectRef<BookDetailWithUserBook>("BookDetail");
 }
 
+export type ShelfSortFieldValue = "ADDED_AT" | "TITLE" | "AUTHOR";
+export type SortOrderValue = "ASC" | "DESC";
+
+function createShelfSortFieldEnumRef(builder: Builder) {
+  return builder.enumType("ShelfSortField", {
+    description: "Sort field for books in shelf",
+    values: {
+      ADDED_AT: {
+        value: "ADDED_AT" as ShelfSortFieldValue,
+        description: "Sort by date added to shelf",
+      },
+      TITLE: {
+        value: "TITLE" as ShelfSortFieldValue,
+        description: "Sort by book title",
+      },
+      AUTHOR: {
+        value: "AUTHOR" as ShelfSortFieldValue,
+        description: "Sort by author name",
+      },
+    } as const,
+  });
+}
+
+function createSortOrderEnumRef(builder: Builder) {
+  return builder.enumType("SortOrder", {
+    description: "Sort order direction",
+    values: {
+      ASC: {
+        value: "ASC" as SortOrderValue,
+        description: "Ascending order",
+      },
+      DESC: {
+        value: "DESC" as SortOrderValue,
+        description: "Descending order",
+      },
+    } as const,
+  });
+}
+
+interface MyShelfInputData {
+  query?: string | null;
+  sortBy?: ShelfSortFieldValue | null;
+  sortOrder?: SortOrderValue | null;
+  limit?: number | null;
+  offset?: number | null;
+}
+
+function createMyShelfInputRef(builder: Builder) {
+  return builder.inputRef<MyShelfInputData>("MyShelfInput");
+}
+
+interface MyShelfResultData {
+  items: UserBook[];
+  totalCount: number;
+  hasMore: boolean;
+}
+
+function createMyShelfResultRef(builder: Builder) {
+  return builder.objectRef<MyShelfResultData>("MyShelfResult");
+}
+
 let BookRef: BookObjectRef;
 let SearchBooksResultRef: SearchBooksResultRef;
 let AddBookInputRef: AddBookInputRef;
 let UserBookRef: UserBookObjectRef;
 let ReadingStatusRef: ReadingStatusEnumRef;
 let BookDetailRef: BookDetailObjectRef;
+let ShelfSortFieldRef: ShelfSortFieldEnumRef;
+let SortOrderRef: SortOrderEnumRef;
+let MyShelfInputRef: MyShelfInputRef;
+let MyShelfResultRef: MyShelfResultRef;
 
 export function registerBooksTypes(builder: Builder): void {
   ReadingStatusRef = createReadingStatusEnumRef(builder);
@@ -262,6 +331,61 @@ export function registerBooksTypes(builder: Builder): void {
   });
 
   BookDetailRef = createBookDetailRef(builder);
+
+  ShelfSortFieldRef = createShelfSortFieldEnumRef(builder);
+  SortOrderRef = createSortOrderEnumRef(builder);
+
+  MyShelfInputRef = createMyShelfInputRef(builder);
+
+  MyShelfInputRef.implement({
+    description: "Input for querying user's book shelf",
+    fields: (t) => ({
+      query: t.string({
+        required: false,
+        description: "Search query to filter books by title or author",
+      }),
+      sortBy: t.field({
+        type: ShelfSortFieldRef,
+        required: false,
+        description: "Field to sort by",
+      }),
+      sortOrder: t.field({
+        type: SortOrderRef,
+        required: false,
+        description: "Sort order direction",
+      }),
+      limit: t.int({
+        required: false,
+        description: "Number of items to return (default: 20)",
+      }),
+      offset: t.int({
+        required: false,
+        description: "Number of items to skip (default: 0)",
+      }),
+    }),
+  });
+
+  MyShelfResultRef = createMyShelfResultRef(builder);
+
+  MyShelfResultRef.implement({
+    description: "Result of user's book shelf query",
+    fields: (t) => ({
+      items: t.field({
+        type: [UserBookRef],
+        nullable: false,
+        description: "List of books in the shelf",
+        resolve: (parent) => parent.items,
+      }),
+      totalCount: t.exposeInt("totalCount", {
+        description: "Total number of books matching the query",
+        nullable: false,
+      }),
+      hasMore: t.exposeBoolean("hasMore", {
+        description: "Whether there are more books to fetch",
+        nullable: false,
+      }),
+    }),
+  });
 
   BookDetailRef.implement({
     description: "Detailed information about a book",
@@ -500,13 +624,20 @@ export function registerBooksQueries(
       },
     }),
     myShelf: t.field({
-      type: [UserBookRef],
+      type: MyShelfResultRef,
       nullable: false,
-      description: "Get all books in the user's shelf",
+      description:
+        "Get books in the user's shelf with pagination, sorting, and search",
       authScopes: {
         loggedIn: true,
       },
-      resolve: async (_parent, _args, context): Promise<UserBook[]> => {
+      args: {
+        input: t.arg({
+          type: MyShelfInputRef,
+          required: false,
+        }),
+      },
+      resolve: async (_parent, args, context): Promise<MyShelfResultData> => {
         const authenticatedContext = context as AuthenticatedContext;
 
         if (!authenticatedContext.user?.uid) {
@@ -531,8 +662,16 @@ export function registerBooksQueries(
           });
         }
 
-        const userBooksResult = await shelfService.getUserBooks(
+        const input = args.input ?? {};
+        const userBooksResult = await shelfService.getUserBooksWithPagination(
           userResult.data.id,
+          {
+            query: input.query ?? undefined,
+            sortBy: input.sortBy ?? undefined,
+            sortOrder: input.sortOrder ?? undefined,
+            limit: input.limit ?? undefined,
+            offset: input.offset ?? undefined,
+          },
         );
 
         if (!userBooksResult.success) {
