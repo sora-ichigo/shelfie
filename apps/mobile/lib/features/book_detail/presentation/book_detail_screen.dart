@@ -189,19 +189,14 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final failure =
         error is Failure ? error : UnexpectedFailure(message: error.toString());
 
-    return Padding(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top +
-            kToolbarHeight +
-            AppSpacing.md,
-        left: AppSpacing.md,
-        right: AppSpacing.md,
-      ),
-      child: ErrorView(
-        failure: failure,
-        onRetry: _onRetry,
-        retryButtonText: '再試行',
-        centered: false,
+    return Center(
+      child: Padding(
+        padding: AppSpacing.horizontal(AppSpacing.md),
+        child: ErrorView(
+          failure: failure,
+          onRetry: _onRetry,
+          retryButtonText: '再試行',
+        ),
       ),
     );
   }
