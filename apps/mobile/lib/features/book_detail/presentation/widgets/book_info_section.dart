@@ -356,8 +356,30 @@ class BookInfoSection extends StatelessWidget {
   }
 
   String _stripHtmlTags(String htmlString) {
-    final regex = RegExp('<[^>]*>', multiLine: true, caseSensitive: false);
-    return htmlString.replaceAll(regex, '').replaceAll('&nbsp;', ' ').trim();
+    var result = htmlString;
+
+    // <br>, <br/>, <br /> を改行に変換
+    result = result.replaceAll(RegExp(r'<br\s*/?\s*>', caseSensitive: false), '\n');
+
+    // </p> を段落区切り（2改行）に変換
+    result = result.replaceAll(RegExp(r'</p\s*>', caseSensitive: false), '\n\n');
+
+    // 残りのHTMLタグを除去
+    result = result.replaceAll(RegExp('<[^>]*>', multiLine: true, caseSensitive: false), '');
+
+    // HTMLエンティティを変換
+    result = result
+        .replaceAll('&nbsp;', ' ')
+        .replaceAll('&amp;', '&')
+        .replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>')
+        .replaceAll('&quot;', '"')
+        .replaceAll('&#39;', "'");
+
+    // 3つ以上の連続改行を2つに正規化
+    result = result.replaceAll(RegExp(r'\n{3,}'), '\n\n');
+
+    return result.trim();
   }
 
   bool _hasExternalLinks() {
