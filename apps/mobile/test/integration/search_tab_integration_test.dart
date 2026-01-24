@@ -126,7 +126,7 @@ void main() {
       expect(state, isA<BookSearchSuccess>());
       expect((state as BookSearchSuccess).books.length, equals(1));
 
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future<void>.delayed(const Duration(milliseconds: 100));
 
       verify(() => mockHistoryRepo.add(any())).called(1);
     });

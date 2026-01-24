@@ -97,7 +97,7 @@ void main() {
     });
 
     testWidgets('「すべて削除」をタップで onClearAll が呼ばれる', (tester) async {
-      bool clearAllCalled = false;
+      var clearAllCalled = false;
       await tester.pumpWidget(
         buildTestWidget(
           entries: testEntries,

@@ -105,7 +105,7 @@ void main() {
       final listView = find.byType(ListView);
       expect(listView, findsOneWidget);
 
-      final ListView listViewWidget = tester.widget(listView);
+      final listViewWidget = tester.widget<ListView>(listView);
       expect(listViewWidget.scrollDirection, Axis.horizontal);
     });
   });
