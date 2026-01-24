@@ -18,7 +18,7 @@ String formatDateString(String dateString) {
       return DateFormat('yyyy年M月').format(date);
     }
     if (RegExp(r'^\d{4}$').hasMatch(dateString)) {
-      return '${dateString}年';
+      return '$dateString年';
     }
     return dateString;
   } catch (_) {

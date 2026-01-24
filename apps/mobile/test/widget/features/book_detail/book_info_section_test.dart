@@ -10,7 +10,7 @@ void main() {
       theme: AppTheme.dark(),
       home: Scaffold(
         body: SingleChildScrollView(
-          child: BookInfoSection(bookDetail: bookDetail),
+          child: BookInfoSection(bookDetail: bookDetail, isInShelf: false),
         ),
       ),
     );
