@@ -212,5 +212,140 @@ describe("books schema", () => {
       expect(allUserBooks[0].isbn).toBeNull();
       expect(allUserBooks[1].isbn).toBeNull();
     });
+
+    describe("reading status and note fields", () => {
+      it("should create a user_book with default reading_status as backlog", async () => {
+        const db = getDb();
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Test Book",
+          })
+          .returning();
+
+        expect(userBook.readingStatus).toBe("backlog");
+        expect(userBook.completedAt).toBeNull();
+        expect(userBook.note).toBeNull();
+        expect(userBook.noteUpdatedAt).toBeNull();
+      });
+
+      it("should create a user_book with explicit reading_status", async () => {
+        const db = getDb();
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Test Book",
+            readingStatus: "reading",
+          })
+          .returning();
+
+        expect(userBook.readingStatus).toBe("reading");
+      });
+
+      it("should store all reading_status enum values", async () => {
+        const db = getDb();
+        const statuses = [
+          "backlog",
+          "reading",
+          "completed",
+          "dropped",
+        ] as const;
+
+        for (const [index, status] of statuses.entries()) {
+          const [userBook] = await db
+            .insert(userBooks)
+            .values({
+              userId,
+              externalId: `google-${index}`,
+              title: `Test Book ${index}`,
+              readingStatus: status,
+            })
+            .returning();
+
+          expect(userBook.readingStatus).toBe(status);
+        }
+      });
+
+      it("should store completed_at timestamp when provided", async () => {
+        const db = getDb();
+        const completedAt = new Date("2026-01-22T10:00:00Z");
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Test Book",
+            readingStatus: "completed",
+            completedAt,
+          })
+          .returning();
+
+        expect(userBook.readingStatus).toBe("completed");
+        expect(userBook.completedAt).toEqual(completedAt);
+      });
+
+      it("should store note and note_updated_at when provided", async () => {
+        const db = getDb();
+        const noteUpdatedAt = new Date("2026-01-22T10:00:00Z");
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Test Book",
+            note: "This is a great book!",
+            noteUpdatedAt,
+          })
+          .returning();
+
+        expect(userBook.note).toBe("This is a great book!");
+        expect(userBook.noteUpdatedAt).toEqual(noteUpdatedAt);
+      });
+
+      it("should store empty note string", async () => {
+        const db = getDb();
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Test Book",
+            note: "",
+          })
+          .returning();
+
+        expect(userBook.note).toBe("");
+      });
+
+      it("should create user_book with all reading record fields", async () => {
+        const db = getDb();
+        const completedAt = new Date("2026-01-20T15:00:00Z");
+        const noteUpdatedAt = new Date("2026-01-21T09:00:00Z");
+
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-123",
+            title: "Clean Code",
+            authors: ["Robert C. Martin"],
+            publisher: "Prentice Hall",
+            readingStatus: "completed",
+            completedAt,
+            note: "A must-read for developers",
+            noteUpdatedAt,
+          })
+          .returning();
+
+        expect(userBook.readingStatus).toBe("completed");
+        expect(userBook.completedAt).toEqual(completedAt);
+        expect(userBook.note).toBe("A must-read for developers");
+        expect(userBook.noteUpdatedAt).toEqual(noteUpdatedAt);
+      });
+    });
   });
 });

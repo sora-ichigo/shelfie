@@ -124,6 +124,9 @@ void main() {
           AuthFailure(message: 'auth'),
           ValidationFailure(message: 'validation'),
           UnexpectedFailure(message: 'unexpected'),
+          NotFoundFailure(message: 'notFound'),
+          ForbiddenFailure(message: 'forbidden'),
+          DuplicateBookFailure(message: 'duplicate'),
         ];
 
         for (final failure in failures) {
@@ -133,6 +136,9 @@ void main() {
             auth: (msg) => 'auth: $msg',
             validation: (msg, fieldErrors) => 'validation: $msg',
             unexpected: (msg, stackTrace) => 'unexpected: $msg',
+            notFound: (msg) => 'notFound: $msg',
+            forbidden: (msg) => 'forbidden: $msg',
+            duplicateBook: (msg) => 'duplicate: $msg',
           );
 
           expect(result, isNotEmpty);
@@ -159,6 +165,9 @@ void main() {
           auth: (_) => 'auth',
           validation: (_) => 'validation',
           unexpected: (_) => 'unexpected',
+          notFound: (_) => 'notFound',
+          forbidden: (_) => 'forbidden',
+          duplicateBook: (_) => 'duplicate',
         );
 
         expect(result, equals('server'));

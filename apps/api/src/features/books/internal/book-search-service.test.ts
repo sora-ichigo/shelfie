@@ -44,6 +44,7 @@ describe("BookSearchService", () => {
     mockRepository = {
       searchByQuery: vi.fn(),
       searchByISBN: vi.fn(),
+      getBookById: vi.fn(),
     };
     mockLogger = createMockLogger();
     service = createBookSearchService(mockRepository, mockLogger);

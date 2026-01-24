@@ -27,6 +27,9 @@ mixin _$Failure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,6 +40,9 @@ mixin _$Failure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,6 +53,9 @@ mixin _$Failure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -57,6 +66,9 @@ mixin _$Failure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,6 +78,9 @@ mixin _$Failure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +90,9 @@ mixin _$Failure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -190,6 +208,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) {
     return network(message);
   }
@@ -203,6 +224,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) {
     return network?.call(message);
   }
@@ -216,6 +240,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -232,6 +259,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) {
     return network(this);
   }
@@ -244,6 +274,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) {
     return network?.call(this);
   }
@@ -256,6 +289,9 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -371,6 +407,9 @@ class _$ServerFailureImpl extends ServerFailure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) {
     return server(message, code, statusCode);
   }
@@ -384,6 +423,9 @@ class _$ServerFailureImpl extends ServerFailure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) {
     return server?.call(message, code, statusCode);
   }
@@ -397,6 +439,9 @@ class _$ServerFailureImpl extends ServerFailure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -413,6 +458,9 @@ class _$ServerFailureImpl extends ServerFailure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) {
     return server(this);
   }
@@ -425,6 +473,9 @@ class _$ServerFailureImpl extends ServerFailure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) {
     return server?.call(this);
   }
@@ -437,6 +488,9 @@ class _$ServerFailureImpl extends ServerFailure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) {
     if (server != null) {
@@ -537,6 +591,9 @@ class _$AuthFailureImpl extends AuthFailure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) {
     return auth(message);
   }
@@ -550,6 +607,9 @@ class _$AuthFailureImpl extends AuthFailure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) {
     return auth?.call(message);
   }
@@ -563,6 +623,9 @@ class _$AuthFailureImpl extends AuthFailure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) {
     if (auth != null) {
@@ -579,6 +642,9 @@ class _$AuthFailureImpl extends AuthFailure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) {
     return auth(this);
   }
@@ -591,6 +657,9 @@ class _$AuthFailureImpl extends AuthFailure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) {
     return auth?.call(this);
   }
@@ -603,6 +672,9 @@ class _$AuthFailureImpl extends AuthFailure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) {
     if (auth != null) {
@@ -720,6 +792,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) {
     return validation(message, fieldErrors);
   }
@@ -733,6 +808,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) {
     return validation?.call(message, fieldErrors);
   }
@@ -746,6 +824,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) {
     if (validation != null) {
@@ -762,6 +843,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) {
     return validation(this);
   }
@@ -774,6 +858,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) {
     return validation?.call(this);
   }
@@ -786,6 +873,9 @@ class _$ValidationFailureImpl extends ValidationFailure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) {
     if (validation != null) {
@@ -895,6 +985,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
         validation,
     required TResult Function(String message, StackTrace? stackTrace)
         unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
   }) {
     return unexpected(message, stackTrace);
   }
@@ -908,6 +1001,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
     TResult? Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
   }) {
     return unexpected?.call(message, stackTrace);
   }
@@ -921,6 +1017,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
     TResult Function(String message, Map<String, String>? fieldErrors)?
         validation,
     TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
     required TResult orElse(),
   }) {
     if (unexpected != null) {
@@ -937,6 +1036,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
     required TResult Function(AuthFailure value) auth,
     required TResult Function(ValidationFailure value) validation,
     required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
   }) {
     return unexpected(this);
   }
@@ -949,6 +1051,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
     TResult? Function(AuthFailure value)? auth,
     TResult? Function(ValidationFailure value)? validation,
     TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
   }) {
     return unexpected?.call(this);
   }
@@ -961,6 +1066,9 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
     TResult Function(AuthFailure value)? auth,
     TResult Function(ValidationFailure value)? validation,
     TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
     required TResult orElse(),
   }) {
     if (unexpected != null) {
@@ -983,4 +1091,548 @@ abstract class UnexpectedFailure extends Failure {
   @JsonKey(ignore: true)
   _$$UnexpectedFailureImplCopyWith<_$UnexpectedFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$NotFoundFailureImplCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory _$$NotFoundFailureImplCopyWith(_$NotFoundFailureImpl value,
+          $Res Function(_$NotFoundFailureImpl) then) =
+      __$$NotFoundFailureImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$NotFoundFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$NotFoundFailureImpl>
+    implements _$$NotFoundFailureImplCopyWith<$Res> {
+  __$$NotFoundFailureImplCopyWithImpl(
+      _$NotFoundFailureImpl _value, $Res Function(_$NotFoundFailureImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$NotFoundFailureImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NotFoundFailureImpl extends NotFoundFailure {
+  const _$NotFoundFailureImpl({required this.message}) : super._();
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'Failure.notFound(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NotFoundFailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NotFoundFailureImplCopyWith<_$NotFoundFailureImpl> get copyWith =>
+      __$$NotFoundFailureImplCopyWithImpl<_$NotFoundFailureImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) network,
+    required TResult Function(String message, String code, int? statusCode)
+        server,
+    required TResult Function(String message) auth,
+    required TResult Function(String message, Map<String, String>? fieldErrors)
+        validation,
+    required TResult Function(String message, StackTrace? stackTrace)
+        unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
+  }) {
+    return notFound(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? network,
+    TResult? Function(String message, String code, int? statusCode)? server,
+    TResult? Function(String message)? auth,
+    TResult? Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
+  }) {
+    return notFound?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? network,
+    TResult Function(String message, String code, int? statusCode)? server,
+    TResult Function(String message)? auth,
+    TResult Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(AuthFailure value) auth,
+    required TResult Function(ValidationFailure value) validation,
+    required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
+  }) {
+    return notFound(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(AuthFailure value)? auth,
+    TResult? Function(ValidationFailure value)? validation,
+    TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
+  }) {
+    return notFound?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(AuthFailure value)? auth,
+    TResult Function(ValidationFailure value)? validation,
+    TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (notFound != null) {
+      return notFound(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NotFoundFailure extends Failure {
+  const factory NotFoundFailure({required final String message}) =
+      _$NotFoundFailureImpl;
+  const NotFoundFailure._() : super._();
+
+  @override
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$NotFoundFailureImplCopyWith<_$NotFoundFailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ForbiddenFailureImplCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory _$$ForbiddenFailureImplCopyWith(_$ForbiddenFailureImpl value,
+          $Res Function(_$ForbiddenFailureImpl) then) =
+      __$$ForbiddenFailureImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ForbiddenFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ForbiddenFailureImpl>
+    implements _$$ForbiddenFailureImplCopyWith<$Res> {
+  __$$ForbiddenFailureImplCopyWithImpl(_$ForbiddenFailureImpl _value,
+      $Res Function(_$ForbiddenFailureImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$ForbiddenFailureImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ForbiddenFailureImpl extends ForbiddenFailure {
+  const _$ForbiddenFailureImpl({required this.message}) : super._();
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'Failure.forbidden(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ForbiddenFailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ForbiddenFailureImplCopyWith<_$ForbiddenFailureImpl> get copyWith =>
+      __$$ForbiddenFailureImplCopyWithImpl<_$ForbiddenFailureImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) network,
+    required TResult Function(String message, String code, int? statusCode)
+        server,
+    required TResult Function(String message) auth,
+    required TResult Function(String message, Map<String, String>? fieldErrors)
+        validation,
+    required TResult Function(String message, StackTrace? stackTrace)
+        unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
+  }) {
+    return forbidden(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? network,
+    TResult? Function(String message, String code, int? statusCode)? server,
+    TResult? Function(String message)? auth,
+    TResult? Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
+  }) {
+    return forbidden?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? network,
+    TResult Function(String message, String code, int? statusCode)? server,
+    TResult Function(String message)? auth,
+    TResult Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (forbidden != null) {
+      return forbidden(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(AuthFailure value) auth,
+    required TResult Function(ValidationFailure value) validation,
+    required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
+  }) {
+    return forbidden(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(AuthFailure value)? auth,
+    TResult? Function(ValidationFailure value)? validation,
+    TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
+  }) {
+    return forbidden?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(AuthFailure value)? auth,
+    TResult Function(ValidationFailure value)? validation,
+    TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (forbidden != null) {
+      return forbidden(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ForbiddenFailure extends Failure {
+  const factory ForbiddenFailure({required final String message}) =
+      _$ForbiddenFailureImpl;
+  const ForbiddenFailure._() : super._();
+
+  @override
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$ForbiddenFailureImplCopyWith<_$ForbiddenFailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DuplicateBookFailureImplCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory _$$DuplicateBookFailureImplCopyWith(_$DuplicateBookFailureImpl value,
+          $Res Function(_$DuplicateBookFailureImpl) then) =
+      __$$DuplicateBookFailureImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$DuplicateBookFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$DuplicateBookFailureImpl>
+    implements _$$DuplicateBookFailureImplCopyWith<$Res> {
+  __$$DuplicateBookFailureImplCopyWithImpl(_$DuplicateBookFailureImpl _value,
+      $Res Function(_$DuplicateBookFailureImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$DuplicateBookFailureImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DuplicateBookFailureImpl extends DuplicateBookFailure {
+  const _$DuplicateBookFailureImpl({required this.message}) : super._();
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'Failure.duplicateBook(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DuplicateBookFailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DuplicateBookFailureImplCopyWith<_$DuplicateBookFailureImpl>
+      get copyWith =>
+          __$$DuplicateBookFailureImplCopyWithImpl<_$DuplicateBookFailureImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) network,
+    required TResult Function(String message, String code, int? statusCode)
+        server,
+    required TResult Function(String message) auth,
+    required TResult Function(String message, Map<String, String>? fieldErrors)
+        validation,
+    required TResult Function(String message, StackTrace? stackTrace)
+        unexpected,
+    required TResult Function(String message) notFound,
+    required TResult Function(String message) forbidden,
+    required TResult Function(String message) duplicateBook,
+  }) {
+    return duplicateBook(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? network,
+    TResult? Function(String message, String code, int? statusCode)? server,
+    TResult? Function(String message)? auth,
+    TResult? Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult? Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult? Function(String message)? notFound,
+    TResult? Function(String message)? forbidden,
+    TResult? Function(String message)? duplicateBook,
+  }) {
+    return duplicateBook?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? network,
+    TResult Function(String message, String code, int? statusCode)? server,
+    TResult Function(String message)? auth,
+    TResult Function(String message, Map<String, String>? fieldErrors)?
+        validation,
+    TResult Function(String message, StackTrace? stackTrace)? unexpected,
+    TResult Function(String message)? notFound,
+    TResult Function(String message)? forbidden,
+    TResult Function(String message)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (duplicateBook != null) {
+      return duplicateBook(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(ServerFailure value) server,
+    required TResult Function(AuthFailure value) auth,
+    required TResult Function(ValidationFailure value) validation,
+    required TResult Function(UnexpectedFailure value) unexpected,
+    required TResult Function(NotFoundFailure value) notFound,
+    required TResult Function(ForbiddenFailure value) forbidden,
+    required TResult Function(DuplicateBookFailure value) duplicateBook,
+  }) {
+    return duplicateBook(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(ServerFailure value)? server,
+    TResult? Function(AuthFailure value)? auth,
+    TResult? Function(ValidationFailure value)? validation,
+    TResult? Function(UnexpectedFailure value)? unexpected,
+    TResult? Function(NotFoundFailure value)? notFound,
+    TResult? Function(ForbiddenFailure value)? forbidden,
+    TResult? Function(DuplicateBookFailure value)? duplicateBook,
+  }) {
+    return duplicateBook?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(ServerFailure value)? server,
+    TResult Function(AuthFailure value)? auth,
+    TResult Function(ValidationFailure value)? validation,
+    TResult Function(UnexpectedFailure value)? unexpected,
+    TResult Function(NotFoundFailure value)? notFound,
+    TResult Function(ForbiddenFailure value)? forbidden,
+    TResult Function(DuplicateBookFailure value)? duplicateBook,
+    required TResult orElse(),
+  }) {
+    if (duplicateBook != null) {
+      return duplicateBook(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DuplicateBookFailure extends Failure {
+  const factory DuplicateBookFailure({required final String message}) =
+      _$DuplicateBookFailureImpl;
+  const DuplicateBookFailure._() : super._();
+
+  @override
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$DuplicateBookFailureImplCopyWith<_$DuplicateBookFailureImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

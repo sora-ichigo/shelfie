@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/circle_icon_button.dart';
 
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
@@ -29,28 +30,11 @@ class ScreenHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          GestureDetector(
-            onTap: onProfileTap,
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF00BC7D),
-                    Color(0xFF009689),
-                  ],
-                ),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.person_outline,
-                color: Colors.white,
-                size: 28,
-              ),
-            ),
+          CircleIconButton(
+            icon: Icons.person_outline,
+            onPressed: onProfileTap,
+            size: 48,
+            iconSize: 28,
           ),
         ],
       ),

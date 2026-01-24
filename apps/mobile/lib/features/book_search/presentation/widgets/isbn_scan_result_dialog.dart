@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/domain/isbn_extractor.dart';
@@ -99,13 +100,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
           ),
         );
       },
-      (userBook) {
+      (_) {
         Navigator.of(context).pop(true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${book.title}」を本棚に追加しました'),
-          ),
-        );
       },
     );
   }
@@ -250,7 +246,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
               if (book.publishedDate != null) ...[
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  book.publishedDate!,
+                  formatDateString(book.publishedDate!),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

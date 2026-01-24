@@ -8,6 +8,9 @@ export interface GoogleBooksVolume {
     industryIdentifiers?: Array<{ type: string; identifier: string }>;
     imageLinks?: { thumbnail?: string; smallThumbnail?: string };
     categories?: string[];
+    pageCount?: number;
+    description?: string;
+    infoLink?: string;
   };
 }
 
@@ -49,11 +52,18 @@ function extractCoverImageUrl(imageLinks?: {
     return null;
   }
 
-  const url = imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
+  let url = imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
 
-  if (url?.startsWith("http://")) {
-    return url.replace("http://", "https://");
+  if (!url) {
+    return null;
   }
+
+  if (url.startsWith("http://")) {
+    url = url.replace("http://", "https://");
+  }
+
+  // zoom=1 を zoom=0 に変更して高解像度画像を取得
+  url = url.replace(/zoom=1/, "zoom=0");
 
   return url;
 }
@@ -69,5 +79,49 @@ export function mapGoogleBooksVolume(volume: GoogleBooksVolume): Book {
     publishedDate: volumeInfo.publishedDate ?? null,
     isbn: extractIsbn(volumeInfo.industryIdentifiers),
     coverImageUrl: extractCoverImageUrl(volumeInfo.imageLinks),
+  };
+}
+
+export interface BookDetail {
+  id: string;
+  title: string;
+  authors: string[];
+  publisher: string | null;
+  publishedDate: string | null;
+  pageCount: number | null;
+  categories: string[] | null;
+  description: string | null;
+  isbn: string | null;
+  coverImageUrl: string | null;
+  amazonUrl: string | null;
+  googleBooksUrl: string | null;
+}
+
+function generateAmazonUrl(isbn: string | null): string | null {
+  if (!isbn) {
+    return null;
+  }
+  return `https://www.amazon.co.jp/dp/${isbn}`;
+}
+
+export function mapGoogleBooksVolumeToDetail(
+  volume: GoogleBooksVolume,
+): BookDetail {
+  const { volumeInfo } = volume;
+  const isbn = extractIsbn(volumeInfo.industryIdentifiers);
+
+  return {
+    id: volume.id,
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    publisher: volumeInfo.publisher ?? null,
+    publishedDate: volumeInfo.publishedDate ?? null,
+    pageCount: volumeInfo.pageCount ?? null,
+    categories: volumeInfo.categories ?? null,
+    description: volumeInfo.description ?? null,
+    isbn,
+    coverImageUrl: extractCoverImageUrl(volumeInfo.imageLinks),
+    amazonUrl: generateAmazonUrl(isbn),
+    googleBooksUrl: volumeInfo.infoLink ?? null,
   };
 }

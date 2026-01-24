@@ -13,9 +13,7 @@ class WelcomeButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseTextStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        );
+    final baseTextStyle = Theme.of(context).textTheme.labelLarge;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

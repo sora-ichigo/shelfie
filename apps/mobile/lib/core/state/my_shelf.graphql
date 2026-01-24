@@ -1,0 +1,13 @@
+query MyShelf {
+  myShelf {
+    id
+    externalId
+    title
+    authors
+    readingStatus
+    note
+    noteUpdatedAt
+    addedAt
+    completedAt
+  }
+}

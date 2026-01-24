@@ -131,7 +131,10 @@ describe("books Feature public API", () => {
     it("BookShelfService 型がエクスポートされている", () => {
       const mockRepo: BookShelfRepository = {
         findUserBookByExternalId: vi.fn(),
+        findUserBookById: vi.fn(),
         createUserBook: vi.fn(),
+        updateUserBook: vi.fn(),
+        deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
       };
       const mockLogger = {
@@ -146,16 +149,23 @@ describe("books Feature public API", () => {
         mockLogger,
       );
       expect(typeof service.addBookToShelf).toBe("function");
+      expect(typeof service.updateReadingStatus).toBe("function");
+      expect(typeof service.updateReadingNote).toBe("function");
     });
 
     it("BookShelfRepository 型がエクスポートされている", () => {
       const repo: BookShelfRepository = {
         findUserBookByExternalId: vi.fn(),
+        findUserBookById: vi.fn(),
         createUserBook: vi.fn(),
+        updateUserBook: vi.fn(),
+        deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
       };
       expect(typeof repo.findUserBookByExternalId).toBe("function");
+      expect(typeof repo.findUserBookById).toBe("function");
       expect(typeof repo.createUserBook).toBe("function");
+      expect(typeof repo.updateUserBook).toBe("function");
       expect(typeof repo.getUserBooks).toBe("function");
     });
 
@@ -208,6 +218,10 @@ describe("books Feature public API", () => {
         isbn: null,
         coverImageUrl: null,
         addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       expect(userBook.id).toBe(1);
     });

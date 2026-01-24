@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -25,10 +27,12 @@ void main() {
 
   Widget buildSearchScreen({
     BookSearchState? initialState,
+    Map<String, ShelfEntry> shelfState = const {},
   }) {
     return ProviderScope(
       overrides: [
         bookSearchRepositoryProvider.overrideWithValue(mockRepository),
+        shelfStateProvider.overrideWith(() => _TestShelfState(shelfState)),
         if (initialState != null)
           bookSearchNotifierProvider.overrideWith(
             () => _TestBookSearchNotifier(initialState),
@@ -173,8 +177,8 @@ void main() {
           ),
         );
 
-        expect(find.text('出版社A / 2024'), findsOneWidget);
-        expect(find.text('出版社B / 2023'), findsOneWidget);
+        expect(find.text('出版社A / 2024年'), findsOneWidget);
+        expect(find.text('出版社B / 2023年'), findsOneWidget);
       });
 
       testWidgets('追加ボタンが表示される', (tester) async {
@@ -190,7 +194,7 @@ void main() {
           ),
         );
 
-        expect(find.byIcon(Icons.add), findsNWidgets(2));
+        expect(find.byIcon(Icons.add_circle_outline), findsNWidgets(2));
       });
     });
 
@@ -256,4 +260,13 @@ class _TestBookSearchNotifier extends BookSearchNotifier {
 
   @override
   BookSearchState build() => _initialState;
+}
+
+class _TestShelfState extends ShelfState {
+  _TestShelfState(this._initialState);
+
+  final Map<String, ShelfEntry> _initialState;
+
+  @override
+  Map<String, ShelfEntry> build() => _initialState;
 }

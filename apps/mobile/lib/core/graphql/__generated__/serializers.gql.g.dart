@@ -14,6 +14,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAddBookToShelfReq.serializer)
       ..add(GAddBookToShelfVars.serializer)
       ..add(GAuthErrorCode.serializer)
+      ..add(GBookDetailData.serializer)
+      ..add(GBookDetailData_bookDetail.serializer)
+      ..add(GBookDetailData_bookDetail_userBook.serializer)
+      ..add(GBookDetailReq.serializer)
+      ..add(GBookDetailVars.serializer)
       ..add(GGetMeData.serializer)
       ..add(GGetMeData_me__asAuthErrorResult.serializer)
       ..add(GGetMeData_me__asUser.serializer)
@@ -31,6 +36,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GLoginUserInput.serializer)
       ..add(GLoginUserReq.serializer)
       ..add(GLoginUserVars.serializer)
+      ..add(GMyShelfData.serializer)
+      ..add(GMyShelfData_myShelf.serializer)
+      ..add(GMyShelfReq.serializer)
+      ..add(GMyShelfVars.serializer)
+      ..add(GReadingStatus.serializer)
       ..add(GRefreshTokenData.serializer)
       ..add(GRefreshTokenData_refreshToken__asAuthError.serializer)
       ..add(GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
@@ -51,6 +61,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRegisterUserInput.serializer)
       ..add(GRegisterUserReq.serializer)
       ..add(GRegisterUserVars.serializer)
+      ..add(GRemoveFromShelfData.serializer)
+      ..add(GRemoveFromShelfReq.serializer)
+      ..add(GRemoveFromShelfVars.serializer)
       ..add(GSearchBookByISBNData.serializer)
       ..add(GSearchBookByISBNData_searchBookByISBN.serializer)
       ..add(GSearchBookByISBNReq.serializer)
@@ -60,10 +73,40 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GSearchBooksData_searchBooks_items.serializer)
       ..add(GSearchBooksReq.serializer)
       ..add(GSearchBooksVars.serializer)
+      ..add(GUpdateReadingNoteData.serializer)
+      ..add(GUpdateReadingNoteData_updateReadingNote.serializer)
+      ..add(GUpdateReadingNoteReq.serializer)
+      ..add(GUpdateReadingNoteVars.serializer)
+      ..add(GUpdateReadingStatusData.serializer)
+      ..add(GUpdateReadingStatusData_updateReadingStatus.serializer)
+      ..add(GUpdateReadingStatusReq.serializer)
+      ..add(GUpdateReadingStatusVars.serializer)
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(GMyShelfData_myShelf)]),
+          () => new ListBuilder<GMyShelfData_myShelf>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

@@ -10,6 +10,7 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
@@ -183,11 +184,16 @@ Future<String?> guardRoute({
   if (isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
     final result = await sessionValidator.validate();
 
-    if (result is SessionInvalid || result is SessionValidationFailed) {
-      debugPrint('[guardRoute] Session invalid or validation failed: $result');
-      // セッションが無効な場合はログアウトしてウェルカム画面へ
+    // セッションが明確に無効な場合のみログアウト
+    if (result is SessionInvalid) {
+      debugPrint('[guardRoute] Session invalid: ${result.message}');
       await authStateNotifier.logout();
       return AppRoutes.welcome;
+    }
+
+    // ネットワークエラーなどの場合は続行（一時的な問題の可能性）
+    if (result is SessionValidationFailed) {
+      debugPrint('[guardRoute] Session validation failed (continuing): ${result.message}');
     }
   }
 
@@ -232,6 +238,17 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) => const _AccountScreen(),
     ),
 
+    // 本詳細（タブバーなし）
+    GoRoute(
+      path: '/books/:bookId',
+      builder: (context, state) {
+        final params = BookDetailParams.fromState(
+          pathParameters: state.pathParameters,
+        );
+        return BookDetailScreen(bookId: params.bookId);
+      },
+    ),
+
     // メインシェル（タブナビゲーション）
     ShellRoute(
       builder: (context, state, child) => _MainShell(child: child),
@@ -265,15 +282,6 @@ List<RouteBase> _buildRoutes() {
               ),
             ),
           ],
-        ),
-        // 本詳細
-        GoRoute(
-          path: '/books/:bookId',
-          builder: (context, state) => _BookDetailScreen(
-            params: BookDetailParams.fromState(
-              pathParameters: state.pathParameters,
-            ),
-          ),
         ),
       ],
     ),
@@ -436,21 +444,6 @@ class _AccountScreen extends StatelessWidget {
         title: const Text('アカウント'),
       ),
       body: const Center(child: Text('アカウント設定')),
-    );
-  }
-}
-
-/// プレースホルダー: 本詳細画面
-class _BookDetailScreen extends StatelessWidget {
-  const _BookDetailScreen({required this.params});
-
-  final BookDetailParams params;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Book: ${params.bookId}')),
-      body: Center(child: Text('Book ID: ${params.bookId}')),
     );
   }
 }

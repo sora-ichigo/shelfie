@@ -1,0 +1,31 @@
+query BookDetail($bookId: String!) {
+  bookDetail(bookId: $bookId) {
+    id
+    title
+    authors
+    publisher
+    publishedDate
+    pageCount
+    categories
+    description
+    isbn
+    coverImageUrl
+    amazonUrl
+    googleBooksUrl
+    userBook {
+      id
+      externalId
+      title
+      authors
+      publisher
+      publishedDate
+      isbn
+      coverImageUrl
+      addedAt
+      readingStatus
+      completedAt
+      note
+      noteUpdatedAt
+    }
+  }
+}

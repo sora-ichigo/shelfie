@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -25,6 +26,7 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
   final _addingBooks = <String>{};
+  final _removingBooks = <String>{};
 
   @override
   void dispose() {
@@ -115,6 +117,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     required bool hasMore,
     required bool isLoadingMore,
   }) {
+    final shelfState = ref.watch(shelfStateProvider);
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification) {
@@ -136,10 +140,20 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           }
 
           final book = books[index];
+          final shelfEntry = shelfState[book.id];
+          final userBookId = shelfEntry?.userBookId;
+          final bookWithShelfState = book.copyWith(
+            userBookId: userBookId,
+            clearUserBookId: userBookId == null,
+          );
+
           return BookListItem(
-            book: book,
-            onAddPressed: () => _onAddToShelf(book),
+            book: bookWithShelfState,
+            onTap: () => _onBookTap(bookWithShelfState),
+            onAddPressed: () => _onAddToShelf(bookWithShelfState),
+            onRemovePressed: () => _onRemoveFromShelf(bookWithShelfState),
             isAddingToShelf: _addingBooks.contains(book.id),
+            isRemovingFromShelf: _removingBooks.contains(book.id),
           );
         },
       ),
@@ -174,6 +188,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(bookSearchNotifierProvider.notifier).loadMore();
   }
 
+  void _onBookTap(Book book) {
+    context.push(AppRoutes.bookDetail(bookId: book.id));
+  }
+
   Future<void> _onAddToShelf(Book book) async {
     if (_addingBooks.contains(book.id)) return;
 
@@ -199,13 +217,37 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (userBook) {
+      (_) {},
+    );
+  }
+
+  Future<void> _onRemoveFromShelf(Book book) async {
+    if (_removingBooks.contains(book.id)) return;
+
+    setState(() {
+      _removingBooks.add(book.id);
+    });
+
+    final result = await ref
+        .read(bookSearchNotifierProvider.notifier)
+        .removeFromShelf(book);
+
+    if (!mounted) return;
+
+    setState(() {
+      _removingBooks.remove(book.id);
+    });
+
+    result.fold(
+      (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('「${book.title}」を本棚に追加しました'),
+            content: Text(failure.userMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       },
+      (_) {},
     );
   }
 }

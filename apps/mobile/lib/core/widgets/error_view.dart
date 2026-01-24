@@ -73,6 +73,9 @@ class ErrorView extends StatelessWidget {
       auth: (_) => Icons.lock_outline,
       validation: (_, __) => Icons.warning_amber_outlined,
       unexpected: (_, __) => Icons.error_outline,
+      notFound: (_) => Icons.search_off,
+      forbidden: (_) => Icons.block,
+      duplicateBook: (_) => Icons.library_books,
     );
   }
 
@@ -83,6 +86,9 @@ class ErrorView extends StatelessWidget {
       auth: (_) => appColors.warning,
       validation: (_, __) => appColors.warning,
       unexpected: (_, __) => theme.colorScheme.error,
+      notFound: (_) => appColors.warning,
+      forbidden: (_) => theme.colorScheme.error,
+      duplicateBook: (_) => appColors.info,
     );
   }
 }

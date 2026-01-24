@@ -124,7 +124,7 @@ abstract final class AppTypography {
   /// 16px - ボタン、タブ、ナビゲーションアイテム
   static const labelLarge = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     letterSpacing: 0.1,
     height: 1.43,
   );

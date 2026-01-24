@@ -72,6 +72,25 @@ class AppColors extends ThemeExtension<AppColors> {
   /// リンクテキストカラー
   final Color textLink;
 
+  /// プライマリカラー（ターコイズ）- 直接アクセス用
+  static const Color primary = Color(0xFF4FD1C5);
+
+  /// プライマリライトカラー - グラデーション用
+  static const Color primaryLight = Color(0xFF81E6D9);
+
+  /// アクションボタン用グラデーション開始色
+  static const Color actionGradientStart = Color(0xFF00BC7D);
+
+  /// アクションボタン用グラデーション終了色
+  static const Color actionGradientEnd = Color(0xFF009689);
+
+  /// アクションボタン用グラデーション
+  static const LinearGradient actionGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [actionGradientStart, actionGradientEnd],
+  );
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     success: Color(0xFF81C784),

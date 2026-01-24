@@ -1,4 +1,5 @@
 import type {
+  GraphQLEnumType,
   GraphQLInputObjectType,
   GraphQLObjectType,
   GraphQLSchema,
@@ -19,12 +20,18 @@ function createMockSearchService(): BookSearchService {
   return {
     searchBooks: vi.fn(),
     searchBookByISBN: vi.fn(),
+    getBookDetail: vi.fn(),
   };
 }
 
 function createMockShelfService(): BookShelfService {
   return {
     addBookToShelf: vi.fn(),
+    getUserBookByExternalId: vi.fn(),
+    getUserBooks: vi.fn(),
+    updateReadingStatus: vi.fn(),
+    updateReadingNote: vi.fn(),
+    removeFromShelf: vi.fn(),
   };
 }
 
@@ -170,6 +177,62 @@ describe("BooksGraphQL Types", () => {
       expect(fields.addedAt).toBeDefined();
       expect(fields.addedAt.type.toString()).toBe("DateTime!");
     });
+
+    it("should define UserBook type with reading record fields", () => {
+      const userBookType = schema.getType("UserBook") as GraphQLObjectType;
+
+      expect(userBookType).toBeDefined();
+      const fields = userBookType.getFields();
+
+      expect(fields.readingStatus).toBeDefined();
+      expect(fields.readingStatus.type.toString()).toBe("ReadingStatus!");
+
+      expect(fields.completedAt).toBeDefined();
+      expect(fields.completedAt.type.toString()).toBe("DateTime");
+
+      expect(fields.note).toBeDefined();
+      expect(fields.note.type.toString()).toBe("String");
+
+      expect(fields.noteUpdatedAt).toBeDefined();
+      expect(fields.noteUpdatedAt.type.toString()).toBe("DateTime");
+    });
+  });
+
+  describe("ReadingStatus enum", () => {
+    it("should define ReadingStatus enum with all reading states", () => {
+      const readingStatusEnum = schema.getType(
+        "ReadingStatus",
+      ) as GraphQLEnumType;
+
+      expect(readingStatusEnum).toBeDefined();
+
+      const values = readingStatusEnum.getValues();
+      const valueNames = values.map((v) => v.name);
+
+      expect(valueNames).toContain("BACKLOG");
+      expect(valueNames).toContain("READING");
+      expect(valueNames).toContain("COMPLETED");
+      expect(valueNames).toContain("DROPPED");
+      expect(values).toHaveLength(4);
+    });
+
+    it("should map ReadingStatus enum values to database values", () => {
+      const readingStatusEnum = schema.getType(
+        "ReadingStatus",
+      ) as GraphQLEnumType;
+
+      const backlogValue = readingStatusEnum.getValue("BACKLOG");
+      expect(backlogValue?.value).toBe("backlog");
+
+      const readingValue = readingStatusEnum.getValue("READING");
+      expect(readingValue?.value).toBe("reading");
+
+      const completedValue = readingStatusEnum.getValue("COMPLETED");
+      expect(completedValue?.value).toBe("completed");
+
+      const droppedValue = readingStatusEnum.getValue("DROPPED");
+      expect(droppedValue?.value).toBe("dropped");
+    });
   });
 });
 
@@ -221,6 +284,131 @@ describe("BooksGraphQL Queries Schema", () => {
       "String!",
     );
   });
+
+  it("should define bookDetail query with bookId parameter", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const schema = builder.toSchema();
+
+    const queryType = schema.getQueryType();
+    expect(queryType).toBeDefined();
+
+    const fields = queryType?.getFields();
+    expect(fields?.bookDetail).toBeDefined();
+
+    const bookDetailField = fields?.bookDetail;
+    expect(bookDetailField?.type.toString()).toBe("BookDetail!");
+
+    const args = bookDetailField?.args;
+    expect(args?.find((a) => a.name === "bookId")?.type.toString()).toBe(
+      "String!",
+    );
+  });
+
+  it("should define userBookByExternalId query with externalId parameter", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const schema = builder.toSchema();
+
+    const queryType = schema.getQueryType();
+    expect(queryType).toBeDefined();
+
+    const fields = queryType?.getFields();
+    expect(fields?.userBookByExternalId).toBeDefined();
+
+    const userBookByExternalIdField = fields?.userBookByExternalId;
+    expect(userBookByExternalIdField?.type.toString()).toBe("UserBook");
+
+    const args = userBookByExternalIdField?.args;
+    expect(args?.find((a) => a.name === "externalId")?.type.toString()).toBe(
+      "String!",
+    );
+  });
+});
+
+describe("BookDetail type", () => {
+  let schema: GraphQLSchema;
+
+  beforeAll(() => {
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+
+    builder.queryType({
+      fields: (t) => ({
+        _dummy: t.string({ resolve: () => "ok" }),
+      }),
+    });
+
+    schema = builder.toSchema();
+  });
+
+  it("should define BookDetail type with all book info fields", () => {
+    const bookDetailType = schema.getType("BookDetail") as GraphQLObjectType;
+
+    expect(bookDetailType).toBeDefined();
+    const fields = bookDetailType.getFields();
+
+    expect(fields.id).toBeDefined();
+    expect(fields.id.type.toString()).toBe("String!");
+
+    expect(fields.title).toBeDefined();
+    expect(fields.title.type.toString()).toBe("String!");
+
+    expect(fields.authors).toBeDefined();
+    expect(fields.authors.type.toString()).toBe("[String!]!");
+
+    expect(fields.publisher).toBeDefined();
+    expect(fields.publisher.type.toString()).toBe("String");
+
+    expect(fields.publishedDate).toBeDefined();
+    expect(fields.publishedDate.type.toString()).toBe("String");
+
+    expect(fields.pageCount).toBeDefined();
+    expect(fields.pageCount.type.toString()).toBe("Int");
+
+    expect(fields.categories).toBeDefined();
+    expect(fields.categories.type.toString()).toBe("[String!]");
+
+    expect(fields.description).toBeDefined();
+    expect(fields.description.type.toString()).toBe("String");
+
+    expect(fields.isbn).toBeDefined();
+    expect(fields.isbn.type.toString()).toBe("String");
+
+    expect(fields.coverImageUrl).toBeDefined();
+    expect(fields.coverImageUrl.type.toString()).toBe("String");
+
+    expect(fields.amazonUrl).toBeDefined();
+    expect(fields.amazonUrl.type.toString()).toBe("String");
+
+    expect(fields.googleBooksUrl).toBeDefined();
+    expect(fields.googleBooksUrl.type.toString()).toBe("String");
+
+    expect(fields.userBook).toBeDefined();
+    expect(fields.userBook.type.toString()).toBe("UserBook");
+  });
 });
 
 describe("BooksGraphQL Mutations Schema", () => {
@@ -262,6 +450,60 @@ describe("BooksGraphQL Mutations Schema", () => {
     const args = addBookField?.args;
     expect(args?.find((a) => a.name === "bookInput")?.type.toString()).toBe(
       "AddBookInput!",
+    );
+  });
+
+  it("should define updateReadingStatus mutation with userBookId and status parameters", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const schema = createSchemaWithMutations(
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.updateReadingStatus).toBeDefined();
+
+    const updateStatusField = fields?.updateReadingStatus;
+    expect(updateStatusField?.type.toString()).toContain("UserBook");
+
+    const args = updateStatusField?.args;
+    expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
+      "Int!",
+    );
+    expect(args?.find((a) => a.name === "status")?.type.toString()).toBe(
+      "ReadingStatus!",
+    );
+  });
+
+  it("should define updateReadingNote mutation with userBookId and note parameters", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const schema = createSchemaWithMutations(
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.updateReadingNote).toBeDefined();
+
+    const updateNoteField = fields?.updateReadingNote;
+    expect(updateNoteField?.type.toString()).toContain("UserBook");
+
+    const args = updateNoteField?.args;
+    expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
+      "Int!",
+    );
+    expect(args?.find((a) => a.name === "note")?.type.toString()).toBe(
+      "String!",
     );
   });
 });
@@ -467,6 +709,375 @@ describe("BooksGraphQL Resolver Behavior", () => {
     });
   });
 
+  describe("bookDetail resolver", () => {
+    it("should return book detail with userBook when user has the book in shelf", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockBookDetail = {
+        id: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: "Publisher",
+        publishedDate: "2024-01-01",
+        pageCount: 200,
+        categories: ["Fiction"],
+        description: "A test book",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        amazonUrl: "https://amazon.com/dp/1234567890",
+        googleBooksUrl: "https://books.google.com/books?id=book-123",
+      };
+
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: "Publisher",
+        publishedDate: "2024-01-01",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+      };
+
+      vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
+        ok(mockBookDetail),
+      );
+      vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const bookDetailField = queryType?.getFields().bookDetail;
+
+      const result = await bookDetailField?.resolve?.(
+        {},
+        { bookId: "book-123" },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(mockSearchService.getBookDetail).toHaveBeenCalledWith("book-123");
+      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(
+        100,
+        "book-123",
+      );
+      expect(result).toMatchObject({
+        ...mockBookDetail,
+        userBook: mockUserBook,
+      });
+    });
+
+    it("should return book detail without userBook when user does not have the book", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockBookDetail = {
+        id: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        pageCount: null,
+        categories: null,
+        description: null,
+        isbn: null,
+        coverImageUrl: null,
+        amazonUrl: null,
+        googleBooksUrl: null,
+      };
+
+      vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
+        ok(mockBookDetail),
+      );
+      vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
+        ok(null),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const bookDetailField = queryType?.getFields().bookDetail;
+
+      const result = await bookDetailField?.resolve?.(
+        {},
+        { bookId: "book-123" },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(result).toMatchObject({
+        ...mockBookDetail,
+        userBook: null,
+      });
+    });
+
+    it("should throw error when book not found", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
+        err({
+          code: "NOT_FOUND",
+          message: "Book not found",
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const bookDetailField = queryType?.getFields().bookDetail;
+
+      await expect(
+        bookDetailField?.resolve?.(
+          {},
+          { bookId: "nonexistent" },
+          {
+            requestId: "test",
+            user: {
+              uid: "firebase-uid",
+              email: "test@example.com",
+              emailVerified: true,
+            },
+          },
+          {} as never,
+        ),
+      ).rejects.toThrow("Book not found");
+    });
+  });
+
+  describe("userBookByExternalId resolver", () => {
+    it("should return user book when authenticated user has the book", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "backlog" as const,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+      };
+
+      vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
+
+      const result = await userBookByExternalIdField?.resolve?.(
+        {},
+        { externalId: "book-123" },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(
+        100,
+        "book-123",
+      );
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should return null when user does not have the book", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
+        ok(null),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
+
+      const result = await userBookByExternalIdField?.resolve?.(
+        {},
+        { externalId: "nonexistent" },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(result).toBeNull();
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
+
+      let error: Error | null = null;
+      try {
+        await userBookByExternalIdField?.resolve?.(
+          {},
+          { externalId: "book-123" },
+          {
+            requestId: "test",
+            user: null,
+          },
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+    });
+  });
+
   describe("addBookToShelf resolver", () => {
     it("should call shelfService.addBookToShelf with correct input when authenticated", async () => {
       const mockSearchService = createMockSearchService();
@@ -483,6 +1094,10 @@ describe("BooksGraphQL Resolver Behavior", () => {
         isbn: null,
         coverImageUrl: null,
         addedAt: new Date(),
+        readingStatus: "backlog" as const,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
       };
       vi.mocked(mockShelfService.addBookToShelf).mockResolvedValue(
         ok(mockUserBook),
@@ -500,7 +1115,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       builder.mutationType({});
       registerBooksMutations(builder, mockShelfService, mockUserService);
 
@@ -703,6 +1323,765 @@ describe("BooksGraphQL Resolver Behavior", () => {
           {},
           { bookInput },
           authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("Database connection failed");
+    });
+  });
+
+  describe("updateReadingStatus resolver", () => {
+    it("should call shelfService.updateReadingStatus with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+      };
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateStatusField?.resolve?.(
+        {},
+        { userBookId: 1, status: "reading" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateReadingStatus).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        status: "reading",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateStatusField?.resolve?.(
+          {},
+          { userBookId: 1, status: "reading" },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateReadingStatus).not.toHaveBeenCalled();
+    });
+
+    it("should throw error when shelfService returns not found error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        err({
+          code: "BOOK_NOT_FOUND",
+          message: "Book not found in shelf",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateStatusField?.resolve?.(
+          {},
+          { userBookId: 999, status: "reading" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("Book not found in shelf");
+    });
+
+    it("should throw error when shelfService returns forbidden error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
+        err({
+          code: "FORBIDDEN",
+          message: "You are not allowed to update this book",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStatusField = mutationType?.getFields().updateReadingStatus;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateStatusField?.resolve?.(
+          {},
+          { userBookId: 1, status: "reading" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("You are not allowed to update this book");
+    });
+  });
+
+  describe("updateReadingNote resolver", () => {
+    it("should call shelfService.updateReadingNote with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: "Great book!",
+        noteUpdatedAt: new Date(),
+      };
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateNoteField?.resolve?.(
+        {},
+        { userBookId: 1, note: "Great book!" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateReadingNote).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        note: "Great book!",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should allow empty note (delete note)", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        completedAt: null,
+        note: "",
+        noteUpdatedAt: new Date(),
+      };
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateNoteField?.resolve?.(
+        {},
+        { userBookId: 1, note: "" },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockShelfService.updateReadingNote).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        note: "",
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateNoteField?.resolve?.(
+          {},
+          { userBookId: 1, note: "Some note" },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateReadingNote).not.toHaveBeenCalled();
+    });
+
+    it("should throw error when shelfService returns not found error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        err({
+          code: "BOOK_NOT_FOUND",
+          message: "Book not found in shelf",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateNoteField?.resolve?.(
+          {},
+          { userBookId: 999, note: "Some note" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("Book not found in shelf");
+    });
+
+    it("should throw error when shelfService returns forbidden error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
+        err({
+          code: "FORBIDDEN",
+          message: "You are not allowed to update this book",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateNoteField = mutationType?.getFields().updateReadingNote;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      await expect(
+        updateNoteField?.resolve?.(
+          {},
+          { userBookId: 1, note: "Some note" },
+          authenticatedContext,
+          {} as never,
+        ),
+      ).rejects.toThrow("You are not allowed to update this book");
+    });
+  });
+
+  describe("myShelf resolver", () => {
+    it("should define myShelf query that returns list of UserBook", () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      const schema = builder.toSchema();
+
+      const queryType = schema.getQueryType();
+      expect(queryType).toBeDefined();
+
+      const fields = queryType?.getFields();
+      expect(fields?.myShelf).toBeDefined();
+
+      const myShelfField = fields?.myShelf;
+      expect(myShelfField?.type.toString()).toBe("[UserBook!]!");
+    });
+
+    it("should call shelfService.getUserBooks and return user books", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockUserBooks = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "book-1",
+          title: "Test Book 1",
+          authors: ["Author 1"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+          readingStatus: "reading" as const,
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
+        },
+        {
+          id: 2,
+          userId: 100,
+          externalId: "book-2",
+          title: "Test Book 2",
+          authors: ["Author 2"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+          readingStatus: "completed" as const,
+          completedAt: new Date(),
+          note: "Great book!",
+          noteUpdatedAt: new Date(),
+        },
+      ];
+
+      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(
+        ok(mockUserBooks),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      const result = await myShelfField?.resolve?.(
+        {},
+        {},
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.getUserBooks).toHaveBeenCalledWith(100);
+      expect(result).toEqual(mockUserBooks);
+    });
+
+    it("should return empty array when user has no books", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(ok([]));
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      const result = await myShelfField?.resolve?.(
+        {},
+        {},
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      let error: Error | null = null;
+      try {
+        await myShelfField?.resolve?.(
+          {},
+          {},
+          {
+            requestId: "test",
+            user: null,
+          },
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.getUserBooks).not.toHaveBeenCalled();
+    });
+
+    it("should throw error when shelfService returns database error", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(
+        err({
+          code: "DATABASE_ERROR",
+          message: "Database connection failed",
+        }),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      await expect(
+        myShelfField?.resolve?.(
+          {},
+          {},
+          {
+            requestId: "test",
+            user: {
+              uid: "firebase-uid",
+              email: "test@example.com",
+              emailVerified: true,
+            },
+          },
           {} as never,
         ),
       ).rejects.toThrow("Database connection failed");

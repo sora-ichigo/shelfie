@@ -37,6 +37,13 @@ linter:
   rules:
     # Project-specific customizations
 
+    # Disable rules incompatible with freezed patterns
+    sort_unnamed_constructors_first: false
+    one_member_abstracts: false
+    always_put_required_named_parameters_first: false
+    overridden_fields: false
+    annotate_overrides: false
+
     # Relax strict rules (especially for test files)
     lines_longer_than_80_chars: false
     # Disable unnecessary_lambdas for mocktail patterns

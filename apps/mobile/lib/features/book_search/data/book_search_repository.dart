@@ -8,6 +8,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.data.gql.dart';
@@ -26,6 +28,7 @@ class Book {
     this.publishedDate,
     this.isbn,
     this.coverImageUrl,
+    this.userBookId,
   });
 
   final String id;
@@ -35,6 +38,32 @@ class Book {
   final String? publishedDate;
   final String? isbn;
   final String? coverImageUrl;
+  final int? userBookId;
+
+  bool get isInShelf => userBookId != null;
+
+  Book copyWith({
+    String? id,
+    String? title,
+    List<String>? authors,
+    String? publisher,
+    String? publishedDate,
+    String? isbn,
+    String? coverImageUrl,
+    int? userBookId,
+    bool clearUserBookId = false,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      authors: authors ?? this.authors,
+      publisher: publisher ?? this.publisher,
+      publishedDate: publishedDate ?? this.publishedDate,
+      isbn: isbn ?? this.isbn,
+      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
+      userBookId: clearUserBookId ? null : (userBookId ?? this.userBookId),
+    );
+  }
 }
 
 class SearchBooksResult {
@@ -163,6 +192,59 @@ class BookSearchRepository {
     } catch (e) {
       return left(UnexpectedFailure(message: e.toString()));
     }
+  }
+
+  Future<Either<Failure, bool>> removeFromShelf({
+    required int userBookId,
+  }) async {
+    final request = GRemoveFromShelfReq(
+      (b) => b..vars.userBookId = userBookId,
+    );
+
+    try {
+      final response = await client.request(request).first;
+      return _handleRemoveFromShelfResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Either<Failure, bool> _handleRemoveFromShelfResponse(
+    OperationResponse<GRemoveFromShelfData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      final errorMessage = error?.message ?? 'Remove from shelf failed';
+      final extensions = error?.extensions;
+      final code = extensions?['code'] as String?;
+
+      if (code == 'UNAUTHENTICATED') {
+        return left(AuthFailure(message: errorMessage));
+      }
+
+      return left(
+        ServerFailure(
+          message: errorMessage,
+          code: code ?? 'GRAPHQL_ERROR',
+        ),
+      );
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(
+          message: 'No data received',
+          code: 'NO_DATA',
+        ),
+      );
+    }
+
+    return right(data.removeFromShelf);
   }
 
   Either<Failure, SearchBooksResult> _handleSearchBooksResponse(

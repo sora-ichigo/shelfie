@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:ferry/ferry.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -89,6 +91,44 @@ Future<Cache> ferryHiveCache(FerryHiveCacheRef ref) async {
   return Cache(store: HiveStore(box));
 }
 
+/// 認証リンク
+///
+/// リクエスト前にトークンの有効性を確認し、必要に応じてリフレッシュする。
+class _AuthLink extends Link {
+  _AuthLink({
+    required this.ref,
+    required this.tokenService,
+  });
+
+  final FerryClientRef ref;
+  final TokenService tokenService;
+
+  @override
+  Stream<gql_exec.Response> request(
+    gql_exec.Request request, [
+    NextLink? forward,
+  ]) async* {
+    // トークンをリフレッシュ（必要な場合のみ）
+    await tokenService.ensureValidToken();
+
+    // 最新のトークンを取得
+    final token = ref.read(authTokenProvider);
+
+    // Authorizationヘッダーを追加
+    final updatedRequest = request.updateContextEntry<HttpLinkHeaders>(
+      (headers) => HttpLinkHeaders(
+        headers: <String, String>{
+          ...?headers?.headers,
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    yield* forward!(updatedRequest);
+  }
+}
+
 /// Ferry Client Provider
 ///
 /// GraphQL API と通信するための Ferry Client を提供する。
@@ -96,6 +136,7 @@ Future<Cache> ferryHiveCache(FerryHiveCacheRef ref) async {
 /// 特徴:
 /// - HttpLink を使用した HTTP 通信
 /// - 認証トークンを Authorization ヘッダーに自動設定
+/// - リクエスト前にトークンの有効期限を確認しリフレッシュ
 /// - HiveStore によるオフラインキャッシュ
 /// - デフォルトの FetchPolicy 設定
 ///
@@ -107,19 +148,14 @@ Future<Cache> ferryHiveCache(FerryHiveCacheRef ref) async {
 @Riverpod(keepAlive: true)
 Client ferryClient(FerryClientRef ref) {
   final endpoint = ref.watch(apiEndpointProvider);
-  final authToken = ref.watch(authTokenProvider);
   final cache = ref.watch(ferryCacheProvider);
+  final tokenService = ref.read(tokenServiceProvider);
 
-  final httpLink = HttpLink(
-    endpoint,
-    defaultHeaders: {
-      if (authToken != null) 'Authorization': 'Bearer $authToken',
-      'Content-Type': 'application/json',
-    },
-  );
+  final httpLink = HttpLink(endpoint);
+  final authLink = _AuthLink(ref: ref, tokenService: tokenService);
 
   return Client(
-    link: httpLink,
+    link: authLink.concat(httpLink),
     cache: cache,
     defaultFetchPolicies: {
       OperationType.query: FetchPolicy.CacheFirst,

@@ -110,7 +110,7 @@ final ferryHiveCacheProvider = FutureProvider<Cache>.internal(
 );
 
 typedef FerryHiveCacheRef = FutureProviderRef<Cache>;
-String _$ferryClientHash() => r'a13a6873a97fd8af1edbc3f6f6c82b9edb98cb6f';
+String _$ferryClientHash() => r'9672ff8b0bac004a8f24242f4dea2d4d6c1d6ab9';
 
 /// Ferry Client Provider
 ///
@@ -119,6 +119,7 @@ String _$ferryClientHash() => r'a13a6873a97fd8af1edbc3f6f6c82b9edb98cb6f';
 /// 特徴:
 /// - HttpLink を使用した HTTP 通信
 /// - 認証トークンを Authorization ヘッダーに自動設定
+/// - リクエスト前にトークンの有効期限を確認しリフレッシュ
 /// - HiveStore によるオフラインキャッシュ
 /// - デフォルトの FetchPolicy 設定
 ///
