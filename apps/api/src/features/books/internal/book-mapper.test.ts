@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   type Book,
   type BookDetail,
-  type RakutenBooksItem,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
+  type RakutenBooksItem,
 } from "./book-mapper.js";
 
 const createRakutenBooksItem = (
