@@ -34,14 +34,14 @@
   - 成功時は `EmailChangeRequested` を返却、失敗時は適切なエラー型を返却
   - _Requirements: 5.1, 5.3, 5.4_
 
-- [ ] 3. Mobile: Domain 層実装
-- [ ] 3.1 (P) UserProfile エンティティを作成
+- [x] 3. Mobile: Domain 層実装
+- [x] 3.1 (P) UserProfile エンティティを作成
   - freezed によるイミュータブルクラスを定義
   - id, email, name, avatarUrl, username, bookCount, readingStartYear, createdAt フィールドを含める
   - `account` feature ディレクトリ配下に配置
   - _Requirements: 1.2, 2.4, 2.5_
 
-- [ ] 3.2 (P) ProfileValidators バリデーションルールを実装
+- [x] 3.2 (P) ProfileValidators バリデーションルールを実装
   - `validateName` メソッドを実装（空文字チェック）
   - `validateEmail` メソッドを実装（形式バリデーション）
   - Pure Dart 関数として外部依存なしで実装
