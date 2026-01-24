@@ -71,7 +71,7 @@ class ReadingNoteSection extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                shelfEntry.hasNote ? shelfEntry.note! : 'メモを追加...',
+                shelfEntry.hasNote ? shelfEntry.note! : 'この本の感想を書く...',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: shelfEntry.hasNote
                       ? null
