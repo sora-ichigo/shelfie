@@ -93,26 +93,21 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         right: AppSpacing.md,
         bottom: AppSpacing.md,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          BookInfoSection(
-            bookDetail: bookDetail,
-            isInShelf: isInShelf,
-            isAddingToShelf: _isAddingToShelf,
-            isRemovingFromShelf: _isRemovingFromShelf,
-            onAddToShelfPressed: _onAddToShelfPressed,
-            onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
-            onLinkTap: _onLinkTap,
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          if (isInShelf)
-            ReadingRecordSection(
-              shelfEntry: shelfEntry,
-              onStatusTap: _onStatusTap,
-              onNoteTap: _onNoteTap,
-            ),
-        ],
+      child: BookInfoSection(
+        bookDetail: bookDetail,
+        isInShelf: isInShelf,
+        isAddingToShelf: _isAddingToShelf,
+        isRemovingFromShelf: _isRemovingFromShelf,
+        onAddToShelfPressed: _onAddToShelfPressed,
+        onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
+        onLinkTap: _onLinkTap,
+        headerBottomSlot: isInShelf
+            ? ReadingRecordSection(
+                shelfEntry: shelfEntry,
+                onStatusTap: _onStatusTap,
+                onNoteTap: _onNoteTap,
+              )
+            : null,
       ),
     );
   }

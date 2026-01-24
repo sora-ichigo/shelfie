@@ -15,6 +15,7 @@ class BookInfoSection extends StatelessWidget {
     this.onAddToShelfPressed,
     this.onRemoveFromShelfPressed,
     this.onLinkTap,
+    this.headerBottomSlot,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class BookInfoSection extends StatelessWidget {
   final VoidCallback? onAddToShelfPressed;
   final VoidCallback? onRemoveFromShelfPressed;
   final void Function(String url)? onLinkTap;
+  final Widget? headerBottomSlot;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,10 @@ class BookInfoSection extends StatelessWidget {
       children: [
         _buildHeader(theme),
         const SizedBox(height: AppSpacing.lg),
+        if (headerBottomSlot != null) ...[
+          headerBottomSlot!,
+          const SizedBox(height: AppSpacing.lg),
+        ],
         _buildBibliographicCard(theme),
         if (bookDetail.description != null) ...[
           const SizedBox(height: AppSpacing.lg),
