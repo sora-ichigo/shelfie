@@ -1124,7 +1124,7 @@ const BookDetail = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'infoLink'),
+      name: _i1.NameNode(value: 'googleBooksUrl'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(

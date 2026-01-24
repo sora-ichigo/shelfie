@@ -44,8 +44,8 @@ class BookDetail with _$BookDetail {
     /// Amazon URL
     String? amazonUrl,
 
-    /// Google Books 情報ページ URL
-    String? infoLink,
+    /// Google Books URL
+    String? googleBooksUrl,
 
     /// ユーザーの読書記録（本棚に追加されている場合）
     UserBook? userBook,

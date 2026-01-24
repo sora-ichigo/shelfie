@@ -43,7 +43,7 @@ void main() {
           description: 'A book about Flutter development',
           thumbnailUrl: 'https://example.com/cover.jpg',
           amazonUrl: 'https://amazon.com/dp/12345',
-          infoLink: 'https://books.google.com/books?id=abc123',
+          googleBooksUrl: 'https://books.google.com/books?id=abc123',
           userBook: userBook,
         );
 
@@ -57,7 +57,7 @@ void main() {
         expect(bookDetail.description, equals('A book about Flutter development'));
         expect(bookDetail.thumbnailUrl, equals('https://example.com/cover.jpg'));
         expect(bookDetail.amazonUrl, equals('https://amazon.com/dp/12345'));
-        expect(bookDetail.infoLink, equals('https://books.google.com/books?id=abc123'));
+        expect(bookDetail.googleBooksUrl, equals('https://books.google.com/books?id=abc123'));
         expect(bookDetail.userBook, equals(userBook));
       });
 
@@ -75,7 +75,7 @@ void main() {
         expect(bookDetail.description, isNull);
         expect(bookDetail.thumbnailUrl, isNull);
         expect(bookDetail.amazonUrl, isNull);
-        expect(bookDetail.infoLink, isNull);
+        expect(bookDetail.googleBooksUrl, isNull);
         expect(bookDetail.userBook, isNull);
       });
 

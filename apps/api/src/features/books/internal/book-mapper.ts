@@ -87,7 +87,7 @@ export interface BookDetail {
   isbn: string | null;
   coverImageUrl: string | null;
   amazonUrl: string | null;
-  infoLink: string | null;
+  googleBooksUrl: string | null;
 }
 
 function generateAmazonUrl(isbn: string | null): string | null {
@@ -115,6 +115,6 @@ export function mapGoogleBooksVolumeToDetail(
     isbn,
     coverImageUrl: extractCoverImageUrl(volumeInfo.imageLinks),
     amazonUrl: generateAmazonUrl(isbn),
-    infoLink: volumeInfo.infoLink ?? null,
+    googleBooksUrl: volumeInfo.infoLink ?? null,
   };
 }

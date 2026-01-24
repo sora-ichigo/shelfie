@@ -318,8 +318,8 @@ type BookDetail {
   """The Amazon URL for the book"""
   amazonUrl: String
 
-  """The info link for the book (Google Books)"""
-  infoLink: String
+  """The Google Books URL for the book"""
+  googleBooksUrl: String
 
   """The user's reading record for this book (if added to shelf)"""
   userBook: UserBook

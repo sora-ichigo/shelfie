@@ -302,10 +302,10 @@ export function registerBooksTypes(builder: Builder): void {
         description: "The Amazon URL for the book",
         resolve: (parent) => parent.amazonUrl,
       }),
-      infoLink: t.string({
+      googleBooksUrl: t.string({
         nullable: true,
-        description: "The info link for the book (Google Books)",
-        resolve: (parent) => parent.infoLink,
+        description: "The Google Books URL for the book",
+        resolve: (parent) => parent.googleBooksUrl,
       }),
       userBook: t.field({
         type: UserBookRef,

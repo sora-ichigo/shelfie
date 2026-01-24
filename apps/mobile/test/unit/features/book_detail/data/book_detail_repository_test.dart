@@ -106,7 +106,7 @@ void main() {
                 ..isbn = '9781234567890'
                 ..coverImageUrl = 'https://example.com/cover.jpg'
                 ..amazonUrl = 'https://amazon.com/dp/123'
-                ..infoLink = 'https://books.google.com/book-1'
+                ..googleBooksUrl = 'https://books.google.com/book-1'
                 ..userBook = null,
             ).toBuilder(),
         );
@@ -136,7 +136,7 @@ void main() {
         expect(data.description, equals('A great book about testing'));
         expect(data.thumbnailUrl, equals('https://example.com/cover.jpg'));
         expect(data.amazonUrl, equals('https://amazon.com/dp/123'));
-        expect(data.infoLink, equals('https://books.google.com/book-1'));
+        expect(data.googleBooksUrl, equals('https://books.google.com/book-1'));
         expect(data.userBook, isNull);
         expect(data.isInShelf, isFalse);
       });
@@ -161,7 +161,7 @@ void main() {
                 ..isbn = null
                 ..coverImageUrl = null
                 ..amazonUrl = null
-                ..infoLink = null
+                ..googleBooksUrl = null
                 ..userBook = GBookDetailData_bookDetail_userBook(
                   (ub) => ub
                     ..id = 42

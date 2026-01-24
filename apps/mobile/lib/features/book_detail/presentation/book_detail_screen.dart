@@ -126,7 +126,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shareService = ref.read(shareServiceProvider);
     await shareService.shareBook(
       title: bookDetail.title,
-      url: bookDetail.amazonUrl ?? bookDetail.infoLink,
+      url: bookDetail.amazonUrl ?? bookDetail.googleBooksUrl,
     );
   }
 

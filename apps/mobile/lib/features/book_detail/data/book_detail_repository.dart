@@ -248,7 +248,7 @@ class BookDetailRepository {
       isbn: bookDetail.isbn,
       thumbnailUrl: bookDetail.coverImageUrl,
       amazonUrl: bookDetail.amazonUrl,
-      infoLink: bookDetail.infoLink,
+      googleBooksUrl: bookDetail.googleBooksUrl,
       userBook: bookDetail.userBook != null
           ? _mapToUserBook(bookDetail.userBook!)
           : null,

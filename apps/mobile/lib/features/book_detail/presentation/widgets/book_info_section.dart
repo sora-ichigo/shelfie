@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/category_translator.dart';
@@ -390,7 +391,7 @@ class BookInfoSection extends StatelessWidget {
   }
 
   bool _hasExternalLinks() {
-    return bookDetail.amazonUrl != null || bookDetail.infoLink != null;
+    return bookDetail.amazonUrl != null || bookDetail.googleBooksUrl != null;
   }
 
   Widget _buildExternalLinksCard(ThemeData theme) {
@@ -417,22 +418,19 @@ class BookInfoSection extends StatelessWidget {
           if (bookDetail.amazonUrl != null)
             _buildLinkButton(
               theme,
-              icon: Icons.menu_book,
               label: 'Amazonで見る',
               description: '商品ページを開く',
               url: bookDetail.amazonUrl!,
               gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
             ),
-          if (bookDetail.infoLink != null) ...[
+          if (bookDetail.googleBooksUrl != null) ...[
             if (bookDetail.amazonUrl != null)
               const SizedBox(height: AppSpacing.sm),
-            _buildLinkButton(
+            _buildGooglePlayLinkButton(
               theme,
-              icon: Icons.public,
-              label: '公式サイト',
-              description: '出版社ページを開く',
-              url: bookDetail.infoLink!,
-              gradientColors: const [Color(0xFF00D4AA), Color(0xFF00B4D8)],
+              label: 'Google Playで見る',
+              description: '電子書籍ページを開く',
+              url: bookDetail.googleBooksUrl!,
             ),
           ],
         ],
@@ -442,7 +440,6 @@ class BookInfoSection extends StatelessWidget {
 
   Widget _buildLinkButton(
     ThemeData theme, {
-    required IconData icon,
     required String label,
     required String description,
     required String url,
@@ -471,10 +468,84 @@ class BookInfoSection extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                icon,
-                size: 20,
-                color: Colors.white,
+              child: const Center(
+                child: FaIcon(
+                  FontAwesomeIcons.amazon,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    description,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.open_in_new,
+              size: 20,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGooglePlayLinkButton(
+    ThemeData theme, {
+    required String label,
+    required String description,
+    required String url,
+  }) {
+    return InkWell(
+      onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        padding: AppSpacing.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHigh,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF00D4AA),
+                    Color(0xFF00A98F),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Center(
+                child: FaIcon(
+                  FontAwesomeIcons.googlePlay,
+                  size: 20,
+                  color: Colors.white,
+                ),
               ),
             ),
             const SizedBox(width: AppSpacing.md),
