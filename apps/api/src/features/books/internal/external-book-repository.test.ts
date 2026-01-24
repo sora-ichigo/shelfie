@@ -6,11 +6,11 @@ import {
 
 describe("ExternalBookRepository", () => {
   let repository: ExternalBookRepository;
-  const mockApiKey = "test-api-key";
+  const mockApplicationId = "test-application-id";
 
   beforeEach(() => {
     vi.useFakeTimers();
-    repository = createExternalBookRepository(mockApiKey);
+    repository = createExternalBookRepository(mockApplicationId);
   });
 
   afterEach(() => {
@@ -18,28 +18,32 @@ describe("ExternalBookRepository", () => {
     vi.restoreAllMocks();
   });
 
+  const createMockRakutenItem = (overrides = {}) => ({
+    title: "テスト書籍",
+    author: "著者1/著者2",
+    publisherName: "テスト出版社",
+    isbn: "9784123456789",
+    itemPrice: 1980,
+    salesDate: "2024年01月01日",
+    availability: "1",
+    itemUrl: "https://books.rakuten.co.jp/rb/12345678/",
+    largeImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
+    mediumImageUrl: "https://thumbnail.image.rakuten.co.jp/medium.jpg",
+    smallImageUrl: "https://thumbnail.image.rakuten.co.jp/small.jpg",
+    reviewCount: 10,
+    reviewAverage: "4.0",
+    booksGenreId: "001004008",
+    ...overrides,
+  });
+
   describe("searchByQuery", () => {
     it("キーワード検索で書籍一覧を取得できる", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 1,
-        items: [
-          {
-            id: "test-id-1",
-            volumeInfo: {
-              title: "テスト書籍",
-              authors: ["著者1", "著者2"],
-              publisher: "テスト出版社",
-              publishedDate: "2024-01-01",
-              industryIdentifiers: [
-                { type: "ISBN_13", identifier: "9784123456789" },
-              ],
-              imageLinks: {
-                thumbnail: "https://example.com/thumbnail.jpg",
-              },
-            },
-          },
-        ],
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [{ Item: createMockRakutenItem() }],
       };
 
       global.fetch = vi.fn().mockResolvedValueOnce({
@@ -54,23 +58,25 @@ describe("ExternalBookRepository", () => {
       if (result.success) {
         expect(result.data.totalItems).toBe(1);
         expect(result.data.items).toHaveLength(1);
-        expect(result.data.items[0].id).toBe("test-id-1");
-        expect(result.data.items[0].volumeInfo.title).toBe("テスト書籍");
+        expect(result.data.items[0].isbn).toBe("9784123456789");
+        expect(result.data.items[0].title).toBe("テスト書籍");
       }
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=%E3%83%86%E3%82%B9%E3%83%88"),
+        expect.stringContaining("keyword=%E3%83%86%E3%82%B9%E3%83%88"),
         expect.objectContaining({
           signal: expect.any(AbortSignal),
         }),
       );
     });
 
-    it("ページネーションパラメータが正しく送信される", async () => {
+    it("ページネーションパラメータが正しく送信される（offset を page に変換）", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 100,
-        items: [],
+        count: 100,
+        page: 3,
+        pageCount: 10,
+        hits: 10,
+        Items: [],
       };
 
       global.fetch = vi.fn().mockResolvedValueOnce({
@@ -79,23 +85,25 @@ describe("ExternalBookRepository", () => {
         json: () => Promise.resolve(mockResponse),
       });
 
-      await repository.searchByQuery("test", 20, 40);
+      await repository.searchByQuery("test", 10, 20);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringMatching(/startIndex=40/),
+        expect.stringMatching(/page=3/),
         expect.any(Object),
       );
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringMatching(/maxResults=20/),
+        expect.stringMatching(/hits=10/),
         expect.any(Object),
       );
     });
 
-    it("API キーがリクエストに含まれる", async () => {
+    it("applicationId がリクエストに含まれる", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 0,
-        items: [],
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
       };
 
       global.fetch = vi.fn().mockResolvedValueOnce({
@@ -107,15 +115,18 @@ describe("ExternalBookRepository", () => {
       await repository.searchByQuery("test", 10, 0);
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`key=${mockApiKey}`),
+        expect.stringContaining(`applicationId=${mockApplicationId}`),
         expect.any(Object),
       );
     });
 
     it("検索結果が0件の場合は空配列を返す", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 0,
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
       };
 
       global.fetch = vi.fn().mockResolvedValueOnce({
@@ -176,7 +187,7 @@ describe("ExternalBookRepository", () => {
       }
     });
 
-    it("API エラー（4xx/5xx）時に API_ERROR を返す", async () => {
+    it("API エラー（5xx）時に API_ERROR を返す", async () => {
       global.fetch = vi.fn().mockResolvedValueOnce({
         ok: false,
         status: 500,
@@ -205,28 +216,42 @@ describe("ExternalBookRepository", () => {
         expect(result.error.statusCode).toBe(400);
       }
     });
+
+    it("楽天 API のエラーレスポンス形式を処理できる", async () => {
+      const mockErrorResponse = {
+        error: "wrong_parameter",
+        error_description: "パラメータが不正です",
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        statusText: "Bad Request",
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const result = await repository.searchByQuery("test", 10, 0);
+
+      expect(result.success).toBe(false);
+      if (!result.success && result.error.code === "API_ERROR") {
+        expect(result.error.statusCode).toBe(400);
+      }
+    });
   });
 
   describe("searchByISBN", () => {
     it("ISBN で単一の書籍を検索できる", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 1,
-        items: [
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [
           {
-            id: "isbn-book-id",
-            volumeInfo: {
+            Item: createMockRakutenItem({
               title: "ISBN検索書籍",
-              authors: ["著者"],
-              publisher: "出版社",
-              publishedDate: "2024",
-              industryIdentifiers: [
-                { type: "ISBN_13", identifier: "9784123456789" },
-              ],
-              imageLinks: {
-                thumbnail: "https://example.com/cover.jpg",
-              },
-            },
+              isbn: "9784123456789",
+            }),
           },
         ],
       };
@@ -242,20 +267,23 @@ describe("ExternalBookRepository", () => {
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data).not.toBeNull();
-        expect(result.data?.id).toBe("isbn-book-id");
-        expect(result.data?.volumeInfo.title).toBe("ISBN検索書籍");
+        expect(result.data?.isbn).toBe("9784123456789");
+        expect(result.data?.title).toBe("ISBN検索書籍");
       }
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=isbn%3A9784123456789"),
+        expect.stringContaining("isbn=9784123456789"),
         expect.any(Object),
       );
     });
 
     it("ISBN が見つからない場合は null を返す", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 0,
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
       };
 
       global.fetch = vi.fn().mockResolvedValueOnce({
@@ -274,14 +302,16 @@ describe("ExternalBookRepository", () => {
 
     it("ISBN-10 形式でも検索できる", async () => {
       const mockResponse = {
-        kind: "books#volumes",
-        totalItems: 1,
-        items: [
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [
           {
-            id: "isbn10-book",
-            volumeInfo: {
+            Item: createMockRakutenItem({
               title: "ISBN-10 書籍",
-            },
+              isbn: "4123456789",
+            }),
           },
         ],
       };
@@ -296,7 +326,7 @@ describe("ExternalBookRepository", () => {
 
       expect(result.success).toBe(true);
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=isbn%3A4123456789"),
+        expect.stringContaining("isbn=4123456789"),
         expect.any(Object),
       );
     });
@@ -326,6 +356,64 @@ describe("ExternalBookRepository", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.code).toBe("TIMEOUT_ERROR");
+      }
+    });
+  });
+
+  describe("getBookByISBN", () => {
+    it("ISBN で書籍詳細を取得できる（searchByISBN と同じ動作）", async () => {
+      const mockResponse = {
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [
+          {
+            Item: createMockRakutenItem({
+              title: "詳細取得書籍",
+              isbn: "9784123456789",
+              itemCaption: "これは書籍の説明です",
+            }),
+          },
+        ],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      const result = await repository.getBookByISBN("9784123456789");
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).not.toBeNull();
+        expect(result.data?.isbn).toBe("9784123456789");
+        expect(result.data?.title).toBe("詳細取得書籍");
+      }
+    });
+
+    it("ISBN が見つからない場合は null を返す", async () => {
+      const mockResponse = {
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      const result = await repository.getBookByISBN("0000000000000");
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toBeNull();
       }
     });
   });

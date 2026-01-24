@@ -1,11 +1,11 @@
 export type {
   Book,
   BookDetail,
-  GoogleBooksVolume,
+  RakutenBooksItem,
 } from "./internal/book-mapper.js";
 export {
-  mapGoogleBooksVolume,
-  mapGoogleBooksVolumeToDetail,
+  mapRakutenBooksItem,
+  mapRakutenBooksItemToDetail,
 } from "./internal/book-mapper.js";
 export type {
   BookDetail as BookDetailFromSearchService,

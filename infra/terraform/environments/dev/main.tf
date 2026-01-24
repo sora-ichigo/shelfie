@@ -137,23 +137,3 @@ output "ios_config_plist" {
   sensitive   = true
 }
 
-# =============================================================================
-# Google Books API
-# =============================================================================
-
-module "google_books_api" {
-  source = "../../modules/google-books-api"
-
-  providers = {
-    google-beta = google-beta
-  }
-
-  project_id  = var.project_id
-  environment = var.environment
-}
-
-output "google_books_api_key" {
-  description = "Google Books API key for server-side use"
-  value       = module.google_books_api.api_key
-  sensitive   = true
-}
