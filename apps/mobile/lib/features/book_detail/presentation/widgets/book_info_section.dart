@@ -177,90 +177,60 @@ class BookInfoSection extends StatelessWidget {
     const coverWidth = 140.0;
     const coverHeight = 200.0;
 
-    return Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.identity()
-        ..setEntry(3, 2, 0.002)
-        ..rotateY(-0.15),
-      child: Container(
-        width: coverWidth,
-        height: coverHeight,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            // 大きな影（浮遊感）
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              blurRadius: 30,
-              spreadRadius: 2,
-              offset: const Offset(15, 20),
-            ),
-            // 中間の影
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 15,
-              offset: const Offset(8, 10),
-            ),
-            // 近い影（エッジ）
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 6,
-              offset: const Offset(3, 4),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Stack(
-            children: [
-              // 表紙画像
-              if (bookDetail.thumbnailUrl != null)
-                Image.network(
-                  bookDetail.thumbnailUrl!,
-                  width: coverWidth,
-                  height: coverHeight,
-                  fit: BoxFit.cover,
-                  frameBuilder:
-                      (context, child, frame, wasSynchronouslyLoaded) {
-                    if (wasSynchronouslyLoaded || frame != null) {
-                      return child;
-                    }
-                    return const _CoverPlaceholder(
-                      width: coverWidth,
-                      height: coverHeight,
-                    );
-                  },
-                  errorBuilder: (_, __, ___) => const _CoverPlaceholder(
+    return Container(
+      width: coverWidth,
+      height: coverHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          // 大きな影（浮遊感）
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 30,
+            spreadRadius: 2,
+            offset: const Offset(12, 16),
+          ),
+          // 中間の影
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(6, 8),
+          ),
+          // 近い影（エッジ）
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 4,
+            offset: const Offset(2, 3),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: bookDetail.thumbnailUrl != null
+            ? Image.network(
+                bookDetail.thumbnailUrl!,
+                width: coverWidth,
+                height: coverHeight,
+                fit: BoxFit.cover,
+                frameBuilder:
+                    (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded || frame != null) {
+                    return child;
+                  }
+                  return const _CoverPlaceholder(
                     width: coverWidth,
                     height: coverHeight,
-                  ),
-                )
-              else
-                const _CoverPlaceholder(
+                  );
+                },
+                errorBuilder: (_, __, ___) => const _CoverPlaceholder(
                   width: coverWidth,
                   height: coverHeight,
                 ),
-              // 光沢オーバーレイ
-              Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.white.withOpacity(0.2),
-                        Colors.transparent,
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.15),
-                      ],
-                      stops: const [0.0, 0.3, 0.7, 1.0],
-                    ),
-                  ),
-                ),
+              )
+            : const _CoverPlaceholder(
+                width: coverWidth,
+                height: coverHeight,
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
