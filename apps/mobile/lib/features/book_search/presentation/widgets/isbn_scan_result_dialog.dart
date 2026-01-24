@@ -100,13 +100,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
           ),
         );
       },
-      (userBook) {
+      (_) {
         Navigator.of(context).pop(true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${book.title}」を本棚に追加しました'),
-          ),
-        );
       },
     );
   }

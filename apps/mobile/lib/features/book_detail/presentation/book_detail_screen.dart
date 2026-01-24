@@ -145,11 +145,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           ),
         );
       },
-      (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('本棚に追加しました')),
-        );
-      },
+      (_) {},
     );
   }
 
@@ -169,11 +165,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           ),
         );
       },
-      (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('本棚から削除しました')),
-        );
-      },
+      (_) {},
     );
   }
 

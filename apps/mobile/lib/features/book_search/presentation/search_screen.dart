@@ -216,13 +216,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (userBook) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${book.title}」を本棚に追加しました'),
-          ),
-        );
-      },
+      (_) {},
     );
   }
 
@@ -252,13 +246,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${book.title}」を本棚から削除しました'),
-          ),
-        );
-      },
+      (_) {},
     );
   }
 }
