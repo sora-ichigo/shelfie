@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 
@@ -24,16 +23,10 @@ class BookInfoSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildCoverImage(context),
+        _buildHeader(theme),
         const SizedBox(height: AppSpacing.lg),
-        _buildTitleAndAuthor(theme),
-        const SizedBox(height: AppSpacing.lg),
-        if (!isInShelf) ...[
-          _buildAddToShelfButton(context),
-          const SizedBox(height: AppSpacing.lg),
-        ],
         _buildBibliographicCard(theme),
         if (bookDetail.description != null) ...[
           const SizedBox(height: AppSpacing.lg),
@@ -47,87 +40,112 @@ class BookInfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCoverImage(BuildContext context) {
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
+  Widget _buildHeader(ThemeData theme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildCoverImage(),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                bookDetail.title,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                bookDetail.authors.join(', '),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              if (!isInShelf) ...[
+                const SizedBox(height: AppSpacing.md),
+                _buildAddToShelfButton(theme),
+              ],
+            ],
+          ),
         ),
-        child: ClipRRect(
+      ],
+    );
+  }
+
+  Widget _buildAddToShelfButton(ThemeData theme) {
+    return SizedBox(
+      width: double.infinity,
+      height: 44,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppColors.actionGradient,
           borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-            height: 280,
-            child: bookDetail.thumbnailUrl != null
-                ? Image.network(
-                    bookDetail.thumbnailUrl!,
-                    fit: BoxFit.contain,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const _CoverPlaceholder();
-                    },
-                    errorBuilder: (_, __, ___) => const _CoverPlaceholder(),
-                  )
-                : const _CoverPlaceholder(),
+        ),
+        child: ElevatedButton.icon(
+          onPressed: onAddToShelfPressed,
+          icon: const Icon(Icons.add, color: Colors.white, size: 20),
+          label: Text(
+            '本棚に追加',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildTitleAndAuthor(ThemeData theme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          bookDetail.title,
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          bookDetail.authors.join(', '),
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
+  Widget _buildCoverImage() {
+    const coverWidth = 140.0;
+    const coverHeight = 200.0;
 
-  Widget _buildAddToShelfButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: AppColors.actionGradient,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: ElevatedButton.icon(
-          onPressed: onAddToShelfPressed,
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: Text(
-            '本棚に追加',
-            style: AppTypography.labelLarge.copyWith(color: Colors.white),
+    return Container(
+      width: coverWidth,
+      height: coverHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-        ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: bookDetail.thumbnailUrl != null
+            ? Image.network(
+                bookDetail.thumbnailUrl!,
+                width: coverWidth,
+                height: coverHeight,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const _CoverPlaceholder(
+                    width: coverWidth,
+                    height: coverHeight,
+                  );
+                },
+                errorBuilder: (_, __, ___) => const _CoverPlaceholder(
+                  width: coverWidth,
+                  height: coverHeight,
+                ),
+              )
+            : const _CoverPlaceholder(
+                width: coverWidth,
+                height: coverHeight,
+              ),
       ),
     );
   }
@@ -411,21 +429,27 @@ class BookInfoSection extends StatelessWidget {
 }
 
 class _CoverPlaceholder extends StatelessWidget {
-  const _CoverPlaceholder();
+  const _CoverPlaceholder({
+    this.width = 140,
+    this.height = 200,
+  });
+
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: 180,
-      height: 280,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
         Icons.book,
-        size: 64,
+        size: height * 0.25,
         color: theme.colorScheme.onSurfaceVariant,
       ),
     );
