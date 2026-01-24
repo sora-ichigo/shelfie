@@ -88,6 +88,8 @@ export interface BookDetail {
   isbn: string | null;
   coverImageUrl: string | null;
   amazonUrl: string | null;
+  /** @deprecated Use rakutenBooksUrl instead */
+  googleBooksUrl: string | null;
   rakutenBooksUrl: string | null;
 }
 
@@ -113,6 +115,7 @@ export function mapRakutenBooksItemToDetail(item: RakutenBooksItem): BookDetail 
     isbn,
     coverImageUrl: extractCoverImageUrl(item),
     amazonUrl: generateAmazonUrl(isbn),
+    googleBooksUrl: null,
     rakutenBooksUrl: item.itemUrl ?? null,
   };
 }

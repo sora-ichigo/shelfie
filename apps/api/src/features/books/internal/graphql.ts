@@ -318,6 +318,12 @@ export function registerBooksTypes(builder: Builder): void {
         description: "The Amazon URL for the book",
         resolve: (parent) => parent.amazonUrl,
       }),
+      googleBooksUrl: t.string({
+        nullable: true,
+        description: "The Google Books URL for the book (deprecated, use rakutenBooksUrl)",
+        deprecationReason: "Use rakutenBooksUrl instead",
+        resolve: (parent) => parent.googleBooksUrl,
+      }),
       rakutenBooksUrl: t.string({
         nullable: true,
         description: "The Rakuten Books URL for the book",

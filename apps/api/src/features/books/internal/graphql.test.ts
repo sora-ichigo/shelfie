@@ -403,6 +403,9 @@ describe("BookDetail type", () => {
     expect(fields.amazonUrl).toBeDefined();
     expect(fields.amazonUrl.type.toString()).toBe("String");
 
+    expect(fields.googleBooksUrl).toBeDefined();
+    expect(fields.googleBooksUrl.type.toString()).toBe("String");
+
     expect(fields.rakutenBooksUrl).toBeDefined();
     expect(fields.rakutenBooksUrl.type.toString()).toBe("String");
 
@@ -727,6 +730,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         amazonUrl: "https://amazon.com/dp/1234567890",
+        googleBooksUrl: null,
         rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
       };
 
@@ -819,6 +823,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         isbn: null,
         coverImageUrl: null,
         amazonUrl: null,
+        googleBooksUrl: null,
         rakutenBooksUrl: null,
       };
 

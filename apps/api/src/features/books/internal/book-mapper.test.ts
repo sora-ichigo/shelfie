@@ -195,6 +195,7 @@ describe("BookMapper", () => {
         isbn: "9784123456789",
         coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
         amazonUrl: "https://www.amazon.co.jp/dp/9784123456789",
+        googleBooksUrl: null,
         rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
       } satisfies BookDetail);
     });
