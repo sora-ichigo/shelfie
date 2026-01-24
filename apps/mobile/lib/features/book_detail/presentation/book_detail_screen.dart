@@ -34,7 +34,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(bookDetailNotifierProvider(widget.bookId).notifier).loadBookDetail();
+      ref
+          .read(bookDetailNotifierProvider(widget.bookId).notifier)
+          .loadBookDetail();
     });
   }
 
@@ -53,7 +55,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(AppSpacing.sm),
+            padding: const EdgeInsets.only(right: AppSpacing.sm),
             child: _CircleIconButton(
               icon: Icons.share,
               onPressed: _onSharePressed,
@@ -79,7 +81,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         _buildBackgroundGradient(),
         SingleChildScrollView(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + kToolbarHeight + AppSpacing.md,
+            top: MediaQuery.of(context).padding.top +
+                kToolbarHeight +
+                AppSpacing.md,
             left: AppSpacing.md,
             right: AppSpacing.md,
             bottom: AppSpacing.md,
@@ -129,9 +133,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Widget _buildErrorView(Object error) {
-    final failure = error is Failure
-        ? error
-        : UnexpectedFailure(message: error.toString());
+    final failure =
+        error is Failure ? error : UnexpectedFailure(message: error.toString());
 
     return ErrorView(
       failure: failure,
@@ -210,7 +213,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onRetry() {
-    ref.read(bookDetailNotifierProvider(widget.bookId).notifier).loadBookDetail();
+    ref
+        .read(bookDetailNotifierProvider(widget.bookId).notifier)
+        .loadBookDetail();
   }
 }
 
