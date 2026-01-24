@@ -148,6 +148,14 @@ async function main(): Promise<void> {
   }
 }
 
+if (import.meta.hot) {
+  import.meta.hot.accept();
+  import.meta.hot.dispose(async () => {
+    logger.info("HMR: Disposing old server instance...");
+    await shutdown();
+  });
+}
+
 main();
 
 export { initialize, shutdown, type ServerComponents, getDb, getPool };
