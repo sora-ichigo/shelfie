@@ -63,7 +63,7 @@ describe("ExternalBookRepository", () => {
       }
 
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("keyword=%E3%83%86%E3%82%B9%E3%83%88"),
+        expect.stringContaining("title=%E3%83%86%E3%82%B9%E3%83%88"),
         expect.objectContaining({
           signal: expect.any(AbortSignal),
         }),
