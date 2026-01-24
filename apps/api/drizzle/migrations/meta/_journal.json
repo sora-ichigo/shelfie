@@ -22,6 +22,13 @@
       "when": 1769091507031,
       "tag": "0002_supreme_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1769265157311,
+      "tag": "0003_smiling_rictor",
+      "breakpoints": true
     }
   ]
 }
