@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 
 class BookInfoSection extends StatelessWidget {
@@ -134,7 +134,7 @@ class BookInfoSection extends StatelessWidget {
     }
     if (bookDetail.publishedDate != null) {
       items.add(
-          _buildInfoItem(theme, '発売日', _formatDate(bookDetail.publishedDate!)));
+          _buildInfoItem(theme, '発売日', formatDateString(bookDetail.publishedDate!)));
     }
     if (bookDetail.pageCount != null) {
       items.add(_buildInfoItem(theme, 'ページ数', '${bookDetail.pageCount}ページ'));
@@ -171,15 +171,6 @@ class BookInfoSection extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      return DateFormat('yyyy年M月d日').format(date);
-    } catch (_) {
-      return dateString;
-    }
   }
 
   Widget _buildInfoItem(ThemeData theme, String label, String value) {

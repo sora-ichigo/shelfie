@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
 class BookListItem extends StatelessWidget {
@@ -125,7 +126,7 @@ class BookListItem extends StatelessWidget {
       parts.add(book.publisher!);
     }
     if (book.publishedDate != null) {
-      parts.add(book.publishedDate!);
+      parts.add(formatDateString(book.publishedDate!));
     }
     return parts.join(' / ');
   }
