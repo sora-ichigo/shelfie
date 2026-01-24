@@ -129,8 +129,50 @@ type Query {
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
 
-  """Get all books in the user's shelf"""
-  myShelf: [UserBook!]!
+  """Get books in the user's shelf with pagination, sorting, and search"""
+  myShelf(input: MyShelfInput): MyShelfResult!
+}
+
+"""Sort field for books in shelf"""
+enum ShelfSortField {
+  """Sort by date added to shelf"""
+  ADDED_AT
+  """Sort by book title"""
+  TITLE
+  """Sort by author name"""
+  AUTHOR
+}
+
+"""Sort order direction"""
+enum SortOrder {
+  """Ascending order"""
+  ASC
+  """Descending order"""
+  DESC
+}
+
+"""Input for querying user's book shelf"""
+input MyShelfInput {
+  """Search query to filter books by title or author"""
+  query: String
+  """Field to sort by"""
+  sortBy: String
+  """Sort order direction"""
+  sortOrder: String
+  """Number of items to return (default: 20)"""
+  limit: Int
+  """Number of items to skip (default: 0)"""
+  offset: Int
+}
+
+"""Result of user's book shelf query"""
+type MyShelfResult {
+  """List of books in the shelf"""
+  items: [UserBook!]!
+  """Total number of books matching the query"""
+  totalCount: Int!
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
 }
 
 """Input for token refresh"""

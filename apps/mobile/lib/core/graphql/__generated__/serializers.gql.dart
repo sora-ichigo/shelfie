@@ -34,13 +34,16 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GAddBookInput,
         GAuthErrorCode,
         GLoginUserInput,
+        GMyShelfInput,
         GReadingStatus,
         GRefreshTokenInput,
-        GRegisterUserInput;
+        GRegisterUserInput,
+        GShelfSortField,
+        GSortOrder;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
 import 'package:shelfie/core/state/__generated__/my_shelf.data.gql.dart'
-    show GMyShelfData, GMyShelfData_myShelf;
+    show GMyShelfData, GMyShelfData_myShelf, GMyShelfData_myShelf_items;
 import 'package:shelfie/core/state/__generated__/my_shelf.req.gql.dart'
     show GMyShelfReq;
 import 'package:shelfie/core/state/__generated__/my_shelf.var.gql.dart'
@@ -93,6 +96,15 @@ import 'package:shelfie/features/book_search/data/__generated__/search_books.req
     show GSearchBooksReq;
 import 'package:shelfie/features/book_search/data/__generated__/search_books.var.gql.dart'
     show GSearchBooksVars;
+import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.data.gql.dart'
+    show
+        GMyShelfPaginatedData,
+        GMyShelfPaginatedData_myShelf,
+        GMyShelfPaginatedData_myShelf_items;
+import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.req.gql.dart'
+    show GMyShelfPaginatedReq;
+import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.var.gql.dart'
+    show GMyShelfPaginatedVars;
 import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
     show
         GLoginUserData_loginUser,
@@ -158,6 +170,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserVars,
   GMyShelfData,
   GMyShelfData_myShelf,
+  GMyShelfData_myShelf_items,
+  GMyShelfInput,
+  GMyShelfPaginatedData,
+  GMyShelfPaginatedData_myShelf,
+  GMyShelfPaginatedData_myShelf_items,
+  GMyShelfPaginatedReq,
+  GMyShelfPaginatedVars,
   GMyShelfReq,
   GMyShelfVars,
   GReadingStatus,
@@ -189,6 +208,8 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSearchBooksData_searchBooks_items,
   GSearchBooksReq,
   GSearchBooksVars,
+  GShelfSortField,
+  GSortOrder,
   GUpdateReadingNoteData,
   GUpdateReadingNoteData_updateReadingNote,
   GUpdateReadingNoteReq,

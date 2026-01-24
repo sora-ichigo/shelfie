@@ -23,7 +23,7 @@ abstract class GMyShelfData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  BuiltList<GMyShelfData_myShelf> get myShelf;
+  GMyShelfData_myShelf get myShelf;
   static Serializer<GMyShelfData> get serializer => _$gMyShelfDataSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
@@ -47,6 +47,38 @@ abstract class GMyShelfData_myShelf
       _$GMyShelfData_myShelf;
 
   static void _initializeBuilder(GMyShelfData_myShelfBuilder b) =>
+      b..G__typename = 'MyShelfResult';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  BuiltList<GMyShelfData_myShelf_items> get items;
+  int get totalCount;
+  bool get hasMore;
+  static Serializer<GMyShelfData_myShelf> get serializer =>
+      _$gMyShelfDataMyShelfSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMyShelfData_myShelf.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GMyShelfData_myShelf? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMyShelfData_myShelf.serializer,
+        json,
+      );
+}
+
+abstract class GMyShelfData_myShelf_items
+    implements
+        Built<GMyShelfData_myShelf_items, GMyShelfData_myShelf_itemsBuilder> {
+  GMyShelfData_myShelf_items._();
+
+  factory GMyShelfData_myShelf_items(
+          [void Function(GMyShelfData_myShelf_itemsBuilder b) updates]) =
+      _$GMyShelfData_myShelf_items;
+
+  static void _initializeBuilder(GMyShelfData_myShelf_itemsBuilder b) =>
       b..G__typename = 'UserBook';
 
   @BuiltValueField(wireName: '__typename')
@@ -60,17 +92,17 @@ abstract class GMyShelfData_myShelf
   DateTime? get noteUpdatedAt;
   DateTime get addedAt;
   DateTime? get completedAt;
-  static Serializer<GMyShelfData_myShelf> get serializer =>
-      _$gMyShelfDataMyShelfSerializer;
+  static Serializer<GMyShelfData_myShelf_items> get serializer =>
+      _$gMyShelfDataMyShelfItemsSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GMyShelfData_myShelf.serializer,
+        GMyShelfData_myShelf_items.serializer,
         this,
       ) as Map<String, dynamic>);
 
-  static GMyShelfData_myShelf? fromJson(Map<String, dynamic> json) =>
+  static GMyShelfData_myShelf_items? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
-        GMyShelfData_myShelf.serializer,
+        GMyShelfData_myShelf_items.serializer,
         json,
       );
 }

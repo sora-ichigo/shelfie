@@ -65,6 +65,63 @@ abstract class GLoginUserInput
       );
 }
 
+class GShelfSortField extends EnumClass {
+  const GShelfSortField._(String name) : super(name);
+
+  static const GShelfSortField ADDED_AT = _$gShelfSortFieldADDED_AT;
+
+  static const GShelfSortField TITLE = _$gShelfSortFieldTITLE;
+
+  static const GShelfSortField AUTHOR = _$gShelfSortFieldAUTHOR;
+
+  static Serializer<GShelfSortField> get serializer =>
+      _$gShelfSortFieldSerializer;
+
+  static BuiltSet<GShelfSortField> get values => _$gShelfSortFieldValues;
+
+  static GShelfSortField valueOf(String name) => _$gShelfSortFieldValueOf(name);
+}
+
+class GSortOrder extends EnumClass {
+  const GSortOrder._(String name) : super(name);
+
+  static const GSortOrder ASC = _$gSortOrderASC;
+
+  static const GSortOrder DESC = _$gSortOrderDESC;
+
+  static Serializer<GSortOrder> get serializer => _$gSortOrderSerializer;
+
+  static BuiltSet<GSortOrder> get values => _$gSortOrderValues;
+
+  static GSortOrder valueOf(String name) => _$gSortOrderValueOf(name);
+}
+
+abstract class GMyShelfInput
+    implements Built<GMyShelfInput, GMyShelfInputBuilder> {
+  GMyShelfInput._();
+
+  factory GMyShelfInput([void Function(GMyShelfInputBuilder b) updates]) =
+      _$GMyShelfInput;
+
+  String? get query;
+  String? get sortBy;
+  String? get sortOrder;
+  int? get limit;
+  int? get offset;
+  static Serializer<GMyShelfInput> get serializer => _$gMyShelfInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMyShelfInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GMyShelfInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMyShelfInput.serializer,
+        json,
+      );
+}
+
 abstract class GRefreshTokenInput
     implements Built<GRefreshTokenInput, GRefreshTokenInputBuilder> {
   GRefreshTokenInput._();
