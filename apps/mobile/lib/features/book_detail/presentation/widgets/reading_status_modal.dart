@@ -87,10 +87,13 @@ class _ReadingStatusModalContentState
               _buildStatusGrid(theme),
               if (_error != null) ...[
                 const SizedBox(height: AppSpacing.sm),
-                Text(
-                  _error!.userMessage,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.error,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    _error!.userMessage,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.error,
+                    ),
                   ),
                 ),
               ],
@@ -192,7 +195,7 @@ class _ReadingStatusModalContentState
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.white.withOpacity(0.1),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
