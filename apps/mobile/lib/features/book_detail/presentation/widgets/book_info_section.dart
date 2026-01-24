@@ -171,8 +171,10 @@ class BookInfoSection extends StatelessWidget {
                 width: coverWidth,
                 height: coverHeight,
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded || frame != null) {
+                    return child;
+                  }
                   return const _CoverPlaceholder(
                     width: coverWidth,
                     height: coverHeight,
