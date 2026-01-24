@@ -48,6 +48,12 @@ import 'package:shelfie/features/book_detail/data/__generated__/book_detail.req.
     show GBookDetailReq;
 import 'package:shelfie/features/book_detail/data/__generated__/book_detail.var.gql.dart'
     show GBookDetailVars;
+import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.data.gql.dart'
+    show GRemoveFromShelfData;
+import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart'
+    show GRemoveFromShelfReq;
+import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.var.gql.dart'
+    show GRemoveFromShelfVars;
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart'
     show GUpdateReadingNoteData, GUpdateReadingNoteData_updateReadingNote;
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart'
@@ -161,6 +167,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRegisterUserInput,
   GRegisterUserReq,
   GRegisterUserVars,
+  GRemoveFromShelfData,
+  GRemoveFromShelfReq,
+  GRemoveFromShelfVars,
   GSearchBookByISBNData,
   GSearchBookByISBNData_searchBookByISBN,
   GSearchBookByISBNReq,

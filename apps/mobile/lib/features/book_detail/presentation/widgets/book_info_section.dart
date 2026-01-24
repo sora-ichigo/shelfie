@@ -9,6 +9,7 @@ class BookInfoSection extends StatelessWidget {
     required this.bookDetail,
     required this.isInShelf,
     this.onAddToShelfPressed,
+    this.onRemoveFromShelfPressed,
     this.onLinkTap,
     super.key,
   });
@@ -16,6 +17,7 @@ class BookInfoSection extends StatelessWidget {
   final BookDetail bookDetail;
   final bool isInShelf;
   final VoidCallback? onAddToShelfPressed;
+  final VoidCallback? onRemoveFromShelfPressed;
   final void Function(String url)? onLinkTap;
 
   @override
@@ -41,33 +43,40 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildHeader(ThemeData theme) {
+    const coverHeight = 200.0;
+
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         _buildCoverImage(),
         const SizedBox(width: AppSpacing.md),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                bookDetail.title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+          child: SizedBox(
+            height: coverHeight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  bookDetail.title,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xs),
-              Text(
-                bookDetail.authors.join(', '),
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  bookDetail.authors.join(', '),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              if (!isInShelf) ...[
                 const SizedBox(height: AppSpacing.md),
-                _buildAddToShelfButton(theme),
+                if (isInShelf)
+                  _buildRemoveFromShelfButton(theme)
+                else
+                  _buildAddToShelfButton(theme),
               ],
-            ],
+            ),
           ),
         ),
       ],
@@ -99,6 +108,31 @@ class BookInfoSection extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRemoveFromShelfButton(ThemeData theme) {
+    return SizedBox(
+      width: double.infinity,
+      height: 44,
+      child: ElevatedButton.icon(
+        onPressed: onRemoveFromShelfPressed,
+        icon: const Icon(Icons.remove, color: Colors.white, size: 20),
+        label: Text(
+          '本棚から削除',
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: theme.colorScheme.surfaceContainerHighest,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
       ),

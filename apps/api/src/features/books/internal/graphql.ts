@@ -627,5 +627,48 @@ export function registerBooksMutations(
         return result.data;
       },
     }),
+    removeFromShelf: t.field({
+      type: "Boolean",
+      nullable: false,
+      description: "Remove a book from the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+      },
+      resolve: async (_parent, args, context): Promise<boolean> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.removeFromShelf({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return true;
+      },
+    }),
   }));
 }

@@ -36,6 +36,11 @@ export interface UpdateReadingNoteInput {
   note: string;
 }
 
+export interface RemoveFromShelfInput {
+  userBookId: number;
+  userId: number;
+}
+
 export interface BookShelfService {
   addBookToShelf(
     input: AddBookToShelfInput,
@@ -53,6 +58,10 @@ export interface BookShelfService {
   updateReadingNote(
     input: UpdateReadingNoteInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
+
+  removeFromShelf(
+    input: RemoveFromShelfInput,
+  ): Promise<Result<void, BookShelfErrors>>;
 }
 
 export function createBookShelfService(
@@ -281,6 +290,72 @@ export function createBookShelfService(
       } catch (error) {
         logger.error(
           "Database error while updating reading note",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userBookId: String(userBookId),
+            userId: String(userId),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async removeFromShelf(
+      input: RemoveFromShelfInput,
+    ): Promise<Result<void, BookShelfErrors>> {
+      const { userBookId, userId } = input;
+
+      try {
+        const userBook = await repository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "BOOK_NOT_FOUND",
+            message: "Book not found in shelf",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          logger.warn("Unauthorized remove from shelf attempt", {
+            feature: "books",
+            userBookId: String(userBookId),
+            ownerId: String(userBook.userId),
+            requesterId: String(userId),
+          });
+
+          return err({
+            code: "FORBIDDEN",
+            message: "You are not allowed to remove this book",
+          });
+        }
+
+        const deleted = await repository.deleteUserBook(userBookId);
+
+        if (!deleted) {
+          return err({
+            code: "DATABASE_ERROR",
+            message: "Failed to remove book from shelf",
+          });
+        }
+
+        logger.info("Book removed from shelf successfully", {
+          feature: "books",
+          userBookId: String(userBookId),
+          userId: String(userId),
+        });
+
+        return ok(undefined);
+      } catch (error) {
+        logger.error(
+          "Database error while removing book from shelf",
           error instanceof Error ? error : new Error(String(error)),
           {
             feature: "books",

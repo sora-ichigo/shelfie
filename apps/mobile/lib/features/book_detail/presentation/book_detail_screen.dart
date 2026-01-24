@@ -96,6 +96,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 bookDetail: bookDetail,
                 isInShelf: bookDetail.isInShelf,
                 onAddToShelfPressed: _onAddToShelfPressed,
+                onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
                 onLinkTap: _onLinkTap,
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -175,6 +176,30 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('本棚に追加しました')),
+        );
+      },
+    );
+  }
+
+  Future<void> _onRemoveFromShelfPressed() async {
+    final result = await ref
+        .read(bookDetailNotifierProvider(widget.bookId).notifier)
+        .removeFromShelf();
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('本棚から削除しました')),
         );
       },
     );

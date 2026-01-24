@@ -110,6 +110,34 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     }
   }
 
+  Future<Either<Failure, void>> removeFromShelf() async {
+    final currentState = state;
+    if (!currentState.hasValue || currentState.value == null) {
+      return left(
+        const UnexpectedFailure(message: 'BookDetail is not loaded'),
+      );
+    }
+
+    final currentBookDetail = currentState.value!;
+    final userBook = currentBookDetail.userBook;
+    if (userBook == null) {
+      return left(
+        const UnexpectedFailure(message: 'Book is not in shelf'),
+      );
+    }
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.removeFromShelf(userBookId: userBook.id);
+
+    switch (result) {
+      case Left(:final value):
+        return left(value);
+      case Right():
+        state = AsyncData(currentBookDetail.copyWith(userBook: null));
+        return right(null);
+    }
+  }
+
   Future<Either<Failure, UserBook>> updateReadingNote({
     required int userBookId,
     required String note,

@@ -1,0 +1,3 @@
+mutation RemoveFromShelf($userBookId: Int!) {
+  removeFromShelf(userBookId: $userBookId)
+}

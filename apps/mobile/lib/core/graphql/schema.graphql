@@ -88,6 +88,9 @@ type Mutation {
 
   """Update the reading note of a book in the user's shelf"""
   updateReadingNote(userBookId: Int!, note: String!): UserBook!
+
+  """Remove a book from the user's shelf"""
+  removeFromShelf(userBookId: Int!): Boolean!
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
