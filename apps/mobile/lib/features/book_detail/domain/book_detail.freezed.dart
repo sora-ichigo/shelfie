@@ -40,6 +40,9 @@ mixin _$BookDetail {
   /// 書籍の説明文
   String? get description => throw _privateConstructorUsedError;
 
+  /// ISBN
+  String? get isbn => throw _privateConstructorUsedError;
+
   /// 表紙画像 URL
   String? get thumbnailUrl => throw _privateConstructorUsedError;
 
@@ -72,6 +75,7 @@ abstract class $BookDetailCopyWith<$Res> {
       int? pageCount,
       List<String>? categories,
       String? description,
+      String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
       String? infoLink,
@@ -101,6 +105,7 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
     Object? pageCount = freezed,
     Object? categories = freezed,
     Object? description = freezed,
+    Object? isbn = freezed,
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
     Object? infoLink = freezed,
@@ -138,6 +143,10 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isbn: freezed == isbn
+          ? _value.isbn
+          : isbn // ignore: cast_nullable_to_non_nullable
               as String?,
       thumbnailUrl: freezed == thumbnailUrl
           ? _value.thumbnailUrl
@@ -188,6 +197,7 @@ abstract class _$$BookDetailImplCopyWith<$Res>
       int? pageCount,
       List<String>? categories,
       String? description,
+      String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
       String? infoLink,
@@ -216,6 +226,7 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     Object? pageCount = freezed,
     Object? categories = freezed,
     Object? description = freezed,
+    Object? isbn = freezed,
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
     Object? infoLink = freezed,
@@ -254,6 +265,10 @@ class __$$BookDetailImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      isbn: freezed == isbn
+          ? _value.isbn
+          : isbn // ignore: cast_nullable_to_non_nullable
+              as String?,
       thumbnailUrl: freezed == thumbnailUrl
           ? _value.thumbnailUrl
           : thumbnailUrl // ignore: cast_nullable_to_non_nullable
@@ -286,6 +301,7 @@ class _$BookDetailImpl extends _BookDetail {
       this.pageCount,
       final List<String>? categories,
       this.description,
+      this.isbn,
       this.thumbnailUrl,
       this.amazonUrl,
       this.infoLink,
@@ -342,6 +358,10 @@ class _$BookDetailImpl extends _BookDetail {
   @override
   final String? description;
 
+  /// ISBN
+  @override
+  final String? isbn;
+
   /// 表紙画像 URL
   @override
   final String? thumbnailUrl;
@@ -360,7 +380,7 @@ class _$BookDetailImpl extends _BookDetail {
 
   @override
   String toString() {
-    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, infoLink: $infoLink, userBook: $userBook)';
+    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, infoLink: $infoLink, userBook: $userBook)';
   }
 
   @override
@@ -381,6 +401,7 @@ class _$BookDetailImpl extends _BookDetail {
                 .equals(other._categories, _categories) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.isbn, isbn) || other.isbn == isbn) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
                 other.thumbnailUrl == thumbnailUrl) &&
             (identical(other.amazonUrl, amazonUrl) ||
@@ -402,6 +423,7 @@ class _$BookDetailImpl extends _BookDetail {
       pageCount,
       const DeepCollectionEquality().hash(_categories),
       description,
+      isbn,
       thumbnailUrl,
       amazonUrl,
       infoLink,
@@ -424,6 +446,7 @@ abstract class _BookDetail extends BookDetail {
       final int? pageCount,
       final List<String>? categories,
       final String? description,
+      final String? isbn,
       final String? thumbnailUrl,
       final String? amazonUrl,
       final String? infoLink,
@@ -462,6 +485,10 @@ abstract class _BookDetail extends BookDetail {
 
   /// 書籍の説明文
   String? get description;
+  @override
+
+  /// ISBN
+  String? get isbn;
   @override
 
   /// 表紙画像 URL

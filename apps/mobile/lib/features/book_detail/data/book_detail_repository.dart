@@ -245,6 +245,7 @@ class BookDetailRepository {
       pageCount: bookDetail.pageCount,
       categories: bookDetail.categories?.toList(),
       description: bookDetail.description,
+      isbn: bookDetail.isbn,
       thumbnailUrl: bookDetail.coverImageUrl,
       amazonUrl: bookDetail.amazonUrl,
       infoLink: bookDetail.infoLink,

@@ -197,6 +197,9 @@ class BookInfoSection extends StatelessWidget {
     if (bookDetail.pageCount != null) {
       items.add(_buildInfoItem(theme, 'ページ数', '${bookDetail.pageCount}ページ'));
     }
+    if (bookDetail.isbn != null) {
+      items.add(_buildInfoItem(theme, 'ISBN', bookDetail.isbn!));
+    }
     if (bookDetail.categories != null && bookDetail.categories!.isNotEmpty) {
       items.add(_buildCategoriesChips(theme));
     }

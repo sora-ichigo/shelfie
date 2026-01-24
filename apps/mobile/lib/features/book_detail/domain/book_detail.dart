@@ -35,6 +35,9 @@ class BookDetail with _$BookDetail {
     /// 書籍の説明文
     String? description,
 
+    /// ISBN
+    String? isbn,
+
     /// 表紙画像 URL
     String? thumbnailUrl,
 
