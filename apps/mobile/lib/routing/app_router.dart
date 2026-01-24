@@ -238,6 +238,17 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) => const _AccountScreen(),
     ),
 
+    // 本詳細（タブバーなし）
+    GoRoute(
+      path: '/books/:bookId',
+      builder: (context, state) {
+        final params = BookDetailParams.fromState(
+          pathParameters: state.pathParameters,
+        );
+        return BookDetailScreen(bookId: params.bookId);
+      },
+    ),
+
     // メインシェル（タブナビゲーション）
     ShellRoute(
       builder: (context, state, child) => _MainShell(child: child),
@@ -271,16 +282,6 @@ List<RouteBase> _buildRoutes() {
               ),
             ),
           ],
-        ),
-        // 本詳細
-        GoRoute(
-          path: '/books/:bookId',
-          builder: (context, state) {
-            final params = BookDetailParams.fromState(
-              pathParameters: state.pathParameters,
-            );
-            return BookDetailScreen(bookId: params.bookId);
-          },
         ),
       ],
     ),
