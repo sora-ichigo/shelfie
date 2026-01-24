@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
@@ -26,7 +27,7 @@ void main() {
 
   Widget buildSearchScreen({
     BookSearchState? initialState,
-    Map<String, int> shelfState = const {},
+    Map<String, ShelfEntry> shelfState = const {},
   }) {
     return ProviderScope(
       overrides: [
@@ -264,8 +265,8 @@ class _TestBookSearchNotifier extends BookSearchNotifier {
 class _TestShelfState extends ShelfState {
   _TestShelfState(this._initialState);
 
-  final Map<String, int> _initialState;
+  final Map<String, ShelfEntry> _initialState;
 
   @override
-  Map<String, int> build() => _initialState;
+  Map<String, ShelfEntry> build() => _initialState;
 }

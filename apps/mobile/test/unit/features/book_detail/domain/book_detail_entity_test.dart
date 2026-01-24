@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
-import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_detail/domain/user_book.dart';
 
 void main() {
   group('BookDetail', () {
@@ -19,20 +17,7 @@ void main() {
       });
 
       test('should create with all optional fields', () {
-        final addedAt = DateTime(2024, 1, 15);
-        final completedAt = DateTime(2024, 2, 20);
-        final noteUpdatedAt = DateTime(2024, 2, 25);
-
-        final userBook = UserBook(
-          id: 1,
-          readingStatus: ReadingStatus.completed,
-          addedAt: addedAt,
-          completedAt: completedAt,
-          note: 'Great book!',
-          noteUpdatedAt: noteUpdatedAt,
-        );
-
-        final bookDetail = BookDetail(
+        const bookDetail = BookDetail(
           id: 'abc123',
           title: 'Flutter in Action',
           authors: ['Eric Windmill'],
@@ -44,7 +29,6 @@ void main() {
           thumbnailUrl: 'https://example.com/cover.jpg',
           amazonUrl: 'https://amazon.com/dp/12345',
           googleBooksUrl: 'https://books.google.com/books?id=abc123',
-          userBook: userBook,
         );
 
         expect(bookDetail.id, equals('abc123'));
@@ -58,7 +42,6 @@ void main() {
         expect(bookDetail.thumbnailUrl, equals('https://example.com/cover.jpg'));
         expect(bookDetail.amazonUrl, equals('https://amazon.com/dp/12345'));
         expect(bookDetail.googleBooksUrl, equals('https://books.google.com/books?id=abc123'));
-        expect(bookDetail.userBook, equals(userBook));
       });
 
       test('should have null optional fields by default', () {
@@ -76,7 +59,6 @@ void main() {
         expect(bookDetail.thumbnailUrl, isNull);
         expect(bookDetail.amazonUrl, isNull);
         expect(bookDetail.googleBooksUrl, isNull);
-        expect(bookDetail.userBook, isNull);
       });
 
       test('should allow empty authors list', () {
@@ -155,51 +137,6 @@ void main() {
         expect(copied.title, equals('New Title'));
         expect(copied.authors, equals(['Author']));
         expect(copied.publisher, equals('New Publisher'));
-      });
-
-      test('should copy with userBook', () {
-        const original = BookDetail(
-          id: 'abc123',
-          title: 'Test Book',
-          authors: ['Author'],
-        );
-
-        final userBook = UserBook(
-          id: 1,
-          readingStatus: ReadingStatus.reading,
-          addedAt: DateTime(2024, 1, 15),
-        );
-
-        final copied = original.copyWith(userBook: userBook);
-
-        expect(copied.userBook, equals(userBook));
-      });
-    });
-
-    group('isInShelf', () {
-      test('should return true when userBook is present', () {
-        final bookDetail = BookDetail(
-          id: 'abc123',
-          title: 'Test Book',
-          authors: ['Author'],
-          userBook: UserBook(
-            id: 1,
-            readingStatus: ReadingStatus.backlog,
-            addedAt: DateTime(2024, 1, 15),
-          ),
-        );
-
-        expect(bookDetail.isInShelf, isTrue);
-      });
-
-      test('should return false when userBook is null', () {
-        const bookDetail = BookDetail(
-          id: 'abc123',
-          title: 'Test Book',
-          authors: ['Author'],
-        );
-
-        expect(bookDetail.isInShelf, isFalse);
       });
     });
   });

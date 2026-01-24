@@ -52,9 +52,6 @@ mixin _$BookDetail {
   /// Google Books URL
   String? get googleBooksUrl => throw _privateConstructorUsedError;
 
-  /// ユーザーの読書記録（本棚に追加されている場合）
-  UserBook? get userBook => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $BookDetailCopyWith<BookDetail> get copyWith =>
       throw _privateConstructorUsedError;
@@ -78,10 +75,7 @@ abstract class $BookDetailCopyWith<$Res> {
       String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
-      String? googleBooksUrl,
-      UserBook? userBook});
-
-  $UserBookCopyWith<$Res>? get userBook;
+      String? googleBooksUrl});
 }
 
 /// @nodoc
@@ -109,7 +103,6 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
     Object? googleBooksUrl = freezed,
-    Object? userBook = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -160,23 +153,7 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
           ? _value.googleBooksUrl
           : googleBooksUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      userBook: freezed == userBook
-          ? _value.userBook
-          : userBook // ignore: cast_nullable_to_non_nullable
-              as UserBook?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UserBookCopyWith<$Res>? get userBook {
-    if (_value.userBook == null) {
-      return null;
-    }
-
-    return $UserBookCopyWith<$Res>(_value.userBook!, (value) {
-      return _then(_value.copyWith(userBook: value) as $Val);
-    });
   }
 }
 
@@ -200,11 +177,7 @@ abstract class _$$BookDetailImplCopyWith<$Res>
       String? isbn,
       String? thumbnailUrl,
       String? amazonUrl,
-      String? googleBooksUrl,
-      UserBook? userBook});
-
-  @override
-  $UserBookCopyWith<$Res>? get userBook;
+      String? googleBooksUrl});
 }
 
 /// @nodoc
@@ -230,7 +203,6 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     Object? thumbnailUrl = freezed,
     Object? amazonUrl = freezed,
     Object? googleBooksUrl = freezed,
-    Object? userBook = freezed,
   }) {
     return _then(_$BookDetailImpl(
       id: null == id
@@ -281,17 +253,13 @@ class __$$BookDetailImplCopyWithImpl<$Res>
           ? _value.googleBooksUrl
           : googleBooksUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      userBook: freezed == userBook
-          ? _value.userBook
-          : userBook // ignore: cast_nullable_to_non_nullable
-              as UserBook?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$BookDetailImpl extends _BookDetail {
+class _$BookDetailImpl implements _BookDetail {
   const _$BookDetailImpl(
       {required this.id,
       required this.title,
@@ -304,11 +272,9 @@ class _$BookDetailImpl extends _BookDetail {
       this.isbn,
       this.thumbnailUrl,
       this.amazonUrl,
-      this.googleBooksUrl,
-      this.userBook})
+      this.googleBooksUrl})
       : _authors = authors,
-        _categories = categories,
-        super._();
+        _categories = categories;
 
   /// 書籍 ID（Google Books ID）
   @override
@@ -374,13 +340,9 @@ class _$BookDetailImpl extends _BookDetail {
   @override
   final String? googleBooksUrl;
 
-  /// ユーザーの読書記録（本棚に追加されている場合）
-  @override
-  final UserBook? userBook;
-
   @override
   String toString() {
-    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, googleBooksUrl: $googleBooksUrl, userBook: $userBook)';
+    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, googleBooksUrl: $googleBooksUrl)';
   }
 
   @override
@@ -407,9 +369,7 @@ class _$BookDetailImpl extends _BookDetail {
             (identical(other.amazonUrl, amazonUrl) ||
                 other.amazonUrl == amazonUrl) &&
             (identical(other.googleBooksUrl, googleBooksUrl) ||
-                other.googleBooksUrl == googleBooksUrl) &&
-            (identical(other.userBook, userBook) ||
-                other.userBook == userBook));
+                other.googleBooksUrl == googleBooksUrl));
   }
 
   @override
@@ -426,8 +386,7 @@ class _$BookDetailImpl extends _BookDetail {
       isbn,
       thumbnailUrl,
       amazonUrl,
-      googleBooksUrl,
-      userBook);
+      googleBooksUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -436,7 +395,7 @@ class _$BookDetailImpl extends _BookDetail {
       __$$BookDetailImplCopyWithImpl<_$BookDetailImpl>(this, _$identity);
 }
 
-abstract class _BookDetail extends BookDetail {
+abstract class _BookDetail implements BookDetail {
   const factory _BookDetail(
       {required final String id,
       required final String title,
@@ -449,9 +408,7 @@ abstract class _BookDetail extends BookDetail {
       final String? isbn,
       final String? thumbnailUrl,
       final String? amazonUrl,
-      final String? googleBooksUrl,
-      final UserBook? userBook}) = _$BookDetailImpl;
-  const _BookDetail._() : super._();
+      final String? googleBooksUrl}) = _$BookDetailImpl;
 
   @override
 
@@ -501,10 +458,6 @@ abstract class _BookDetail extends BookDetail {
 
   /// Google Books URL
   String? get googleBooksUrl;
-  @override
-
-  /// ユーザーの読書記録（本棚に追加されている場合）
-  UserBook? get userBook;
   @override
   @JsonKey(ignore: true)
   _$$BookDetailImplCopyWith<_$BookDetailImpl> get copyWith =>

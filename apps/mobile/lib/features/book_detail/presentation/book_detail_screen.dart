@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -78,6 +79,11 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       return const LoadingIndicator(fullScreen: true);
     }
 
+    final shelfEntry = ref.watch(
+      shelfStateProvider.select((s) => s[widget.bookId]),
+    );
+    final isInShelf = shelfEntry != null;
+
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top +
@@ -92,7 +98,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         children: [
           BookInfoSection(
             bookDetail: bookDetail,
-            isInShelf: bookDetail.isInShelf,
+            isInShelf: isInShelf,
             isAddingToShelf: _isAddingToShelf,
             isRemovingFromShelf: _isRemovingFromShelf,
             onAddToShelfPressed: _onAddToShelfPressed,
@@ -100,9 +106,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             onLinkTap: _onLinkTap,
           ),
           const SizedBox(height: AppSpacing.lg),
-          if (bookDetail.isInShelf)
+          if (isInShelf)
             ReadingRecordSection(
-              userBook: bookDetail.userBook!,
+              shelfEntry: shelfEntry,
               onStatusTap: _onStatusTap,
               onNoteTap: _onNoteTap,
             ),
@@ -195,27 +201,25 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onStatusTap() {
-    final state = ref.read(bookDetailNotifierProvider(widget.bookId));
-    final userBook = state.value?.userBook;
-    if (userBook == null) return;
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
 
     showReadingStatusModal(
       context: context,
-      currentStatus: userBook.readingStatus,
-      userBookId: userBook.id,
+      currentStatus: shelfEntry.readingStatus,
+      userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );
   }
 
   void _onNoteTap() {
-    final state = ref.read(bookDetailNotifierProvider(widget.bookId));
-    final userBook = state.value?.userBook;
-    if (userBook == null) return;
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
 
     showReadingNoteModal(
       context: context,
-      currentNote: userBook.note,
-      userBookId: userBook.id,
+      currentNote: shelfEntry.note,
+      userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );
   }

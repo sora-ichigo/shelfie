@@ -27,12 +27,15 @@ BookDetailRepository bookDetailRepository(BookDetailRepositoryRef ref) {
   return BookDetailRepository(client: client);
 }
 
+/// 書籍詳細取得APIのレスポンス
+typedef BookDetailResponse = ({BookDetail bookDetail, UserBook? userBook});
+
 class BookDetailRepository {
   const BookDetailRepository({required this.client});
 
   final Client client;
 
-  Future<Either<Failure, BookDetail>> getBookDetail({
+  Future<Either<Failure, BookDetailResponse>> getBookDetail({
     required String bookId,
   }) async {
     final request = GBookDetailReq(
@@ -114,7 +117,7 @@ class BookDetailRepository {
     }
   }
 
-  Either<Failure, BookDetail> _handleBookDetailResponse(
+  Either<Failure, BookDetailResponse> _handleBookDetailResponse(
     OperationResponse<GBookDetailData, dynamic> response,
   ) {
     if (response.hasErrors) {
@@ -136,8 +139,12 @@ class BookDetailRepository {
       );
     }
 
-    final bookDetail = data.bookDetail;
-    return right(_mapToBookDetail(bookDetail));
+    final bookDetailData = data.bookDetail;
+    final bookDetail = _mapToBookDetail(bookDetailData);
+    final userBook = bookDetailData.userBook != null
+        ? _mapToUserBook(bookDetailData.userBook!)
+        : null;
+    return right((bookDetail: bookDetail, userBook: userBook));
   }
 
   Either<Failure, UserBook> _handleUpdateReadingStatusResponse(
@@ -249,9 +256,6 @@ class BookDetailRepository {
       thumbnailUrl: bookDetail.coverImageUrl,
       amazonUrl: bookDetail.amazonUrl,
       googleBooksUrl: bookDetail.googleBooksUrl,
-      userBook: bookDetail.userBook != null
-          ? _mapToUserBook(bookDetail.userBook!)
-          : null,
     );
   }
 

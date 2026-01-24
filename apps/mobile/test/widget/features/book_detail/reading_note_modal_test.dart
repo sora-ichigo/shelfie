@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
@@ -39,6 +41,7 @@ void main() {
           () => _TestBookDetailNotifier(
             currentNote: currentNote,
             userBookId: userBookId,
+            externalId: externalId,
             repository: mockRepository,
           ),
         ),
@@ -289,30 +292,35 @@ class _TestBookDetailNotifier extends BookDetailNotifier {
   _TestBookDetailNotifier({
     required this.currentNote,
     required this.userBookId,
+    required this.externalId,
     required this.repository,
   });
 
   final String? currentNote;
   final int userBookId;
+  final String externalId;
   final BookDetailRepository repository;
 
   @override
   Future<BookDetail?> build(String externalId) async {
-    return BookDetail(
-      id: externalId,
-      title: 'Test Book',
-      authors: const ['Test Author'],
-      userBook: UserBook(
-        id: userBookId,
+    ref.read(shelfStateProvider.notifier).registerEntry(
+      ShelfEntry(
+        userBookId: userBookId,
+        externalId: externalId,
         readingStatus: ReadingStatus.backlog,
         addedAt: DateTime(2024, 1, 1),
         note: currentNote,
       ),
     );
+    return BookDetail(
+      id: externalId,
+      title: 'Test Book',
+      authors: const ['Test Author'],
+    );
   }
 
   @override
-  Future<Either<Failure, UserBook>> updateReadingNote({
+  Future<Either<Failure, ShelfEntry>> updateReadingNote({
     required int userBookId,
     required String note,
   }) async {
@@ -321,16 +329,20 @@ class _TestBookDetailNotifier extends BookDetailNotifier {
       note: note,
     );
 
-    result.fold(
-      (failure) {},
+    return result.fold(
+      left,
       (userBook) {
-        final currentState = state;
-        if (currentState.hasValue && currentState.value != null) {
-          state = AsyncData(currentState.value!.copyWith(userBook: userBook));
-        }
+        final entry = ShelfEntry(
+          userBookId: userBook.id,
+          externalId: externalId,
+          readingStatus: userBook.readingStatus,
+          addedAt: userBook.addedAt,
+          note: userBook.note,
+          noteUpdatedAt: userBook.noteUpdatedAt,
+        );
+        ref.read(shelfStateProvider.notifier).registerEntry(entry);
+        return right(entry);
       },
     );
-
-    return result;
   }
 }

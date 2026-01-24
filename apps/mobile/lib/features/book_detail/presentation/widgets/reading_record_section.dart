@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_detail/domain/user_book.dart';
 
 /// 読書記録セクション
 ///
 /// 読書状態、追加日、読了日、メモを表示する。
 class ReadingRecordSection extends StatelessWidget {
   const ReadingRecordSection({
-    required this.userBook,
+    required this.shelfEntry,
     required this.onStatusTap,
     required this.onNoteTap,
     super.key,
   });
 
-  final UserBook userBook;
+  final ShelfEntry shelfEntry;
   final VoidCallback onStatusTap;
   final VoidCallback onNoteTap;
 
@@ -35,7 +35,7 @@ class ReadingRecordSection extends StatelessWidget {
         _buildStatusField(context),
         const SizedBox(height: AppSpacing.sm),
         _buildAddedDateField(context),
-        if (userBook.isCompleted && userBook.completedAt != null) ...[
+        if (shelfEntry.isCompleted && shelfEntry.completedAt != null) ...[
           const SizedBox(height: AppSpacing.sm),
           _buildCompletedDateField(context),
         ],
@@ -63,7 +63,7 @@ class ReadingRecordSection extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  _getStatusIcon(userBook.readingStatus),
+                  _getStatusIcon(shelfEntry.readingStatus),
                   size: 20,
                   color: theme.colorScheme.primary,
                 ),
@@ -79,7 +79,7 @@ class ReadingRecordSection extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  userBook.readingStatus.displayName,
+                  shelfEntry.readingStatus.displayName,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -112,7 +112,7 @@ class ReadingRecordSection extends StatelessWidget {
             ),
           ),
           Text(
-            _formatDate(userBook.addedAt),
+            _formatDate(shelfEntry.addedAt),
             style: theme.textTheme.bodyMedium,
           ),
         ],
@@ -135,7 +135,7 @@ class ReadingRecordSection extends StatelessWidget {
             ),
           ),
           Text(
-            _formatDate(userBook.completedAt!),
+            _formatDate(shelfEntry.completedAt!),
             style: theme.textTheme.bodyMedium,
           ),
         ],
@@ -184,19 +184,19 @@ class ReadingRecordSection extends StatelessWidget {
                 ),
               ],
             ),
-            if (userBook.hasNote) ...[
+            if (shelfEntry.hasNote) ...[
               const SizedBox(height: AppSpacing.xs),
               Text(
-                userBook.note!,
+                shelfEntry.note!,
                 style: theme.textTheme.bodyMedium,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
-            if (userBook.noteUpdatedAt != null) ...[
+            if (shelfEntry.noteUpdatedAt != null) ...[
               const SizedBox(height: AppSpacing.xs),
               Text(
-                '最終更新: ${_formatDateTime(userBook.noteUpdatedAt!)}',
+                '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

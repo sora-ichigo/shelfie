@@ -126,19 +126,18 @@ void main() {
         expect(result.isRight(), isTrue);
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
-        expect(data.id, equals('book-1'));
-        expect(data.title, equals('Test Book'));
-        expect(data.authors, equals(['Author 1', 'Author 2']));
-        expect(data.publisher, equals('Test Publisher'));
-        expect(data.publishedDate, equals('2024-01-01'));
-        expect(data.pageCount, equals(300));
-        expect(data.categories, equals(['Fiction', 'Drama']));
-        expect(data.description, equals('A great book about testing'));
-        expect(data.thumbnailUrl, equals('https://example.com/cover.jpg'));
-        expect(data.amazonUrl, equals('https://amazon.com/dp/123'));
-        expect(data.googleBooksUrl, equals('https://books.google.com/book-1'));
+        expect(data.bookDetail.id, equals('book-1'));
+        expect(data.bookDetail.title, equals('Test Book'));
+        expect(data.bookDetail.authors, equals(['Author 1', 'Author 2']));
+        expect(data.bookDetail.publisher, equals('Test Publisher'));
+        expect(data.bookDetail.publishedDate, equals('2024-01-01'));
+        expect(data.bookDetail.pageCount, equals(300));
+        expect(data.bookDetail.categories, equals(['Fiction', 'Drama']));
+        expect(data.bookDetail.description, equals('A great book about testing'));
+        expect(data.bookDetail.thumbnailUrl, equals('https://example.com/cover.jpg'));
+        expect(data.bookDetail.amazonUrl, equals('https://amazon.com/dp/123'));
+        expect(data.bookDetail.googleBooksUrl, equals('https://books.google.com/book-1'));
         expect(data.userBook, isNull);
-        expect(data.isInShelf, isFalse);
       });
 
       test('書籍詳細取得成功時（本棚追加済み）は Right(BookDetail) を返す', () async {
@@ -196,7 +195,7 @@ void main() {
         expect(result.isRight(), isTrue);
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
-        expect(data.isInShelf, isTrue);
+        expect(data.userBook != null, isTrue);
         expect(data.userBook, isNotNull);
         expect(data.userBook!.id, equals(42));
         expect(data.userBook!.readingStatus, equals(ReadingStatus.completed));

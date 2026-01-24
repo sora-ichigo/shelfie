@@ -1,15 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shelfie/features/book_detail/domain/user_book.dart';
 
 part 'book_detail.freezed.dart';
 
 /// 書籍の詳細情報を表すエンティティ
 ///
-/// Google Books API から取得した書籍情報と、ユーザーの読書記録を保持する。
+/// Google Books API から取得した書籍情報を保持する。
+/// 読書記録（本棚状態）は ShelfState で管理される。
 @freezed
 class BookDetail with _$BookDetail {
-  const BookDetail._();
-
   const factory BookDetail({
     /// 書籍 ID（Google Books ID）
     required String id,
@@ -46,11 +44,5 @@ class BookDetail with _$BookDetail {
 
     /// Google Books URL
     String? googleBooksUrl,
-
-    /// ユーザーの読書記録（本棚に追加されている場合）
-    UserBook? userBook,
   }) = _BookDetail;
-
-  /// 本棚に追加済みかどうか
-  bool get isInShelf => userBook != null;
 }

@@ -27,12 +27,13 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       case Left(:final value):
         state = AsyncError(value, StackTrace.current);
       case Right(:final value):
+        state = AsyncData(value.bookDetail);
         if (value.userBook != null) {
           final userBook = value.userBook!;
           ref.read(shelfStateProvider.notifier).registerEntry(
             ShelfEntry(
               userBookId: userBook.id,
-              externalId: value.id,
+              externalId: value.bookDetail.id,
               readingStatus: userBook.readingStatus,
               addedAt: userBook.addedAt,
               completedAt: userBook.completedAt,
@@ -41,44 +42,23 @@ class BookDetailNotifier extends _$BookDetailNotifier {
             ),
           );
         }
-        state = AsyncData(value);
     }
   }
 
-  Future<Either<Failure, UserBook>> updateReadingStatus({
+  Future<Either<Failure, ShelfEntry>> updateReadingStatus({
     required int userBookId,
     required ReadingStatus status,
   }) async {
-    final currentState = state;
-    if (!currentState.hasValue || currentState.value == null) {
+    final shelfEntry = ref.read(shelfStateProvider)[externalId];
+    if (shelfEntry == null) {
       return left(
-        const UnexpectedFailure(message: 'BookDetail is not loaded'),
+        const UnexpectedFailure(message: 'Book is not in shelf'),
       );
     }
 
-    final currentBookDetail = currentState.value!;
-    final currentUserBook = currentBookDetail.userBook;
-    if (currentUserBook == null) {
-      return left(
-        const UnexpectedFailure(message: 'UserBook is not available'),
-      );
-    }
-
-    final result = await ref.read(shelfStateProvider.notifier).updateReadingStatusWithApi(
+    return ref.read(shelfStateProvider.notifier).updateReadingStatusWithApi(
       externalId: externalId,
       status: status,
-    );
-
-    return result.fold(
-      (failure) => left(failure),
-      (shelfEntry) {
-        final updatedUserBook = currentUserBook.copyWith(
-          readingStatus: shelfEntry.readingStatus,
-          completedAt: shelfEntry.completedAt,
-        );
-        state = AsyncData(currentBookDetail.copyWith(userBook: updatedUserBook));
-        return right(updatedUserBook);
-      },
     );
   }
 
@@ -91,7 +71,8 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     }
 
     final currentBookDetail = currentState.value!;
-    if (currentBookDetail.isInShelf) {
+    final isInShelf = ref.read(shelfStateProvider.notifier).isInShelf(currentBookDetail.id);
+    if (isInShelf) {
       return left(
         const DuplicateBookFailure(message: 'Book is already in shelf'),
       );
@@ -106,18 +87,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       coverImageUrl: currentBookDetail.thumbnailUrl,
     );
 
-    switch (result) {
-      case Left(:final value):
-        return left(value);
-      case Right(:final value):
-        final newUserBook = UserBook(
-          id: value.id,
-          readingStatus: ReadingStatus.backlog,
-          addedAt: value.addedAt,
-        );
-        state = AsyncData(currentBookDetail.copyWith(userBook: newUserBook));
-        return right(null);
-    }
+    return result.fold(left, (_) => right(null));
   }
 
   Future<Either<Failure, void>> removeFromShelf() async {
@@ -129,8 +99,8 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     }
 
     final currentBookDetail = currentState.value!;
-    final userBook = currentBookDetail.userBook;
-    if (userBook == null) {
+    final shelfEntry = ref.read(shelfStateProvider)[currentBookDetail.id];
+    if (shelfEntry == null) {
       return left(
         const UnexpectedFailure(message: 'Book is not in shelf'),
       );
@@ -138,52 +108,26 @@ class BookDetailNotifier extends _$BookDetailNotifier {
 
     final result = await ref.read(shelfStateProvider.notifier).removeFromShelf(
       externalId: currentBookDetail.id,
-      userBookId: userBook.id,
+      userBookId: shelfEntry.userBookId,
     );
 
-    switch (result) {
-      case Left(:final value):
-        return left(value);
-      case Right():
-        state = AsyncData(currentBookDetail.copyWith(userBook: null));
-        return right(null);
-    }
+    return result.fold(left, (_) => right(null));
   }
 
-  Future<Either<Failure, UserBook>> updateReadingNote({
+  Future<Either<Failure, ShelfEntry>> updateReadingNote({
     required int userBookId,
     required String note,
   }) async {
-    final currentState = state;
-    if (!currentState.hasValue || currentState.value == null) {
+    final shelfEntry = ref.read(shelfStateProvider)[externalId];
+    if (shelfEntry == null) {
       return left(
-        const UnexpectedFailure(message: 'BookDetail is not loaded'),
+        const UnexpectedFailure(message: 'Book is not in shelf'),
       );
     }
 
-    final currentBookDetail = currentState.value!;
-    final currentUserBook = currentBookDetail.userBook;
-    if (currentUserBook == null) {
-      return left(
-        const UnexpectedFailure(message: 'UserBook is not available'),
-      );
-    }
-
-    final result = await ref.read(shelfStateProvider.notifier).updateReadingNoteWithApi(
+    return ref.read(shelfStateProvider.notifier).updateReadingNoteWithApi(
       externalId: externalId,
       note: note,
-    );
-
-    return result.fold(
-      (failure) => left(failure),
-      (shelfEntry) {
-        final updatedUserBook = currentUserBook.copyWith(
-          note: shelfEntry.note,
-          noteUpdatedAt: shelfEntry.noteUpdatedAt,
-        );
-        state = AsyncData(currentBookDetail.copyWith(userBook: updatedUserBook));
-        return right(updatedUserBook);
-      },
     );
   }
 }
