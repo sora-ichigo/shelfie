@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/circle_icon_button.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
@@ -56,7 +57,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: AppSpacing.sm),
-            child: _CircleIconButton(
+            child: CircleIconButton(
               icon: Icons.share,
               onPressed: _onSharePressed,
             ),
@@ -216,35 +217,5 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
         .loadBookDetail();
-  }
-}
-
-class _CircleIconButton extends StatelessWidget {
-  const _CircleIconButton({
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: const BoxDecoration(
-          gradient: AppColors.actionGradient,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
-    );
   }
 }
