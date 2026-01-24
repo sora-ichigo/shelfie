@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
@@ -13,14 +14,21 @@ import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    as book_search;
 
 class MockBookDetailRepository extends Mock implements BookDetailRepository {}
 
+class MockBookSearchRepository extends Mock
+    implements book_search.BookSearchRepository {}
+
 void main() {
   late MockBookDetailRepository mockRepository;
+  late MockBookSearchRepository mockBookSearchRepository;
 
   setUp(() {
     mockRepository = MockBookDetailRepository();
+    mockBookSearchRepository = MockBookSearchRepository();
   });
 
   Widget buildTestWidget({
@@ -32,6 +40,8 @@ void main() {
     return ProviderScope(
       overrides: [
         bookDetailRepositoryProvider.overrideWithValue(mockRepository),
+        book_search.bookSearchRepositoryProvider
+            .overrideWithValue(mockBookSearchRepository),
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
@@ -215,6 +225,122 @@ void main() {
 
       expect(find.text('積読'), findsOneWidget);
       expect(find.text('本棚に追加'), findsNothing);
+    });
+  });
+
+  group('BookDetailScreen 本棚操作ローディング', () {
+    testWidgets('本棚追加中はボタンにローディングインジケーターが表示される',
+        (tester) async {
+      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+          .thenAnswer((_) async => right(
+                const BookDetail(
+                  id: 'test-id',
+                  title: 'Test Book',
+                  authors: ['Test Author'],
+                  userBook: null,
+                ),
+              ));
+
+      final addCompleter = Completer<Either<Failure, book_search.UserBook>>();
+      when(() => mockBookSearchRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+          )).thenAnswer((_) => addCompleter.future);
+
+      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('本棚に追加'));
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text('本棚に追加'), findsNothing);
+
+      addCompleter.complete(right(book_search.UserBook(
+        id: 1,
+        externalId: 'test-id',
+        title: 'Test Book',
+        authors: ['Test Author'],
+        addedAt: DateTime.now(),
+      )));
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('本棚削除中はボタンにローディングインジケーターが表示される',
+        (tester) async {
+      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+          .thenAnswer((_) async => right(
+                BookDetail(
+                  id: 'test-id',
+                  title: 'Test Book',
+                  authors: ['Test Author'],
+                  userBook: UserBook(
+                    id: 1,
+                    readingStatus: ReadingStatus.backlog,
+                    addedAt: DateTime(2024, 1, 1),
+                  ),
+                ),
+              ));
+
+      final removeCompleter = Completer<Either<Failure, bool>>();
+      when(() => mockBookSearchRepository.removeFromShelf(
+            userBookId: any(named: 'userBookId'),
+          )).thenAnswer((_) => removeCompleter.future);
+
+      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('本棚から削除'));
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text('本棚から削除'), findsNothing);
+
+      removeCompleter.complete(right(true));
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('本棚追加完了後はローディングが消えてボタンが更新される',
+        (tester) async {
+      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+          .thenAnswer((_) async => right(
+                const BookDetail(
+                  id: 'test-id',
+                  title: 'Test Book',
+                  authors: ['Test Author'],
+                  userBook: null,
+                ),
+              ));
+
+      when(() => mockBookSearchRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+          )).thenAnswer((_) async => right(book_search.UserBook(
+            id: 1,
+            externalId: 'test-id',
+            title: 'Test Book',
+            authors: ['Test Author'],
+            addedAt: DateTime.now(),
+          )));
+
+      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('本棚に追加'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+      expect(find.text('本棚から削除'), findsOneWidget);
     });
   });
 }

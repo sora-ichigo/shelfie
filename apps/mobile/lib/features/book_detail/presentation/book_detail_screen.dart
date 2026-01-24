@@ -29,6 +29,9 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
+  bool _isAddingToShelf = false;
+  bool _isRemovingFromShelf = false;
+
   @override
   void initState() {
     super.initState();
@@ -90,6 +93,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           BookInfoSection(
             bookDetail: bookDetail,
             isInShelf: bookDetail.isInShelf,
+            isAddingToShelf: _isAddingToShelf,
+            isRemovingFromShelf: _isRemovingFromShelf,
             onAddToShelfPressed: _onAddToShelfPressed,
             onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
             onLinkTap: _onLinkTap,
@@ -130,11 +135,21 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Future<void> _onAddToShelfPressed() async {
+    if (_isAddingToShelf) return;
+
+    setState(() {
+      _isAddingToShelf = true;
+    });
+
     final result = await ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
         .addToShelf();
 
     if (!mounted) return;
+
+    setState(() {
+      _isAddingToShelf = false;
+    });
 
     result.fold(
       (failure) {
@@ -150,11 +165,21 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Future<void> _onRemoveFromShelfPressed() async {
+    if (_isRemovingFromShelf) return;
+
+    setState(() {
+      _isRemovingFromShelf = true;
+    });
+
     final result = await ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
         .removeFromShelf();
 
     if (!mounted) return;
+
+    setState(() {
+      _isRemovingFromShelf = false;
+    });
 
     result.fold(
       (failure) {

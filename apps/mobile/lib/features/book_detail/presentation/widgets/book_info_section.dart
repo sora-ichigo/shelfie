@@ -10,6 +10,8 @@ class BookInfoSection extends StatelessWidget {
   const BookInfoSection({
     required this.bookDetail,
     required this.isInShelf,
+    this.isAddingToShelf = false,
+    this.isRemovingFromShelf = false,
     this.onAddToShelfPressed,
     this.onRemoveFromShelfPressed,
     this.onLinkTap,
@@ -18,6 +20,8 @@ class BookInfoSection extends StatelessWidget {
 
   final BookDetail bookDetail;
   final bool isInShelf;
+  final bool isAddingToShelf;
+  final bool isRemovingFromShelf;
   final VoidCallback? onAddToShelfPressed;
   final VoidCallback? onRemoveFromShelfPressed;
   final void Function(String url)? onLinkTap;
@@ -79,7 +83,9 @@ class BookInfoSection extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: AppSpacing.md),
-                if (isInShelf)
+                if (isAddingToShelf || isRemovingFromShelf)
+                  _buildLoadingButton(theme)
+                else if (isInShelf)
                   _buildRemoveFromShelfButton(theme)
                 else
                   _buildAddToShelfButton(theme),
@@ -116,6 +122,26 @@ class BookInfoSection extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingButton(ThemeData theme) {
+    return SizedBox(
+      width: double.infinity,
+      height: 44,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Center(
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
           ),
         ),
       ),
