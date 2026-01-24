@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/utils/category_translator.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 
@@ -201,7 +202,10 @@ class BookInfoSection extends StatelessWidget {
       items.add(_buildInfoItem(theme, 'ISBN', bookDetail.isbn!));
     }
     if (bookDetail.categories != null && bookDetail.categories!.isNotEmpty) {
-      items.add(_buildCategoriesChips(theme));
+      final translatedCategories = translateCategories(bookDetail.categories!);
+      if (translatedCategories.isNotEmpty) {
+        items.add(_buildCategoriesChips(theme, translatedCategories));
+      }
     }
 
     if (items.isEmpty) {
@@ -260,7 +264,7 @@ class BookInfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoriesChips(ThemeData theme) {
+  Widget _buildCategoriesChips(ThemeData theme, List<String> translatedCategories) {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xs),
       child: Row(
@@ -279,21 +283,25 @@ class BookInfoSection extends StatelessWidget {
             child: Wrap(
               spacing: AppSpacing.xs,
               runSpacing: AppSpacing.xs,
-              children: bookDetail.categories!
+              children: translatedCategories
                   .map(
                     (category) => Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.sm,
-                        vertical: AppSpacing.xxs,
+                        horizontal: AppSpacing.md,
+                        vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(16),
+                        color: AppColors.primary.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppColors.primary.withOpacity(0.4),
+                          width: 1,
+                        ),
                       ),
                       child: Text(
                         category,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: Colors.white,
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: AppColors.primary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
