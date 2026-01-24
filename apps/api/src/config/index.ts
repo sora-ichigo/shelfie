@@ -23,7 +23,7 @@ interface SecurityEnvConfig {
 }
 
 interface ExternalApiConfig {
-  GOOGLE_BOOKS_API_KEY?: string;
+  RAKUTEN_APPLICATION_ID?: string;
 }
 
 type AppConfig = DatabaseEnvConfig &

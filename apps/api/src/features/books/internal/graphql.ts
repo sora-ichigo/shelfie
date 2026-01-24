@@ -320,8 +320,15 @@ export function registerBooksTypes(builder: Builder): void {
       }),
       googleBooksUrl: t.string({
         nullable: true,
-        description: "The Google Books URL for the book",
+        description:
+          "The Google Books URL for the book (deprecated, use rakutenBooksUrl)",
+        deprecationReason: "Use rakutenBooksUrl instead",
         resolve: (parent) => parent.googleBooksUrl,
+      }),
+      rakutenBooksUrl: t.string({
+        nullable: true,
+        description: "The Rakuten Books URL for the book",
+        resolve: (parent) => parent.rakutenBooksUrl,
       }),
       userBook: t.field({
         type: UserBookRef,
@@ -344,7 +351,7 @@ export function registerBooksQueries(
     searchBooks: t.field({
       type: SearchBooksResultRef,
       nullable: false,
-      description: "Search for books by keyword",
+      description: "Search for books by keyword (matches title, author, etc.)",
       authScopes: {
         loggedIn: true,
       },

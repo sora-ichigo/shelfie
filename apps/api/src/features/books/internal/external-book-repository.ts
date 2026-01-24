@@ -1,5 +1,5 @@
 import { err, ok, type Result } from "../../../errors/result.js";
-import type { GoogleBooksVolume } from "./book-mapper.js";
+import type { RakutenBooksItem } from "./book-mapper.js";
 
 export type ExternalApiErrors =
   | { code: "NETWORK_ERROR"; message: string }
@@ -7,10 +7,12 @@ export type ExternalApiErrors =
   | { code: "RATE_LIMIT_ERROR"; message: string }
   | { code: "API_ERROR"; message: string; statusCode: number };
 
-interface GoogleBooksResponse {
-  kind: string;
-  totalItems: number;
-  items?: GoogleBooksVolume[];
+interface RakutenBooksResponse {
+  count: number;
+  page: number;
+  pageCount: number;
+  hits: number;
+  Items: Array<{ Item: RakutenBooksItem }>;
 }
 
 export interface ExternalBookRepository {
@@ -19,38 +21,40 @@ export interface ExternalBookRepository {
     limit: number,
     offset: number,
   ): Promise<
-    Result<
-      { items: GoogleBooksVolume[]; totalItems: number },
-      ExternalApiErrors
-    >
+    Result<{ items: RakutenBooksItem[]; totalItems: number }, ExternalApiErrors>
   >;
 
   searchByISBN(
     isbn: string,
-  ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>>;
+  ): Promise<Result<RakutenBooksItem | null, ExternalApiErrors>>;
 
-  getBookById(
-    bookId: string,
-  ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>>;
+  getBookByISBN(
+    isbn: string,
+  ): Promise<Result<RakutenBooksItem | null, ExternalApiErrors>>;
 }
 
-const GOOGLE_BOOKS_API_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
+const RAKUTEN_BOOKS_API_URL =
+  "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404";
 const TIMEOUT_MS = 3000;
+const MAX_HITS = 30;
+
+function offsetToPage(offset: number, limit: number): number {
+  return Math.floor(offset / limit) + 1;
+}
 
 function buildSearchUrl(
-  apiKey: string,
-  query: string,
-  maxResults: number,
-  startIndex: number,
+  applicationId: string,
+  params: Record<string, string | number>,
 ): string {
-  const params = new URLSearchParams({
-    q: query,
-    maxResults: maxResults.toString(),
-    startIndex: startIndex.toString(),
-    key: apiKey,
+  const searchParams = new URLSearchParams({
+    applicationId,
+    format: "json",
+    ...Object.fromEntries(
+      Object.entries(params).map(([k, v]) => [k, String(v)]),
+    ),
   });
 
-  return `${GOOGLE_BOOKS_API_BASE_URL}?${params.toString()}`;
+  return `${RAKUTEN_BOOKS_API_URL}?${searchParams.toString()}`;
 }
 
 function isAbortError(error: unknown): boolean {
@@ -95,13 +99,20 @@ function handleHttpError(response: Response): ExternalApiErrors {
 
   return {
     code: "API_ERROR",
-    message: `Google Books API error: ${response.status} ${response.statusText}`,
+    message: `Rakuten Books API error: ${response.status} ${response.statusText}`,
     statusCode: response.status,
   };
 }
 
+function extractItems(response: RakutenBooksResponse): RakutenBooksItem[] {
+  if (!response.Items || response.Items.length === 0) {
+    return [];
+  }
+  return response.Items.map((wrapper) => wrapper.Item);
+}
+
 export function createExternalBookRepository(
-  apiKey: string,
+  applicationId: string,
 ): ExternalBookRepository {
   return {
     async searchByQuery(
@@ -110,11 +121,19 @@ export function createExternalBookRepository(
       offset: number,
     ): Promise<
       Result<
-        { items: GoogleBooksVolume[]; totalItems: number },
+        { items: RakutenBooksItem[]; totalItems: number },
         ExternalApiErrors
       >
     > {
-      const url = buildSearchUrl(apiKey, query, limit, offset);
+      const hits = Math.min(limit, MAX_HITS);
+      const page = offsetToPage(offset, hits);
+
+      const url = buildSearchUrl(applicationId, {
+        keyword: query,
+        hits,
+        page,
+      });
+
       const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
 
       if (!fetchResult.success) {
@@ -127,19 +146,22 @@ export function createExternalBookRepository(
         return err(handleHttpError(response));
       }
 
-      const data = (await response.json()) as GoogleBooksResponse;
+      const data = (await response.json()) as RakutenBooksResponse;
 
       return ok({
-        items: data.items ?? [],
-        totalItems: data.totalItems,
+        items: extractItems(data),
+        totalItems: data.count,
       });
     },
 
     async searchByISBN(
       isbn: string,
-    ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>> {
-      const query = `isbn:${isbn}`;
-      const url = buildSearchUrl(apiKey, query, 1, 0);
+    ): Promise<Result<RakutenBooksItem | null, ExternalApiErrors>> {
+      const url = buildSearchUrl(applicationId, {
+        isbn,
+        hits: 1,
+      });
+
       const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
 
       if (!fetchResult.success) {
@@ -152,37 +174,20 @@ export function createExternalBookRepository(
         return err(handleHttpError(response));
       }
 
-      const data = (await response.json()) as GoogleBooksResponse;
+      const data = (await response.json()) as RakutenBooksResponse;
+      const items = extractItems(data);
 
-      if (!data.items || data.items.length === 0) {
+      if (items.length === 0) {
         return ok(null);
       }
 
-      return ok(data.items[0]);
+      return ok(items[0]);
     },
 
-    async getBookById(
-      bookId: string,
-    ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>> {
-      const url = `${GOOGLE_BOOKS_API_BASE_URL}/${encodeURIComponent(bookId)}?key=${apiKey}`;
-      const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
-
-      if (!fetchResult.success) {
-        return fetchResult;
-      }
-
-      const response = fetchResult.data;
-
-      if (response.status === 404) {
-        return ok(null);
-      }
-
-      if (!response.ok) {
-        return err(handleHttpError(response));
-      }
-
-      const data = (await response.json()) as GoogleBooksVolume;
-      return ok(data);
+    async getBookByISBN(
+      isbn: string,
+    ): Promise<Result<RakutenBooksItem | null, ExternalApiErrors>> {
+      return this.searchByISBN(isbn);
     },
   };
 }

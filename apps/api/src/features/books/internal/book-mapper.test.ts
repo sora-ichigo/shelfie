@@ -1,219 +1,265 @@
 import { describe, expect, it } from "vitest";
 import {
   type Book,
-  type GoogleBooksVolume,
-  mapGoogleBooksVolume,
+  type BookDetail,
+  mapRakutenBooksItem,
+  mapRakutenBooksItemToDetail,
+  type RakutenBooksItem,
 } from "./book-mapper.js";
 
-describe("BookMapper", () => {
-  describe("mapGoogleBooksVolume", () => {
-    it("Google Books API レスポンスを内部 Book 型にマッピングできる", () => {
-      const volume: GoogleBooksVolume = {
-        id: "test-id",
-        volumeInfo: {
-          title: "テスト書籍タイトル",
-          authors: ["著者1", "著者2"],
-          publisher: "テスト出版社",
-          publishedDate: "2024-01-15",
-          industryIdentifiers: [
-            { type: "ISBN_13", identifier: "9784123456789" },
-            { type: "ISBN_10", identifier: "4123456789" },
-          ],
-          imageLinks: {
-            thumbnail: "https://example.com/thumbnail.jpg",
-            smallThumbnail: "https://example.com/small.jpg",
-          },
-        },
-      };
+const createRakutenBooksItem = (
+  overrides: Partial<RakutenBooksItem> = {},
+): RakutenBooksItem => ({
+  title: "テスト書籍タイトル",
+  author: "著者1/著者2",
+  publisherName: "テスト出版社",
+  isbn: "9784123456789",
+  itemPrice: 1980,
+  salesDate: "2024年01月15日",
+  availability: "1",
+  itemUrl: "https://books.rakuten.co.jp/rb/12345678/",
+  largeImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
+  mediumImageUrl: "https://thumbnail.image.rakuten.co.jp/medium.jpg",
+  smallImageUrl: "https://thumbnail.image.rakuten.co.jp/small.jpg",
+  reviewCount: 100,
+  reviewAverage: "4.5",
+  booksGenreId: "001004008",
+  ...overrides,
+});
 
-      const book = mapGoogleBooksVolume(volume);
+describe("BookMapper", () => {
+  describe("mapRakutenBooksItem", () => {
+    it("楽天ブックス API レスポンスを内部 Book 型にマッピングできる", () => {
+      const item = createRakutenBooksItem();
+
+      const book = mapRakutenBooksItem(item);
 
       expect(book).toEqual({
-        id: "test-id",
+        id: "9784123456789",
         title: "テスト書籍タイトル",
         authors: ["著者1", "著者2"],
         publisher: "テスト出版社",
         publishedDate: "2024-01-15",
         isbn: "9784123456789",
-        coverImageUrl: "https://example.com/thumbnail.jpg",
+        coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
       } satisfies Book);
     });
 
-    it("ISBN-13 を優先して抽出する", () => {
-      const volume: GoogleBooksVolume = {
-        id: "isbn-test",
-        volumeInfo: {
-          title: "ISBN テスト",
-          industryIdentifiers: [
-            { type: "ISBN_10", identifier: "4123456789" },
-            { type: "ISBN_13", identifier: "9784123456789" },
-          ],
-        },
-      };
+    it("著者を / で分割して配列にする", () => {
+      const item = createRakutenBooksItem({
+        author: "著者A / 著者B / 著者C",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
-      expect(book.isbn).toBe("9784123456789");
+      expect(book.authors).toEqual(["著者A", "著者B", "著者C"]);
     });
 
-    it("ISBN-13 がない場合は ISBN-10 を使用する", () => {
-      const volume: GoogleBooksVolume = {
-        id: "isbn10-only",
-        volumeInfo: {
-          title: "ISBN-10 Only",
-          industryIdentifiers: [{ type: "ISBN_10", identifier: "4123456789" }],
-        },
-      };
+    it("著者が単一の場合は1要素の配列を返す", () => {
+      const item = createRakutenBooksItem({
+        author: "単独著者",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
-      expect(book.isbn).toBe("4123456789");
+      expect(book.authors).toEqual(["単独著者"]);
     });
 
-    it("ISBN がない場合は null を返す", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-isbn",
-        volumeInfo: {
-          title: "ISBN なし書籍",
-          industryIdentifiers: [{ type: "OTHER", identifier: "12345" }],
-        },
-      };
+    it("著者が空の場合は空配列を返す", () => {
+      const item = createRakutenBooksItem({
+        author: "",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
-
-      expect(book.isbn).toBeNull();
-    });
-
-    it("industryIdentifiers がない場合は isbn が null", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-identifiers",
-        volumeInfo: {
-          title: "識別子なし",
-        },
-      };
-
-      const book = mapGoogleBooksVolume(volume);
-
-      expect(book.isbn).toBeNull();
-    });
-
-    it("authors がない場合は空配列を返す", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-authors",
-        volumeInfo: {
-          title: "著者なし書籍",
-        },
-      };
-
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
       expect(book.authors).toEqual([]);
     });
 
-    it("publisher がない場合は null を返す", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-publisher",
-        volumeInfo: {
-          title: "出版社なし書籍",
-        },
-      };
+    it("salesDate を ISO 形式（YYYY-MM-DD）に変換する", () => {
+      const item = createRakutenBooksItem({
+        salesDate: "2024年03月25日",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
-      expect(book.publisher).toBeNull();
+      expect(book.publishedDate).toBe("2024-03-25");
     });
 
-    it("publishedDate がない場合は null を返す", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-date",
-        volumeInfo: {
-          title: "日付なし書籍",
-        },
-      };
+    it("salesDate が年月のみの場合は YYYY-MM 形式に変換する", () => {
+      const item = createRakutenBooksItem({
+        salesDate: "2024年03月",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
+
+      expect(book.publishedDate).toBe("2024-03");
+    });
+
+    it("salesDate が空の場合は null を返す", () => {
+      const item = createRakutenBooksItem({
+        salesDate: "",
+      });
+
+      const book = mapRakutenBooksItem(item);
 
       expect(book.publishedDate).toBeNull();
     });
 
-    it("imageLinks がない場合は coverImageUrl が null", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-image",
-        volumeInfo: {
-          title: "画像なし書籍",
-        },
-      };
+    it("salesDate がパースできない形式の場合はそのまま返す", () => {
+      const item = createRakutenBooksItem({
+        salesDate: "発売日未定",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
-      expect(book.coverImageUrl).toBeNull();
+      expect(book.publishedDate).toBe("発売日未定");
     });
 
-    it("thumbnail がない場合は smallThumbnail を使用する", () => {
-      const volume: GoogleBooksVolume = {
-        id: "small-thumb-only",
-        volumeInfo: {
-          title: "小サムネイルのみ",
-          imageLinks: {
-            smallThumbnail: "https://example.com/small.jpg",
-          },
-        },
-      };
+    it("ISBN を ID として使用する", () => {
+      const item = createRakutenBooksItem({
+        isbn: "9781234567890",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
+
+      expect(book.id).toBe("9781234567890");
+      expect(book.isbn).toBe("9781234567890");
+    });
+
+    it("largeImageUrl を優先して使用する", () => {
+      const item = createRakutenBooksItem({
+        largeImageUrl: "https://example.com/large.jpg",
+        mediumImageUrl: "https://example.com/medium.jpg",
+        smallImageUrl: "https://example.com/small.jpg",
+      });
+
+      const book = mapRakutenBooksItem(item);
+
+      expect(book.coverImageUrl).toBe("https://example.com/large.jpg");
+    });
+
+    it("largeImageUrl がない場合は mediumImageUrl を使用する", () => {
+      const item = createRakutenBooksItem({
+        largeImageUrl: undefined,
+        mediumImageUrl: "https://example.com/medium.jpg",
+        smallImageUrl: "https://example.com/small.jpg",
+      });
+
+      const book = mapRakutenBooksItem(item);
+
+      expect(book.coverImageUrl).toBe("https://example.com/medium.jpg");
+    });
+
+    it("largeImageUrl と mediumImageUrl がない場合は smallImageUrl を使用する", () => {
+      const item = createRakutenBooksItem({
+        largeImageUrl: undefined,
+        mediumImageUrl: undefined,
+        smallImageUrl: "https://example.com/small.jpg",
+      });
+
+      const book = mapRakutenBooksItem(item);
 
       expect(book.coverImageUrl).toBe("https://example.com/small.jpg");
     });
 
-    it("thumbnail と smallThumbnail 両方ない場合は null を返す", () => {
-      const volume: GoogleBooksVolume = {
-        id: "no-thumbnails",
-        volumeInfo: {
-          title: "サムネなし",
-          imageLinks: {},
-        },
-      };
+    it("すべての画像 URL がない場合は null を返す", () => {
+      const item = createRakutenBooksItem({
+        largeImageUrl: undefined,
+        mediumImageUrl: undefined,
+        smallImageUrl: undefined,
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
       expect(book.coverImageUrl).toBeNull();
     });
+  });
 
-    it("HTTP の thumbnail URL を HTTPS に変換する", () => {
-      const volume: GoogleBooksVolume = {
-        id: "http-image",
-        volumeInfo: {
-          title: "HTTP 画像",
-          imageLinks: {
-            thumbnail: "http://example.com/thumbnail.jpg",
-          },
-        },
-      };
+  describe("mapRakutenBooksItemToDetail", () => {
+    it("楽天ブックス API レスポンスを BookDetail 型にマッピングできる", () => {
+      const item = createRakutenBooksItem({
+        itemCaption: "これはテスト書籍の説明です。",
+      });
 
-      const book = mapGoogleBooksVolume(volume);
+      const detail = mapRakutenBooksItemToDetail(item);
 
-      expect(book.coverImageUrl).toBe("https://example.com/thumbnail.jpg");
+      expect(detail).toEqual({
+        id: "9784123456789",
+        title: "テスト書籍タイトル",
+        authors: ["著者1", "著者2"],
+        publisher: "テスト出版社",
+        publishedDate: "2024-01-15",
+        pageCount: null,
+        categories: ["001004008"],
+        description: "これはテスト書籍の説明です。",
+        isbn: "9784123456789",
+        coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
+        amazonUrl: "https://www.amazon.co.jp/dp/9784123456789",
+        googleBooksUrl: null,
+        rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
+      } satisfies BookDetail);
     });
 
-    it("最小限のデータでもマッピングできる", () => {
-      const volume: GoogleBooksVolume = {
-        id: "minimal",
-        volumeInfo: {
-          title: "最小データ",
-        },
-      };
+    it("pageCount は常に null を返す（楽天 API にはページ数情報がない）", () => {
+      const item = createRakutenBooksItem();
 
-      const book = mapGoogleBooksVolume(volume);
+      const detail = mapRakutenBooksItemToDetail(item);
 
-      expect(book).toEqual({
-        id: "minimal",
-        title: "最小データ",
-        authors: [],
-        publisher: null,
-        publishedDate: null,
-        isbn: null,
-        coverImageUrl: null,
-      } satisfies Book);
+      expect(detail.pageCount).toBeNull();
+    });
+
+    it("booksGenreId を categories 配列として返す", () => {
+      const item = createRakutenBooksItem({
+        booksGenreId: "001001001",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.categories).toEqual(["001001001"]);
+    });
+
+    it("booksGenreId が空の場合は categories が null を返す", () => {
+      const item = createRakutenBooksItem({
+        booksGenreId: "",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.categories).toBeNull();
+    });
+
+    it("itemCaption がない場合は description が null を返す", () => {
+      const item = createRakutenBooksItem({
+        itemCaption: undefined,
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.description).toBeNull();
+    });
+
+    it("ISBN から Amazon URL を生成する", () => {
+      const item = createRakutenBooksItem({
+        isbn: "9781234567890",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.amazonUrl).toBe(
+        "https://www.amazon.co.jp/dp/9781234567890",
+      );
+    });
+
+    it("itemUrl を rakutenBooksUrl として返す", () => {
+      const item = createRakutenBooksItem({
+        itemUrl: "https://books.rakuten.co.jp/rb/99999999/",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.rakutenBooksUrl).toBe(
+        "https://books.rakuten.co.jp/rb/99999999/",
+      );
     });
   });
 });
