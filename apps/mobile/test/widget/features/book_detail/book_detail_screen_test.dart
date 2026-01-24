@@ -14,8 +14,12 @@ import 'package:shelfie/features/book_detail/domain/user_book.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     as book_search;
+import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
+import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
 class MockBookDetailRepository extends Mock implements BookDetailRepository {}
+
+class MockRecentBooksRepository extends Mock implements RecentBooksRepository {}
 
 class MockBookSearchRepository extends Mock
     implements book_search.BookSearchRepository {}
@@ -23,10 +27,26 @@ class MockBookSearchRepository extends Mock
 void main() {
   late MockBookDetailRepository mockRepository;
   late MockBookSearchRepository mockBookSearchRepository;
+  late MockRecentBooksRepository mockRecentBooksRepository;
+
+  setUpAll(() {
+    registerFallbackValue(
+      RecentBookEntry(
+        bookId: 'fallback-id',
+        title: 'Fallback Title',
+        authors: ['Fallback Author'],
+        viewedAt: DateTime.now(),
+      ),
+    );
+  });
 
   setUp(() {
     mockRepository = MockBookDetailRepository();
     mockBookSearchRepository = MockBookSearchRepository();
+    mockRecentBooksRepository = MockRecentBooksRepository();
+
+    when(() => mockRecentBooksRepository.add(any())).thenAnswer((_) async {});
+    when(() => mockRecentBooksRepository.getAll()).thenAnswer((_) async => []);
   });
 
   Widget buildTestWidget({
@@ -40,6 +60,8 @@ void main() {
         bookDetailRepositoryProvider.overrideWithValue(mockRepository),
         book_search.bookSearchRepositoryProvider
             .overrideWithValue(mockBookSearchRepository),
+        recentBooksRepositoryProvider
+            .overrideWithValue(mockRecentBooksRepository),
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
