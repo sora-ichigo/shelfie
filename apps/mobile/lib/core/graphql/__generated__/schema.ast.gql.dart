@@ -136,6 +136,22 @@ const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
 );
+const EmailChangeRequested = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'EmailChangeRequested'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'message'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    )
+  ],
+);
 const LoginResult = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'LoginResult'),
   directives: [],
@@ -364,6 +380,44 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         isNonNull: true,
       ),
     ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'updateProfile'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'input'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'UpdateProfileInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationUpdateProfileResult'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'requestEmailChange'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'input'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'RequestEmailChangeInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationRequestEmailChangeResult'),
+        isNonNull: false,
+      ),
+    ),
   ],
 );
 const MutationLoginUserResult = _i1.UnionTypeDefinitionNode(
@@ -451,6 +505,66 @@ const MutationRegisterUserSuccess = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'User'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationUpdateProfileResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationUpdateProfileResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationUpdateProfileSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationUpdateProfileSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationUpdateProfileSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'User'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationRequestEmailChangeResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRequestEmailChangeResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationRequestEmailChangeSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationRequestEmailChangeSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRequestEmailChangeSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'EmailChangeRequested'),
         isNonNull: true,
       ),
     )
@@ -651,17 +765,81 @@ const RegisterUserInput = _i1.InputObjectTypeDefinitionNode(
     ),
   ],
 );
+const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'UpdateProfileInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'name'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    )
+  ],
+);
+const RequestEmailChangeInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'RequestEmailChangeInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'newEmail'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    )
+  ],
+);
+const ValidationError = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ValidationError'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'code'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'field'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'message'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
 const User = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'User'),
   directives: [],
   interfaces: [],
   fields: [
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'createdAt'),
+      name: _i1.NameNode(value: 'id'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'DateTime'),
+        name: _i1.NameNode(value: 'Int'),
         isNonNull: false,
       ),
     ),
@@ -675,11 +853,29 @@ const User = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
+      name: _i1.NameNode(value: 'name'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'avatarUrl'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'createdAt'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'DateTime'),
         isNonNull: false,
       ),
     ),
@@ -1182,6 +1378,7 @@ const document = _i1.DocumentNode(definitions: [
   AuthErrorCode,
   AuthErrorResult,
   DateTime,
+  EmailChangeRequested,
   LoginResult,
   LoginUserInput,
   MeResult,
@@ -1192,10 +1389,17 @@ const document = _i1.DocumentNode(definitions: [
   MutationRefreshTokenSuccess,
   MutationRegisterUserResult,
   MutationRegisterUserSuccess,
+  MutationUpdateProfileResult,
+  MutationUpdateProfileSuccess,
+  MutationRequestEmailChangeResult,
+  MutationRequestEmailChangeSuccess,
   Query,
   RefreshTokenInput,
   RefreshTokenResult,
   RegisterUserInput,
+  UpdateProfileInput,
+  RequestEmailChangeInput,
+  ValidationError,
   User,
   Book,
   SearchBooksResult,

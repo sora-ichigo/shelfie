@@ -47,15 +47,15 @@
   - Pure Dart 関数として外部依存なしで実装
   - _Requirements: 3.6, 5.3_
 
-- [ ] 4. Mobile: Data 層実装
-- [ ] 4.1 GraphQL 操作定義ファイルを作成
+- [x] 4. Mobile: Data 層実装
+- [x] 4.1 GraphQL 操作定義ファイルを作成
   - `getMyProfile` クエリを定義（拡張された User 型を取得）
   - `updateProfile` Mutation を定義
   - `requestEmailChange` Mutation を定義
   - Ferry コード生成を実行
   - _Requirements: 1.2, 3.1, 5.1_
 
-- [ ] 4.2 AccountRepository を実装
+- [x] 4.2 AccountRepository を実装
   - BaseRepository を継承
   - `getMyProfile` メソッドを実装（Either<Failure, UserProfile> を返却）
   - `updateProfile` メソッドを実装（画像アップロード対応）
@@ -64,14 +64,14 @@
   - Riverpod Provider として公開
   - _Requirements: 1.2, 3.1, 4.4, 5.1_
 
-- [ ] 4.3 (P) ImagePickerService を実装
+- [x] 4.3 (P) ImagePickerService を実装
   - image_picker パッケージのラッパークラスを作成
   - `pickFromGallery` メソッドを実装
   - `pickFromCamera` メソッドを実装
   - Riverpod Provider として公開
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 4.4 (P) プラットフォーム権限設定を追加
+- [x] 4.4 (P) プラットフォーム権限設定を追加
   - iOS: Info.plist に `NSPhotoLibraryUsageDescription`, `NSCameraUsageDescription` を追加
   - Android: AndroidManifest.xml に `CAMERA`, `READ_MEDIA_IMAGES` パーミッションを追加
   - _Requirements: 4.1, 4.2, 4.3_

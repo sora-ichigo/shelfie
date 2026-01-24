@@ -46,6 +46,12 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Result of successful email change request"""
+type EmailChangeRequested {
+  """Success message"""
+  message: String
+}
+
 """Result of successful login"""
 type LoginResult {
   """Firebase ID token for API authentication"""
@@ -91,6 +97,12 @@ type Mutation {
 
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
+
+  """Update the current user's profile"""
+  updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
+
+  """Request to change the current user's email address"""
+  requestEmailChange(input: RequestEmailChangeInput!): MutationRequestEmailChangeResult
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
@@ -109,6 +121,18 @@ union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
   data: User!
+}
+
+union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
+
+type MutationUpdateProfileSuccess {
+  data: User!
+}
+
+union MutationRequestEmailChangeResult = MutationRequestEmailChangeSuccess | ValidationError
+
+type MutationRequestEmailChangeSuccess {
+  data: EmailChangeRequested!
 }
 
 type Query {
@@ -157,16 +181,46 @@ input RegisterUserInput {
   password: String!
 }
 
+"""Input for updating user profile"""
+input UpdateProfileInput {
+  """User display name"""
+  name: String!
+}
+
+"""Input for requesting email change"""
+input RequestEmailChangeInput {
+  """New email address"""
+  newEmail: String!
+}
+
+"""Validation error for user input"""
+type ValidationError {
+  """Error code"""
+  code: String
+
+  """Field that caused the error, if applicable"""
+  field: String
+
+  """Human-readable error message"""
+  message: String
+}
+
 """A user in the system"""
 type User {
-  """When the user was created"""
-  createdAt: DateTime
+  """The unique identifier of the user"""
+  id: Int
 
   """The email address of the user"""
   email: String
 
-  """The unique identifier of the user"""
-  id: Int
+  """The display name of the user"""
+  name: String
+
+  """The URL of the user's avatar image"""
+  avatarUrl: String
+
+  """When the user was created"""
+  createdAt: DateTime
 
   """When the user was last updated"""
   updatedAt: DateTime

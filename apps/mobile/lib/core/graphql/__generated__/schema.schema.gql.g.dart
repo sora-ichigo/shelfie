@@ -103,6 +103,10 @@ Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
     new _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
     new _$GRegisterUserInputSerializer();
+Serializer<GUpdateProfileInput> _$gUpdateProfileInputSerializer =
+    new _$GUpdateProfileInputSerializer();
+Serializer<GRequestEmailChangeInput> _$gRequestEmailChangeInputSerializer =
+    new _$GRequestEmailChangeInputSerializer();
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
     new _$GAddBookInputSerializer();
 Serializer<GReadingStatus> _$gReadingStatusSerializer =
@@ -259,6 +263,97 @@ class _$GRegisterUserInputSerializer
           break;
         case 'password':
           result.password = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GUpdateProfileInputSerializer
+    implements StructuredSerializer<GUpdateProfileInput> {
+  @override
+  final Iterable<Type> types = const [
+    GUpdateProfileInput,
+    _$GUpdateProfileInput
+  ];
+  @override
+  final String wireName = 'GUpdateProfileInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GUpdateProfileInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GUpdateProfileInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GUpdateProfileInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'name':
+          result.name = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GRequestEmailChangeInputSerializer
+    implements StructuredSerializer<GRequestEmailChangeInput> {
+  @override
+  final Iterable<Type> types = const [
+    GRequestEmailChangeInput,
+    _$GRequestEmailChangeInput
+  ];
+  @override
+  final String wireName = 'GRequestEmailChangeInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GRequestEmailChangeInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'newEmail',
+      serializers.serialize(object.newEmail,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GRequestEmailChangeInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GRequestEmailChangeInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'newEmail':
+          result.newEmail = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -673,6 +768,180 @@ class GRegisterUserInputBuilder
                 email, r'GRegisterUserInput', 'email'),
             password: BuiltValueNullFieldError.checkNotNull(
                 password, r'GRegisterUserInput', 'password'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GUpdateProfileInput extends GUpdateProfileInput {
+  @override
+  final String name;
+
+  factory _$GUpdateProfileInput(
+          [void Function(GUpdateProfileInputBuilder)? updates]) =>
+      (new GUpdateProfileInputBuilder()..update(updates))._build();
+
+  _$GUpdateProfileInput._({required this.name}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'GUpdateProfileInput', 'name');
+  }
+
+  @override
+  GUpdateProfileInput rebuild(
+          void Function(GUpdateProfileInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GUpdateProfileInputBuilder toBuilder() =>
+      new GUpdateProfileInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GUpdateProfileInput && name == other.name;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, name.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GUpdateProfileInput')
+          ..add('name', name))
+        .toString();
+  }
+}
+
+class GUpdateProfileInputBuilder
+    implements Builder<GUpdateProfileInput, GUpdateProfileInputBuilder> {
+  _$GUpdateProfileInput? _$v;
+
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
+
+  GUpdateProfileInputBuilder();
+
+  GUpdateProfileInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _name = $v.name;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GUpdateProfileInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GUpdateProfileInput;
+  }
+
+  @override
+  void update(void Function(GUpdateProfileInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GUpdateProfileInput build() => _build();
+
+  _$GUpdateProfileInput _build() {
+    final _$result = _$v ??
+        new _$GUpdateProfileInput._(
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'GUpdateProfileInput', 'name'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GRequestEmailChangeInput extends GRequestEmailChangeInput {
+  @override
+  final String newEmail;
+
+  factory _$GRequestEmailChangeInput(
+          [void Function(GRequestEmailChangeInputBuilder)? updates]) =>
+      (new GRequestEmailChangeInputBuilder()..update(updates))._build();
+
+  _$GRequestEmailChangeInput._({required this.newEmail}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        newEmail, r'GRequestEmailChangeInput', 'newEmail');
+  }
+
+  @override
+  GRequestEmailChangeInput rebuild(
+          void Function(GRequestEmailChangeInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GRequestEmailChangeInputBuilder toBuilder() =>
+      new GRequestEmailChangeInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GRequestEmailChangeInput && newEmail == other.newEmail;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, newEmail.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GRequestEmailChangeInput')
+          ..add('newEmail', newEmail))
+        .toString();
+  }
+}
+
+class GRequestEmailChangeInputBuilder
+    implements
+        Builder<GRequestEmailChangeInput, GRequestEmailChangeInputBuilder> {
+  _$GRequestEmailChangeInput? _$v;
+
+  String? _newEmail;
+  String? get newEmail => _$this._newEmail;
+  set newEmail(String? newEmail) => _$this._newEmail = newEmail;
+
+  GRequestEmailChangeInputBuilder();
+
+  GRequestEmailChangeInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _newEmail = $v.newEmail;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GRequestEmailChangeInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GRequestEmailChangeInput;
+  }
+
+  @override
+  void update(void Function(GRequestEmailChangeInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GRequestEmailChangeInput build() => _build();
+
+  _$GRequestEmailChangeInput _build() {
+    final _$result = _$v ??
+        new _$GRequestEmailChangeInput._(
+            newEmail: BuiltValueNullFieldError.checkNotNull(
+                newEmail, r'GRequestEmailChangeInput', 'newEmail'));
     replace(_$result);
     return _$result;
   }
