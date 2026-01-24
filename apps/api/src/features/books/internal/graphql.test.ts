@@ -403,8 +403,8 @@ describe("BookDetail type", () => {
     expect(fields.amazonUrl).toBeDefined();
     expect(fields.amazonUrl.type.toString()).toBe("String");
 
-    expect(fields.googleBooksUrl).toBeDefined();
-    expect(fields.googleBooksUrl.type.toString()).toBe("String");
+    expect(fields.rakutenBooksUrl).toBeDefined();
+    expect(fields.rakutenBooksUrl.type.toString()).toBe("String");
 
     expect(fields.userBook).toBeDefined();
     expect(fields.userBook.type.toString()).toBe("UserBook");
@@ -727,7 +727,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         amazonUrl: "https://amazon.com/dp/1234567890",
-        googleBooksUrl: "https://books.google.com/books?id=book-123",
+        rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
       };
 
       const mockUserBook = {
@@ -819,7 +819,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         isbn: null,
         coverImageUrl: null,
         amazonUrl: null,
-        googleBooksUrl: null,
+        rakutenBooksUrl: null,
       };
 
       vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(

@@ -3,8 +3,8 @@ import type { LoggerService } from "../../../logger/index.js";
 import {
   type Book,
   type BookDetail,
-  mapGoogleBooksVolume,
-  mapGoogleBooksVolumeToDetail,
+  mapRakutenBooksItem,
+  mapRakutenBooksItemToDetail,
 } from "./book-mapper.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
 
@@ -45,7 +45,7 @@ export interface BookSearchService {
 }
 
 const DEFAULT_LIMIT = 10;
-const MAX_LIMIT = 40;
+const MAX_LIMIT = 30;
 const MIN_LIMIT = 1;
 
 function validateSearchInput(
@@ -161,8 +161,8 @@ export function createBookSearchService(
         return err(mapExternalApiError(repositoryResult.error));
       }
 
-      const { items: volumes, totalItems } = repositoryResult.data;
-      const books = volumes.map(mapGoogleBooksVolume);
+      const { items, totalItems } = repositoryResult.data;
+      const books = items.map(mapRakutenBooksItem);
       const hasMore = offset + books.length < totalItems;
 
       logger.info("Book search completed successfully", {
@@ -201,9 +201,9 @@ export function createBookSearchService(
         return err(mapExternalApiError(repositoryResult.error));
       }
 
-      const volume = repositoryResult.data;
+      const item = repositoryResult.data;
 
-      if (volume === null) {
+      if (item === null) {
         logger.info("Book not found for ISBN", {
           feature: "books",
           isbn,
@@ -211,7 +211,7 @@ export function createBookSearchService(
         return ok(null);
       }
 
-      const book = mapGoogleBooksVolume(volume);
+      const book = mapRakutenBooksItem(item);
 
       logger.info("ISBN search completed successfully", {
         feature: "books",
@@ -232,7 +232,7 @@ export function createBookSearchService(
         });
       }
 
-      const repositoryResult = await externalRepository.getBookById(bookId);
+      const repositoryResult = await externalRepository.getBookByISBN(bookId);
 
       if (!repositoryResult.success) {
         logger.warn("External API error during book detail fetch", {
@@ -243,9 +243,9 @@ export function createBookSearchService(
         return err(mapExternalApiError(repositoryResult.error));
       }
 
-      const volume = repositoryResult.data;
+      const item = repositoryResult.data;
 
-      if (volume === null) {
+      if (item === null) {
         logger.info("Book not found", {
           feature: "books",
           bookId,
@@ -256,7 +256,7 @@ export function createBookSearchService(
         });
       }
 
-      const bookDetail = mapGoogleBooksVolumeToDetail(volume);
+      const bookDetail = mapRakutenBooksItemToDetail(item);
 
       logger.info("Book detail fetch completed successfully", {
         feature: "books",

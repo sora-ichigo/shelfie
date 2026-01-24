@@ -318,10 +318,10 @@ export function registerBooksTypes(builder: Builder): void {
         description: "The Amazon URL for the book",
         resolve: (parent) => parent.amazonUrl,
       }),
-      googleBooksUrl: t.string({
+      rakutenBooksUrl: t.string({
         nullable: true,
-        description: "The Google Books URL for the book",
-        resolve: (parent) => parent.googleBooksUrl,
+        description: "The Rakuten Books URL for the book",
+        resolve: (parent) => parent.rakutenBooksUrl,
       }),
       userBook: t.field({
         type: UserBookRef,

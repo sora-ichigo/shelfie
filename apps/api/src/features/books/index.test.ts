@@ -13,9 +13,9 @@ import {
   createExternalBookRepository,
   type ExternalApiErrors,
   type ExternalBookRepository,
-  type GoogleBooksVolume,
-  mapGoogleBooksVolume,
+  mapRakutenBooksItem,
   type NewUserBook,
+  type RakutenBooksItem,
   type SearchBooksInput,
   type SearchBooksResult,
   type SearchByISBNInput,
@@ -24,8 +24,8 @@ import {
 
 describe("books Feature public API", () => {
   describe("exports", () => {
-    it("mapGoogleBooksVolume 関数がエクスポートされている", () => {
-      expect(typeof mapGoogleBooksVolume).toBe("function");
+    it("mapRakutenBooksItem 関数がエクスポートされている", () => {
+      expect(typeof mapRakutenBooksItem).toBe("function");
     });
 
     it("createExternalBookRepository 関数がエクスポートされている", () => {
@@ -45,14 +45,21 @@ describe("books Feature public API", () => {
       expect(book.id).toBe("test");
     });
 
-    it("GoogleBooksVolume 型がエクスポートされている", () => {
-      const volume: GoogleBooksVolume = {
-        id: "test",
-        volumeInfo: {
-          title: "Test",
-        },
+    it("RakutenBooksItem 型がエクスポートされている", () => {
+      const item: RakutenBooksItem = {
+        title: "Test",
+        author: "Test Author",
+        publisherName: "Test Publisher",
+        isbn: "9784123456789",
+        itemPrice: 1980,
+        salesDate: "2024年01月01日",
+        availability: "1",
+        itemUrl: "https://books.rakuten.co.jp/rb/12345678/",
+        reviewCount: 10,
+        reviewAverage: "4.0",
+        booksGenreId: "001004008",
       };
-      expect(volume.id).toBe("test");
+      expect(item.isbn).toBe("9784123456789");
     });
 
     it("ExternalBookRepository 型がエクスポートされている", () => {
@@ -179,7 +186,7 @@ describe("books Feature public API", () => {
 
     it("AddBookInput 型がエクスポートされている", () => {
       const input: AddBookInput = {
-        externalId: "google-123",
+        externalId: "9784123456789",
         title: "Test Book",
         authors: ["Author"],
         publisher: null,
@@ -187,14 +194,14 @@ describe("books Feature public API", () => {
         isbn: null,
         coverImageUrl: null,
       };
-      expect(input.externalId).toBe("google-123");
+      expect(input.externalId).toBe("9784123456789");
     });
 
     it("AddBookToShelfInput 型がエクスポートされている", () => {
       const input: AddBookToShelfInput = {
         userId: 100,
         bookInput: {
-          externalId: "google-123",
+          externalId: "9784123456789",
           title: "Test Book",
           authors: [],
           publisher: null,
@@ -210,7 +217,7 @@ describe("books Feature public API", () => {
       const userBook: UserBook = {
         id: 1,
         userId: 100,
-        externalId: "google-123",
+        externalId: "9784123456789",
         title: "Test Book",
         authors: [],
         publisher: null,
@@ -229,7 +236,7 @@ describe("books Feature public API", () => {
     it("NewUserBook 型がエクスポートされている", () => {
       const newUserBook: NewUserBook = {
         userId: 100,
-        externalId: "google-123",
+        externalId: "9784123456789",
         title: "Test Book",
         authors: [],
       };

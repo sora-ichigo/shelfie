@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { err, ok } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import type { GoogleBooksVolume } from "./book-mapper.js";
+import type { RakutenBooksItem } from "./book-mapper.js";
 import {
   type BookSearchService,
   createBookSearchService,
@@ -18,19 +18,24 @@ function createMockLogger(): LoggerService {
   };
 }
 
-function createMockGoogleBooksVolume(
-  overrides: Partial<GoogleBooksVolume> = {},
-): GoogleBooksVolume {
+function createMockRakutenBooksItem(
+  overrides: Partial<RakutenBooksItem> = {},
+): RakutenBooksItem {
   return {
-    id: "test-volume-id",
-    volumeInfo: {
-      title: "Test Book",
-      authors: ["Test Author"],
-      publisher: "Test Publisher",
-      publishedDate: "2024-01-01",
-      industryIdentifiers: [{ type: "ISBN_13", identifier: "9784123456789" }],
-      imageLinks: { thumbnail: "https://example.com/thumbnail.jpg" },
-    },
+    title: "Test Book",
+    author: "Test Author",
+    publisherName: "Test Publisher",
+    isbn: "9784123456789",
+    itemPrice: 1980,
+    salesDate: "2024年01月01日",
+    availability: "1",
+    itemUrl: "https://books.rakuten.co.jp/rb/12345678/",
+    largeImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
+    mediumImageUrl: "https://thumbnail.image.rakuten.co.jp/medium.jpg",
+    smallImageUrl: "https://thumbnail.image.rakuten.co.jp/small.jpg",
+    reviewCount: 10,
+    reviewAverage: "4.0",
+    booksGenreId: "001004008",
     ...overrides,
   };
 }
@@ -44,7 +49,7 @@ describe("BookSearchService", () => {
     mockRepository = {
       searchByQuery: vi.fn(),
       searchByISBN: vi.fn(),
-      getBookById: vi.fn(),
+      getBookByISBN: vi.fn(),
     };
     mockLogger = createMockLogger();
     service = createBookSearchService(mockRepository, mockLogger);
@@ -53,13 +58,13 @@ describe("BookSearchService", () => {
   describe("searchBooks", () => {
     describe("successful search", () => {
       it("should return SearchBooksResult with books when search succeeds", async () => {
-        const mockVolumes = [
-          createMockGoogleBooksVolume({ id: "book-1" }),
-          createMockGoogleBooksVolume({ id: "book-2" }),
+        const mockItems = [
+          createMockRakutenBooksItem({ isbn: "9784123456781" }),
+          createMockRakutenBooksItem({ isbn: "9784123456782" }),
         ];
 
         vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
-          ok({ items: mockVolumes, totalItems: 100 }),
+          ok({ items: mockItems, totalItems: 100 }),
         );
 
         const result = await service.searchBooks({
@@ -71,18 +76,18 @@ describe("BookSearchService", () => {
         expect(result.success).toBe(true);
         if (result.success) {
           expect(result.data.items).toHaveLength(2);
-          expect(result.data.items[0].id).toBe("book-1");
-          expect(result.data.items[1].id).toBe("book-2");
+          expect(result.data.items[0].id).toBe("9784123456781");
+          expect(result.data.items[1].id).toBe("9784123456782");
           expect(result.data.totalCount).toBe(100);
           expect(result.data.hasMore).toBe(true);
         }
       });
 
       it("should return hasMore=false when no more results", async () => {
-        const mockVolumes = [createMockGoogleBooksVolume()];
+        const mockItems = [createMockRakutenBooksItem()];
 
         vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
-          ok({ items: mockVolumes, totalItems: 1 }),
+          ok({ items: mockItems, totalItems: 1 }),
         );
 
         const result = await service.searchBooks({
@@ -130,25 +135,18 @@ describe("BookSearchService", () => {
         );
       });
 
-      it("should map Google Books volumes to Book type", async () => {
-        const mockVolume = createMockGoogleBooksVolume({
-          id: "mapped-book",
-          volumeInfo: {
-            title: "Mapped Book Title",
-            authors: ["Author One", "Author Two"],
-            publisher: "Publisher Name",
-            publishedDate: "2023-05-15",
-            industryIdentifiers: [
-              { type: "ISBN_13", identifier: "9781234567890" },
-            ],
-            imageLinks: {
-              thumbnail: "https://books.google.com/cover.jpg",
-            },
-          },
+      it("should map Rakuten Books items to Book type", async () => {
+        const mockItem = createMockRakutenBooksItem({
+          title: "Mapped Book Title",
+          author: "Author One/Author Two",
+          publisherName: "Publisher Name",
+          salesDate: "2023年05月15日",
+          isbn: "9781234567890",
+          largeImageUrl: "https://books.rakuten.co.jp/cover.jpg",
         });
 
         vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
-          ok({ items: [mockVolume], totalItems: 1 }),
+          ok({ items: [mockItem], totalItems: 1 }),
         );
 
         const result = await service.searchBooks({ query: "test" });
@@ -156,13 +154,13 @@ describe("BookSearchService", () => {
         expect(result.success).toBe(true);
         if (result.success) {
           const book = result.data.items[0];
-          expect(book.id).toBe("mapped-book");
+          expect(book.id).toBe("9781234567890");
           expect(book.title).toBe("Mapped Book Title");
           expect(book.authors).toEqual(["Author One", "Author Two"]);
           expect(book.publisher).toBe("Publisher Name");
           expect(book.publishedDate).toBe("2023-05-15");
           expect(book.isbn).toBe("9781234567890");
-          expect(book.coverImageUrl).toBe("https://books.google.com/cover.jpg");
+          expect(book.coverImageUrl).toBe("https://books.rakuten.co.jp/cover.jpg");
         }
       });
     });
@@ -197,8 +195,8 @@ describe("BookSearchService", () => {
         }
       });
 
-      it("should return VALIDATION_ERROR when limit exceeds maximum (40)", async () => {
-        const result = await service.searchBooks({ query: "test", limit: 41 });
+      it("should return VALIDATION_ERROR when limit exceeds maximum (30)", async () => {
+        const result = await service.searchBooks({ query: "test", limit: 31 });
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -279,7 +277,7 @@ describe("BookSearchService", () => {
     describe("logging", () => {
       it("should log successful search", async () => {
         vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
-          ok({ items: [createMockGoogleBooksVolume()], totalItems: 1 }),
+          ok({ items: [createMockRakutenBooksItem()], totalItems: 1 }),
         );
 
         await service.searchBooks({ query: "test" });
@@ -305,20 +303,13 @@ describe("BookSearchService", () => {
   describe("searchBookByISBN", () => {
     describe("successful search", () => {
       it("should return Book when ISBN is found", async () => {
-        const mockVolume = createMockGoogleBooksVolume({
-          id: "isbn-book",
-          volumeInfo: {
-            title: "ISBN Book",
-            authors: ["ISBN Author"],
-            industryIdentifiers: [
-              { type: "ISBN_13", identifier: "9784123456789" },
-            ],
-          },
+        const mockItem = createMockRakutenBooksItem({
+          title: "ISBN Book",
+          author: "ISBN Author",
+          isbn: "9784123456789",
         });
 
-        vi.mocked(mockRepository.searchByISBN).mockResolvedValue(
-          ok(mockVolume),
-        );
+        vi.mocked(mockRepository.searchByISBN).mockResolvedValue(ok(mockItem));
 
         const result = await service.searchBookByISBN({
           isbn: "9784123456789",
@@ -327,7 +318,7 @@ describe("BookSearchService", () => {
         expect(result.success).toBe(true);
         if (result.success) {
           expect(result.data).not.toBeNull();
-          expect(result.data?.id).toBe("isbn-book");
+          expect(result.data?.id).toBe("9784123456789");
           expect(result.data?.title).toBe("ISBN Book");
         }
       });
@@ -467,7 +458,7 @@ describe("BookSearchService", () => {
     describe("logging", () => {
       it("should log ISBN search", async () => {
         vi.mocked(mockRepository.searchByISBN).mockResolvedValue(
-          ok(createMockGoogleBooksVolume()),
+          ok(createMockRakutenBooksItem()),
         );
 
         await service.searchBookByISBN({ isbn: "9784123456789" });
@@ -482,6 +473,105 @@ describe("BookSearchService", () => {
         vi.mocked(mockRepository.searchByISBN).mockResolvedValue(ok(null));
 
         await service.searchBookByISBN({ isbn: "0000000000" });
+
+        expect(mockLogger.info).toHaveBeenCalledWith(
+          expect.stringContaining("not found"),
+          expect.any(Object),
+        );
+      });
+    });
+  });
+
+  describe("getBookDetail", () => {
+    describe("successful fetch", () => {
+      it("should return BookDetail when ISBN is found", async () => {
+        const mockItem = createMockRakutenBooksItem({
+          title: "Detail Book",
+          author: "Detail Author",
+          isbn: "9784123456789",
+          itemCaption: "This is a book description",
+        });
+
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(mockItem));
+
+        const result = await service.getBookDetail("9784123456789");
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.id).toBe("9784123456789");
+          expect(result.data.title).toBe("Detail Book");
+          expect(result.data.description).toBe("This is a book description");
+          expect(result.data.rakutenBooksUrl).toBe(
+            "https://books.rakuten.co.jp/rb/12345678/",
+          );
+        }
+      });
+
+      it("should return NOT_FOUND when ISBN is not found", async () => {
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(null));
+
+        const result = await service.getBookDetail("0000000000000");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("NOT_FOUND");
+        }
+      });
+    });
+
+    describe("validation errors", () => {
+      it("should return VALIDATION_ERROR when bookId is empty", async () => {
+        const result = await service.getBookDetail("");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("VALIDATION_ERROR");
+        }
+      });
+
+      it("should return VALIDATION_ERROR when bookId is only whitespace", async () => {
+        const result = await service.getBookDetail("   ");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("VALIDATION_ERROR");
+        }
+      });
+    });
+
+    describe("external API error handling", () => {
+      it("should convert NETWORK_ERROR to BookSearchErrors", async () => {
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(
+          err({ code: "NETWORK_ERROR", message: "Network failure" }),
+        );
+
+        const result = await service.getBookDetail("9784123456789");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("NETWORK_ERROR");
+        }
+      });
+    });
+
+    describe("logging", () => {
+      it("should log successful book detail fetch", async () => {
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(
+          ok(createMockRakutenBooksItem()),
+        );
+
+        await service.getBookDetail("9784123456789");
+
+        expect(mockLogger.info).toHaveBeenCalledWith(
+          expect.stringContaining("detail"),
+          expect.objectContaining({ bookId: "9784123456789" }),
+        );
+      });
+
+      it("should log when book not found", async () => {
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(null));
+
+        await service.getBookDetail("0000000000000");
 
         expect(mockLogger.info).toHaveBeenCalledWith(
           expect.stringContaining("not found"),

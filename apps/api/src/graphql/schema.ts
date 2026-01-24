@@ -46,8 +46,8 @@ const authService = createAuthService({
   logger,
 });
 
-const googleBooksApiKey = config.getOrDefault("GOOGLE_BOOKS_API_KEY", "");
-const externalBookRepository = createExternalBookRepository(googleBooksApiKey);
+const rakutenApplicationId = config.getOrDefault("RAKUTEN_APPLICATION_ID", "");
+const externalBookRepository = createExternalBookRepository(rakutenApplicationId);
 const bookSearchService = createBookSearchService(
   externalBookRepository,
   logger,
