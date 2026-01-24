@@ -14,6 +14,7 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
@@ -36,6 +37,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isRemovingFromShelf = false;
   Color? _dominantColor;
   String? _extractedThumbnailUrl;
+  bool _hasAddedToRecentBooks = false;
 
   @override
   void initState() {
@@ -142,6 +144,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _extractDominantColor(bookDetail.thumbnailUrl);
+      _addToRecentBooks(bookDetail);
     });
 
     final shelfEntry = ref.watch(
@@ -308,5 +311,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
         .loadBookDetail();
+  }
+
+  void _addToRecentBooks(BookDetail bookDetail) {
+    if (_hasAddedToRecentBooks) return;
+    _hasAddedToRecentBooks = true;
+
+    ref.read(recentBooksNotifierProvider.notifier).addRecentBook(
+      bookId: bookDetail.id,
+      title: bookDetail.title,
+      authors: bookDetail.authors,
+      coverImageUrl: bookDetail.thumbnailUrl,
+    );
   }
 }

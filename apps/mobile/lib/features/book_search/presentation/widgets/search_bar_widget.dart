@@ -7,11 +7,13 @@ class SearchBarWidget extends StatelessWidget {
     required this.onScanPressed,
     super.key,
     this.controller,
+    this.focusNode,
   });
 
   final void Function(String) onChanged;
   final VoidCallback onScanPressed;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class SearchBarWidget extends StatelessWidget {
               builder: (context, value, child) {
                 return TextField(
                   controller: controller,
+                  focusNode: focusNode,
                   onChanged: onChanged,
                   decoration: InputDecoration(
                     hintText: '書籍を検索...',
