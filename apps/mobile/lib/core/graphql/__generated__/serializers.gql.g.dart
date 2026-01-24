@@ -36,6 +36,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GLoginUserInput.serializer)
       ..add(GLoginUserReq.serializer)
       ..add(GLoginUserVars.serializer)
+      ..add(GMyShelfData.serializer)
+      ..add(GMyShelfData_myShelf.serializer)
+      ..add(GMyShelfReq.serializer)
+      ..add(GMyShelfVars.serializer)
       ..add(GReadingStatus.serializer)
       ..add(GRefreshTokenData.serializer)
       ..add(GRefreshTokenData_refreshToken__asAuthError.serializer)
@@ -78,9 +82,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateReadingStatusReq.serializer)
       ..add(GUpdateReadingStatusVars.serializer)
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(GMyShelfData_myShelf)]),
+          () => new ListBuilder<GMyShelfData_myShelf>())
+      ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

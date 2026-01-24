@@ -39,6 +39,12 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GRegisterUserInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
+import 'package:shelfie/core/state/__generated__/my_shelf.data.gql.dart'
+    show GMyShelfData, GMyShelfData_myShelf;
+import 'package:shelfie/core/state/__generated__/my_shelf.req.gql.dart'
+    show GMyShelfReq;
+import 'package:shelfie/core/state/__generated__/my_shelf.var.gql.dart'
+    show GMyShelfVars;
 import 'package:shelfie/features/book_detail/data/__generated__/book_detail.data.gql.dart'
     show
         GBookDetailData,
@@ -150,6 +156,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserInput,
   GLoginUserReq,
   GLoginUserVars,
+  GMyShelfData,
+  GMyShelfData_myShelf,
+  GMyShelfReq,
+  GMyShelfVars,
   GReadingStatus,
   GRefreshTokenData,
   GRefreshTokenData_refreshToken__asAuthError,

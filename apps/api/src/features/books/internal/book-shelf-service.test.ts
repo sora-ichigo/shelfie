@@ -12,12 +12,14 @@ function createMockRepository(): BookShelfRepository & {
   mockGetUserBooks: ReturnType<typeof vi.fn>;
   mockFindUserBookById: ReturnType<typeof vi.fn>;
   mockUpdateUserBook: ReturnType<typeof vi.fn>;
+  mockDeleteUserBook: ReturnType<typeof vi.fn>;
 } {
   const mockFindUserBookByExternalId = vi.fn();
   const mockCreateUserBook = vi.fn();
   const mockGetUserBooks = vi.fn();
   const mockFindUserBookById = vi.fn();
   const mockUpdateUserBook = vi.fn();
+  const mockDeleteUserBook = vi.fn();
 
   return {
     findUserBookByExternalId: mockFindUserBookByExternalId,
@@ -25,11 +27,13 @@ function createMockRepository(): BookShelfRepository & {
     getUserBooks: mockGetUserBooks,
     findUserBookById: mockFindUserBookById,
     updateUserBook: mockUpdateUserBook,
+    deleteUserBook: mockDeleteUserBook,
     mockFindUserBookByExternalId,
     mockCreateUserBook,
     mockGetUserBooks,
     mockFindUserBookById,
     mockUpdateUserBook,
+    mockDeleteUserBook,
   };
 }
 
@@ -303,8 +307,108 @@ describe("BookShelfService", () => {
 
       expect(typeof service.addBookToShelf).toBe("function");
       expect(typeof service.getUserBookByExternalId).toBe("function");
+      expect(typeof service.getUserBooks).toBe("function");
       expect(typeof service.updateReadingStatus).toBe("function");
       expect(typeof service.updateReadingNote).toBe("function");
+      expect(typeof service.removeFromShelf).toBe("function");
+    });
+  });
+
+  describe("getUserBooks", () => {
+    it("should return all user books successfully", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const userBooks: UserBook[] = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "google-book-1",
+          title: "Test Book 1",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+          readingStatus: "reading",
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
+        },
+        {
+          id: 2,
+          userId: 100,
+          externalId: "google-book-2",
+          title: "Test Book 2",
+          authors: ["Author Two"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+          readingStatus: "completed",
+          completedAt: new Date(),
+          note: "Great book!",
+          noteUpdatedAt: new Date(),
+        },
+      ];
+      mockRepository.mockGetUserBooks.mockResolvedValue(userBooks);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooks(100);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toEqual(userBooks);
+        expect(result.data).toHaveLength(2);
+      }
+      expect(mockRepository.mockGetUserBooks).toHaveBeenCalledWith(100);
+    });
+
+    it("should return empty array when user has no books", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooks.mockResolvedValue([]);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooks(100);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toEqual([]);
+        expect(result.data).toHaveLength(0);
+      }
+    });
+
+    it("should return DATABASE_ERROR when repository throws", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooks.mockRejectedValue(
+        new Error("Database connection failed"),
+      );
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooks(100);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("DATABASE_ERROR");
+        expect(result.error.message).toContain("Database connection failed");
+      }
+      expect(mockLogger.error).toHaveBeenCalledWith(
+        "Database error while fetching user books",
+        expect.any(Error),
+        expect.objectContaining({
+          feature: "books",
+          userId: "100",
+        }),
+      );
     });
   });
 

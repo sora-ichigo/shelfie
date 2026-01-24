@@ -51,6 +51,10 @@ export interface BookShelfService {
     externalId: string,
   ): Promise<Result<UserBook | null, BookShelfErrors>>;
 
+  getUserBooks(
+    userId: number,
+  ): Promise<Result<UserBook[], BookShelfErrors>>;
+
   updateReadingStatus(
     input: UpdateReadingStatusInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
@@ -153,6 +157,32 @@ export function createBookShelfService(
             feature: "books",
             userId: String(userId),
             externalId,
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async getUserBooks(
+      userId: number,
+    ): Promise<Result<UserBook[], BookShelfErrors>> {
+      try {
+        const userBooks = await repository.getUserBooks(userId);
+        return ok(userBooks);
+      } catch (error) {
+        logger.error(
+          "Database error while fetching user books",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userId: String(userId),
           },
         );
 

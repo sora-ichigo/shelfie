@@ -1,16 +1,21 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
 part 'shelf_state_notifier.g.dart';
 
-/// ユーザーの本棚にある本の状態を管理する
-/// externalId (Google Books ID) → userBookId のマッピングを保持
+/// ユーザーの本棚にある本の状態を管理する（SSOT）
+///
+/// externalId (Google Books ID) → ShelfEntry のマッピングを保持
+/// 読書状態（readingStatus, note など）を一元管理する
 @Riverpod(keepAlive: true)
 class ShelfState extends _$ShelfState {
   @override
-  Map<String, int> build() {
+  Map<String, ShelfEntry> build() {
     return {};
   }
 
@@ -37,7 +42,14 @@ class ShelfState extends _$ShelfState {
 
     result.fold(
       (_) {},
-      (userBook) => _addBook(externalId, userBook.id),
+      (userBook) => registerEntry(
+        ShelfEntry(
+          userBookId: userBook.id,
+          externalId: userBook.externalId,
+          readingStatus: ReadingStatus.backlog,
+          addedAt: userBook.addedAt,
+        ),
+      ),
     );
 
     return result;
@@ -55,25 +67,148 @@ class ShelfState extends _$ShelfState {
 
     result.fold(
       (_) {},
-      (_) => _removeBook(externalId),
+      (_) => removeEntry(externalId),
     );
 
     return result;
   }
 
-  /// 本を本棚に追加したことを記録（内部用）
-  void _addBook(String externalId, int userBookId) {
-    state = {...state, externalId: userBookId};
+  /// ShelfEntry を登録する
+  void registerEntry(ShelfEntry entry) {
+    state = {...state, entry.externalId: entry};
   }
 
-  /// 本を本棚から削除したことを記録（内部用）
-  void _removeBook(String externalId) {
+  /// 指定した externalId の ShelfEntry を削除する
+  void removeEntry(String externalId) {
     state = Map.from(state)..remove(externalId);
   }
 
-  /// 外部から状態を更新する（book_detail ロード時など）
-  void registerBook(String externalId, int userBookId) {
-    state = {...state, externalId: userBookId};
+  /// 指定した externalId の ShelfEntry を取得する
+  ShelfEntry? getEntry(String externalId) {
+    return state[externalId];
+  }
+
+  /// 読書状態を更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateReadingStatusWithApi({
+    required String externalId,
+    required ReadingStatus status,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    _updateReadingStatusOptimistic(externalId: externalId, status: status);
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateReadingStatus(
+      userBookId: entry.userBookId,
+      status: status,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          readingStatus: userBook.readingStatus,
+          completedAt: userBook.completedAt,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
+  /// 読書メモを更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateReadingNoteWithApi({
+    required String externalId,
+    required String note,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    _updateReadingNoteOptimistic(externalId: externalId, note: note);
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateReadingNote(
+      userBookId: entry.userBookId,
+      note: note,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          note: userBook.note,
+          noteUpdatedAt: userBook.noteUpdatedAt,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
+  /// 読書状態を更新する（Optimistic Update のみ）
+  void updateReadingStatus({
+    required String externalId,
+    required ReadingStatus status,
+  }) {
+    _updateReadingStatusOptimistic(externalId: externalId, status: status);
+  }
+
+  /// 読書メモを更新する（Optimistic Update のみ）
+  void updateReadingNote({
+    required String externalId,
+    required String note,
+  }) {
+    _updateReadingNoteOptimistic(externalId: externalId, note: note);
+  }
+
+  void _updateReadingStatusOptimistic({
+    required String externalId,
+    required ReadingStatus status,
+  }) {
+    final entry = state[externalId];
+    if (entry == null) return;
+
+    final DateTime? completedAt;
+    if (status == ReadingStatus.completed) {
+      completedAt = DateTime.now();
+    } else {
+      completedAt = null;
+    }
+
+    final updated = entry.copyWith(
+      readingStatus: status,
+      completedAt: completedAt,
+    );
+
+    state = {...state, externalId: updated};
+  }
+
+  void _updateReadingNoteOptimistic({
+    required String externalId,
+    required String note,
+  }) {
+    final entry = state[externalId];
+    if (entry == null) return;
+
+    final updated = entry.copyWith(
+      note: note,
+      noteUpdatedAt: DateTime.now(),
+    );
+
+    state = {...state, externalId: updated};
   }
 
   /// 本が本棚にあるかどうか
@@ -83,6 +218,23 @@ class ShelfState extends _$ShelfState {
 
   /// 本の userBookId を取得（本棚にない場合は null）
   int? getUserBookId(String externalId) {
-    return state[externalId];
+    return state[externalId]?.userBookId;
+  }
+
+  /// 外部から状態を更新する（後方互換性のため維持）
+  void registerBook(String externalId, int userBookId) {
+    registerEntry(
+      ShelfEntry(
+        userBookId: userBookId,
+        externalId: externalId,
+        readingStatus: ReadingStatus.backlog,
+        addedAt: DateTime.now(),
+      ),
+    );
+  }
+
+  /// 全てのエントリをクリアする
+  void clear() {
+    state = {};
   }
 }

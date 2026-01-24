@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
@@ -27,9 +28,18 @@ class BookDetailNotifier extends _$BookDetailNotifier {
         state = AsyncError(value, StackTrace.current);
       case Right(:final value):
         if (value.userBook != null) {
-          ref
-              .read(shelfStateProvider.notifier)
-              .registerBook(value.id, value.userBook!.id);
+          final userBook = value.userBook!;
+          ref.read(shelfStateProvider.notifier).registerEntry(
+            ShelfEntry(
+              userBookId: userBook.id,
+              externalId: value.id,
+              readingStatus: userBook.readingStatus,
+              addedAt: userBook.addedAt,
+              completedAt: userBook.completedAt,
+              note: userBook.note,
+              noteUpdatedAt: userBook.noteUpdatedAt,
+            ),
+          );
         }
         state = AsyncData(value);
     }
@@ -54,25 +64,22 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       );
     }
 
-    final optimisticUserBook = currentUserBook.copyWith(
-      readingStatus: status,
-    );
-    state = AsyncData(currentBookDetail.copyWith(userBook: optimisticUserBook));
-
-    final repository = ref.read(bookDetailRepositoryProvider);
-    final result = await repository.updateReadingStatus(
-      userBookId: userBookId,
+    final result = await ref.read(shelfStateProvider.notifier).updateReadingStatusWithApi(
+      externalId: externalId,
       status: status,
     );
 
-    switch (result) {
-      case Left(:final value):
-        state = AsyncData(currentBookDetail);
-        return left(value);
-      case Right(:final value):
-        state = AsyncData(currentBookDetail.copyWith(userBook: value));
-        return right(value);
-    }
+    return result.fold(
+      (failure) => left(failure),
+      (shelfEntry) {
+        final updatedUserBook = currentUserBook.copyWith(
+          readingStatus: shelfEntry.readingStatus,
+          completedAt: shelfEntry.completedAt,
+        );
+        state = AsyncData(currentBookDetail.copyWith(userBook: updatedUserBook));
+        return right(updatedUserBook);
+      },
+    );
   }
 
   Future<Either<Failure, void>> addToShelf() async {
@@ -162,24 +169,21 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       );
     }
 
-    final optimisticUserBook = currentUserBook.copyWith(
-      note: note,
-    );
-    state = AsyncData(currentBookDetail.copyWith(userBook: optimisticUserBook));
-
-    final repository = ref.read(bookDetailRepositoryProvider);
-    final result = await repository.updateReadingNote(
-      userBookId: userBookId,
+    final result = await ref.read(shelfStateProvider.notifier).updateReadingNoteWithApi(
+      externalId: externalId,
       note: note,
     );
 
-    switch (result) {
-      case Left(:final value):
-        state = AsyncData(currentBookDetail);
-        return left(value);
-      case Right(:final value):
-        state = AsyncData(currentBookDetail.copyWith(userBook: value));
-        return right(value);
-    }
+    return result.fold(
+      (failure) => left(failure),
+      (shelfEntry) {
+        final updatedUserBook = currentUserBook.copyWith(
+          note: shelfEntry.note,
+          noteUpdatedAt: shelfEntry.noteUpdatedAt,
+        );
+        state = AsyncData(currentBookDetail.copyWith(userBook: updatedUserBook));
+        return right(updatedUserBook);
+      },
+    );
   }
 }

@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
@@ -238,7 +240,7 @@ void main() {
         expect(state.value!.userBook!.completedAt, equals(completedAt));
       });
 
-      test('Optimistic update: API呼び出し前に状態を更新する', () async {
+      test('Optimistic update: ShelfState が API呼び出し前に状態を更新する', () async {
         final userBook = createMockUserBook(
           id: 42,
           readingStatus: ReadingStatus.backlog,
@@ -263,12 +265,6 @@ void main() {
             container.read(bookDetailNotifierProvider('book-1').notifier);
         await notifier.loadBookDetail();
 
-        final states = <AsyncValue<BookDetail?>>[];
-        container.listen(
-          bookDetailNotifierProvider('book-1'),
-          (previous, next) => states.add(next),
-        );
-
         // ignore: unawaited_futures
         notifier.updateReadingStatus(
           userBookId: 42,
@@ -277,10 +273,9 @@ void main() {
 
         await Future<void>.delayed(Duration.zero);
 
-        final optimisticState =
-            container.read(bookDetailNotifierProvider('book-1'));
-        expect(optimisticState.value!.userBook!.readingStatus,
-            equals(ReadingStatus.reading));
+        // ShelfState が Optimistic Update を行う
+        final shelfState = container.read(shelfStateProvider);
+        expect(shelfState['book-1']?.readingStatus, equals(ReadingStatus.reading));
 
         completer.complete(right(updatedUserBook));
       });
@@ -441,7 +436,7 @@ void main() {
         expect(state.value!.userBook!.note, equals(''));
       });
 
-      test('Optimistic update: API呼び出し前に状態を更新する', () async {
+      test('Optimistic update: ShelfState が API呼び出し前に状態を更新する', () async {
         final userBook = createMockUserBook(
           id: 42,
           note: 'Old note',
@@ -468,12 +463,6 @@ void main() {
             container.read(bookDetailNotifierProvider('book-1').notifier);
         await notifier.loadBookDetail();
 
-        final states = <AsyncValue<BookDetail?>>[];
-        container.listen(
-          bookDetailNotifierProvider('book-1'),
-          (previous, next) => states.add(next),
-        );
-
         // ignore: unawaited_futures
         notifier.updateReadingNote(
           userBookId: 42,
@@ -482,9 +471,9 @@ void main() {
 
         await Future<void>.delayed(Duration.zero);
 
-        final optimisticState =
-            container.read(bookDetailNotifierProvider('book-1'));
-        expect(optimisticState.value!.userBook!.note, equals('New note'));
+        // ShelfState が Optimistic Update を行う
+        final shelfState = container.read(shelfStateProvider);
+        expect(shelfState['book-1']?.note, equals('New note'));
 
         completer.complete(right(updatedUserBook));
       });

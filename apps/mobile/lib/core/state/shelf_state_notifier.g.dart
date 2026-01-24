@@ -6,15 +6,17 @@ part of 'shelf_state_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shelfStateHash() => r'b6ff4e9b1717ca8c9bc36d63ad924cd06dd5a36b';
+String _$shelfStateHash() => r'67c3691cb666d262a7ad047c4d6d99b5af48dfb7';
 
-/// ユーザーの本棚にある本の状態を管理する
-/// externalId (Google Books ID) → userBookId のマッピングを保持
+/// ユーザーの本棚にある本の状態を管理する（SSOT）
+///
+/// externalId (Google Books ID) → ShelfEntry のマッピングを保持
+/// 読書状態（readingStatus, note など）を一元管理する
 ///
 /// Copied from [ShelfState].
 @ProviderFor(ShelfState)
 final shelfStateProvider =
-    NotifierProvider<ShelfState, Map<String, int>>.internal(
+    NotifierProvider<ShelfState, Map<String, ShelfEntry>>.internal(
   ShelfState.new,
   name: r'shelfStateProvider',
   debugGetCreateSourceHash:
@@ -23,6 +25,6 @@ final shelfStateProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ShelfState = Notifier<Map<String, int>>;
+typedef _$ShelfState = Notifier<Map<String, ShelfEntry>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

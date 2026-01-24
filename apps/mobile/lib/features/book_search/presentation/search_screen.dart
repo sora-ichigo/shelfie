@@ -140,7 +140,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           }
 
           final book = books[index];
-          final userBookId = shelfState[book.id];
+          final shelfEntry = shelfState[book.id];
+          final userBookId = shelfEntry?.userBookId;
           final bookWithShelfState = book.copyWith(
             userBookId: userBookId,
             clearUserBookId: userBookId == null,

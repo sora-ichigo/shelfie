@@ -471,6 +471,51 @@ export function registerBooksQueries(
         return userBookResult.data;
       },
     }),
+    myShelf: t.field({
+      type: [UserBookRef],
+      nullable: false,
+      description: "Get all books in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      resolve: async (_parent, _args, context): Promise<UserBook[]> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        if (!shelfService || !userService) {
+          throw new GraphQLError("Service unavailable", {
+            extensions: { code: "INTERNAL_ERROR" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const userBooksResult = await shelfService.getUserBooks(
+          userResult.data.id,
+        );
+
+        if (!userBooksResult.success) {
+          throw new GraphQLError(userBooksResult.error.message, {
+            extensions: { code: userBooksResult.error.code },
+          });
+        }
+
+        return userBooksResult.data;
+      },
+    }),
   }));
 }
 

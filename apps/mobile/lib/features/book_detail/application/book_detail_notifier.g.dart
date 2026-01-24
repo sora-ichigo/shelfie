@@ -7,7 +7,7 @@ part of 'book_detail_notifier.dart';
 // **************************************************************************
 
 String _$bookDetailNotifierHash() =>
-    r'82d3b6857e2fd088725a1e7e41dee8b12fa7a4ea';
+    r'fa025f9f5c45f83dac1f617764ed608eabe56dcc';
 
 /// Copied from Dart SDK
 class _SystemHash {
