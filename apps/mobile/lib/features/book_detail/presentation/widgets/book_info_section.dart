@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 
 class BookInfoSection extends StatelessWidget {
@@ -104,24 +105,20 @@ class BookInfoSection extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: AppColors.actionGradient,
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: ElevatedButton.icon(
           onPressed: onAddToShelfPressed,
           icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
+          label: Text(
             '本棚に追加',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTypography.labelLarge.copyWith(color: Colors.white),
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(16),
             ),
           ),
         ),
@@ -136,7 +133,8 @@ class BookInfoSection extends StatelessWidget {
       items.add(_buildInfoItem(theme, '出版社', bookDetail.publisher!));
     }
     if (bookDetail.publishedDate != null) {
-      items.add(_buildInfoItem(theme, '発売日', _formatDate(bookDetail.publishedDate!)));
+      items.add(
+          _buildInfoItem(theme, '発売日', _formatDate(bookDetail.publishedDate!)));
     }
     if (bookDetail.pageCount != null) {
       items.add(_buildInfoItem(theme, 'ページ数', '${bookDetail.pageCount}ページ'));

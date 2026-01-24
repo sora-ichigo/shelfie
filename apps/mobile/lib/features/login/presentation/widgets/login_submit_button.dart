@@ -35,7 +35,6 @@ class LoginSubmitButton extends ConsumerWidget {
           'ログイン',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: isEnabled ? Colors.black : Colors.black.withOpacity(0.5),
-                fontWeight: FontWeight.w600,
               ),
         ),
       ),
