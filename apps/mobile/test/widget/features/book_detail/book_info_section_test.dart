@@ -181,7 +181,7 @@ void main() {
         expect(find.text('出版社'), findsOneWidget);
         expect(find.text('Test Publisher'), findsOneWidget);
         expect(find.text('発売日'), findsOneWidget);
-        expect(find.text('2024-01-01'), findsOneWidget);
+        expect(find.text('2024年1月1日'), findsOneWidget);
         expect(find.text('ページ数'), findsOneWidget);
         expect(find.text('300ページ'), findsOneWidget);
         expect(find.text('ジャンル'), findsOneWidget);
@@ -213,9 +213,9 @@ void main() {
         await tester.pumpWidget(buildTestWidget(bookDetail: bookDetail));
         await tester.pumpAndSettle();
 
-        expect(find.byType(Chip), findsNWidgets(2));
-        expect(find.text('Fiction'), findsOneWidget);
-        expect(find.text('Drama'), findsOneWidget);
+        // カテゴリは翻訳されて表示される
+        expect(find.text('小説'), findsOneWidget);
+        expect(find.text('ドラマ'), findsOneWidget);
       });
     });
   });

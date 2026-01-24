@@ -56,7 +56,7 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('AppBar に閉じるボタン(x)が表示される', (tester) async {
+    testWidgets('AppBar に戻るボタンが表示される', (tester) async {
       when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
           .thenAnswer((_) async => right(
                 const BookDetail(
@@ -69,7 +69,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.close), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
     });
 
     testWidgets('AppBar に共有ボタンが表示される', (tester) async {

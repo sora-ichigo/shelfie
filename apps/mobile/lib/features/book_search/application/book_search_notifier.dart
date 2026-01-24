@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
@@ -92,8 +93,7 @@ class BookSearchNotifier extends _$BookSearchNotifier {
   }
 
   Future<Either<Failure, UserBook>> addToShelf(Book book) async {
-    final repository = ref.read(bookSearchRepositoryProvider);
-    final result = await repository.addBookToShelf(
+    return ref.read(shelfStateProvider.notifier).addToShelf(
       externalId: book.id,
       title: book.title,
       authors: book.authors,
@@ -102,56 +102,22 @@ class BookSearchNotifier extends _$BookSearchNotifier {
       isbn: book.isbn,
       coverImageUrl: book.coverImageUrl,
     );
-
-    result.fold(
-      (_) {},
-      (userBook) => _updateBookInState(book.id, userBookId: userBook.id),
-    );
-
-    return result;
   }
 
   Future<Either<Failure, bool>> removeFromShelf(Book book) async {
-    if (book.userBookId == null) {
+    final userBookId = book.userBookId ??
+        ref.read(shelfStateProvider.notifier).getUserBookId(book.id);
+
+    if (userBookId == null) {
       return left(
         const ServerFailure(message: 'Book is not in shelf', code: 'NOT_IN_SHELF'),
       );
     }
 
-    final repository = ref.read(bookSearchRepositoryProvider);
-    final result = await repository.removeFromShelf(
-      userBookId: book.userBookId!,
+    return ref.read(shelfStateProvider.notifier).removeFromShelf(
+      externalId: book.id,
+      userBookId: userBookId,
     );
-
-    result.fold(
-      (_) {},
-      (_) => _updateBookInState(book.id, clearUserBookId: true),
-    );
-
-    return result;
-  }
-
-  void _updateBookInState(String bookId, {int? userBookId, bool clearUserBookId = false}) {
-    final currentState = state;
-    if (currentState is BookSearchSuccess) {
-      final updatedBooks = currentState.books.map((b) {
-        if (b.id == bookId) {
-          return b.copyWith(
-            userBookId: clearUserBookId ? null : userBookId,
-            clearUserBookId: clearUserBookId,
-          );
-        }
-        return b;
-      }).toList();
-
-      state = BookSearchState.success(
-        books: updatedBooks,
-        totalCount: currentState.totalCount,
-        hasMore: currentState.hasMore,
-        currentQuery: currentState.currentQuery,
-        currentOffset: currentState.currentOffset,
-      );
-    }
   }
 
   Future<void> loadMore() async {

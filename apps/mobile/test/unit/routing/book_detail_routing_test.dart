@@ -75,7 +75,7 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
       });
 
-      testWidgets('BookDetailScreen の AppBar に閉じるボタンが表示される', (tester) async {
+      testWidgets('BookDetailScreen の AppBar に戻るボタンが表示される', (tester) async {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
@@ -85,8 +85,8 @@ void main() {
         );
         await tester.pump();
 
-        // 閉じるボタン（Icons.close）が存在することを確認
-        expect(find.byIcon(Icons.close), findsOneWidget);
+        // 戻るボタン（Icons.arrow_back_ios_new）が存在することを確認
+        expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
 
         // タイマー問題を回避するためにフレームを進める
         await tester.pump(const Duration(seconds: 1));
@@ -109,7 +109,7 @@ void main() {
         await tester.pump(const Duration(seconds: 1));
       });
 
-      testWidgets('閉じるボタンタップで Navigator.pop が呼ばれる', (tester) async {
+      testWidgets('戻るボタンタップで Navigator.pop が呼ばれる', (tester) async {
         var popped = false;
 
         await tester.pumpWidget(
@@ -136,8 +136,8 @@ void main() {
         await tester.tap(find.text('Open'));
         await tester.pumpAndSettle();
 
-        // 閉じるボタンをタップ
-        await tester.tap(find.byIcon(Icons.close));
+        // 戻るボタンをタップ
+        await tester.tap(find.byIcon(Icons.arrow_back_ios_new));
         await tester.pumpAndSettle();
 
         // Navigator.pop が呼ばれたことを確認

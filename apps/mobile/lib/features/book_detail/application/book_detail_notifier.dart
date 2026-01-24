@@ -1,12 +1,11 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
-import 'package:shelfie/features/book_search/data/book_search_repository.dart'
-    hide UserBook;
 
 part 'book_detail_notifier.g.dart';
 
@@ -27,6 +26,11 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       case Left(:final value):
         state = AsyncError(value, StackTrace.current);
       case Right(:final value):
+        if (value.userBook != null) {
+          ref
+              .read(shelfStateProvider.notifier)
+              .registerBook(value.id, value.userBook!.id);
+        }
         state = AsyncData(value);
     }
   }
@@ -86,8 +90,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       );
     }
 
-    final repository = ref.read(bookSearchRepositoryProvider);
-    final result = await repository.addBookToShelf(
+    final result = await ref.read(shelfStateProvider.notifier).addToShelf(
       externalId: currentBookDetail.id,
       title: currentBookDetail.title,
       authors: currentBookDetail.authors,
@@ -126,8 +129,10 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       );
     }
 
-    final repository = ref.read(bookDetailRepositoryProvider);
-    final result = await repository.removeFromShelf(userBookId: userBook.id);
+    final result = await ref.read(shelfStateProvider.notifier).removeFromShelf(
+      externalId: currentBookDetail.id,
+      userBookId: userBook.id,
+    );
 
     switch (result) {
       case Left(:final value):

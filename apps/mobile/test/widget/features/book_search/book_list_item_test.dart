@@ -48,13 +48,13 @@ void main() {
     testWidgets('出版社と出版年が表示される', (tester) async {
       await tester.pumpWidget(buildBookListItem(book: testBook));
 
-      expect(find.text('出版社X / 2024'), findsOneWidget);
+      expect(find.text('出版社X / 2024年'), findsOneWidget);
     });
 
     testWidgets('追加ボタンが表示される', (tester) async {
       await tester.pumpWidget(buildBookListItem(book: testBook));
 
-      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.add_circle_outline), findsOneWidget);
     });
 
     testWidgets('追加ボタンをタップするとコールバックが呼ばれる', (tester) async {
@@ -67,7 +67,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byIcon(Icons.add));
+      await tester.tap(find.byIcon(Icons.add_circle_outline));
 
       expect(addPressed, isTrue);
     });
@@ -81,7 +81,7 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.byIcon(Icons.add), findsNothing);
+      expect(find.byIcon(Icons.add_circle_outline), findsNothing);
     });
 
     testWidgets('出版社がない場合は出版年のみ表示される', (tester) async {
@@ -94,7 +94,7 @@ void main() {
 
       await tester.pumpWidget(buildBookListItem(book: bookWithoutPublisher));
 
-      expect(find.text('2024'), findsOneWidget);
+      expect(find.text('2024年'), findsOneWidget);
     });
 
     testWidgets('出版年がない場合は出版社のみ表示される', (tester) async {

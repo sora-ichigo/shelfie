@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -116,6 +117,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     required bool hasMore,
     required bool isLoadingMore,
   }) {
+    final shelfState = ref.watch(shelfStateProvider);
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification) {
@@ -137,11 +140,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           }
 
           final book = books[index];
+          final userBookId = shelfState[book.id];
+          final bookWithShelfState = book.copyWith(
+            userBookId: userBookId,
+            clearUserBookId: userBookId == null,
+          );
+
           return BookListItem(
-            book: book,
-            onTap: () => _onBookTap(book),
-            onAddPressed: () => _onAddToShelf(book),
-            onRemovePressed: () => _onRemoveFromShelf(book),
+            book: bookWithShelfState,
+            onTap: () => _onBookTap(bookWithShelfState),
+            onAddPressed: () => _onAddToShelf(bookWithShelfState),
+            onRemovePressed: () => _onRemoveFromShelf(bookWithShelfState),
             isAddingToShelf: _addingBooks.contains(book.id),
             isRemovingFromShelf: _removingBooks.contains(book.id),
           );

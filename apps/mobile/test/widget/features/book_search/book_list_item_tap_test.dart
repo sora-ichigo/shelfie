@@ -85,7 +85,7 @@ void main() {
         );
 
         // 追加ボタンをタップ
-        await tester.tap(find.byIcon(Icons.add));
+        await tester.tap(find.byIcon(Icons.add_circle_outline));
         await tester.pumpAndSettle();
 
         expect(addButtonTapped, isTrue);
