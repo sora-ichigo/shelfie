@@ -1,0 +1,60 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+
+part 'shelf_book_item.freezed.dart';
+
+/// 本棚画面表示用の書籍モデル
+///
+/// UserBook と Book の情報を統合した表示用モデル。
+/// イミュータブルで、freezed によるコード生成を使用。
+@freezed
+class ShelfBookItem with _$ShelfBookItem {
+  const ShelfBookItem._();
+
+  const factory ShelfBookItem({
+    /// ユーザーの本棚エントリID
+    required int userBookId,
+
+    /// 外部ID（楽天ブックスID など）
+    required String externalId,
+
+    /// 書籍タイトル
+    required String title,
+
+    /// 著者リスト
+    required List<String> authors,
+
+    /// 読書状態
+    required ReadingStatus readingStatus,
+
+    /// 本棚への追加日時
+    required DateTime addedAt,
+
+    /// 表紙画像のURL
+    String? coverImageUrl,
+
+    /// 評価（1-5、将来の機能用）
+    int? rating,
+
+    /// 読了日
+    DateTime? completedAt,
+  }) = _ShelfBookItem;
+
+  /// 最初の著者を取得
+  ///
+  /// グループ化「著者別」で使用。
+  /// 著者がいない場合は空文字列を返す。
+  String get primaryAuthor => authors.isNotEmpty ? authors.first : '';
+
+  /// 著者の表示用文字列を取得
+  ///
+  /// 複数著者の場合はカンマ区切りで結合。
+  String get authorsDisplay => authors.join(', ');
+
+  /// 評価が設定されているかどうか
+  bool get hasRating => rating != null;
+
+  /// 表紙画像があるかどうか
+  bool get hasCoverImage =>
+      coverImageUrl != null && coverImageUrl!.isNotEmpty;
+}

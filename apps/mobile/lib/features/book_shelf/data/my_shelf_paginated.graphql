@@ -1,0 +1,16 @@
+query MyShelfPaginated($input: MyShelfInput) {
+  myShelf(input: $input) {
+    items {
+      id
+      externalId
+      title
+      authors
+      coverImageUrl
+      readingStatus
+      addedAt
+      completedAt
+    }
+    totalCount
+    hasMore
+  }
+}
