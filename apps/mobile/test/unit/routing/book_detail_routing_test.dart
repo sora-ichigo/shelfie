@@ -31,19 +31,16 @@ void main() {
         expect(params.bookId, '');
       });
 
-      test('/books/:bookId ルートが ShellRoute に含まれている', () {
+      test('/books/:bookId ルートがトップレベルルートとして登録されている', () {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を探す
-        final shellRoute = routes.whereType<ShellRoute>().first;
-        expect(shellRoute, isNotNull);
-
-        // ShellRoute 内に本詳細ルートが存在することを確認
-        final hasBookDetailRoute = shellRoute.routes.any(
+        // トップレベルに本詳細ルートが存在することを確認
+        // （タブバーなしで表示するため ShellRoute の外に配置されている）
+        final hasBookDetailRoute = routes.any(
           (route) => route is GoRoute && route.path == '/books/:bookId',
         );
         expect(hasBookDetailRoute, isTrue);

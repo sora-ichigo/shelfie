@@ -130,7 +130,7 @@ void main() {
       verify(() => mockAuthStateNotifier.logout()).called(1);
     });
 
-    test('認証済み + ルートパス (/) + セッション検証失敗 -> ログアウトして /welcome へリダイレクト',
+    test('認証済み + ルートパス (/) + セッション検証失敗 -> リダイレクトなし（一時的エラーとして継続）',
         () async {
       const authState = AuthStateData(
         isAuthenticated: true,
@@ -150,9 +150,11 @@ void main() {
         sessionValidator: mockSessionValidator,
       );
 
-      expect(result, equals(AppRoutes.welcome));
+      // ネットワークエラー等の一時的な失敗の場合は続行
+      // （ログアウトしてしまうと UX が悪いため）
+      expect(result, isNull);
       verify(() => mockSessionValidator.validate()).called(1);
-      verify(() => mockAuthStateNotifier.logout()).called(1);
+      verifyNever(() => mockAuthStateNotifier.logout());
     });
 
     test('未認証 + /auth/login -> リダイレクトなし (null)', () async {
