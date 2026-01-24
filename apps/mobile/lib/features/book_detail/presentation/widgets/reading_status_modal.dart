@@ -161,20 +161,21 @@ class _ReadingStatusModalContentState
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.4)
+              ? AppColors.primary.withOpacity(0.5)
               : theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.transparent,
-            width: 2,
+            color:
+                isSelected ? AppColors.primary : Colors.white.withOpacity(0.2),
+            width: isSelected ? 2 : 1,
           ),
         ),
         child: Center(
           child: Text(
             status.displayName,
             style: theme.textTheme.bodyLarge?.copyWith(
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              color: isSelected ? Colors.white : null,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? Colors.white : const Color(0xFF99A1AF),
             ),
           ),
         ),
