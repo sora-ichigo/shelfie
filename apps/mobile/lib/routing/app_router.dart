@@ -447,5 +447,3 @@ class _AccountScreen extends StatelessWidget {
     );
   }
 }
-
-

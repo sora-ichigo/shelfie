@@ -293,7 +293,12 @@ describe("BooksGraphQL Queries Schema", () => {
     const builder = createTestBuilder();
     registerBooksTypes(builder);
     builder.queryType({});
-    registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
     const schema = builder.toSchema();
 
     const queryType = schema.getQueryType();
@@ -319,7 +324,12 @@ describe("BooksGraphQL Queries Schema", () => {
     const builder = createTestBuilder();
     registerBooksTypes(builder);
     builder.queryType({});
-    registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
     const schema = builder.toSchema();
 
     const queryType = schema.getQueryType();
@@ -756,7 +766,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -777,7 +792,10 @@ describe("BooksGraphQL Resolver Behavior", () => {
       );
 
       expect(mockSearchService.getBookDetail).toHaveBeenCalledWith("book-123");
-      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(100, "book-123");
+      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(
+        100,
+        "book-123",
+      );
       expect(result).toMatchObject({
         ...mockBookDetail,
         userBook: mockUserBook,
@@ -823,7 +841,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -864,7 +887,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -927,11 +955,17 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
-      const userBookByExternalIdField = queryType?.getFields().userBookByExternalId;
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
 
       const result = await userBookByExternalIdField?.resolve?.(
         {},
@@ -947,7 +981,10 @@ describe("BooksGraphQL Resolver Behavior", () => {
         {} as never,
       );
 
-      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(100, "book-123");
+      expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(
+        100,
+        "book-123",
+      );
       expect(result).toEqual(mockUserBook);
     });
 
@@ -972,11 +1009,17 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
-      const userBookByExternalIdField = queryType?.getFields().userBookByExternalId;
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
 
       const result = await userBookByExternalIdField?.resolve?.(
         {},
@@ -1003,11 +1046,17 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
-      const userBookByExternalIdField = queryType?.getFields().userBookByExternalId;
+      const userBookByExternalIdField =
+        queryType?.getFields().userBookByExternalId;
 
       let error: Error | null = null;
       try {
@@ -1066,7 +1115,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       builder.mutationType({});
       registerBooksMutations(builder, mockShelfService, mockUserService);
 
@@ -1312,7 +1366,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       builder.mutationType({});
       registerBooksMutations(builder, mockShelfService, mockUserService);
 
@@ -1523,7 +1582,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       builder.mutationType({});
       registerBooksMutations(builder, mockShelfService, mockUserService);
 
@@ -1594,7 +1658,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       builder.mutationType({});
       registerBooksMutations(builder, mockShelfService, mockUserService);
 
@@ -1774,7 +1843,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
       const schema = builder.toSchema();
 
       const queryType = schema.getQueryType();
@@ -1843,7 +1917,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -1863,7 +1942,9 @@ describe("BooksGraphQL Resolver Behavior", () => {
         {} as never,
       );
 
-      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith("firebase-uid");
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
       expect(mockShelfService.getUserBooks).toHaveBeenCalledWith(100);
       expect(result).toEqual(mockUserBooks);
     });
@@ -1887,7 +1968,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -1918,7 +2004,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();
@@ -1968,7 +2059,12 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const builder = createTestBuilder();
       registerBooksTypes(builder);
       builder.queryType({});
-      registerBooksQueries(builder, mockSearchService, mockShelfService, mockUserService);
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
 
       const schema = builder.toSchema();
       const queryType = schema.getQueryType();

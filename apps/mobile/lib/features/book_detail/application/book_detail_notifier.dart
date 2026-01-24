@@ -6,7 +6,6 @@ import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_detail/domain/user_book.dart';
 
 part 'book_detail_notifier.g.dart';
 

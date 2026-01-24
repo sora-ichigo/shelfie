@@ -5,13 +5,19 @@ import { createBookShelfRepository } from "./book-shelf-repository.js";
 function createMockDb() {
   const mockResults: unknown[] = [];
 
-  const returningFn = vi.fn().mockImplementation(() => Promise.resolve(mockResults));
+  const returningFn = vi
+    .fn()
+    .mockImplementation(() => Promise.resolve(mockResults));
   const whereFn = vi.fn().mockImplementation(() => {
     const chainAfterWhere = Promise.resolve(mockResults);
-    (chainAfterWhere as unknown as { returning: typeof returningFn }).returning = returningFn;
+    (
+      chainAfterWhere as unknown as { returning: typeof returningFn }
+    ).returning = returningFn;
     return chainAfterWhere;
   });
-  const setFn = vi.fn().mockImplementation(() => ({ where: whereFn, returning: returningFn }));
+  const setFn = vi
+    .fn()
+    .mockImplementation(() => ({ where: whereFn, returning: returningFn }));
   const updateFn = vi.fn().mockImplementation(() => ({ set: setFn }));
 
   const mockQuery = {

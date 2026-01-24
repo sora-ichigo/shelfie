@@ -1,7 +1,10 @@
 import type { UserBook } from "../../../db/schema/books.js";
 import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import type { BookShelfRepository, ReadingStatusValue } from "./book-shelf-repository.js";
+import type {
+  BookShelfRepository,
+  ReadingStatusValue,
+} from "./book-shelf-repository.js";
 
 export type BookShelfErrors =
   | { code: "DUPLICATE_BOOK"; message: string }
@@ -51,9 +54,7 @@ export interface BookShelfService {
     externalId: string,
   ): Promise<Result<UserBook | null, BookShelfErrors>>;
 
-  getUserBooks(
-    userId: number,
-  ): Promise<Result<UserBook[], BookShelfErrors>>;
+  getUserBooks(userId: number): Promise<Result<UserBook[], BookShelfErrors>>;
 
   updateReadingStatus(
     input: UpdateReadingStatusInput,

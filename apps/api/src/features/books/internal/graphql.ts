@@ -13,7 +13,11 @@ interface BookDetailWithUserBook extends BookDetail {
   userBook: UserBook | null;
 }
 
-export type ReadingStatusValue = "backlog" | "reading" | "completed" | "dropped";
+export type ReadingStatusValue =
+  | "backlog"
+  | "reading"
+  | "completed"
+  | "dropped";
 
 interface AddBookInputData {
   externalId: string;
@@ -40,10 +44,22 @@ function createReadingStatusEnumRef(builder: Builder) {
   return builder.enumType("ReadingStatus", {
     description: "Reading status of a book in the user's shelf",
     values: {
-      BACKLOG: { value: "backlog" as ReadingStatusValue, description: "Unread (backlog)" },
-      READING: { value: "reading" as ReadingStatusValue, description: "Currently reading" },
-      COMPLETED: { value: "completed" as ReadingStatusValue, description: "Finished reading" },
-      DROPPED: { value: "dropped" as ReadingStatusValue, description: "Dropped/Not reading" },
+      BACKLOG: {
+        value: "backlog" as ReadingStatusValue,
+        description: "Unread (backlog)",
+      },
+      READING: {
+        value: "reading" as ReadingStatusValue,
+        description: "Currently reading",
+      },
+      COMPLETED: {
+        value: "completed" as ReadingStatusValue,
+        description: "Finished reading",
+      },
+      DROPPED: {
+        value: "dropped" as ReadingStatusValue,
+        description: "Dropped/Not reading",
+      },
     } as const,
   });
 }
@@ -310,7 +326,8 @@ export function registerBooksTypes(builder: Builder): void {
       userBook: t.field({
         type: UserBookRef,
         nullable: true,
-        description: "The user's reading record for this book (if added to shelf)",
+        description:
+          "The user's reading record for this book (if added to shelf)",
         resolve: (parent) => parent.userBook,
       }),
     }),
@@ -386,7 +403,11 @@ export function registerBooksQueries(
       args: {
         bookId: t.arg.string({ required: true }),
       },
-      resolve: async (_parent, args, context): Promise<BookDetailWithUserBook> => {
+      resolve: async (
+        _parent,
+        args,
+        context,
+      ): Promise<BookDetailWithUserBook> => {
         const authenticatedContext = context as AuthenticatedContext;
 
         const bookResult = await searchService.getBookDetail(args.bookId);

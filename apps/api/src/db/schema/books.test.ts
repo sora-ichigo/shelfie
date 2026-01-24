@@ -248,7 +248,12 @@ describe("books schema", () => {
 
       it("should store all reading_status enum values", async () => {
         const db = getDb();
-        const statuses = ["backlog", "reading", "completed", "dropped"] as const;
+        const statuses = [
+          "backlog",
+          "reading",
+          "completed",
+          "dropped",
+        ] as const;
 
         for (const [index, status] of statuses.entries()) {
           const [userBook] = await db

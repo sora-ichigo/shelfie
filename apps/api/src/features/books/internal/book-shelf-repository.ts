@@ -8,7 +8,11 @@ import {
 
 export type { NewUserBook, UserBook } from "../../../db/schema/books.js";
 
-export type ReadingStatusValue = "backlog" | "reading" | "completed" | "dropped";
+export type ReadingStatusValue =
+  | "backlog"
+  | "reading"
+  | "completed"
+  | "dropped";
 
 export interface UpdateUserBookInput {
   readingStatus?: ReadingStatusValue;
@@ -24,7 +28,10 @@ export interface BookShelfRepository {
   ): Promise<UserBook | null>;
   findUserBookById(id: number): Promise<UserBook | null>;
   createUserBook(userBook: NewUserBook): Promise<UserBook>;
-  updateUserBook(id: number, input: UpdateUserBookInput): Promise<UserBook | null>;
+  updateUserBook(
+    id: number,
+    input: UpdateUserBookInput,
+  ): Promise<UserBook | null>;
   deleteUserBook(id: number): Promise<boolean>;
   getUserBooks(userId: number): Promise<UserBook[]>;
 }

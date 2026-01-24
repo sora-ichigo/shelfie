@@ -1,5 +1,12 @@
-export type { Book, BookDetail, GoogleBooksVolume } from "./internal/book-mapper.js";
-export { mapGoogleBooksVolume, mapGoogleBooksVolumeToDetail } from "./internal/book-mapper.js";
+export type {
+  Book,
+  BookDetail,
+  GoogleBooksVolume,
+} from "./internal/book-mapper.js";
+export {
+  mapGoogleBooksVolume,
+  mapGoogleBooksVolumeToDetail,
+} from "./internal/book-mapper.js";
 export type {
   BookDetail as BookDetailFromSearchService,
   BookSearchErrors,
