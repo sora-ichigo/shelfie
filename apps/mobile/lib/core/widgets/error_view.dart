@@ -13,11 +13,13 @@ class ErrorView extends StatelessWidget {
   /// [failure] は表示するエラー情報。
   /// [onRetry] が指定されると、リトライボタンが表示される。
   /// [retryButtonText] でボタンのテキストをカスタマイズできる。
+  /// [centered] が true の場合、中央寄せで表示する（デフォルト: true）。
   const ErrorView({
     required this.failure,
     super.key,
     this.onRetry,
     this.retryButtonText = 'Retry',
+    this.centered = true,
   });
 
   /// 表示するエラー情報
@@ -29,41 +31,46 @@ class ErrorView extends StatelessWidget {
   /// リトライボタンのテキスト
   final String retryButtonText;
 
+  /// 中央寄せで表示するかどうか
+  final bool centered;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>() ?? AppColors.dark;
 
-    return Center(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.lg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              _getIcon(),
-              size: 64,
-              color: _getIconColor(theme, appColors),
+    final content = Padding(
+      padding: AppSpacing.all(AppSpacing.lg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment:
+            centered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        children: [
+          Icon(
+            _getIcon(),
+            size: 64,
+            color: _getIconColor(theme, appColors),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            failure.userMessage,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              failure.userMessage,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
+            textAlign: centered ? TextAlign.center : TextAlign.start,
+          ),
+          if (onRetry != null) ...[
+            const SizedBox(height: AppSpacing.lg),
+            ElevatedButton(
+              onPressed: onRetry,
+              child: Text(retryButtonText),
             ),
-            if (onRetry != null) ...[
-              const SizedBox(height: AppSpacing.lg),
-              ElevatedButton(
-                onPressed: onRetry,
-                child: Text(retryButtonText),
-              ),
-            ],
           ],
-        ),
+        ],
       ),
     );
+
+    return centered ? Center(child: content) : content;
   }
 
   IconData _getIcon() {

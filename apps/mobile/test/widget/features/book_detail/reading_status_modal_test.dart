@@ -81,7 +81,7 @@ void main() {
       expect(find.byType(BottomSheet), findsOneWidget);
     });
 
-    testWidgets('4つの読書状態がラジオボタンで表示される', (tester) async {
+    testWidgets('4つの読書状態がグリッドボタンで表示される', (tester) async {
       await tester.pumpWidget(buildTestWidget(
         currentStatus: ReadingStatus.backlog,
         userBookId: 1,
@@ -95,7 +95,6 @@ void main() {
       expect(find.text('読書中'), findsOneWidget);
       expect(find.text('読了'), findsOneWidget);
       expect(find.text('読まない'), findsOneWidget);
-      expect(find.byType(Radio<ReadingStatus>), findsNWidgets(4));
     });
 
     testWidgets('現在の状態が初期選択されている', (tester) async {
@@ -108,14 +107,14 @@ void main() {
       await tester.tap(find.text('Open Modal'));
       await tester.pumpAndSettle();
 
-      final radio = tester.widget<Radio<ReadingStatus>>(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Radio<ReadingStatus> &&
-              widget.value == ReadingStatus.reading,
-        ),
+      final readingButton = tester.widget<Container>(
+        find.ancestor(
+          of: find.text('読書中'),
+          matching: find.byType(Container),
+        ).first,
       );
-      expect(radio.groupValue, ReadingStatus.reading);
+      final decoration = readingButton.decoration as BoxDecoration?;
+      expect(decoration?.border?.top.width, 2);
     });
 
     testWidgets('保存ボタンとキャンセルボタンが表示される', (tester) async {
@@ -134,7 +133,7 @@ void main() {
   });
 
   group('ReadingStatusModal 状態選択', () {
-    testWidgets('ラジオボタンをタップすると選択状態が変わる', (tester) async {
+    testWidgets('ボタンをタップすると選択状態が変わる', (tester) async {
       await tester.pumpWidget(buildTestWidget(
         currentStatus: ReadingStatus.backlog,
         userBookId: 1,
@@ -147,14 +146,14 @@ void main() {
       await tester.tap(find.text('読了'));
       await tester.pumpAndSettle();
 
-      final radio = tester.widget<Radio<ReadingStatus>>(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Radio<ReadingStatus> &&
-              widget.value == ReadingStatus.completed,
-        ),
+      final completedButton = tester.widget<Container>(
+        find.ancestor(
+          of: find.text('読了'),
+          matching: find.byType(Container),
+        ).first,
       );
-      expect(radio.groupValue, ReadingStatus.completed);
+      final decoration = completedButton.decoration as BoxDecoration?;
+      expect(decoration?.border?.top.width, 2);
     });
 
     testWidgets('変更がない場合は保存ボタンが無効化される', (tester) async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
@@ -67,67 +68,187 @@ class _ReadingStatusModalContentState
         padding: AppSpacing.all(AppSpacing.md),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _buildDragHandle(theme),
+            const SizedBox(height: AppSpacing.md),
             Text(
-              '読書状態を選択',
+              '読書状態を変更',
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            ...ReadingStatus.values.map(_buildRadioTile),
+            const SizedBox(height: AppSpacing.lg),
+            _buildStatusGrid(theme),
             if (_error != null) ...[
               const SizedBox(height: AppSpacing.sm),
-              Text(
-                _error!.userMessage,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  _error!.userMessage,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
                 ),
               ),
             ],
             const SizedBox(height: AppSpacing.lg),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: _isSaving ? null : () => Navigator.pop(context),
-                  child: const Text('キャンセル'),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                ElevatedButton(
-                  onPressed: _hasChanges && !_isSaving ? _onSave : null,
-                  child: _isSaving
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Text('保存'),
-                ),
-              ],
-            ),
+            _buildActionButtons(theme),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRadioTile(ReadingStatus status) {
-    return RadioListTile<ReadingStatus>(
-      value: status,
-      groupValue: _selectedStatus,
-      onChanged: _isSaving
+  Widget _buildDragHandle(ThemeData theme) {
+    return Container(
+      width: 40,
+      height: 4,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+
+  Widget _buildStatusGrid(ThemeData theme) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.backlog),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.reading),
+            ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Row(
+          children: [
+            Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.completed),
+            ),
+            const SizedBox(width: AppSpacing.sm),
+            Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.dropped),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatusButton(ThemeData theme, ReadingStatus status) {
+    final isSelected = _selectedStatus == status;
+    final statusColor = _getStatusColor(status);
+
+    return InkWell(
+      onTap: _isSaving
           ? null
-          : (value) {
-              if (value != null) {
-                setState(() {
-                  _selectedStatus = value;
-                  _error = null;
-                });
-              }
+          : () {
+              setState(() {
+                _selectedStatus = status;
+                _error = null;
+              });
             },
-      title: Text(status.displayName),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? statusColor.withOpacity(0.3)
+              : theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            status.displayName,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(ReadingStatus status) {
+    return switch (status) {
+      ReadingStatus.backlog => const Color(0xFFFFB74D),
+      ReadingStatus.reading => const Color(0xFF64B5F6),
+      ReadingStatus.completed => const Color(0xFF81C784),
+      ReadingStatus.dropped => const Color(0xFF90A4AE),
+    };
+  }
+
+  Widget _buildActionButtons(ThemeData theme) {
+    return Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 48,
+            child: ElevatedButton(
+              onPressed: _isSaving ? null : () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.1),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text('キャンセル'),
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        Expanded(
+          child: _buildPrimaryButton(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPrimaryButton() {
+    final isEnabled = _hasChanges && !_isSaving;
+
+    return SizedBox(
+      height: 48,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: AppColors.actionGradient,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ElevatedButton(
+          onPressed: isEnabled ? _onSave : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            disabledBackgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: _isSaving
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Text('保存'),
+        ),
+      ),
     );
   }
 

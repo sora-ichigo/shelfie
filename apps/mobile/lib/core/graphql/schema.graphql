@@ -321,8 +321,11 @@ type BookDetail {
   """The Amazon URL for the book"""
   amazonUrl: String
 
-  """The Google Books URL for the book"""
-  googleBooksUrl: String
+  """The Google Books URL for the book (deprecated, use rakutenBooksUrl)"""
+  googleBooksUrl: String @deprecated(reason: "Use rakutenBooksUrl instead")
+
+  """The Rakuten Books URL for the book"""
+  rakutenBooksUrl: String
 
   """The user's reading record for this book (if added to shelf)"""
   userBook: UserBook

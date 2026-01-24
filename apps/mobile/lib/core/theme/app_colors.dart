@@ -91,6 +91,9 @@ class AppColors extends ThemeExtension<AppColors> {
     colors: [actionGradientStart, actionGradientEnd],
   );
 
+  /// モーダル/シート背景色（ダークティール）
+  static const Color surfaceModal = Color(0xFF1A2E2E);
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     success: Color(0xFF81C784),

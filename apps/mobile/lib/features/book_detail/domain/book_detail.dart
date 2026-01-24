@@ -42,7 +42,7 @@ class BookDetail with _$BookDetail {
     /// Amazon URL
     String? amazonUrl,
 
-    /// Google Books URL
-    String? googleBooksUrl,
+    /// 楽天ブックス URL
+    String? rakutenBooksUrl,
   }) = _BookDetail;
 }

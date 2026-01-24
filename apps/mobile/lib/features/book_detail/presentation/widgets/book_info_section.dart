@@ -272,14 +272,7 @@ class BookInfoSection extends StatelessWidget {
       width: double.infinity,
       padding: AppSpacing.all(AppSpacing.md),
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          center: const Alignment(0.8, 1.2),
-          radius: 1.5,
-          colors: [
-            AppColors.primary.withOpacity(0.2),
-            theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-          ],
-        ),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: theme.colorScheme.outline.withOpacity(0.2),
@@ -438,7 +431,7 @@ class BookInfoSection extends StatelessWidget {
   }
 
   bool _hasExternalLinks() {
-    return bookDetail.amazonUrl != null || bookDetail.googleBooksUrl != null;
+    return bookDetail.amazonUrl != null || bookDetail.rakutenBooksUrl != null;
   }
 
   Widget _buildExternalLinksCard(ThemeData theme) {
@@ -470,14 +463,14 @@ class BookInfoSection extends StatelessWidget {
               url: bookDetail.amazonUrl!,
               gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
             ),
-          if (bookDetail.googleBooksUrl != null) ...[
+          if (bookDetail.rakutenBooksUrl != null) ...[
             if (bookDetail.amazonUrl != null)
               const SizedBox(height: AppSpacing.sm),
-            _buildGooglePlayLinkButton(
+            _buildRakutenBooksLinkButton(
               theme,
-              label: 'Google Playで見る',
-              description: '電子書籍ページを開く',
-              url: bookDetail.googleBooksUrl!,
+              label: '楽天ブックスで見る',
+              description: '商品ページを開く',
+              url: bookDetail.rakutenBooksUrl!,
             ),
           ],
         ],
@@ -555,7 +548,7 @@ class BookInfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildGooglePlayLinkButton(
+  Widget _buildRakutenBooksLinkButton(
     ThemeData theme, {
     required String label,
     required String description,
@@ -579,8 +572,8 @@ class BookInfoSection extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFF00D4AA),
-                    Color(0xFF00A98F),
+                    Color(0xFFBF0000),
+                    Color(0xFF8C0000),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -588,10 +581,13 @@ class BookInfoSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Center(
-                child: FaIcon(
-                  FontAwesomeIcons.googlePlay,
-                  size: 20,
-                  color: Colors.white,
+                child: Text(
+                  'R',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

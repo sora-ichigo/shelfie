@@ -132,6 +132,7 @@ export function createExternalBookRepository(
         title: query,
         hits,
         page,
+        sort: "reviewCount",
       });
 
       const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);

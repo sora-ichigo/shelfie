@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -10,6 +11,7 @@ import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,6 +34,8 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isAddingToShelf = false;
   bool _isRemovingFromShelf = false;
+  Color? _dominantColor;
+  String? _extractedThumbnailUrl;
 
   @override
   void initState() {
@@ -66,18 +70,79 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           ),
         ],
       ),
-      body: state.when(
-        data: (bookDetail) => _buildContent(bookDetail),
-        loading: () => const LoadingIndicator(fullScreen: true),
-        error: (error, _) => _buildErrorView(error),
+      body: Stack(
+        children: [
+          _buildBackgroundGradient(),
+          state.when(
+            data: (bookDetail) => _buildContent(bookDetail),
+            loading: () => const LoadingIndicator(fullScreen: true),
+            error: (error, _) => _buildErrorView(error),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildBackgroundGradient() {
+    final theme = Theme.of(context);
+    final gradientColor = _dominantColor ?? Colors.black;
+
+    return Positioned.fill(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(0.8, -0.3),
+            radius: 1.5,
+            colors: [
+              gradientColor.withOpacity(0.2),
+              theme.colorScheme.surface,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _extractDominantColor(String? thumbnailUrl) async {
+    if (thumbnailUrl == null || thumbnailUrl == _extractedThumbnailUrl) {
+      return;
+    }
+
+    _extractedThumbnailUrl = thumbnailUrl;
+
+    try {
+      final paletteGenerator = await PaletteGenerator.fromImageProvider(
+        NetworkImage(thumbnailUrl),
+        size: const Size(100, 150),
+        maximumColorCount: 10,
+      );
+
+      if (!mounted) return;
+
+      final color = paletteGenerator.dominantColor?.color ??
+          paletteGenerator.vibrantColor?.color ??
+          paletteGenerator.mutedColor?.color;
+
+      if (color != null) {
+        setState(() {
+          _dominantColor = color;
+        });
+      }
+    } catch (e) {
+      debugPrint('Failed to extract color from $thumbnailUrl: $e');
+    }
   }
 
   Widget _buildContent(BookDetail? bookDetail) {
     if (bookDetail == null) {
       return const LoadingIndicator(fullScreen: true);
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _extractDominantColor(bookDetail.thumbnailUrl);
+    });
 
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[widget.bookId]),
@@ -91,7 +156,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             AppSpacing.md,
         left: AppSpacing.md,
         right: AppSpacing.md,
-        bottom: AppSpacing.md,
+        bottom: AppSpacing.xxl,
       ),
       child: BookInfoSection(
         bookDetail: bookDetail,
@@ -102,10 +167,18 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
         onLinkTap: _onLinkTap,
         headerBottomSlot: isInShelf
-            ? ReadingRecordSection(
-                shelfEntry: shelfEntry,
-                onStatusTap: _onStatusTap,
-                onNoteTap: _onNoteTap,
+            ? Column(
+                children: [
+                  ReadingRecordSection(
+                    shelfEntry: shelfEntry,
+                    onStatusTap: _onStatusTap,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  ReadingNoteSection(
+                    shelfEntry: shelfEntry,
+                    onNoteTap: _onNoteTap,
+                  ),
+                ],
               )
             : null,
       ),
@@ -116,10 +189,15 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final failure =
         error is Failure ? error : UnexpectedFailure(message: error.toString());
 
-    return ErrorView(
-      failure: failure,
-      onRetry: _onRetry,
-      retryButtonText: '再試行',
+    return Center(
+      child: Padding(
+        padding: AppSpacing.horizontal(AppSpacing.md),
+        child: ErrorView(
+          failure: failure,
+          onRetry: _onRetry,
+          retryButtonText: '再試行',
+        ),
+      ),
     );
   }
 
@@ -131,7 +209,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shareService = ref.read(shareServiceProvider);
     await shareService.shareBook(
       title: bookDetail.title,
-      url: bookDetail.amazonUrl ?? bookDetail.googleBooksUrl,
+      url: bookDetail.amazonUrl ?? bookDetail.rakutenBooksUrl,
     );
   }
 
