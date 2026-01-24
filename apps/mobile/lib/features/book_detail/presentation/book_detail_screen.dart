@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/circle_icon_button.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -77,59 +76,33 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       return const LoadingIndicator(fullScreen: true);
     }
 
-    return Stack(
-      children: [
-        _buildBackgroundGradient(),
-        SingleChildScrollView(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top +
-                kToolbarHeight +
-                AppSpacing.md,
-            left: AppSpacing.md,
-            right: AppSpacing.md,
-            bottom: AppSpacing.md,
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top +
+            kToolbarHeight +
+            AppSpacing.md,
+        left: AppSpacing.md,
+        right: AppSpacing.md,
+        bottom: AppSpacing.md,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          BookInfoSection(
+            bookDetail: bookDetail,
+            isInShelf: bookDetail.isInShelf,
+            onAddToShelfPressed: _onAddToShelfPressed,
+            onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
+            onLinkTap: _onLinkTap,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BookInfoSection(
-                bookDetail: bookDetail,
-                isInShelf: bookDetail.isInShelf,
-                onAddToShelfPressed: _onAddToShelfPressed,
-                onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
-                onLinkTap: _onLinkTap,
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              if (bookDetail.isInShelf)
-                ReadingRecordSection(
-                  userBook: bookDetail.userBook!,
-                  onStatusTap: _onStatusTap,
-                  onNoteTap: _onNoteTap,
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBackgroundGradient() {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      height: 400,
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.primary.withOpacity(0.3),
-              Colors.transparent,
-            ],
-          ),
-        ),
+          const SizedBox(height: AppSpacing.lg),
+          if (bookDetail.isInShelf)
+            ReadingRecordSection(
+              userBook: bookDetail.userBook!,
+              onStatusTap: _onStatusTap,
+              onNoteTap: _onNoteTap,
+            ),
+        ],
       ),
     );
   }
