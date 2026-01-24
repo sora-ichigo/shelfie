@@ -25,6 +25,7 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
   final _addingBooks = <String>{};
+  final _removingBooks = <String>{};
 
   @override
   void dispose() {
@@ -140,7 +141,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             book: book,
             onTap: () => _onBookTap(book),
             onAddPressed: () => _onAddToShelf(book),
+            onRemovePressed: () => _onRemoveFromShelf(book),
             isAddingToShelf: _addingBooks.contains(book.id),
+            isRemovingFromShelf: _removingBooks.contains(book.id),
           );
         },
       ),
@@ -208,6 +211,42 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('「${book.title}」を本棚に追加しました'),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onRemoveFromShelf(Book book) async {
+    if (_removingBooks.contains(book.id)) return;
+
+    setState(() {
+      _removingBooks.add(book.id);
+    });
+
+    final result = await ref
+        .read(bookSearchNotifierProvider.notifier)
+        .removeFromShelf(book);
+
+    if (!mounted) return;
+
+    setState(() {
+      _removingBooks.remove(book.id);
+    });
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.userMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('「${book.title}」を本棚から削除しました'),
           ),
         );
       },

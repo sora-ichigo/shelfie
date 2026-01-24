@@ -9,19 +9,23 @@ class BookListItem extends StatelessWidget {
     required this.onAddPressed,
     super.key,
     this.onTap,
+    this.onRemovePressed,
     this.isAddingToShelf = false,
+    this.isRemovingFromShelf = false,
   });
 
   final Book book;
   final VoidCallback onAddPressed;
   final VoidCallback? onTap;
+  final VoidCallback? onRemovePressed;
   final bool isAddingToShelf;
+  final bool isRemovingFromShelf;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ListTile(
+    final listTile = ListTile(
       onTap: onTap,
       contentPadding: AppSpacing.horizontal(AppSpacing.md),
       leading: _buildCoverImage(theme),
@@ -53,9 +57,11 @@ class BookListItem extends StatelessWidget {
             ),
         ],
       ),
-      trailing: _buildAddButton(theme),
+      trailing: _buildTrailingWidget(theme),
       isThreeLine: _hasPublisherInfo(),
     );
+
+    return listTile;
   }
 
   Widget _buildCoverImage(ThemeData theme) {
@@ -93,18 +99,47 @@ class BookListItem extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton(ThemeData theme) {
-    if (isAddingToShelf) {
+  Widget _buildTrailingWidget(ThemeData theme) {
+    if (isAddingToShelf || isRemovingFromShelf) {
       return const SizedBox(
-        width: 24,
-        height: 24,
-        child: CircularProgressIndicator(strokeWidth: 2),
+        width: 48,
+        height: 48,
+        child: Center(
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    if (book.isInShelf) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(width: 4),
+          IconButton(
+            onPressed: onRemovePressed,
+            icon: Icon(
+              Icons.close,
+              size: 20,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            tooltip: '本棚から削除',
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
       );
     }
 
     return IconButton(
       onPressed: onAddPressed,
-      icon: const Icon(Icons.add),
+      icon: const Icon(Icons.add_circle_outline),
       tooltip: '本棚に追加',
     );
   }
