@@ -52,11 +52,18 @@ function extractCoverImageUrl(imageLinks?: {
     return null;
   }
 
-  const url = imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
+  let url = imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
 
-  if (url?.startsWith("http://")) {
-    return url.replace("http://", "https://");
+  if (!url) {
+    return null;
   }
+
+  if (url.startsWith("http://")) {
+    url = url.replace("http://", "https://");
+  }
+
+  // zoom=1 を zoom=0 に変更して高解像度画像を取得
+  url = url.replace(/zoom=1/, "zoom=0");
 
   return url;
 }
