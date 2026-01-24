@@ -134,6 +134,7 @@ describe("books Feature public API", () => {
         findUserBookById: vi.fn(),
         createUserBook: vi.fn(),
         updateUserBook: vi.fn(),
+        deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
       };
       const mockLogger = {
@@ -158,6 +159,7 @@ describe("books Feature public API", () => {
         findUserBookById: vi.fn(),
         createUserBook: vi.fn(),
         updateUserBook: vi.fn(),
+        deleteUserBook: vi.fn(),
         getUserBooks: vi.fn(),
       };
       expect(typeof repo.findUserBookByExternalId).toBe("function");
