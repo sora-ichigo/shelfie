@@ -9,7 +9,6 @@ import 'package:shelfie/features/book_detail/application/book_detail_notifier.da
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
-import 'package:shelfie/features/book_detail/presentation/widgets/external_links_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
@@ -92,6 +91,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 bookDetail: bookDetail,
                 isInShelf: bookDetail.isInShelf,
                 onAddToShelfPressed: _onAddToShelfPressed,
+                onLinkTap: _onLinkTap,
               ),
               const SizedBox(height: AppSpacing.lg),
               if (bookDetail.isInShelf)
@@ -100,14 +100,6 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                   onStatusTap: _onStatusTap,
                   onNoteTap: _onNoteTap,
                 ),
-              if (bookDetail.amazonUrl != null || bookDetail.infoLink != null) ...[
-                const SizedBox(height: AppSpacing.lg),
-                ExternalLinksSection(
-                  amazonUrl: bookDetail.amazonUrl,
-                  infoLink: bookDetail.infoLink,
-                  onLinkTap: _onLinkTap,
-                ),
-              ],
             ],
           ),
         ),

@@ -10,12 +10,14 @@ class BookInfoSection extends StatelessWidget {
     required this.bookDetail,
     required this.isInShelf,
     this.onAddToShelfPressed,
+    this.onLinkTap,
     super.key,
   });
 
   final BookDetail bookDetail;
   final bool isInShelf;
   final VoidCallback? onAddToShelfPressed;
+  final void Function(String url)? onLinkTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,10 @@ class BookInfoSection extends StatelessWidget {
         if (bookDetail.description != null) ...[
           const SizedBox(height: AppSpacing.lg),
           _buildDescription(theme),
+        ],
+        if (_hasExternalLinks()) ...[
+          const SizedBox(height: AppSpacing.lg),
+          _buildExternalLinksCard(theme),
         ],
       ],
     );
@@ -133,8 +139,8 @@ class BookInfoSection extends StatelessWidget {
       items.add(_buildInfoItem(theme, '出版社', bookDetail.publisher!));
     }
     if (bookDetail.publishedDate != null) {
-      items.add(
-          _buildInfoItem(theme, '発売日', formatDateString(bookDetail.publishedDate!)));
+      items.add(_buildInfoItem(
+          theme, '発売日', formatDateString(bookDetail.publishedDate!)));
     }
     if (bookDetail.pageCount != null) {
       items.add(_buildInfoItem(theme, 'ページ数', '${bookDetail.pageCount}ページ'));
@@ -281,6 +287,126 @@ class BookInfoSection extends StatelessWidget {
   String _stripHtmlTags(String htmlString) {
     final regex = RegExp('<[^>]*>', multiLine: true, caseSensitive: false);
     return htmlString.replaceAll(regex, '').replaceAll('&nbsp;', ' ').trim();
+  }
+
+  bool _hasExternalLinks() {
+    return bookDetail.amazonUrl != null || bookDetail.infoLink != null;
+  }
+
+  Widget _buildExternalLinksCard(ThemeData theme) {
+    return Container(
+      width: double.infinity,
+      padding: AppSpacing.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outline.withOpacity(0.2),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '購入・詳細',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          if (bookDetail.amazonUrl != null)
+            _buildLinkButton(
+              theme,
+              icon: Icons.menu_book,
+              label: 'Amazonで見る',
+              description: '商品ページを開く',
+              url: bookDetail.amazonUrl!,
+              gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
+            ),
+          if (bookDetail.infoLink != null) ...[
+            if (bookDetail.amazonUrl != null)
+              const SizedBox(height: AppSpacing.sm),
+            _buildLinkButton(
+              theme,
+              icon: Icons.public,
+              label: '公式サイト',
+              description: '出版社ページを開く',
+              url: bookDetail.infoLink!,
+              gradientColors: const [Color(0xFF00D4AA), Color(0xFF00B4D8)],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLinkButton(
+    ThemeData theme, {
+    required IconData icon,
+    required String label,
+    required String description,
+    required String url,
+    required List<Color> gradientColors,
+  }) {
+    return InkWell(
+      onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        padding: AppSpacing.all(AppSpacing.md),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHigh.withOpacity(1.0),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: gradientColors,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    description,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.open_in_new,
+              size: 20,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
