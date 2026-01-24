@@ -1,6 +1,22 @@
+import {
+  type GraphQLField,
+  type GraphQLObjectType,
+  type GraphQLSchema,
+} from "graphql";
 import { describe, expect, it } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
 import { registerUserTypes } from "./graphql.js";
+
+function getField(
+  schema: GraphQLSchema,
+  typeName: string,
+  fieldName: string,
+): GraphQLField<unknown, unknown> | undefined {
+  const type = schema.getType(typeName) as GraphQLObjectType | undefined;
+  if (!type) return undefined;
+  const fields = type.getFields();
+  return fields[fieldName];
+}
 
 describe("User GraphQL Types", () => {
   describe("User type", () => {
@@ -79,6 +95,136 @@ describe("User GraphQL Types", () => {
       const schema = builder.toSchema();
       const userType = schema.getType("User");
       expect(userType).toBeDefined();
+    });
+
+    it("should have name field as nullable String", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const nameField = getField(schema, "User", "name");
+
+      expect(nameField).toBeDefined();
+      expect(nameField?.type.toString()).toBe("String");
+    });
+
+    it("should have avatarUrl field as nullable String", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const avatarUrlField = getField(schema, "User", "avatarUrl");
+
+      expect(avatarUrlField).toBeDefined();
+      expect(avatarUrlField?.type.toString()).toBe("String");
+    });
+  });
+
+  describe("UpdateProfileInput type", () => {
+    it("should register UpdateProfileInput type to schema", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+      builder.mutationType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const inputType = schema.getType("UpdateProfileInput");
+
+      expect(inputType).toBeDefined();
+      expect(inputType?.name).toBe("UpdateProfileInput");
+    });
+  });
+
+  describe("RequestEmailChangeInput type", () => {
+    it("should register RequestEmailChangeInput type to schema", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+      builder.mutationType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const inputType = schema.getType("RequestEmailChangeInput");
+
+      expect(inputType).toBeDefined();
+      expect(inputType?.name).toBe("RequestEmailChangeInput");
+    });
+  });
+
+  describe("EmailChangeRequested type", () => {
+    it("should register EmailChangeRequested type to schema", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+      builder.mutationType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const type = schema.getType("EmailChangeRequested");
+
+      expect(type).toBeDefined();
+      expect(type?.name).toBe("EmailChangeRequested");
+    });
+  });
+
+  describe("ValidationError type", () => {
+    it("should register ValidationError type to schema", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+      builder.mutationType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const type = schema.getType("ValidationError");
+
+      expect(type).toBeDefined();
+      expect(type?.name).toBe("ValidationError");
     });
   });
 });

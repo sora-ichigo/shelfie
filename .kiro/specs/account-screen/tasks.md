@@ -10,14 +10,14 @@
   - マイグレーションファイルを生成して適用
   - _Requirements: 1.2, 2.4, 2.5_
 
-- [ ] 2. API: GraphQL スキーマ拡張
-- [ ] 2.1 User 型にプロフィールフィールドを追加
+- [x] 2. API: GraphQL スキーマ拡張
+- [x] 2.1 User 型にプロフィールフィールドを追加
   - `name` フィールド（String, nullable）を追加
   - `avatarUrl` フィールド（String, nullable）を追加
   - 既存の me クエリで新フィールドが返却されることを確認
   - _Requirements: 1.2, 2.4, 2.5_
 
-- [ ] 2.2 プロフィール更新 Mutation を実装
+- [x] 2.2 プロフィール更新 Mutation を実装
   - `UpdateProfileInput` 入力型を定義（name: String!, avatar: Upload?）
   - `updateProfile` Mutation を実装
   - 氏名の空文字バリデーションを実装
@@ -25,7 +25,7 @@
   - 成功時は更新された User を返却、失敗時は ValidationError を返却
   - _Requirements: 3.1, 4.4, 4.5_
 
-- [ ] 2.3 (P) メールアドレス変更リクエスト Mutation を実装
+- [x] 2.3 (P) メールアドレス変更リクエスト Mutation を実装
   - `RequestEmailChangeInput` 入力型を定義（newEmail: String!）
   - `requestEmailChange` Mutation を実装
   - メールアドレス形式バリデーションを実装

@@ -1,5 +1,6 @@
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
+import type { UserService } from "./service.js";
 
 type UserObjectRef = ReturnType<typeof createUserRef>;
 
@@ -8,6 +9,59 @@ function createUserRef(builder: Builder) {
 }
 
 export let UserRef: UserObjectRef;
+
+export interface ValidationErrorData {
+  code: "VALIDATION_ERROR";
+  message: string;
+  field: string | null;
+}
+
+export class ValidationError extends Error implements ValidationErrorData {
+  code: "VALIDATION_ERROR" = "VALIDATION_ERROR";
+  field: string | null;
+
+  constructor(message: string, field: string | null = null) {
+    super(message);
+    this.field = field;
+    this.name = "ValidationError";
+  }
+
+  toData(): ValidationErrorData {
+    return {
+      code: this.code,
+      message: this.message,
+      field: this.field,
+    };
+  }
+}
+
+export interface EmailChangeRequestedData {
+  message: string;
+}
+
+function createUpdateProfileInputRef(builder: Builder) {
+  return builder.inputRef<{ name: string }>("UpdateProfileInput");
+}
+
+function createRequestEmailChangeInputRef(builder: Builder) {
+  return builder.inputRef<{ newEmail: string }>("RequestEmailChangeInput");
+}
+
+function createEmailChangeRequestedRef(builder: Builder) {
+  return builder.objectRef<EmailChangeRequestedData>("EmailChangeRequested");
+}
+
+type UpdateProfileInputRef = ReturnType<typeof createUpdateProfileInputRef>;
+type RequestEmailChangeInputRef = ReturnType<
+  typeof createRequestEmailChangeInputRef
+>;
+type EmailChangeRequestedRef = ReturnType<typeof createEmailChangeRequestedRef>;
+
+let UpdateProfileInputRef: UpdateProfileInputRef | null = null;
+let RequestEmailChangeInputRef: RequestEmailChangeInputRef | null = null;
+let EmailChangeRequestedRef: EmailChangeRequestedRef | null = null;
+
+export { UpdateProfileInputRef, RequestEmailChangeInputRef, EmailChangeRequestedRef };
 
 export function registerUserTypes(builder: Builder): void {
   UserRef = createUserRef(builder);
@@ -21,6 +75,14 @@ export function registerUserTypes(builder: Builder): void {
       email: t.exposeString("email", {
         description: "The email address of the user",
       }),
+      name: t.exposeString("name", {
+        description: "The display name of the user",
+        nullable: true,
+      }),
+      avatarUrl: t.exposeString("avatarUrl", {
+        description: "The URL of the user's avatar image",
+        nullable: true,
+      }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
         description: "When the user was created",
@@ -31,4 +93,150 @@ export function registerUserTypes(builder: Builder): void {
       }),
     }),
   });
+
+  builder.objectType(ValidationError, {
+    name: "ValidationError",
+    description: "Validation error for user input",
+    fields: (t) => ({
+      code: t.exposeString("code", {
+        description: "Error code",
+      }),
+      message: t.exposeString("message", {
+        description: "Human-readable error message",
+      }),
+      field: t.string({
+        description: "Field that caused the error, if applicable",
+        nullable: true,
+        resolve: (parent) => parent.field,
+      }),
+    }),
+  });
+
+  UpdateProfileInputRef = createUpdateProfileInputRef(builder);
+  UpdateProfileInputRef.implement({
+    description: "Input for updating user profile",
+    fields: (t) => ({
+      name: t.string({ required: true, description: "User display name" }),
+    }),
+  });
+
+  RequestEmailChangeInputRef = createRequestEmailChangeInputRef(builder);
+  RequestEmailChangeInputRef.implement({
+    description: "Input for requesting email change",
+    fields: (t) => ({
+      newEmail: t.string({
+        required: true,
+        description: "New email address",
+      }),
+    }),
+  });
+
+  EmailChangeRequestedRef = createEmailChangeRequestedRef(builder);
+  EmailChangeRequestedRef.implement({
+    description: "Result of successful email change request",
+    fields: (t) => ({
+      message: t.exposeString("message", {
+        description: "Success message",
+      }),
+    }),
+  });
+}
+
+export function registerUserMutations(
+  builder: Builder,
+  userService: UserService,
+): void {
+  builder.mutationFields((t) => ({
+    updateProfile: t.field({
+      type: UserRef,
+      description: "Update the current user's profile",
+      errors: {
+        types: [ValidationError],
+      },
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        input: t.arg({
+          // biome-ignore lint/style/noNonNullAssertion: initialized in registerUserTypes
+          type: UpdateProfileInputRef!,
+          required: true,
+        }),
+      },
+      resolve: async (_parent, { input }, context): Promise<User> => {
+        if (!context.user) {
+          throw new ValidationError("認証が必要です");
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          context.user.uid,
+        );
+        if (!userResult.success) {
+          throw new ValidationError("ユーザーが見つかりません");
+        }
+
+        const result = await userService.updateProfile({
+          userId: userResult.data.id,
+          name: input.name,
+        });
+
+        if (!result.success) {
+          throw new ValidationError(result.error.message);
+        }
+
+        return result.data;
+      },
+    }),
+    requestEmailChange: t.field({
+      // biome-ignore lint/style/noNonNullAssertion: initialized in registerUserTypes
+      type: EmailChangeRequestedRef!,
+      description: "Request to change the current user's email address",
+      errors: {
+        types: [ValidationError],
+      },
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        input: t.arg({
+          // biome-ignore lint/style/noNonNullAssertion: initialized in registerUserTypes
+          type: RequestEmailChangeInputRef!,
+          required: true,
+        }),
+      },
+      resolve: async (
+        _parent,
+        { input },
+        context,
+      ): Promise<EmailChangeRequestedData> => {
+        if (!context.user) {
+          throw new ValidationError("認証が必要です");
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          context.user.uid,
+        );
+        if (!userResult.success) {
+          throw new ValidationError("ユーザーが見つかりません");
+        }
+
+        const result = await userService.requestEmailChange({
+          userId: userResult.data.id,
+          newEmail: input.newEmail,
+        });
+
+        if (!result.success) {
+          if (result.error.code === "EMAIL_ALREADY_EXISTS") {
+            throw new ValidationError(
+              "このメールアドレスは既に使用されています",
+              "newEmail",
+            );
+          }
+          throw new ValidationError(result.error.message);
+        }
+
+        return result.data;
+      },
+    }),
+  }));
 }

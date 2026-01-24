@@ -19,6 +19,7 @@ import {
 import {
   createUserRepository,
   createUserService,
+  registerUserMutations,
   registerUserTypes,
 } from "../features/users/index.js";
 import { logger } from "../logger/index.js";
@@ -60,6 +61,7 @@ registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);
 registerBooksQueries(builder, bookSearchService, bookShelfService, userService);
 registerBooksMutations(builder, bookShelfService, userService);
+registerUserMutations(builder, userService);
 
 export function buildSchema() {
   return builder.toSchema();
