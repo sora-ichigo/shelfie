@@ -184,11 +184,16 @@ Future<String?> guardRoute({
   if (isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
     final result = await sessionValidator.validate();
 
-    if (result is SessionInvalid || result is SessionValidationFailed) {
-      debugPrint('[guardRoute] Session invalid or validation failed: $result');
-      // セッションが無効な場合はログアウトしてウェルカム画面へ
+    // セッションが明確に無効な場合のみログアウト
+    if (result is SessionInvalid) {
+      debugPrint('[guardRoute] Session invalid: ${result.message}');
       await authStateNotifier.logout();
       return AppRoutes.welcome;
+    }
+
+    // ネットワークエラーなどの場合は続行（一時的な問題の可能性）
+    if (result is SessionValidationFailed) {
+      debugPrint('[guardRoute] Session validation failed (continuing): ${result.message}');
     }
   }
 

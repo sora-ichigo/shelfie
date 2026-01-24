@@ -1,4 +1,5 @@
 import 'package:ferry/ferry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/__generated__/me.data.gql.dart';
 import 'package:shelfie/core/auth/__generated__/me.req.gql.dart';
@@ -59,12 +60,24 @@ class SessionValidator {
           .firstWhere((r) => !r.loading && r.data != null || r.hasErrors);
 
       if (response.hasErrors) {
-        final errorMessage = response.graphqlErrors?.firstOrNull?.message;
-        return SessionInvalid(message: errorMessage);
+        final error = response.graphqlErrors?.firstOrNull;
+        final errorMessage = error?.message;
+        final errorCode = error?.extensions?['code'] as String?;
+
+        debugPrint('[SessionValidator] GraphQL error: $errorMessage, code: $errorCode');
+
+        // 認証エラーの場合のみSessionInvalidを返す
+        if (errorCode == 'UNAUTHENTICATED') {
+          return SessionInvalid(errorCode: errorCode, message: errorMessage);
+        }
+
+        // その他のGraphQLエラーはネットワーク問題として扱う
+        return SessionValidationFailed(message: errorMessage);
       }
 
       final me = response.data?.me;
       if (me == null) {
+        debugPrint('[SessionValidator] No user data returned');
         return const SessionInvalid(message: 'No user data returned');
       }
 
@@ -74,18 +87,22 @@ class SessionValidator {
         if (userId != null && email != null) {
           return SessionValid(userId: userId, email: email);
         }
+        debugPrint('[SessionValidator] User data incomplete: id=$userId, email=$email');
         return const SessionInvalid(message: 'User data incomplete');
       }
 
       if (me is GGetMeData_me__asAuthErrorResult) {
+        debugPrint('[SessionValidator] Auth error: ${me.code?.name} - ${me.message}');
         return SessionInvalid(
           errorCode: me.code?.name,
           message: me.message,
         );
       }
 
+      debugPrint('[SessionValidator] Unknown response type: ${me.runtimeType}');
       return const SessionInvalid(message: 'Unknown response type');
     } catch (e) {
+      debugPrint('[SessionValidator] Exception: $e');
       return SessionValidationFailed(message: e.toString());
     }
   }
