@@ -2,13 +2,13 @@
 
 ## Task 1: API側Infraレイヤの構築
 
-- [ ] 1.1 (P) 画像アップロードサービスの抽象インターフェースを定義する
+- [x] 1.1 (P) 画像アップロードサービスの抽象インターフェースを定義する
   - 署名付きアップロードパラメータを返却するインターフェースを作成
   - エラー型（設定エラー、サービス利用不可）を定義
   - Result型を使用したエラーハンドリングを実装
   - _Requirements: 3.1, 3.2_
 
-- [ ] 1.2 ImageKit SDKを使用した署名生成クライアントを実装する
+- [x] 1.2 ImageKit SDKを使用した署名生成クライアントを実装する
   - imagekit npmパッケージをインストール
   - 環境変数からImageKit認証情報（Public Key, Private Key, URL Endpoint）を取得
   - getAuthenticationParametersを使用して署名付きパラメータを生成
@@ -17,7 +17,7 @@
   - 1.1で定義したインターフェースに準拠した実装
   - _Requirements: 3.2, 3.3, 3.4_
 
-- [ ] 1.3 Infraレイヤのユニットテストを作成する
+- [x] 1.3 Infraレイヤのユニットテストを作成する
   - 署名付きパラメータ生成の正常系テスト
   - 環境変数未設定時のエラーハンドリングテスト
   - ImageKit SDK連携のモックテスト
@@ -25,7 +25,7 @@
 
 ## Task 2: GraphQL APIの実装
 
-- [ ] 2.1 署名付きアップロードパラメータ取得のGraphQL Queryを実装する
+- [x] 2.1 署名付きアップロードパラメータ取得のGraphQL Queryを実装する
   - UploadCredentials型をGraphQLスキーマに追加
   - getUploadCredentials Queryを実装
   - 認証スコープ（loggedIn）を設定
@@ -33,7 +33,7 @@
   - 認証エラー、サービスエラーのハンドリングを実装
   - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 2.2 GraphQL Queryの統合テストを作成する
+- [x] 2.2 GraphQL Queryの統合テストを作成する
   - 認証済みユーザーでの正常系テスト
   - 未認証ユーザーでの認証エラーテスト
   - サービスエラー時のレスポンステスト

@@ -139,6 +139,15 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""画像アップロードサービスのエラー"""
+type ImageUploadError {
+  """エラーコード"""
+  code: String
+
+  """エラーメッセージ"""
+  message: String
+}
+
 """Result of successful login"""
 type LoginResult {
   """Firebase ID token for API authentication"""
@@ -213,9 +222,42 @@ type MutationUpdateProfileSuccess {
   data: User!
 }
 
+"""Input for querying user's book shelf"""
+input MyShelfInput {
+  """Number of items to return (default: 20)"""
+  limit: Int
+
+  """Number of items to skip (default: 0)"""
+  offset: Int
+
+  """Search query to filter books by title or author"""
+  query: String
+
+  """Field to sort by"""
+  sortBy: ShelfSortField
+
+  """Sort order direction"""
+  sortOrder: SortOrder
+}
+
+"""Result of user's book shelf query"""
+type MyShelfResult {
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+
+  """List of books in the shelf"""
+  items: [UserBook!]!
+
+  """Total number of books matching the query"""
+  totalCount: Int!
+}
+
 type Query {
   """Get detailed information about a book by ID"""
   bookDetail(bookId: String!): BookDetail!
+
+  """署名付きアップロードパラメータを取得"""
+  getUploadCredentials: QueryGetUploadCredentialsResult
   health: String
 
   """Get the currently authenticated user"""
@@ -234,6 +276,12 @@ type Query {
   userBookByExternalId(externalId: String!): UserBook
 }
 
+union QueryGetUploadCredentialsResult = ImageUploadError | QueryGetUploadCredentialsSuccess
+
+type QueryGetUploadCredentialsSuccess {
+  data: UploadCredentials!
+}
+
 """Reading status of a book in the user's shelf"""
 enum ReadingStatus {
   """Unread (backlog)"""
@@ -247,48 +295,6 @@ enum ReadingStatus {
 
   """Currently reading"""
   READING
-}
-
-"""Sort field for books in shelf"""
-enum ShelfSortField {
-  """Sort by date added to shelf"""
-  ADDED_AT
-  """Sort by book title"""
-  TITLE
-  """Sort by author name"""
-  AUTHOR
-}
-
-"""Sort order direction"""
-enum SortOrder {
-  """Ascending order"""
-  ASC
-  """Descending order"""
-  DESC
-}
-
-"""Input for querying user's book shelf"""
-input MyShelfInput {
-  """Search query to filter books by title or author"""
-  query: String
-  """Field to sort by"""
-  sortBy: String
-  """Sort order direction"""
-  sortOrder: String
-  """Number of items to return (default: 20)"""
-  limit: Int
-  """Number of items to skip (default: 0)"""
-  offset: Int
-}
-
-"""Result of user's book shelf query"""
-type MyShelfResult {
-  """List of books in the shelf"""
-  items: [UserBook!]!
-  """Total number of books matching the query"""
-  totalCount: Int!
-  """Whether there are more books to fetch"""
-  hasMore: Boolean!
 }
 
 """Input for token refresh"""
@@ -327,10 +333,49 @@ type SearchBooksResult {
   totalCount: Int!
 }
 
+"""Sort field for books in shelf"""
+enum ShelfSortField {
+  """Sort by date added to shelf"""
+  ADDED_AT
+
+  """Sort by author name"""
+  AUTHOR
+
+  """Sort by book title"""
+  TITLE
+}
+
+"""Sort order direction"""
+enum SortOrder {
+  """Ascending order"""
+  ASC
+
+  """Descending order"""
+  DESC
+}
+
 """Input for updating user profile"""
 input UpdateProfileInput {
   """User display name"""
   name: String!
+}
+
+"""署名付きアップロードパラメータ"""
+type UploadCredentials {
+  """有効期限（Unix timestamp）"""
+  expire: Int
+
+  """ImageKit Public Key"""
+  publicKey: String
+
+  """HMAC-SHA1署名"""
+  signature: String
+
+  """一意のアップロードトークン"""
+  token: String
+
+  """アップロードエンドポイントURL"""
+  uploadEndpoint: String
 }
 
 """A user in the system"""
