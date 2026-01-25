@@ -10,7 +10,7 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 ///
 /// 本棚画面で使用するソートドロップダウン、
 /// グループ化ドロップダウンを横並びで配置する。
-class SearchFilterBar extends StatelessWidget {
+class SearchFilterBar extends StatefulWidget {
   const SearchFilterBar({
     required this.sortOption,
     required this.groupOption,
@@ -23,6 +23,13 @@ class SearchFilterBar extends StatelessWidget {
   final GroupOption groupOption;
   final void Function(SortOption) onSortChanged;
   final void Function(GroupOption) onGroupChanged;
+
+  @override
+  State<SearchFilterBar> createState() => _SearchFilterBarState();
+}
+
+class _SearchFilterBarState extends State<SearchFilterBar> {
+  bool _isSortMenuOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,66 +56,98 @@ class SearchFilterBar extends StatelessWidget {
   }
 
   Widget _buildSortDropdown(ThemeData theme, AppColors appColors) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm,
-        vertical: AppSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: appColors.surfaceElevated,
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-      ),
-      child: DropdownButton<SortOption>(
-        value: sortOption,
-        isExpanded: true,
-        isDense: true,
-        underline: const SizedBox.shrink(),
-        dropdownColor: appColors.surfaceElevated,
-        icon: Icon(
-          Icons.keyboard_arrow_down,
-          color: appColors.textSecondary,
-        ),
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: appColors.textPrimary,
-        ),
-        selectedItemBuilder: (context) {
-          return SortOption.values.map((option) {
-            return Row(
-              children: [
-                Icon(
-                  Icons.tune,
-                  size: 16,
-                  color: appColors.textPrimary,
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    option.displayName,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelMedium.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }).toList();
-        },
-        items: SortOption.values.map((option) {
-          return DropdownMenuItem(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final buttonWidth = constraints.maxWidth;
+        return PopupMenuButton<SortOption>(
+          initialValue: widget.sortOption,
+          onSelected: (option) {
+            setState(() => _isSortMenuOpen = false);
+            widget.onSortChanged(option);
+          },
+          onOpened: () => setState(() => _isSortMenuOpen = true),
+          onCanceled: () => setState(() => _isSortMenuOpen = false),
+          offset: const Offset(0, 48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+          ),
+          color: appColors.surfaceElevated,
+          constraints: BoxConstraints(
+            minWidth: buttonWidth,
+            maxWidth: buttonWidth,
+          ),
+      itemBuilder: (context) {
+        return SortOption.values.map((option) {
+          final isSelected = option == widget.sortOption;
+          return PopupMenuItem<SortOption>(
             value: option,
-            child: Text(
-              option.displayName,
-              overflow: TextOverflow.ellipsis,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xs,
+              vertical: AppSpacing.xxs,
+            ),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.selectionHighlight
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(AppRadius.sm),
+              ),
+              child: Text(
+                option.displayName,
+                style: AppTypography.labelMedium.copyWith(
+                  color: appColors.textPrimary,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                  decoration:
+                      isSelected ? TextDecoration.underline : TextDecoration.none,
+                  decorationColor: appColors.textPrimary,
+                ),
+              ),
             ),
           );
-        }).toList(),
-        onChanged: (option) {
-          if (option != null) {
-            onSortChanged(option);
-          }
-        },
+        }).toList();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xs,
+        ),
+        decoration: BoxDecoration(
+          color: appColors.surfaceElevated,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.tune,
+              size: 16,
+              color: appColors.textPrimary,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
+              child: Text(
+                widget.sortOption.displayName,
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.labelMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Icon(
+              _isSortMenuOpen
+                  ? Icons.keyboard_arrow_up
+                  : Icons.keyboard_arrow_down,
+              color: appColors.textSecondary,
+            ),
+          ],
+        ),
       ),
+    );
+      },
     );
   }
 
@@ -120,7 +159,7 @@ class SearchFilterBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: DropdownButton<GroupOption>(
-        value: groupOption,
+        value: widget.groupOption,
         isExpanded: true,
         underline: const SizedBox.shrink(),
         dropdownColor: appColors.surfaceElevated,
@@ -162,7 +201,7 @@ class SearchFilterBar extends StatelessWidget {
         }).toList(),
         onChanged: (option) {
           if (option != null) {
-            onGroupChanged(option);
+            widget.onGroupChanged(option);
           }
         },
       ),

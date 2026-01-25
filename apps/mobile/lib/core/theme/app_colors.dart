@@ -94,6 +94,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// モーダル/シート背景色（ダークティール）
   static const Color surfaceModal = Color(0xFF1A2E2E);
 
+  /// 選択状態のハイライトカラー（ディープティール）
+  static const Color selectionHighlight = Color(0xFF009789);
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     success: Color(0xFF81C784),
