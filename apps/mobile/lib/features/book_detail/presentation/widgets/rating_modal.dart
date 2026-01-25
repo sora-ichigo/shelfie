@@ -99,7 +99,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(5, (index) {
           final starValue = index + 1;
-          final isSelected = _selectedRating != null && _selectedRating! >= starValue;
+          final isSelected =
+              _selectedRating != null && _selectedRating! >= starValue;
 
           return Semantics(
             button: true,

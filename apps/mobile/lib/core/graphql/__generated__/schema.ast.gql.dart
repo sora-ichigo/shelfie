@@ -433,6 +433,31 @@ const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
 );
+const ImageUploadError = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ImageUploadError'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'code'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'message'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
 const LoginResult = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'LoginResult'),
   directives: [],
@@ -943,6 +968,15 @@ const Query = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'getUploadCredentials'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'QueryGetUploadCredentialsResult'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'health'),
       directives: [],
       args: [],
@@ -1054,6 +1088,36 @@ const Query = _i1.ObjectTypeDefinitionNode(
         isNonNull: false,
       ),
     ),
+  ],
+);
+const QueryGetUploadCredentialsResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'QueryGetUploadCredentialsResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ImageUploadError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'QueryGetUploadCredentialsSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const QueryGetUploadCredentialsSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'QueryGetUploadCredentialsSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'UploadCredentials'),
+        isNonNull: true,
+      ),
+    )
   ],
 );
 const ReadingStatus = _i1.EnumTypeDefinitionNode(
@@ -1216,6 +1280,15 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
   directives: [],
   fields: [
     _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'avatarUrl'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'name'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -1223,7 +1296,59 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
         isNonNull: true,
       ),
       defaultValue: null,
-    )
+    ),
+  ],
+);
+const UploadCredentials = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'UploadCredentials'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'expire'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'publicKey'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'signature'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'token'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'uploadEndpoint'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
   ],
 );
 const User = _i1.ObjectTypeDefinitionNode(
@@ -1474,6 +1599,7 @@ const document = _i1.DocumentNode(definitions: [
   Book,
   BookDetail,
   DateTime,
+  ImageUploadError,
   LoginResult,
   LoginUserInput,
   MeResult,
@@ -1489,6 +1615,8 @@ const document = _i1.DocumentNode(definitions: [
   MyShelfInput,
   MyShelfResult,
   Query,
+  QueryGetUploadCredentialsResult,
+  QueryGetUploadCredentialsSuccess,
   ReadingStatus,
   RefreshTokenInput,
   RefreshTokenResult,
@@ -1497,6 +1625,7 @@ const document = _i1.DocumentNode(definitions: [
   ShelfSortField,
   SortOrder,
   UpdateProfileInput,
+  UploadCredentials,
   User,
   UserBook,
   ValidationError,

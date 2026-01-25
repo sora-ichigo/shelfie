@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
@@ -12,6 +13,27 @@ import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_b
 import '../../../../helpers/test_helpers.dart';
 
 void main() {
+  ShelfBookItem createTestBook() {
+    return ShelfBookItem(
+      userBookId: 1,
+      externalId: 'test-book-1',
+      title: 'テスト書籍',
+      authors: ['テスト著者'],
+      coverImageUrl: null,
+      addedAt: DateTime(2024, 1, 1),
+    );
+  }
+
+  ShelfEntry createTestEntry({int? rating}) {
+    return ShelfEntry(
+      userBookId: 1,
+      externalId: 'test-book-1',
+      readingStatus: ReadingStatus.reading,
+      addedAt: DateTime(2024, 1, 1),
+      rating: rating,
+    );
+  }
+
   group('5.2 デザインテーマの適用確認', () {
     group('ダークテーマ（黒背景）の適用', () {
       test('AppTheme がダークモードを返す', () {
@@ -31,17 +53,7 @@ void main() {
       });
 
       testWidgets('BookCard がダークテーマで正しく表示される', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: 4,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -54,6 +66,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry(rating: 4)},
           ),
         );
 
@@ -61,17 +74,7 @@ void main() {
       });
 
       testWidgets('BookCard に角丸が適用されている', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: null,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -84,6 +87,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry()},
           ),
         );
 
@@ -110,17 +114,7 @@ void main() {
 
     group('カードUIのモダンデザイン', () {
       testWidgets('BookCard が角丸デザイン', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: 4,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -133,6 +127,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry(rating: 4)},
           ),
         );
 
@@ -143,17 +138,7 @@ void main() {
       });
 
       testWidgets('BookCard が GestureDetector でタップ可能', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: null,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -166,6 +151,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry()},
           ),
         );
 
@@ -199,17 +185,7 @@ void main() {
       });
 
       testWidgets('BookCard のタイトルがプライマリテキストカラー', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: null,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -222,6 +198,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry()},
           ),
         );
 
@@ -230,17 +207,7 @@ void main() {
       });
 
       testWidgets('BookCard の著者名がセカンダリテキストカラー', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: null,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -253,6 +220,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry()},
           ),
         );
 
@@ -267,17 +235,7 @@ void main() {
       });
 
       testWidgets('BookCard の星評価がアクセントカラー', (tester) async {
-        final book = ShelfBookItem(
-          userBookId: 1,
-          externalId: 'test-book-1',
-          title: 'テスト書籍',
-          authors: ['テスト著者'],
-          coverImageUrl: null,
-          readingStatus: ReadingStatus.reading,
-          rating: 4,
-          addedAt: DateTime(2024, 1, 1),
-          completedAt: null,
-        );
+        final book = createTestBook();
 
         await tester.pumpWidget(
           buildTestWidget(
@@ -290,6 +248,7 @@ void main() {
                 ),
               ),
             ),
+            shelfState: {book.externalId: createTestEntry(rating: 4)},
           ),
         );
 

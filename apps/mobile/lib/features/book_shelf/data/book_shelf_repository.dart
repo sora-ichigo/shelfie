@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ferry/ferry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.data.gql.dart';
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.req.gql.dart';
@@ -18,11 +20,18 @@ part 'book_shelf_repository.g.dart';
 class MyShelfResult {
   const MyShelfResult({
     required this.items,
+    required this.entries,
     required this.totalCount,
     required this.hasMore,
   });
 
+  /// 書籍情報のリスト
   final List<ShelfBookItem> items;
+
+  /// 状態情報のマップ（externalId → ShelfEntry）
+  /// shelfStateProvider に登録するためのデータ
+  final Map<String, ShelfEntry> entries;
+
   final int totalCount;
   final bool hasMore;
 }
@@ -32,8 +41,8 @@ abstract class BookShelfRepository {
   /// 本棚の書籍一覧を取得
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   });
@@ -50,18 +59,19 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
   @override
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   }) async {
     final request = GMyShelfPaginatedReq(
       (b) => b
+        ..fetchPolicy = FetchPolicy.NetworkOnly
         ..vars.input = GMyShelfInput(
           (i) => i
             ..query = query
-            ..sortBy = sortBy != null ? GShelfSortField.valueOf(sortBy) : null
-            ..sortOrder = sortOrder != null ? GSortOrder.valueOf(sortOrder) : null
+            ..sortBy = sortBy
+            ..sortOrder = sortOrder
             ..limit = limit ?? defaultPageSize
             ..offset = offset ?? 0,
         ).toBuilder(),
@@ -111,22 +121,38 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
     }
 
     final result = data.myShelf;
+
+    final items = <ShelfBookItem>[];
+    final entries = <String, ShelfEntry>{};
+
+    for (final item in result.items) {
+      // 書籍情報
+      items.add(
+        ShelfBookItem(
+          userBookId: item.id,
+          externalId: item.externalId,
+          title: item.title,
+          authors: item.authors.toList(),
+          addedAt: item.addedAt,
+          coverImageUrl: item.coverImageUrl,
+        ),
+      );
+
+      // 状態情報（SSOT 用）
+      entries[item.externalId] = ShelfEntry(
+        userBookId: item.id,
+        externalId: item.externalId,
+        readingStatus: _mapReadingStatus(item.readingStatus.name),
+        addedAt: item.addedAt,
+        completedAt: item.completedAt,
+        rating: item.rating,
+      );
+    }
+
     return right(
       MyShelfResult(
-        items: result.items
-            .map(
-              (item) => ShelfBookItem(
-                userBookId: item.id,
-                externalId: item.externalId,
-                title: item.title,
-                authors: item.authors.toList(),
-                readingStatus: _mapReadingStatus(item.readingStatus.name),
-                addedAt: item.addedAt,
-                coverImageUrl: item.coverImageUrl,
-                completedAt: item.completedAt,
-              ),
-            )
-            .toList(),
+        items: items,
+        entries: entries,
         totalCount: result.totalCount,
         hasMore: result.hasMore,
       ),
@@ -145,7 +171,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
 }
 
 @riverpod
-BookShelfRepository bookShelfRepository(BookShelfRepositoryRef ref) {
+BookShelfRepository bookShelfRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return BookShelfRepositoryImpl(client: client);
 }

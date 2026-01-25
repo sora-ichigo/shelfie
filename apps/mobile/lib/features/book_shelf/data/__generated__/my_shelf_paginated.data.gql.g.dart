@@ -191,6 +191,12 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.rating;
+    if (value != null) {
+      result
+        ..add('rating')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -244,6 +250,10 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
         case 'completedAt':
           result.completedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'rating':
+          result.rating = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -528,6 +538,8 @@ class _$GMyShelfPaginatedData_myShelf_items
   final DateTime addedAt;
   @override
   final DateTime? completedAt;
+  @override
+  final int? rating;
 
   factory _$GMyShelfPaginatedData_myShelf_items(
           [void Function(GMyShelfPaginatedData_myShelf_itemsBuilder)?
@@ -543,7 +555,8 @@ class _$GMyShelfPaginatedData_myShelf_items
       this.coverImageUrl,
       required this.readingStatus,
       required this.addedAt,
-      this.completedAt})
+      this.completedAt,
+      this.rating})
       : super._();
   @override
   GMyShelfPaginatedData_myShelf_items rebuild(
@@ -566,7 +579,8 @@ class _$GMyShelfPaginatedData_myShelf_items
         coverImageUrl == other.coverImageUrl &&
         readingStatus == other.readingStatus &&
         addedAt == other.addedAt &&
-        completedAt == other.completedAt;
+        completedAt == other.completedAt &&
+        rating == other.rating;
   }
 
   @override
@@ -581,6 +595,7 @@ class _$GMyShelfPaginatedData_myShelf_items
     _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
+    _$hash = $jc(_$hash, rating.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -596,7 +611,8 @@ class _$GMyShelfPaginatedData_myShelf_items
           ..add('coverImageUrl', coverImageUrl)
           ..add('readingStatus', readingStatus)
           ..add('addedAt', addedAt)
-          ..add('completedAt', completedAt))
+          ..add('completedAt', completedAt)
+          ..add('rating', rating))
         .toString();
   }
 }
@@ -645,6 +661,10 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
   DateTime? get completedAt => _$this._completedAt;
   set completedAt(DateTime? completedAt) => _$this._completedAt = completedAt;
 
+  int? _rating;
+  int? get rating => _$this._rating;
+  set rating(int? rating) => _$this._rating = rating;
+
   GMyShelfPaginatedData_myShelf_itemsBuilder() {
     GMyShelfPaginatedData_myShelf_items._initializeBuilder(this);
   }
@@ -661,6 +681,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
       _readingStatus = $v.readingStatus;
       _addedAt = $v.addedAt;
       _completedAt = $v.completedAt;
+      _rating = $v.rating;
       _$v = null;
     }
     return this;
@@ -700,6 +721,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
             addedAt: BuiltValueNullFieldError.checkNotNull(
                 addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt'),
             completedAt: completedAt,
+            rating: rating,
           );
     } catch (_) {
       late String _$failedField;

@@ -6,7 +6,7 @@ part of 'providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$loggerHash() => r'52f51d53fd0db377a19db2df1de6f8f57a8e3d0b';
+String _$loggerHash() => r'c9f90d15885085157a9b3b4e6495cfb0341f4e24';
 
 /// Logger Provider
 ///
@@ -34,7 +34,7 @@ final loggerProvider = Provider<Logger>.internal(
 // ignore: unused_element
 typedef LoggerRef = ProviderRef<Logger>;
 String _$crashlyticsReporterHash() =>
-    r'5ce83ff520bf1f3dabf9051ae65fe431d40fd9c1';
+    r'652380a9323d8ce96ba9e134e8d8e1032323e0ad';
 
 /// Crashlytics Reporter Provider
 ///
@@ -59,7 +59,7 @@ final crashlyticsReporterProvider = Provider<CrashlyticsReporter>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CrashlyticsReporterRef = ProviderRef<CrashlyticsReporter>;
-String _$isProductionHash() => r'cac0d3a43af1fdc29412f2e3c2c6d1ab6febcc9b';
+String _$isProductionHash() => r'e7c9fba1a6b490ae73f5ab716470c98bbec2cc21';
 
 /// Is Production Provider
 ///
@@ -83,7 +83,7 @@ final isProductionProvider = Provider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef IsProductionRef = ProviderRef<bool>;
-String _$errorHandlerHash() => r'b8e00438b033944b1360526459647063977699fd';
+String _$errorHandlerHash() => r'1e472533683739ebe651822f7db3abda5c4ba806';
 
 /// Error Handler Provider
 ///

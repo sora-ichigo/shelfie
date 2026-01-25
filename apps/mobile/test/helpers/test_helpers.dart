@@ -8,6 +8,8 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/error/error_handler.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
@@ -77,6 +79,7 @@ Widget buildTestWidget({
   required Widget child,
   List<Override> overrides = const [],
   ThemeData? theme,
+  Map<String, ShelfEntry>? shelfState,
 }) {
   final mockStorage = MockSecureStorageService();
   when(() => mockStorage.saveAuthData(
@@ -102,6 +105,7 @@ Widget buildTestWidget({
       secureStorageServiceProvider.overrideWithValue(mockStorage),
       sessionValidatorProvider.overrideWithValue(mockSessionValidator),
       bookShelfNotifierProvider.overrideWith(() => MockBookShelfNotifier()),
+      shelfStateProvider.overrideWith(() => MockShelfState(shelfState ?? {})),
       ...overrides,
     ],
     child: MaterialApp(
@@ -193,6 +197,18 @@ class MockLogger extends Mock implements Logger {}
 
 /// CrashlyticsReporter モック
 class MockCrashlyticsReporter extends Mock implements CrashlyticsReporter {}
+
+/// ShelfState モック
+class MockShelfState extends Notifier<Map<String, ShelfEntry>>
+    with Mock
+    implements ShelfState {
+  MockShelfState([this._initialState = const {}]);
+
+  final Map<String, ShelfEntry> _initialState;
+
+  @override
+  Map<String, ShelfEntry> build() => _initialState;
+}
 
 /// BookShelfNotifier モック
 ///

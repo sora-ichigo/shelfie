@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -36,6 +38,22 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(bookShelfNotifierProvider);
+    final accountAsync = ref.watch(accountNotifierProvider);
+    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
+
+    // shelfStateProvider のエントリ数を監視
+    // 他の画面で本が追加された場合に本棚を更新する
+    ref.listen(
+      shelfStateProvider.select((s) => s.length),
+      (previous, next) {
+        if (previous != null && next > previous) {
+          final currentState = ref.read(bookShelfNotifierProvider);
+          if (currentState is BookShelfLoaded) {
+            ref.read(bookShelfNotifierProvider.notifier).refresh();
+          }
+        }
+      },
+    );
 
     return SafeArea(
       child: Column(
@@ -43,6 +61,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ScreenHeader(
             title: '本棚',
             onProfileTap: () => context.push(AppRoutes.account),
+            avatarUrl: avatarUrl,
+            isAvatarLoading: accountAsync.isLoading,
           ),
           Expanded(
             child: _buildContent(state),
@@ -66,6 +86,17 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   }
 
   Widget _buildLoadedContent(BookShelfLoaded state) {
+    // shelfStateProvider を watch して、削除された本をフィルタリング
+    final shelfState = ref.watch(shelfStateProvider);
+    final filteredBooks = state.books
+        .where((book) => shelfState.containsKey(book.externalId))
+        .toList();
+
+    // グループ化されている場合も同様にフィルタリング
+    final filteredGroupedBooks = state.isGrouped
+        ? _filterGroupedBooks(state.groupedBooks, shelfState)
+        : state.groupedBooks;
+
     return Column(
       children: [
         Padding(
@@ -87,14 +118,35 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ),
         ),
         Expanded(
-          child: _buildBookContent(state),
+          child: _buildBookContent(
+            filteredBooks,
+            filteredGroupedBooks,
+            state,
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildBookContent(BookShelfLoaded state) {
-    if (state.isEmpty) {
+  /// グループ化された本から削除された本をフィルタリング
+  Map<String, List<ShelfBookItem>> _filterGroupedBooks(
+    Map<String, List<ShelfBookItem>> groupedBooks,
+    Map<String, dynamic> shelfState,
+  ) {
+    return groupedBooks.map((key, books) {
+      final filtered =
+          books.where((book) => shelfState.containsKey(book.externalId)).toList();
+      return MapEntry(key, filtered);
+    })
+      ..removeWhere((key, books) => books.isEmpty);
+  }
+
+  Widget _buildBookContent(
+    List<ShelfBookItem> books,
+    Map<String, List<ShelfBookItem>> groupedBooks,
+    BookShelfLoaded state,
+  ) {
+    if (books.isEmpty) {
       return const EmptyState(
         icon: Icons.auto_stories_outlined,
         message: '本を追加してみましょう',
@@ -102,8 +154,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     }
 
     return BookGrid(
-      books: state.books,
-      groupedBooks: state.groupedBooks,
+      books: books,
+      groupedBooks: groupedBooks,
       isGrouped: state.isGrouped,
       hasMore: state.hasMore,
       isLoadingMore: state.isLoadingMore,

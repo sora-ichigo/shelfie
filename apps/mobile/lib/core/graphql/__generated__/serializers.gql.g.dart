@@ -31,6 +31,18 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GGetMyProfileData_me__base.serializer)
       ..add(GGetMyProfileReq.serializer)
       ..add(GGetMyProfileVars.serializer)
+      ..add(GGetUploadCredentialsData.serializer)
+      ..add(GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
+          .serializer)
+      ..add(
+          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
+              .serializer)
+      ..add(
+          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
+              .serializer)
+      ..add(GGetUploadCredentialsData_getUploadCredentials__base.serializer)
+      ..add(GGetUploadCredentialsReq.serializer)
+      ..add(GGetUploadCredentialsVars.serializer)
       ..add(GLoginUserData.serializer)
       ..add(GLoginUserData_loginUser__asAuthError.serializer)
       ..add(GLoginUserData_loginUser__asMutationLoginUserSuccess.serializer)

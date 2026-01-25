@@ -7,12 +7,14 @@ class ScreenHeader extends StatelessWidget {
     required this.title,
     required this.onProfileTap,
     this.avatarUrl,
+    this.isAvatarLoading = false,
     super.key,
   });
 
   final String title;
   final VoidCallback onProfileTap;
   final String? avatarUrl;
+  final bool isAvatarLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class ScreenHeader extends StatelessWidget {
             child: UserAvatar(
               avatarUrl: avatarUrl,
               radius: 24,
+              isLoading: isAvatarLoading,
             ),
           ),
         ],

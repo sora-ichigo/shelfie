@@ -6,7 +6,7 @@ part of 'ferry_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$apiEndpointHash() => r'49ffd8fe3d80a58fbc4169b49798e614ecbf3bbe';
+String _$apiEndpointHash() => r'74756f2506ab79a6653a5f793c84821890a25561';
 
 /// API エンドポイント Provider
 ///
@@ -30,7 +30,7 @@ final apiEndpointProvider = Provider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ApiEndpointRef = ProviderRef<String>;
-String _$authTokenHash() => r'199cac0e3c0e854bcbe3ef0e79913b0f0c3aa6da';
+String _$authTokenHash() => r'1deb832b3c938ce4bb7b7db726435c3f9c29c9a3';
 
 /// 認証トークン Provider
 ///
@@ -51,7 +51,7 @@ final authTokenProvider = Provider<String?>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthTokenRef = ProviderRef<String?>;
-String _$ferryCacheBoxHash() => r'0e22208ac3005efcdb89a1ea3a075c80d0679cdb';
+String _$ferryCacheBoxHash() => r'37ffb897b3a7ad2a1dadc7d58442c22bd079efe2';
 
 /// Hive Box Provider
 ///
@@ -74,7 +74,7 @@ final ferryCacheBoxProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FerryCacheBoxRef = FutureProviderRef<Box<Map<dynamic, dynamic>>>;
-String _$ferryCacheHash() => r'949ea4003262b86a2654a008853592cbfbd2cc5c';
+String _$ferryCacheHash() => r'cb4965623268ab5712e4e27ccb2bcdd4676a0fcf';
 
 /// Ferry Cache Provider
 ///
@@ -98,7 +98,7 @@ final ferryCacheProvider = Provider<Cache>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FerryCacheRef = ProviderRef<Cache>;
-String _$ferryHiveCacheHash() => r'7fc1f1114791dea1c5ec4f8e587ff204faf6ddc4';
+String _$ferryHiveCacheHash() => r'9e8272607f7e70ad62e587a4f7005a4bf7bc808a';
 
 /// HiveStore 付き Ferry Cache Provider
 ///
@@ -120,7 +120,7 @@ final ferryHiveCacheProvider = FutureProvider<Cache>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FerryHiveCacheRef = FutureProviderRef<Cache>;
-String _$ferryClientHash() => r'9672ff8b0bac004a8f24242f4dea2d4d6c1d6ab9';
+String _$ferryClientHash() => r'8cc9f46ebfc56c5415480452e5df0cbd09fb29bf';
 
 /// Ferry Client Provider
 ///
@@ -153,7 +153,7 @@ final ferryClientProvider = Provider<Client>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FerryClientRef = ProviderRef<Client>;
-String _$ensureValidTokenHash() => r'50b1a418e163227379430f92647a214b20a7c474';
+String _$ensureValidTokenHash() => r'6a2473fa4c966b7c66ab36ea0cbb4a4afee44283';
 
 /// トークンリフレッシュを行うかどうかのフラグ Provider
 ///
@@ -176,7 +176,7 @@ final ensureValidTokenProvider = AutoDisposeFutureProvider<bool>.internal(
 // ignore: unused_element
 typedef EnsureValidTokenRef = AutoDisposeFutureProviderRef<bool>;
 String _$authenticatedClientHash() =>
-    r'053f9d18ada3c7047731e2ee4c4110b15f36d25d';
+    r'ce33dd1f968554eb59bcb0af98028bff164ce6f5';
 
 /// 認証付き API リクエスト用ヘルパー
 ///
@@ -204,7 +204,7 @@ final authenticatedClientProvider = AutoDisposeFutureProvider<Client>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthenticatedClientRef = AutoDisposeFutureProviderRef<Client>;
-String _$clearCacheHash() => r'b96d3cb1424a934f770c1913ce2f0f5c2c7ce1b6';
+String _$clearCacheHash() => r'c8f9c8b204f99b3090b35ea56a6e409ede6f07c2';
 
 /// Copied from Dart SDK
 class _SystemHash {
