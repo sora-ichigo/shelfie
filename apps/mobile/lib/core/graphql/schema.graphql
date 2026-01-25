@@ -139,6 +139,15 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""画像アップロードサービスのエラー"""
+type ImageUploadError {
+  """エラーコード"""
+  code: String
+
+  """エラーメッセージ"""
+  message: String
+}
+
 """Result of successful login"""
 type LoginResult {
   """Firebase ID token for API authentication"""
@@ -249,6 +258,9 @@ type MyShelfResult {
 type Query {
   """Get detailed information about a book by ID"""
   bookDetail(bookId: String!): BookDetail!
+
+  """署名付きアップロードパラメータを取得"""
+  getUploadCredentials: QueryGetUploadCredentialsResult
   health: String
 
   """Get the currently authenticated user"""
@@ -265,6 +277,12 @@ type Query {
 
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
+}
+
+union QueryGetUploadCredentialsResult = ImageUploadError | QueryGetUploadCredentialsSuccess
+
+type QueryGetUploadCredentialsSuccess {
+  data: UploadCredentials!
 }
 
 """Reading status of a book in the user's shelf"""
@@ -341,8 +359,29 @@ enum SortOrder {
 
 """Input for updating user profile"""
 input UpdateProfileInput {
+  """User avatar image URL"""
+  avatarUrl: String
+
   """User display name"""
   name: String!
+}
+
+"""署名付きアップロードパラメータ"""
+type UploadCredentials {
+  """有効期限（Unix timestamp）"""
+  expire: Int
+
+  """ImageKit Public Key"""
+  publicKey: String
+
+  """HMAC-SHA1署名"""
+  signature: String
+
+  """一意のアップロードトークン"""
+  token: String
+
+  """アップロードエンドポイントURL"""
+  uploadEndpoint: String
 }
 
 """A user in the system"""

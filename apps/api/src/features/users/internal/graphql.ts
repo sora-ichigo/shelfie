@@ -1,5 +1,6 @@
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
+import { transformImageKitUrl } from "../../../infra/imagekit-url-transformer.js";
 import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
 import type { UserService } from "./service.js";
 
@@ -37,7 +38,9 @@ export class ValidationError extends Error implements ValidationErrorData {
 }
 
 function createUpdateProfileInputRef(builder: Builder) {
-  return builder.inputRef<{ name: string }>("UpdateProfileInput");
+  return builder.inputRef<{ name: string; avatarUrl?: string }>(
+    "UpdateProfileInput",
+  );
 }
 
 type UpdateProfileInputRef = ReturnType<typeof createUpdateProfileInputRef>;
@@ -69,9 +72,10 @@ export function registerUserTypes(
         description: "The display name of the user",
         nullable: true,
       }),
-      avatarUrl: t.exposeString("avatarUrl", {
-        description: "The URL of the user's avatar image",
+      avatarUrl: t.string({
+        description: "The URL of the user's avatar image (128x128)",
         nullable: true,
+        resolve: (user) => transformImageKitUrl(user.avatarUrl),
       }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
@@ -117,6 +121,10 @@ export function registerUserTypes(
     description: "Input for updating user profile",
     fields: (t) => ({
       name: t.string({ required: true, description: "User display name" }),
+      avatarUrl: t.string({
+        required: false,
+        description: "User avatar image URL",
+      }),
     }),
   });
 }
@@ -157,6 +165,7 @@ export function registerUserMutations(
         const result = await userService.updateProfile({
           userId: userResult.data.id,
           name: input.name,
+          avatarUrl: input.avatarUrl ?? undefined,
         });
 
         if (!result.success) {

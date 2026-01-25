@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 void main() {
@@ -40,23 +41,23 @@ void main() {
 
     group('API conversion', () {
       test('addedAtDesc should return ADDED_AT and DESC', () {
-        expect(SortOption.addedAtDesc.sortField, 'ADDED_AT');
-        expect(SortOption.addedAtDesc.sortOrder, 'DESC');
+        expect(SortOption.addedAtDesc.sortField, GShelfSortField.ADDED_AT);
+        expect(SortOption.addedAtDesc.sortOrder, GSortOrder.DESC);
       });
 
       test('addedAtAsc should return ADDED_AT and ASC', () {
-        expect(SortOption.addedAtAsc.sortField, 'ADDED_AT');
-        expect(SortOption.addedAtAsc.sortOrder, 'ASC');
+        expect(SortOption.addedAtAsc.sortField, GShelfSortField.ADDED_AT);
+        expect(SortOption.addedAtAsc.sortOrder, GSortOrder.ASC);
       });
 
       test('titleAsc should return TITLE and ASC', () {
-        expect(SortOption.titleAsc.sortField, 'TITLE');
-        expect(SortOption.titleAsc.sortOrder, 'ASC');
+        expect(SortOption.titleAsc.sortField, GShelfSortField.TITLE);
+        expect(SortOption.titleAsc.sortOrder, GSortOrder.ASC);
       });
 
       test('authorAsc should return AUTHOR and ASC', () {
-        expect(SortOption.authorAsc.sortField, 'AUTHOR');
-        expect(SortOption.authorAsc.sortOrder, 'ASC');
+        expect(SortOption.authorAsc.sortField, GShelfSortField.AUTHOR);
+        expect(SortOption.authorAsc.sortOrder, GSortOrder.ASC);
       });
     });
 

@@ -33,8 +33,8 @@ abstract class BookShelfRepository {
   /// 本棚の書籍一覧を取得
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   });
@@ -51,8 +51,8 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
   @override
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   }) async {
@@ -61,8 +61,8 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
         ..vars.input = GMyShelfInput(
           (i) => i
             ..query = query
-            ..sortBy = sortBy != null ? GShelfSortField.valueOf(sortBy) : null
-            ..sortOrder = sortOrder != null ? GSortOrder.valueOf(sortOrder) : null
+            ..sortBy = sortBy
+            ..sortOrder = sortOrder
             ..limit = limit ?? defaultPageSize
             ..offset = offset ?? 0,
         ).toBuilder(),

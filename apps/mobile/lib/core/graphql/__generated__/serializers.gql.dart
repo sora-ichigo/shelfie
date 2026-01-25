@@ -60,6 +60,18 @@ import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.g
     show GGetMyProfileReq;
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.var.gql.dart'
     show GGetMyProfileVars;
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.data.gql.dart'
+    show
+        GGetUploadCredentialsData_getUploadCredentials,
+        GGetUploadCredentialsData,
+        GGetUploadCredentialsData_getUploadCredentials__asImageUploadError,
+        GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess,
+        GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data,
+        GGetUploadCredentialsData_getUploadCredentials__base;
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.req.gql.dart'
+    show GGetUploadCredentialsReq;
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.var.gql.dart'
+    show GGetUploadCredentialsVars;
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart'
     show
         GUpdateProfileData_updateProfile,
@@ -168,6 +180,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(Iso8601DateTimeSerializer())
   ..add(GGetMeData_me.serializer)
   ..add(GGetMyProfileData_me.serializer)
+  ..add(GGetUploadCredentialsData_getUploadCredentials.serializer)
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
@@ -197,6 +210,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GGetMyProfileData_me__base,
   GGetMyProfileReq,
   GGetMyProfileVars,
+  GGetUploadCredentialsData,
+  GGetUploadCredentialsData_getUploadCredentials__asImageUploadError,
+  GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess,
+  GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data,
+  GGetUploadCredentialsData_getUploadCredentials__base,
+  GGetUploadCredentialsReq,
+  GGetUploadCredentialsVars,
   GLoginUserData,
   GLoginUserData_loginUser__asAuthError,
   GLoginUserData_loginUser__asMutationLoginUserSuccess,

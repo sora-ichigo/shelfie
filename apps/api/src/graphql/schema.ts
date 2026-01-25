@@ -17,6 +17,10 @@ import {
   registerBooksTypes,
 } from "../features/books/index.js";
 import {
+  registerImageUploadQueries,
+  registerImageUploadTypes,
+} from "../features/image-upload/index.js";
+import {
   createUserRepository,
   createUserService,
   registerUserMutations,
@@ -48,6 +52,7 @@ const bookShelfService = createBookShelfService(bookShelfRepository, logger);
 registerUserTypes(builder, bookShelfRepository);
 registerAuthTypes(builder);
 registerBooksTypes(builder);
+registerImageUploadTypes(builder);
 
 builder.queryType({
   fields: (t) => ({
@@ -62,6 +67,7 @@ registerAuthQueries(builder, authService);
 registerBooksQueries(builder, bookSearchService, bookShelfService, userService);
 registerBooksMutations(builder, bookShelfService, userService);
 registerUserMutations(builder, userService);
+registerImageUploadQueries(builder);
 
 export function buildSchema() {
   return builder.toSchema();

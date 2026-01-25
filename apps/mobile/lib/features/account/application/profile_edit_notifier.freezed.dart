@@ -20,6 +20,7 @@ mixin _$ProfileEditState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) =>
@@ -28,6 +29,7 @@ mixin _$ProfileEditState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) =>
@@ -36,6 +38,7 @@ mixin _$ProfileEditState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(double progress)? uploading,
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
@@ -45,6 +48,7 @@ mixin _$ProfileEditState {
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
     required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
   }) =>
@@ -53,6 +57,7 @@ mixin _$ProfileEditState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
     TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
   }) =>
@@ -61,6 +66,7 @@ mixin _$ProfileEditState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
     TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),
@@ -135,6 +141,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
@@ -146,6 +153,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
@@ -157,6 +165,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(double progress)? uploading,
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
@@ -172,6 +181,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
     required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
   }) {
@@ -183,6 +193,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
     TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
   }) {
@@ -194,6 +205,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
     TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),
@@ -255,6 +267,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
@@ -266,6 +279,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
@@ -277,6 +291,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(double progress)? uploading,
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
@@ -292,6 +307,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
     required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
   }) {
@@ -303,6 +319,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
     TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
   }) {
@@ -314,6 +331,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
     TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),
@@ -327,6 +345,170 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
 
 abstract class ProfileEditStateLoading implements ProfileEditState {
   const factory ProfileEditStateLoading() = _$ProfileEditStateLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$ProfileEditStateUploadingImplCopyWith<$Res> {
+  factory _$$ProfileEditStateUploadingImplCopyWith(
+          _$ProfileEditStateUploadingImpl value,
+          $Res Function(_$ProfileEditStateUploadingImpl) then) =
+      __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({double progress});
+}
+
+/// @nodoc
+class __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>
+    extends _$ProfileEditStateCopyWithImpl<$Res,
+        _$ProfileEditStateUploadingImpl>
+    implements _$$ProfileEditStateUploadingImplCopyWith<$Res> {
+  __$$ProfileEditStateUploadingImplCopyWithImpl(
+      _$ProfileEditStateUploadingImpl _value,
+      $Res Function(_$ProfileEditStateUploadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileEditState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? progress = null,
+  }) {
+    return _then(_$ProfileEditStateUploadingImpl(
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ProfileEditStateUploadingImpl implements ProfileEditStateUploading {
+  const _$ProfileEditStateUploadingImpl({required this.progress});
+
+  @override
+  final double progress;
+
+  @override
+  String toString() {
+    return 'ProfileEditState.uploading(progress: $progress)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileEditStateUploadingImpl &&
+            (identical(other.progress, progress) ||
+                other.progress == progress));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, progress);
+
+  /// Create a copy of ProfileEditState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
+      get copyWith => __$$ProfileEditStateUploadingImplCopyWithImpl<
+          _$ProfileEditStateUploadingImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(double progress) uploading,
+    required TResult Function(UserProfile profile) success,
+    required TResult Function(String message, String? field) error,
+  }) {
+    return uploading(progress);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
+    TResult? Function(UserProfile profile)? success,
+    TResult? Function(String message, String? field)? error,
+  }) {
+    return uploading?.call(progress);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(double progress)? uploading,
+    TResult Function(UserProfile profile)? success,
+    TResult Function(String message, String? field)? error,
+    required TResult orElse(),
+  }) {
+    if (uploading != null) {
+      return uploading(progress);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ProfileEditStateInitial value) initial,
+    required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
+    required TResult Function(ProfileEditStateSuccess value) success,
+    required TResult Function(ProfileEditStateError value) error,
+  }) {
+    return uploading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ProfileEditStateInitial value)? initial,
+    TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
+    TResult? Function(ProfileEditStateSuccess value)? success,
+    TResult? Function(ProfileEditStateError value)? error,
+  }) {
+    return uploading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ProfileEditStateInitial value)? initial,
+    TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
+    TResult Function(ProfileEditStateSuccess value)? success,
+    TResult Function(ProfileEditStateError value)? error,
+    required TResult orElse(),
+  }) {
+    if (uploading != null) {
+      return uploading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ProfileEditStateUploading implements ProfileEditState {
+  const factory ProfileEditStateUploading({required final double progress}) =
+      _$ProfileEditStateUploadingImpl;
+
+  double get progress;
+
+  /// Create a copy of ProfileEditState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -414,6 +596,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
@@ -425,6 +608,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
@@ -436,6 +620,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(double progress)? uploading,
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
@@ -451,6 +636,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
     required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
   }) {
@@ -462,6 +648,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
     TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
   }) {
@@ -473,6 +660,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
     TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),
@@ -577,6 +765,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
@@ -588,6 +777,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
@@ -599,6 +789,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(double progress)? uploading,
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
@@ -614,6 +805,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
     required TResult Function(ProfileEditStateLoading value) loading,
+    required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
   }) {
@@ -625,6 +817,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
     TResult? Function(ProfileEditStateLoading value)? loading,
+    TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
   }) {
@@ -636,6 +829,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
     TResult Function(ProfileEditStateLoading value)? loading,
+    TResult Function(ProfileEditStateUploading value)? uploading,
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),

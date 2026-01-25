@@ -1,0 +1,38 @@
+const IMAGEKIT_DOMAIN = "ik.imagekit.io";
+const DEFAULT_AVATAR_SIZE = 128;
+
+export interface TransformOptions {
+  width?: number;
+  height?: number;
+  focusFace?: boolean;
+}
+
+export function transformImageKitUrl(
+  url: string | null | undefined,
+  options: TransformOptions = {},
+): string | null {
+  if (!url) return null;
+  if (!isImageKitUrl(url)) return url;
+
+  const width = options.width ?? DEFAULT_AVATAR_SIZE;
+  const height = options.height ?? DEFAULT_AVATAR_SIZE;
+  const focusFace = options.focusFace ?? true;
+
+  const transformations = focusFace
+    ? `tr=w-${width},h-${height},fo-face`
+    : `tr=w-${width},h-${height}`;
+
+  const uri = new URL(url);
+  uri.search = transformations;
+
+  return uri.toString();
+}
+
+function isImageKitUrl(url: string): boolean {
+  try {
+    const uri = new URL(url);
+    return uri.host.includes(IMAGEKIT_DOMAIN);
+  } catch {
+    return false;
+  }
+}

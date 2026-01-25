@@ -68,6 +68,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         next.when(
           initial: () {},
           loading: () {},
+          uploading: (_) {},
           success: (profile) {
             ref.read(accountNotifierProvider.notifier).refresh();
             widget.onSaveSuccess();
@@ -84,7 +85,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       },
     );
 
-    final isLoading = editState is ProfileEditStateLoading;
+    final isLoading = editState is ProfileEditStateLoading ||
+        editState is ProfileEditStateUploading;
     final isSaveEnabled = formNotifier.isValid && !isLoading;
 
     return Scaffold(

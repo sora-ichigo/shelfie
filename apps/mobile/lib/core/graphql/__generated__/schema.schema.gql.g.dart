@@ -581,7 +581,14 @@ class _$GUpdateProfileInputSerializer
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.avatarUrl;
+    if (value != null) {
+      result
+        ..add('avatarUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -597,6 +604,10 @@ class _$GUpdateProfileInputSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'avatarUrl':
+          result.avatarUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'name':
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
@@ -1181,13 +1192,15 @@ class GRegisterUserInputBuilder
 
 class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
+  final String? avatarUrl;
+  @override
   final String name;
 
   factory _$GUpdateProfileInput(
           [void Function(GUpdateProfileInputBuilder)? updates]) =>
       (GUpdateProfileInputBuilder()..update(updates))._build();
 
-  _$GUpdateProfileInput._({required this.name}) : super._();
+  _$GUpdateProfileInput._({this.avatarUrl, required this.name}) : super._();
   @override
   GUpdateProfileInput rebuild(
           void Function(GUpdateProfileInputBuilder) updates) =>
@@ -1200,12 +1213,15 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateProfileInput && name == other.name;
+    return other is GUpdateProfileInput &&
+        avatarUrl == other.avatarUrl &&
+        name == other.name;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, avatarUrl.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -1214,6 +1230,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'GUpdateProfileInput')
+          ..add('avatarUrl', avatarUrl)
           ..add('name', name))
         .toString();
   }
@@ -1222,6 +1239,10 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
 class GUpdateProfileInputBuilder
     implements Builder<GUpdateProfileInput, GUpdateProfileInputBuilder> {
   _$GUpdateProfileInput? _$v;
+
+  String? _avatarUrl;
+  String? get avatarUrl => _$this._avatarUrl;
+  set avatarUrl(String? avatarUrl) => _$this._avatarUrl = avatarUrl;
 
   String? _name;
   String? get name => _$this._name;
@@ -1232,6 +1253,7 @@ class GUpdateProfileInputBuilder
   GUpdateProfileInputBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _avatarUrl = $v.avatarUrl;
       _name = $v.name;
       _$v = null;
     }
@@ -1254,6 +1276,7 @@ class GUpdateProfileInputBuilder
   _$GUpdateProfileInput _build() {
     final _$result = _$v ??
         _$GUpdateProfileInput._(
+          avatarUrl: avatarUrl,
           name: BuiltValueNullFieldError.checkNotNull(
               name, r'GUpdateProfileInput', 'name'),
         );
