@@ -68,13 +68,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         next.when(
           initial: () {},
           loading: () {},
-          success: (profile, emailChangeMessage) {
+          success: (profile) {
             ref.read(accountNotifierProvider.notifier).refresh();
-            if (emailChangeMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(emailChangeMessage)),
-              );
-            }
             widget.onSaveSuccess();
           },
           error: (message, field) {
@@ -119,9 +114,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           nameController: _nameController,
                           emailController: _emailController,
                           onNameChanged: formNotifier.updateName,
-                          onEmailChanged: formNotifier.updateEmail,
                           nameError: formNotifier.nameError,
-                          emailError: formNotifier.emailError,
                         ),
                       ],
                     ),

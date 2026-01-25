@@ -10,9 +10,6 @@ import 'package:shelfie/features/account/data/__generated__/get_my_profile.var.g
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.var.gql.dart';
-import 'package:shelfie/features/account/data/__generated__/request_email_change.data.gql.dart';
-import 'package:shelfie/features/account/data/__generated__/request_email_change.req.gql.dart';
-import 'package:shelfie/features/account/data/__generated__/request_email_change.var.gql.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
 
 class MockClient extends Mock implements Client {}
@@ -30,9 +27,6 @@ void main() {
     registerFallbackValue(GGetMyProfileReq());
     registerFallbackValue(
       GUpdateProfileReq((b) => b..vars.input.name = 'test'),
-    );
-    registerFallbackValue(
-      GRequestEmailChangeReq((b) => b..vars.input.newEmail = 'test@test.com'),
     );
   });
 
@@ -158,63 +152,6 @@ void main() {
             .thenAnswer((_) => Stream.value(response));
 
         final result = await repository.updateProfile(name: '');
-
-        expect(result.isLeft(), isTrue);
-        expect(result.getLeft().toNullable(), isA<ValidationFailure>());
-      });
-    });
-
-    group('requestEmailChange', () {
-      test('returns success message on success', () async {
-        final data = GRequestEmailChangeData.fromJson({
-          'requestEmailChange': {
-            '__typename': 'MutationRequestEmailChangeSuccess',
-            'data': {
-              'message': '確認メールを送信しました',
-            },
-          },
-        });
-
-        final response = OperationResponse<GRequestEmailChangeData, GRequestEmailChangeVars>(
-          operationRequest: GRequestEmailChangeReq(
-            (b) => b..vars.input.newEmail = 'new@example.com',
-          ),
-          data: data,
-        );
-
-        when(() => mockClient.request(any<GRequestEmailChangeReq>()))
-            .thenAnswer((_) => Stream.value(response));
-
-        final result = await repository.requestEmailChange(
-          newEmail: 'new@example.com',
-        );
-
-        expect(result.isRight(), isTrue);
-      });
-
-      test('returns ValidationFailure on duplicate email', () async {
-        final data = GRequestEmailChangeData.fromJson({
-          'requestEmailChange': {
-            '__typename': 'ValidationError',
-            'code': 'VALIDATION_ERROR',
-            'message': 'このメールアドレスは既に使用されています',
-            'field': 'newEmail',
-          },
-        });
-
-        final response = OperationResponse<GRequestEmailChangeData, GRequestEmailChangeVars>(
-          operationRequest: GRequestEmailChangeReq(
-            (b) => b..vars.input.newEmail = 'existing@example.com',
-          ),
-          data: data,
-        );
-
-        when(() => mockClient.request(any<GRequestEmailChangeReq>()))
-            .thenAnswer((_) => Stream.value(response));
-
-        final result = await repository.requestEmailChange(
-          newEmail: 'existing@example.com',
-        );
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ValidationFailure>());

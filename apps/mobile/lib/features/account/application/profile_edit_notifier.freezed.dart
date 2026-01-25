@@ -20,8 +20,7 @@ mixin _$ProfileEditState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(UserProfile profile, String? emailChangeMessage)
-        success,
+    required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,7 +28,7 @@ mixin _$ProfileEditState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,7 +36,7 @@ mixin _$ProfileEditState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) =>
@@ -130,8 +129,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(UserProfile profile, String? emailChangeMessage)
-        success,
+    required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
     return initial();
@@ -142,7 +140,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return initial?.call();
@@ -153,7 +151,7 @@ class _$ProfileEditStateInitialImpl implements ProfileEditStateInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -248,8 +246,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(UserProfile profile, String? emailChangeMessage)
-        success,
+    required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
     return loading();
@@ -260,7 +257,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return loading?.call();
@@ -271,7 +268,7 @@ class _$ProfileEditStateLoadingImpl implements ProfileEditStateLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -330,7 +327,7 @@ abstract class _$$ProfileEditStateSuccessImplCopyWith<$Res> {
           $Res Function(_$ProfileEditStateSuccessImpl) then) =
       __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({UserProfile profile, String? emailChangeMessage});
+  $Res call({UserProfile profile});
 
   $UserProfileCopyWith<$Res> get profile;
 }
@@ -348,17 +345,12 @@ class __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? profile = null,
-    Object? emailChangeMessage = freezed,
   }) {
     return _then(_$ProfileEditStateSuccessImpl(
       profile: null == profile
           ? _value.profile
           : profile // ignore: cast_nullable_to_non_nullable
               as UserProfile,
-      emailChangeMessage: freezed == emailChangeMessage
-          ? _value.emailChangeMessage
-          : emailChangeMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 
@@ -374,17 +366,14 @@ class __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
-  const _$ProfileEditStateSuccessImpl(
-      {required this.profile, this.emailChangeMessage});
+  const _$ProfileEditStateSuccessImpl({required this.profile});
 
   @override
   final UserProfile profile;
-  @override
-  final String? emailChangeMessage;
 
   @override
   String toString() {
-    return 'ProfileEditState.success(profile: $profile, emailChangeMessage: $emailChangeMessage)';
+    return 'ProfileEditState.success(profile: $profile)';
   }
 
   @override
@@ -392,13 +381,11 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileEditStateSuccessImpl &&
-            (identical(other.profile, profile) || other.profile == profile) &&
-            (identical(other.emailChangeMessage, emailChangeMessage) ||
-                other.emailChangeMessage == emailChangeMessage));
+            (identical(other.profile, profile) || other.profile == profile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, profile, emailChangeMessage);
+  int get hashCode => Object.hash(runtimeType, profile);
 
   @JsonKey(ignore: true)
   @override
@@ -412,11 +399,10 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(UserProfile profile, String? emailChangeMessage)
-        success,
+    required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
-    return success(profile, emailChangeMessage);
+    return success(profile);
   }
 
   @override
@@ -424,10 +410,10 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
-    return success?.call(profile, emailChangeMessage);
+    return success?.call(profile);
   }
 
   @override
@@ -435,12 +421,12 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(profile, emailChangeMessage);
+      return success(profile);
     }
     return orElse();
   }
@@ -484,12 +470,10 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
 }
 
 abstract class ProfileEditStateSuccess implements ProfileEditState {
-  const factory ProfileEditStateSuccess(
-      {required final UserProfile profile,
-      final String? emailChangeMessage}) = _$ProfileEditStateSuccessImpl;
+  const factory ProfileEditStateSuccess({required final UserProfile profile}) =
+      _$ProfileEditStateSuccessImpl;
 
   UserProfile get profile;
-  String? get emailChangeMessage;
   @JsonKey(ignore: true)
   _$$ProfileEditStateSuccessImplCopyWith<_$ProfileEditStateSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -571,8 +555,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(UserProfile profile, String? emailChangeMessage)
-        success,
+    required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
   }) {
     return error(message, field);
@@ -583,7 +566,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
   }) {
     return error?.call(message, field);
@@ -594,7 +577,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(UserProfile profile, String? emailChangeMessage)? success,
+    TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {

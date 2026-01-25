@@ -7,18 +7,14 @@ class ProfileEditForm extends StatelessWidget {
     required this.nameController,
     required this.emailController,
     required this.onNameChanged,
-    required this.onEmailChanged,
     this.nameError,
-    this.emailError,
     super.key,
   });
 
   final TextEditingController nameController;
   final TextEditingController emailController;
   final ValueChanged<String> onNameChanged;
-  final ValueChanged<String> onEmailChanged;
   final String? nameError;
-  final String? emailError;
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +41,10 @@ class ProfileEditForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
         _buildLabel(theme, colors, 'メールアドレス'),
         const SizedBox(height: AppSpacing.xs),
-        _buildTextField(
+        _buildDisabledTextField(
           controller: emailController,
-          onChanged: onEmailChanged,
           colors: colors,
           theme: theme,
-          keyboardType: TextInputType.emailAddress,
-          enabled: false,
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
@@ -131,6 +124,32 @@ class ProfileEditForm extends StatelessWidget {
       error,
       style: theme.textTheme.bodySmall?.copyWith(
         color: theme.colorScheme.error,
+      ),
+    );
+  }
+
+  Widget _buildDisabledTextField({
+    required TextEditingController controller,
+    required AppColors? colors,
+    required ThemeData theme,
+  }) {
+    return TextField(
+      controller: controller,
+      enabled: false,
+      style: theme.textTheme.bodyLarge?.copyWith(
+        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+      ),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.xs),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
       ),
     );
   }

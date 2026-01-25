@@ -43,7 +43,6 @@ function createMockUserService(): UserService {
     getUserByFirebaseUid: vi.fn(),
     createUserWithFirebase: vi.fn(),
     updateProfile: vi.fn(),
-    requestEmailChange: vi.fn(),
   };
 }
 

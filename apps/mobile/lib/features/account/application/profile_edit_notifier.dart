@@ -15,7 +15,6 @@ sealed class ProfileEditState with _$ProfileEditState {
   const factory ProfileEditState.loading() = ProfileEditStateLoading;
   const factory ProfileEditState.success({
     required UserProfile profile,
-    String? emailChangeMessage,
   }) = ProfileEditStateSuccess;
   const factory ProfileEditState.error({
     required String message,
@@ -40,37 +39,10 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
       name: formState.name,
     );
 
-    final result = updateResult.fold<ProfileEditState>(
+    state = updateResult.fold<ProfileEditState>(
       (failure) => _mapFailureToErrorState(failure),
       (profile) => ProfileEditState.success(profile: profile),
     );
-
-    if (result is ProfileEditStateError) {
-      state = result;
-      return;
-    }
-
-    final successResult = result as ProfileEditStateSuccess;
-
-    final formNotifier = ref.read(profileFormStateProvider.notifier);
-    if (formNotifier.hasEmailChanged) {
-      final emailResult = await repository.requestEmailChange(
-        newEmail: formState.email,
-      );
-
-      final finalResult = emailResult.fold<ProfileEditState>(
-        (failure) => _mapFailureToErrorState(failure),
-        (_) => ProfileEditState.success(
-          profile: successResult.profile,
-          emailChangeMessage: '確認メールを送信しました',
-        ),
-      );
-
-      state = finalResult;
-      return;
-    }
-
-    state = successResult;
   }
 
   void setAvatarImage(XFile? image) {

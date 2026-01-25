@@ -35,33 +35,15 @@ export class ValidationError extends Error implements ValidationErrorData {
   }
 }
 
-export interface EmailChangeRequestedData {
-  message: string;
-}
-
 function createUpdateProfileInputRef(builder: Builder) {
   return builder.inputRef<{ name: string }>("UpdateProfileInput");
 }
 
-function createRequestEmailChangeInputRef(builder: Builder) {
-  return builder.inputRef<{ newEmail: string }>("RequestEmailChangeInput");
-}
-
-function createEmailChangeRequestedRef(builder: Builder) {
-  return builder.objectRef<EmailChangeRequestedData>("EmailChangeRequested");
-}
-
 type UpdateProfileInputRef = ReturnType<typeof createUpdateProfileInputRef>;
-type RequestEmailChangeInputRef = ReturnType<
-  typeof createRequestEmailChangeInputRef
->;
-type EmailChangeRequestedRef = ReturnType<typeof createEmailChangeRequestedRef>;
 
 let UpdateProfileInputRef: UpdateProfileInputRef | null = null;
-let RequestEmailChangeInputRef: RequestEmailChangeInputRef | null = null;
-let EmailChangeRequestedRef: EmailChangeRequestedRef | null = null;
 
-export { UpdateProfileInputRef, RequestEmailChangeInputRef, EmailChangeRequestedRef };
+export { UpdateProfileInputRef };
 
 export function registerUserTypes(builder: Builder): void {
   UserRef = createUserRef(builder);
@@ -119,27 +101,6 @@ export function registerUserTypes(builder: Builder): void {
       name: t.string({ required: true, description: "User display name" }),
     }),
   });
-
-  RequestEmailChangeInputRef = createRequestEmailChangeInputRef(builder);
-  RequestEmailChangeInputRef.implement({
-    description: "Input for requesting email change",
-    fields: (t) => ({
-      newEmail: t.string({
-        required: true,
-        description: "New email address",
-      }),
-    }),
-  });
-
-  EmailChangeRequestedRef = createEmailChangeRequestedRef(builder);
-  EmailChangeRequestedRef.implement({
-    description: "Result of successful email change request",
-    fields: (t) => ({
-      message: t.exposeString("message", {
-        description: "Success message",
-      }),
-    }),
-  });
 }
 
 export function registerUserMutations(
@@ -181,57 +142,6 @@ export function registerUserMutations(
         });
 
         if (!result.success) {
-          throw new ValidationError(result.error.message);
-        }
-
-        return result.data;
-      },
-    }),
-    requestEmailChange: t.field({
-      // biome-ignore lint/style/noNonNullAssertion: initialized in registerUserTypes
-      type: EmailChangeRequestedRef!,
-      description: "Request to change the current user's email address",
-      errors: {
-        types: [ValidationError],
-      },
-      authScopes: {
-        loggedIn: true,
-      },
-      args: {
-        input: t.arg({
-          // biome-ignore lint/style/noNonNullAssertion: initialized in registerUserTypes
-          type: RequestEmailChangeInputRef!,
-          required: true,
-        }),
-      },
-      resolve: async (
-        _parent,
-        { input },
-        context,
-      ): Promise<EmailChangeRequestedData> => {
-        if (!context.user) {
-          throw new ValidationError("認証が必要です");
-        }
-
-        const userResult = await userService.getUserByFirebaseUid(
-          context.user.uid,
-        );
-        if (!userResult.success) {
-          throw new ValidationError("ユーザーが見つかりません");
-        }
-
-        const result = await userService.requestEmailChange({
-          userId: userResult.data.id,
-          newEmail: input.newEmail,
-        });
-
-        if (!result.success) {
-          if (result.error.code === "EMAIL_ALREADY_EXISTS") {
-            throw new ValidationError(
-              "このメールアドレスは既に使用されています",
-              "newEmail",
-            );
-          }
           throw new ValidationError(result.error.message);
         }
 

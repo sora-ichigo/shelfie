@@ -8,8 +8,6 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.gql.dart';
-import 'package:shelfie/features/account/data/__generated__/request_email_change.data.gql.dart';
-import 'package:shelfie/features/account/data/__generated__/request_email_change.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.req.gql.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
@@ -52,25 +50,6 @@ class AccountRepository {
     try {
       final response = await client.request(request).first;
       return _handleUpdateProfileResponse(response);
-    } on SocketException {
-      return left(const NetworkFailure(message: 'No internet connection'));
-    } on TimeoutException {
-      return left(const NetworkFailure(message: 'Request timeout'));
-    } catch (e) {
-      return left(UnexpectedFailure(message: e.toString()));
-    }
-  }
-
-  Future<Either<Failure, void>> requestEmailChange({
-    required String newEmail,
-  }) async {
-    final request = GRequestEmailChangeReq(
-      (b) => b..vars.input.newEmail = newEmail,
-    );
-
-    try {
-      final response = await client.request(request).first;
-      return _handleRequestEmailChangeResponse(response);
     } on SocketException {
       return left(const NetworkFailure(message: 'No internet connection'));
     } on TimeoutException {
@@ -153,50 +132,6 @@ class AccountRepository {
 
     if (result is GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess) {
       return right(_mapUpdateProfileToUserProfile(result.data));
-    }
-
-    return left(
-      const ServerFailure(
-        message: 'Unexpected response type',
-        code: 'UNEXPECTED_TYPE',
-      ),
-    );
-  }
-
-  Either<Failure, void> _handleRequestEmailChangeResponse(
-    OperationResponse<GRequestEmailChangeData, dynamic> response,
-  ) {
-    if (response.hasErrors) {
-      final error = response.graphqlErrors?.firstOrNull;
-      final errorMessage = error?.message ?? 'Failed to request email change';
-      return left(ServerFailure(message: errorMessage, code: 'GRAPHQL_ERROR'));
-    }
-
-    final data = response.data;
-    if (data == null) {
-      return left(
-        const ServerFailure(
-          message: 'No data received',
-          code: 'NO_DATA',
-        ),
-      );
-    }
-
-    final result = data.requestEmailChange;
-
-    if (result is GRequestEmailChangeData_requestEmailChange__asValidationError) {
-      return left(
-        ValidationFailure(
-          message: result.message ?? 'バリデーションエラーが発生しました',
-          fieldErrors: result.field != null
-              ? {result.field!: result.message ?? 'Invalid value'}
-              : null,
-        ),
-      );
-    }
-
-    if (result is GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess) {
-      return right(null);
     }
 
     return left(

@@ -12,7 +12,6 @@ void main() {
       expect(data.email, equals(''));
       expect(data.pendingAvatarImage, isNull);
       expect(data.hasChanges, isFalse);
-      expect(data.originalEmail, equals(''));
     });
 
     test('copyWith で値を更新できる', () {
@@ -23,14 +22,12 @@ void main() {
         email: 'test@example.com',
         pendingAvatarImage: xFile,
         hasChanges: true,
-        originalEmail: 'original@example.com',
       );
 
       expect(updated.name, equals('Test Name'));
       expect(updated.email, equals('test@example.com'));
       expect(updated.pendingAvatarImage, equals(xFile));
       expect(updated.hasChanges, isTrue);
-      expect(updated.originalEmail, equals('original@example.com'));
     });
   });
 
@@ -71,7 +68,6 @@ void main() {
 
         expect(state.name, equals('Test User'));
         expect(state.email, equals('user@example.com'));
-        expect(state.originalEmail, equals('user@example.com'));
         expect(state.hasChanges, isFalse);
       });
 
@@ -103,24 +99,6 @@ void main() {
 
       test('名前を更新すると hasChanges が true になる', () {
         container.read(profileFormStateProvider.notifier).updateName('New Name');
-        final state = container.read(profileFormStateProvider);
-        expect(state.hasChanges, isTrue);
-      });
-    });
-
-    group('updateEmail', () {
-      test('メールアドレスを更新できる', () {
-        container
-            .read(profileFormStateProvider.notifier)
-            .updateEmail('new@example.com');
-        final state = container.read(profileFormStateProvider);
-        expect(state.email, equals('new@example.com'));
-      });
-
-      test('メールアドレスを更新すると hasChanges が true になる', () {
-        container
-            .read(profileFormStateProvider.notifier)
-            .updateEmail('new@example.com');
         final state = container.read(profileFormStateProvider);
         expect(state.hasChanges, isTrue);
       });
@@ -177,119 +155,17 @@ void main() {
       });
     });
 
-    group('emailError', () {
-      test('メールアドレスが空の場合はエラーメッセージを返す', () {
-        container.read(profileFormStateProvider.notifier).updateEmail('');
-        expect(
-          container.read(profileFormStateProvider.notifier).emailError,
-          equals('メールアドレスを入力してください'),
-        );
-      });
-
-      test('メールアドレスが不正な形式の場合はエラーメッセージを返す', () {
-        container
-            .read(profileFormStateProvider.notifier)
-            .updateEmail('invalid-email');
-        expect(
-          container.read(profileFormStateProvider.notifier).emailError,
-          equals('有効なメールアドレスを入力してください'),
-        );
-      });
-
-      test('メールアドレスが有効な場合は null を返す', () {
-        container
-            .read(profileFormStateProvider.notifier)
-            .updateEmail('valid@example.com');
-        expect(
-          container.read(profileFormStateProvider.notifier).emailError,
-          isNull,
-        );
-      });
-    });
-
     group('isValid', () {
       test('名前が空の場合は false', () {
         final notifier = container.read(profileFormStateProvider.notifier);
         notifier.updateName('');
-        notifier.updateEmail('valid@example.com');
         expect(notifier.isValid, isFalse);
       });
 
-      test('メールアドレスが空の場合は false', () {
+      test('名前が有効な場合は true', () {
         final notifier = container.read(profileFormStateProvider.notifier);
         notifier.updateName('Valid Name');
-        notifier.updateEmail('');
-        expect(notifier.isValid, isFalse);
-      });
-
-      test('メールアドレスが不正な場合は false', () {
-        final notifier = container.read(profileFormStateProvider.notifier);
-        notifier.updateName('Valid Name');
-        notifier.updateEmail('invalid-email');
-        expect(notifier.isValid, isFalse);
-      });
-
-      test('すべて有効な場合は true', () {
-        final notifier = container.read(profileFormStateProvider.notifier);
-        notifier.updateName('Valid Name');
-        notifier.updateEmail('valid@example.com');
         expect(notifier.isValid, isTrue);
-      });
-    });
-
-    group('hasEmailChanged', () {
-      test('メールアドレスが変更されていない場合は false', () {
-        final profile = UserProfile(
-          id: 1,
-          email: 'original@example.com',
-          name: 'Test User',
-          avatarUrl: null,
-          username: null,
-          bookCount: 0,
-          readingStartYear: null,
-          createdAt: DateTime(2020, 1, 1),
-        );
-
-        final notifier = container.read(profileFormStateProvider.notifier);
-        notifier.initialize(profile);
-        expect(notifier.hasEmailChanged, isFalse);
-      });
-
-      test('メールアドレスが変更された場合は true', () {
-        final profile = UserProfile(
-          id: 1,
-          email: 'original@example.com',
-          name: 'Test User',
-          avatarUrl: null,
-          username: null,
-          bookCount: 0,
-          readingStartYear: null,
-          createdAt: DateTime(2020, 1, 1),
-        );
-
-        final notifier = container.read(profileFormStateProvider.notifier);
-        notifier.initialize(profile);
-        notifier.updateEmail('new@example.com');
-        expect(notifier.hasEmailChanged, isTrue);
-      });
-
-      test('メールアドレスを元に戻した場合は false', () {
-        final profile = UserProfile(
-          id: 1,
-          email: 'original@example.com',
-          name: 'Test User',
-          avatarUrl: null,
-          username: null,
-          bookCount: 0,
-          readingStartYear: null,
-          createdAt: DateTime(2020, 1, 1),
-        );
-
-        final notifier = container.read(profileFormStateProvider.notifier);
-        notifier.initialize(profile);
-        notifier.updateEmail('new@example.com');
-        notifier.updateEmail('original@example.com');
-        expect(notifier.hasEmailChanged, isFalse);
       });
     });
   });

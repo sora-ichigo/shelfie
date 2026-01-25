@@ -70,19 +70,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GRemoveFromShelfData.serializer)
       ..add(GRemoveFromShelfReq.serializer)
       ..add(GRemoveFromShelfVars.serializer)
-      ..add(GRequestEmailChangeData.serializer)
-      ..add(
-          GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess
-              .serializer)
-      ..add(
-          GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess_data
-              .serializer)
-      ..add(GRequestEmailChangeData_requestEmailChange__asValidationError
-          .serializer)
-      ..add(GRequestEmailChangeData_requestEmailChange__base.serializer)
       ..add(GRequestEmailChangeInput.serializer)
-      ..add(GRequestEmailChangeReq.serializer)
-      ..add(GRequestEmailChangeVars.serializer)
       ..add(GSearchBookByISBNData.serializer)
       ..add(GSearchBookByISBNData_searchBookByISBN.serializer)
       ..add(GSearchBookByISBNReq.serializer)

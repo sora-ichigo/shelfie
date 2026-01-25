@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProfileFormData {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get originalEmail => throw _privateConstructorUsedError;
   XFile? get pendingAvatarImage => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
@@ -34,11 +33,7 @@ abstract class $ProfileFormDataCopyWith<$Res> {
       _$ProfileFormDataCopyWithImpl<$Res, ProfileFormData>;
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String originalEmail,
-      XFile? pendingAvatarImage,
-      bool hasChanges});
+      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
 }
 
 /// @nodoc
@@ -56,7 +51,6 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
   $Res call({
     Object? name = null,
     Object? email = null,
-    Object? originalEmail = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -68,10 +62,6 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      originalEmail: null == originalEmail
-          ? _value.originalEmail
-          : originalEmail // ignore: cast_nullable_to_non_nullable
               as String,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
@@ -94,11 +84,7 @@ abstract class _$$ProfileFormDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String originalEmail,
-      XFile? pendingAvatarImage,
-      bool hasChanges});
+      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
 }
 
 /// @nodoc
@@ -114,7 +100,6 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? email = null,
-    Object? originalEmail = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -126,10 +111,6 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      originalEmail: null == originalEmail
-          ? _value.originalEmail
-          : originalEmail // ignore: cast_nullable_to_non_nullable
               as String,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
@@ -149,7 +130,6 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   const _$ProfileFormDataImpl(
       {this.name = '',
       this.email = '',
-      this.originalEmail = '',
       this.pendingAvatarImage,
       this.hasChanges = false});
 
@@ -160,9 +140,6 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   @JsonKey()
   final String email;
   @override
-  @JsonKey()
-  final String originalEmail;
-  @override
   final XFile? pendingAvatarImage;
   @override
   @JsonKey()
@@ -170,7 +147,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
 
   @override
   String toString() {
-    return 'ProfileFormData(name: $name, email: $email, originalEmail: $originalEmail, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
+    return 'ProfileFormData(name: $name, email: $email, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
   }
 
   @override
@@ -180,8 +157,6 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
             other is _$ProfileFormDataImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.originalEmail, originalEmail) ||
-                other.originalEmail == originalEmail) &&
             (identical(other.pendingAvatarImage, pendingAvatarImage) ||
                 other.pendingAvatarImage == pendingAvatarImage) &&
             (identical(other.hasChanges, hasChanges) ||
@@ -189,8 +164,8 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, email, originalEmail, pendingAvatarImage, hasChanges);
+  int get hashCode =>
+      Object.hash(runtimeType, name, email, pendingAvatarImage, hasChanges);
 
   @JsonKey(ignore: true)
   @override
@@ -204,7 +179,6 @@ abstract class _ProfileFormData implements ProfileFormData {
   const factory _ProfileFormData(
       {final String name,
       final String email,
-      final String originalEmail,
       final XFile? pendingAvatarImage,
       final bool hasChanges}) = _$ProfileFormDataImpl;
 
@@ -212,8 +186,6 @@ abstract class _ProfileFormData implements ProfileFormData {
   String get name;
   @override
   String get email;
-  @override
-  String get originalEmail;
   @override
   XFile? get pendingAvatarImage;
   @override

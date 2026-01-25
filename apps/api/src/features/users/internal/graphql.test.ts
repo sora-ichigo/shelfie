@@ -156,54 +156,6 @@ describe("User GraphQL Types", () => {
     });
   });
 
-  describe("RequestEmailChangeInput type", () => {
-    it("should register RequestEmailChangeInput type to schema", () => {
-      const builder = createTestBuilder();
-      registerUserTypes(builder);
-
-      builder.queryType({
-        fields: (t) => ({
-          _empty: t.string({ resolve: () => "" }),
-        }),
-      });
-      builder.mutationType({
-        fields: (t) => ({
-          _empty: t.string({ resolve: () => "" }),
-        }),
-      });
-
-      const schema = builder.toSchema();
-      const inputType = schema.getType("RequestEmailChangeInput");
-
-      expect(inputType).toBeDefined();
-      expect(inputType?.name).toBe("RequestEmailChangeInput");
-    });
-  });
-
-  describe("EmailChangeRequested type", () => {
-    it("should register EmailChangeRequested type to schema", () => {
-      const builder = createTestBuilder();
-      registerUserTypes(builder);
-
-      builder.queryType({
-        fields: (t) => ({
-          _empty: t.string({ resolve: () => "" }),
-        }),
-      });
-      builder.mutationType({
-        fields: (t) => ({
-          _empty: t.string({ resolve: () => "" }),
-        }),
-      });
-
-      const schema = builder.toSchema();
-      const type = schema.getType("EmailChangeRequested");
-
-      expect(type).toBeDefined();
-      expect(type?.name).toBe("EmailChangeRequested");
-    });
-  });
-
   describe("ValidationError type", () => {
     it("should register ValidationError type to schema", () => {
       const builder = createTestBuilder();

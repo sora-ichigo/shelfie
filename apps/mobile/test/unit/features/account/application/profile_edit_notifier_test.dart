@@ -48,19 +48,6 @@ void main() {
       expect(state, isA<ProfileEditStateSuccess>());
     });
 
-    test('success 状態にメールアドレス変更メッセージを含められる', () {
-      final profile = createTestProfile();
-      final state = ProfileEditState.success(
-        profile: profile,
-        emailChangeMessage: '確認メールを送信しました',
-      );
-      expect(state, isA<ProfileEditStateSuccess>());
-      expect(
-        (state as ProfileEditStateSuccess).emailChangeMessage,
-        equals('確認メールを送信しました'),
-      );
-    });
-
     test('error 状態を生成できる', () {
       const state = ProfileEditState.error(message: 'エラーが発生しました');
       expect(state, isA<ProfileEditStateError>());
@@ -203,77 +190,6 @@ void main() {
         expect(state, isA<ProfileEditStateError>());
         final errorState = state as ProfileEditStateError;
         expect(errorState.field, equals('name'));
-      });
-
-      test('メールアドレス変更を含む保存成功', () async {
-        final profile = createTestProfile();
-        final updatedProfile = profile.copyWith(name: 'New Name');
-
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async => right(updatedProfile),
-        );
-        when(
-          () => mockRepository.requestEmailChange(newEmail: 'new@example.com'),
-        ).thenAnswer((_) async => right(null));
-
-        final container = ProviderContainer(
-          overrides: [
-            accountRepositoryProvider.overrideWithValue(mockRepository),
-          ],
-        );
-        addTearDown(container.dispose);
-
-        final formNotifier = container.read(profileFormStateProvider.notifier);
-        formNotifier.initialize(profile);
-        formNotifier.updateName('New Name');
-        formNotifier.updateEmail('new@example.com');
-
-        await container.read(profileEditNotifierProvider.notifier).save();
-
-        final state = container.read(profileEditNotifierProvider);
-        expect(state, isA<ProfileEditStateSuccess>());
-        expect(
-          (state as ProfileEditStateSuccess).emailChangeMessage,
-          equals('確認メールを送信しました'),
-        );
-
-        verify(() => mockRepository.requestEmailChange(newEmail: 'new@example.com'))
-            .called(1);
-      });
-
-      test('メールアドレス変更リクエスト失敗時は error 状態になる', () async {
-        final profile = createTestProfile();
-        final updatedProfile = profile.copyWith(name: 'New Name');
-        const failure = ValidationFailure(
-          message: 'このメールアドレスは既に使用されています',
-          fieldErrors: {'email': 'このメールアドレスは既に使用されています'},
-        );
-
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async => right(updatedProfile),
-        );
-        when(
-          () => mockRepository.requestEmailChange(newEmail: 'existing@example.com'),
-        ).thenAnswer((_) async => left(failure));
-
-        final container = ProviderContainer(
-          overrides: [
-            accountRepositoryProvider.overrideWithValue(mockRepository),
-          ],
-        );
-        addTearDown(container.dispose);
-
-        final formNotifier = container.read(profileFormStateProvider.notifier);
-        formNotifier.initialize(profile);
-        formNotifier.updateName('New Name');
-        formNotifier.updateEmail('existing@example.com');
-
-        await container.read(profileEditNotifierProvider.notifier).save();
-
-        final state = container.read(profileEditNotifierProvider);
-        expect(state, isA<ProfileEditStateError>());
-        final errorState = state as ProfileEditStateError;
-        expect(errorState.field, equals('email'));
       });
     });
 

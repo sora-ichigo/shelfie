@@ -6,7 +6,7 @@ part of 'profile_form_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$profileFormStateHash() => r'd345cde666df25a6b17fab9a8b80a72f514b2e75';
+String _$profileFormStateHash() => r'c44c5e6e26f72791814220de7d23f1238620995b';
 
 /// See also [ProfileFormState].
 @ProviderFor(ProfileFormState)

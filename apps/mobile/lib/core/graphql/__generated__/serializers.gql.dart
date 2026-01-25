@@ -58,18 +58,6 @@ import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.g
     show GGetMyProfileReq;
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.var.gql.dart'
     show GGetMyProfileVars;
-import 'package:shelfie/features/account/data/__generated__/request_email_change.data.gql.dart'
-    show
-        GRequestEmailChangeData_requestEmailChange,
-        GRequestEmailChangeData,
-        GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess,
-        GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess_data,
-        GRequestEmailChangeData_requestEmailChange__asValidationError,
-        GRequestEmailChangeData_requestEmailChange__base;
-import 'package:shelfie/features/account/data/__generated__/request_email_change.req.gql.dart'
-    show GRequestEmailChangeReq;
-import 'package:shelfie/features/account/data/__generated__/request_email_change.var.gql.dart'
-    show GRequestEmailChangeVars;
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart'
     show
         GUpdateProfileData_updateProfile,
@@ -166,7 +154,6 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
-  ..add(GRequestEmailChangeData_requestEmailChange.serializer)
   ..add(GUpdateProfileData_updateProfile.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
@@ -226,14 +213,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRemoveFromShelfData,
   GRemoveFromShelfReq,
   GRemoveFromShelfVars,
-  GRequestEmailChangeData,
-  GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess,
-  GRequestEmailChangeData_requestEmailChange__asMutationRequestEmailChangeSuccess_data,
-  GRequestEmailChangeData_requestEmailChange__asValidationError,
-  GRequestEmailChangeData_requestEmailChange__base,
   GRequestEmailChangeInput,
-  GRequestEmailChangeReq,
-  GRequestEmailChangeVars,
   GSearchBookByISBNData,
   GSearchBookByISBNData_searchBookByISBN,
   GSearchBookByISBNReq,

@@ -27,20 +27,6 @@ export interface UpdateProfileInput {
   avatarUrl?: string;
 }
 
-export interface RequestEmailChangeInput {
-  userId: number;
-  newEmail: string;
-}
-
-export interface EmailChangeRequestedResult {
-  message: string;
-}
-
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
 export interface UserService {
   getUserById(input: GetUserInput): Promise<Result<User, UserServiceErrors>>;
   createUser(input: CreateUserInput): Promise<Result<User, UserServiceErrors>>;
@@ -54,9 +40,6 @@ export interface UserService {
   updateProfile(
     input: UpdateProfileInput,
   ): Promise<Result<User, UserServiceErrors>>;
-  requestEmailChange(
-    input: RequestEmailChangeInput,
-  ): Promise<Result<EmailChangeRequestedResult, UserServiceErrors>>;
 }
 
 export function createUserService(repository: UserRepository): UserService {
@@ -152,37 +135,6 @@ export function createUserService(repository: UserRepository): UserService {
 
       const updatedUser = await repository.update(input.userId, updateData);
       return ok(updatedUser);
-    },
-
-    async requestEmailChange(
-      input: RequestEmailChangeInput,
-    ): Promise<Result<EmailChangeRequestedResult, UserServiceErrors>> {
-      if (!isValidEmail(input.newEmail)) {
-        return err({
-          code: "VALIDATION_ERROR",
-          message: "無効なメールアドレス形式です",
-        });
-      }
-
-      const user = await repository.findById(input.userId);
-      if (!user) {
-        return err({
-          code: "USER_NOT_FOUND",
-          message: `User with id ${input.userId} not found`,
-        });
-      }
-
-      const existingUser = await repository.findByEmail(input.newEmail);
-      if (existingUser) {
-        return err({
-          code: "EMAIL_ALREADY_EXISTS",
-          message: `Email ${input.newEmail} is already registered`,
-        });
-      }
-
-      return ok({
-        message: "確認メールを送信しました。新しいメールアドレスで確認を完了してください。",
-      });
     },
   };
 }

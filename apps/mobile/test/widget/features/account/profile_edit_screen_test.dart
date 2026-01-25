@@ -259,7 +259,6 @@ class _InvalidProfileFormState extends ProfileFormState {
     return const ProfileFormData(
       name: '',
       email: 'test@example.com',
-      originalEmail: 'test@example.com',
     );
   }
 
@@ -270,9 +269,6 @@ class _InvalidProfileFormState extends ProfileFormState {
   void updateName(String name) {}
 
   @override
-  void updateEmail(String email) {}
-
-  @override
   void setAvatarImage(XFile? file) {}
 
   @override
@@ -280,12 +276,6 @@ class _InvalidProfileFormState extends ProfileFormState {
 
   @override
   String? get nameError => '氏名を入力してください';
-
-  @override
-  String? get emailError => null;
-
-  @override
-  bool get hasEmailChanged => false;
 }
 
 class _TestProfileEditNotifier extends ProfileEditNotifier {
@@ -318,7 +308,6 @@ class _TestProfileFormState extends ProfileFormState {
     return ProfileFormData(
       name: _profile.name ?? '',
       email: _profile.email,
-      originalEmail: _profile.email,
     );
   }
 
@@ -329,9 +318,6 @@ class _TestProfileFormState extends ProfileFormState {
   void updateName(String name) {}
 
   @override
-  void updateEmail(String email) {}
-
-  @override
   void setAvatarImage(XFile? file) {}
 
   @override
@@ -339,12 +325,6 @@ class _TestProfileFormState extends ProfileFormState {
 
   @override
   String? get nameError => null;
-
-  @override
-  String? get emailError => null;
-
-  @override
-  bool get hasEmailChanged => false;
 }
 
 class _TestAccountNotifier extends AccountNotifier {
