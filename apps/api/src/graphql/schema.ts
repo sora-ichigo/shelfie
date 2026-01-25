@@ -25,18 +25,6 @@ import {
 import { logger } from "../logger/index.js";
 import { builder } from "./builder.js";
 
-registerUserTypes(builder);
-registerAuthTypes(builder);
-registerBooksTypes(builder);
-
-builder.queryType({
-  fields: (t) => ({
-    health: t.string({
-      resolve: () => "ok",
-    }),
-  }),
-});
-
 const db = getDb();
 const userRepository = createUserRepository(db);
 const userService = createUserService(userRepository);
@@ -56,6 +44,18 @@ const bookSearchService = createBookSearchService(
 );
 const bookShelfRepository = createBookShelfRepository(db);
 const bookShelfService = createBookShelfService(bookShelfRepository, logger);
+
+registerUserTypes(builder, bookShelfRepository);
+registerAuthTypes(builder);
+registerBooksTypes(builder);
+
+builder.queryType({
+  fields: (t) => ({
+    health: t.string({
+      resolve: () => "ok",
+    }),
+  }),
+});
 
 registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);

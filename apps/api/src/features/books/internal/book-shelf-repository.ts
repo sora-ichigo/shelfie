@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type NewUserBook,
@@ -34,6 +34,7 @@ export interface BookShelfRepository {
   ): Promise<UserBook | null>;
   deleteUserBook(id: number): Promise<boolean>;
   getUserBooks(userId: number): Promise<UserBook[]>;
+  countUserBooks(userId: number): Promise<number>;
 }
 
 export function createBookShelfRepository(
@@ -91,6 +92,14 @@ export function createBookShelfRepository(
 
     async getUserBooks(userId: number): Promise<UserBook[]> {
       return db.select().from(userBooks).where(eq(userBooks.userId, userId));
+    },
+
+    async countUserBooks(userId: number): Promise<number> {
+      const result = await db
+        .select({ count: count() })
+        .from(userBooks)
+        .where(eq(userBooks.userId, userId));
+      return result[0]?.count ?? 0;
     },
   };
 }

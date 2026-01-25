@@ -143,30 +143,32 @@ class AccountRepository {
   }
 
   UserProfile _mapToUserProfile(GGetMyProfileData_me__asUser user) {
+    final createdAt = user.createdAt ?? DateTime.now();
     return UserProfile(
       id: user.id ?? 0,
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
       username: user.name != null ? '@${user.name}' : null,
-      bookCount: 0,
-      readingStartYear: null,
-      createdAt: user.createdAt ?? DateTime.now(),
+      bookCount: user.bookCount,
+      readingStartYear: createdAt.year,
+      createdAt: createdAt,
     );
   }
 
   UserProfile _mapUpdateProfileToUserProfile(
     GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data user,
   ) {
+    final createdAt = user.createdAt ?? DateTime.now();
     return UserProfile(
       id: user.id ?? 0,
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
       username: user.name != null ? '@${user.name}' : null,
-      bookCount: 0,
-      readingStartYear: null,
-      createdAt: user.createdAt ?? DateTime.now(),
+      bookCount: user.bookCount,
+      readingStartYear: createdAt.year,
+      createdAt: createdAt,
     );
   }
 }

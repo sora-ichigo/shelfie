@@ -130,6 +130,9 @@ class _$GGetMyProfileData_me__asUserSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
+      'bookCount',
+      serializers.serialize(object.bookCount,
+          specifiedType: const FullType(int)),
     ];
     Object? value;
     value = object.id;
@@ -204,6 +207,10 @@ class _$GGetMyProfileData_me__asUserSerializer
         case 'createdAt':
           result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'bookCount':
+          result.bookCount = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -488,6 +495,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
   final String? avatarUrl;
   @override
   final DateTime? createdAt;
+  @override
+  final int bookCount;
 
   factory _$GGetMyProfileData_me__asUser(
           [void Function(GGetMyProfileData_me__asUserBuilder)? updates]) =>
@@ -499,10 +508,13 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
       this.email,
       this.name,
       this.avatarUrl,
-      this.createdAt})
+      this.createdAt,
+      required this.bookCount})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename, r'GGetMyProfileData_me__asUser', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        bookCount, r'GGetMyProfileData_me__asUser', 'bookCount');
   }
 
   @override
@@ -523,7 +535,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
         email == other.email &&
         name == other.name &&
         avatarUrl == other.avatarUrl &&
-        createdAt == other.createdAt;
+        createdAt == other.createdAt &&
+        bookCount == other.bookCount;
   }
 
   @override
@@ -535,6 +548,7 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, avatarUrl.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, bookCount.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -547,7 +561,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
           ..add('email', email)
           ..add('name', name)
           ..add('avatarUrl', avatarUrl)
-          ..add('createdAt', createdAt))
+          ..add('createdAt', createdAt)
+          ..add('bookCount', bookCount))
         .toString();
   }
 }
@@ -582,6 +597,10 @@ class GGetMyProfileData_me__asUserBuilder
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
+  int? _bookCount;
+  int? get bookCount => _$this._bookCount;
+  set bookCount(int? bookCount) => _$this._bookCount = bookCount;
+
   GGetMyProfileData_me__asUserBuilder() {
     GGetMyProfileData_me__asUser._initializeBuilder(this);
   }
@@ -595,6 +614,7 @@ class GGetMyProfileData_me__asUserBuilder
       _name = $v.name;
       _avatarUrl = $v.avatarUrl;
       _createdAt = $v.createdAt;
+      _bookCount = $v.bookCount;
       _$v = null;
     }
     return this;
@@ -623,7 +643,9 @@ class GGetMyProfileData_me__asUserBuilder
             email: email,
             name: name,
             avatarUrl: avatarUrl,
-            createdAt: createdAt);
+            createdAt: createdAt,
+            bookCount: BuiltValueNullFieldError.checkNotNull(
+                bookCount, r'GGetMyProfileData_me__asUser', 'bookCount'));
     replace(_$result);
     return _$result;
   }

@@ -37,7 +37,6 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GReadingStatus,
         GRefreshTokenInput,
         GRegisterUserInput,
-        GRequestEmailChangeInput,
         GUpdateProfileInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
@@ -213,7 +212,6 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRemoveFromShelfData,
   GRemoveFromShelfReq,
   GRemoveFromShelfVars,
-  GRequestEmailChangeInput,
   GSearchBookByISBNData,
   GSearchBookByISBNData_searchBookByISBN,
   GSearchBookByISBNReq,

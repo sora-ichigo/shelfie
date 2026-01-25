@@ -126,6 +126,23 @@ describe("User GraphQL Types", () => {
       expect(avatarUrlField).toBeDefined();
       expect(avatarUrlField?.type.toString()).toBe("String");
     });
+
+    it("should have bookCount field as Int", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const bookCountField = getField(schema, "User", "bookCount");
+
+      expect(bookCountField).toBeDefined();
+      expect(bookCountField?.type.toString()).toBe("Int!");
+    });
   });
 
   describe("UpdateProfileInput type", () => {

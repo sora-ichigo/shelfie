@@ -9,6 +9,34 @@ import 'package:shelfie/core/graphql/__generated__/serializers.gql.dart' as _i1;
 
 part 'schema.schema.gql.g.dart';
 
+abstract class GAddBookInput
+    implements Built<GAddBookInput, GAddBookInputBuilder> {
+  GAddBookInput._();
+
+  factory GAddBookInput([void Function(GAddBookInputBuilder b) updates]) =
+      _$GAddBookInput;
+
+  BuiltList<String> get authors;
+  String? get coverImageUrl;
+  String get externalId;
+  String? get isbn;
+  String? get publishedDate;
+  String? get publisher;
+  String get title;
+  static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GAddBookInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GAddBookInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GAddBookInput.serializer,
+        json,
+      );
+}
+
 class GAuthErrorCode extends EnumClass {
   const GAuthErrorCode._(String name) : super(name);
 
@@ -63,6 +91,25 @@ abstract class GLoginUserInput
         GLoginUserInput.serializer,
         json,
       );
+}
+
+class GReadingStatus extends EnumClass {
+  const GReadingStatus._(String name) : super(name);
+
+  static const GReadingStatus BACKLOG = _$gReadingStatusBACKLOG;
+
+  static const GReadingStatus COMPLETED = _$gReadingStatusCOMPLETED;
+
+  static const GReadingStatus DROPPED = _$gReadingStatusDROPPED;
+
+  static const GReadingStatus READING = _$gReadingStatusREADING;
+
+  static Serializer<GReadingStatus> get serializer =>
+      _$gReadingStatusSerializer;
+
+  static BuiltSet<GReadingStatus> get values => _$gReadingStatusValues;
+
+  static GReadingStatus valueOf(String name) => _$gReadingStatusValueOf(name);
 }
 
 abstract class GRefreshTokenInput
@@ -138,78 +185,6 @@ abstract class GUpdateProfileInput
       );
 }
 
-abstract class GRequestEmailChangeInput
-    implements
-        Built<GRequestEmailChangeInput, GRequestEmailChangeInputBuilder> {
-  GRequestEmailChangeInput._();
-
-  factory GRequestEmailChangeInput(
-          [void Function(GRequestEmailChangeInputBuilder b) updates]) =
-      _$GRequestEmailChangeInput;
-
-  String get newEmail;
-  static Serializer<GRequestEmailChangeInput> get serializer =>
-      _$gRequestEmailChangeInputSerializer;
-
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GRequestEmailChangeInput.serializer,
-        this,
-      ) as Map<String, dynamic>);
-
-  static GRequestEmailChangeInput? fromJson(Map<String, dynamic> json) =>
-      _i1.serializers.deserializeWith(
-        GRequestEmailChangeInput.serializer,
-        json,
-      );
-}
-
-abstract class GAddBookInput
-    implements Built<GAddBookInput, GAddBookInputBuilder> {
-  GAddBookInput._();
-
-  factory GAddBookInput([void Function(GAddBookInputBuilder b) updates]) =
-      _$GAddBookInput;
-
-  String get externalId;
-  String get title;
-  BuiltList<String> get authors;
-  String? get publisher;
-  String? get publishedDate;
-  String? get isbn;
-  String? get coverImageUrl;
-  static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
-
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GAddBookInput.serializer,
-        this,
-      ) as Map<String, dynamic>);
-
-  static GAddBookInput? fromJson(Map<String, dynamic> json) =>
-      _i1.serializers.deserializeWith(
-        GAddBookInput.serializer,
-        json,
-      );
-}
-
-class GReadingStatus extends EnumClass {
-  const GReadingStatus._(String name) : super(name);
-
-  static const GReadingStatus BACKLOG = _$gReadingStatusBACKLOG;
-
-  static const GReadingStatus READING = _$gReadingStatusREADING;
-
-  static const GReadingStatus COMPLETED = _$gReadingStatusCOMPLETED;
-
-  static const GReadingStatus DROPPED = _$gReadingStatusDROPPED;
-
-  static Serializer<GReadingStatus> get serializer =>
-      _$gReadingStatusSerializer;
-
-  static BuiltSet<GReadingStatus> get values => _$gReadingStatusValues;
-
-  static GReadingStatus valueOf(String name) => _$gReadingStatusValueOf(name);
-}
-
 const Map<String, Set<String>> possibleTypesMap = {
   'MeResult': {
     'AuthErrorResult',
@@ -229,10 +204,6 @@ const Map<String, Set<String>> possibleTypesMap = {
   },
   'MutationUpdateProfileResult': {
     'MutationUpdateProfileSuccess',
-    'ValidationError',
-  },
-  'MutationRequestEmailChangeResult': {
-    'MutationRequestEmailChangeSuccess',
     'ValidationError',
   },
 };

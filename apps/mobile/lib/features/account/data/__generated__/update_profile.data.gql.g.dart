@@ -207,6 +207,9 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
+      'bookCount',
+      serializers.serialize(object.bookCount,
+          specifiedType: const FullType(int)),
     ];
     Object? value;
     value = object.id;
@@ -282,6 +285,10 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
         case 'createdAt':
           result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'bookCount':
+          result.bookCount = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -744,6 +751,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
   final String? avatarUrl;
   @override
   final DateTime? createdAt;
+  @override
+  final int bookCount;
 
   factory _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data(
           [void Function(
@@ -759,12 +768,17 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       this.email,
       this.name,
       this.avatarUrl,
-      this.createdAt})
+      this.createdAt,
+      required this.bookCount})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         G__typename,
         r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
         'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        bookCount,
+        r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+        'bookCount');
   }
 
   @override
@@ -790,7 +804,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         email == other.email &&
         name == other.name &&
         avatarUrl == other.avatarUrl &&
-        createdAt == other.createdAt;
+        createdAt == other.createdAt &&
+        bookCount == other.bookCount;
   }
 
   @override
@@ -802,6 +817,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jc(_$hash, avatarUrl.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
+    _$hash = $jc(_$hash, bookCount.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -815,7 +831,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           ..add('email', email)
           ..add('name', name)
           ..add('avatarUrl', avatarUrl)
-          ..add('createdAt', createdAt))
+          ..add('createdAt', createdAt)
+          ..add('bookCount', bookCount))
         .toString();
   }
 }
@@ -851,6 +868,10 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   DateTime? get createdAt => _$this._createdAt;
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
+  int? _bookCount;
+  int? get bookCount => _$this._bookCount;
+  set bookCount(int? bookCount) => _$this._bookCount = bookCount;
+
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder() {
     GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         ._initializeBuilder(this);
@@ -866,6 +887,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
       _name = $v.name;
       _avatarUrl = $v.avatarUrl;
       _createdAt = $v.createdAt;
+      _bookCount = $v.bookCount;
       _$v = null;
     }
     return this;
@@ -905,7 +927,11 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
             email: email,
             name: name,
             avatarUrl: avatarUrl,
-            createdAt: createdAt);
+            createdAt: createdAt,
+            bookCount: BuiltValueNullFieldError.checkNotNull(
+                bookCount,
+                r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+                'bookCount'));
     replace(_$result);
     return _$result;
   }
