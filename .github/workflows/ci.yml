@@ -97,7 +97,7 @@ jobs:
       - run: pnpm --filter @shelfie/web typecheck
       - run: pnpm --filter @shelfie/web build
 
-  mobile:
+  mobile-analyze:
     needs: changes
     if: ${{ needs.changes.outputs.mobile == 'true' }}
     runs-on: ubuntu-latest
@@ -109,13 +109,37 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           install_args: flutter
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            apps/mobile/.dart_tool
+          key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
+          restore-keys: flutter-${{ runner.os }}-
       - run: flutter pub get
       - run: flutter analyze
-      - name: Run tests with coverage
-        run: flutter test --coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+
+  mobile-test:
+    needs: changes
+    if: ${{ needs.changes.outputs.mobile == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
         with:
-          files: apps/mobile/coverage/lcov.info
-          flags: mobile
-          fail_ci_if_error: false
+          install_args: flutter
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            apps/mobile/.dart_tool
+          key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
+          restore-keys: flutter-${{ runner.os }}-
+      - run: flutter pub get
+      - name: Run tests
+        run: flutter test --concurrency=8
