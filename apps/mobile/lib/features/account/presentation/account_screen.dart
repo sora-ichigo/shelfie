@@ -148,21 +148,19 @@ class _LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorColor = Theme.of(context).colorScheme.error;
-
     return SizedBox(
       width: double.infinity,
-      child: OutlinedButton.icon(
+      height: 48,
+      child: ElevatedButton.icon(
         onPressed: onLogout,
-        style: OutlinedButton.styleFrom(
-          foregroundColor: errorColor,
-          side: BorderSide(color: errorColor),
-          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white.withOpacity(0.1),
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.md),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.logout),
+        icon: const Icon(Icons.logout, size: 20),
         label: const Text('ログアウト'),
       ),
     );
