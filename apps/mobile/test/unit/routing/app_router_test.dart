@@ -262,8 +262,8 @@ void main() {
         expect(currentLocation, AppRoutes.welcome);
       });
 
-      // TODO: Riverpod autoDisposeのタイマー問題を修正後にスキップ解除
-      // Skip reason: Flaky test due to Riverpod autoDispose timer issue with Flutter test framework
+      // TODO(ichigo): Riverpod autoDisposeのタイマー問題を修正後にスキップ解除
+      // Flaky test due to Riverpod autoDispose timer issue with Flutter test framework
       testWidgets(
         '認証済みユーザーは保護されたルートにアクセスできる',
         skip: true,
