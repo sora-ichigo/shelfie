@@ -70,7 +70,9 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
-          color: appColors.surfaceElevated,
+          color: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          menuPadding: EdgeInsets.zero,
           constraints: BoxConstraints(
             minWidth: buttonWidth,
             maxWidth: buttonWidth,
@@ -95,7 +97,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppColors.selectionHighlight
-                        : Colors.transparent,
+                        : appColors.surfaceElevated,
                     borderRadius: BorderRadius.only(
                       topLeft: isFirst
                           ? const Radius.circular(AppRadius.lg)
