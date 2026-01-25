@@ -14,9 +14,14 @@ void main() {
     return MaterialApp(
       theme: AppTheme.dark(),
       home: Scaffold(
-        body: BookCard(
-          book: book,
-          onTap: onTap ?? () {},
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: 120,
+            child: BookCard(
+              book: book,
+              onTap: onTap ?? () {},
+            ),
+          ),
         ),
       ),
     );

@@ -29,7 +29,8 @@ class BookCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
+          AspectRatio(
+            aspectRatio: 2 / 3,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppRadius.md),
               child: _buildCoverImage(appColors),

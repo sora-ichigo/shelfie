@@ -78,9 +78,9 @@ class _BookGridState extends State<BookGrid> {
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              mainAxisSpacing: AppSpacing.sm,
+              mainAxisSpacing: AppSpacing.md,
               crossAxisSpacing: AppSpacing.sm,
-              childAspectRatio: 0.55,
+              childAspectRatio: 0.48,
             ),
             delegate: SliverChildBuilderDelegate(
               (context, index) => BookCard(
@@ -134,9 +134,9 @@ class _BookGridState extends State<BookGrid> {
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                mainAxisSpacing: AppSpacing.sm,
+                mainAxisSpacing: AppSpacing.md,
                 crossAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.55,
+                childAspectRatio: 0.48,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) => BookCard(
