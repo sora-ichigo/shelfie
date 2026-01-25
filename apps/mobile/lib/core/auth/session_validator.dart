@@ -1,5 +1,6 @@
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/__generated__/me.data.gql.dart';
 import 'package:shelfie/core/auth/__generated__/me.req.gql.dart';
@@ -36,7 +37,7 @@ class SessionValidationFailed extends SessionValidationResult {
 ///
 /// me クエリを呼び出してセッションが有効かどうかを検証する。
 @riverpod
-SessionValidator sessionValidator(SessionValidatorRef ref) {
+SessionValidator sessionValidator(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return SessionValidator(client);
 }

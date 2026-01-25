@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/features/book_search/domain/search_history_entry.dart';
@@ -87,7 +88,7 @@ class SearchHistoryRepository implements SearchHistoryRepositoryInterface {
 /// 検索履歴リポジトリの Provider
 @Riverpod(keepAlive: true)
 SearchHistoryRepository searchHistoryRepository(
-  SearchHistoryRepositoryRef ref,
+  Ref ref,
 ) {
   final box = Hive.box<Map<dynamic, dynamic>>(searchHistoryBoxName);
   return SearchHistoryRepository(box);

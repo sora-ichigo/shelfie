@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/error_handler.dart';
 
@@ -15,7 +16,7 @@ part 'providers.g.dart';
 /// - warning: 警告（処理は継続するが注意が必要）
 /// - error: エラー（処理が失敗した）
 @Riverpod(keepAlive: true)
-Logger logger(LoggerRef ref) {
+Logger logger(Ref ref) {
   return ConsoleLogger();
 }
 
@@ -27,7 +28,7 @@ Logger logger(LoggerRef ref) {
 ///
 /// 本番環境でのエラー報告に使用される。
 @Riverpod(keepAlive: true)
-CrashlyticsReporter crashlyticsReporter(CrashlyticsReporterRef ref) {
+CrashlyticsReporter crashlyticsReporter(Ref ref) {
   return NoOpCrashlyticsReporter();
 }
 
@@ -39,7 +40,7 @@ CrashlyticsReporter crashlyticsReporter(CrashlyticsReporterRef ref) {
 /// テスト時にはこの Provider をオーバーライドして
 /// 本番環境の動作をシミュレートできる。
 @Riverpod(keepAlive: true)
-bool isProduction(IsProductionRef ref) {
+bool isProduction(Ref ref) {
   return kReleaseMode;
 }
 
@@ -60,7 +61,7 @@ bool isProduction(IsProductionRef ref) {
 ///
 /// ErrorHandler は同期的な操作のみ行うため、通常の Provider として定義。
 @Riverpod(keepAlive: true)
-ErrorHandler errorHandler(ErrorHandlerRef ref) {
+ErrorHandler errorHandler(Ref ref) {
   final log = ref.watch(loggerProvider);
   final crashlytics = ref.watch(crashlyticsReporterProvider);
   final isProd = ref.watch(isProductionProvider);

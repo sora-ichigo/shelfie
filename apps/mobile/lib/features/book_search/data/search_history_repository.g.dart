@@ -7,7 +7,7 @@ part of 'search_history_repository.dart';
 // **************************************************************************
 
 String _$searchHistoryRepositoryHash() =>
-    r'5441f76c2059563eebbf1f0f1a48a98e7d611258';
+    r'238422e5cb15a4de01dca5ace839a9cd9c1c9836';
 
 /// 検索履歴リポジトリの Provider
 ///
