@@ -13,9 +13,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.success,
     required this.warning,
     required this.info,
-    required this.onSuccess,
-    required this.onWarning,
-    required this.onInfo,
     required this.brandPrimary,
     required this.brandAccent,
     required this.brandBackground,
@@ -24,7 +21,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.surfaceOverlay,
     required this.surfaceModal,
     required this.selectionHighlight,
-    required this.ratingActive,
     required this.actionGradientStart,
     required this.actionGradientEnd,
     required this.textPrimary,
@@ -35,20 +31,11 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 成功状態を表すカラー
   final Color success;
 
-  /// 警告状態を表すカラー
+  /// 警告状態を表すカラー（星評価にも使用）
   final Color warning;
 
   /// 情報を表すカラー
   final Color info;
-
-  /// success カラー上のコンテンツカラー
-  final Color onSuccess;
-
-  /// warning カラー上のコンテンツカラー
-  final Color onWarning;
-
-  /// info カラー上のコンテンツカラー
-  final Color onInfo;
 
   /// ブランドプライマリカラー（ターコイズ）
   final Color brandPrimary;
@@ -73,9 +60,6 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// 選択状態のハイライトカラー（ディープティール）
   final Color selectionHighlight;
-
-  /// 星評価のアクティブカラー（ゴールド）
-  final Color ratingActive;
 
   /// アクションボタン用グラデーション開始色
   final Color actionGradientStart;
@@ -102,41 +86,11 @@ class AppColors extends ThemeExtension<AppColors> {
   /// プライマリカラー（ターコイズ）- 直接アクセス用
   static const Color primary = Color(0xFF4FD1C5);
 
-  /// プライマリライトカラー - グラデーション用
-  static const Color primaryLight = Color(0xFF81E6D9);
-
-  /// アクションボタン用グラデーション開始色（非推奨: インスタンスフィールドを使用）
-  @Deprecated('Use instance field actionGradientStart instead')
-  static const Color staticActionGradientStart = Color(0xFF00BC7D);
-
-  /// アクションボタン用グラデーション終了色（非推奨: インスタンスフィールドを使用）
-  @Deprecated('Use instance field actionGradientEnd instead')
-  static const Color staticActionGradientEnd = Color(0xFF009689);
-
-  /// アクションボタン用グラデーション（非推奨: インスタンスの actionGradient getter を使用）
-  @Deprecated('Use instance getter actionGradient instead')
-  static const LinearGradient staticActionGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [staticActionGradientStart, staticActionGradientEnd],
-  );
-
-  /// モーダル/シート背景色（非推奨: インスタンスフィールドを使用）
-  @Deprecated('Use instance field surfaceModal instead')
-  static const Color staticSurfaceModal = Color(0xFF1A2E2E);
-
-  /// 選択状態のハイライトカラー（非推奨: インスタンスフィールドを使用）
-  @Deprecated('Use instance field selectionHighlight instead')
-  static const Color staticSelectionHighlight = Color(0xFF009789);
-
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     success: Color(0xFF81C784),
     warning: Color(0xFFFFD54F),
     info: Color(0xFF64B5F6),
-    onSuccess: Color(0xFF000000),
-    onWarning: Color(0xFF000000),
-    onInfo: Color(0xFF000000),
     brandPrimary: Color(0xFF4FD1C5),
     brandAccent: Color(0xFFF6C94A),
     brandBackground: Color(0xFF0A0A0A),
@@ -145,7 +99,6 @@ class AppColors extends ThemeExtension<AppColors> {
     surfaceOverlay: Color(0x4D000000),
     surfaceModal: Color(0xFF1A2E2E),
     selectionHighlight: Color(0xFF009789),
-    ratingActive: Color(0xFFFFD54F),
     actionGradientStart: Color(0xFF00BC7D),
     actionGradientEnd: Color(0xFF009689),
     textPrimary: Color(0xFFFFFFFF),
@@ -158,9 +111,6 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? success,
     Color? warning,
     Color? info,
-    Color? onSuccess,
-    Color? onWarning,
-    Color? onInfo,
     Color? brandPrimary,
     Color? brandAccent,
     Color? brandBackground,
@@ -169,7 +119,6 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? surfaceOverlay,
     Color? surfaceModal,
     Color? selectionHighlight,
-    Color? ratingActive,
     Color? actionGradientStart,
     Color? actionGradientEnd,
     Color? textPrimary,
@@ -180,9 +129,6 @@ class AppColors extends ThemeExtension<AppColors> {
       success: success ?? this.success,
       warning: warning ?? this.warning,
       info: info ?? this.info,
-      onSuccess: onSuccess ?? this.onSuccess,
-      onWarning: onWarning ?? this.onWarning,
-      onInfo: onInfo ?? this.onInfo,
       brandPrimary: brandPrimary ?? this.brandPrimary,
       brandAccent: brandAccent ?? this.brandAccent,
       brandBackground: brandBackground ?? this.brandBackground,
@@ -191,7 +137,6 @@ class AppColors extends ThemeExtension<AppColors> {
       surfaceOverlay: surfaceOverlay ?? this.surfaceOverlay,
       surfaceModal: surfaceModal ?? this.surfaceModal,
       selectionHighlight: selectionHighlight ?? this.selectionHighlight,
-      ratingActive: ratingActive ?? this.ratingActive,
       actionGradientStart: actionGradientStart ?? this.actionGradientStart,
       actionGradientEnd: actionGradientEnd ?? this.actionGradientEnd,
       textPrimary: textPrimary ?? this.textPrimary,
@@ -207,9 +152,6 @@ class AppColors extends ThemeExtension<AppColors> {
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
-      onSuccess: Color.lerp(onSuccess, other.onSuccess, t)!,
-      onWarning: Color.lerp(onWarning, other.onWarning, t)!,
-      onInfo: Color.lerp(onInfo, other.onInfo, t)!,
       brandPrimary: Color.lerp(brandPrimary, other.brandPrimary, t)!,
       brandAccent: Color.lerp(brandAccent, other.brandAccent, t)!,
       brandBackground: Color.lerp(brandBackground, other.brandBackground, t)!,
@@ -219,7 +161,6 @@ class AppColors extends ThemeExtension<AppColors> {
       surfaceModal: Color.lerp(surfaceModal, other.surfaceModal, t)!,
       selectionHighlight:
           Color.lerp(selectionHighlight, other.selectionHighlight, t)!,
-      ratingActive: Color.lerp(ratingActive, other.ratingActive, t)!,
       actionGradientStart:
           Color.lerp(actionGradientStart, other.actionGradientStart, t)!,
       actionGradientEnd:
