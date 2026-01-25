@@ -7,7 +7,7 @@ part of 'search_book_by_isbn.req.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBookByISBNReq> _$gSearchBookByISBNReqSerializer =
-    new _$GSearchBookByISBNReqSerializer();
+    _$GSearchBookByISBNReqSerializer();
 
 class _$GSearchBookByISBNReqSerializer
     implements StructuredSerializer<GSearchBookByISBNReq> {
@@ -78,7 +78,7 @@ class _$GSearchBookByISBNReqSerializer
   GSearchBookByISBNReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSearchBookByISBNReqBuilder();
+    final result = GSearchBookByISBNReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GSearchBookByISBNReq extends GSearchBookByISBNReq {
 
   factory _$GSearchBookByISBNReq(
           [void Function(GSearchBookByISBNReqBuilder)? updates]) =>
-      (new GSearchBookByISBNReqBuilder()..update(updates))._build();
+      (GSearchBookByISBNReqBuilder()..update(updates))._build();
 
   _$GSearchBookByISBNReq._(
       {required this.vars,
@@ -169,15 +169,7 @@ class _$GSearchBookByISBNReq extends GSearchBookByISBNReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        vars, r'GSearchBookByISBNReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GSearchBookByISBNReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GSearchBookByISBNReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GSearchBookByISBNReq rebuild(
           void Function(GSearchBookByISBNReqBuilder) updates) =>
@@ -185,7 +177,7 @@ class _$GSearchBookByISBNReq extends GSearchBookByISBNReq {
 
   @override
   GSearchBookByISBNReqBuilder toBuilder() =>
-      new GSearchBookByISBNReqBuilder()..replace(this);
+      GSearchBookByISBNReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -244,7 +236,7 @@ class GSearchBookByISBNReqBuilder
 
   _i3.GSearchBookByISBNVarsBuilder? _vars;
   _i3.GSearchBookByISBNVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GSearchBookByISBNVarsBuilder();
+      _$this._vars ??= _i3.GSearchBookByISBNVarsBuilder();
   set vars(_i3.GSearchBookByISBNVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -268,7 +260,7 @@ class GSearchBookByISBNReqBuilder
 
   _i2.GSearchBookByISBNDataBuilder? _optimisticResponse;
   _i2.GSearchBookByISBNDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GSearchBookByISBNDataBuilder();
+      _$this._optimisticResponse ??= _i2.GSearchBookByISBNDataBuilder();
   set optimisticResponse(
           _i2.GSearchBookByISBNDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -323,7 +315,6 @@ class GSearchBookByISBNReqBuilder
 
   @override
   void replace(GSearchBookByISBNReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBookByISBNReq;
   }
 
@@ -339,19 +330,20 @@ class GSearchBookByISBNReqBuilder
     _$GSearchBookByISBNReq _$result;
     try {
       _$result = _$v ??
-          new _$GSearchBookByISBNReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GSearchBookByISBNReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GSearchBookByISBNReq', 'executeOnListen'),
-              context: context);
+          _$GSearchBookByISBNReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GSearchBookByISBNReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GSearchBookByISBNReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -361,7 +353,7 @@ class GSearchBookByISBNReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GSearchBookByISBNReq', _$failedField, e.toString());
       }
       rethrow;

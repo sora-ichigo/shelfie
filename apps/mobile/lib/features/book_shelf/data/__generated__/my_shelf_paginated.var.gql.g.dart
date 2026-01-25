@@ -7,7 +7,7 @@ part of 'my_shelf_paginated.var.gql.dart';
 // **************************************************************************
 
 Serializer<GMyShelfPaginatedVars> _$gMyShelfPaginatedVarsSerializer =
-    new _$GMyShelfPaginatedVarsSerializer();
+    _$GMyShelfPaginatedVarsSerializer();
 
 class _$GMyShelfPaginatedVarsSerializer
     implements StructuredSerializer<GMyShelfPaginatedVars> {
@@ -39,7 +39,7 @@ class _$GMyShelfPaginatedVarsSerializer
   GMyShelfPaginatedVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfPaginatedVarsBuilder();
+    final result = GMyShelfPaginatedVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -65,10 +65,9 @@ class _$GMyShelfPaginatedVars extends GMyShelfPaginatedVars {
 
   factory _$GMyShelfPaginatedVars(
           [void Function(GMyShelfPaginatedVarsBuilder)? updates]) =>
-      (new GMyShelfPaginatedVarsBuilder()..update(updates))._build();
+      (GMyShelfPaginatedVarsBuilder()..update(updates))._build();
 
   _$GMyShelfPaginatedVars._({this.input}) : super._();
-
   @override
   GMyShelfPaginatedVars rebuild(
           void Function(GMyShelfPaginatedVarsBuilder) updates) =>
@@ -76,7 +75,7 @@ class _$GMyShelfPaginatedVars extends GMyShelfPaginatedVars {
 
   @override
   GMyShelfPaginatedVarsBuilder toBuilder() =>
-      new GMyShelfPaginatedVarsBuilder()..replace(this);
+      GMyShelfPaginatedVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -106,7 +105,7 @@ class GMyShelfPaginatedVarsBuilder
 
   _i1.GMyShelfInputBuilder? _input;
   _i1.GMyShelfInputBuilder get input =>
-      _$this._input ??= new _i1.GMyShelfInputBuilder();
+      _$this._input ??= _i1.GMyShelfInputBuilder();
   set input(_i1.GMyShelfInputBuilder? input) => _$this._input = input;
 
   GMyShelfPaginatedVarsBuilder();
@@ -122,7 +121,6 @@ class GMyShelfPaginatedVarsBuilder
 
   @override
   void replace(GMyShelfPaginatedVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfPaginatedVars;
   }
 
@@ -137,14 +135,17 @@ class GMyShelfPaginatedVarsBuilder
   _$GMyShelfPaginatedVars _build() {
     _$GMyShelfPaginatedVars _$result;
     try {
-      _$result = _$v ?? new _$GMyShelfPaginatedVars._(input: _input?.build());
+      _$result = _$v ??
+          _$GMyShelfPaginatedVars._(
+            input: _input?.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         _input?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfPaginatedVars', _$failedField, e.toString());
       }
       rethrow;

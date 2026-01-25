@@ -7,13 +7,13 @@ part of 'my_shelf_paginated.data.gql.dart';
 // **************************************************************************
 
 Serializer<GMyShelfPaginatedData> _$gMyShelfPaginatedDataSerializer =
-    new _$GMyShelfPaginatedDataSerializer();
+    _$GMyShelfPaginatedDataSerializer();
 Serializer<GMyShelfPaginatedData_myShelf>
     _$gMyShelfPaginatedDataMyShelfSerializer =
-    new _$GMyShelfPaginatedData_myShelfSerializer();
+    _$GMyShelfPaginatedData_myShelfSerializer();
 Serializer<GMyShelfPaginatedData_myShelf_items>
     _$gMyShelfPaginatedDataMyShelfItemsSerializer =
-    new _$GMyShelfPaginatedData_myShelf_itemsSerializer();
+    _$GMyShelfPaginatedData_myShelf_itemsSerializer();
 
 class _$GMyShelfPaginatedDataSerializer
     implements StructuredSerializer<GMyShelfPaginatedData> {
@@ -45,7 +45,7 @@ class _$GMyShelfPaginatedDataSerializer
   GMyShelfPaginatedData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfPaginatedDataBuilder();
+    final result = GMyShelfPaginatedDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -106,7 +106,7 @@ class _$GMyShelfPaginatedData_myShelfSerializer
   GMyShelfPaginatedData_myShelf deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfPaginatedData_myShelfBuilder();
+    final result = GMyShelfPaginatedData_myShelfBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -198,7 +198,7 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
   GMyShelfPaginatedData_myShelf_items deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfPaginatedData_myShelf_itemsBuilder();
+    final result = GMyShelfPaginatedData_myShelf_itemsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -260,16 +260,10 @@ class _$GMyShelfPaginatedData extends GMyShelfPaginatedData {
 
   factory _$GMyShelfPaginatedData(
           [void Function(GMyShelfPaginatedDataBuilder)? updates]) =>
-      (new GMyShelfPaginatedDataBuilder()..update(updates))._build();
+      (GMyShelfPaginatedDataBuilder()..update(updates))._build();
 
   _$GMyShelfPaginatedData._({required this.G__typename, required this.myShelf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfPaginatedData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        myShelf, r'GMyShelfPaginatedData', 'myShelf');
-  }
-
+      : super._();
   @override
   GMyShelfPaginatedData rebuild(
           void Function(GMyShelfPaginatedDataBuilder) updates) =>
@@ -277,7 +271,7 @@ class _$GMyShelfPaginatedData extends GMyShelfPaginatedData {
 
   @override
   GMyShelfPaginatedDataBuilder toBuilder() =>
-      new GMyShelfPaginatedDataBuilder()..replace(this);
+      GMyShelfPaginatedDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -315,7 +309,7 @@ class GMyShelfPaginatedDataBuilder
 
   GMyShelfPaginatedData_myShelfBuilder? _myShelf;
   GMyShelfPaginatedData_myShelfBuilder get myShelf =>
-      _$this._myShelf ??= new GMyShelfPaginatedData_myShelfBuilder();
+      _$this._myShelf ??= GMyShelfPaginatedData_myShelfBuilder();
   set myShelf(GMyShelfPaginatedData_myShelfBuilder? myShelf) =>
       _$this._myShelf = myShelf;
 
@@ -335,7 +329,6 @@ class GMyShelfPaginatedDataBuilder
 
   @override
   void replace(GMyShelfPaginatedData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfPaginatedData;
   }
 
@@ -351,17 +344,18 @@ class GMyShelfPaginatedDataBuilder
     _$GMyShelfPaginatedData _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfPaginatedData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GMyShelfPaginatedData', 'G__typename'),
-              myShelf: myShelf.build());
+          _$GMyShelfPaginatedData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GMyShelfPaginatedData', 'G__typename'),
+            myShelf: myShelf.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'myShelf';
         myShelf.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfPaginatedData', _$failedField, e.toString());
       }
       rethrow;
@@ -383,24 +377,14 @@ class _$GMyShelfPaginatedData_myShelf extends GMyShelfPaginatedData_myShelf {
 
   factory _$GMyShelfPaginatedData_myShelf(
           [void Function(GMyShelfPaginatedData_myShelfBuilder)? updates]) =>
-      (new GMyShelfPaginatedData_myShelfBuilder()..update(updates))._build();
+      (GMyShelfPaginatedData_myShelfBuilder()..update(updates))._build();
 
   _$GMyShelfPaginatedData_myShelf._(
       {required this.G__typename,
       required this.items,
       required this.totalCount,
       required this.hasMore})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfPaginatedData_myShelf', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        items, r'GMyShelfPaginatedData_myShelf', 'items');
-    BuiltValueNullFieldError.checkNotNull(
-        totalCount, r'GMyShelfPaginatedData_myShelf', 'totalCount');
-    BuiltValueNullFieldError.checkNotNull(
-        hasMore, r'GMyShelfPaginatedData_myShelf', 'hasMore');
-  }
-
+      : super._();
   @override
   GMyShelfPaginatedData_myShelf rebuild(
           void Function(GMyShelfPaginatedData_myShelfBuilder) updates) =>
@@ -408,7 +392,7 @@ class _$GMyShelfPaginatedData_myShelf extends GMyShelfPaginatedData_myShelf {
 
   @override
   GMyShelfPaginatedData_myShelfBuilder toBuilder() =>
-      new GMyShelfPaginatedData_myShelfBuilder()..replace(this);
+      GMyShelfPaginatedData_myShelfBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -454,7 +438,7 @@ class GMyShelfPaginatedData_myShelfBuilder
 
   ListBuilder<GMyShelfPaginatedData_myShelf_items>? _items;
   ListBuilder<GMyShelfPaginatedData_myShelf_items> get items =>
-      _$this._items ??= new ListBuilder<GMyShelfPaginatedData_myShelf_items>();
+      _$this._items ??= ListBuilder<GMyShelfPaginatedData_myShelf_items>();
   set items(ListBuilder<GMyShelfPaginatedData_myShelf_items>? items) =>
       _$this._items = items;
 
@@ -484,7 +468,6 @@ class GMyShelfPaginatedData_myShelfBuilder
 
   @override
   void replace(GMyShelfPaginatedData_myShelf other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfPaginatedData_myShelf;
   }
 
@@ -500,21 +483,22 @@ class GMyShelfPaginatedData_myShelfBuilder
     _$GMyShelfPaginatedData_myShelf _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfPaginatedData_myShelf._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GMyShelfPaginatedData_myShelf', 'G__typename'),
-              items: items.build(),
-              totalCount: BuiltValueNullFieldError.checkNotNull(
-                  totalCount, r'GMyShelfPaginatedData_myShelf', 'totalCount'),
-              hasMore: BuiltValueNullFieldError.checkNotNull(
-                  hasMore, r'GMyShelfPaginatedData_myShelf', 'hasMore'));
+          _$GMyShelfPaginatedData_myShelf._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GMyShelfPaginatedData_myShelf', 'G__typename'),
+            items: items.build(),
+            totalCount: BuiltValueNullFieldError.checkNotNull(
+                totalCount, r'GMyShelfPaginatedData_myShelf', 'totalCount'),
+            hasMore: BuiltValueNullFieldError.checkNotNull(
+                hasMore, r'GMyShelfPaginatedData_myShelf', 'hasMore'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'items';
         items.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfPaginatedData_myShelf', _$failedField, e.toString());
       }
       rethrow;
@@ -548,8 +532,7 @@ class _$GMyShelfPaginatedData_myShelf_items
   factory _$GMyShelfPaginatedData_myShelf_items(
           [void Function(GMyShelfPaginatedData_myShelf_itemsBuilder)?
               updates]) =>
-      (new GMyShelfPaginatedData_myShelf_itemsBuilder()..update(updates))
-          ._build();
+      (GMyShelfPaginatedData_myShelf_itemsBuilder()..update(updates))._build();
 
   _$GMyShelfPaginatedData_myShelf_items._(
       {required this.G__typename,
@@ -561,23 +544,7 @@ class _$GMyShelfPaginatedData_myShelf_items
       required this.readingStatus,
       required this.addedAt,
       this.completedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfPaginatedData_myShelf_items', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GMyShelfPaginatedData_myShelf_items', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GMyShelfPaginatedData_myShelf_items', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GMyShelfPaginatedData_myShelf_items', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GMyShelfPaginatedData_myShelf_items', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        readingStatus, r'GMyShelfPaginatedData_myShelf_items', 'readingStatus');
-    BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt');
-  }
-
+      : super._();
   @override
   GMyShelfPaginatedData_myShelf_items rebuild(
           void Function(GMyShelfPaginatedData_myShelf_itemsBuilder) updates) =>
@@ -585,7 +552,7 @@ class _$GMyShelfPaginatedData_myShelf_items
 
   @override
   GMyShelfPaginatedData_myShelf_itemsBuilder toBuilder() =>
-      new GMyShelfPaginatedData_myShelf_itemsBuilder()..replace(this);
+      GMyShelfPaginatedData_myShelf_itemsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -657,8 +624,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _coverImageUrl;
@@ -702,7 +668,6 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
 
   @override
   void replace(GMyShelfPaginatedData_myShelf_items other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfPaginatedData_myShelf_items;
   }
 
@@ -719,34 +684,31 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
     _$GMyShelfPaginatedData_myShelf_items _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfPaginatedData_myShelf_items._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  r'GMyShelfPaginatedData_myShelf_items', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GMyShelfPaginatedData_myShelf_items', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                  r'GMyShelfPaginatedData_myShelf_items', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GMyShelfPaginatedData_myShelf_items', 'title'),
-              authors: authors.build(),
-              coverImageUrl: coverImageUrl,
-              readingStatus: BuiltValueNullFieldError.checkNotNull(
-                  readingStatus,
-                  r'GMyShelfPaginatedData_myShelf_items',
-                  'readingStatus'),
-              addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt'),
-              completedAt: completedAt);
+          _$GMyShelfPaginatedData_myShelf_items._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GMyShelfPaginatedData_myShelf_items', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GMyShelfPaginatedData_myShelf_items', 'id'),
+            externalId: BuiltValueNullFieldError.checkNotNull(externalId,
+                r'GMyShelfPaginatedData_myShelf_items', 'externalId'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GMyShelfPaginatedData_myShelf_items', 'title'),
+            authors: authors.build(),
+            coverImageUrl: coverImageUrl,
+            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
+                r'GMyShelfPaginatedData_myShelf_items', 'readingStatus'),
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt'),
+            completedAt: completedAt,
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GMyShelfPaginatedData_myShelf_items',
-            _$failedField,
-            e.toString());
+        throw BuiltValueNestedFieldError(r'GMyShelfPaginatedData_myShelf_items',
+            _$failedField, e.toString());
       }
       rethrow;
     }

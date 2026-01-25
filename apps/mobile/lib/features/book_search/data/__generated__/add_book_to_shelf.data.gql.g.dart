@@ -7,10 +7,10 @@ part of 'add_book_to_shelf.data.gql.dart';
 // **************************************************************************
 
 Serializer<GAddBookToShelfData> _$gAddBookToShelfDataSerializer =
-    new _$GAddBookToShelfDataSerializer();
+    _$GAddBookToShelfDataSerializer();
 Serializer<GAddBookToShelfData_addBookToShelf>
     _$gAddBookToShelfDataAddBookToShelfSerializer =
-    new _$GAddBookToShelfData_addBookToShelfSerializer();
+    _$GAddBookToShelfData_addBookToShelfSerializer();
 
 class _$GAddBookToShelfDataSerializer
     implements StructuredSerializer<GAddBookToShelfData> {
@@ -42,7 +42,7 @@ class _$GAddBookToShelfDataSerializer
   GAddBookToShelfData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfDataBuilder();
+    final result = GAddBookToShelfDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -137,7 +137,7 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
   GAddBookToShelfData_addBookToShelf deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfData_addBookToShelfBuilder();
+    final result = GAddBookToShelfData_addBookToShelfBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -202,17 +202,11 @@ class _$GAddBookToShelfData extends GAddBookToShelfData {
 
   factory _$GAddBookToShelfData(
           [void Function(GAddBookToShelfDataBuilder)? updates]) =>
-      (new GAddBookToShelfDataBuilder()..update(updates))._build();
+      (GAddBookToShelfDataBuilder()..update(updates))._build();
 
   _$GAddBookToShelfData._(
       {required this.G__typename, required this.addBookToShelf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GAddBookToShelfData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        addBookToShelf, r'GAddBookToShelfData', 'addBookToShelf');
-  }
-
+      : super._();
   @override
   GAddBookToShelfData rebuild(
           void Function(GAddBookToShelfDataBuilder) updates) =>
@@ -220,7 +214,7 @@ class _$GAddBookToShelfData extends GAddBookToShelfData {
 
   @override
   GAddBookToShelfDataBuilder toBuilder() =>
-      new GAddBookToShelfDataBuilder()..replace(this);
+      GAddBookToShelfDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -258,8 +252,7 @@ class GAddBookToShelfDataBuilder
 
   GAddBookToShelfData_addBookToShelfBuilder? _addBookToShelf;
   GAddBookToShelfData_addBookToShelfBuilder get addBookToShelf =>
-      _$this._addBookToShelf ??=
-          new GAddBookToShelfData_addBookToShelfBuilder();
+      _$this._addBookToShelf ??= GAddBookToShelfData_addBookToShelfBuilder();
   set addBookToShelf(
           GAddBookToShelfData_addBookToShelfBuilder? addBookToShelf) =>
       _$this._addBookToShelf = addBookToShelf;
@@ -280,7 +273,6 @@ class GAddBookToShelfDataBuilder
 
   @override
   void replace(GAddBookToShelfData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfData;
   }
 
@@ -296,17 +288,18 @@ class GAddBookToShelfDataBuilder
     _$GAddBookToShelfData _$result;
     try {
       _$result = _$v ??
-          new _$GAddBookToShelfData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GAddBookToShelfData', 'G__typename'),
-              addBookToShelf: addBookToShelf.build());
+          _$GAddBookToShelfData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GAddBookToShelfData', 'G__typename'),
+            addBookToShelf: addBookToShelf.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'addBookToShelf';
         addBookToShelf.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GAddBookToShelfData', _$failedField, e.toString());
       }
       rethrow;
@@ -342,8 +335,7 @@ class _$GAddBookToShelfData_addBookToShelf
   factory _$GAddBookToShelfData_addBookToShelf(
           [void Function(GAddBookToShelfData_addBookToShelfBuilder)?
               updates]) =>
-      (new GAddBookToShelfData_addBookToShelfBuilder()..update(updates))
-          ._build();
+      (GAddBookToShelfData_addBookToShelfBuilder()..update(updates))._build();
 
   _$GAddBookToShelfData_addBookToShelf._(
       {required this.G__typename,
@@ -356,21 +348,7 @@ class _$GAddBookToShelfData_addBookToShelf
       this.isbn,
       this.coverImageUrl,
       required this.addedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GAddBookToShelfData_addBookToShelf', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GAddBookToShelfData_addBookToShelf', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GAddBookToShelfData_addBookToShelf', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GAddBookToShelfData_addBookToShelf', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GAddBookToShelfData_addBookToShelf', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt');
-  }
-
+      : super._();
   @override
   GAddBookToShelfData_addBookToShelf rebuild(
           void Function(GAddBookToShelfData_addBookToShelfBuilder) updates) =>
@@ -378,7 +356,7 @@ class _$GAddBookToShelfData_addBookToShelf
 
   @override
   GAddBookToShelfData_addBookToShelfBuilder toBuilder() =>
-      new GAddBookToShelfData_addBookToShelfBuilder()..replace(this);
+      GAddBookToShelfData_addBookToShelfBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -453,8 +431,7 @@ class GAddBookToShelfData_addBookToShelfBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -503,7 +480,6 @@ class GAddBookToShelfData_addBookToShelfBuilder
 
   @override
   void replace(GAddBookToShelfData_addBookToShelf other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfData_addBookToShelf;
   }
 
@@ -520,29 +496,30 @@ class GAddBookToShelfData_addBookToShelfBuilder
     _$GAddBookToShelfData_addBookToShelf _$result;
     try {
       _$result = _$v ??
-          new _$GAddBookToShelfData_addBookToShelf._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  r'GAddBookToShelfData_addBookToShelf', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GAddBookToShelfData_addBookToShelf', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                  r'GAddBookToShelfData_addBookToShelf', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GAddBookToShelfData_addBookToShelf', 'title'),
-              authors: authors.build(),
-              publisher: publisher,
-              publishedDate: publishedDate,
-              isbn: isbn,
-              coverImageUrl: coverImageUrl,
-              addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt'));
+          _$GAddBookToShelfData_addBookToShelf._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GAddBookToShelfData_addBookToShelf', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GAddBookToShelfData_addBookToShelf', 'id'),
+            externalId: BuiltValueNullFieldError.checkNotNull(externalId,
+                r'GAddBookToShelfData_addBookToShelf', 'externalId'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GAddBookToShelfData_addBookToShelf', 'title'),
+            authors: authors.build(),
+            publisher: publisher,
+            publishedDate: publishedDate,
+            isbn: isbn,
+            coverImageUrl: coverImageUrl,
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GAddBookToShelfData_addBookToShelf', _$failedField, e.toString());
       }
       rethrow;

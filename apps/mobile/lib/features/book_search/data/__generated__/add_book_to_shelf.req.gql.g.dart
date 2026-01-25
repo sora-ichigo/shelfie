@@ -7,7 +7,7 @@ part of 'add_book_to_shelf.req.gql.dart';
 // **************************************************************************
 
 Serializer<GAddBookToShelfReq> _$gAddBookToShelfReqSerializer =
-    new _$GAddBookToShelfReqSerializer();
+    _$GAddBookToShelfReqSerializer();
 
 class _$GAddBookToShelfReqSerializer
     implements StructuredSerializer<GAddBookToShelfReq> {
@@ -75,7 +75,7 @@ class _$GAddBookToShelfReqSerializer
   GAddBookToShelfReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfReqBuilder();
+    final result = GAddBookToShelfReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -153,7 +153,7 @@ class _$GAddBookToShelfReq extends GAddBookToShelfReq {
 
   factory _$GAddBookToShelfReq(
           [void Function(GAddBookToShelfReqBuilder)? updates]) =>
-      (new GAddBookToShelfReqBuilder()..update(updates))._build();
+      (GAddBookToShelfReqBuilder()..update(updates))._build();
 
   _$GAddBookToShelfReq._(
       {required this.vars,
@@ -166,14 +166,7 @@ class _$GAddBookToShelfReq extends GAddBookToShelfReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GAddBookToShelfReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GAddBookToShelfReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GAddBookToShelfReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GAddBookToShelfReq rebuild(
           void Function(GAddBookToShelfReqBuilder) updates) =>
@@ -181,7 +174,7 @@ class _$GAddBookToShelfReq extends GAddBookToShelfReq {
 
   @override
   GAddBookToShelfReqBuilder toBuilder() =>
-      new GAddBookToShelfReqBuilder()..replace(this);
+      GAddBookToShelfReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -240,7 +233,7 @@ class GAddBookToShelfReqBuilder
 
   _i3.GAddBookToShelfVarsBuilder? _vars;
   _i3.GAddBookToShelfVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GAddBookToShelfVarsBuilder();
+      _$this._vars ??= _i3.GAddBookToShelfVarsBuilder();
   set vars(_i3.GAddBookToShelfVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -264,7 +257,7 @@ class GAddBookToShelfReqBuilder
 
   _i2.GAddBookToShelfDataBuilder? _optimisticResponse;
   _i2.GAddBookToShelfDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GAddBookToShelfDataBuilder();
+      _$this._optimisticResponse ??= _i2.GAddBookToShelfDataBuilder();
   set optimisticResponse(_i2.GAddBookToShelfDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -318,7 +311,6 @@ class GAddBookToShelfReqBuilder
 
   @override
   void replace(GAddBookToShelfReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfReq;
   }
 
@@ -334,19 +326,20 @@ class GAddBookToShelfReqBuilder
     _$GAddBookToShelfReq _$result;
     try {
       _$result = _$v ??
-          new _$GAddBookToShelfReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GAddBookToShelfReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GAddBookToShelfReq', 'executeOnListen'),
-              context: context);
+          _$GAddBookToShelfReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GAddBookToShelfReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GAddBookToShelfReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -356,7 +349,7 @@ class GAddBookToShelfReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GAddBookToShelfReq', _$failedField, e.toString());
       }
       rethrow;

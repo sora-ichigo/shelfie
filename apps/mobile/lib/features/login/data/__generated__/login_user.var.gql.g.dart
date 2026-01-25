@@ -7,7 +7,7 @@ part of 'login_user.var.gql.dart';
 // **************************************************************************
 
 Serializer<GLoginUserVars> _$gLoginUserVarsSerializer =
-    new _$GLoginUserVarsSerializer();
+    _$GLoginUserVarsSerializer();
 
 class _$GLoginUserVarsSerializer
     implements StructuredSerializer<GLoginUserVars> {
@@ -32,7 +32,7 @@ class _$GLoginUserVarsSerializer
   GLoginUserVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserVarsBuilder();
+    final result = GLoginUserVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -57,19 +57,15 @@ class _$GLoginUserVars extends GLoginUserVars {
   final _i1.GLoginUserInput input;
 
   factory _$GLoginUserVars([void Function(GLoginUserVarsBuilder)? updates]) =>
-      (new GLoginUserVarsBuilder()..update(updates))._build();
+      (GLoginUserVarsBuilder()..update(updates))._build();
 
-  _$GLoginUserVars._({required this.input}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(input, r'GLoginUserVars', 'input');
-  }
-
+  _$GLoginUserVars._({required this.input}) : super._();
   @override
   GLoginUserVars rebuild(void Function(GLoginUserVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserVarsBuilder toBuilder() =>
-      new GLoginUserVarsBuilder()..replace(this);
+  GLoginUserVarsBuilder toBuilder() => GLoginUserVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -98,7 +94,7 @@ class GLoginUserVarsBuilder
 
   _i1.GLoginUserInputBuilder? _input;
   _i1.GLoginUserInputBuilder get input =>
-      _$this._input ??= new _i1.GLoginUserInputBuilder();
+      _$this._input ??= _i1.GLoginUserInputBuilder();
   set input(_i1.GLoginUserInputBuilder? input) => _$this._input = input;
 
   GLoginUserVarsBuilder();
@@ -114,7 +110,6 @@ class GLoginUserVarsBuilder
 
   @override
   void replace(GLoginUserVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserVars;
   }
 
@@ -129,14 +124,17 @@ class GLoginUserVarsBuilder
   _$GLoginUserVars _build() {
     _$GLoginUserVars _$result;
     try {
-      _$result = _$v ?? new _$GLoginUserVars._(input: input.build());
+      _$result = _$v ??
+          _$GLoginUserVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GLoginUserVars', _$failedField, e.toString());
       }
       rethrow;

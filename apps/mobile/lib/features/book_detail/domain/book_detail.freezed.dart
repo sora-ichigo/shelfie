@@ -52,7 +52,9 @@ mixin _$BookDetail {
   /// 楽天ブックス URL
   String? get rakutenBooksUrl => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BookDetailCopyWith<BookDetail> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -88,6 +90,8 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BookDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -188,6 +192,8 @@ class __$$BookDetailImplCopyWithImpl<$Res>
       _$BookDetailImpl _value, $Res Function(_$BookDetailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BookDetail
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -388,7 +394,9 @@ class _$BookDetailImpl implements _BookDetail {
       amazonUrl,
       rakutenBooksUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookDetailImplCopyWith<_$BookDetailImpl> get copyWith =>
@@ -410,56 +418,58 @@ abstract class _BookDetail implements BookDetail {
       final String? amazonUrl,
       final String? rakutenBooksUrl}) = _$BookDetailImpl;
 
-  @override
-
   /// 書籍 ID（Google Books ID）
-  String get id;
   @override
+  String get id;
 
   /// タイトル
-  String get title;
   @override
+  String get title;
 
   /// 著者リスト
-  List<String> get authors;
   @override
+  List<String> get authors;
 
   /// 出版社
-  String? get publisher;
   @override
+  String? get publisher;
 
   /// 発売日
-  String? get publishedDate;
   @override
+  String? get publishedDate;
 
   /// ページ数
-  int? get pageCount;
   @override
+  int? get pageCount;
 
   /// カテゴリ（ジャンル）リスト
-  List<String>? get categories;
   @override
+  List<String>? get categories;
 
   /// 書籍の説明文
-  String? get description;
   @override
+  String? get description;
 
   /// ISBN
-  String? get isbn;
   @override
+  String? get isbn;
 
   /// 表紙画像 URL
-  String? get thumbnailUrl;
   @override
+  String? get thumbnailUrl;
 
   /// Amazon URL
-  String? get amazonUrl;
   @override
+  String? get amazonUrl;
 
   /// 楽天ブックス URL
-  String? get rakutenBooksUrl;
   @override
-  @JsonKey(ignore: true)
+  String? get rakutenBooksUrl;
+
+  /// Create a copy of BookDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookDetailImplCopyWith<_$BookDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
