@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_card.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_grid.dart';
+
+class MockShelfState extends Notifier<Map<String, ShelfEntry>>
+    with Mock
+    implements ShelfState {
+  MockShelfState(this._initialState);
+
+  final Map<String, ShelfEntry> _initialState;
+
+  @override
+  Map<String, ShelfEntry> build() => _initialState;
+}
 
 void main() {
   List<ShelfBookItem> createTestBooks(int count) {
@@ -16,10 +31,21 @@ void main() {
         externalId: 'ext-$index',
         title: 'テスト本 ${index + 1}',
         authors: ['著者 ${index + 1}'],
-        readingStatus: ReadingStatus.values[index % ReadingStatus.values.length],
         addedAt: DateTime(2024, 1, 1),
       ),
     );
+  }
+
+  Map<String, ShelfEntry> createShelfState(List<ShelfBookItem> books) {
+    return {
+      for (final book in books)
+        book.externalId: ShelfEntry(
+          userBookId: book.userBookId,
+          externalId: book.externalId,
+          readingStatus: ReadingStatus.backlog,
+          addedAt: book.addedAt,
+        ),
+    };
   }
 
   Map<String, List<ShelfBookItem>> createGroupedBooks() {
@@ -30,7 +56,6 @@ void main() {
           externalId: 'ext-1',
           title: 'テスト本 1',
           authors: ['著者A'],
-          readingStatus: ReadingStatus.backlog,
           addedAt: DateTime(2024, 1, 1),
         ),
         ShelfBookItem(
@@ -38,7 +63,6 @@ void main() {
           externalId: 'ext-2',
           title: 'テスト本 2',
           authors: ['著者B'],
-          readingStatus: ReadingStatus.backlog,
           addedAt: DateTime(2024, 1, 2),
         ),
       ],
@@ -48,33 +72,63 @@ void main() {
           externalId: 'ext-3',
           title: 'テスト本 3',
           authors: ['著者C'],
-          readingStatus: ReadingStatus.reading,
           addedAt: DateTime(2024, 1, 3),
         ),
       ],
     };
   }
 
+  Map<String, ShelfEntry> createGroupedShelfState() {
+    return {
+      'ext-1': ShelfEntry(
+        userBookId: 1,
+        externalId: 'ext-1',
+        readingStatus: ReadingStatus.backlog,
+        addedAt: DateTime(2024, 1, 1),
+      ),
+      'ext-2': ShelfEntry(
+        userBookId: 2,
+        externalId: 'ext-2',
+        readingStatus: ReadingStatus.backlog,
+        addedAt: DateTime(2024, 1, 2),
+      ),
+      'ext-3': ShelfEntry(
+        userBookId: 3,
+        externalId: 'ext-3',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 3),
+      ),
+    };
+  }
+
   Widget buildBookGrid({
     List<ShelfBookItem> books = const [],
     Map<String, List<ShelfBookItem>>? groupedBooks,
+    Map<String, ShelfEntry>? shelfState,
     bool isGrouped = false,
     bool hasMore = false,
     bool isLoadingMore = false,
     void Function(ShelfBookItem)? onBookTap,
     VoidCallback? onLoadMore,
   }) {
-    return MaterialApp(
-      theme: AppTheme.dark(),
-      home: Scaffold(
-        body: BookGrid(
-          books: books,
-          groupedBooks: groupedBooks ?? {},
-          isGrouped: isGrouped,
-          hasMore: hasMore,
-          isLoadingMore: isLoadingMore,
-          onBookTap: onBookTap ?? (_) {},
-          onLoadMore: onLoadMore ?? () {},
+    final effectiveShelfState = shelfState ?? createShelfState(books);
+
+    return ProviderScope(
+      overrides: [
+        shelfStateProvider.overrideWith(() => MockShelfState(effectiveShelfState)),
+      ],
+      child: MaterialApp(
+        theme: AppTheme.dark(),
+        home: Scaffold(
+          body: BookGrid(
+            books: books,
+            groupedBooks: groupedBooks ?? {},
+            isGrouped: isGrouped,
+            hasMore: hasMore,
+            isLoadingMore: isLoadingMore,
+            onBookTap: onBookTap ?? (_) {},
+            onLoadMore: onLoadMore ?? () {},
+          ),
         ),
       ),
     );
@@ -113,30 +167,20 @@ void main() {
         await tester.pumpWidget(
           buildBookGrid(
             groupedBooks: createGroupedBooks(),
+            shelfState: createGroupedShelfState(),
             isGrouped: true,
           ),
         );
 
         expect(find.text('積読'), findsOneWidget);
-        expect(find.text('読書中'), findsOneWidget);
-      });
 
-      testWidgets('セクションヘッダーにはグループ名が表示される', (tester) async {
-        await tester.pumpWidget(
-          buildBookGrid(
-            groupedBooks: createGroupedBooks(),
-            isGrouped: true,
-          ),
+        await tester.drag(
+          find.byType(CustomScrollView),
+          const Offset(0, -500),
         );
+        await tester.pumpAndSettle();
 
-        final headerFinder = find.byWidgetPredicate((widget) {
-          if (widget is Text) {
-            return widget.data == '積読' || widget.data == '読書中';
-          }
-          return false;
-        });
-
-        expect(headerFinder, findsNWidgets(2));
+        expect(find.text('読書中'), findsOneWidget);
       });
 
       testWidgets('グループ化無効時はセクションヘッダーが表示されない', (tester) async {

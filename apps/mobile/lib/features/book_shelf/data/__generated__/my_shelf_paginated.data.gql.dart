@@ -97,6 +97,7 @@ abstract class GMyShelfPaginatedData_myShelf_items
   _i2.GReadingStatus get readingStatus;
   DateTime get addedAt;
   DateTime? get completedAt;
+  int? get rating;
   static Serializer<GMyShelfPaginatedData_myShelf_items> get serializer =>
       _$gMyShelfPaginatedDataMyShelfItemsSerializer;
 

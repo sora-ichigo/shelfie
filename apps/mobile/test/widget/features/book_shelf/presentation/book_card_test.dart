@@ -1,25 +1,56 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_card.dart';
 
+class MockShelfState extends Notifier<Map<String, ShelfEntry>>
+    with Mock
+    implements ShelfState {
+  MockShelfState(this._initialState);
+
+  final Map<String, ShelfEntry> _initialState;
+
+  @override
+  Map<String, ShelfEntry> build() => _initialState;
+}
+
 void main() {
   Widget buildBookCard({
     required ShelfBookItem book,
     VoidCallback? onTap,
+    int? rating,
   }) {
-    return MaterialApp(
-      theme: AppTheme.dark(),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: 120,
-            child: BookCard(
-              book: book,
-              onTap: onTap ?? () {},
+    final shelfState = <String, ShelfEntry>{
+      book.externalId: ShelfEntry(
+        userBookId: book.userBookId,
+        externalId: book.externalId,
+        readingStatus: ReadingStatus.backlog,
+        addedAt: book.addedAt,
+        rating: rating,
+      ),
+    };
+
+    return ProviderScope(
+      overrides: [
+        shelfStateProvider.overrideWith(() => MockShelfState(shelfState)),
+      ],
+      child: MaterialApp(
+        theme: AppTheme.dark(),
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SizedBox(
+              width: 120,
+              child: BookCard(
+                book: book,
+                onTap: onTap ?? () {},
+              ),
             ),
           ),
         ),
@@ -31,18 +62,14 @@ void main() {
     String title = 'テスト本のタイトル',
     List<String> authors = const ['著者A', '著者B'],
     String? coverImageUrl,
-    int? rating,
-    ReadingStatus readingStatus = ReadingStatus.backlog,
   }) {
     return ShelfBookItem(
       userBookId: 1,
       externalId: 'ext-1',
       title: title,
       authors: authors,
-      readingStatus: readingStatus,
       addedAt: DateTime(2024, 1, 1),
       coverImageUrl: coverImageUrl,
-      rating: rating,
     );
   }
 
@@ -73,7 +100,7 @@ void main() {
     group('星評価', () {
       testWidgets('評価が設定されている場合は星が表示される', (tester) async {
         await tester.pumpWidget(
-          buildBookCard(book: createTestBook(rating: 3)),
+          buildBookCard(book: createTestBook(), rating: 3),
         );
 
         final filledStars = find.byIcon(Icons.star);
@@ -85,7 +112,7 @@ void main() {
 
       testWidgets('評価が5の場合は全て塗りつぶし星が表示される', (tester) async {
         await tester.pumpWidget(
-          buildBookCard(book: createTestBook(rating: 5)),
+          buildBookCard(book: createTestBook(), rating: 5),
         );
 
         expect(find.byIcon(Icons.star), findsNWidgets(5));
@@ -94,7 +121,7 @@ void main() {
 
       testWidgets('評価が設定されていない場合は星エリアが空', (tester) async {
         await tester.pumpWidget(
-          buildBookCard(book: createTestBook(rating: null)),
+          buildBookCard(book: createTestBook(), rating: null),
         );
 
         expect(find.byIcon(Icons.star), findsNothing);

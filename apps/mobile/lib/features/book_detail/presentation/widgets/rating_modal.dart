@@ -88,6 +88,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
   }
 
   Widget _buildStarRating(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (index) {
@@ -109,7 +111,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
               isSelected ? Icons.star : Icons.star_border,
               size: 48,
               color: isSelected
-                  ? const Color(0xFFFFD54F)
+                  ? appColors.brandAccent
                   : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
             ),
           ),

@@ -9,6 +9,7 @@ query MyShelfPaginated($input: MyShelfInput) {
       readingStatus
       addedAt
       completedAt
+      rating
     }
     totalCount
     hasMore

@@ -8,6 +8,7 @@ import 'package:shelfie/app/app.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
@@ -31,7 +32,6 @@ void main() {
     String externalId = 'id',
     String title = 'Title',
     List<String> authors = const ['Author'],
-    ReadingStatus readingStatus = ReadingStatus.backlog,
     DateTime? addedAt,
   }) {
     return ShelfBookItem(
@@ -39,9 +39,20 @@ void main() {
       externalId: externalId,
       title: title,
       authors: authors,
-      readingStatus: readingStatus,
       addedAt: addedAt ?? now,
     );
+  }
+
+  Map<String, ShelfEntry> createEntriesFromItems(List<ShelfBookItem> items) {
+    return {
+      for (final item in items)
+        item.externalId: ShelfEntry(
+          userBookId: item.userBookId,
+          externalId: item.externalId,
+          readingStatus: ReadingStatus.backlog,
+          addedAt: item.addedAt,
+        ),
+    };
   }
 
   MyShelfResult createMyShelfResult({
@@ -49,8 +60,10 @@ void main() {
     int totalCount = 1,
     bool hasMore = false,
   }) {
+    final bookItems = items ?? [createBook()];
     return MyShelfResult(
-      items: items ?? [createBook()],
+      items: bookItems,
+      entries: createEntriesFromItems(bookItems),
       totalCount: totalCount,
       hasMore: hasMore,
     );
@@ -257,7 +270,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => right(
-              MyShelfResult(
+              createMyShelfResult(
                 items: initialBooks,
                 totalCount: 30,
                 hasMore: true,
@@ -275,7 +288,7 @@ void main() {
             ),
           ).thenAnswer(
             (_) async => right(
-              MyShelfResult(
+              createMyShelfResult(
                 items: moreBooks,
                 totalCount: 30,
                 hasMore: false,
