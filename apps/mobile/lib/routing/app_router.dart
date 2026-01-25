@@ -1,6 +1,7 @@
 /// App router configuration using go_router.
 library;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -261,24 +262,15 @@ List<RouteBase> _buildRoutes() {
           onNavigateToTerms: () => _showStubSnackbar(context, '利用規約'),
           onNavigateToPrivacy: () => _showStubSnackbar(context, 'プライバシーポリシー'),
           onLogout: () async {
-            final confirmed = await showDialog<bool>(
+            final result = await showOkCancelAlertDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('ログアウト'),
-                content: const Text('ログアウトしますか？'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('キャンセル'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('ログアウト'),
-                  ),
-                ],
-              ),
+              title: 'ログアウト',
+              message: 'ログアウトしますか？',
+              okLabel: 'ログアウト',
+              cancelLabel: 'キャンセル',
+              isDestructiveAction: true,
             );
-            if ((confirmed ?? false) && context.mounted) {
+            if (result == OkCancelResult.ok && context.mounted) {
               await ref.read(authStateProvider.notifier).logout();
             }
           },

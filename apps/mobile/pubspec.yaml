@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
+  adaptive_dialog: ^2.2.0
   built_collection: any
   built_value: any
   cached_network_image: ^3.4.1
@@ -50,6 +51,9 @@ dev_dependencies:
   mocktail: ^1.0.4
   riverpod_generator: ^2.3.11
   very_good_analysis: ^6.0.0
+
+dependency_overrides:
+  dynamic_color: 1.7.0
 
 flutter:
   uses-material-design: true

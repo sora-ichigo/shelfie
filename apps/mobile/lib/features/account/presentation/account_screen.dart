@@ -160,7 +160,7 @@ class _LogoutButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.logout, size: 20),
+        icon: const Icon(Icons.logout, size: 20, color: Colors.white),
         label: const Text('ログアウト'),
       ),
     );
