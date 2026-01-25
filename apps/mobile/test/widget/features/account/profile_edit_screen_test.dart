@@ -158,7 +158,134 @@ void main() {
       expect(closed, isTrue);
     });
 
+    testWidgets('save button is enabled when form is valid', (tester) async {
+      await tester.pumpWidget(buildTestProfileEditScreen());
+      await tester.pumpAndSettle();
+
+      final checkButton = find.byIcon(Icons.check);
+      expect(checkButton, findsOneWidget);
+
+      final iconButton = tester.widget<IconButton>(
+        find.ancestor(
+          of: checkButton,
+          matching: find.byType(IconButton),
+        ),
+      );
+      expect(iconButton.onPressed, isNotNull);
+    });
+
+    testWidgets('save button is disabled when form is invalid', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            profileEditNotifierProvider.overrideWith(
+              () => _TestProfileEditNotifier(null),
+            ),
+            profileFormStateProvider.overrideWith(
+              () => _InvalidProfileFormState(),
+            ),
+            accountNotifierProvider.overrideWith(
+              () => _TestAccountNotifier(testProfile),
+            ),
+            imagePickerServiceProvider.overrideWithValue(mockImagePickerService),
+          ],
+          child: MaterialApp(
+            theme: AppTheme.theme,
+            home: ProfileEditScreen(
+              initialProfile: testProfile,
+              onClose: () {},
+              onSaveSuccess: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final checkButton = find.byIcon(Icons.check);
+      expect(checkButton, findsOneWidget);
+
+      final iconButton = tester.widget<IconButton>(
+        find.ancestor(
+          of: checkButton,
+          matching: find.byType(IconButton),
+        ),
+      );
+      expect(iconButton.onPressed, isNull);
+    });
+
+    testWidgets('shows loading indicator when in loading state', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            profileEditNotifierProvider.overrideWith(
+              () => _TestProfileEditNotifier(const ProfileEditState.loading()),
+            ),
+            profileFormStateProvider.overrideWith(
+              () => _TestProfileFormState(testProfile),
+            ),
+            accountNotifierProvider.overrideWith(
+              () => _TestAccountNotifier(testProfile),
+            ),
+            imagePickerServiceProvider.overrideWithValue(mockImagePickerService),
+          ],
+          child: MaterialApp(
+            theme: AppTheme.theme,
+            home: ProfileEditScreen(
+              initialProfile: testProfile,
+              onClose: () {},
+              onSaveSuccess: () {},
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('displays form with initial values', (tester) async {
+      await tester.pumpWidget(buildTestProfileEditScreen());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Test User'), findsOneWidget);
+      expect(find.text('test@example.com'), findsOneWidget);
+    });
   });
+}
+
+class _InvalidProfileFormState extends ProfileFormState {
+  @override
+  ProfileFormData build() {
+    return const ProfileFormData(
+      name: '',
+      email: 'test@example.com',
+      originalEmail: 'test@example.com',
+    );
+  }
+
+  @override
+  void initialize(UserProfile profile) {}
+
+  @override
+  void updateName(String name) {}
+
+  @override
+  void updateEmail(String email) {}
+
+  @override
+  void setAvatarImage(XFile? file) {}
+
+  @override
+  bool get isValid => false;
+
+  @override
+  String? get nameError => '氏名を入力してください';
+
+  @override
+  String? get emailError => null;
+
+  @override
+  bool get hasEmailChanged => false;
 }
 
 class _TestProfileEditNotifier extends ProfileEditNotifier {

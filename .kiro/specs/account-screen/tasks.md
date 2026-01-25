@@ -176,26 +176,26 @@
   - プロフィール編集画面から戻る際の状態更新を処理
   - _Requirements: 2.1, 3.2, 3.3_
 
-- [ ] 9. テスト実装
-- [ ] 9.1 Domain 層のユニットテストを作成
+- [x] 9. テスト実装
+- [x] 9.1 Domain 層のユニットテストを作成
   - ProfileValidators.validateName のテスト（空文字、有効な名前）
   - ProfileValidators.validateEmail のテスト（無効な形式、有効な形式）
   - _Requirements: 3.6, 5.3_
 
-- [ ] 9.2 Application 層のユニットテストを作成
+- [x] 9.2 Application 層のユニットテストを作成
   - ProfileFormState のテスト（初期化、更新、バリデーション状態計算）
   - AccountNotifier のテスト（プロフィール取得成功/失敗）
   - ProfileEditNotifier のテスト（保存成功/失敗、メールアドレス変更）
   - _Requirements: 1.2, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 5.1, 5.2_
 
-- [ ] 9.3 (P) 共通ウィジェットのウィジェットテストを作成
+- [x] 9.3 (P) 共通ウィジェットのウィジェットテストを作成
   - ProfileCard のテスト（プロフィール情報表示）
   - AccountMenuSection のテスト（メニュー項目表示、タップイベント）
   - AvatarEditor のテスト（タップでボトムシート表示）
   - ImageSourceBottomSheet のテスト（オプション表示、選択イベント）
   - _Requirements: 1.2, 1.3, 1.4, 1.5, 1.6, 4.1, 6.5_
 
-- [ ] 9.4 画面のウィジェットテストを作成
+- [x] 9.4 画面のウィジェットテストを作成
   - AccountScreen のテスト（プロフィールカード表示、メニュー項目表示、ナビゲーション）
   - ProfileEditScreen のテスト（フォーム入力、バリデーションエラー表示、保存ボタン状態）
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 3.4, 3.5, 3.6_
