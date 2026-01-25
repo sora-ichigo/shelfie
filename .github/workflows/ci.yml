@@ -124,10 +124,6 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.mobile == 'true' }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [0, 1, 2]
     defaults:
       run:
         working-directory: apps/mobile
@@ -145,35 +141,5 @@ jobs:
           key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
           restore-keys: flutter-${{ runner.os }}-
       - run: flutter pub get
-      - name: Run tests with coverage (shard ${{ matrix.shard }})
-        run: flutter test --coverage --concurrency=4 --total-shards=3 --shard-index=${{ matrix.shard }}
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-${{ matrix.shard }}
-          path: apps/mobile/coverage/lcov.info
-          retention-days: 1
-
-  mobile-coverage:
-    needs: mobile-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Download coverage artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: coverage-*
-          path: coverage-parts
-      - name: Merge coverage reports
-        run: |
-          sudo apt-get install -y lcov
-          lcov -a coverage-parts/coverage-0/lcov.info \
-               -a coverage-parts/coverage-1/lcov.info \
-               -a coverage-parts/coverage-2/lcov.info \
-               -o merged-coverage.info
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: merged-coverage.info
-          flags: mobile
-          fail_ci_if_error: false
+      - name: Run tests
+        run: flutter test --concurrency=8
