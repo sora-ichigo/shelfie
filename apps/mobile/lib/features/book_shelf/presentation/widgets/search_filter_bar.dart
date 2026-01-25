@@ -59,106 +59,112 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final buttonWidth = constraints.maxWidth;
-        return PopupMenuButton<SortOption>(
-          onSelected: (option) {
-            setState(() => _isSortMenuOpen = false);
-            widget.onSortChanged(option);
-          },
-          onOpened: () => setState(() => _isSortMenuOpen = true),
-          onCanceled: () => setState(() => _isSortMenuOpen = false),
-          offset: const Offset(0, 48),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.lg),
+        return Theme(
+          data: theme.copyWith(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
           ),
-          color: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          menuPadding: EdgeInsets.zero,
-          constraints: BoxConstraints(
-            minWidth: buttonWidth,
-            maxWidth: buttonWidth,
-          ),
-          itemBuilder: (context) {
-            final options = SortOption.values;
-            return options.asMap().entries.map((entry) {
-              final index = entry.key;
-              final option = entry.value;
-              final isSelected = option == widget.sortOption;
-              final isFirst = index == 0;
-              final isLast = index == options.length - 1;
-              return PopupMenuItem<SortOption>(
-                value: option,
-                padding: EdgeInsets.zero,
-                height: 40,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.sm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.selectionHighlight
-                        : appColors.surfaceElevated,
-                    borderRadius: BorderRadius.only(
-                      topLeft: isFirst
-                          ? const Radius.circular(AppRadius.lg)
-                          : Radius.zero,
-                      topRight: isFirst
-                          ? const Radius.circular(AppRadius.lg)
-                          : Radius.zero,
-                      bottomLeft: isLast
-                          ? const Radius.circular(AppRadius.lg)
-                          : Radius.zero,
-                      bottomRight: isLast
-                          ? const Radius.circular(AppRadius.lg)
-                          : Radius.zero,
-                    ),
-                  ),
-                  child: Text(
-                    option.displayName,
-                    style: AppTypography.labelMedium.copyWith(
-                      color: appColors.textPrimary,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.normal,
-                    ),
-                  ),
-                ),
-              );
-            }).toList();
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.sm,
-              vertical: AppSpacing.xs,
-            ),
-            decoration: BoxDecoration(
-              color: appColors.surfaceElevated,
+          child: PopupMenuButton<SortOption>(
+            onSelected: (option) {
+              setState(() => _isSortMenuOpen = false);
+              widget.onSortChanged(option);
+            },
+            onOpened: () => setState(() => _isSortMenuOpen = true),
+            onCanceled: () => setState(() => _isSortMenuOpen = false),
+            offset: const Offset(0, 48),
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.tune,
-                  size: 16,
-                  color: appColors.textPrimary,
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    widget.sortOption.displayName,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.labelMedium.copyWith(
-                      fontWeight: FontWeight.w600,
+            color: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            menuPadding: EdgeInsets.zero,
+            constraints: BoxConstraints(
+              minWidth: buttonWidth,
+              maxWidth: buttonWidth,
+            ),
+            itemBuilder: (context) {
+              final options = SortOption.values;
+              return options.asMap().entries.map((entry) {
+                final index = entry.key;
+                final option = entry.value;
+                final isSelected = option == widget.sortOption;
+                final isFirst = index == 0;
+                final isLast = index == options.length - 1;
+                return PopupMenuItem<SortOption>(
+                  value: option,
+                  padding: EdgeInsets.zero,
+                  height: 40,
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.sm,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.selectionHighlight
+                          : appColors.surfaceElevated,
+                      borderRadius: BorderRadius.only(
+                        topLeft: isFirst
+                            ? const Radius.circular(AppRadius.lg)
+                            : Radius.zero,
+                        topRight: isFirst
+                            ? const Radius.circular(AppRadius.lg)
+                            : Radius.zero,
+                        bottomLeft: isLast
+                            ? const Radius.circular(AppRadius.lg)
+                            : Radius.zero,
+                        bottomRight: isLast
+                            ? const Radius.circular(AppRadius.lg)
+                            : Radius.zero,
+                      ),
+                    ),
+                    child: Text(
+                      option.displayName,
+                      style: AppTypography.labelMedium.copyWith(
+                        color: appColors.textPrimary,
+                        fontWeight:
+                            isSelected ? FontWeight.w600 : FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-                Icon(
-                  _isSortMenuOpen
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  color: appColors.textSecondary,
-                ),
-              ],
+                );
+              }).toList();
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.xs,
+              ),
+              decoration: BoxDecoration(
+                color: appColors.surfaceElevated,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.tune,
+                    size: 16,
+                    color: appColors.textPrimary,
+                  ),
+                  const SizedBox(width: AppSpacing.xs),
+                  Expanded(
+                    child: Text(
+                      widget.sortOption.displayName,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.labelMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    _isSortMenuOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: appColors.textSecondary,
+                  ),
+                ],
+              ),
             ),
           ),
         );
