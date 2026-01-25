@@ -49,7 +49,7 @@ void main() {
   }
 
   group('AccountScreen', () {
-    testWidgets('displays header with title and close button', (tester) async {
+    testWidgets('displays back button in app bar', (tester) async {
       await tester.pumpWidget(
         buildTestAccountScreen(
           accountState: AsyncValue.data(testProfile),
@@ -57,8 +57,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('アカウント'), findsAtLeast(1));
-      expect(find.byIcon(Icons.close), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
     });
 
     testWidgets('displays profile card when data is loaded', (tester) async {
@@ -190,6 +189,9 @@ void main() {
       );
       await tester.pumpAndSettle();
 
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -100));
+      await tester.pumpAndSettle();
+
       await tester.tap(find.text('通知設定'));
       await tester.pumpAndSettle();
 
@@ -247,7 +249,7 @@ void main() {
       expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
     });
 
-    testWidgets('calls onClose when close button is tapped', (tester) async {
+    testWidgets('calls onClose when back button is tapped', (tester) async {
       var closed = false;
 
       await tester.pumpWidget(
@@ -258,7 +260,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byIcon(Icons.close));
+      await tester.tap(find.byIcon(Icons.arrow_back_ios_new));
       await tester.pumpAndSettle();
 
       expect(closed, isTrue);
