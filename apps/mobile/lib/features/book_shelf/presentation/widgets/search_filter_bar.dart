@@ -60,7 +60,7 @@ class SearchFilterBar extends StatelessWidget {
     return Row(
       children: [
         _buildSortButton(context, appColors),
-        const SizedBox(width: AppSpacing.sm),
+        const SizedBox(width: AppSpacing.xs),
         _buildGroupButton(context, appColors),
       ],
     );
@@ -85,7 +85,7 @@ class SearchFilterBar extends StatelessWidget {
             ),
             child: Icon(
               Icons.tune,
-              size: 20,
+              size: 16,
               color: appColors.textPrimary,
             ),
           ),
@@ -126,7 +126,7 @@ class SearchFilterBar extends StatelessWidget {
             ),
             child: Icon(
               Icons.grid_view,
-              size: 20,
+              size: 16,
               color: appColors.textPrimary,
             ),
           ),

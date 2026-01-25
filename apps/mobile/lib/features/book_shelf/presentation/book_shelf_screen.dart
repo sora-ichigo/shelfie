@@ -68,9 +68,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   Widget _buildLoadedContent(BookShelfLoaded state) {
     return Column(
       children: [
-        SizedBox(height: AppSpacing.sm),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md, vertical: AppSpacing.sm),
           child: SearchFilterBar(
             sortOption: state.sortOption,
             groupOption: state.groupOption,
