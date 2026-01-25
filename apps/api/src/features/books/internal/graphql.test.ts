@@ -29,6 +29,7 @@ function createMockShelfService(): BookShelfService {
     addBookToShelf: vi.fn(),
     getUserBookByExternalId: vi.fn(),
     getUserBooks: vi.fn(),
+    getUserBooksWithPagination: vi.fn(),
     updateReadingStatus: vi.fn(),
     updateReadingNote: vi.fn(),
     removeFromShelf: vi.fn(),
@@ -509,6 +510,123 @@ describe("BooksGraphQL Mutations Schema", () => {
     expect(args?.find((a) => a.name === "note")?.type.toString()).toBe(
       "String!",
     );
+  });
+});
+
+describe("MyShelf enhanced query types", () => {
+  let schema: GraphQLSchema;
+
+  beforeAll(() => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+
+    schema = builder.toSchema();
+  });
+
+  describe("ShelfSortField enum", () => {
+    it("should define ShelfSortField enum with ADDED_AT, TITLE, AUTHOR values", () => {
+      const shelfSortFieldEnum = schema.getType(
+        "ShelfSortField",
+      ) as GraphQLEnumType;
+
+      expect(shelfSortFieldEnum).toBeDefined();
+
+      const values = shelfSortFieldEnum.getValues();
+      const valueNames = values.map((v) => v.name);
+
+      expect(valueNames).toContain("ADDED_AT");
+      expect(valueNames).toContain("TITLE");
+      expect(valueNames).toContain("AUTHOR");
+      expect(values).toHaveLength(3);
+    });
+  });
+
+  describe("SortOrder enum", () => {
+    it("should define SortOrder enum with ASC, DESC values", () => {
+      const sortOrderEnum = schema.getType("SortOrder") as GraphQLEnumType;
+
+      expect(sortOrderEnum).toBeDefined();
+
+      const values = sortOrderEnum.getValues();
+      const valueNames = values.map((v) => v.name);
+
+      expect(valueNames).toContain("ASC");
+      expect(valueNames).toContain("DESC");
+      expect(values).toHaveLength(2);
+    });
+  });
+
+  describe("MyShelfInput type", () => {
+    it("should define MyShelfInput input type with query, sortBy, sortOrder, limit, offset fields", () => {
+      const inputType = schema.getType(
+        "MyShelfInput",
+      ) as GraphQLInputObjectType;
+
+      expect(inputType).toBeDefined();
+      const fields = inputType.getFields();
+
+      expect(fields.query).toBeDefined();
+      expect(fields.query.type.toString()).toBe("String");
+
+      expect(fields.sortBy).toBeDefined();
+      expect(fields.sortBy.type.toString()).toBe("ShelfSortField");
+
+      expect(fields.sortOrder).toBeDefined();
+      expect(fields.sortOrder.type.toString()).toBe("SortOrder");
+
+      expect(fields.limit).toBeDefined();
+      expect(fields.limit.type.toString()).toBe("Int");
+
+      expect(fields.offset).toBeDefined();
+      expect(fields.offset.type.toString()).toBe("Int");
+    });
+  });
+
+  describe("MyShelfResult type", () => {
+    it("should define MyShelfResult type with items, totalCount, hasMore fields", () => {
+      const resultType = schema.getType("MyShelfResult") as GraphQLObjectType;
+
+      expect(resultType).toBeDefined();
+      const fields = resultType.getFields();
+
+      expect(fields.items).toBeDefined();
+      expect(fields.items.type.toString()).toBe("[UserBook!]!");
+
+      expect(fields.totalCount).toBeDefined();
+      expect(fields.totalCount.type.toString()).toBe("Int!");
+
+      expect(fields.hasMore).toBeDefined();
+      expect(fields.hasMore.type.toString()).toBe("Boolean!");
+    });
+  });
+
+  describe("myShelf query with input", () => {
+    it("should accept MyShelfInput as optional argument", () => {
+      const queryType = schema.getQueryType();
+      expect(queryType).toBeDefined();
+
+      const fields = queryType?.getFields();
+      expect(fields?.myShelf).toBeDefined();
+
+      const myShelfField = fields?.myShelf;
+      expect(myShelfField?.type.toString()).toBe("MyShelfResult!");
+
+      const args = myShelfField?.args;
+      expect(args?.find((a) => a.name === "input")?.type.toString()).toBe(
+        "MyShelfInput",
+      );
+    });
   });
 });
 
@@ -1868,34 +1986,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
     });
   });
 
-  describe("myShelf resolver", () => {
-    it("should define myShelf query that returns list of UserBook", () => {
-      const mockSearchService = createMockSearchService();
-      const mockShelfService = createMockShelfService();
-      const mockUserService = createMockUserService();
-
-      const builder = createTestBuilder();
-      registerBooksTypes(builder);
-      builder.queryType({});
-      registerBooksQueries(
-        builder,
-        mockSearchService,
-        mockShelfService,
-        mockUserService,
-      );
-      const schema = builder.toSchema();
-
-      const queryType = schema.getQueryType();
-      expect(queryType).toBeDefined();
-
-      const fields = queryType?.getFields();
-      expect(fields?.myShelf).toBeDefined();
-
-      const myShelfField = fields?.myShelf;
-      expect(myShelfField?.type.toString()).toBe("[UserBook!]!");
-    });
-
-    it("should call shelfService.getUserBooks and return user books", async () => {
+  describe("myShelf resolver (enhanced)", () => {
+    it("should call shelfService.getUserBooksWithPagination with input parameters", async () => {
       const mockSearchService = createMockSearchService();
       const mockShelfService = createMockShelfService();
       const mockUserService = createMockUserService();
@@ -1910,33 +2002,23 @@ describe("BooksGraphQL Resolver Behavior", () => {
           publisher: null,
           publishedDate: null,
           isbn: null,
-          coverImageUrl: null,
+          coverImageUrl: "https://example.com/cover1.jpg",
           addedAt: new Date(),
           readingStatus: "reading" as const,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
         },
-        {
-          id: 2,
-          userId: 100,
-          externalId: "book-2",
-          title: "Test Book 2",
-          authors: ["Author 2"],
-          publisher: null,
-          publishedDate: null,
-          isbn: null,
-          coverImageUrl: null,
-          addedAt: new Date(),
-          readingStatus: "completed" as const,
-          completedAt: new Date(),
-          note: "Great book!",
-          noteUpdatedAt: new Date(),
-        },
       ];
 
-      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(
-        ok(mockUserBooks),
+      const mockResult = {
+        items: mockUserBooks,
+        totalCount: 25,
+        hasMore: true,
+      };
+
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+        ok(mockResult),
       );
       vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
         ok({
@@ -1966,7 +2048,15 @@ describe("BooksGraphQL Resolver Behavior", () => {
 
       const result = await myShelfField?.resolve?.(
         {},
-        {},
+        {
+          input: {
+            query: "JavaScript",
+            sortBy: "TITLE",
+            sortOrder: "ASC",
+            limit: 20,
+            offset: 0,
+          },
+        },
         {
           requestId: "test",
           user: {
@@ -1981,16 +2071,33 @@ describe("BooksGraphQL Resolver Behavior", () => {
       expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
         "firebase-uid",
       );
-      expect(mockShelfService.getUserBooks).toHaveBeenCalledWith(100);
-      expect(result).toEqual(mockUserBooks);
+      expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+        100,
+        {
+          query: "JavaScript",
+          sortBy: "TITLE",
+          sortOrder: "ASC",
+          limit: 20,
+          offset: 0,
+        },
+      );
+      expect(result).toEqual(mockResult);
     });
 
-    it("should return empty array when user has no books", async () => {
+    it("should use default values when input is not provided", async () => {
       const mockSearchService = createMockSearchService();
       const mockShelfService = createMockShelfService();
       const mockUserService = createMockUserService();
 
-      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(ok([]));
+      const mockResult = {
+        items: [],
+        totalCount: 0,
+        hasMore: false,
+      };
+
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+        ok(mockResult),
+      );
       vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
         ok({
           id: 100,
@@ -2031,7 +2138,95 @@ describe("BooksGraphQL Resolver Behavior", () => {
         {} as never,
       );
 
-      expect(result).toEqual([]);
+      expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+        100,
+        {},
+      );
+      expect(result).toEqual(mockResult);
+    });
+
+    it("should return MyShelfResult with items including coverImageUrl", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockUserBooks = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "book-1",
+          title: "Test Book 1",
+          authors: ["Author 1"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: "https://example.com/cover1.jpg",
+          addedAt: new Date(),
+          readingStatus: "reading" as const,
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
+        },
+      ];
+
+      const mockResult = {
+        items: mockUserBooks,
+        totalCount: 1,
+        hasMore: false,
+      };
+
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+        ok(mockResult),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          name: null,
+          avatarUrl: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      const result = await myShelfField?.resolve?.(
+        {},
+        {},
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(result).toMatchObject({
+        items: expect.arrayContaining([
+          expect.objectContaining({
+            coverImageUrl: "https://example.com/cover1.jpg",
+          }),
+        ]),
+        totalCount: 1,
+        hasMore: false,
+      });
     });
 
     it("should throw error when user is not authenticated", async () => {
@@ -2070,7 +2265,9 @@ describe("BooksGraphQL Resolver Behavior", () => {
 
       expect(error).toBeDefined();
       expect(error?.message).toContain("Not authorized");
-      expect(mockShelfService.getUserBooks).not.toHaveBeenCalled();
+      expect(
+        mockShelfService.getUserBooksWithPagination,
+      ).not.toHaveBeenCalled();
     });
 
     it("should throw error when shelfService returns database error", async () => {
@@ -2078,7 +2275,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
       const mockShelfService = createMockShelfService();
       const mockUserService = createMockUserService();
 
-      vi.mocked(mockShelfService.getUserBooks).mockResolvedValue(
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
         err({
           code: "DATABASE_ERROR",
           message: "Database connection failed",

@@ -1,4 +1,4 @@
-import { and, count, eq } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, or, sql } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type NewUserBook,
@@ -21,6 +21,22 @@ export interface UpdateUserBookInput {
   noteUpdatedAt?: Date;
 }
 
+export type ShelfSortField = "ADDED_AT" | "TITLE" | "AUTHOR";
+export type SortOrder = "ASC" | "DESC";
+
+export interface GetUserBooksInput {
+  query?: string;
+  sortBy?: ShelfSortField;
+  sortOrder?: SortOrder;
+  limit?: number;
+  offset?: number;
+}
+
+export interface GetUserBooksResult {
+  items: UserBook[];
+  totalCount: number;
+}
+
 export interface BookShelfRepository {
   findUserBookByExternalId(
     userId: number,
@@ -34,6 +50,10 @@ export interface BookShelfRepository {
   ): Promise<UserBook | null>;
   deleteUserBook(id: number): Promise<boolean>;
   getUserBooks(userId: number): Promise<UserBook[]>;
+  getUserBooksWithPagination(
+    userId: number,
+    input: GetUserBooksInput,
+  ): Promise<GetUserBooksResult>;
   countUserBooks(userId: number): Promise<number>;
 }
 
@@ -92,6 +112,59 @@ export function createBookShelfRepository(
 
     async getUserBooks(userId: number): Promise<UserBook[]> {
       return db.select().from(userBooks).where(eq(userBooks.userId, userId));
+    },
+
+    async getUserBooksWithPagination(
+      userId: number,
+      input: GetUserBooksInput,
+    ): Promise<GetUserBooksResult> {
+      const {
+        query,
+        sortBy = "ADDED_AT",
+        sortOrder = "DESC",
+        limit = 20,
+        offset = 0,
+      } = input;
+
+      const conditions = [eq(userBooks.userId, userId)];
+
+      if (query && query.trim() !== "") {
+        const searchPattern = `%${query}%`;
+        const searchCondition = or(
+          ilike(userBooks.title, searchPattern),
+          sql`EXISTS (SELECT 1 FROM unnest(${userBooks.authors}) AS author WHERE author ILIKE ${searchPattern})`,
+        );
+        if (searchCondition) {
+          conditions.push(searchCondition);
+        }
+      }
+
+      const whereClause = and(...conditions);
+
+      const sortColumn = {
+        ADDED_AT: userBooks.addedAt,
+        TITLE: userBooks.title,
+        AUTHOR: sql`${userBooks.authors}[1]`,
+      }[sortBy];
+
+      const orderByClause =
+        sortOrder === "ASC" ? asc(sortColumn) : desc(sortColumn);
+
+      const [items, countResult] = await Promise.all([
+        db
+          .select()
+          .from(userBooks)
+          .where(whereClause)
+          .orderBy(orderByClause)
+          .limit(limit)
+          .offset(offset),
+        db.select({ count: count() }).from(userBooks).where(whereClause),
+      ]);
+
+      return {
+        items,
+        totalCount: countResult[0]?.count ?? 0,
+      };
     },
 
     async countUserBooks(userId: number): Promise<number> {

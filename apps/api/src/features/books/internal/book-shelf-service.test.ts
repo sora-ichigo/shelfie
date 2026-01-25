@@ -10,6 +10,7 @@ function createMockRepository(): BookShelfRepository & {
   mockFindUserBookByExternalId: ReturnType<typeof vi.fn>;
   mockCreateUserBook: ReturnType<typeof vi.fn>;
   mockGetUserBooks: ReturnType<typeof vi.fn>;
+  mockGetUserBooksWithPagination: ReturnType<typeof vi.fn>;
   mockFindUserBookById: ReturnType<typeof vi.fn>;
   mockUpdateUserBook: ReturnType<typeof vi.fn>;
   mockDeleteUserBook: ReturnType<typeof vi.fn>;
@@ -18,6 +19,7 @@ function createMockRepository(): BookShelfRepository & {
   const mockFindUserBookByExternalId = vi.fn();
   const mockCreateUserBook = vi.fn();
   const mockGetUserBooks = vi.fn();
+  const mockGetUserBooksWithPagination = vi.fn();
   const mockFindUserBookById = vi.fn();
   const mockUpdateUserBook = vi.fn();
   const mockDeleteUserBook = vi.fn();
@@ -27,6 +29,7 @@ function createMockRepository(): BookShelfRepository & {
     findUserBookByExternalId: mockFindUserBookByExternalId,
     createUserBook: mockCreateUserBook,
     getUserBooks: mockGetUserBooks,
+    getUserBooksWithPagination: mockGetUserBooksWithPagination,
     findUserBookById: mockFindUserBookById,
     updateUserBook: mockUpdateUserBook,
     deleteUserBook: mockDeleteUserBook,
@@ -34,6 +37,7 @@ function createMockRepository(): BookShelfRepository & {
     mockFindUserBookByExternalId,
     mockCreateUserBook,
     mockGetUserBooks,
+    mockGetUserBooksWithPagination,
     mockFindUserBookById,
     mockUpdateUserBook,
     mockDeleteUserBook,
@@ -295,6 +299,156 @@ describe("BookShelfService", () => {
       };
 
       const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("DATABASE_ERROR");
+      }
+    });
+  });
+
+  describe("getUserBooksWithPagination", () => {
+    it("should return paginated user books with totalCount and hasMore", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const userBooks: UserBook[] = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "book-1",
+          title: "Test Book 1",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: "https://example.com/cover1.jpg",
+          addedAt: new Date(),
+          readingStatus: "reading",
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
+        },
+        {
+          id: 2,
+          userId: 100,
+          externalId: "book-2",
+          title: "Test Book 2",
+          authors: ["Author Two"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: "https://example.com/cover2.jpg",
+          addedAt: new Date(),
+          readingStatus: "completed",
+          completedAt: new Date(),
+          note: null,
+          noteUpdatedAt: null,
+        },
+      ];
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: userBooks,
+        totalCount: 25,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooksWithPagination(100, {
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.items).toEqual(userBooks);
+        expect(result.data.totalCount).toBe(25);
+        expect(result.data.hasMore).toBe(true);
+      }
+    });
+
+    it("should return hasMore false when no more items", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const userBooks: UserBook[] = [
+        {
+          id: 1,
+          userId: 100,
+          externalId: "book-1",
+          title: "Test Book 1",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          addedAt: new Date(),
+          readingStatus: "reading",
+          completedAt: null,
+          note: null,
+          noteUpdatedAt: null,
+        },
+      ];
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: userBooks,
+        totalCount: 1,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooksWithPagination(100, {
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.hasMore).toBe(false);
+      }
+    });
+
+    it("should pass search query to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        query: "JavaScript",
+        sortBy: "TITLE",
+        sortOrder: "ASC",
+        limit: 10,
+        offset: 5,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        query: "JavaScript",
+        sortBy: "TITLE",
+        sortOrder: "ASC",
+        limit: 10,
+        offset: 5,
+      });
+    });
+
+    it("should return DATABASE_ERROR when repository throws", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockRejectedValue(
+        new Error("Database connection failed"),
+      );
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.getUserBooksWithPagination(100, {});
 
       expect(result.success).toBe(false);
       if (!result.success) {

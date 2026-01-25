@@ -10,6 +10,10 @@ import 'package:shelfie/core/error/error_handler.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
+import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
+import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 /// テスト用 ProviderContainer を作成するヘルパー
@@ -51,6 +55,7 @@ ProviderContainer createTestContainer({
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
       sessionValidatorProvider.overrideWithValue(mockSessionValidator),
+      bookShelfNotifierProvider.overrideWith(() => MockBookShelfNotifier()),
       ...overrides,
     ],
     parent: parent,
@@ -96,6 +101,7 @@ Widget buildTestWidget({
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
       sessionValidatorProvider.overrideWithValue(mockSessionValidator),
+      bookShelfNotifierProvider.overrideWith(() => MockBookShelfNotifier()),
       ...overrides,
     ],
     child: MaterialApp(
@@ -159,6 +165,7 @@ Widget buildTestWidgetWithRouter({
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
       sessionValidatorProvider.overrideWithValue(mockSessionValidator),
+      bookShelfNotifierProvider.overrideWith(() => MockBookShelfNotifier()),
     ],
     child: MaterialApp.router(
       theme: theme ?? AppTheme.theme,
@@ -186,6 +193,41 @@ class MockLogger extends Mock implements Logger {}
 
 /// CrashlyticsReporter モック
 class MockCrashlyticsReporter extends Mock implements CrashlyticsReporter {}
+
+/// BookShelfNotifier モック
+///
+/// タイマーを使用しないシンプルな実装。
+/// ルーターテストなどでタイマー問題を回避するために使用。
+/// loaded 状態を返すことでローディングアニメーションのタイムアウトを回避。
+class MockBookShelfNotifier extends BookShelfNotifier {
+  @override
+  BookShelfState build() {
+    return BookShelfState.loaded(
+      books: const [],
+      sortOption: SortOption.defaultOption,
+      groupOption: GroupOption.defaultOption,
+      totalCount: 0,
+      hasMore: false,
+      isLoadingMore: false,
+      groupedBooks: const {},
+    );
+  }
+
+  @override
+  Future<void> initialize() async {}
+
+  @override
+  Future<void> setSortOption(SortOption option) async {}
+
+  @override
+  void setGroupOption(GroupOption option) {}
+
+  @override
+  Future<void> loadMore() async {}
+
+  @override
+  Future<void> refresh() async {}
+}
 
 /// OperationRequest フェイク
 class FakeOperationRequest<TData, TVars> extends Fake

@@ -44,6 +44,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GLoginUserVars.serializer)
       ..add(GMyShelfData.serializer)
       ..add(GMyShelfData_myShelf.serializer)
+      ..add(GMyShelfData_myShelf_items.serializer)
+      ..add(GMyShelfInput.serializer)
+      ..add(GMyShelfPaginatedData.serializer)
+      ..add(GMyShelfPaginatedData_myShelf.serializer)
+      ..add(GMyShelfPaginatedData_myShelf_items.serializer)
+      ..add(GMyShelfPaginatedReq.serializer)
+      ..add(GMyShelfPaginatedVars.serializer)
       ..add(GMyShelfReq.serializer)
       ..add(GMyShelfVars.serializer)
       ..add(GReadingStatus.serializer)
@@ -79,6 +86,8 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GSearchBooksData_searchBooks_items.serializer)
       ..add(GSearchBooksReq.serializer)
       ..add(GSearchBooksVars.serializer)
+      ..add(GShelfSortField.serializer)
+      ..add(GSortOrder.serializer)
       ..add(GUpdateProfileData.serializer)
       ..add(GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess
           .serializer)
@@ -100,12 +109,19 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateReadingStatusVars.serializer)
       ..addBuilderFactory(
           const FullType(
-              BuiltList, const [const FullType(GMyShelfData_myShelf)]),
-          () => new ListBuilder<GMyShelfData_myShelf>())
+              BuiltList, const [const FullType(GMyShelfData_myShelf_items)]),
+          () => new ListBuilder<GMyShelfData_myShelf_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GMyShelfPaginatedData_myShelf_items)]),
+          () => new ListBuilder<GMyShelfPaginatedData_myShelf_items>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

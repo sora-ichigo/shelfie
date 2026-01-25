@@ -1,0 +1,373 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'shelf_book_item.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+/// @nodoc
+mixin _$ShelfBookItem {
+  /// ユーザーの本棚エントリID
+  int get userBookId => throw _privateConstructorUsedError;
+
+  /// 外部ID（楽天ブックスID など）
+  String get externalId => throw _privateConstructorUsedError;
+
+  /// 書籍タイトル
+  String get title => throw _privateConstructorUsedError;
+
+  /// 著者リスト
+  List<String> get authors => throw _privateConstructorUsedError;
+
+  /// 読書状態
+  ReadingStatus get readingStatus => throw _privateConstructorUsedError;
+
+  /// 本棚への追加日時
+  DateTime get addedAt => throw _privateConstructorUsedError;
+
+  /// 表紙画像のURL
+  String? get coverImageUrl => throw _privateConstructorUsedError;
+
+  /// 評価（1-5、将来の機能用）
+  int? get rating => throw _privateConstructorUsedError;
+
+  /// 読了日
+  DateTime? get completedAt => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ShelfBookItemCopyWith<ShelfBookItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ShelfBookItemCopyWith<$Res> {
+  factory $ShelfBookItemCopyWith(
+          ShelfBookItem value, $Res Function(ShelfBookItem) then) =
+      _$ShelfBookItemCopyWithImpl<$Res, ShelfBookItem>;
+  @useResult
+  $Res call(
+      {int userBookId,
+      String externalId,
+      String title,
+      List<String> authors,
+      ReadingStatus readingStatus,
+      DateTime addedAt,
+      String? coverImageUrl,
+      int? rating,
+      DateTime? completedAt});
+}
+
+/// @nodoc
+class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
+    implements $ShelfBookItemCopyWith<$Res> {
+  _$ShelfBookItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userBookId = null,
+    Object? externalId = null,
+    Object? title = null,
+    Object? authors = null,
+    Object? readingStatus = null,
+    Object? addedAt = null,
+    Object? coverImageUrl = freezed,
+    Object? rating = freezed,
+    Object? completedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as ReadingStatus,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ShelfBookItemImplCopyWith<$Res>
+    implements $ShelfBookItemCopyWith<$Res> {
+  factory _$$ShelfBookItemImplCopyWith(
+          _$ShelfBookItemImpl value, $Res Function(_$ShelfBookItemImpl) then) =
+      __$$ShelfBookItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int userBookId,
+      String externalId,
+      String title,
+      List<String> authors,
+      ReadingStatus readingStatus,
+      DateTime addedAt,
+      String? coverImageUrl,
+      int? rating,
+      DateTime? completedAt});
+}
+
+/// @nodoc
+class __$$ShelfBookItemImplCopyWithImpl<$Res>
+    extends _$ShelfBookItemCopyWithImpl<$Res, _$ShelfBookItemImpl>
+    implements _$$ShelfBookItemImplCopyWith<$Res> {
+  __$$ShelfBookItemImplCopyWithImpl(
+      _$ShelfBookItemImpl _value, $Res Function(_$ShelfBookItemImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userBookId = null,
+    Object? externalId = null,
+    Object? title = null,
+    Object? authors = null,
+    Object? readingStatus = null,
+    Object? addedAt = null,
+    Object? coverImageUrl = freezed,
+    Object? rating = freezed,
+    Object? completedAt = freezed,
+  }) {
+    return _then(_$ShelfBookItemImpl(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as ReadingStatus,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ShelfBookItemImpl extends _ShelfBookItem {
+  const _$ShelfBookItemImpl(
+      {required this.userBookId,
+      required this.externalId,
+      required this.title,
+      required final List<String> authors,
+      required this.readingStatus,
+      required this.addedAt,
+      this.coverImageUrl,
+      this.rating,
+      this.completedAt})
+      : _authors = authors,
+        super._();
+
+  /// ユーザーの本棚エントリID
+  @override
+  final int userBookId;
+
+  /// 外部ID（楽天ブックスID など）
+  @override
+  final String externalId;
+
+  /// 書籍タイトル
+  @override
+  final String title;
+
+  /// 著者リスト
+  final List<String> _authors;
+
+  /// 著者リスト
+  @override
+  List<String> get authors {
+    if (_authors is EqualUnmodifiableListView) return _authors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_authors);
+  }
+
+  /// 読書状態
+  @override
+  final ReadingStatus readingStatus;
+
+  /// 本棚への追加日時
+  @override
+  final DateTime addedAt;
+
+  /// 表紙画像のURL
+  @override
+  final String? coverImageUrl;
+
+  /// 評価（1-5、将来の機能用）
+  @override
+  final int? rating;
+
+  /// 読了日
+  @override
+  final DateTime? completedAt;
+
+  @override
+  String toString() {
+    return 'ShelfBookItem(userBookId: $userBookId, externalId: $externalId, title: $title, authors: $authors, readingStatus: $readingStatus, addedAt: $addedAt, coverImageUrl: $coverImageUrl, rating: $rating, completedAt: $completedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ShelfBookItemImpl &&
+            (identical(other.userBookId, userBookId) ||
+                other.userBookId == userBookId) &&
+            (identical(other.externalId, externalId) ||
+                other.externalId == externalId) &&
+            (identical(other.title, title) || other.title == title) &&
+            const DeepCollectionEquality().equals(other._authors, _authors) &&
+            (identical(other.readingStatus, readingStatus) ||
+                other.readingStatus == readingStatus) &&
+            (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
+            (identical(other.coverImageUrl, coverImageUrl) ||
+                other.coverImageUrl == coverImageUrl) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      userBookId,
+      externalId,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      readingStatus,
+      addedAt,
+      coverImageUrl,
+      rating,
+      completedAt);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ShelfBookItemImplCopyWith<_$ShelfBookItemImpl> get copyWith =>
+      __$$ShelfBookItemImplCopyWithImpl<_$ShelfBookItemImpl>(this, _$identity);
+}
+
+abstract class _ShelfBookItem extends ShelfBookItem {
+  const factory _ShelfBookItem(
+      {required final int userBookId,
+      required final String externalId,
+      required final String title,
+      required final List<String> authors,
+      required final ReadingStatus readingStatus,
+      required final DateTime addedAt,
+      final String? coverImageUrl,
+      final int? rating,
+      final DateTime? completedAt}) = _$ShelfBookItemImpl;
+  const _ShelfBookItem._() : super._();
+
+  @override
+
+  /// ユーザーの本棚エントリID
+  int get userBookId;
+  @override
+
+  /// 外部ID（楽天ブックスID など）
+  String get externalId;
+  @override
+
+  /// 書籍タイトル
+  String get title;
+  @override
+
+  /// 著者リスト
+  List<String> get authors;
+  @override
+
+  /// 読書状態
+  ReadingStatus get readingStatus;
+  @override
+
+  /// 本棚への追加日時
+  DateTime get addedAt;
+  @override
+
+  /// 表紙画像のURL
+  String? get coverImageUrl;
+  @override
+
+  /// 評価（1-5、将来の機能用）
+  int? get rating;
+  @override
+
+  /// 読了日
+  DateTime? get completedAt;
+  @override
+  @JsonKey(ignore: true)
+  _$$ShelfBookItemImplCopyWith<_$ShelfBookItemImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

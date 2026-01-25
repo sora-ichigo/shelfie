@@ -3,6 +3,7 @@ import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
 import type {
   BookShelfRepository,
+  GetUserBooksInput,
   ReadingStatusValue,
 } from "./book-shelf-repository.js";
 
@@ -44,6 +45,12 @@ export interface RemoveFromShelfInput {
   userId: number;
 }
 
+export interface MyShelfResult {
+  items: UserBook[];
+  totalCount: number;
+  hasMore: boolean;
+}
+
 export interface BookShelfService {
   addBookToShelf(
     input: AddBookToShelfInput,
@@ -55,6 +62,11 @@ export interface BookShelfService {
   ): Promise<Result<UserBook | null, BookShelfErrors>>;
 
   getUserBooks(userId: number): Promise<Result<UserBook[], BookShelfErrors>>;
+
+  getUserBooksWithPagination(
+    userId: number,
+    input: GetUserBooksInput,
+  ): Promise<Result<MyShelfResult, BookShelfErrors>>;
 
   updateReadingStatus(
     input: UpdateReadingStatusInput,
@@ -180,6 +192,42 @@ export function createBookShelfService(
       } catch (error) {
         logger.error(
           "Database error while fetching user books",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userId: String(userId),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async getUserBooksWithPagination(
+      userId: number,
+      input: GetUserBooksInput,
+    ): Promise<Result<MyShelfResult, BookShelfErrors>> {
+      try {
+        const { items, totalCount } =
+          await repository.getUserBooksWithPagination(userId, input);
+
+        const offset = input.offset ?? 0;
+        const hasMore = offset + items.length < totalCount;
+
+        return ok({
+          items,
+          totalCount,
+          hasMore,
+        });
+      } catch (error) {
+        logger.error(
+          "Database error while fetching user books with pagination",
           error instanceof Error ? error : new Error(String(error)),
           {
             feature: "books",

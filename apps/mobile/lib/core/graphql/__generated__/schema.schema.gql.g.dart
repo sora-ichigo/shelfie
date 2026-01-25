@@ -95,6 +95,52 @@ final BuiltSet<GReadingStatus> _$gReadingStatusValues =
   _$gReadingStatusREADING,
 ]);
 
+const GShelfSortField _$gShelfSortFieldADDED_AT =
+    const GShelfSortField._('ADDED_AT');
+const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
+const GShelfSortField _$gShelfSortFieldAUTHOR =
+    const GShelfSortField._('AUTHOR');
+
+GShelfSortField _$gShelfSortFieldValueOf(String name) {
+  switch (name) {
+    case 'ADDED_AT':
+      return _$gShelfSortFieldADDED_AT;
+    case 'TITLE':
+      return _$gShelfSortFieldTITLE;
+    case 'AUTHOR':
+      return _$gShelfSortFieldAUTHOR;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GShelfSortField> _$gShelfSortFieldValues =
+    new BuiltSet<GShelfSortField>(const <GShelfSortField>[
+  _$gShelfSortFieldADDED_AT,
+  _$gShelfSortFieldTITLE,
+  _$gShelfSortFieldAUTHOR,
+]);
+
+const GSortOrder _$gSortOrderASC = const GSortOrder._('ASC');
+const GSortOrder _$gSortOrderDESC = const GSortOrder._('DESC');
+
+GSortOrder _$gSortOrderValueOf(String name) {
+  switch (name) {
+    case 'ASC':
+      return _$gSortOrderASC;
+    case 'DESC':
+      return _$gSortOrderDESC;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GSortOrder> _$gSortOrderValues =
+    new BuiltSet<GSortOrder>(const <GSortOrder>[
+  _$gSortOrderASC,
+  _$gSortOrderDESC,
+]);
+
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
     new _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
@@ -103,6 +149,11 @@ Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     new _$GLoginUserInputSerializer();
 Serializer<GReadingStatus> _$gReadingStatusSerializer =
     new _$GReadingStatusSerializer();
+Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
+    new _$GShelfSortFieldSerializer();
+Serializer<GSortOrder> _$gSortOrderSerializer = new _$GSortOrderSerializer();
+Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
+    new _$GMyShelfInputSerializer();
 Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
     new _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
@@ -295,6 +346,127 @@ class _$GReadingStatusSerializer
   GReadingStatus deserialize(Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       GReadingStatus.valueOf(serialized as String);
+}
+
+class _$GShelfSortFieldSerializer
+    implements PrimitiveSerializer<GShelfSortField> {
+  @override
+  final Iterable<Type> types = const <Type>[GShelfSortField];
+  @override
+  final String wireName = 'GShelfSortField';
+
+  @override
+  Object serialize(Serializers serializers, GShelfSortField object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GShelfSortField deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GShelfSortField.valueOf(serialized as String);
+}
+
+class _$GSortOrderSerializer implements PrimitiveSerializer<GSortOrder> {
+  @override
+  final Iterable<Type> types = const <Type>[GSortOrder];
+  @override
+  final String wireName = 'GSortOrder';
+
+  @override
+  Object serialize(Serializers serializers, GSortOrder object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GSortOrder deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GSortOrder.valueOf(serialized as String);
+}
+
+class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
+  @override
+  final Iterable<Type> types = const [GMyShelfInput, _$GMyShelfInput];
+  @override
+  final String wireName = 'GMyShelfInput';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, GMyShelfInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.query;
+    if (value != null) {
+      result
+        ..add('query')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.sortBy;
+    if (value != null) {
+      result
+        ..add('sortBy')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.sortOrder;
+    if (value != null) {
+      result
+        ..add('sortOrder')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.limit;
+    if (value != null) {
+      result
+        ..add('limit')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.offset;
+    if (value != null) {
+      result
+        ..add('offset')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    return result;
+  }
+
+  @override
+  GMyShelfInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GMyShelfInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'query':
+          result.query = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'sortBy':
+          result.sortBy = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'sortOrder':
+          result.sortOrder = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'limit':
+          result.limit = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'offset':
+          result.offset = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+      }
+    }
+
+    return result.build();
+  }
 }
 
 class _$GRefreshTokenInputSerializer
@@ -708,6 +880,133 @@ class GLoginUserInputBuilder
                 email, r'GLoginUserInput', 'email'),
             password: BuiltValueNullFieldError.checkNotNull(
                 password, r'GLoginUserInput', 'password'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GMyShelfInput extends GMyShelfInput {
+  @override
+  final String? query;
+  @override
+  final String? sortBy;
+  @override
+  final String? sortOrder;
+  @override
+  final int? limit;
+  @override
+  final int? offset;
+
+  factory _$GMyShelfInput([void Function(GMyShelfInputBuilder)? updates]) =>
+      (new GMyShelfInputBuilder()..update(updates))._build();
+
+  _$GMyShelfInput._(
+      {this.query, this.sortBy, this.sortOrder, this.limit, this.offset})
+      : super._();
+
+  @override
+  GMyShelfInput rebuild(void Function(GMyShelfInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GMyShelfInputBuilder toBuilder() => new GMyShelfInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GMyShelfInput &&
+        query == other.query &&
+        sortBy == other.sortBy &&
+        sortOrder == other.sortOrder &&
+        limit == other.limit &&
+        offset == other.offset;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, query.hashCode);
+    _$hash = $jc(_$hash, sortBy.hashCode);
+    _$hash = $jc(_$hash, sortOrder.hashCode);
+    _$hash = $jc(_$hash, limit.hashCode);
+    _$hash = $jc(_$hash, offset.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GMyShelfInput')
+          ..add('query', query)
+          ..add('sortBy', sortBy)
+          ..add('sortOrder', sortOrder)
+          ..add('limit', limit)
+          ..add('offset', offset))
+        .toString();
+  }
+}
+
+class GMyShelfInputBuilder
+    implements Builder<GMyShelfInput, GMyShelfInputBuilder> {
+  _$GMyShelfInput? _$v;
+
+  String? _query;
+  String? get query => _$this._query;
+  set query(String? query) => _$this._query = query;
+
+  String? _sortBy;
+  String? get sortBy => _$this._sortBy;
+  set sortBy(String? sortBy) => _$this._sortBy = sortBy;
+
+  String? _sortOrder;
+  String? get sortOrder => _$this._sortOrder;
+  set sortOrder(String? sortOrder) => _$this._sortOrder = sortOrder;
+
+  int? _limit;
+  int? get limit => _$this._limit;
+  set limit(int? limit) => _$this._limit = limit;
+
+  int? _offset;
+  int? get offset => _$this._offset;
+  set offset(int? offset) => _$this._offset = offset;
+
+  GMyShelfInputBuilder();
+
+  GMyShelfInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _query = $v.query;
+      _sortBy = $v.sortBy;
+      _sortOrder = $v.sortOrder;
+      _limit = $v.limit;
+      _offset = $v.offset;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GMyShelfInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GMyShelfInput;
+  }
+
+  @override
+  void update(void Function(GMyShelfInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GMyShelfInput build() => _build();
+
+  _$GMyShelfInput _build() {
+    final _$result = _$v ??
+        new _$GMyShelfInput._(
+            query: query,
+            sortBy: sortBy,
+            sortOrder: sortOrder,
+            limit: limit,
+            offset: offset);
     replace(_$result);
     return _$result;
   }

@@ -18,8 +18,12 @@ export type {
 export { createBookSearchService } from "./internal/book-search-service.js";
 export type {
   BookShelfRepository,
+  GetUserBooksInput,
+  GetUserBooksResult,
   NewUserBook,
   ReadingStatusValue,
+  ShelfSortField,
+  SortOrder,
   UpdateUserBookInput,
   UserBook,
 } from "./internal/book-shelf-repository.js";
@@ -29,6 +33,7 @@ export type {
   AddBookToShelfInput,
   BookShelfErrors,
   BookShelfService,
+  MyShelfResult,
   UpdateReadingNoteInput,
   UpdateReadingStatusInput,
 } from "./internal/book-shelf-service.js";
