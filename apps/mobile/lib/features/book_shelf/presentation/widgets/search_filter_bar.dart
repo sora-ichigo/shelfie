@@ -8,8 +8,7 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 /// フィルターバーコンポーネント
 ///
-/// 本棚画面で使用するソートドロップダウン、
-/// グループ化ドロップダウンを横並びで配置する。
+/// 本棚画面で使用するソートボタン、グループ化ボタンを横並びで配置する。
 class SearchFilterBar extends StatelessWidget {
   const SearchFilterBar({
     required this.sortOption,
@@ -39,18 +38,30 @@ class SearchFilterBar extends StatelessWidget {
     }
   }
 
+  Future<void> _showGroupBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet<GroupOption>(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      builder: (context) => _GroupBottomSheet(
+        currentOption: groupOption,
+      ),
+    );
+
+    if (result != null) {
+      onGroupChanged(result);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Row(
       children: [
         _buildSortButton(context, appColors),
         const SizedBox(width: AppSpacing.sm),
-        Expanded(
-          child: _buildGroupDropdown(theme, appColors),
-        ),
+        _buildGroupButton(context, appColors),
       ],
     );
   }
@@ -76,62 +87,23 @@ class SearchFilterBar extends StatelessWidget {
     );
   }
 
-  Widget _buildGroupDropdown(ThemeData theme, AppColors appColors) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-      decoration: BoxDecoration(
-        color: appColors.surfaceElevated,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(
-          color: appColors.textSecondary.withOpacity(0.3),
+  Widget _buildGroupButton(BuildContext context, AppColors appColors) {
+    return GestureDetector(
+      onTap: () => _showGroupBottomSheet(context),
+      child: Container(
+        padding: const EdgeInsets.all(AppSpacing.sm),
+        decoration: BoxDecoration(
+          color: appColors.surfaceElevated,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(
+            color: appColors.textSecondary.withOpacity(0.3),
+          ),
         ),
-      ),
-      child: DropdownButton<GroupOption>(
-        value: groupOption,
-        isExpanded: true,
-        underline: const SizedBox.shrink(),
-        dropdownColor: appColors.surfaceElevated,
-        icon: Icon(
-          Icons.keyboard_arrow_down,
-          color: appColors.textSecondary,
-        ),
-        style: theme.textTheme.bodySmall?.copyWith(
+        child: Icon(
+          Icons.grid_view,
+          size: 20,
           color: appColors.textPrimary,
         ),
-        selectedItemBuilder: (context) {
-          return GroupOption.values.map((option) {
-            return Row(
-              children: [
-                Icon(
-                  Icons.grid_view,
-                  size: 18,
-                  color: appColors.textPrimary,
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    option.displayName,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            );
-          }).toList();
-        },
-        items: GroupOption.values.map((option) {
-          return DropdownMenuItem(
-            value: option,
-            child: Text(
-              option.displayName,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        }).toList(),
-        onChanged: (option) {
-          if (option != null) {
-            onGroupChanged(option);
-          }
-        },
       ),
     );
   }
@@ -156,10 +128,10 @@ class _SortBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: SortOption.values.map((option) {
           final isSelected = option == currentOption;
-          return _buildOptionTile(
-            context: context,
-            option: option,
+          return _OptionTile(
+            label: option.displayName,
             isSelected: isSelected,
+            onTap: () => Navigator.of(context).pop(option),
             colors: colors,
             theme: theme,
           );
@@ -167,16 +139,60 @@ class _SortBottomSheet extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildOptionTile({
-    required BuildContext context,
-    required SortOption option,
-    required bool isSelected,
-    required AppColors? colors,
-    required ThemeData theme,
-  }) {
+/// グループ化選択用の BottomSheet
+class _GroupBottomSheet extends StatelessWidget {
+  const _GroupBottomSheet({
+    required this.currentOption,
+  });
+
+  final GroupOption currentOption;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
+
+    return BaseBottomSheet(
+      title: 'グループ化',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: GroupOption.values.map((option) {
+          final isSelected = option == currentOption;
+          return _OptionTile(
+            label: option.displayName,
+            isSelected: isSelected,
+            onTap: () => Navigator.of(context).pop(option),
+            colors: colors,
+            theme: theme,
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+/// 選択肢タイル（共通）
+class _OptionTile extends StatelessWidget {
+  const _OptionTile({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+    required this.colors,
+    required this.theme,
+  });
+
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final AppColors? colors;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => Navigator.of(context).pop(option),
+      onTap: onTap,
       dense: true,
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
@@ -185,7 +201,7 @@ class _SortBottomSheet extends StatelessWidget {
             : theme.colorScheme.onSurfaceVariant,
       ),
       title: Text(
-        option.displayName,
+        label,
         style: theme.textTheme.titleMedium?.copyWith(
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
         ),
