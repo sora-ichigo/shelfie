@@ -258,15 +258,8 @@ List<RouteBase> _buildRoutes() {
           onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
           onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
           onNavigateToHelp: () => _showStubSnackbar(context, 'ヘルプ'),
-          onNavigateToFaq: () => _showStubSnackbar(context, 'よくある質問'),
-          onNavigateToContact: () => _showStubSnackbar(context, 'お問い合わせ'),
           onNavigateToTerms: () => _showStubSnackbar(context, '利用規約'),
           onNavigateToPrivacy: () => _showStubSnackbar(context, 'プライバシーポリシー'),
-          onNavigateToLicenses: () => showLicensePage(
-            context: context,
-            applicationName: 'Shelfie',
-            applicationLegalese: '© ${DateTime.now().year} sora ichigo',
-          ),
           onLogout: () async {
             final confirmed = await showDialog<bool>(
               context: context,

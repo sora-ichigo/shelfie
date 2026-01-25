@@ -16,11 +16,8 @@ class AccountScreen extends ConsumerWidget {
     required this.onNavigateToNotifications,
     required this.onNavigateToPassword,
     required this.onNavigateToHelp,
-    required this.onNavigateToFaq,
-    required this.onNavigateToContact,
     required this.onNavigateToTerms,
     required this.onNavigateToPrivacy,
-    required this.onNavigateToLicenses,
     required this.onLogout,
     this.onClose,
     super.key,
@@ -30,11 +27,8 @@ class AccountScreen extends ConsumerWidget {
   final VoidCallback onNavigateToNotifications;
   final VoidCallback onNavigateToPassword;
   final VoidCallback onNavigateToHelp;
-  final VoidCallback onNavigateToFaq;
-  final VoidCallback onNavigateToContact;
   final VoidCallback onNavigateToTerms;
   final VoidCallback onNavigateToPrivacy;
-  final VoidCallback onNavigateToLicenses;
   final VoidCallback onLogout;
   final VoidCallback? onClose;
 
@@ -102,29 +96,13 @@ class AccountScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.lg),
               AccountMenuSection(
-                title: 'サポート',
+                title: '詳細',
                 items: [
                   AccountMenuItem(
                     title: 'ヘルプ',
                     onTap: onNavigateToHelp,
                     icon: Icons.help_outline,
                   ),
-                  AccountMenuItem(
-                    title: 'よくある質問',
-                    onTap: onNavigateToFaq,
-                    icon: Icons.quiz_outlined,
-                  ),
-                  AccountMenuItem(
-                    title: 'お問い合わせ',
-                    onTap: onNavigateToContact,
-                    icon: Icons.mail_outline,
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              AccountMenuSection(
-                title: '法的情報',
-                items: [
                   AccountMenuItem(
                     title: '利用規約',
                     onTap: onNavigateToTerms,
@@ -134,11 +112,6 @@ class AccountScreen extends ConsumerWidget {
                     title: 'プライバシーポリシー',
                     onTap: onNavigateToPrivacy,
                     icon: Icons.privacy_tip_outlined,
-                  ),
-                  AccountMenuItem(
-                    title: 'ライセンス',
-                    onTap: onNavigateToLicenses,
-                    icon: Icons.info_outline,
                   ),
                 ],
               ),
