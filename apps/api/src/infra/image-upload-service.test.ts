@@ -1,5 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { ImageUploadService, UploadCredentials } from "./image-upload-service.js";
+import type {
+  ImageUploadService,
+  UploadCredentials,
+} from "./image-upload-service.js";
 import { createImageKitClient } from "./image-upload-service.js";
 
 describe("ImageUploadService", () => {

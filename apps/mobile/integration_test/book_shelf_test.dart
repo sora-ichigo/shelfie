@@ -9,6 +9,7 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
@@ -169,8 +170,8 @@ void main() {
           when(
             () => mockRepository.getMyShelf(
               query: any(named: 'query'),
-              sortBy: 'TITLE',
-              sortOrder: 'ASC',
+              sortBy: GShelfSortField.TITLE,
+              sortOrder: GSortOrder.ASC,
               limit: any(named: 'limit'),
               offset: any(named: 'offset'),
             ),
@@ -214,8 +215,8 @@ void main() {
           verify(
             () => mockRepository.getMyShelf(
               query: any(named: 'query'),
-              sortBy: 'TITLE',
-              sortOrder: 'ASC',
+              sortBy: GShelfSortField.TITLE,
+              sortOrder: GSortOrder.ASC,
               limit: any(named: 'limit'),
               offset: any(named: 'offset'),
             ),

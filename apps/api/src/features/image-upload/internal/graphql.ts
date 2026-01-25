@@ -97,10 +97,7 @@ export function registerImageUploadQueries(builder: Builder): void {
       },
       resolve: async (_parent, _args, context): Promise<UploadCredentials> => {
         if (!context.user) {
-          throw new ImageUploadError(
-            "SERVICE_UNAVAILABLE",
-            "認証が必要です",
-          );
+          throw new ImageUploadError("SERVICE_UNAVAILABLE", "認証が必要です");
         }
 
         const imageUploadService = getService();

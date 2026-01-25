@@ -2,8 +2,7 @@ import { describe, expect, it } from "vitest";
 import { transformImageKitUrl } from "./imagekit-url-transformer.js";
 
 describe("transformImageKitUrl", () => {
-  const sampleImageKitUrl =
-    "https://ik.imagekit.io/demo/sample-avatar.jpg";
+  const sampleImageKitUrl = "https://ik.imagekit.io/demo/sample-avatar.jpg";
 
   it("returns null for null input", () => {
     expect(transformImageKitUrl(null)).toBeNull();

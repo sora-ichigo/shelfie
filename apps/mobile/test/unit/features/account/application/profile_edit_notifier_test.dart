@@ -10,7 +10,6 @@ import 'package:shelfie/features/account/application/profile_edit_notifier.dart'
 import 'package:shelfie/features/account/application/profile_form_state.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/data/avatar_upload_service.dart';
-import 'package:shelfie/features/account/domain/upload_credentials.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 
 class MockAccountRepository extends Mock implements AccountRepository {}

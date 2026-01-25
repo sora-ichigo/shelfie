@@ -176,7 +176,7 @@ class AvatarUploadService {
       );
     }
 
-    final credentialsResult = await _repository!.getUploadCredentials();
+    final credentialsResult = await _repository.getUploadCredentials();
     if (credentialsResult.isLeft()) {
       return left(credentialsResult.getLeft().toNullable()!);
     }
@@ -193,7 +193,7 @@ class AvatarUploadService {
     }
 
     final avatarUrl = uploadResult.getRight().toNullable()!.url;
-    return _repository!.updateProfile(
+    return _repository.updateProfile(
       name: name,
       avatarUrl: avatarUrl,
     );

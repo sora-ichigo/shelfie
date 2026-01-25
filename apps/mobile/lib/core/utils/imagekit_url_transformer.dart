@@ -11,7 +11,6 @@ class ImageKitUrlTransformer {
     final transformations = 'tr=w-$targetSize,h-$targetSize,fo-face';
 
     final uri = Uri.parse(url);
-    final pathWithTransform = '${uri.path}?$transformations';
 
     return Uri(
       scheme: uri.scheme,
