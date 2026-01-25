@@ -11,10 +11,10 @@ import 'package:shelfie/features/book_detail/data/__generated__/book_detail.data
 import 'package:shelfie/features/book_detail/data/__generated__/book_detail.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart';
-import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart';
-import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.req.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.req.gql.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
