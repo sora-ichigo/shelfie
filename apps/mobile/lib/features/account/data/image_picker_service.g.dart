@@ -7,7 +7,7 @@ part of 'image_picker_service.dart';
 // **************************************************************************
 
 String _$imagePickerServiceHash() =>
-    r'1876a3cd413847e0c965dc36199292b7e8c705cd';
+    r'bd229e3cb0cf434393e10432d0fa309ae53c78b7';
 
 /// See also [imagePickerService].
 @ProviderFor(imagePickerService)

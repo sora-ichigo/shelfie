@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:ferry/ferry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -103,7 +104,7 @@ class UserBook {
 }
 
 @riverpod
-BookSearchRepository bookSearchRepository(BookSearchRepositoryRef ref) {
+BookSearchRepository bookSearchRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return BookSearchRepository(client: client);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
@@ -86,7 +87,7 @@ class RecentBooksRepository implements RecentBooksRepositoryInterface {
 /// 最近チェックした本リポジトリの Provider
 @Riverpod(keepAlive: true)
 RecentBooksRepository recentBooksRepository(
-  RecentBooksRepositoryRef ref,
+  Ref ref,
 ) {
   final box = Hive.box<Map<dynamic, dynamic>>(recentBooksBoxName);
   return RecentBooksRepository(box);

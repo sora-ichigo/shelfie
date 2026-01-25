@@ -32,6 +32,9 @@ analyzer:
     # Ignore deprecated_member_use for Riverpod parent parameter
     # See: https://github.com/rrousselGit/riverpod/issues/3261
     deprecated_member_use: ignore
+    # Ignore deprecated XxxRef types from Riverpod code generation
+    # These will be removed in Riverpod 3.0, but we use Ref instead where possible
+    deprecated_member_use_from_same_package: ignore
 
 linter:
   rules:

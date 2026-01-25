@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -33,6 +34,6 @@ class ShareServiceImpl implements ShareService {
 
 /// ShareService プロバイダー
 @riverpod
-ShareService shareService(ShareServiceRef ref) {
+ShareService shareService(Ref ref) {
   return ShareServiceImpl();
 }

@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 import 'package:ferry/ferry.dart';
 import 'package:ferry_hive_store/ferry_hive_store.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gql_exec/gql_exec.dart' as gql_exec;
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -41,7 +42,7 @@ String _getLocalApiEndpoint() {
 /// 環境変数 `API_BASE_URL` が設定されている場合はそれを使用し、
 /// 未設定の場合はプラットフォームに応じたローカル開発用URLを返す。
 @Riverpod(keepAlive: true)
-String apiEndpoint(ApiEndpointRef ref) {
+String apiEndpoint(Ref ref) {
   if (_apiBaseUrl.isNotEmpty) {
     return '$_apiBaseUrl/graphql';
   }
@@ -53,7 +54,7 @@ String apiEndpoint(ApiEndpointRef ref) {
 /// 認証済みユーザーの JWT トークンを提供する。
 /// null の場合は未認証状態を示す。
 @Riverpod(keepAlive: true)
-String? authToken(AuthTokenRef ref) {
+String? authToken(Ref ref) {
   return ref.watch(authStateProvider.select((s) => s.token));
 }
 
@@ -62,7 +63,7 @@ String? authToken(AuthTokenRef ref) {
 /// Ferry のキャッシュ用 Hive Box を非同期で提供する。
 /// アプリ起動時に初期化される。
 @Riverpod(keepAlive: true)
-Future<Box<Map<dynamic, dynamic>>> ferryCacheBox(FerryCacheBoxRef ref) async {
+Future<Box<Map<dynamic, dynamic>>> ferryCacheBox(Ref ref) async {
   return Hive.openBox<Map<dynamic, dynamic>>(_ferryCacheBoxName);
 }
 
@@ -74,7 +75,7 @@ Future<Box<Map<dynamic, dynamic>>> ferryCacheBox(FerryCacheBoxRef ref) async {
 /// 注意: このプロバイダーは ferryCacheBoxProvider が完了するまで待機する必要がある。
 /// テスト時には MemoryStore を使用した Cache でオーバーライド可能。
 @Riverpod(keepAlive: true)
-Cache ferryCache(FerryCacheRef ref) {
+Cache ferryCache(Ref ref) {
   // メモリキャッシュをデフォルトとして使用
   // 実際のアプリでは ferryCacheBoxProvider を事前に初期化し、
   // HiveStore を使用する
@@ -86,7 +87,7 @@ Cache ferryCache(FerryCacheRef ref) {
 /// Hive Box を使用したオフラインキャッシュを提供する。
 /// アプリ起動時の初期化完了後に使用可能。
 @Riverpod(keepAlive: true)
-Future<Cache> ferryHiveCache(FerryHiveCacheRef ref) async {
+Future<Cache> ferryHiveCache(Ref ref) async {
   final box = await ref.watch(ferryCacheBoxProvider.future);
   return Cache(store: HiveStore(box));
 }
@@ -100,7 +101,7 @@ class _AuthLink extends Link {
     required this.tokenService,
   });
 
-  final FerryClientRef ref;
+  final Ref ref;
   final TokenService tokenService;
 
   @override
@@ -146,7 +147,7 @@ class _AuthLink extends Link {
 /// final response = await client.request(yourRequest).first;
 /// ```
 @Riverpod(keepAlive: true)
-Client ferryClient(FerryClientRef ref) {
+Client ferryClient(Ref ref) {
   final endpoint = ref.watch(apiEndpointProvider);
   final cache = ref.watch(ferryCacheProvider);
   final tokenService = ref.read(tokenServiceProvider);
@@ -170,7 +171,7 @@ Client ferryClient(FerryClientRef ref) {
 /// 認証が必要な API リクエスト前にトークンの有効性を確認し、
 /// 必要に応じてリフレッシュする。
 @riverpod
-Future<bool> ensureValidToken(EnsureValidTokenRef ref) async {
+Future<bool> ensureValidToken(Ref ref) async {
   final tokenService = ref.read(tokenServiceProvider);
   return tokenService.ensureValidToken();
 }
@@ -186,7 +187,7 @@ Future<bool> ensureValidToken(EnsureValidTokenRef ref) async {
 /// final response = await client.request(yourRequest).first;
 /// ```
 @riverpod
-Future<Client> authenticatedClient(AuthenticatedClientRef ref) async {
+Future<Client> authenticatedClient(Ref ref) async {
   final tokenService = ref.read(tokenServiceProvider);
   final isValid = await tokenService.ensureValidToken();
 
@@ -204,6 +205,6 @@ Future<Client> authenticatedClient(AuthenticatedClientRef ref) async {
 /// Ferry Client のキャッシュを完全にクリアする。
 /// ログアウト時やデータの強制リフレッシュ時に使用する。
 @riverpod
-void clearCache(ClearCacheRef ref, Client client) {
+void clearCache(Ref ref, Client client) {
   client.cache.clear();
 }
