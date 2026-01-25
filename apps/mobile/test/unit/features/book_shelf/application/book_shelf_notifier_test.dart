@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -179,30 +180,203 @@ void main() {
     });
 
     group('setSearchQuery', () {
-      // Note: setSearchQueryはデバウンス付きのため、
-      // 実際のタイマー動作はfake_asyncが必要。
-      // 内部の_searchQuery設定とオフセットリセットは同期的に行われる。
-      test('should reset offset and allBooks when called', () async {
-        when(
-          () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer((_) async => right(createMyShelfResult()));
+      test('should debounce and send query to server after 300ms', () {
+        fakeAsync((async) {
+          when(
+            () => mockRepository.getMyShelf(
+              query: any(named: 'query'),
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).thenAnswer((_) async => right(createMyShelfResult()));
 
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
+          final notifier = container.read(bookShelfNotifierProvider.notifier);
 
-        // setSearchQuery を呼ぶ（デバウンスタイマーはテスト環境では発火しない）
-        // ignore: unawaited_futures
-        notifier.setSearchQuery('test query');
+          async.elapse(Duration.zero);
 
-        // 内部状態は即座に更新される
-        // （タイマーは発火しないが、状態の準備はできている）
-        // 実際のAPIコールはUIテストまたはfake_asyncで検証
+          notifier.initialize();
+          async.elapse(Duration.zero);
+
+          clearInteractions(mockRepository);
+
+          when(
+            () => mockRepository.getMyShelf(
+              query: 'flutter',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).thenAnswer((_) async => right(createMyShelfResult()));
+
+          notifier.setSearchQuery('flutter');
+
+          async.elapse(const Duration(milliseconds: 100));
+
+          verifyNever(
+            () => mockRepository.getMyShelf(
+              query: 'flutter',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          );
+
+          async.elapse(const Duration(milliseconds: 200));
+
+          verify(
+            () => mockRepository.getMyShelf(
+              query: 'flutter',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).called(1);
+        });
+      });
+
+      test('should cancel previous debounce timer when new query is set', () {
+        fakeAsync((async) {
+          when(
+            () => mockRepository.getMyShelf(
+              query: any(named: 'query'),
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).thenAnswer((_) async => right(createMyShelfResult()));
+
+          final notifier = container.read(bookShelfNotifierProvider.notifier);
+
+          async.elapse(Duration.zero);
+
+          notifier.initialize();
+          async.elapse(Duration.zero);
+
+          clearInteractions(mockRepository);
+
+          notifier.setSearchQuery('dart');
+          async.elapse(const Duration(milliseconds: 200));
+
+          notifier.setSearchQuery('flutter');
+          async.elapse(const Duration(milliseconds: 300));
+
+          verifyNever(
+            () => mockRepository.getMyShelf(
+              query: 'dart',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          );
+
+          verify(
+            () => mockRepository.getMyShelf(
+              query: 'flutter',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).called(1);
+        });
+      });
+
+      test('should reset offset when search query changes', () {
+        fakeAsync((async) {
+          when(
+            () => mockRepository.getMyShelf(
+              query: any(named: 'query'),
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: 0,
+            ),
+          ).thenAnswer(
+            (_) async => right(
+              createMyShelfResult(hasMore: true, totalCount: 40),
+            ),
+          );
+
+          final notifier = container.read(bookShelfNotifierProvider.notifier);
+          async.elapse(Duration.zero);
+
+          notifier.initialize();
+          async.elapse(Duration.zero);
+
+          when(
+            () => mockRepository.getMyShelf(
+              query: any(named: 'query'),
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: 20,
+            ),
+          ).thenAnswer(
+            (_) async => right(createMyShelfResult(hasMore: false)),
+          );
+
+          notifier.loadMore();
+          async.elapse(Duration.zero);
+
+          clearInteractions(mockRepository);
+
+          when(
+            () => mockRepository.getMyShelf(
+              query: 'test',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: 0,
+            ),
+          ).thenAnswer((_) async => right(createMyShelfResult()));
+
+          notifier.setSearchQuery('test');
+          async.elapse(const Duration(milliseconds: 300));
+
+          verify(
+            () => mockRepository.getMyShelf(
+              query: 'test',
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: 0,
+            ),
+          ).called(1);
+        });
+      });
+
+      test('should update searchQuery in state after fetch', () {
+        fakeAsync((async) {
+          when(
+            () => mockRepository.getMyShelf(
+              query: any(named: 'query'),
+              sortBy: any(named: 'sortBy'),
+              sortOrder: any(named: 'sortOrder'),
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            ),
+          ).thenAnswer((_) async => right(createMyShelfResult()));
+
+          final notifier = container.read(bookShelfNotifierProvider.notifier);
+          async.elapse(Duration.zero);
+
+          notifier.initialize();
+          async.elapse(Duration.zero);
+
+          notifier.setSearchQuery('search term');
+          async.elapse(const Duration(milliseconds: 300));
+
+          expect(notifier.state, isA<BookShelfLoaded>());
+          final loaded = notifier.state as BookShelfLoaded;
+          expect(loaded.searchQuery, 'search term');
+        });
       });
     });
 
