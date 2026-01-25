@@ -209,11 +209,21 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(
-            'Shelfie',
-            style: theme.textTheme.headlineMedium?.copyWith(
-              color: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
-              fontWeight: FontWeight.bold,
+          ShaderMask(
+            shaderCallback: (bounds) => const LinearGradient(
+              colors: [
+                Color(0xFF00D492),
+                Color(0xFF00D5BE),
+                Color(0xFF00D3F2),
+              ],
+              stops: [0.0, 0.5, 1.0],
+            ).createShader(bounds),
+            child: Text(
+              'Shelfie',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
