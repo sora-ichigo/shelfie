@@ -70,6 +70,7 @@ abstract class GUpdateReadingStatusData_updateReadingStatus
   DateTime? get completedAt;
   String? get note;
   DateTime? get noteUpdatedAt;
+  int? get rating;
   static Serializer<GUpdateReadingStatusData_updateReadingStatus>
       get serializer => _$gUpdateReadingStatusDataUpdateReadingStatusSerializer;
 

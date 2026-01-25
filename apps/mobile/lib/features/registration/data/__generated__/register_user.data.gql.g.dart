@@ -7,19 +7,19 @@ part of 'register_user.data.gql.dart';
 // **************************************************************************
 
 Serializer<GRegisterUserData> _$gRegisterUserDataSerializer =
-    new _$GRegisterUserDataSerializer();
+    _$GRegisterUserDataSerializer();
 Serializer<GRegisterUserData_registerUser__base>
     _$gRegisterUserDataRegisterUserBaseSerializer =
-    new _$GRegisterUserData_registerUser__baseSerializer();
+    _$GRegisterUserData_registerUser__baseSerializer();
 Serializer<GRegisterUserData_registerUser__asMutationRegisterUserSuccess>
     _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessSerializer =
-    new _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer();
+    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer();
 Serializer<GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data>
     _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataSerializer =
-    new _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerializer();
+    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerializer();
 Serializer<GRegisterUserData_registerUser__asAuthError>
     _$gRegisterUserDataRegisterUserAsAuthErrorSerializer =
-    new _$GRegisterUserData_registerUser__asAuthErrorSerializer();
+    _$GRegisterUserData_registerUser__asAuthErrorSerializer();
 
 class _$GRegisterUserDataSerializer
     implements StructuredSerializer<GRegisterUserData> {
@@ -51,7 +51,7 @@ class _$GRegisterUserDataSerializer
   GRegisterUserData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserDataBuilder();
+    final result = GRegisterUserDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -102,7 +102,7 @@ class _$GRegisterUserData_registerUser__baseSerializer
   GRegisterUserData_registerUser__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserData_registerUser__baseBuilder();
+    final result = GRegisterUserData_registerUser__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        new GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder();
+        GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -232,7 +232,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerial
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        new GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
+        GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -319,7 +319,7 @@ class _$GRegisterUserData_registerUser__asAuthErrorSerializer
   GRegisterUserData_registerUser__asAuthError deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserData_registerUser__asAuthErrorBuilder();
+    final result = GRegisterUserData_registerUser__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -363,21 +363,17 @@ class _$GRegisterUserData extends GRegisterUserData {
 
   factory _$GRegisterUserData(
           [void Function(GRegisterUserDataBuilder)? updates]) =>
-      (new GRegisterUserDataBuilder()..update(updates))._build();
+      (GRegisterUserDataBuilder()..update(updates))._build();
 
   _$GRegisterUserData._({required this.G__typename, this.registerUser})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GRegisterUserData', 'G__typename');
-  }
-
+      : super._();
   @override
   GRegisterUserData rebuild(void Function(GRegisterUserDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserDataBuilder toBuilder() =>
-      new GRegisterUserDataBuilder()..replace(this);
+      GRegisterUserDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -434,7 +430,6 @@ class GRegisterUserDataBuilder
 
   @override
   void replace(GRegisterUserData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserData;
   }
 
@@ -448,10 +443,11 @@ class GRegisterUserDataBuilder
 
   _$GRegisterUserData _build() {
     final _$result = _$v ??
-        new _$GRegisterUserData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GRegisterUserData', 'G__typename'),
-            registerUser: registerUser);
+        _$GRegisterUserData._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GRegisterUserData', 'G__typename'),
+          registerUser: registerUser,
+        );
     replace(_$result);
     return _$result;
   }
@@ -465,15 +461,10 @@ class _$GRegisterUserData_registerUser__base
   factory _$GRegisterUserData_registerUser__base(
           [void Function(GRegisterUserData_registerUser__baseBuilder)?
               updates]) =>
-      (new GRegisterUserData_registerUser__baseBuilder()..update(updates))
-          ._build();
+      (GRegisterUserData_registerUser__baseBuilder()..update(updates))._build();
 
   _$GRegisterUserData_registerUser__base._({required this.G__typename})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GRegisterUserData_registerUser__base', 'G__typename');
-  }
-
+      : super._();
   @override
   GRegisterUserData_registerUser__base rebuild(
           void Function(GRegisterUserData_registerUser__baseBuilder) updates) =>
@@ -481,7 +472,7 @@ class _$GRegisterUserData_registerUser__base
 
   @override
   GRegisterUserData_registerUser__baseBuilder toBuilder() =>
-      new GRegisterUserData_registerUser__baseBuilder()..replace(this);
+      GRegisterUserData_registerUser__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -531,7 +522,6 @@ class GRegisterUserData_registerUser__baseBuilder
 
   @override
   void replace(GRegisterUserData_registerUser__base other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserData_registerUser__base;
   }
 
@@ -546,9 +536,10 @@ class GRegisterUserData_registerUser__baseBuilder
 
   _$GRegisterUserData_registerUser__base _build() {
     final _$result = _$v ??
-        new _$GRegisterUserData_registerUser__base._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GRegisterUserData_registerUser__base', 'G__typename'));
+        _$GRegisterUserData_registerUser__base._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRegisterUserData_registerUser__base', 'G__typename'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -565,23 +556,13 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
           [void Function(
                   GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder)?
               updates]) =>
-      (new GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
+      (GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._(
       {required this.G__typename, required this.data})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename,
-        r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-        'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        data,
-        r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-        'data');
-  }
-
+      : super._();
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess rebuild(
           void Function(
@@ -592,7 +573,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
       toBuilder() =>
-          new GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
             ..replace(this);
 
   @override
@@ -637,7 +618,7 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
       _data;
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
       get data => _$this._data ??=
-          new GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
   set data(
           GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder?
               data) =>
@@ -662,7 +643,6 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
   @override
   void replace(
       GRegisterUserData_registerUser__asMutationRegisterUserSuccess other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess;
   }
@@ -683,19 +663,20 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess _$result;
     try {
       _$result = _$v ??
-          new _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename,
-                  r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-                  'G__typename'),
-              data: data.build());
+          _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
+                'G__typename'),
+            data: data.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
             _$failedField,
             e.toString());
@@ -722,19 +703,13 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
           [void Function(
                   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder)?
               updates]) =>
-      (new GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
+      (GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._(
       {required this.G__typename, this.id, this.email, this.createdAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename,
-        r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-        'G__typename');
-  }
-
+      : super._();
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data rebuild(
           void Function(
@@ -745,7 +720,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
       toBuilder() =>
-          new GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -827,7 +802,6 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
   void replace(
       GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
           other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data;
   }
@@ -847,15 +821,15 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
       _build() {
     final _$result = _$v ??
-        new _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
-            ._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-                'G__typename'),
-            id: id,
-            email: email,
-            createdAt: createdAt);
+        _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
+              'G__typename'),
+          id: id,
+          email: email,
+          createdAt: createdAt,
+        );
     replace(_$result);
     return _$result;
   }
@@ -877,8 +851,7 @@ class _$GRegisterUserData_registerUser__asAuthError
   factory _$GRegisterUserData_registerUser__asAuthError(
           [void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)?
               updates]) =>
-      (new GRegisterUserData_registerUser__asAuthErrorBuilder()
-            ..update(updates))
+      (GRegisterUserData_registerUser__asAuthErrorBuilder()..update(updates))
           ._build();
 
   _$GRegisterUserData_registerUser__asAuthError._(
@@ -887,11 +860,7 @@ class _$GRegisterUserData_registerUser__asAuthError
       this.message,
       this.field,
       this.retryable})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(G__typename,
-        r'GRegisterUserData_registerUser__asAuthError', 'G__typename');
-  }
-
+      : super._();
   @override
   GRegisterUserData_registerUser__asAuthError rebuild(
           void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)
@@ -900,7 +869,7 @@ class _$GRegisterUserData_registerUser__asAuthError
 
   @override
   GRegisterUserData_registerUser__asAuthErrorBuilder toBuilder() =>
-      new GRegisterUserData_registerUser__asAuthErrorBuilder()..replace(this);
+      GRegisterUserData_registerUser__asAuthErrorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -983,7 +952,6 @@ class GRegisterUserData_registerUser__asAuthErrorBuilder
 
   @override
   void replace(GRegisterUserData_registerUser__asAuthError other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserData_registerUser__asAuthError;
   }
 
@@ -999,13 +967,14 @@ class GRegisterUserData_registerUser__asAuthErrorBuilder
 
   _$GRegisterUserData_registerUser__asAuthError _build() {
     final _$result = _$v ??
-        new _$GRegisterUserData_registerUser__asAuthError._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GRegisterUserData_registerUser__asAuthError', 'G__typename'),
-            code: code,
-            message: message,
-            field: field,
-            retryable: retryable);
+        _$GRegisterUserData_registerUser__asAuthError._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRegisterUserData_registerUser__asAuthError', 'G__typename'),
+          code: code,
+          message: message,
+          field: field,
+          retryable: retryable,
+        );
     replace(_$result);
     return _$result;
   }

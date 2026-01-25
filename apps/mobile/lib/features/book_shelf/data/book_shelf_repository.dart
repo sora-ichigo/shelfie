@@ -60,8 +60,8 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
         ..vars.input = GMyShelfInput(
           (i) => i
             ..query = query
-            ..sortBy = sortBy
-            ..sortOrder = sortOrder
+            ..sortBy = sortBy != null ? GShelfSortField.valueOf(sortBy) : null
+            ..sortOrder = sortOrder != null ? GSortOrder.valueOf(sortOrder) : null
             ..limit = limit ?? defaultPageSize
             ..offset = offset ?? 0,
         ).toBuilder(),

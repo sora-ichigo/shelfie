@@ -188,6 +188,9 @@ type Mutation {
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
 
+  """Update the rating of a book in the user's shelf"""
+  updateBookRating(rating: Int!, userBookId: Int!): UserBook!
+
   """Update the current user's profile"""
   updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
 
@@ -439,6 +442,9 @@ type UserBook {
 
   """The publisher of the book"""
   publisher: String
+
+  """User's rating for the book (1-5)"""
+  rating: Int
 
   """The reading status of the book"""
   readingStatus: ReadingStatus!

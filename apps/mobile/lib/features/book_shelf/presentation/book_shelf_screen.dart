@@ -74,7 +74,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md, vertical: AppSpacing.sm),
           child: SearchFilterBar(
             sortOption: state.sortOption,
             groupOption: state.groupOption,
@@ -90,7 +91,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
             },
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
         Expanded(
           child: _buildBookContent(state),
         ),

@@ -7,7 +7,7 @@ part of 'book_detail.req.gql.dart';
 // **************************************************************************
 
 Serializer<GBookDetailReq> _$gBookDetailReqSerializer =
-    new _$GBookDetailReqSerializer();
+    _$GBookDetailReqSerializer();
 
 class _$GBookDetailReqSerializer
     implements StructuredSerializer<GBookDetailReq> {
@@ -74,7 +74,7 @@ class _$GBookDetailReqSerializer
   GBookDetailReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GBookDetailReqBuilder();
+    final result = GBookDetailReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -151,7 +151,7 @@ class _$GBookDetailReq extends GBookDetailReq {
   final _i4.Context? context;
 
   factory _$GBookDetailReq([void Function(GBookDetailReqBuilder)? updates]) =>
-      (new GBookDetailReqBuilder()..update(updates))._build();
+      (GBookDetailReqBuilder()..update(updates))._build();
 
   _$GBookDetailReq._(
       {required this.vars,
@@ -164,21 +164,13 @@ class _$GBookDetailReq extends GBookDetailReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GBookDetailReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GBookDetailReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GBookDetailReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GBookDetailReq rebuild(void Function(GBookDetailReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GBookDetailReqBuilder toBuilder() =>
-      new GBookDetailReqBuilder()..replace(this);
+  GBookDetailReqBuilder toBuilder() => GBookDetailReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -237,7 +229,7 @@ class GBookDetailReqBuilder
 
   _i3.GBookDetailVarsBuilder? _vars;
   _i3.GBookDetailVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GBookDetailVarsBuilder();
+      _$this._vars ??= _i3.GBookDetailVarsBuilder();
   set vars(_i3.GBookDetailVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -260,7 +252,7 @@ class GBookDetailReqBuilder
 
   _i2.GBookDetailDataBuilder? _optimisticResponse;
   _i2.GBookDetailDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GBookDetailDataBuilder();
+      _$this._optimisticResponse ??= _i2.GBookDetailDataBuilder();
   set optimisticResponse(_i2.GBookDetailDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -314,7 +306,6 @@ class GBookDetailReqBuilder
 
   @override
   void replace(GBookDetailReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GBookDetailReq;
   }
 
@@ -330,19 +321,20 @@ class GBookDetailReqBuilder
     _$GBookDetailReq _$result;
     try {
       _$result = _$v ??
-          new _$GBookDetailReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GBookDetailReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GBookDetailReq', 'executeOnListen'),
-              context: context);
+          _$GBookDetailReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GBookDetailReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GBookDetailReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -352,7 +344,7 @@ class GBookDetailReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GBookDetailReq', _$failedField, e.toString());
       }
       rethrow;

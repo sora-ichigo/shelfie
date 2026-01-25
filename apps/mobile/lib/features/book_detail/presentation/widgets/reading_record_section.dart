@@ -10,11 +10,13 @@ class ReadingRecordSection extends StatelessWidget {
   const ReadingRecordSection({
     required this.shelfEntry,
     required this.onStatusTap,
+    required this.onRatingTap,
     super.key,
   });
 
   final ShelfEntry shelfEntry;
   final VoidCallback onStatusTap;
+  final VoidCallback onRatingTap;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,13 @@ class ReadingRecordSection extends StatelessWidget {
             valueWidget: _buildStatusTag(context, shelfEntry.readingStatus),
             onTap: onStatusTap,
             position: _RowPosition.first,
+          ),
+          _buildTableRow(
+            context,
+            label: '評価',
+            valueWidget: _buildRatingDisplay(context, shelfEntry.rating),
+            onTap: onRatingTap,
+            position: _RowPosition.middle,
           ),
           _buildTableRow(
             context,
@@ -182,6 +191,33 @@ class ReadingRecordSection extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
       ),
+    );
+  }
+
+  Widget _buildRatingDisplay(BuildContext context, int? rating) {
+    final theme = Theme.of(context);
+
+    if (rating == null) {
+      return Text(
+        '未評価',
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
+        ),
+      );
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(5, (index) {
+        final isFilled = index < rating;
+        return Icon(
+          isFilled ? Icons.star : Icons.star_border,
+          size: 18,
+          color: isFilled
+              ? const Color(0xFFFFD54F)
+              : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
+        );
+      }),
     );
   }
 

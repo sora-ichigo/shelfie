@@ -6,7 +6,7 @@ part of 'my_shelf.req.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GMyShelfReq> _$gMyShelfReqSerializer = new _$GMyShelfReqSerializer();
+Serializer<GMyShelfReq> _$gMyShelfReqSerializer = _$GMyShelfReqSerializer();
 
 class _$GMyShelfReqSerializer implements StructuredSerializer<GMyShelfReq> {
   @override
@@ -71,7 +71,7 @@ class _$GMyShelfReqSerializer implements StructuredSerializer<GMyShelfReq> {
   @override
   GMyShelfReq deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfReqBuilder();
+    final result = GMyShelfReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -148,7 +148,7 @@ class _$GMyShelfReq extends GMyShelfReq {
   final _i4.Context? context;
 
   factory _$GMyShelfReq([void Function(GMyShelfReqBuilder)? updates]) =>
-      (new GMyShelfReqBuilder()..update(updates))._build();
+      (GMyShelfReqBuilder()..update(updates))._build();
 
   _$GMyShelfReq._(
       {required this.vars,
@@ -161,20 +161,13 @@ class _$GMyShelfReq extends GMyShelfReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GMyShelfReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GMyShelfReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GMyShelfReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GMyShelfReq rebuild(void Function(GMyShelfReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfReqBuilder toBuilder() => new GMyShelfReqBuilder()..replace(this);
+  GMyShelfReqBuilder toBuilder() => GMyShelfReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -232,7 +225,7 @@ class GMyShelfReqBuilder implements Builder<GMyShelfReq, GMyShelfReqBuilder> {
 
   _i3.GMyShelfVarsBuilder? _vars;
   _i3.GMyShelfVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GMyShelfVarsBuilder();
+      _$this._vars ??= _i3.GMyShelfVarsBuilder();
   set vars(_i3.GMyShelfVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -254,7 +247,7 @@ class GMyShelfReqBuilder implements Builder<GMyShelfReq, GMyShelfReqBuilder> {
 
   _i2.GMyShelfDataBuilder? _optimisticResponse;
   _i2.GMyShelfDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GMyShelfDataBuilder();
+      _$this._optimisticResponse ??= _i2.GMyShelfDataBuilder();
   set optimisticResponse(_i2.GMyShelfDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -308,7 +301,6 @@ class GMyShelfReqBuilder implements Builder<GMyShelfReq, GMyShelfReqBuilder> {
 
   @override
   void replace(GMyShelfReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfReq;
   }
 
@@ -324,19 +316,20 @@ class GMyShelfReqBuilder implements Builder<GMyShelfReq, GMyShelfReqBuilder> {
     _$GMyShelfReq _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GMyShelfReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GMyShelfReq', 'executeOnListen'),
-              context: context);
+          _$GMyShelfReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GMyShelfReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GMyShelfReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -346,7 +339,7 @@ class GMyShelfReqBuilder implements Builder<GMyShelfReq, GMyShelfReqBuilder> {
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfReq', _$failedField, e.toString());
       }
       rethrow;

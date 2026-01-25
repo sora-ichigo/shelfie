@@ -1,0 +1,18 @@
+mutation UpdateBookRating($userBookId: Int!, $rating: Int!) {
+  updateBookRating(userBookId: $userBookId, rating: $rating) {
+    id
+    externalId
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+    addedAt
+    readingStatus
+    completedAt
+    note
+    noteUpdatedAt
+    rating
+  }
+}

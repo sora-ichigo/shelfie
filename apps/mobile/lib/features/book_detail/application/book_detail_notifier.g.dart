@@ -7,7 +7,7 @@ part of 'book_detail_notifier.dart';
 // **************************************************************************
 
 String _$bookDetailNotifierHash() =>
-    r'38359879f09ff8a4972d1d1952c34724ca150237';
+    r'd614b6bc4077926a719ccf07f929f16a82410075';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -159,6 +159,8 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin BookDetailNotifierRef
     on AutoDisposeAsyncNotifierProviderRef<BookDetail?> {
   /// The parameter `externalId` of this provider.
@@ -174,4 +176,4 @@ class _BookDetailNotifierProviderElement
   String get externalId => (origin as BookDetailNotifierProvider).externalId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

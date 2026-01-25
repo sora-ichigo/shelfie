@@ -7,10 +7,10 @@ part of 'search_book_by_isbn.data.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBookByISBNData> _$gSearchBookByISBNDataSerializer =
-    new _$GSearchBookByISBNDataSerializer();
+    _$GSearchBookByISBNDataSerializer();
 Serializer<GSearchBookByISBNData_searchBookByISBN>
     _$gSearchBookByISBNDataSearchBookByISBNSerializer =
-    new _$GSearchBookByISBNData_searchBookByISBNSerializer();
+    _$GSearchBookByISBNData_searchBookByISBNSerializer();
 
 class _$GSearchBookByISBNDataSerializer
     implements StructuredSerializer<GSearchBookByISBNData> {
@@ -47,7 +47,7 @@ class _$GSearchBookByISBNDataSerializer
   GSearchBookByISBNData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSearchBookByISBNDataBuilder();
+    final result = GSearchBookByISBNDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -136,7 +136,7 @@ class _$GSearchBookByISBNData_searchBookByISBNSerializer
   GSearchBookByISBNData_searchBookByISBN deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSearchBookByISBNData_searchBookByISBNBuilder();
+    final result = GSearchBookByISBNData_searchBookByISBNBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -193,14 +193,10 @@ class _$GSearchBookByISBNData extends GSearchBookByISBNData {
 
   factory _$GSearchBookByISBNData(
           [void Function(GSearchBookByISBNDataBuilder)? updates]) =>
-      (new GSearchBookByISBNDataBuilder()..update(updates))._build();
+      (GSearchBookByISBNDataBuilder()..update(updates))._build();
 
   _$GSearchBookByISBNData._({required this.G__typename, this.searchBookByISBN})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GSearchBookByISBNData', 'G__typename');
-  }
-
+      : super._();
   @override
   GSearchBookByISBNData rebuild(
           void Function(GSearchBookByISBNDataBuilder) updates) =>
@@ -208,7 +204,7 @@ class _$GSearchBookByISBNData extends GSearchBookByISBNData {
 
   @override
   GSearchBookByISBNDataBuilder toBuilder() =>
-      new GSearchBookByISBNDataBuilder()..replace(this);
+      GSearchBookByISBNDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -247,7 +243,7 @@ class GSearchBookByISBNDataBuilder
   GSearchBookByISBNData_searchBookByISBNBuilder? _searchBookByISBN;
   GSearchBookByISBNData_searchBookByISBNBuilder get searchBookByISBN =>
       _$this._searchBookByISBN ??=
-          new GSearchBookByISBNData_searchBookByISBNBuilder();
+          GSearchBookByISBNData_searchBookByISBNBuilder();
   set searchBookByISBN(
           GSearchBookByISBNData_searchBookByISBNBuilder? searchBookByISBN) =>
       _$this._searchBookByISBN = searchBookByISBN;
@@ -268,7 +264,6 @@ class GSearchBookByISBNDataBuilder
 
   @override
   void replace(GSearchBookByISBNData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBookByISBNData;
   }
 
@@ -284,17 +279,18 @@ class GSearchBookByISBNDataBuilder
     _$GSearchBookByISBNData _$result;
     try {
       _$result = _$v ??
-          new _$GSearchBookByISBNData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GSearchBookByISBNData', 'G__typename'),
-              searchBookByISBN: _searchBookByISBN?.build());
+          _$GSearchBookByISBNData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GSearchBookByISBNData', 'G__typename'),
+            searchBookByISBN: _searchBookByISBN?.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'searchBookByISBN';
         _searchBookByISBN?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GSearchBookByISBNData', _$failedField, e.toString());
       }
       rethrow;
@@ -326,7 +322,7 @@ class _$GSearchBookByISBNData_searchBookByISBN
   factory _$GSearchBookByISBNData_searchBookByISBN(
           [void Function(GSearchBookByISBNData_searchBookByISBNBuilder)?
               updates]) =>
-      (new GSearchBookByISBNData_searchBookByISBNBuilder()..update(updates))
+      (GSearchBookByISBNData_searchBookByISBNBuilder()..update(updates))
           ._build();
 
   _$GSearchBookByISBNData_searchBookByISBN._(
@@ -338,17 +334,7 @@ class _$GSearchBookByISBNData_searchBookByISBN
       this.publishedDate,
       this.isbn,
       this.coverImageUrl})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GSearchBookByISBNData_searchBookByISBN', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GSearchBookByISBNData_searchBookByISBN', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GSearchBookByISBNData_searchBookByISBN', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GSearchBookByISBNData_searchBookByISBN', 'authors');
-  }
-
+      : super._();
   @override
   GSearchBookByISBNData_searchBookByISBN rebuild(
           void Function(GSearchBookByISBNData_searchBookByISBNBuilder)
@@ -357,7 +343,7 @@ class _$GSearchBookByISBNData_searchBookByISBN
 
   @override
   GSearchBookByISBNData_searchBookByISBNBuilder toBuilder() =>
-      new GSearchBookByISBNData_searchBookByISBNBuilder()..replace(this);
+      GSearchBookByISBNData_searchBookByISBNBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -423,8 +409,7 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -467,7 +452,6 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
 
   @override
   void replace(GSearchBookByISBNData_searchBookByISBN other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBookByISBNData_searchBookByISBN;
   }
 
@@ -484,25 +468,26 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
     _$GSearchBookByISBNData_searchBookByISBN _$result;
     try {
       _$result = _$v ??
-          new _$GSearchBookByISBNData_searchBookByISBN._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  r'GSearchBookByISBNData_searchBookByISBN', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GSearchBookByISBNData_searchBookByISBN', 'id'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GSearchBookByISBNData_searchBookByISBN', 'title'),
-              authors: authors.build(),
-              publisher: publisher,
-              publishedDate: publishedDate,
-              isbn: isbn,
-              coverImageUrl: coverImageUrl);
+          _$GSearchBookByISBNData_searchBookByISBN._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GSearchBookByISBNData_searchBookByISBN', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GSearchBookByISBNData_searchBookByISBN', 'id'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GSearchBookByISBNData_searchBookByISBN', 'title'),
+            authors: authors.build(),
+            publisher: publisher,
+            publishedDate: publishedDate,
+            isbn: isbn,
+            coverImageUrl: coverImageUrl,
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GSearchBookByISBNData_searchBookByISBN',
             _$failedField,
             e.toString());

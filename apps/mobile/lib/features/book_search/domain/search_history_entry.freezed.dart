@@ -26,8 +26,12 @@ mixin _$SearchHistoryEntry {
   /// 検索を実行した日時
   DateTime get searchedAt => throw _privateConstructorUsedError;
 
+  /// Serializes this SearchHistoryEntry to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchHistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchHistoryEntryCopyWith<SearchHistoryEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +55,8 @@ class _$SearchHistoryEntryCopyWithImpl<$Res, $Val extends SearchHistoryEntry>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchHistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +95,8 @@ class __$$SearchHistoryEntryImplCopyWithImpl<$Res>
       $Res Function(_$SearchHistoryEntryImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchHistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,11 +148,13 @@ class _$SearchHistoryEntryImpl implements _SearchHistoryEntry {
                 other.searchedAt == searchedAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, query, searchedAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchHistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchHistoryEntryImplCopyWith<_$SearchHistoryEntryImpl> get copyWith =>
@@ -167,16 +177,18 @@ abstract class _SearchHistoryEntry implements SearchHistoryEntry {
   factory _SearchHistoryEntry.fromJson(Map<String, dynamic> json) =
       _$SearchHistoryEntryImpl.fromJson;
 
-  @override
-
   /// 検索クエリ文字列
-  String get query;
   @override
+  String get query;
 
   /// 検索を実行した日時
-  DateTime get searchedAt;
   @override
-  @JsonKey(ignore: true)
+  DateTime get searchedAt;
+
+  /// Create a copy of SearchHistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchHistoryEntryImplCopyWith<_$SearchHistoryEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

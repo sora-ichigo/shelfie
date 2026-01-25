@@ -236,6 +236,7 @@ describe("books Feature public API", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       expect(userBook.id).toBe(1);
     });

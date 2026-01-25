@@ -24,37 +24,27 @@ class BookCard extends StatelessWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Card(
-      color: appColors.surfaceElevated,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 3,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 2 / 3,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.md),
               child: _buildCoverImage(appColors),
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppSpacing.xs),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (book.hasRating) _buildRating(appColors),
-                  const SizedBox(height: AppSpacing.xxs),
-                  _buildTitle(theme),
-                  const SizedBox(height: AppSpacing.xxs),
-                  _buildAuthors(theme, appColors),
-                ],
-              ),
-            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          if (book.hasRating) ...[
+            _buildRating(appColors),
+            const SizedBox(height: AppSpacing.xxs),
           ],
-        ),
+          _buildTitle(theme),
+          const SizedBox(height: AppSpacing.xxs),
+          _buildAuthors(theme, appColors),
+        ],
       ),
     );
   }
@@ -64,6 +54,7 @@ class BookCard extends StatelessWidget {
       return CachedNetworkImage(
         imageUrl: book.coverImageUrl!,
         fit: BoxFit.cover,
+        width: double.infinity,
         placeholder: (context, url) => _buildPlaceholder(appColors),
         errorWidget: (context, url, error) => _buildPlaceholder(appColors),
       );
@@ -104,7 +95,7 @@ class BookCard extends StatelessWidget {
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.bodySmall?.copyWith(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
       ),
     );
   }

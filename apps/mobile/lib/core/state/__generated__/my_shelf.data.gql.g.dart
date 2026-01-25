@@ -6,12 +6,11 @@ part of 'my_shelf.data.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GMyShelfData> _$gMyShelfDataSerializer =
-    new _$GMyShelfDataSerializer();
+Serializer<GMyShelfData> _$gMyShelfDataSerializer = _$GMyShelfDataSerializer();
 Serializer<GMyShelfData_myShelf> _$gMyShelfDataMyShelfSerializer =
-    new _$GMyShelfData_myShelfSerializer();
+    _$GMyShelfData_myShelfSerializer();
 Serializer<GMyShelfData_myShelf_items> _$gMyShelfDataMyShelfItemsSerializer =
-    new _$GMyShelfData_myShelf_itemsSerializer();
+    _$GMyShelfData_myShelf_itemsSerializer();
 
 class _$GMyShelfDataSerializer implements StructuredSerializer<GMyShelfData> {
   @override
@@ -38,7 +37,7 @@ class _$GMyShelfDataSerializer implements StructuredSerializer<GMyShelfData> {
   GMyShelfData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfDataBuilder();
+    final result = GMyShelfDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -99,7 +98,7 @@ class _$GMyShelfData_myShelfSerializer
   GMyShelfData_myShelf deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfData_myShelfBuilder();
+    final result = GMyShelfData_myShelfBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -198,7 +197,7 @@ class _$GMyShelfData_myShelf_itemsSerializer
   GMyShelfData_myShelf_items deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfData_myShelf_itemsBuilder();
+    final result = GMyShelfData_myShelf_itemsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -263,21 +262,16 @@ class _$GMyShelfData extends GMyShelfData {
   final GMyShelfData_myShelf myShelf;
 
   factory _$GMyShelfData([void Function(GMyShelfDataBuilder)? updates]) =>
-      (new GMyShelfDataBuilder()..update(updates))._build();
+      (GMyShelfDataBuilder()..update(updates))._build();
 
   _$GMyShelfData._({required this.G__typename, required this.myShelf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(myShelf, r'GMyShelfData', 'myShelf');
-  }
-
+      : super._();
   @override
   GMyShelfData rebuild(void Function(GMyShelfDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfDataBuilder toBuilder() => new GMyShelfDataBuilder()..replace(this);
+  GMyShelfDataBuilder toBuilder() => GMyShelfDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -315,7 +309,7 @@ class GMyShelfDataBuilder
 
   GMyShelfData_myShelfBuilder? _myShelf;
   GMyShelfData_myShelfBuilder get myShelf =>
-      _$this._myShelf ??= new GMyShelfData_myShelfBuilder();
+      _$this._myShelf ??= GMyShelfData_myShelfBuilder();
   set myShelf(GMyShelfData_myShelfBuilder? myShelf) =>
       _$this._myShelf = myShelf;
 
@@ -335,7 +329,6 @@ class GMyShelfDataBuilder
 
   @override
   void replace(GMyShelfData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfData;
   }
 
@@ -351,17 +344,18 @@ class GMyShelfDataBuilder
     _$GMyShelfData _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GMyShelfData', 'G__typename'),
-              myShelf: myShelf.build());
+          _$GMyShelfData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GMyShelfData', 'G__typename'),
+            myShelf: myShelf.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'myShelf';
         myShelf.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfData', _$failedField, e.toString());
       }
       rethrow;
@@ -383,24 +377,14 @@ class _$GMyShelfData_myShelf extends GMyShelfData_myShelf {
 
   factory _$GMyShelfData_myShelf(
           [void Function(GMyShelfData_myShelfBuilder)? updates]) =>
-      (new GMyShelfData_myShelfBuilder()..update(updates))._build();
+      (GMyShelfData_myShelfBuilder()..update(updates))._build();
 
   _$GMyShelfData_myShelf._(
       {required this.G__typename,
       required this.items,
       required this.totalCount,
       required this.hasMore})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfData_myShelf', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        items, r'GMyShelfData_myShelf', 'items');
-    BuiltValueNullFieldError.checkNotNull(
-        totalCount, r'GMyShelfData_myShelf', 'totalCount');
-    BuiltValueNullFieldError.checkNotNull(
-        hasMore, r'GMyShelfData_myShelf', 'hasMore');
-  }
-
+      : super._();
   @override
   GMyShelfData_myShelf rebuild(
           void Function(GMyShelfData_myShelfBuilder) updates) =>
@@ -408,7 +392,7 @@ class _$GMyShelfData_myShelf extends GMyShelfData_myShelf {
 
   @override
   GMyShelfData_myShelfBuilder toBuilder() =>
-      new GMyShelfData_myShelfBuilder()..replace(this);
+      GMyShelfData_myShelfBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -452,7 +436,7 @@ class GMyShelfData_myShelfBuilder
 
   ListBuilder<GMyShelfData_myShelf_items>? _items;
   ListBuilder<GMyShelfData_myShelf_items> get items =>
-      _$this._items ??= new ListBuilder<GMyShelfData_myShelf_items>();
+      _$this._items ??= ListBuilder<GMyShelfData_myShelf_items>();
   set items(ListBuilder<GMyShelfData_myShelf_items>? items) =>
       _$this._items = items;
 
@@ -482,7 +466,6 @@ class GMyShelfData_myShelfBuilder
 
   @override
   void replace(GMyShelfData_myShelf other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfData_myShelf;
   }
 
@@ -498,21 +481,22 @@ class GMyShelfData_myShelfBuilder
     _$GMyShelfData_myShelf _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfData_myShelf._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GMyShelfData_myShelf', 'G__typename'),
-              items: items.build(),
-              totalCount: BuiltValueNullFieldError.checkNotNull(
-                  totalCount, r'GMyShelfData_myShelf', 'totalCount'),
-              hasMore: BuiltValueNullFieldError.checkNotNull(
-                  hasMore, r'GMyShelfData_myShelf', 'hasMore'));
+          _$GMyShelfData_myShelf._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GMyShelfData_myShelf', 'G__typename'),
+            items: items.build(),
+            totalCount: BuiltValueNullFieldError.checkNotNull(
+                totalCount, r'GMyShelfData_myShelf', 'totalCount'),
+            hasMore: BuiltValueNullFieldError.checkNotNull(
+                hasMore, r'GMyShelfData_myShelf', 'hasMore'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'items';
         items.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfData_myShelf', _$failedField, e.toString());
       }
       rethrow;
@@ -546,7 +530,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
 
   factory _$GMyShelfData_myShelf_items(
           [void Function(GMyShelfData_myShelf_itemsBuilder)? updates]) =>
-      (new GMyShelfData_myShelf_itemsBuilder()..update(updates))._build();
+      (GMyShelfData_myShelf_itemsBuilder()..update(updates))._build();
 
   _$GMyShelfData_myShelf_items._(
       {required this.G__typename,
@@ -559,23 +543,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
       this.noteUpdatedAt,
       required this.addedAt,
       this.completedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GMyShelfData_myShelf_items', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GMyShelfData_myShelf_items', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GMyShelfData_myShelf_items', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GMyShelfData_myShelf_items', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GMyShelfData_myShelf_items', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        readingStatus, r'GMyShelfData_myShelf_items', 'readingStatus');
-    BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GMyShelfData_myShelf_items', 'addedAt');
-  }
-
+      : super._();
   @override
   GMyShelfData_myShelf_items rebuild(
           void Function(GMyShelfData_myShelf_itemsBuilder) updates) =>
@@ -583,7 +551,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
 
   @override
   GMyShelfData_myShelf_itemsBuilder toBuilder() =>
-      new GMyShelfData_myShelf_itemsBuilder()..replace(this);
+      GMyShelfData_myShelf_itemsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -657,8 +625,7 @@ class GMyShelfData_myShelf_itemsBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   _i2.GReadingStatus? _readingStatus;
@@ -707,7 +674,6 @@ class GMyShelfData_myShelf_itemsBuilder
 
   @override
   void replace(GMyShelfData_myShelf_items other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfData_myShelf_items;
   }
 
@@ -723,32 +689,31 @@ class GMyShelfData_myShelf_itemsBuilder
     _$GMyShelfData_myShelf_items _$result;
     try {
       _$result = _$v ??
-          new _$GMyShelfData_myShelf_items._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GMyShelfData_myShelf_items', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GMyShelfData_myShelf_items', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GMyShelfData_myShelf_items', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GMyShelfData_myShelf_items', 'title'),
-              authors: authors.build(),
-              readingStatus: BuiltValueNullFieldError.checkNotNull(
-                  readingStatus,
-                  r'GMyShelfData_myShelf_items',
-                  'readingStatus'),
-              note: note,
-              noteUpdatedAt: noteUpdatedAt,
-              addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GMyShelfData_myShelf_items', 'addedAt'),
-              completedAt: completedAt);
+          _$GMyShelfData_myShelf_items._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GMyShelfData_myShelf_items', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GMyShelfData_myShelf_items', 'id'),
+            externalId: BuiltValueNullFieldError.checkNotNull(
+                externalId, r'GMyShelfData_myShelf_items', 'externalId'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GMyShelfData_myShelf_items', 'title'),
+            authors: authors.build(),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(
+                readingStatus, r'GMyShelfData_myShelf_items', 'readingStatus'),
+            note: note,
+            noteUpdatedAt: noteUpdatedAt,
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GMyShelfData_myShelf_items', 'addedAt'),
+            completedAt: completedAt,
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GMyShelfData_myShelf_items', _$failedField, e.toString());
       }
       rethrow;
