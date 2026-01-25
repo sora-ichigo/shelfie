@@ -56,7 +56,7 @@ class ProfileCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Divider(
-            color: colors?.textSecondary?.withOpacity(0.2) ?? Colors.white24,
+            color: colors?.textSecondary.withOpacity(0.2) ?? Colors.white24,
             height: 1,
           ),
           const SizedBox(height: AppSpacing.md),

@@ -1,8 +1,4 @@
-import {
-  type GraphQLField,
-  type GraphQLObjectType,
-  type GraphQLSchema,
-} from "graphql";
+import type { GraphQLField, GraphQLObjectType, GraphQLSchema } from "graphql";
 import { describe, expect, it } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
 import { registerUserTypes } from "./graphql.js";

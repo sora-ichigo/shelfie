@@ -1,6 +1,5 @@
 import 'package:ferry/ferry.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:gql_exec/gql_exec.dart' as gql;
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';

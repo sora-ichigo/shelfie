@@ -1,6 +1,6 @@
 export {
-  registerUserTypes,
   registerUserMutations,
+  registerUserTypes,
   ValidationError,
 } from "./internal/graphql.js";
 export type { NewUser, User } from "./internal/repository.js";

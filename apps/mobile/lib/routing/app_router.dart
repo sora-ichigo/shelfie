@@ -278,7 +278,7 @@ List<RouteBase> _buildRoutes() {
                 ],
               ),
             );
-            if (confirmed == true && context.mounted) {
+            if ((confirmed ?? false) && context.mounted) {
               await ref.read(authStateProvider.notifier).logout();
             }
           },
