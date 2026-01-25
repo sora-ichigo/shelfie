@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/circle_icon_button.dart';
+import 'package:shelfie/core/widgets/user_avatar.dart';
 
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
     required this.title,
     required this.onProfileTap,
+    this.avatarUrl,
     super.key,
   });
 
   final String title;
   final VoidCallback onProfileTap;
+  final String? avatarUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,12 @@ class ScreenHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          CircleIconButton(
-            icon: Icons.person_outline,
-            onPressed: onProfileTap,
-            size: 48,
-            iconSize: 28,
+          GestureDetector(
+            onTap: onProfileTap,
+            child: UserAvatar(
+              avatarUrl: avatarUrl,
+              radius: 24,
+            ),
           ),
         ],
       ),

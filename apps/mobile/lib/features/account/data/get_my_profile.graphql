@@ -1,0 +1,15 @@
+query GetMyProfile {
+  me {
+    ... on User {
+      id
+      email
+      name
+      avatarUrl
+      createdAt
+    }
+    ... on AuthErrorResult {
+      code
+      message
+    }
+  }
+}

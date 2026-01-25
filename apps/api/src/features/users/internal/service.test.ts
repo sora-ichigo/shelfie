@@ -23,6 +23,8 @@ describe("UserService", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-test",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -60,6 +62,8 @@ describe("UserService", () => {
         id: 1,
         email: "new@example.com",
         firebaseUid: "firebase-uid-new",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -85,6 +89,8 @@ describe("UserService", () => {
         id: 1,
         email: "existing@example.com",
         firebaseUid: "firebase-uid-existing",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -111,6 +117,8 @@ describe("UserService", () => {
           id: 1,
           email: "user1@example.com",
           firebaseUid: "firebase-uid-1",
+          name: null,
+          avatarUrl: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -118,6 +126,8 @@ describe("UserService", () => {
           id: 2,
           email: "user2@example.com",
           firebaseUid: "firebase-uid-2",
+          name: null,
+          avatarUrl: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -141,6 +151,8 @@ describe("UserService", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-12345",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -177,6 +189,8 @@ describe("UserService", () => {
         id: 1,
         email: "new@example.com",
         firebaseUid: "firebase-uid-new",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -206,6 +220,8 @@ describe("UserService", () => {
         id: 1,
         email: "existing@example.com",
         firebaseUid: "firebase-uid-existing",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -220,6 +236,117 @@ describe("UserService", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.code).toBe("EMAIL_ALREADY_EXISTS");
+      }
+    });
+  });
+
+  describe("updateProfile", () => {
+    it("should update user profile with name", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: null,
+        avatarUrl: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        name: "Updated Name",
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Updated Name",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.name).toBe("Updated Name");
+      }
+      expect(mockRepo.update).toHaveBeenCalledWith(1, { name: "Updated Name" });
+    });
+
+    it("should update user profile with avatarUrl", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        avatarUrl: "https://example.com/avatar.jpg",
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        avatarUrl: "https://example.com/avatar.jpg",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.avatarUrl).toBe("https://example.com/avatar.jpg");
+      }
+    });
+
+    it("should return error when name is empty", async () => {
+      const mockRepo = createMockRepository();
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "",
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("VALIDATION_ERROR");
+        expect(result.error.message).toContain("氏名");
+      }
+    });
+
+    it("should return error when name is whitespace only", async () => {
+      const mockRepo = createMockRepository();
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "   ",
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("VALIDATION_ERROR");
+      }
+    });
+
+    it("should return error when user not found", async () => {
+      const mockRepo = createMockRepository();
+      vi.mocked(mockRepo.findById).mockResolvedValue(null);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 999,
+        name: "Test Name",
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("USER_NOT_FOUND");
       }
     });
   });

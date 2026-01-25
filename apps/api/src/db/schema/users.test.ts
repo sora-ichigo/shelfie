@@ -51,6 +51,20 @@ describe("users schema", () => {
       expect(updatedAtColumn.notNull).toBe(true);
       expect(updatedAtColumn.hasDefault).toBe(true);
     });
+
+    it("should have name column as nullable text", () => {
+      const nameColumn = users.name;
+
+      expect(nameColumn.name).toBe("name");
+      expect(nameColumn.notNull).toBe(false);
+    });
+
+    it("should have avatar_url column as nullable text", () => {
+      const avatarUrlColumn = users.avatarUrl;
+
+      expect(avatarUrlColumn.name).toBe("avatar_url");
+      expect(avatarUrlColumn.notNull).toBe(false);
+    });
   });
 
   describe("index definition", () => {
@@ -65,6 +79,8 @@ describe("users schema", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-123",
+        name: "Test User",
+        avatarUrl: "https://example.com/avatar.jpg",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -72,8 +88,25 @@ describe("users schema", () => {
       expect(user.id).toBe(1);
       expect(user.email).toBe("test@example.com");
       expect(user.firebaseUid).toBe("firebase-uid-123");
+      expect(user.name).toBe("Test User");
+      expect(user.avatarUrl).toBe("https://example.com/avatar.jpg");
       expect(user.createdAt).toBeInstanceOf(Date);
       expect(user.updatedAt).toBeInstanceOf(Date);
+    });
+
+    it("should allow null values for name and avatarUrl in User type", () => {
+      const user: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-123",
+        name: null,
+        avatarUrl: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      expect(user.name).toBeNull();
+      expect(user.avatarUrl).toBeNull();
     });
 
     it("should infer NewUser type for insert operations (id should be optional)", () => {
@@ -95,6 +128,18 @@ describe("users schema", () => {
 
       expect(newUserMinimal.createdAt).toBeUndefined();
       expect(newUserMinimal.updatedAt).toBeUndefined();
+    });
+
+    it("should allow name and avatarUrl to be optional in NewUser", () => {
+      const newUser: NewUser = {
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-123",
+        name: "Test User",
+        avatarUrl: "https://example.com/avatar.jpg",
+      };
+
+      expect(newUser.name).toBe("Test User");
+      expect(newUser.avatarUrl).toBe("https://example.com/avatar.jpg");
     });
 
     it("should require firebaseUid in NewUser", () => {

@@ -46,7 +46,9 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>NSCameraUsageDescription</key>
-		<string>本のバーコードをスキャンして書籍を検索するためにカメラを使用します</string>
+		<string>本のバーコードスキャンやプロフィール画像撮影のためにカメラを使用します</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>プロフィール画像を設定するために写真ライブラリにアクセスします</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

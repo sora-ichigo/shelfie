@@ -16,6 +16,7 @@ function createMockUserService(): UserService {
     getUsers: vi.fn(),
     getUserByFirebaseUid: vi.fn(),
     createUserWithFirebase: vi.fn(),
+    updateProfile: vi.fn(),
   };
 }
 
@@ -155,6 +156,8 @@ describe("AuthService.register", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -266,6 +269,8 @@ describe("AuthService.register", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -313,6 +318,8 @@ describe("AuthService.getCurrentUser", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -357,6 +364,8 @@ describe("AuthService.getCurrentUser", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -382,6 +391,8 @@ describe("AuthService.getCurrentUser", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -427,6 +438,8 @@ describe("AuthService.getCurrentUser", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -468,6 +481,8 @@ describe("AuthService.login", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -583,6 +598,8 @@ describe("AuthService.login", () => {
       id: 1,
       email: "test@example.com",
       firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

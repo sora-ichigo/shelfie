@@ -114,6 +114,55 @@ abstract class GRegisterUserInput
       );
 }
 
+abstract class GUpdateProfileInput
+    implements Built<GUpdateProfileInput, GUpdateProfileInputBuilder> {
+  GUpdateProfileInput._();
+
+  factory GUpdateProfileInput(
+          [void Function(GUpdateProfileInputBuilder b) updates]) =
+      _$GUpdateProfileInput;
+
+  String get name;
+  static Serializer<GUpdateProfileInput> get serializer =>
+      _$gUpdateProfileInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GUpdateProfileInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GUpdateProfileInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GUpdateProfileInput.serializer,
+        json,
+      );
+}
+
+abstract class GRequestEmailChangeInput
+    implements
+        Built<GRequestEmailChangeInput, GRequestEmailChangeInputBuilder> {
+  GRequestEmailChangeInput._();
+
+  factory GRequestEmailChangeInput(
+          [void Function(GRequestEmailChangeInputBuilder b) updates]) =
+      _$GRequestEmailChangeInput;
+
+  String get newEmail;
+  static Serializer<GRequestEmailChangeInput> get serializer =>
+      _$gRequestEmailChangeInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GRequestEmailChangeInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GRequestEmailChangeInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GRequestEmailChangeInput.serializer,
+        json,
+      );
+}
+
 abstract class GAddBookInput
     implements Built<GAddBookInput, GAddBookInputBuilder> {
   GAddBookInput._();
@@ -177,5 +226,13 @@ const Map<String, Set<String>> possibleTypesMap = {
   'MutationRegisterUserResult': {
     'AuthError',
     'MutationRegisterUserSuccess',
+  },
+  'MutationUpdateProfileResult': {
+    'MutationUpdateProfileSuccess',
+    'ValidationError',
+  },
+  'MutationRequestEmailChangeResult': {
+    'MutationRequestEmailChangeSuccess',
+    'ValidationError',
   },
 };

@@ -53,6 +53,8 @@ describe("UserRepository", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-12345",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -81,6 +83,8 @@ describe("UserRepository", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-test",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -117,6 +121,8 @@ describe("UserRepository", () => {
         id: 1,
         email: "test@example.com",
         firebaseUid: "firebase-uid-output",
+        name: null,
+        avatarUrl: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
