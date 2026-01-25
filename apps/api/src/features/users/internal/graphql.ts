@@ -1,5 +1,6 @@
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
+import { transformImageKitUrl } from "../../../infra/imagekit-url-transformer.js";
 import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
 import type { UserService } from "./service.js";
 
@@ -71,9 +72,10 @@ export function registerUserTypes(
         description: "The display name of the user",
         nullable: true,
       }),
-      avatarUrl: t.exposeString("avatarUrl", {
-        description: "The URL of the user's avatar image",
+      avatarUrl: t.string({
+        description: "The URL of the user's avatar image (128x128)",
         nullable: true,
+        resolve: (user) => transformImageKitUrl(user.avatarUrl),
       }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
