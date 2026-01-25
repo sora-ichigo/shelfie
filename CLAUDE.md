@@ -6,51 +6,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # セットアップ
-mise install                    # 言語・ツールのインストール
-pnpm install                    # 依存関係のインストール
-pnpm mobile pub get             # Flutter依存関係のインストール
+mise install && pnpm install && pnpm mobile pub get
 
 # 開発サーバー
-pnpm dev:api                    # API サーバー起動 (http://localhost:4000/graphql)
-pnpm dev:web                    # Web サーバー起動 (http://localhost:3000)
+pnpm dev:api                    # API サーバー起動
 pnpm dev:mobile                 # モバイルアプリ起動
 
-# ビルド・チェック
-pnpm build                      # 全パッケージビルド
-pnpm typecheck                  # 型チェック
-pnpm lint                       # Biome lint
-pnpm format                     # Biome format
-pnpm check                      # lint + format チェック
+# チェック
+pnpm check                      # lint + format
 pnpm test                       # 全テスト実行
-
-# 個別パッケージ操作
-pnpm --filter @shelfie/api <cmd>    # API パッケージ
-pnpm --filter @shelfie/web <cmd>    # Web パッケージ
-pnpm --filter @shelfie/api test     # API のテストのみ実行
 ```
 
-## Architecture
+## Flutter テスト実行時の注意
 
-pnpm workspaces によるモノレポ構成:
+ローカルで `flutter test` を実行する際、全テスト実行はタイムアウトしやすい。以下のいずれかで対応すること：
 
-- `apps/api` - GraphQL API サーバー (Express + Apollo Server + Vite)
-- `apps/web` - 閲覧用 Web アプリ (Next.js + React)
-- `apps/mobile` - モバイルアプリ (Flutter/Dart) ※pnpmワークスペース外
-- `packages/shared` - 共有ユーティリティ (TypeScript)
-- `infra/terraform` - GCP インフラ設定
+```bash
+# 関連するテストファイルのみ実行（推奨）
+flutter test test/unit/path/to/specific_test.dart
 
-## Code Style
-
-- Linter/Formatter: Biome（`biome.json` で設定）
-- インデント: スペース2つ
-- クォート: ダブルクォート
-- セミコロン: あり
-- TypeScript strict モード有効
-- テストフレームワーク: Vitest (TypeScript) / flutter_test (Dart)
-
-## CI
-
-GitHub Actions で paths-filter による差分検知を使用。変更されたパッケージのみ CI が実行される。
+# 並列数を増やして高速化
+flutter test --concurrency=8
+```
 
 ## Spec-Driven Development
 

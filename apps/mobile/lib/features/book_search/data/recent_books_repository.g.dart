@@ -7,7 +7,7 @@ part of 'recent_books_repository.dart';
 // **************************************************************************
 
 String _$recentBooksRepositoryHash() =>
-    r'12602ebf0dc1dc90eb34411ae0cc77a3a9d5fde4';
+    r'de3cbe62702fc6d39522ad2ff60fc90953569bbf';
 
 /// 最近チェックした本リポジトリの Provider
 ///

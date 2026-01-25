@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ferry/ferry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -15,7 +16,7 @@ import 'package:shelfie/features/account/domain/user_profile.dart';
 part 'account_repository.g.dart';
 
 @riverpod
-AccountRepository accountRepository(AccountRepositoryRef ref) {
+AccountRepository accountRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return AccountRepository(client: client);
 }

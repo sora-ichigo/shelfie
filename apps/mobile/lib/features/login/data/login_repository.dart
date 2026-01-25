@@ -1,5 +1,6 @@
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
@@ -50,7 +51,7 @@ class LoggedInUser {
 }
 
 @riverpod
-LoginRepository loginRepository(LoginRepositoryRef ref) {
+LoginRepository loginRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return LoginRepository(client: client);
 }

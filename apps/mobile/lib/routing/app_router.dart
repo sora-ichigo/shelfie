@@ -125,7 +125,7 @@ class AuthChangeNotifier extends ChangeNotifier {
 /// - redirect で認証ガード（me クエリでセッション検証）
 /// - ShellRoute でタブナビゲーション
 @Riverpod(keepAlive: true)
-GoRouter appRouter(AppRouterRef ref) {
+GoRouter appRouter(Ref ref) {
   final authState = ref.watch(authStateProvider);
   final authStateNotifier = ref.read(authStateProvider.notifier);
   final authChangeNotifier = AuthChangeNotifier(ref);

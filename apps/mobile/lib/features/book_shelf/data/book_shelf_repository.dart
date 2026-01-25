@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ferry/ferry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -145,7 +146,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
 }
 
 @riverpod
-BookShelfRepository bookShelfRepository(BookShelfRepositoryRef ref) {
+BookShelfRepository bookShelfRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return BookShelfRepositoryImpl(client: client);
 }

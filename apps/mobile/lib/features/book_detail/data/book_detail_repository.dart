@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ferry/ferry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -24,7 +25,7 @@ import 'package:shelfie/features/book_detail/domain/user_book.dart';
 part 'book_detail_repository.g.dart';
 
 @riverpod
-BookDetailRepository bookDetailRepository(BookDetailRepositoryRef ref) {
+BookDetailRepository bookDetailRepository(Ref ref) {
   final client = ref.watch(ferryClientProvider);
   return BookDetailRepository(client: client);
 }

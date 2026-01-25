@@ -7,7 +7,7 @@ part of 'book_shelf_repository.dart';
 // **************************************************************************
 
 String _$bookShelfRepositoryHash() =>
-    r'd75d02c0e7dd011d4a8728bca3c52af0b3fd4503';
+    r'cea72004f44612dec60cc496d7f3ab26e069bc1f';
 
 /// See also [bookShelfRepository].
 @ProviderFor(bookShelfRepository)

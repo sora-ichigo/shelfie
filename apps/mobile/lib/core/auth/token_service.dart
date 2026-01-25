@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,14 +49,14 @@ class TokenInfo {
 }
 
 @Riverpod(keepAlive: true)
-TokenService tokenService(TokenServiceRef ref) {
+TokenService tokenService(Ref ref) {
   return TokenService(ref: ref);
 }
 
 class TokenService {
   TokenService({required this.ref});
 
-  final TokenServiceRef ref;
+  final Ref ref;
 
   static const int _refreshThresholdSeconds = 5 * 60; // 5分前にリフレッシュ
 
