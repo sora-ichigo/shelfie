@@ -251,11 +251,45 @@ List<RouteBase> _buildRoutes() {
     // アカウント画面（タブバーなし）
     GoRoute(
       path: AppRoutes.account,
-      builder: (context, state) => AccountScreen(
-        onClose: () => context.pop(),
-        onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
-        onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
-        onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
+      builder: (context, state) => Consumer(
+        builder: (context, ref, _) => AccountScreen(
+          onClose: () => context.pop(),
+          onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
+          onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
+          onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
+          onNavigateToHelp: () => _showStubSnackbar(context, 'ヘルプ'),
+          onNavigateToFaq: () => _showStubSnackbar(context, 'よくある質問'),
+          onNavigateToContact: () => _showStubSnackbar(context, 'お問い合わせ'),
+          onNavigateToTerms: () => _showStubSnackbar(context, '利用規約'),
+          onNavigateToPrivacy: () => _showStubSnackbar(context, 'プライバシーポリシー'),
+          onNavigateToLicenses: () => showLicensePage(
+            context: context,
+            applicationName: 'Shelfie',
+            applicationLegalese: '© ${DateTime.now().year} sora ichigo',
+          ),
+          onLogout: () async {
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('ログアウト'),
+                content: const Text('ログアウトしますか？'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('キャンセル'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('ログアウト'),
+                  ),
+                ],
+              ),
+            );
+            if (confirmed == true && context.mounted) {
+              await ref.read(authStateProvider.notifier).logout();
+            }
+          },
+        ),
       ),
       routes: [
         GoRoute(

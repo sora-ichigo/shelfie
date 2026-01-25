@@ -24,6 +24,13 @@ void main() {
     VoidCallback? onNavigateToProfileEdit,
     VoidCallback? onNavigateToNotifications,
     VoidCallback? onNavigateToPassword,
+    VoidCallback? onNavigateToHelp,
+    VoidCallback? onNavigateToFaq,
+    VoidCallback? onNavigateToContact,
+    VoidCallback? onNavigateToTerms,
+    VoidCallback? onNavigateToPrivacy,
+    VoidCallback? onNavigateToLicenses,
+    VoidCallback? onLogout,
     VoidCallback? onClose,
   }) {
     return ProviderScope(
@@ -38,6 +45,13 @@ void main() {
           onNavigateToProfileEdit: onNavigateToProfileEdit ?? () {},
           onNavigateToNotifications: onNavigateToNotifications ?? () {},
           onNavigateToPassword: onNavigateToPassword ?? () {},
+          onNavigateToHelp: onNavigateToHelp ?? () {},
+          onNavigateToFaq: onNavigateToFaq ?? () {},
+          onNavigateToContact: onNavigateToContact ?? () {},
+          onNavigateToTerms: onNavigateToTerms ?? () {},
+          onNavigateToPrivacy: onNavigateToPrivacy ?? () {},
+          onNavigateToLicenses: onNavigateToLicenses ?? () {},
+          onLogout: onLogout ?? () {},
           onClose: onClose,
         ),
       ),
@@ -86,6 +100,13 @@ void main() {
                 onNavigateToProfileEdit: () {},
                 onNavigateToNotifications: () {},
                 onNavigateToPassword: () {},
+                onNavigateToHelp: () {},
+                onNavigateToFaq: () {},
+                onNavigateToContact: () {},
+                onNavigateToTerms: () {},
+                onNavigateToPrivacy: () {},
+                onNavigateToLicenses: () {},
+                onLogout: () {},
               ),
             ),
           ),
@@ -201,7 +222,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(3));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(9));
     });
 
     testWidgets('calls onClose when back button is tapped', (tester) async {

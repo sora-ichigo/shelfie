@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -13,6 +15,13 @@ class AccountScreen extends ConsumerWidget {
     required this.onNavigateToProfileEdit,
     required this.onNavigateToNotifications,
     required this.onNavigateToPassword,
+    required this.onNavigateToHelp,
+    required this.onNavigateToFaq,
+    required this.onNavigateToContact,
+    required this.onNavigateToTerms,
+    required this.onNavigateToPrivacy,
+    required this.onNavigateToLicenses,
+    required this.onLogout,
     this.onClose,
     super.key,
   });
@@ -20,6 +29,13 @@ class AccountScreen extends ConsumerWidget {
   final VoidCallback onNavigateToProfileEdit;
   final VoidCallback onNavigateToNotifications;
   final VoidCallback onNavigateToPassword;
+  final VoidCallback onNavigateToHelp;
+  final VoidCallback onNavigateToFaq;
+  final VoidCallback onNavigateToContact;
+  final VoidCallback onNavigateToTerms;
+  final VoidCallback onNavigateToPrivacy;
+  final VoidCallback onNavigateToLicenses;
+  final VoidCallback onLogout;
   final VoidCallback? onClose;
 
   @override
@@ -84,6 +100,52 @@ class AccountScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: AppSpacing.lg),
+              AccountMenuSection(
+                title: 'サポート',
+                items: [
+                  AccountMenuItem(
+                    title: 'ヘルプ',
+                    onTap: onNavigateToHelp,
+                    icon: Icons.help_outline,
+                  ),
+                  AccountMenuItem(
+                    title: 'よくある質問',
+                    onTap: onNavigateToFaq,
+                    icon: Icons.quiz_outlined,
+                  ),
+                  AccountMenuItem(
+                    title: 'お問い合わせ',
+                    onTap: onNavigateToContact,
+                    icon: Icons.mail_outline,
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              AccountMenuSection(
+                title: '法的情報',
+                items: [
+                  AccountMenuItem(
+                    title: '利用規約',
+                    onTap: onNavigateToTerms,
+                    icon: Icons.description_outlined,
+                  ),
+                  AccountMenuItem(
+                    title: 'プライバシーポリシー',
+                    onTap: onNavigateToPrivacy,
+                    icon: Icons.privacy_tip_outlined,
+                  ),
+                  AccountMenuItem(
+                    title: 'ライセンス',
+                    onTap: onNavigateToLicenses,
+                    icon: Icons.info_outline,
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              _LogoutButton(onLogout: onLogout),
+              const SizedBox(height: AppSpacing.xl),
+              const _AppInfoFooter(),
             ],
           ),
         ),
@@ -102,6 +164,101 @@ class AccountScreen extends ConsumerWidget {
     }
     return UnexpectedFailure(
       message: error.toString(),
+    );
+  }
+}
+
+class _LogoutButton extends StatelessWidget {
+  const _LogoutButton({required this.onLogout});
+
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    final errorColor = Theme.of(context).colorScheme.error;
+
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: onLogout,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: errorColor,
+          side: BorderSide(color: errorColor),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.md),
+          ),
+        ),
+        icon: const Icon(Icons.logout),
+        label: const Text('ログアウト'),
+      ),
+    );
+  }
+}
+
+class _AppInfoFooter extends StatefulWidget {
+  const _AppInfoFooter();
+
+  @override
+  State<_AppInfoFooter> createState() => _AppInfoFooterState();
+}
+
+class _AppInfoFooterState extends State<_AppInfoFooter> {
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    if (mounted) {
+      setState(() {
+        _version = 'v${packageInfo.version}';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
+
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            'Shelfie $_version',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Text(
+            'Shelfie',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              color: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            '読書家のための本棚',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            '© ${DateTime.now().year} sora ichigo',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
