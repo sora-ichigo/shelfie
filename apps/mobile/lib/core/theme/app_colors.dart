@@ -21,6 +21,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.surfaceOverlay,
     required this.surfaceModal,
     required this.selectionHighlight,
+    required this.ratingActive,
     required this.actionGradientStart,
     required this.actionGradientEnd,
     required this.textPrimary,
@@ -31,7 +32,7 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 成功状態を表すカラー
   final Color success;
 
-  /// 警告状態を表すカラー（星評価にも使用）
+  /// 警告状態を表すカラー
   final Color warning;
 
   /// 情報を表すカラー
@@ -60,6 +61,9 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// 選択状態のハイライトカラー（ディープティール）
   final Color selectionHighlight;
+
+  /// 星評価のアクティブカラー（ゴールド）
+  final Color ratingActive;
 
   /// アクションボタン用グラデーション開始色
   final Color actionGradientStart;
@@ -99,6 +103,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surfaceOverlay: Color(0x4D000000),
     surfaceModal: Color(0xFF1A2E2E),
     selectionHighlight: Color(0xFF009789),
+    ratingActive: Color(0xFFFFD54F),
     actionGradientStart: Color(0xFF00BC7D),
     actionGradientEnd: Color(0xFF009689),
     textPrimary: Color(0xFFFFFFFF),
@@ -119,6 +124,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? surfaceOverlay,
     Color? surfaceModal,
     Color? selectionHighlight,
+    Color? ratingActive,
     Color? actionGradientStart,
     Color? actionGradientEnd,
     Color? textPrimary,
@@ -137,6 +143,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surfaceOverlay: surfaceOverlay ?? this.surfaceOverlay,
       surfaceModal: surfaceModal ?? this.surfaceModal,
       selectionHighlight: selectionHighlight ?? this.selectionHighlight,
+      ratingActive: ratingActive ?? this.ratingActive,
       actionGradientStart: actionGradientStart ?? this.actionGradientStart,
       actionGradientEnd: actionGradientEnd ?? this.actionGradientEnd,
       textPrimary: textPrimary ?? this.textPrimary,
@@ -161,6 +168,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surfaceModal: Color.lerp(surfaceModal, other.surfaceModal, t)!,
       selectionHighlight:
           Color.lerp(selectionHighlight, other.selectionHighlight, t)!,
+      ratingActive: Color.lerp(ratingActive, other.ratingActive, t)!,
       actionGradientStart:
           Color.lerp(actionGradientStart, other.actionGradientStart, t)!,
       actionGradientEnd:

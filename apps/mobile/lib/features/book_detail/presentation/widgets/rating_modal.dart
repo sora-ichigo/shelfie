@@ -120,7 +120,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                   isSelected ? Icons.star : Icons.star_border,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.warning
+                      ? appColors.ratingActive
                       : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
                 ),
               ),
