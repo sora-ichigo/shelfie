@@ -120,6 +120,7 @@ abstract class GGetMyProfileData_me__asUser
   String? get name;
   String? get avatarUrl;
   DateTime? get createdAt;
+  int get bookCount;
   static Serializer<GGetMyProfileData_me__asUser> get serializer =>
       _$gGetMyProfileDataMeAsUserSerializer;
 

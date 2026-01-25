@@ -40,6 +40,7 @@ void main() {
             'name': 'Test User',
             'avatarUrl': 'https://example.com/avatar.png',
             'createdAt': '2024-01-01T00:00:00Z',
+            'bookCount': 5,
           },
         });
 
@@ -113,6 +114,7 @@ void main() {
               'name': 'Updated Name',
               'avatarUrl': 'https://example.com/avatar.png',
               'createdAt': '2024-01-01T00:00:00Z',
+              'bookCount': 10,
             },
           },
         });

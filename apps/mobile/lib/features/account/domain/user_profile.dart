@@ -12,6 +12,7 @@ class UserProfile with _$UserProfile {
     required String? username,
     required int bookCount,
     required int? readingStartYear,
+    required int? readingStartMonth,
     required DateTime createdAt,
   }) = _UserProfile;
 }

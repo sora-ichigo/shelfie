@@ -12,6 +12,12 @@ class ProfileCard extends StatelessWidget {
 
   final UserProfile profile;
 
+  String _formatReadingStart(int? year, int? month) {
+    if (year == null) return '-';
+    if (month == null) return '$year';
+    return '$year/$month';
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -65,12 +71,15 @@ class ProfileCard extends StatelessWidget {
             children: [
               _StatItem(
                 value: '${profile.bookCount}',
-                label: '冊',
+                label: '累計冊数',
                 colors: colors,
                 theme: theme,
               ),
               _StatItem(
-                value: profile.readingStartYear?.toString() ?? '-',
+                value: _formatReadingStart(
+                  profile.readingStartYear,
+                  profile.readingStartMonth,
+                ),
                 label: '読書開始',
                 colors: colors,
                 theme: theme,

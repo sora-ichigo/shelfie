@@ -13,6 +13,7 @@ function createMockRepository(): BookShelfRepository & {
   mockFindUserBookById: ReturnType<typeof vi.fn>;
   mockUpdateUserBook: ReturnType<typeof vi.fn>;
   mockDeleteUserBook: ReturnType<typeof vi.fn>;
+  mockCountUserBooks: ReturnType<typeof vi.fn>;
 } {
   const mockFindUserBookByExternalId = vi.fn();
   const mockCreateUserBook = vi.fn();
@@ -20,6 +21,7 @@ function createMockRepository(): BookShelfRepository & {
   const mockFindUserBookById = vi.fn();
   const mockUpdateUserBook = vi.fn();
   const mockDeleteUserBook = vi.fn();
+  const mockCountUserBooks = vi.fn();
 
   return {
     findUserBookByExternalId: mockFindUserBookByExternalId,
@@ -28,12 +30,14 @@ function createMockRepository(): BookShelfRepository & {
     findUserBookById: mockFindUserBookById,
     updateUserBook: mockUpdateUserBook,
     deleteUserBook: mockDeleteUserBook,
+    countUserBooks: mockCountUserBooks,
     mockFindUserBookByExternalId,
     mockCreateUserBook,
     mockGetUserBooks,
     mockFindUserBookById,
     mockUpdateUserBook,
     mockDeleteUserBook,
+    mockCountUserBooks,
   };
 }
 

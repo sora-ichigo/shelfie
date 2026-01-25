@@ -1,5 +1,6 @@
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
+import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
 import type { UserService } from "./service.js";
 
 type UserObjectRef = ReturnType<typeof createUserRef>;
@@ -45,7 +46,14 @@ let UpdateProfileInputRef: UpdateProfileInputRef | null = null;
 
 export { UpdateProfileInputRef };
 
-export function registerUserTypes(builder: Builder): void {
+let bookShelfRepositoryInstance: BookShelfRepository | null = null;
+
+export function registerUserTypes(
+  builder: Builder,
+  bookShelfRepository?: BookShelfRepository,
+): void {
+  bookShelfRepositoryInstance = bookShelfRepository ?? null;
+
   UserRef = createUserRef(builder);
 
   UserRef.implement({
@@ -72,6 +80,16 @@ export function registerUserTypes(builder: Builder): void {
       updatedAt: t.expose("updatedAt", {
         type: "DateTime",
         description: "When the user was last updated",
+      }),
+      bookCount: t.int({
+        description: "The number of books in the user's shelf",
+        nullable: false,
+        resolve: async (user) => {
+          if (!bookShelfRepositoryInstance) {
+            return 0;
+          }
+          return bookShelfRepositoryInstance.countUserBooks(user.id);
+        },
       }),
     }),
   });

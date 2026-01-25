@@ -13,6 +13,7 @@ void main() {
         username: 'testuser',
         bookCount: 42,
         readingStartYear: 2020,
+        readingStartMonth: 1,
         createdAt: createdAt,
       );
 
@@ -35,6 +36,7 @@ void main() {
         username: null,
         bookCount: 0,
         readingStartYear: null,
+        readingStartMonth: null,
         createdAt: DateTime(2024, 1, 1),
       );
 
@@ -53,6 +55,7 @@ void main() {
         username: 'olduser',
         bookCount: 10,
         readingStartYear: 2020,
+        readingStartMonth: 1,
         createdAt: DateTime(2024, 1, 1),
       );
 
@@ -79,6 +82,7 @@ void main() {
         username: 'testuser',
         bookCount: 5,
         readingStartYear: 2021,
+        readingStartMonth: 1,
         createdAt: createdAt,
       );
       final profile2 = UserProfile(
@@ -89,6 +93,7 @@ void main() {
         username: 'testuser',
         bookCount: 5,
         readingStartYear: 2021,
+        readingStartMonth: 1,
         createdAt: createdAt,
       );
 
@@ -106,6 +111,7 @@ void main() {
         username: 'usera',
         bookCount: 5,
         readingStartYear: 2021,
+        readingStartMonth: 1,
         createdAt: createdAt,
       );
       final profile2 = UserProfile(
@@ -116,6 +122,7 @@ void main() {
         username: 'userb',
         bookCount: 5,
         readingStartYear: 2021,
+        readingStartMonth: 1,
         createdAt: createdAt,
       );
 

@@ -53,6 +53,29 @@ describe("BookShelfRepository", () => {
       expect(typeof repository.findUserBookByExternalId).toBe("function");
       expect(typeof repository.createUserBook).toBe("function");
       expect(typeof repository.getUserBooks).toBe("function");
+      expect(typeof repository.countUserBooks).toBe("function");
+    });
+  });
+
+  describe("countUserBooks", () => {
+    it("should return count of user books", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([{ count: 5 }]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.countUserBooks(100);
+
+      expect(result).toBe(5);
+    });
+
+    it("should return 0 when user has no books", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([{ count: 0 }]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result = await repository.countUserBooks(100);
+
+      expect(result).toBe(0);
     });
   });
 
