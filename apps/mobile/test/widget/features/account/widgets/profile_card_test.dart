@@ -40,8 +40,8 @@ void main() {
       expect(find.text('Test User'), findsOneWidget);
     });
 
-    testWidgets('ユーザー名（@形式）が表示される', (tester) async {
-      final profile = createTestProfile(username: '@testuser');
+    testWidgets('メールアドレスが表示される', (tester) async {
+      final profile = createTestProfile();
 
       await tester.pumpWidget(
         MaterialApp(
@@ -52,7 +52,7 @@ void main() {
         ),
       );
 
-      expect(find.text('@testuser'), findsOneWidget);
+      expect(find.text('test@example.com'), findsOneWidget);
     });
 
     testWidgets('登録冊数が表示される', (tester) async {
@@ -67,7 +67,8 @@ void main() {
         ),
       );
 
-      expect(find.text('42冊'), findsOneWidget);
+      expect(find.text('42'), findsOneWidget);
+      expect(find.text('冊'), findsOneWidget);
     });
 
     testWidgets('読書開始年が表示される', (tester) async {
@@ -82,10 +83,11 @@ void main() {
         ),
       );
 
-      expect(find.text('2020年から'), findsOneWidget);
+      expect(find.text('2020'), findsOneWidget);
+      expect(find.text('読書開始'), findsOneWidget);
     });
 
-    testWidgets('読書開始年がnullの場合は表示されない', (tester) async {
+    testWidgets('読書開始年がnullの場合はハイフンが表示される', (tester) async {
       final profile = createTestProfile(readingStartYear: null);
 
       await tester.pumpWidget(
@@ -97,7 +99,8 @@ void main() {
         ),
       );
 
-      expect(find.textContaining('年から'), findsNothing);
+      expect(find.text('-'), findsOneWidget);
+      expect(find.text('読書開始'), findsOneWidget);
     });
 
     testWidgets('アバターが表示される', (tester) async {

@@ -17,62 +17,77 @@ class ProfileCard extends StatelessWidget {
     final colors = theme.extension<AppColors>();
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
-        borderRadius: BorderRadius.circular(AppSpacing.sm),
+        borderRadius: BorderRadius.circular(AppSpacing.md),
       ),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
-            backgroundImage:
-                profile.avatarUrl != null ? NetworkImage(profile.avatarUrl!) : null,
-            child: profile.avatarUrl == null
-                ? Icon(
-                    Icons.person,
-                    size: 40,
-                    color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
-                  )
-                : null,
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            profile.name ?? '未設定',
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: colors?.textPrimary ?? Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          if (profile.username != null) ...[
-            const SizedBox(height: AppSpacing.xxs),
-            Text(
-              profile.username!,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 32,
+                backgroundColor:
+                    colors?.brandPrimary ?? const Color(0xFF4FD1C5),
+                backgroundImage: profile.avatarUrl != null
+                    ? NetworkImage(profile.avatarUrl!)
+                    : null,
+                child: profile.avatarUrl == null
+                    ? Text(
+                        profile.name?.characters.first ?? '読',
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: colors?.brandBackground ??
+                              const Color(0xFF0A0A0A),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : null,
               ),
-            ),
-          ],
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profile.name ?? '未設定',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colors?.textPrimary ?? Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      profile.email,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Divider(
+            color: colors?.textSecondary?.withOpacity(0.2) ?? Colors.white24,
+            height: 1,
+          ),
           const SizedBox(height: AppSpacing.md),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _StatItem(
-                label: '登録',
-                value: '${profile.bookCount}冊',
+                value: '${profile.bookCount}',
+                label: '冊',
                 colors: colors,
                 theme: theme,
               ),
-              if (profile.readingStartYear != null) ...[
-                const SizedBox(width: AppSpacing.xl),
-                _StatItem(
-                  label: '読書',
-                  value: '${profile.readingStartYear}年から',
-                  colors: colors,
-                  theme: theme,
-                ),
-              ],
+              _StatItem(
+                value: profile.readingStartYear?.toString() ?? '-',
+                label: '読書開始',
+                colors: colors,
+                theme: theme,
+              ),
             ],
           ),
         ],
@@ -83,14 +98,14 @@ class ProfileCard extends StatelessWidget {
 
 class _StatItem extends StatelessWidget {
   const _StatItem({
-    required this.label,
     required this.value,
+    required this.label,
     required this.colors,
     required this.theme,
   });
 
-  final String label;
   final String value;
+  final String label;
   final AppColors? colors;
   final ThemeData theme;
 
@@ -99,17 +114,17 @@ class _StatItem extends StatelessWidget {
     return Column(
       children: [
         Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+          value,
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: colors?.textPrimary ?? Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: AppSpacing.xxs),
         Text(
-          value,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors?.textPrimary ?? Colors.white,
-            fontWeight: FontWeight.w600,
+          label,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
           ),
         ),
       ],

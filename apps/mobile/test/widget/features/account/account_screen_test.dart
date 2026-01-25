@@ -69,9 +69,9 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Test User'), findsOneWidget);
-      expect(find.text('@testuser'), findsOneWidget);
-      expect(find.text('42冊'), findsOneWidget);
-      expect(find.text('2020年から'), findsOneWidget);
+      expect(find.text('test@example.com'), findsOneWidget);
+      expect(find.text('42'), findsOneWidget);
+      expect(find.text('2020'), findsOneWidget);
     });
 
     testWidgets(
