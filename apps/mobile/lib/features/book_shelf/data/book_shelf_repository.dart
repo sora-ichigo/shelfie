@@ -66,6 +66,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
   }) async {
     final request = GMyShelfPaginatedReq(
       (b) => b
+        ..fetchPolicy = FetchPolicy.NetworkOnly
         ..vars.input = GMyShelfInput(
           (i) => i
             ..query = query
