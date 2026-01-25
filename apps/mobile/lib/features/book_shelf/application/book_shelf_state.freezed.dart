@@ -108,6 +108,9 @@ class _$BookShelfStateCopyWithImpl<$Res, $Val extends BookShelfState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -124,6 +127,9 @@ class __$$BookShelfInitialImplCopyWithImpl<$Res>
   __$$BookShelfInitialImplCopyWithImpl(_$BookShelfInitialImpl _value,
       $Res Function(_$BookShelfInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -262,6 +268,9 @@ class __$$BookShelfLoadingImplCopyWithImpl<$Res>
   __$$BookShelfLoadingImplCopyWithImpl(_$BookShelfLoadingImpl _value,
       $Res Function(_$BookShelfLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -410,6 +419,8 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
       _$BookShelfLoadedImpl _value, $Res Function(_$BookShelfLoadedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -545,7 +556,9 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
       isLoadingMore,
       totalCount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookShelfLoadedImplCopyWith<_$BookShelfLoadedImpl> get copyWith =>
@@ -684,7 +697,10 @@ abstract class BookShelfLoaded implements BookShelfState {
 
   /// 総件数
   int get totalCount;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookShelfLoadedImplCopyWith<_$BookShelfLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -708,6 +724,8 @@ class __$$BookShelfErrorImplCopyWithImpl<$Res>
       _$BookShelfErrorImpl _value, $Res Function(_$BookShelfErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -721,6 +739,8 @@ class __$$BookShelfErrorImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -755,7 +775,9 @@ class _$BookShelfErrorImpl implements BookShelfError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookShelfErrorImplCopyWith<_$BookShelfErrorImpl> get copyWith =>
@@ -867,7 +889,10 @@ abstract class BookShelfError implements BookShelfState {
 
   /// エラー情報
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookShelfState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookShelfErrorImplCopyWith<_$BookShelfErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
