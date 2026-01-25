@@ -401,11 +401,11 @@ void main() {
         ));
         await tester.pumpAndSettle();
 
-        final sortDropdown = find.byType(DropdownButton<SortOption>);
-        await tester.tap(sortDropdown);
+        final sortButton = find.byIcon(Icons.tune);
+        await tester.tap(sortButton);
         await tester.pumpAndSettle();
 
-        final titleOption = find.text('タイトル（A→Z）').last;
+        final titleOption = find.text('タイトル（A→Z）');
         await tester.tap(titleOption);
         await tester.pumpAndSettle();
 
@@ -426,11 +426,11 @@ void main() {
         ));
         await tester.pumpAndSettle();
 
-        final groupDropdown = find.byType(DropdownButton<GroupOption>);
-        await tester.tap(groupDropdown);
+        final groupButton = find.byIcon(Icons.grid_view);
+        await tester.tap(groupButton);
         await tester.pumpAndSettle();
 
-        final statusOption = find.text('ステータス別').last;
+        final statusOption = find.text('ステータス別');
         await tester.tap(statusOption);
         await tester.pumpAndSettle();
 
