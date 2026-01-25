@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
@@ -11,7 +10,7 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 ///
 /// 本棚画面で使用するソートドロップダウン、
 /// グループ化ドロップダウンを横並びで配置する。
-class SearchFilterBar extends StatefulWidget {
+class SearchFilterBar extends StatelessWidget {
   const SearchFilterBar({
     required this.sortOption,
     required this.groupOption,
@@ -25,29 +24,18 @@ class SearchFilterBar extends StatefulWidget {
   final void Function(SortOption) onSortChanged;
   final void Function(GroupOption) onGroupChanged;
 
-  @override
-  State<SearchFilterBar> createState() => _SearchFilterBarState();
-}
-
-class _SearchFilterBarState extends State<SearchFilterBar> {
-  bool _isSortMenuOpen = false;
-
-  Future<void> _showSortBottomSheet() async {
-    setState(() => _isSortMenuOpen = true);
-
+  Future<void> _showSortBottomSheet(BuildContext context) async {
     final result = await showModalBottomSheet<SortOption>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
       builder: (context) => _SortBottomSheet(
-        currentOption: widget.sortOption,
+        currentOption: sortOption,
       ),
     );
 
-    setState(() => _isSortMenuOpen = false);
-
     if (result != null) {
-      widget.onSortChanged(result);
+      onSortChanged(result);
     }
   }
 
@@ -56,60 +44,33 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return _buildFilterRow(theme, appColors);
-  }
-
-  Widget _buildFilterRow(ThemeData theme, AppColors appColors) {
     return Row(
       children: [
-        Expanded(
-          flex: 11,
-          child: _buildSortButton(appColors),
-        ),
+        _buildSortButton(context, appColors),
         const SizedBox(width: AppSpacing.sm),
         Expanded(
-          flex: 9,
           child: _buildGroupDropdown(theme, appColors),
         ),
       ],
     );
   }
 
-  Widget _buildSortButton(AppColors appColors) {
+  Widget _buildSortButton(BuildContext context, AppColors appColors) {
     return GestureDetector(
-      onTap: _showSortBottomSheet,
+      onTap: () => _showSortBottomSheet(context),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xs,
-        ),
+        padding: const EdgeInsets.all(AppSpacing.sm),
         decoration: BoxDecoration(
-          color: _isSortMenuOpen
-              ? Color.lerp(appColors.surfaceElevated, Colors.white, 0.1)
-              : appColors.surfaceElevated,
+          color: appColors.surfaceElevated,
           borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
             color: appColors.textSecondary.withOpacity(0.3),
           ),
         ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.tune,
-              size: 16,
-              color: appColors.textPrimary,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: Text(
-                widget.sortOption.displayName,
-                overflow: TextOverflow.ellipsis,
-                style: AppTypography.labelMedium.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
+        child: Icon(
+          Icons.tune,
+          size: 20,
+          color: appColors.textPrimary,
         ),
       ),
     );
@@ -126,7 +87,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         ),
       ),
       child: DropdownButton<GroupOption>(
-        value: widget.groupOption,
+        value: groupOption,
         isExpanded: true,
         underline: const SizedBox.shrink(),
         dropdownColor: appColors.surfaceElevated,
@@ -168,7 +129,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         }).toList(),
         onChanged: (option) {
           if (option != null) {
-            widget.onGroupChanged(option);
+            onGroupChanged(option);
           }
         },
       ),
