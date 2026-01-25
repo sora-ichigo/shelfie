@@ -6,6 +6,7 @@ import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -36,6 +37,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(bookShelfNotifierProvider);
+    final accountAsync = ref.watch(accountNotifierProvider);
+    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     return SafeArea(
       child: Column(
@@ -43,6 +46,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ScreenHeader(
             title: '本棚',
             onProfileTap: () => context.push(AppRoutes.account),
+            avatarUrl: avatarUrl,
           ),
           Expanded(
             child: _buildContent(state),

@@ -7,6 +7,7 @@ import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
@@ -59,6 +60,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
+    final accountAsync = ref.watch(accountNotifierProvider);
+    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     ref.listen<BookSearchState>(
       bookSearchNotifierProvider,
@@ -84,6 +87,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ScreenHeader(
                 title: '検索',
                 onProfileTap: () => context.push(AppRoutes.account),
+                avatarUrl: avatarUrl,
               ),
               Padding(
                 padding: AppSpacing.vertical(AppSpacing.sm),
