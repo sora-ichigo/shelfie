@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
@@ -30,7 +31,6 @@ void main() {
     String externalId = 'id',
     String title = 'Title',
     List<String> authors = const ['Author'],
-    ReadingStatus readingStatus = ReadingStatus.backlog,
     DateTime? addedAt,
   }) {
     return ShelfBookItem(
@@ -38,6 +38,19 @@ void main() {
       externalId: externalId,
       title: title,
       authors: authors,
+      addedAt: addedAt ?? now,
+    );
+  }
+
+  ShelfEntry createEntry({
+    required int userBookId,
+    required String externalId,
+    ReadingStatus readingStatus = ReadingStatus.backlog,
+    DateTime? addedAt,
+  }) {
+    return ShelfEntry(
+      userBookId: userBookId,
+      externalId: externalId,
       readingStatus: readingStatus,
       addedAt: addedAt ?? now,
     );
@@ -45,11 +58,22 @@ void main() {
 
   MyShelfResult createMyShelfResult({
     List<ShelfBookItem>? items,
+    Map<String, ShelfEntry>? entries,
     int totalCount = 1,
     bool hasMore = false,
   }) {
+    final bookItems = items ?? [createBook()];
+    final bookEntries = entries ??
+        {
+          for (final item in bookItems)
+            item.externalId: createEntry(
+              userBookId: item.userBookId,
+              externalId: item.externalId,
+            ),
+        };
     return MyShelfResult(
-      items: items ?? [createBook()],
+      items: bookItems,
+      entries: bookEntries,
       totalCount: totalCount,
       hasMore: hasMore,
     );
@@ -289,10 +313,15 @@ void main() {
 
       test('should group books by status', () async {
         final books = [
-          createBook(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
-          createBook(userBookId: 2, externalId: 'id2', readingStatus: ReadingStatus.completed),
-          createBook(userBookId: 3, externalId: 'id3', readingStatus: ReadingStatus.reading),
+          createBook(userBookId: 1, externalId: 'id1'),
+          createBook(userBookId: 2, externalId: 'id2'),
+          createBook(userBookId: 3, externalId: 'id3'),
         ];
+        final entries = {
+          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
+          'id2': createEntry(userBookId: 2, externalId: 'id2', readingStatus: ReadingStatus.completed),
+          'id3': createEntry(userBookId: 3, externalId: 'id3', readingStatus: ReadingStatus.reading),
+        };
         when(
           () => mockRepository.getMyShelf(
             sortBy: any(named: 'sortBy'),
@@ -302,7 +331,7 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => right(
-            createMyShelfResult(items: books, totalCount: 3),
+            createMyShelfResult(items: books, entries: entries, totalCount: 3),
           ),
         );
 
@@ -349,8 +378,11 @@ void main() {
 
       test('should clear grouped books when set to none', () async {
         final books = [
-          createBook(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
+          createBook(userBookId: 1, externalId: 'id1'),
         ];
+        final entries = {
+          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
+        };
         when(
           () => mockRepository.getMyShelf(
             sortBy: any(named: 'sortBy'),
@@ -360,7 +392,7 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => right(
-            createMyShelfResult(items: books, totalCount: 1),
+            createMyShelfResult(items: books, entries: entries, totalCount: 1),
           ),
         );
 

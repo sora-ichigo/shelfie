@@ -102,7 +102,8 @@ class BookShelfNotifier extends _$BookShelfNotifier {
           _allBooks = myShelfResult.items;
         }
 
-        _syncToShelfState(_allBooks);
+        // ShelfState（SSOT）に状態情報を同期
+        _syncToShelfState(myShelfResult.entries);
 
         state = BookShelfState.loaded(
           books: _allBooks,
@@ -118,19 +119,10 @@ class BookShelfNotifier extends _$BookShelfNotifier {
   }
 
   /// ShelfState（SSOT）にデータを同期
-  void _syncToShelfState(List<ShelfBookItem> books) {
+  void _syncToShelfState(Map<String, ShelfEntry> entries) {
     final shelfNotifier = ref.read(shelfStateProvider.notifier);
-
-    for (final book in books) {
-      shelfNotifier.registerEntry(
-        ShelfEntry(
-          userBookId: book.userBookId,
-          externalId: book.externalId,
-          readingStatus: book.readingStatus,
-          addedAt: book.addedAt,
-          completedAt: book.completedAt,
-        ),
-      );
+    for (final entry in entries.values) {
+      shelfNotifier.registerEntry(entry);
     }
   }
 
@@ -143,6 +135,8 @@ class BookShelfNotifier extends _$BookShelfNotifier {
       return {};
     }
 
+    // shelfStateProvider から状態情報を取得
+    final shelfState = ref.read(shelfStateProvider);
     final grouped = <String, List<ShelfBookItem>>{};
 
     for (final book in books) {
@@ -151,7 +145,8 @@ class BookShelfNotifier extends _$BookShelfNotifier {
         case GroupOption.none:
           continue;
         case GroupOption.byStatus:
-          key = book.readingStatus.displayName;
+          final entry = shelfState[book.externalId];
+          key = entry?.readingStatus.displayName ?? '不明';
         case GroupOption.byAuthor:
           key = book.primaryAuthor.isEmpty ? '著者不明' : book.primaryAuthor;
       }

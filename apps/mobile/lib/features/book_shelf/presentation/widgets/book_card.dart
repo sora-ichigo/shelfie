@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -9,7 +11,8 @@ import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 ///
 /// 本棚画面でグリッド表示される個別書籍のカード。
 /// カバー画像、星評価、タイトル、著者名を表示する。
-class BookCard extends StatelessWidget {
+/// 読書状態（rating 等）は shelfStateProvider から取得する。
+class BookCard extends ConsumerWidget {
   const BookCard({
     required this.book,
     required this.onTap,
@@ -20,9 +23,15 @@ class BookCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
+
+    // shelfStateProvider から最新の rating を取得
+    final rating = ref.watch(
+      shelfStateProvider.select((s) => s[book.externalId]?.rating),
+    );
+    final hasRating = rating != null;
 
     return GestureDetector(
       onTap: onTap,
@@ -37,8 +46,8 @@ class BookCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
-          if (book.hasRating) ...[
-            _buildRating(appColors),
+          if (hasRating) ...[
+            _buildRating(appColors, rating),
             const SizedBox(height: AppSpacing.xxs),
           ],
           _buildTitle(theme),
@@ -75,11 +84,11 @@ class BookCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRating(AppColors appColors) {
+  Widget _buildRating(AppColors appColors, int rating) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
-        final isFilled = index < (book.rating ?? 0);
+        final isFilled = index < rating;
         return Icon(
           isFilled ? Icons.star : Icons.star_border,
           size: 16,

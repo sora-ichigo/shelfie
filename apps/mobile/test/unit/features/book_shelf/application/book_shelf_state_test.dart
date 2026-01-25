@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -14,7 +13,6 @@ void main() {
     String externalId = 'id',
     String title = 'Title',
     List<String> authors = const ['Author'],
-    ReadingStatus readingStatus = ReadingStatus.backlog,
     DateTime? addedAt,
   }) {
     return ShelfBookItem(
@@ -22,7 +20,6 @@ void main() {
       externalId: externalId,
       title: title,
       authors: authors,
-      readingStatus: readingStatus,
       addedAt: addedAt ?? now,
     );
   }
@@ -72,21 +69,21 @@ void main() {
         final book1 = createBook(
           userBookId: 1,
           externalId: 'id1',
-          readingStatus: ReadingStatus.reading,
+          authors: const ['Author A'],
         );
         final book2 = createBook(
           userBookId: 2,
           externalId: 'id2',
-          readingStatus: ReadingStatus.completed,
+          authors: const ['Author B'],
         );
 
         final state = BookShelfState.loaded(
           books: [book1, book2],
           sortOption: SortOption.addedAtDesc,
-          groupOption: GroupOption.byStatus,
+          groupOption: GroupOption.byAuthor,
           groupedBooks: {
-            '読書中': [book1],
-            '読了': [book2],
+            'Author A': [book1],
+            'Author B': [book2],
           },
           hasMore: false,
           isLoadingMore: false,
@@ -94,8 +91,8 @@ void main() {
         );
 
         final loaded = state as BookShelfLoaded;
-        expect(loaded.groupedBooks['読書中'], [book1]);
-        expect(loaded.groupedBooks['読了'], [book2]);
+        expect(loaded.groupedBooks['Author A'], [book1]);
+        expect(loaded.groupedBooks['Author B'], [book2]);
       });
     });
 
