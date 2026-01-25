@@ -23,6 +23,7 @@ mixin _$UserProfile {
   String? get username => throw _privateConstructorUsedError;
   int get bookCount => throw _privateConstructorUsedError;
   int? get readingStartYear => throw _privateConstructorUsedError;
+  int? get readingStartMonth => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,6 +45,7 @@ abstract class $UserProfileCopyWith<$Res> {
       String? username,
       int bookCount,
       int? readingStartYear,
+      int? readingStartMonth,
       DateTime createdAt});
 }
 
@@ -67,6 +69,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? username = freezed,
     Object? bookCount = null,
     Object? readingStartYear = freezed,
+    Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -98,6 +101,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.readingStartYear
           : readingStartYear // ignore: cast_nullable_to_non_nullable
               as int?,
+      readingStartMonth: freezed == readingStartMonth
+          ? _value.readingStartMonth
+          : readingStartMonth // ignore: cast_nullable_to_non_nullable
+              as int?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -122,6 +129,7 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String? username,
       int bookCount,
       int? readingStartYear,
+      int? readingStartMonth,
       DateTime createdAt});
 }
 
@@ -143,6 +151,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? username = freezed,
     Object? bookCount = null,
     Object? readingStartYear = freezed,
+    Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
     return _then(_$UserProfileImpl(
@@ -174,6 +183,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.readingStartYear
           : readingStartYear // ignore: cast_nullable_to_non_nullable
               as int?,
+      readingStartMonth: freezed == readingStartMonth
+          ? _value.readingStartMonth
+          : readingStartMonth // ignore: cast_nullable_to_non_nullable
+              as int?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -193,6 +206,7 @@ class _$UserProfileImpl implements _UserProfile {
       required this.username,
       required this.bookCount,
       required this.readingStartYear,
+      required this.readingStartMonth,
       required this.createdAt});
 
   @override
@@ -210,11 +224,13 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final int? readingStartYear;
   @override
+  final int? readingStartMonth;
+  @override
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, username: $username, bookCount: $bookCount, readingStartYear: $readingStartYear, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, username: $username, bookCount: $bookCount, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
   }
 
   @override
@@ -233,13 +249,15 @@ class _$UserProfileImpl implements _UserProfile {
                 other.bookCount == bookCount) &&
             (identical(other.readingStartYear, readingStartYear) ||
                 other.readingStartYear == readingStartYear) &&
+            (identical(other.readingStartMonth, readingStartMonth) ||
+                other.readingStartMonth == readingStartMonth) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, email, name, avatarUrl,
-      username, bookCount, readingStartYear, createdAt);
+      username, bookCount, readingStartYear, readingStartMonth, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -257,6 +275,7 @@ abstract class _UserProfile implements UserProfile {
       required final String? username,
       required final int bookCount,
       required final int? readingStartYear,
+      required final int? readingStartMonth,
       required final DateTime createdAt}) = _$UserProfileImpl;
 
   @override
@@ -273,6 +292,8 @@ abstract class _UserProfile implements UserProfile {
   int get bookCount;
   @override
   int? get readingStartYear;
+  @override
+  int? get readingStartMonth;
   @override
   DateTime get createdAt;
   @override

@@ -26,6 +26,7 @@ void main() {
     username: '@testuser',
     bookCount: 42,
     readingStartYear: 2020,
+    readingStartMonth: 1,
     createdAt: DateTime(2023, 1, 1),
   );
 

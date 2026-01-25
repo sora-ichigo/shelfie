@@ -11,6 +11,7 @@ void main() {
     String? username = '@testuser',
     int bookCount = 10,
     int? readingStartYear = 2020,
+    int? readingStartMonth = 4,
   }) {
     return UserProfile(
       id: 1,
@@ -20,7 +21,8 @@ void main() {
       username: username,
       bookCount: bookCount,
       readingStartYear: readingStartYear,
-      createdAt: DateTime(2020, 1, 1),
+      readingStartMonth: readingStartMonth,
+      createdAt: DateTime(2020, 4, 1),
     );
   }
 
@@ -71,8 +73,11 @@ void main() {
       expect(find.text('冊'), findsOneWidget);
     });
 
-    testWidgets('読書開始年が表示される', (tester) async {
-      final profile = createTestProfile(readingStartYear: 2020);
+    testWidgets('読書開始年月が表示される', (tester) async {
+      final profile = createTestProfile(
+        readingStartYear: 2020,
+        readingStartMonth: 4,
+      );
 
       await tester.pumpWidget(
         MaterialApp(
@@ -83,12 +88,15 @@ void main() {
         ),
       );
 
-      expect(find.text('2020'), findsOneWidget);
+      expect(find.text('2020年4月'), findsOneWidget);
       expect(find.text('読書開始'), findsOneWidget);
     });
 
-    testWidgets('読書開始年がnullの場合はハイフンが表示される', (tester) async {
-      final profile = createTestProfile(readingStartYear: null);
+    testWidgets('読書開始年月がnullの場合はハイフンが表示される', (tester) async {
+      final profile = createTestProfile(
+        readingStartYear: null,
+        readingStartMonth: null,
+      );
 
       await tester.pumpWidget(
         MaterialApp(

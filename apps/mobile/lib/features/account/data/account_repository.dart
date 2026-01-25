@@ -152,6 +152,7 @@ class AccountRepository {
       username: user.name != null ? '@${user.name}' : null,
       bookCount: user.bookCount,
       readingStartYear: createdAt.year,
+      readingStartMonth: createdAt.month,
       createdAt: createdAt,
     );
   }
@@ -168,6 +169,7 @@ class AccountRepository {
       username: user.name != null ? '@${user.name}' : null,
       bookCount: user.bookCount,
       readingStartYear: createdAt.year,
+      readingStartMonth: createdAt.month,
       createdAt: createdAt,
     );
   }

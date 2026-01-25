@@ -60,6 +60,7 @@ void main() {
           username: '@testuser',
           bookCount: 10,
           readingStartYear: 2020,
+          readingStartMonth: 1,
           createdAt: DateTime(2020, 1, 1),
         );
 
@@ -80,6 +81,7 @@ void main() {
           username: null,
           bookCount: 0,
           readingStartYear: null,
+          readingStartMonth: null,
           createdAt: DateTime(2020, 1, 1),
         );
 

@@ -16,6 +16,7 @@ void main() {
     username: '@testuser',
     bookCount: 42,
     readingStartYear: 2020,
+    readingStartMonth: 1,
     createdAt: DateTime(2023, 1, 1),
   );
 
@@ -75,7 +76,7 @@ void main() {
       expect(find.text('Test User'), findsOneWidget);
       expect(find.text('test@example.com'), findsOneWidget);
       expect(find.text('42'), findsOneWidget);
-      expect(find.text('2020'), findsOneWidget);
+      expect(find.text('2020年1月'), findsOneWidget);
     });
 
     testWidgets(
