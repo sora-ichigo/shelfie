@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -26,23 +27,9 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
+              UserAvatar(
+                avatarUrl: profile.avatarUrl,
                 radius: 32,
-                backgroundColor:
-                    colors?.brandPrimary ?? const Color(0xFF4FD1C5),
-                backgroundImage: profile.avatarUrl != null
-                    ? NetworkImage(profile.avatarUrl!)
-                    : null,
-                child: profile.avatarUrl == null
-                    ? Text(
-                        profile.name?.characters.first ?? '読',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          color: colors?.brandBackground ??
-                              const Color(0xFF0A0A0A),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : null,
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(

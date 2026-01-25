@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/user_avatar.dart';
 
 class AvatarEditor extends StatelessWidget {
   const AvatarEditor({
@@ -22,28 +23,19 @@ class AvatarEditor extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
 
-    ImageProvider? backgroundImage;
+    ImageProvider? imageProvider;
     if (pendingImage != null) {
-      backgroundImage = FileImage(File(pendingImage!.path));
-    } else if (avatarUrl != null) {
-      backgroundImage = NetworkImage(avatarUrl!);
+      imageProvider = FileImage(File(pendingImage!.path));
     }
 
     return GestureDetector(
       onTap: onTap,
       child: Stack(
         children: [
-          CircleAvatar(
+          UserAvatar(
+            avatarUrl: avatarUrl,
+            imageProvider: imageProvider,
             radius: 50,
-            backgroundColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
-            backgroundImage: backgroundImage,
-            child: backgroundImage == null
-                ? Icon(
-                    Icons.person,
-                    size: 50,
-                    color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
-                  )
-                : null,
           ),
           Positioned(
             right: 0,

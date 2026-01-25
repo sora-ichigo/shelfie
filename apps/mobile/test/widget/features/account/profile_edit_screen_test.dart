@@ -96,7 +96,7 @@ void main() {
       expect(find.text('氏名'), findsOneWidget);
       expect(find.text('メールアドレス'), findsOneWidget);
       expect(
-        find.text('メールアドレスを変更すると、確認メールが送信されます'),
+        find.text('アカウントのメールアドレスは変更できません'),
         findsOneWidget,
       );
     });
