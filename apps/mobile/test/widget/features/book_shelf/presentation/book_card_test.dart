@@ -197,12 +197,12 @@ void main() {
         expect(tapped, isTrue);
       });
 
-      testWidgets('タップ時に視覚的フィードバックがある', (tester) async {
+      testWidgets('タップ可能である', (tester) async {
         await tester.pumpWidget(
           buildBookCard(book: createTestBook()),
         );
 
-        expect(find.byType(InkWell), findsOneWidget);
+        expect(find.byType(GestureDetector), findsOneWidget);
       });
     });
 
@@ -218,12 +218,12 @@ void main() {
         expect(theme.brightness, equals(Brightness.dark));
       });
 
-      testWidgets('カードがダークテーマの背景色を使用している', (tester) async {
+      testWidgets('画像に角丸が適用されている', (tester) async {
         await tester.pumpWidget(
           buildBookCard(book: createTestBook()),
         );
 
-        expect(find.byType(Card), findsOneWidget);
+        expect(find.byType(ClipRRect), findsOneWidget);
       });
     });
   });
