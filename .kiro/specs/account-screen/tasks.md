@@ -143,8 +143,8 @@
   - バリデーションエラーメッセージを表示
   - _Requirements: 2.4, 2.5, 2.6_
 
-- [ ] 7. Mobile: Presentation 層 - 画面実装
-- [ ] 7.1 AccountScreen を実装
+- [x] 7. Mobile: Presentation 層 - 画面実装
+- [x] 7.1 AccountScreen を実装
   - AccountHeader、ProfileCard、AccountMenuSection を組み合わせて画面を構築
   - AccountNotifier の AsyncValue を監視し、ローディング/エラー/データ表示を切り替え
   - 「アカウント」セクションに「プロフィール編集」「プレミアムプラン」を配置
@@ -153,7 +153,7 @@
   - 既存の `_AccountScreen` プレースホルダーを置き換え
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 7.2 ProfileEditScreen を実装
+- [x] 7.2 ProfileEditScreen を実装
   - ProfileEditHeader、AvatarEditor、ProfileEditForm を組み合わせて画面を構築
   - ProfileEditNotifier と ProfileFormState を監視
   - ローディング中は保存ボタンを無効化し、インジケーターを表示
@@ -162,15 +162,15 @@
   - 氏名が空の場合は保存ボタンを無効化
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 3.4, 3.5, 3.6, 4.2, 4.3_
 
-- [ ] 7.3 アバター選択フローを統合
+- [x] 7.3 アバター選択フローを統合
   - AvatarEditor タップで ImageSourceBottomSheet を表示
   - カメラ/ギャラリー選択後に ImagePickerService を呼び出し
   - 選択された画像を ProfileFormState に反映
   - アバタープレビューを更新
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 8. Mobile: ルーティング統合
-- [ ] 8.1 プロフィール編集画面へのルートを追加
+- [x] 8. Mobile: ルーティング統合
+- [x] 8.1 プロフィール編集画面へのルートを追加
   - go_router に `/account/edit` ルートを追加
   - AccountScreen からの遷移を実装
   - プロフィール編集画面から戻る際の状態更新を処理

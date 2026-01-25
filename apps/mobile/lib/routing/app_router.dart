@@ -10,6 +10,9 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/account/application/account_notifier.dart';
+import 'package:shelfie/features/account/presentation/account_screen.dart';
+import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
@@ -43,6 +46,9 @@ abstract final class AppRoutes {
 
   /// アカウント画面
   static const account = '/account';
+
+  /// プロフィール編集画面
+  static const accountEdit = '/account/edit';
 
   /// エラー画面
   static const error = '/error';
@@ -205,6 +211,16 @@ Future<String?> guardRoute({
   return null;
 }
 
+/// 未実装画面のスタブ用スナックバー表示
+void _showStubSnackbar(BuildContext context, String featureName) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('$featureNameは近日公開予定です'),
+      duration: const Duration(seconds: 2),
+    ),
+  );
+}
+
 /// ルート定義を構築
 List<RouteBase> _buildRoutes() {
   return [
@@ -235,7 +251,38 @@ List<RouteBase> _buildRoutes() {
     // アカウント画面（タブバーなし）
     GoRoute(
       path: AppRoutes.account,
-      builder: (context, state) => const _AccountScreen(),
+      builder: (context, state) => AccountScreen(
+        onClose: () => context.pop(),
+        onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
+        onNavigateToPremium: () => _showStubSnackbar(context, 'プレミアムプラン'),
+        onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
+        onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
+        onNavigateToTheme: () => _showStubSnackbar(context, 'テーマ'),
+      ),
+      routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) => Consumer(
+            builder: (context, ref, _) {
+              final accountState = ref.watch(accountNotifierProvider);
+              return accountState.when(
+                data: (profile) => ProfileEditScreen(
+                  initialProfile: profile,
+                  onClose: () => context.pop(),
+                  onSaveSuccess: () => context.pop(),
+                ),
+                loading: () => const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                ),
+                error: (error, stack) => Scaffold(
+                  appBar: AppBar(title: const Text('エラー')),
+                  body: Center(child: Text('$error')),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     ),
 
     // 本詳細（タブバーなし）
@@ -429,21 +476,6 @@ class _HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// プレースホルダー: アカウント画面
-class _AccountScreen extends StatelessWidget {
-  const _AccountScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('アカウント'),
-      ),
-      body: const Center(child: Text('アカウント設定')),
     );
   }
 }
