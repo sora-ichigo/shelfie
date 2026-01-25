@@ -167,7 +167,8 @@ void main() {
           ),
         );
 
-        expect(find.byType(DropdownButton<SortOption>), findsOneWidget);
+        expect(find.byIcon(Icons.tune), findsOneWidget);
+        expect(find.byIcon(Icons.grid_view), findsOneWidget);
       });
     });
 
