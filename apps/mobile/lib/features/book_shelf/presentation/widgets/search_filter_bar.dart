@@ -74,6 +74,9 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
             offset: const Offset(0, 48),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.lg),
+              side: BorderSide(
+                color: appColors.textSecondary.withOpacity(0.3),
+              ),
             ),
             color: Colors.transparent,
             surfaceTintColor: Colors.transparent,
@@ -141,6 +144,9 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
                     ? Color.lerp(appColors.surfaceElevated, Colors.white, 0.1)
                     : appColors.surfaceElevated,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
+                border: Border.all(
+                  color: appColors.textSecondary.withOpacity(0.3),
+                ),
               ),
               child: Row(
                 children: [
@@ -180,6 +186,9 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
       decoration: BoxDecoration(
         color: appColors.surfaceElevated,
         borderRadius: BorderRadius.circular(AppRadius.md),
+        border: Border.all(
+          color: appColors.textSecondary.withOpacity(0.3),
+        ),
       ),
       child: DropdownButton<GroupOption>(
         value: widget.groupOption,
