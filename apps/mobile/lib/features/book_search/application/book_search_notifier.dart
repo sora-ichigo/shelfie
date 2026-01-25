@@ -5,7 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
-import 'package:shelfie/features/book_search/application/search_history_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
 part 'book_search_notifier.g.dart';
@@ -64,9 +63,6 @@ class BookSearchNotifier extends _$BookSearchNotifier {
             hasMore: value.hasMore,
             currentQuery: query,
             currentOffset: 0,
-          );
-          unawaited(
-            ref.read(searchHistoryNotifierProvider.notifier).addHistory(query),
           );
         }
     }

@@ -91,6 +91,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   controller: _searchController,
                   focusNode: _focusNode,
                   onChanged: _onSearchChanged,
+                  onSubmitted: _onSearchSubmitted,
                   onScanPressed: _onScanPressed,
                 ),
               ),
@@ -256,6 +257,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(bookSearchNotifierProvider.notifier).searchBooksWithDebounce(query);
   }
 
+  void _onSearchSubmitted(String query) {
+    if (query.isEmpty) return;
+    _focusNode.unfocus();
+    ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
+    ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+  }
+
   void _onHistorySelected(String query) {
     _searchController.text = query;
     _focusNode.unfocus();
@@ -295,6 +303,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onBookTap(Book book) {
+    final query = _searchController.text;
+    if (query.isNotEmpty) {
+      ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+    }
     context.push(AppRoutes.bookDetail(bookId: book.id));
   }
 
