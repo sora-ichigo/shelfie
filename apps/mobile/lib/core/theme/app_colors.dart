@@ -38,20 +38,23 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.error,
     required this.info,
     // Legacy colors (後方互換性のため維持、段階的に廃止)
-    required this.brandPrimary,
-    required this.brandAccent,
-    required this.brandBackground,
-    required this.surfacePrimary,
-    required this.surfaceElevated,
-    required this.surfaceOverlay,
-    required this.surfaceModal,
+    @Deprecated('Use accent instead') required this.brandPrimary,
+    @Deprecated('Use accentSecondary instead') required this.brandAccent,
+    @Deprecated('Use background instead') required this.brandBackground,
+    @Deprecated('Use background instead') required this.surfacePrimary,
+    @Deprecated('Use surface instead') required this.surfaceElevated,
+    @Deprecated('Use overlay instead') required this.surfaceOverlay,
+    @Deprecated('Use surfaceHigh instead') required this.surfaceModal,
+    @Deprecated('Use accent or define component-specific color instead')
     required this.selectionHighlight,
-    required this.ratingActive,
+    @Deprecated('Use accentSecondary instead') required this.ratingActive,
+    @Deprecated('Define gradient in component or use accent colors')
     required this.actionGradientStart,
+    @Deprecated('Define gradient in component or use accent colors')
     required this.actionGradientEnd,
-    required this.textPrimary,
-    required this.textSecondary,
-    required this.textLink,
+    @Deprecated('Use foreground instead') required this.textPrimary,
+    @Deprecated('Use foregroundMuted instead') required this.textSecondary,
+    @Deprecated('Use accent instead') required this.textLink,
   });
 
   // ===========================================================================
