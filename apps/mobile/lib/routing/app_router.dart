@@ -9,10 +9,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
+import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
@@ -257,13 +257,13 @@ List<RouteBase> _buildRoutes() {
         GoRoute(
           path: AppRoutes.home,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: _HomeScreen(),
+            child: BookShelfScreen(),
           ),
         ),
         GoRoute(
           path: AppRoutes.homeTab,
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: _HomeScreen(),
+            child: BookShelfScreen(),
           ),
         ),
         // 検索
@@ -288,29 +288,32 @@ List<RouteBase> _buildRoutes() {
   ];
 }
 
-/// プレースホルダー: メインシェル（タブバー）
-class _MainShell extends StatefulWidget {
+/// メインシェル（タブバー）
+///
+/// ShellRoute のビルダーとして使用され、ボトムナビゲーションを提供する。
+/// 現在のルートに基づいてタブの選択状態を管理する。
+class _MainShell extends StatelessWidget {
   const _MainShell({required this.child});
 
   final Widget child;
 
-  @override
-  State<_MainShell> createState() => _MainShellState();
-}
-
-class _MainShellState extends State<_MainShell> {
-  int _currentIndex = 0;
+  int _calculateSelectedIndex(BuildContext context) {
+    final location = GoRouterState.of(context).matchedLocation;
+    if (location.startsWith(AppRoutes.searchTab)) {
+      return 1;
+    }
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = _calculateSelectedIndex(context);
+
     return Scaffold(
-      body: widget.child,
+      body: child,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: selectedIndex,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
           switch (index) {
             case 0:
               context.go(AppRoutes.homeTab);
@@ -405,29 +408,6 @@ class _ErrorScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// プレースホルダー: ホーム画面（本棚）
-class _HomeScreen extends StatelessWidget {
-  const _HomeScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ScreenHeader(
-            title: '本棚',
-            onProfileTap: () => context.push(AppRoutes.account),
-          ),
-          const Expanded(
-            child: Center(child: Text('本棚コンテンツ')),
-          ),
-        ],
       ),
     );
   }
