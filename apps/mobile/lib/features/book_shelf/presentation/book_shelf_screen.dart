@@ -47,6 +47,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
             title: '本棚',
             onProfileTap: () => context.push(AppRoutes.account),
             avatarUrl: avatarUrl,
+            isAvatarLoading: accountAsync.isLoading,
           ),
           Expanded(
             child: _buildContent(state),

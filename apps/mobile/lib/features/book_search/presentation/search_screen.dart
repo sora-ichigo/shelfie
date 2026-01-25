@@ -88,6 +88,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 title: '検索',
                 onProfileTap: () => context.push(AppRoutes.account),
                 avatarUrl: avatarUrl,
+                isAvatarLoading: accountAsync.isLoading,
               ),
               Padding(
                 padding: AppSpacing.vertical(AppSpacing.sm),
