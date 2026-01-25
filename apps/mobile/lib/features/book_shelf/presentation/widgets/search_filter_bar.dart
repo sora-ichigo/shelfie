@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 /// フィルターバーコンポーネント
 ///
 /// 本棚画面で使用するソートドロップダウン、
 /// グループ化ドロップダウンを横並びで配置する。
-class SearchFilterBar extends StatefulWidget {
+class SearchFilterBar extends ConsumerStatefulWidget {
   const SearchFilterBar({
     required this.sortOption,
     required this.groupOption,
@@ -25,14 +27,25 @@ class SearchFilterBar extends StatefulWidget {
   final void Function(GroupOption) onGroupChanged;
 
   @override
-  State<SearchFilterBar> createState() => _SearchFilterBarState();
+  ConsumerState<SearchFilterBar> createState() => _SearchFilterBarState();
 }
 
-class _SearchFilterBarState extends State<SearchFilterBar> {
+class _SearchFilterBarState extends ConsumerState<SearchFilterBar> {
   bool _isSortMenuOpen = false;
+
+  void _closeSortMenu() {
+    if (_isSortMenuOpen) {
+      Navigator.of(context).pop();
+      setState(() => _isSortMenuOpen = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // タブタップイベントを listen してメニューを閉じる
+    ref.listen(tabTapEventProvider, (_, __) {
+      _closeSortMenu();
+    });
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 

@@ -23,6 +23,12 @@ import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
 
+/// タブ切り替えイベントを通知するための Provider
+///
+/// タブがタップされるたびにインクリメントされる。
+/// PopupMenu などを閉じるためのトリガーとして使用。
+final tabTapEventProvider = StateProvider<int>((ref) => 0);
+
 /// ルートパス定義
 ///
 /// 全てのルートパスを一元管理し、型安全なナビゲーションを実現する。
@@ -356,7 +362,7 @@ List<RouteBase> _buildRoutes() {
 ///
 /// ShellRoute のビルダーとして使用され、ボトムナビゲーションを提供する。
 /// 現在のルートに基づいてタブの選択状態を管理する。
-class _MainShell extends StatelessWidget {
+class _MainShell extends ConsumerWidget {
   const _MainShell({required this.child});
 
   final Widget child;
@@ -370,7 +376,7 @@ class _MainShell extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = _calculateSelectedIndex(context);
 
     return Scaffold(
@@ -378,6 +384,9 @@ class _MainShell extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) {
+          // タブタップイベントを通知（PopupMenu を閉じるトリガー）
+          ref.read(tabTapEventProvider.notifier).state++;
+
           switch (index) {
             case 0:
               context.go(AppRoutes.homeTab);
