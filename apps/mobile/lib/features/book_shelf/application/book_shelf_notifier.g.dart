@@ -6,11 +6,11 @@ part of 'book_shelf_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookShelfNotifierHash() => r'4f14c2d730c70e342d2a68f3c2197bd361c1f3bd';
+String _$bookShelfNotifierHash() => r'f7f01c5905d8fde72b5972df259b3e4ea9114652';
 
 /// 本棚画面の状態管理 Notifier
 ///
-/// サーバーサイドでの検索・ソート・ページネーション、
+/// サーバーサイドでのソート・ページネーション、
 /// クライアント側でのグループ化を担当する。
 ///
 /// Copied from [BookShelfNotifier].

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
@@ -7,15 +5,14 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
-/// 検索・フィルターバーコンポーネント
+/// フィルターバーコンポーネント
 ///
-/// 本棚画面で使用する検索バー、ソートドロップダウン、
+/// 本棚画面で使用するソートドロップダウン、
 /// グループ化ドロップダウンを横並びで配置する。
-class SearchFilterBar extends StatefulWidget {
+class SearchFilterBar extends StatelessWidget {
   const SearchFilterBar({
     required this.sortOption,
     required this.groupOption,
-    required this.onSearchChanged,
     required this.onSortChanged,
     required this.onGroupChanged,
     super.key,
@@ -23,96 +20,15 @@ class SearchFilterBar extends StatefulWidget {
 
   final SortOption sortOption;
   final GroupOption groupOption;
-  final void Function(String) onSearchChanged;
   final void Function(SortOption) onSortChanged;
   final void Function(GroupOption) onGroupChanged;
-
-  @override
-  State<SearchFilterBar> createState() => _SearchFilterBarState();
-}
-
-class _SearchFilterBarState extends State<SearchFilterBar> {
-  final TextEditingController _searchController = TextEditingController();
-  Timer? _debounceTimer;
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _debounceTimer?.cancel();
-    super.dispose();
-  }
-
-  void _onSearchTextChanged(String value) {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      widget.onSearchChanged(value);
-    });
-  }
-
-  void _clearSearch() {
-    _searchController.clear();
-    _debounceTimer?.cancel();
-    widget.onSearchChanged('');
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _buildSearchBar(theme, appColors),
-        const SizedBox(height: AppSpacing.sm),
-        _buildFilterRow(theme, appColors),
-      ],
-    );
-  }
-
-  Widget _buildSearchBar(ThemeData theme, AppColors appColors) {
-    return TextField(
-      controller: _searchController,
-      onChanged: _onSearchTextChanged,
-      style: theme.textTheme.bodyMedium?.copyWith(
-        color: appColors.textPrimary,
-      ),
-      decoration: InputDecoration(
-        hintText: '本を検索...',
-        hintStyle: theme.textTheme.bodyMedium?.copyWith(
-          color: appColors.textSecondary,
-        ),
-        prefixIcon: Icon(
-          Icons.search,
-          color: appColors.textSecondary,
-        ),
-        suffixIcon: ListenableBuilder(
-          listenable: _searchController,
-          builder: (context, child) {
-            if (_searchController.text.isEmpty) {
-              return const SizedBox.shrink();
-            }
-            return IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: appColors.textSecondary,
-              ),
-              onPressed: _clearSearch,
-            );
-          },
-        ),
-        filled: true,
-        fillColor: appColors.surfaceElevated,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-      ),
-    );
+    return _buildFilterRow(theme, appColors);
   }
 
   Widget _buildFilterRow(ThemeData theme, AppColors appColors) {
@@ -137,7 +53,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: DropdownButton<SortOption>(
-        value: widget.sortOption,
+        value: sortOption,
         isExpanded: true,
         underline: const SizedBox.shrink(),
         dropdownColor: appColors.surfaceElevated,
@@ -159,7 +75,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         }).toList(),
         onChanged: (option) {
           if (option != null) {
-            widget.onSortChanged(option);
+            onSortChanged(option);
           }
         },
       ),
@@ -174,7 +90,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
       child: DropdownButton<GroupOption>(
-        value: widget.groupOption,
+        value: groupOption,
         isExpanded: true,
         underline: const SizedBox.shrink(),
         dropdownColor: appColors.surfaceElevated,
@@ -196,7 +112,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
         }).toList(),
         onChanged: (option) {
           if (option != null) {
-            widget.onGroupChanged(option);
+            onGroupChanged(option);
           }
         },
       ),

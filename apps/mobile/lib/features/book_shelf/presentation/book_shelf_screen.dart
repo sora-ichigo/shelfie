@@ -73,11 +73,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           child: SearchFilterBar(
             sortOption: state.sortOption,
             groupOption: state.groupOption,
-            onSearchChanged: (query) {
-              ref
-                  .read(bookShelfNotifierProvider.notifier)
-                  .setSearchQuery(query);
-            },
             onSortChanged: (option) {
               ref
                   .read(bookShelfNotifierProvider.notifier)
@@ -100,12 +95,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   Widget _buildBookContent(BookShelfLoaded state) {
     if (state.isEmpty) {
-      if (state.hasSearchQuery) {
-        return const EmptyState(
-          icon: Icons.search_off,
-          message: '検索結果が見つかりません',
-        );
-      }
       return const EmptyState(
         icon: Icons.auto_stories_outlined,
         message: '本を追加してみましょう',

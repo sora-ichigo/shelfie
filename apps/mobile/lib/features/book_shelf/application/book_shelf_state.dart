@@ -23,9 +23,6 @@ sealed class BookShelfState with _$BookShelfState {
     /// 書籍リスト
     required List<ShelfBookItem> books,
 
-    /// 現在の検索クエリ
-    required String searchQuery,
-
     /// 現在のソートオプション
     required SortOption sortOption,
 
@@ -56,9 +53,6 @@ sealed class BookShelfState with _$BookShelfState {
 extension BookShelfLoadedX on BookShelfLoaded {
   /// 書籍リストが空かどうか
   bool get isEmpty => books.isEmpty;
-
-  /// 検索クエリが設定されているかどうか
-  bool get hasSearchQuery => searchQuery.isNotEmpty;
 
   /// グループ化が有効かどうか
   bool get isGrouped => groupOption != GroupOption.none;

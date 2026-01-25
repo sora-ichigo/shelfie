@@ -31,7 +31,6 @@ class MockBookShelfNotifier extends AutoDisposeNotifier<BookShelfState>
   BookShelfState _state;
   bool initializeCalled = false;
   bool refreshCalled = false;
-  String? lastSearchQuery;
   SortOption? lastSortOption;
   GroupOption? lastGroupOption;
 
@@ -46,11 +45,6 @@ class MockBookShelfNotifier extends AutoDisposeNotifier<BookShelfState>
   @override
   Future<void> initialize() async {
     initializeCalled = true;
-  }
-
-  @override
-  Future<void> setSearchQuery(String query) async {
-    lastSearchQuery = query;
   }
 
   @override
@@ -124,7 +118,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -143,7 +136,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -165,7 +157,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -188,7 +179,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -225,7 +215,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -263,7 +252,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: testBooks,
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -277,25 +265,6 @@ void main() {
         expect(find.byType(BookGrid), findsOneWidget);
         expect(find.text('Test Book 1'), findsOneWidget);
         expect(find.text('Test Book 2'), findsOneWidget);
-      });
-
-      testWidgets('検索結果0件では「検索結果が見つかりません」メッセージを表示する', (tester) async {
-        await tester.pumpWidget(buildTestApp(
-          initialState: BookShelfState.loaded(
-            books: const [],
-            searchQuery: '存在しない検索語',
-            sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 0,
-          ),
-        ));
-        await tester.pumpAndSettle();
-
-        expect(find.text('検索結果が見つかりません'), findsOneWidget);
-        expect(find.byIcon(Icons.search_off), findsOneWidget);
       });
 
       testWidgets('エラー状態ではエラーメッセージとリトライボタンを表示する', (tester) async {
@@ -345,7 +314,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: testBooks,
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -388,7 +356,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: testBooks,
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -420,33 +387,10 @@ void main() {
     });
 
     group('SearchFilterBar コールバック', () {
-      testWidgets('検索変更時に setSearchQuery が呼ばれる', (tester) async {
-        await tester.pumpWidget(buildTestApp(
-          initialState: BookShelfState.loaded(
-            books: const [],
-            searchQuery: '',
-            sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 0,
-          ),
-        ));
-        await tester.pumpAndSettle();
-
-        final searchField = find.byType(TextField);
-        await tester.enterText(searchField, 'test query');
-        await tester.pump(const Duration(milliseconds: 350));
-
-        expect(mockNotifier.lastSearchQuery, equals('test query'));
-      });
-
       testWidgets('ソート変更時に setSortOption が呼ばれる', (tester) async {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},
@@ -472,7 +416,6 @@ void main() {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
-            searchQuery: '',
             sortOption: SortOption.defaultOption,
             groupOption: GroupOption.defaultOption,
             groupedBooks: const {},

@@ -22,7 +22,6 @@ mixin _$BookShelfState {
     required TResult Function() loading,
     required TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -39,7 +38,6 @@ mixin _$BookShelfState {
     TResult? Function()? loading,
     TResult? Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -56,7 +54,6 @@ mixin _$BookShelfState {
     TResult Function()? loading,
     TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -155,7 +152,6 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
     required TResult Function() loading,
     required TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -175,7 +171,6 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
     TResult? Function()? loading,
     TResult? Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -195,7 +190,6 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
     TResult Function()? loading,
     TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -296,7 +290,6 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
     required TResult Function() loading,
     required TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -316,7 +309,6 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
     TResult? Function()? loading,
     TResult? Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -336,7 +328,6 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
     TResult Function()? loading,
     TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -403,7 +394,6 @@ abstract class _$$BookShelfLoadedImplCopyWith<$Res> {
   @useResult
   $Res call(
       {List<ShelfBookItem> books,
-      String searchQuery,
       SortOption sortOption,
       GroupOption groupOption,
       Map<String, List<ShelfBookItem>> groupedBooks,
@@ -424,7 +414,6 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? books = null,
-    Object? searchQuery = null,
     Object? sortOption = null,
     Object? groupOption = null,
     Object? groupedBooks = null,
@@ -437,10 +426,6 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
           ? _value._books
           : books // ignore: cast_nullable_to_non_nullable
               as List<ShelfBookItem>,
-      searchQuery: null == searchQuery
-          ? _value.searchQuery
-          : searchQuery // ignore: cast_nullable_to_non_nullable
-              as String,
       sortOption: null == sortOption
           ? _value.sortOption
           : sortOption // ignore: cast_nullable_to_non_nullable
@@ -474,7 +459,6 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
 class _$BookShelfLoadedImpl implements BookShelfLoaded {
   const _$BookShelfLoadedImpl(
       {required final List<ShelfBookItem> books,
-      required this.searchQuery,
       required this.sortOption,
       required this.groupOption,
       required final Map<String, List<ShelfBookItem>> groupedBooks,
@@ -494,10 +478,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_books);
   }
-
-  /// 現在の検索クエリ
-  @override
-  final String searchQuery;
 
   /// 現在のソートオプション
   @override
@@ -532,7 +512,7 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
 
   @override
   String toString() {
-    return 'BookShelfState.loaded(books: $books, searchQuery: $searchQuery, sortOption: $sortOption, groupOption: $groupOption, groupedBooks: $groupedBooks, hasMore: $hasMore, isLoadingMore: $isLoadingMore, totalCount: $totalCount)';
+    return 'BookShelfState.loaded(books: $books, sortOption: $sortOption, groupOption: $groupOption, groupedBooks: $groupedBooks, hasMore: $hasMore, isLoadingMore: $isLoadingMore, totalCount: $totalCount)';
   }
 
   @override
@@ -541,8 +521,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
         (other.runtimeType == runtimeType &&
             other is _$BookShelfLoadedImpl &&
             const DeepCollectionEquality().equals(other._books, _books) &&
-            (identical(other.searchQuery, searchQuery) ||
-                other.searchQuery == searchQuery) &&
             (identical(other.sortOption, sortOption) ||
                 other.sortOption == sortOption) &&
             (identical(other.groupOption, groupOption) ||
@@ -560,7 +538,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_books),
-      searchQuery,
       sortOption,
       groupOption,
       const DeepCollectionEquality().hash(_groupedBooks),
@@ -582,7 +559,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
     required TResult Function() loading,
     required TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -592,8 +568,8 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
         loaded,
     required TResult Function(Failure failure) error,
   }) {
-    return loaded(books, searchQuery, sortOption, groupOption, groupedBooks,
-        hasMore, isLoadingMore, totalCount);
+    return loaded(books, sortOption, groupOption, groupedBooks, hasMore,
+        isLoadingMore, totalCount);
   }
 
   @override
@@ -603,7 +579,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
     TResult? Function()? loading,
     TResult? Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -613,8 +588,8 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
         loaded,
     TResult? Function(Failure failure)? error,
   }) {
-    return loaded?.call(books, searchQuery, sortOption, groupOption,
-        groupedBooks, hasMore, isLoadingMore, totalCount);
+    return loaded?.call(books, sortOption, groupOption, groupedBooks, hasMore,
+        isLoadingMore, totalCount);
   }
 
   @override
@@ -624,7 +599,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
     TResult Function()? loading,
     TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -636,8 +610,8 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(books, searchQuery, sortOption, groupOption, groupedBooks,
-          hasMore, isLoadingMore, totalCount);
+      return loaded(books, sortOption, groupOption, groupedBooks, hasMore,
+          isLoadingMore, totalCount);
     }
     return orElse();
   }
@@ -683,7 +657,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
 abstract class BookShelfLoaded implements BookShelfState {
   const factory BookShelfLoaded(
       {required final List<ShelfBookItem> books,
-      required final String searchQuery,
       required final SortOption sortOption,
       required final GroupOption groupOption,
       required final Map<String, List<ShelfBookItem>> groupedBooks,
@@ -693,9 +666,6 @@ abstract class BookShelfLoaded implements BookShelfState {
 
   /// 書籍リスト
   List<ShelfBookItem> get books;
-
-  /// 現在の検索クエリ
-  String get searchQuery;
 
   /// 現在のソートオプション
   SortOption get sortOption;
@@ -799,7 +769,6 @@ class _$BookShelfErrorImpl implements BookShelfError {
     required TResult Function() loading,
     required TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -819,7 +788,6 @@ class _$BookShelfErrorImpl implements BookShelfError {
     TResult? Function()? loading,
     TResult? Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,
@@ -839,7 +807,6 @@ class _$BookShelfErrorImpl implements BookShelfError {
     TResult Function()? loading,
     TResult Function(
             List<ShelfBookItem> books,
-            String searchQuery,
             SortOption sortOption,
             GroupOption groupOption,
             Map<String, List<ShelfBookItem>> groupedBooks,

@@ -49,7 +49,6 @@ void main() {
         final books = [createBook()];
         final state = BookShelfState.loaded(
           books: books,
-          searchQuery: '',
           sortOption: SortOption.addedAtDesc,
           groupOption: GroupOption.none,
           groupedBooks: const {},
@@ -61,7 +60,6 @@ void main() {
         expect(state, isA<BookShelfLoaded>());
         final loaded = state as BookShelfLoaded;
         expect(loaded.books, books);
-        expect(loaded.searchQuery, '');
         expect(loaded.sortOption, SortOption.addedAtDesc);
         expect(loaded.groupOption, GroupOption.none);
         expect(loaded.groupedBooks, isEmpty);
@@ -84,7 +82,6 @@ void main() {
 
         final state = BookShelfState.loaded(
           books: [book1, book2],
-          searchQuery: '',
           sortOption: SortOption.addedAtDesc,
           groupOption: GroupOption.byStatus,
           groupedBooks: {
@@ -119,7 +116,6 @@ void main() {
         test('should return true when books is empty', () {
           const state = BookShelfLoaded(
             books: [],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: {},
@@ -134,7 +130,6 @@ void main() {
         test('should return false when books is not empty', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: const {},
@@ -147,43 +142,10 @@ void main() {
         });
       });
 
-      group('hasSearchQuery', () {
-        test('should return true when searchQuery is not empty', () {
-          final state = BookShelfLoaded(
-            books: [createBook()],
-            searchQuery: 'test',
-            sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 1,
-          );
-
-          expect(state.hasSearchQuery, isTrue);
-        });
-
-        test('should return false when searchQuery is empty', () {
-          final state = BookShelfLoaded(
-            books: [createBook()],
-            searchQuery: '',
-            sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 1,
-          );
-
-          expect(state.hasSearchQuery, isFalse);
-        });
-      });
-
       group('isGrouped', () {
         test('should return true when groupOption is not none', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.byStatus,
             groupedBooks: const {},
@@ -198,7 +160,6 @@ void main() {
         test('should return false when groupOption is none', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: const {},
@@ -215,7 +176,6 @@ void main() {
         test('should return true when hasMore is true and isLoadingMore is false', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: const {},
@@ -230,7 +190,6 @@ void main() {
         test('should return false when hasMore is false', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: const {},
@@ -245,7 +204,6 @@ void main() {
         test('should return false when isLoadingMore is true', () {
           final state = BookShelfLoaded(
             books: [createBook()],
-            searchQuery: '',
             sortOption: SortOption.addedAtDesc,
             groupOption: GroupOption.none,
             groupedBooks: const {},
@@ -287,7 +245,6 @@ void main() {
       test('should match loaded state', () {
         final state = BookShelfState.loaded(
           books: [createBook()],
-          searchQuery: '',
           sortOption: SortOption.addedAtDesc,
           groupOption: GroupOption.none,
           groupedBooks: const {},

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
@@ -13,15 +11,12 @@ part 'book_shelf_notifier.g.dart';
 
 /// 本棚画面の状態管理 Notifier
 ///
-/// サーバーサイドでの検索・ソート・ページネーション、
+/// サーバーサイドでのソート・ページネーション、
 /// クライアント側でのグループ化を担当する。
 @riverpod
 class BookShelfNotifier extends _$BookShelfNotifier {
   static const int _pageSize = 20;
-  Timer? _debounceTimer;
-  static const _debounceDuration = Duration(milliseconds: 300);
 
-  String _searchQuery = '';
   SortOption _sortOption = SortOption.defaultOption;
   GroupOption _groupOption = GroupOption.defaultOption;
   int _currentOffset = 0;
@@ -29,9 +24,6 @@ class BookShelfNotifier extends _$BookShelfNotifier {
 
   @override
   BookShelfState build() {
-    ref.onDispose(() {
-      _debounceTimer?.cancel();
-    });
     return const BookShelfState.initial();
   }
 
@@ -42,27 +34,6 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     _allBooks = [];
 
     await _fetchBooks();
-  }
-
-  /// 検索クエリを設定（デバウンス付き）
-  Future<void> setSearchQuery(String query) async {
-    _debounceTimer?.cancel();
-
-    _searchQuery = query;
-    _currentOffset = 0;
-    _allBooks = [];
-
-    final completer = Completer<void>();
-
-    _debounceTimer = Timer(_debounceDuration, () async {
-      state = const BookShelfState.loading();
-      await _fetchBooks();
-      if (!completer.isCompleted) {
-        completer.complete();
-      }
-    });
-
-    await completer.future;
   }
 
   /// ソートオプションを設定
@@ -114,7 +85,6 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     final repository = ref.read(bookShelfRepositoryProvider);
 
     final result = await repository.getMyShelf(
-      query: _searchQuery.isEmpty ? null : _searchQuery,
       sortBy: _sortOption.sortField,
       sortOrder: _sortOption.sortOrder,
       limit: _pageSize,
@@ -136,7 +106,6 @@ class BookShelfNotifier extends _$BookShelfNotifier {
 
         state = BookShelfState.loaded(
           books: _allBooks,
-          searchQuery: _searchQuery,
           sortOption: _sortOption,
           groupOption: _groupOption,
           groupedBooks: _groupBooks(_allBooks, _groupOption),

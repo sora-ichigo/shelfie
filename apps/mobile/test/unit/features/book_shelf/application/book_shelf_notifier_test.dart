@@ -1,4 +1,3 @@
-import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -69,7 +68,6 @@ void main() {
       test('should start with initial state', () {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -85,7 +83,6 @@ void main() {
       test('should fetch initial data when initialize is called', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -106,7 +103,6 @@ void main() {
         ];
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -131,7 +127,6 @@ void main() {
       test('should transition to error state on failure', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -156,7 +151,6 @@ void main() {
         ];
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -177,212 +171,10 @@ void main() {
       });
     });
 
-    group('setSearchQuery', () {
-      test('should debounce and send query to server after 300ms', () {
-        fakeAsync((async) {
-          when(
-            () => mockRepository.getMyShelf(
-              query: any(named: 'query'),
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).thenAnswer((_) async => right(createMyShelfResult()));
-
-          final notifier = container.read(bookShelfNotifierProvider.notifier);
-
-          async.elapse(Duration.zero);
-
-          notifier.initialize();
-          async.elapse(Duration.zero);
-
-          clearInteractions(mockRepository);
-
-          when(
-            () => mockRepository.getMyShelf(
-              query: 'flutter',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).thenAnswer((_) async => right(createMyShelfResult()));
-
-          notifier.setSearchQuery('flutter');
-
-          async.elapse(const Duration(milliseconds: 100));
-
-          verifyNever(
-            () => mockRepository.getMyShelf(
-              query: 'flutter',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          );
-
-          async.elapse(const Duration(milliseconds: 200));
-
-          verify(
-            () => mockRepository.getMyShelf(
-              query: 'flutter',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).called(1);
-        });
-      });
-
-      test('should cancel previous debounce timer when new query is set', () {
-        fakeAsync((async) {
-          when(
-            () => mockRepository.getMyShelf(
-              query: any(named: 'query'),
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).thenAnswer((_) async => right(createMyShelfResult()));
-
-          final notifier = container.read(bookShelfNotifierProvider.notifier);
-
-          async.elapse(Duration.zero);
-
-          notifier.initialize();
-          async.elapse(Duration.zero);
-
-          clearInteractions(mockRepository);
-
-          notifier.setSearchQuery('dart');
-          async.elapse(const Duration(milliseconds: 200));
-
-          notifier.setSearchQuery('flutter');
-          async.elapse(const Duration(milliseconds: 300));
-
-          verifyNever(
-            () => mockRepository.getMyShelf(
-              query: 'dart',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          );
-
-          verify(
-            () => mockRepository.getMyShelf(
-              query: 'flutter',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).called(1);
-        });
-      });
-
-      test('should reset offset when search query changes', () {
-        fakeAsync((async) {
-          when(
-            () => mockRepository.getMyShelf(
-              query: any(named: 'query'),
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: 0,
-            ),
-          ).thenAnswer(
-            (_) async => right(
-              createMyShelfResult(hasMore: true, totalCount: 40),
-            ),
-          );
-
-          final notifier = container.read(bookShelfNotifierProvider.notifier);
-          async.elapse(Duration.zero);
-
-          notifier.initialize();
-          async.elapse(Duration.zero);
-
-          when(
-            () => mockRepository.getMyShelf(
-              query: any(named: 'query'),
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: 20,
-            ),
-          ).thenAnswer(
-            (_) async => right(createMyShelfResult(hasMore: false)),
-          );
-
-          notifier.loadMore();
-          async.elapse(Duration.zero);
-
-          clearInteractions(mockRepository);
-
-          when(
-            () => mockRepository.getMyShelf(
-              query: 'test',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: 0,
-            ),
-          ).thenAnswer((_) async => right(createMyShelfResult()));
-
-          notifier.setSearchQuery('test');
-          async.elapse(const Duration(milliseconds: 300));
-
-          verify(
-            () => mockRepository.getMyShelf(
-              query: 'test',
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: 0,
-            ),
-          ).called(1);
-        });
-      });
-
-      test('should update searchQuery in state after fetch', () {
-        fakeAsync((async) {
-          when(
-            () => mockRepository.getMyShelf(
-              query: any(named: 'query'),
-              sortBy: any(named: 'sortBy'),
-              sortOrder: any(named: 'sortOrder'),
-              limit: any(named: 'limit'),
-              offset: any(named: 'offset'),
-            ),
-          ).thenAnswer((_) async => right(createMyShelfResult()));
-
-          final notifier = container.read(bookShelfNotifierProvider.notifier);
-          async.elapse(Duration.zero);
-
-          notifier.initialize();
-          async.elapse(Duration.zero);
-
-          notifier.setSearchQuery('search term');
-          async.elapse(const Duration(milliseconds: 300));
-
-          expect(notifier.state, isA<BookShelfLoaded>());
-          final loaded = notifier.state as BookShelfLoaded;
-          expect(loaded.searchQuery, 'search term');
-        });
-      });
-    });
-
     group('setSortOption', () {
       test('should refetch data with new sort option', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -421,7 +213,6 @@ void main() {
       test('should update state with new sort option', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -443,7 +234,6 @@ void main() {
       test('should update groupOption without refetching', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -460,7 +250,6 @@ void main() {
 
         verifyNever(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -472,7 +261,6 @@ void main() {
       test('should update state with new group option', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -497,7 +285,6 @@ void main() {
         ];
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -528,7 +315,6 @@ void main() {
         ];
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -557,7 +343,6 @@ void main() {
         ];
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -584,7 +369,6 @@ void main() {
       test('should fetch next page', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -605,7 +389,6 @@ void main() {
 
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -625,7 +408,6 @@ void main() {
 
         verify(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -637,7 +419,6 @@ void main() {
       test('should append new books to existing list', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -658,7 +439,6 @@ void main() {
 
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -685,7 +465,6 @@ void main() {
       test('should not load more if hasMore is false', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -706,7 +485,6 @@ void main() {
 
         verifyNever(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -718,7 +496,6 @@ void main() {
       test('should set isLoadingMore to true while loading', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -737,7 +514,6 @@ void main() {
 
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -759,7 +535,6 @@ void main() {
       test('should refetch from first page', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -777,7 +552,6 @@ void main() {
 
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -791,7 +565,6 @@ void main() {
 
         verify(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
@@ -803,7 +576,6 @@ void main() {
       test('should maintain current sort option after refresh', () async {
         when(
           () => mockRepository.getMyShelf(
-            query: any(named: 'query'),
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
