@@ -28,6 +28,9 @@ class UserBook with _$UserBook {
 
     /// メモの最終更新日時
     DateTime? noteUpdatedAt,
+
+    /// 評価（1-5）
+    int? rating,
   }) = _UserBook;
 
   /// メモが存在するかどうか

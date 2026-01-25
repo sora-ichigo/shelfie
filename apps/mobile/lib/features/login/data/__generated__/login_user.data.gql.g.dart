@@ -7,22 +7,22 @@ part of 'login_user.data.gql.dart';
 // **************************************************************************
 
 Serializer<GLoginUserData> _$gLoginUserDataSerializer =
-    new _$GLoginUserDataSerializer();
+    _$GLoginUserDataSerializer();
 Serializer<GLoginUserData_loginUser__base>
     _$gLoginUserDataLoginUserBaseSerializer =
-    new _$GLoginUserData_loginUser__baseSerializer();
+    _$GLoginUserData_loginUser__baseSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess>
     _$gLoginUserDataLoginUserAsMutationLoginUserSuccessSerializer =
-    new _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer();
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess_data>
     _$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataSerializer =
-    new _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer();
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user>
     _$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataUserSerializer =
-    new _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer();
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer();
 Serializer<GLoginUserData_loginUser__asAuthError>
     _$gLoginUserDataLoginUserAsAuthErrorSerializer =
-    new _$GLoginUserData_loginUser__asAuthErrorSerializer();
+    _$GLoginUserData_loginUser__asAuthErrorSerializer();
 
 class _$GLoginUserDataSerializer
     implements StructuredSerializer<GLoginUserData> {
@@ -54,7 +54,7 @@ class _$GLoginUserDataSerializer
   GLoginUserData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserDataBuilder();
+    final result = GLoginUserDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -105,7 +105,7 @@ class _$GLoginUserData_loginUser__baseSerializer
   GLoginUserData_loginUser__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserData_loginUser__baseBuilder();
+    final result = GLoginUserData_loginUser__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -159,7 +159,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        new GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder();
+        GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -225,7 +225,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        new GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
+        GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -309,7 +309,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        new GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
+        GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -395,7 +395,7 @@ class _$GLoginUserData_loginUser__asAuthErrorSerializer
   GLoginUserData_loginUser__asAuthError deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserData_loginUser__asAuthErrorBuilder();
+    final result = GLoginUserData_loginUser__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -438,20 +438,15 @@ class _$GLoginUserData extends GLoginUserData {
   final GLoginUserData_loginUser? loginUser;
 
   factory _$GLoginUserData([void Function(GLoginUserDataBuilder)? updates]) =>
-      (new GLoginUserDataBuilder()..update(updates))._build();
+      (GLoginUserDataBuilder()..update(updates))._build();
 
-  _$GLoginUserData._({required this.G__typename, this.loginUser}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GLoginUserData', 'G__typename');
-  }
-
+  _$GLoginUserData._({required this.G__typename, this.loginUser}) : super._();
   @override
   GLoginUserData rebuild(void Function(GLoginUserDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserDataBuilder toBuilder() =>
-      new GLoginUserDataBuilder()..replace(this);
+  GLoginUserDataBuilder toBuilder() => GLoginUserDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -508,7 +503,6 @@ class GLoginUserDataBuilder
 
   @override
   void replace(GLoginUserData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserData;
   }
 
@@ -522,10 +516,11 @@ class GLoginUserDataBuilder
 
   _$GLoginUserData _build() {
     final _$result = _$v ??
-        new _$GLoginUserData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GLoginUserData', 'G__typename'),
-            loginUser: loginUser);
+        _$GLoginUserData._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GLoginUserData', 'G__typename'),
+          loginUser: loginUser,
+        );
     replace(_$result);
     return _$result;
   }
@@ -537,13 +532,9 @@ class _$GLoginUserData_loginUser__base extends GLoginUserData_loginUser__base {
 
   factory _$GLoginUserData_loginUser__base(
           [void Function(GLoginUserData_loginUser__baseBuilder)? updates]) =>
-      (new GLoginUserData_loginUser__baseBuilder()..update(updates))._build();
+      (GLoginUserData_loginUser__baseBuilder()..update(updates))._build();
 
-  _$GLoginUserData_loginUser__base._({required this.G__typename}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GLoginUserData_loginUser__base', 'G__typename');
-  }
-
+  _$GLoginUserData_loginUser__base._({required this.G__typename}) : super._();
   @override
   GLoginUserData_loginUser__base rebuild(
           void Function(GLoginUserData_loginUser__baseBuilder) updates) =>
@@ -551,7 +542,7 @@ class _$GLoginUserData_loginUser__base extends GLoginUserData_loginUser__base {
 
   @override
   GLoginUserData_loginUser__baseBuilder toBuilder() =>
-      new GLoginUserData_loginUser__baseBuilder()..replace(this);
+      GLoginUserData_loginUser__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -601,7 +592,6 @@ class GLoginUserData_loginUser__baseBuilder
 
   @override
   void replace(GLoginUserData_loginUser__base other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserData_loginUser__base;
   }
 
@@ -615,9 +605,10 @@ class GLoginUserData_loginUser__baseBuilder
 
   _$GLoginUserData_loginUser__base _build() {
     final _$result = _$v ??
-        new _$GLoginUserData_loginUser__base._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GLoginUserData_loginUser__base', 'G__typename'));
+        _$GLoginUserData_loginUser__base._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GLoginUserData_loginUser__base', 'G__typename'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -634,19 +625,13 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess
           [void Function(
                   GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)?
               updates]) =>
-      (new GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder()
+      (GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess._(
       {required this.G__typename, required this.data})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(G__typename,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        data, r'GLoginUserData_loginUser__asMutationLoginUserSuccess', 'data');
-  }
-
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess rebuild(
           void Function(
@@ -656,7 +641,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder toBuilder() =>
-      new GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder()
+      GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder()
         ..replace(this);
 
   @override
@@ -699,7 +684,7 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder? _data;
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder get data =>
       _$this._data ??=
-          new GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
   set data(
           GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder?
               data) =>
@@ -722,7 +707,6 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
 
   @override
   void replace(GLoginUserData_loginUser__asMutationLoginUserSuccess other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserData_loginUser__asMutationLoginUserSuccess;
   }
 
@@ -741,19 +725,20 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess _$result;
     try {
       _$result = _$v ??
-          new _$GLoginUserData_loginUser__asMutationLoginUserSuccess._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename,
-                  r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
-                  'G__typename'),
-              data: data.build());
+          _$GLoginUserData_loginUser__asMutationLoginUserSuccess._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
+                'G__typename'),
+            data: data.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
             _$failedField,
             e.toString());
@@ -780,7 +765,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
           [void Function(
                   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder)?
               updates]) =>
-      (new GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
+      (GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
@@ -789,23 +774,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
       required this.user,
       required this.idToken,
       required this.refreshToken})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-        'G__typename');
-    BuiltValueNullFieldError.checkNotNull(user,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data', 'user');
-    BuiltValueNullFieldError.checkNotNull(
-        idToken,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-        'idToken');
-    BuiltValueNullFieldError.checkNotNull(
-        refreshToken,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-        'refreshToken');
-  }
-
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data rebuild(
           void Function(
@@ -816,7 +785,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
       toBuilder() =>
-          new GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -865,7 +834,7 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder? _user;
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
       get user => _$this._user ??=
-          new GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
   set user(
           GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder?
               user) =>
@@ -899,7 +868,6 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
   @override
   void replace(
       GLoginUserData_loginUser__asMutationLoginUserSuccess_data other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data;
   }
 
@@ -918,27 +886,28 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data _$result;
     try {
       _$result = _$v ??
-          new _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename,
-                  r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-                  'G__typename'),
-              user: user.build(),
-              idToken: BuiltValueNullFieldError.checkNotNull(
-                  idToken,
-                  r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-                  'idToken'),
-              refreshToken: BuiltValueNullFieldError.checkNotNull(
-                  refreshToken,
-                  r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-                  'refreshToken'));
+          _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'G__typename'),
+            user: user.build(),
+            idToken: BuiltValueNullFieldError.checkNotNull(
+                idToken,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'idToken'),
+            refreshToken: BuiltValueNullFieldError.checkNotNull(
+                refreshToken,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'refreshToken'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'user';
         user.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
             _$failedField,
             e.toString());
@@ -965,19 +934,13 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
           [void Function(
                   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder)?
               updates]) =>
-      (new GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
+      (GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
             ..update(updates))
           ._build();
 
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._(
       {required this.G__typename, this.id, this.email, this.createdAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename,
-        r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
-        'G__typename');
-  }
-
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user rebuild(
           void Function(
@@ -988,7 +951,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
       toBuilder() =>
-          new GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
             ..replace(this);
 
   @override
@@ -1068,7 +1031,6 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
   @override
   void replace(
       GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user;
   }
@@ -1087,14 +1049,15 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
 
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user _build() {
     final _$result = _$v ??
-        new _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
-                'G__typename'),
-            id: id,
-            email: email,
-            createdAt: createdAt);
+        _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
+              'G__typename'),
+          id: id,
+          email: email,
+          createdAt: createdAt,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1116,7 +1079,7 @@ class _$GLoginUserData_loginUser__asAuthError
   factory _$GLoginUserData_loginUser__asAuthError(
           [void Function(GLoginUserData_loginUser__asAuthErrorBuilder)?
               updates]) =>
-      (new GLoginUserData_loginUser__asAuthErrorBuilder()..update(updates))
+      (GLoginUserData_loginUser__asAuthErrorBuilder()..update(updates))
           ._build();
 
   _$GLoginUserData_loginUser__asAuthError._(
@@ -1125,11 +1088,7 @@ class _$GLoginUserData_loginUser__asAuthError
       this.message,
       this.field,
       this.retryable})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GLoginUserData_loginUser__asAuthError', 'G__typename');
-  }
-
+      : super._();
   @override
   GLoginUserData_loginUser__asAuthError rebuild(
           void Function(GLoginUserData_loginUser__asAuthErrorBuilder)
@@ -1138,7 +1097,7 @@ class _$GLoginUserData_loginUser__asAuthError
 
   @override
   GLoginUserData_loginUser__asAuthErrorBuilder toBuilder() =>
-      new GLoginUserData_loginUser__asAuthErrorBuilder()..replace(this);
+      GLoginUserData_loginUser__asAuthErrorBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1221,7 +1180,6 @@ class GLoginUserData_loginUser__asAuthErrorBuilder
 
   @override
   void replace(GLoginUserData_loginUser__asAuthError other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserData_loginUser__asAuthError;
   }
 
@@ -1236,13 +1194,14 @@ class GLoginUserData_loginUser__asAuthErrorBuilder
 
   _$GLoginUserData_loginUser__asAuthError _build() {
     final _$result = _$v ??
-        new _$GLoginUserData_loginUser__asAuthError._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GLoginUserData_loginUser__asAuthError', 'G__typename'),
-            code: code,
-            message: message,
-            field: field,
-            retryable: retryable);
+        _$GLoginUserData_loginUser__asAuthError._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GLoginUserData_loginUser__asAuthError', 'G__typename'),
+          code: code,
+          message: message,
+          field: field,
+          retryable: retryable,
+        );
     replace(_$result);
     return _$result;
   }

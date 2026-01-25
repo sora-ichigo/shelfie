@@ -27,6 +27,8 @@ final apiEndpointProvider = Provider<String>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ApiEndpointRef = ProviderRef<String>;
 String _$authTokenHash() => r'199cac0e3c0e854bcbe3ef0e79913b0f0c3aa6da';
 
@@ -46,6 +48,8 @@ final authTokenProvider = Provider<String?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthTokenRef = ProviderRef<String?>;
 String _$ferryCacheBoxHash() => r'0e22208ac3005efcdb89a1ea3a075c80d0679cdb';
 
@@ -67,6 +71,8 @@ final ferryCacheBoxProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryCacheBoxRef = FutureProviderRef<Box<Map<dynamic, dynamic>>>;
 String _$ferryCacheHash() => r'949ea4003262b86a2654a008853592cbfbd2cc5c';
 
@@ -89,6 +95,8 @@ final ferryCacheProvider = Provider<Cache>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryCacheRef = ProviderRef<Cache>;
 String _$ferryHiveCacheHash() => r'7fc1f1114791dea1c5ec4f8e587ff204faf6ddc4';
 
@@ -109,6 +117,8 @@ final ferryHiveCacheProvider = FutureProvider<Cache>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryHiveCacheRef = FutureProviderRef<Cache>;
 String _$ferryClientHash() => r'9672ff8b0bac004a8f24242f4dea2d4d6c1d6ab9';
 
@@ -140,6 +150,8 @@ final ferryClientProvider = Provider<Client>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryClientRef = ProviderRef<Client>;
 String _$ensureValidTokenHash() => r'50b1a418e163227379430f92647a214b20a7c474';
 
@@ -160,6 +172,8 @@ final ensureValidTokenProvider = AutoDisposeFutureProvider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EnsureValidTokenRef = AutoDisposeFutureProviderRef<bool>;
 String _$authenticatedClientHash() =>
     r'053f9d18ada3c7047731e2ee4c4110b15f36d25d';
@@ -187,6 +201,8 @@ final authenticatedClientProvider = AutoDisposeFutureProvider<Client>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthenticatedClientRef = AutoDisposeFutureProviderRef<Client>;
 String _$clearCacheHash() => r'b96d3cb1424a934f770c1913ce2f0f5c2c7ce1b6';
 
@@ -354,6 +370,8 @@ class ClearCacheProvider extends AutoDisposeProvider<void> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin ClearCacheRef on AutoDisposeProviderRef<void> {
   /// The parameter `client` of this provider.
   Client get client;
@@ -367,4 +385,4 @@ class _ClearCacheProviderElement extends AutoDisposeProviderElement<void>
   Client get client => (origin as ClearCacheProvider).client;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

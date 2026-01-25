@@ -7,7 +7,7 @@ part of 'search_books.req.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBooksReq> _$gSearchBooksReqSerializer =
-    new _$GSearchBooksReqSerializer();
+    _$GSearchBooksReqSerializer();
 
 class _$GSearchBooksReqSerializer
     implements StructuredSerializer<GSearchBooksReq> {
@@ -74,7 +74,7 @@ class _$GSearchBooksReqSerializer
   GSearchBooksReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSearchBooksReqBuilder();
+    final result = GSearchBooksReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -151,7 +151,7 @@ class _$GSearchBooksReq extends GSearchBooksReq {
   final _i4.Context? context;
 
   factory _$GSearchBooksReq([void Function(GSearchBooksReqBuilder)? updates]) =>
-      (new GSearchBooksReqBuilder()..update(updates))._build();
+      (GSearchBooksReqBuilder()..update(updates))._build();
 
   _$GSearchBooksReq._(
       {required this.vars,
@@ -164,21 +164,13 @@ class _$GSearchBooksReq extends GSearchBooksReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GSearchBooksReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GSearchBooksReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GSearchBooksReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GSearchBooksReq rebuild(void Function(GSearchBooksReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GSearchBooksReqBuilder toBuilder() =>
-      new GSearchBooksReqBuilder()..replace(this);
+  GSearchBooksReqBuilder toBuilder() => GSearchBooksReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -237,7 +229,7 @@ class GSearchBooksReqBuilder
 
   _i3.GSearchBooksVarsBuilder? _vars;
   _i3.GSearchBooksVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GSearchBooksVarsBuilder();
+      _$this._vars ??= _i3.GSearchBooksVarsBuilder();
   set vars(_i3.GSearchBooksVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -260,7 +252,7 @@ class GSearchBooksReqBuilder
 
   _i2.GSearchBooksDataBuilder? _optimisticResponse;
   _i2.GSearchBooksDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GSearchBooksDataBuilder();
+      _$this._optimisticResponse ??= _i2.GSearchBooksDataBuilder();
   set optimisticResponse(_i2.GSearchBooksDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -314,7 +306,6 @@ class GSearchBooksReqBuilder
 
   @override
   void replace(GSearchBooksReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksReq;
   }
 
@@ -330,19 +321,20 @@ class GSearchBooksReqBuilder
     _$GSearchBooksReq _$result;
     try {
       _$result = _$v ??
-          new _$GSearchBooksReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GSearchBooksReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GSearchBooksReq', 'executeOnListen'),
-              context: context);
+          _$GSearchBooksReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GSearchBooksReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GSearchBooksReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -352,7 +344,7 @@ class GSearchBooksReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GSearchBooksReq', _$failedField, e.toString());
       }
       rethrow;

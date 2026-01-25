@@ -69,6 +69,7 @@ abstract class GUpdateReadingNoteData_updateReadingNote
   DateTime? get completedAt;
   String? get note;
   DateTime? get noteUpdatedAt;
+  int? get rating;
   static Serializer<GUpdateReadingNoteData_updateReadingNote> get serializer =>
       _$gUpdateReadingNoteDataUpdateReadingNoteSerializer;
 

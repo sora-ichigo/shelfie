@@ -10,6 +10,7 @@ import 'package:shelfie/features/book_detail/application/book_detail_notifier.da
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/rating_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
@@ -175,6 +176,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                   ReadingRecordSection(
                     shelfEntry: shelfEntry,
                     onStatusTap: _onStatusTap,
+                    onRatingTap: _onRatingTap,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   ReadingNoteSection(
@@ -295,6 +297,18 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     showReadingNoteModal(
       context: context,
       currentNote: shelfEntry.note,
+      userBookId: shelfEntry.userBookId,
+      externalId: widget.bookId,
+    );
+  }
+
+  void _onRatingTap() {
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
+
+    showRatingModal(
+      context: context,
+      currentRating: shelfEntry.rating,
       userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );

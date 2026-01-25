@@ -46,12 +46,12 @@ GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
     case 'USER_NOT_FOUND':
       return _$gAuthErrorCodeUSER_NOT_FOUND;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
-    new BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
+    BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
   _$gAuthErrorCodeEMAIL_ALREADY_EXISTS,
   _$gAuthErrorCodeINTERNAL_ERROR,
   _$gAuthErrorCodeINVALID_CREDENTIALS,
@@ -83,12 +83,12 @@ GReadingStatus _$gReadingStatusValueOf(String name) {
     case 'READING':
       return _$gReadingStatusREADING;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GReadingStatus> _$gReadingStatusValues =
-    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
+    BuiltSet<GReadingStatus>(const <GReadingStatus>[
   _$gReadingStatusBACKLOG,
   _$gReadingStatusCOMPLETED,
   _$gReadingStatusDROPPED,
@@ -97,28 +97,28 @@ final BuiltSet<GReadingStatus> _$gReadingStatusValues =
 
 const GShelfSortField _$gShelfSortFieldADDED_AT =
     const GShelfSortField._('ADDED_AT');
-const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
 const GShelfSortField _$gShelfSortFieldAUTHOR =
     const GShelfSortField._('AUTHOR');
+const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
 
 GShelfSortField _$gShelfSortFieldValueOf(String name) {
   switch (name) {
     case 'ADDED_AT':
       return _$gShelfSortFieldADDED_AT;
-    case 'TITLE':
-      return _$gShelfSortFieldTITLE;
     case 'AUTHOR':
       return _$gShelfSortFieldAUTHOR;
+    case 'TITLE':
+      return _$gShelfSortFieldTITLE;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GShelfSortField> _$gShelfSortFieldValues =
-    new BuiltSet<GShelfSortField>(const <GShelfSortField>[
+    BuiltSet<GShelfSortField>(const <GShelfSortField>[
   _$gShelfSortFieldADDED_AT,
-  _$gShelfSortFieldTITLE,
   _$gShelfSortFieldAUTHOR,
+  _$gShelfSortFieldTITLE,
 ]);
 
 const GSortOrder _$gSortOrderASC = const GSortOrder._('ASC');
@@ -131,35 +131,35 @@ GSortOrder _$gSortOrderValueOf(String name) {
     case 'DESC':
       return _$gSortOrderDESC;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GSortOrder> _$gSortOrderValues =
-    new BuiltSet<GSortOrder>(const <GSortOrder>[
+    BuiltSet<GSortOrder>(const <GSortOrder>[
   _$gSortOrderASC,
   _$gSortOrderDESC,
 ]);
 
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
-    new _$GAddBookInputSerializer();
+    _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
-    new _$GAuthErrorCodeSerializer();
+    _$GAuthErrorCodeSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
-    new _$GLoginUserInputSerializer();
-Serializer<GReadingStatus> _$gReadingStatusSerializer =
-    new _$GReadingStatusSerializer();
-Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
-    new _$GShelfSortFieldSerializer();
-Serializer<GSortOrder> _$gSortOrderSerializer = new _$GSortOrderSerializer();
+    _$GLoginUserInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
-    new _$GMyShelfInputSerializer();
+    _$GMyShelfInputSerializer();
+Serializer<GReadingStatus> _$gReadingStatusSerializer =
+    _$GReadingStatusSerializer();
 Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
-    new _$GRefreshTokenInputSerializer();
+    _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
-    new _$GRegisterUserInputSerializer();
+    _$GRegisterUserInputSerializer();
+Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
+    _$GShelfSortFieldSerializer();
+Serializer<GSortOrder> _$gSortOrderSerializer = _$GSortOrderSerializer();
 Serializer<GUpdateProfileInput> _$gUpdateProfileInputSerializer =
-    new _$GUpdateProfileInputSerializer();
+    _$GUpdateProfileInputSerializer();
 
 class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   @override
@@ -218,7 +218,7 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   GAddBookInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookInputBuilder();
+    final result = GAddBookInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -307,7 +307,7 @@ class _$GLoginUserInputSerializer
   GLoginUserInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserInputBuilder();
+    final result = GLoginUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -322,6 +322,93 @@ class _$GLoginUserInputSerializer
         case 'password':
           result.password = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
+  @override
+  final Iterable<Type> types = const [GMyShelfInput, _$GMyShelfInput];
+  @override
+  final String wireName = 'GMyShelfInput';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, GMyShelfInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[];
+    Object? value;
+    value = object.limit;
+    if (value != null) {
+      result
+        ..add('limit')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.offset;
+    if (value != null) {
+      result
+        ..add('offset')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.query;
+    if (value != null) {
+      result
+        ..add('query')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.sortBy;
+    if (value != null) {
+      result
+        ..add('sortBy')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GShelfSortField)));
+    }
+    value = object.sortOrder;
+    if (value != null) {
+      result
+        ..add('sortOrder')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GSortOrder)));
+    }
+    return result;
+  }
+
+  @override
+  GMyShelfInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = GMyShelfInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'limit':
+          result.limit = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'offset':
+          result.offset = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'query':
+          result.query = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'sortBy':
+          result.sortBy = serializers.deserialize(value,
+                  specifiedType: const FullType(GShelfSortField))
+              as GShelfSortField?;
+          break;
+        case 'sortOrder':
+          result.sortOrder = serializers.deserialize(value,
+              specifiedType: const FullType(GSortOrder)) as GSortOrder?;
           break;
       }
     }
@@ -348,127 +435,6 @@ class _$GReadingStatusSerializer
       GReadingStatus.valueOf(serialized as String);
 }
 
-class _$GShelfSortFieldSerializer
-    implements PrimitiveSerializer<GShelfSortField> {
-  @override
-  final Iterable<Type> types = const <Type>[GShelfSortField];
-  @override
-  final String wireName = 'GShelfSortField';
-
-  @override
-  Object serialize(Serializers serializers, GShelfSortField object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
-
-  @override
-  GShelfSortField deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GShelfSortField.valueOf(serialized as String);
-}
-
-class _$GSortOrderSerializer implements PrimitiveSerializer<GSortOrder> {
-  @override
-  final Iterable<Type> types = const <Type>[GSortOrder];
-  @override
-  final String wireName = 'GSortOrder';
-
-  @override
-  Object serialize(Serializers serializers, GSortOrder object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
-
-  @override
-  GSortOrder deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GSortOrder.valueOf(serialized as String);
-}
-
-class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
-  @override
-  final Iterable<Type> types = const [GMyShelfInput, _$GMyShelfInput];
-  @override
-  final String wireName = 'GMyShelfInput';
-
-  @override
-  Iterable<Object?> serialize(Serializers serializers, GMyShelfInput object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[];
-    Object? value;
-    value = object.query;
-    if (value != null) {
-      result
-        ..add('query')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.sortBy;
-    if (value != null) {
-      result
-        ..add('sortBy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.sortOrder;
-    if (value != null) {
-      result
-        ..add('sortOrder')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.limit;
-    if (value != null) {
-      result
-        ..add('limit')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    value = object.offset;
-    if (value != null) {
-      result
-        ..add('offset')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
-    }
-    return result;
-  }
-
-  @override
-  GMyShelfInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfInputBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'query':
-          result.query = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'sortBy':
-          result.sortBy = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'sortOrder':
-          result.sortOrder = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'limit':
-          result.limit = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-        case 'offset':
-          result.offset = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
 class _$GRefreshTokenInputSerializer
     implements StructuredSerializer<GRefreshTokenInput> {
   @override
@@ -493,7 +459,7 @@ class _$GRefreshTokenInputSerializer
   GRefreshTokenInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRefreshTokenInputBuilder();
+    final result = GRefreshTokenInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -539,7 +505,7 @@ class _$GRegisterUserInputSerializer
   GRegisterUserInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserInputBuilder();
+    final result = GRegisterUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -560,6 +526,41 @@ class _$GRegisterUserInputSerializer
 
     return result.build();
   }
+}
+
+class _$GShelfSortFieldSerializer
+    implements PrimitiveSerializer<GShelfSortField> {
+  @override
+  final Iterable<Type> types = const <Type>[GShelfSortField];
+  @override
+  final String wireName = 'GShelfSortField';
+
+  @override
+  Object serialize(Serializers serializers, GShelfSortField object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GShelfSortField deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GShelfSortField.valueOf(serialized as String);
+}
+
+class _$GSortOrderSerializer implements PrimitiveSerializer<GSortOrder> {
+  @override
+  final Iterable<Type> types = const <Type>[GSortOrder];
+  @override
+  final String wireName = 'GSortOrder';
+
+  @override
+  Object serialize(Serializers serializers, GSortOrder object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GSortOrder deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GSortOrder.valueOf(serialized as String);
 }
 
 class _$GUpdateProfileInputSerializer
@@ -588,7 +589,7 @@ class _$GUpdateProfileInputSerializer
   GUpdateProfileInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateProfileInputBuilder();
+    final result = GUpdateProfileInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -624,7 +625,7 @@ class _$GAddBookInput extends GAddBookInput {
   final String title;
 
   factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
-      (new GAddBookInputBuilder()..update(updates))._build();
+      (GAddBookInputBuilder()..update(updates))._build();
 
   _$GAddBookInput._(
       {required this.authors,
@@ -634,19 +635,13 @@ class _$GAddBookInput extends GAddBookInput {
       this.publishedDate,
       this.publisher,
       required this.title})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GAddBookInput', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
-  }
-
+      : super._();
   @override
   GAddBookInput rebuild(void Function(GAddBookInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GAddBookInputBuilder toBuilder() => new GAddBookInputBuilder()..replace(this);
+  GAddBookInputBuilder toBuilder() => GAddBookInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -694,8 +689,7 @@ class GAddBookInputBuilder
   _$GAddBookInput? _$v;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _coverImageUrl;
@@ -743,7 +737,6 @@ class GAddBookInputBuilder
 
   @override
   void replace(GAddBookInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookInput;
   }
 
@@ -759,23 +752,24 @@ class GAddBookInputBuilder
     _$GAddBookInput _$result;
     try {
       _$result = _$v ??
-          new _$GAddBookInput._(
-              authors: authors.build(),
-              coverImageUrl: coverImageUrl,
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GAddBookInput', 'externalId'),
-              isbn: isbn,
-              publishedDate: publishedDate,
-              publisher: publisher,
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GAddBookInput', 'title'));
+          _$GAddBookInput._(
+            authors: authors.build(),
+            coverImageUrl: coverImageUrl,
+            externalId: BuiltValueNullFieldError.checkNotNull(
+                externalId, r'GAddBookInput', 'externalId'),
+            isbn: isbn,
+            publishedDate: publishedDate,
+            publisher: publisher,
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GAddBookInput', 'title'),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GAddBookInput', _$failedField, e.toString());
       }
       rethrow;
@@ -792,22 +786,16 @@ class _$GLoginUserInput extends GLoginUserInput {
   final String password;
 
   factory _$GLoginUserInput([void Function(GLoginUserInputBuilder)? updates]) =>
-      (new GLoginUserInputBuilder()..update(updates))._build();
+      (GLoginUserInputBuilder()..update(updates))._build();
 
   _$GLoginUserInput._({required this.email, required this.password})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(email, r'GLoginUserInput', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        password, r'GLoginUserInput', 'password');
-  }
-
+      : super._();
   @override
   GLoginUserInput rebuild(void Function(GLoginUserInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserInputBuilder toBuilder() =>
-      new GLoginUserInputBuilder()..replace(this);
+  GLoginUserInputBuilder toBuilder() => GLoginUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -861,7 +849,6 @@ class GLoginUserInputBuilder
 
   @override
   void replace(GLoginUserInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserInput;
   }
 
@@ -875,11 +862,12 @@ class GLoginUserInputBuilder
 
   _$GLoginUserInput _build() {
     final _$result = _$v ??
-        new _$GLoginUserInput._(
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GLoginUserInput', 'email'),
-            password: BuiltValueNullFieldError.checkNotNull(
-                password, r'GLoginUserInput', 'password'));
+        _$GLoginUserInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+              email, r'GLoginUserInput', 'email'),
+          password: BuiltValueNullFieldError.checkNotNull(
+              password, r'GLoginUserInput', 'password'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -887,49 +875,48 @@ class GLoginUserInputBuilder
 
 class _$GMyShelfInput extends GMyShelfInput {
   @override
-  final String? query;
-  @override
-  final String? sortBy;
-  @override
-  final String? sortOrder;
-  @override
   final int? limit;
   @override
   final int? offset;
+  @override
+  final String? query;
+  @override
+  final GShelfSortField? sortBy;
+  @override
+  final GSortOrder? sortOrder;
 
   factory _$GMyShelfInput([void Function(GMyShelfInputBuilder)? updates]) =>
-      (new GMyShelfInputBuilder()..update(updates))._build();
+      (GMyShelfInputBuilder()..update(updates))._build();
 
   _$GMyShelfInput._(
-      {this.query, this.sortBy, this.sortOrder, this.limit, this.offset})
+      {this.limit, this.offset, this.query, this.sortBy, this.sortOrder})
       : super._();
-
   @override
   GMyShelfInput rebuild(void Function(GMyShelfInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfInputBuilder toBuilder() => new GMyShelfInputBuilder()..replace(this);
+  GMyShelfInputBuilder toBuilder() => GMyShelfInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is GMyShelfInput &&
+        limit == other.limit &&
+        offset == other.offset &&
         query == other.query &&
         sortBy == other.sortBy &&
-        sortOrder == other.sortOrder &&
-        limit == other.limit &&
-        offset == other.offset;
+        sortOrder == other.sortOrder;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
+    _$hash = $jc(_$hash, limit.hashCode);
+    _$hash = $jc(_$hash, offset.hashCode);
     _$hash = $jc(_$hash, query.hashCode);
     _$hash = $jc(_$hash, sortBy.hashCode);
     _$hash = $jc(_$hash, sortOrder.hashCode);
-    _$hash = $jc(_$hash, limit.hashCode);
-    _$hash = $jc(_$hash, offset.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -937,11 +924,11 @@ class _$GMyShelfInput extends GMyShelfInput {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'GMyShelfInput')
+          ..add('limit', limit)
+          ..add('offset', offset)
           ..add('query', query)
           ..add('sortBy', sortBy)
-          ..add('sortOrder', sortOrder)
-          ..add('limit', limit)
-          ..add('offset', offset))
+          ..add('sortOrder', sortOrder))
         .toString();
   }
 }
@@ -949,18 +936,6 @@ class _$GMyShelfInput extends GMyShelfInput {
 class GMyShelfInputBuilder
     implements Builder<GMyShelfInput, GMyShelfInputBuilder> {
   _$GMyShelfInput? _$v;
-
-  String? _query;
-  String? get query => _$this._query;
-  set query(String? query) => _$this._query = query;
-
-  String? _sortBy;
-  String? get sortBy => _$this._sortBy;
-  set sortBy(String? sortBy) => _$this._sortBy = sortBy;
-
-  String? _sortOrder;
-  String? get sortOrder => _$this._sortOrder;
-  set sortOrder(String? sortOrder) => _$this._sortOrder = sortOrder;
 
   int? _limit;
   int? get limit => _$this._limit;
@@ -970,16 +945,28 @@ class GMyShelfInputBuilder
   int? get offset => _$this._offset;
   set offset(int? offset) => _$this._offset = offset;
 
+  String? _query;
+  String? get query => _$this._query;
+  set query(String? query) => _$this._query = query;
+
+  GShelfSortField? _sortBy;
+  GShelfSortField? get sortBy => _$this._sortBy;
+  set sortBy(GShelfSortField? sortBy) => _$this._sortBy = sortBy;
+
+  GSortOrder? _sortOrder;
+  GSortOrder? get sortOrder => _$this._sortOrder;
+  set sortOrder(GSortOrder? sortOrder) => _$this._sortOrder = sortOrder;
+
   GMyShelfInputBuilder();
 
   GMyShelfInputBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _limit = $v.limit;
+      _offset = $v.offset;
       _query = $v.query;
       _sortBy = $v.sortBy;
       _sortOrder = $v.sortOrder;
-      _limit = $v.limit;
-      _offset = $v.offset;
       _$v = null;
     }
     return this;
@@ -987,7 +974,6 @@ class GMyShelfInputBuilder
 
   @override
   void replace(GMyShelfInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfInput;
   }
 
@@ -1001,12 +987,13 @@ class GMyShelfInputBuilder
 
   _$GMyShelfInput _build() {
     final _$result = _$v ??
-        new _$GMyShelfInput._(
-            query: query,
-            sortBy: sortBy,
-            sortOrder: sortOrder,
-            limit: limit,
-            offset: offset);
+        _$GMyShelfInput._(
+          limit: limit,
+          offset: offset,
+          query: query,
+          sortBy: sortBy,
+          sortOrder: sortOrder,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1018,13 +1005,9 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
 
   factory _$GRefreshTokenInput(
           [void Function(GRefreshTokenInputBuilder)? updates]) =>
-      (new GRefreshTokenInputBuilder()..update(updates))._build();
+      (GRefreshTokenInputBuilder()..update(updates))._build();
 
-  _$GRefreshTokenInput._({required this.refreshToken}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        refreshToken, r'GRefreshTokenInput', 'refreshToken');
-  }
-
+  _$GRefreshTokenInput._({required this.refreshToken}) : super._();
   @override
   GRefreshTokenInput rebuild(
           void Function(GRefreshTokenInputBuilder) updates) =>
@@ -1032,7 +1015,7 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
 
   @override
   GRefreshTokenInputBuilder toBuilder() =>
-      new GRefreshTokenInputBuilder()..replace(this);
+      GRefreshTokenInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1077,7 +1060,6 @@ class GRefreshTokenInputBuilder
 
   @override
   void replace(GRefreshTokenInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRefreshTokenInput;
   }
 
@@ -1091,9 +1073,10 @@ class GRefreshTokenInputBuilder
 
   _$GRefreshTokenInput _build() {
     final _$result = _$v ??
-        new _$GRefreshTokenInput._(
-            refreshToken: BuiltValueNullFieldError.checkNotNull(
-                refreshToken, r'GRefreshTokenInput', 'refreshToken'));
+        _$GRefreshTokenInput._(
+          refreshToken: BuiltValueNullFieldError.checkNotNull(
+              refreshToken, r'GRefreshTokenInput', 'refreshToken'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1107,16 +1090,10 @@ class _$GRegisterUserInput extends GRegisterUserInput {
 
   factory _$GRegisterUserInput(
           [void Function(GRegisterUserInputBuilder)? updates]) =>
-      (new GRegisterUserInputBuilder()..update(updates))._build();
+      (GRegisterUserInputBuilder()..update(updates))._build();
 
   _$GRegisterUserInput._({required this.email, required this.password})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        email, r'GRegisterUserInput', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        password, r'GRegisterUserInput', 'password');
-  }
-
+      : super._();
   @override
   GRegisterUserInput rebuild(
           void Function(GRegisterUserInputBuilder) updates) =>
@@ -1124,7 +1101,7 @@ class _$GRegisterUserInput extends GRegisterUserInput {
 
   @override
   GRegisterUserInputBuilder toBuilder() =>
-      new GRegisterUserInputBuilder()..replace(this);
+      GRegisterUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1178,7 +1155,6 @@ class GRegisterUserInputBuilder
 
   @override
   void replace(GRegisterUserInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserInput;
   }
 
@@ -1192,11 +1168,12 @@ class GRegisterUserInputBuilder
 
   _$GRegisterUserInput _build() {
     final _$result = _$v ??
-        new _$GRegisterUserInput._(
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GRegisterUserInput', 'email'),
-            password: BuiltValueNullFieldError.checkNotNull(
-                password, r'GRegisterUserInput', 'password'));
+        _$GRegisterUserInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+              email, r'GRegisterUserInput', 'email'),
+          password: BuiltValueNullFieldError.checkNotNull(
+              password, r'GRegisterUserInput', 'password'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1208,12 +1185,9 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
 
   factory _$GUpdateProfileInput(
           [void Function(GUpdateProfileInputBuilder)? updates]) =>
-      (new GUpdateProfileInputBuilder()..update(updates))._build();
+      (GUpdateProfileInputBuilder()..update(updates))._build();
 
-  _$GUpdateProfileInput._({required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'GUpdateProfileInput', 'name');
-  }
-
+  _$GUpdateProfileInput._({required this.name}) : super._();
   @override
   GUpdateProfileInput rebuild(
           void Function(GUpdateProfileInputBuilder) updates) =>
@@ -1221,7 +1195,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
 
   @override
   GUpdateProfileInputBuilder toBuilder() =>
-      new GUpdateProfileInputBuilder()..replace(this);
+      GUpdateProfileInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1266,7 +1240,6 @@ class GUpdateProfileInputBuilder
 
   @override
   void replace(GUpdateProfileInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileInput;
   }
 
@@ -1280,9 +1253,10 @@ class GUpdateProfileInputBuilder
 
   _$GUpdateProfileInput _build() {
     final _$result = _$v ??
-        new _$GUpdateProfileInput._(
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'GUpdateProfileInput', 'name'));
+        _$GUpdateProfileInput._(
+          name: BuiltValueNullFieldError.checkNotNull(
+              name, r'GUpdateProfileInput', 'name'),
+        );
     replace(_$result);
     return _$result;
   }

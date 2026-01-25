@@ -327,6 +327,11 @@ export function registerBooksTypes(builder: Builder): void {
         description: "When the note was last updated",
         nullable: true,
       }),
+      rating: t.int({
+        nullable: true,
+        description: "User's rating for the book (1-5)",
+        resolve: (parent) => parent.rating,
+      }),
     }),
   });
 
@@ -828,6 +833,57 @@ export function registerBooksMutations(
           userBookId: args.userBookId,
           userId: userResult.data.id,
           note: args.note,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
+    updateBookRating: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the rating of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        rating: t.arg.int({ required: true }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        if (args.rating < 1 || args.rating > 5) {
+          throw new GraphQLError("Rating must be between 1 and 5", {
+            extensions: { code: "BAD_USER_INPUT" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateRating({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          rating: args.rating,
         });
 
         if (!result.success) {

@@ -43,6 +43,7 @@ export const userBooks = pgTable(
     completedAt: timestamp("completed_at", { withTimezone: true }),
     note: text("note"),
     noteUpdatedAt: timestamp("note_updated_at", { withTimezone: true }),
+    rating: integer("rating"),
   },
   (table) => [
     index(USER_BOOKS_USER_ID_INDEX_NAME).on(table.userId),

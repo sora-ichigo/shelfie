@@ -38,6 +38,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
               completedAt: userBook.completedAt,
               note: userBook.note,
               noteUpdatedAt: userBook.noteUpdatedAt,
+              rating: userBook.rating,
             ),
           );
         }
@@ -127,6 +128,23 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     return ref.read(shelfStateProvider.notifier).updateReadingNoteWithApi(
       externalId: externalId,
       note: note,
+    );
+  }
+
+  Future<Either<Failure, ShelfEntry>> updateRating({
+    required int userBookId,
+    required int rating,
+  }) async {
+    final shelfEntry = ref.read(shelfStateProvider)[externalId];
+    if (shelfEntry == null) {
+      return left(
+        const UnexpectedFailure(message: 'Book is not in shelf'),
+      );
+    }
+
+    return ref.read(shelfStateProvider.notifier).updateRatingWithApi(
+      externalId: externalId,
+      rating: rating,
     );
   }
 }

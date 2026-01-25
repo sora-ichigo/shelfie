@@ -34,7 +34,12 @@ mixin _$UserBook {
   /// メモの最終更新日時
   DateTime? get noteUpdatedAt => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// 評価（1-5）
+  int? get rating => throw _privateConstructorUsedError;
+
+  /// Create a copy of UserBook
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserBookCopyWith<UserBook> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,7 +55,8 @@ abstract class $UserBookCopyWith<$Res> {
       DateTime addedAt,
       DateTime? completedAt,
       String? note,
-      DateTime? noteUpdatedAt});
+      DateTime? noteUpdatedAt,
+      int? rating});
 }
 
 /// @nodoc
@@ -63,6 +69,8 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserBook
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +80,7 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -98,6 +107,10 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
           ? _value.noteUpdatedAt
           : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -116,7 +129,8 @@ abstract class _$$UserBookImplCopyWith<$Res>
       DateTime addedAt,
       DateTime? completedAt,
       String? note,
-      DateTime? noteUpdatedAt});
+      DateTime? noteUpdatedAt,
+      int? rating});
 }
 
 /// @nodoc
@@ -127,6 +141,8 @@ class __$$UserBookImplCopyWithImpl<$Res>
       _$UserBookImpl _value, $Res Function(_$UserBookImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserBook
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,6 +152,7 @@ class __$$UserBookImplCopyWithImpl<$Res>
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_$UserBookImpl(
       id: null == id
@@ -162,6 +179,10 @@ class __$$UserBookImplCopyWithImpl<$Res>
           ? _value.noteUpdatedAt
           : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -175,7 +196,8 @@ class _$UserBookImpl extends _UserBook {
       required this.addedAt,
       this.completedAt,
       this.note,
-      this.noteUpdatedAt})
+      this.noteUpdatedAt,
+      this.rating})
       : super._();
 
   /// 読書記録の ID
@@ -202,9 +224,13 @@ class _$UserBookImpl extends _UserBook {
   @override
   final DateTime? noteUpdatedAt;
 
+  /// 評価（1-5）
+  @override
+  final int? rating;
+
   @override
   String toString() {
-    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt)';
+    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
   }
 
   @override
@@ -220,14 +246,17 @@ class _$UserBookImpl extends _UserBook {
                 other.completedAt == completedAt) &&
             (identical(other.note, note) || other.note == note) &&
             (identical(other.noteUpdatedAt, noteUpdatedAt) ||
-                other.noteUpdatedAt == noteUpdatedAt));
+                other.noteUpdatedAt == noteUpdatedAt) &&
+            (identical(other.rating, rating) || other.rating == rating));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, readingStatus, addedAt,
-      completedAt, note, noteUpdatedAt);
+      completedAt, note, noteUpdatedAt, rating);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserBook
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserBookImplCopyWith<_$UserBookImpl> get copyWith =>
@@ -241,35 +270,42 @@ abstract class _UserBook extends UserBook {
       required final DateTime addedAt,
       final DateTime? completedAt,
       final String? note,
-      final DateTime? noteUpdatedAt}) = _$UserBookImpl;
+      final DateTime? noteUpdatedAt,
+      final int? rating}) = _$UserBookImpl;
   const _UserBook._() : super._();
 
-  @override
-
   /// 読書記録の ID
-  int get id;
   @override
+  int get id;
 
   /// 読書状態
-  ReadingStatus get readingStatus;
   @override
+  ReadingStatus get readingStatus;
 
   /// 本棚に追加した日時
-  DateTime get addedAt;
   @override
+  DateTime get addedAt;
 
   /// 読了日（readingStatus が completed の場合のみ設定）
-  DateTime? get completedAt;
   @override
+  DateTime? get completedAt;
 
   /// 読書メモ
-  String? get note;
   @override
+  String? get note;
 
   /// メモの最終更新日時
-  DateTime? get noteUpdatedAt;
   @override
-  @JsonKey(ignore: true)
+  DateTime? get noteUpdatedAt;
+
+  /// 評価（1-5）
+  @override
+  int? get rating;
+
+  /// Create a copy of UserBook
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserBookImplCopyWith<_$UserBookImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

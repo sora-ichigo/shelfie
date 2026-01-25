@@ -7,7 +7,7 @@ part of 'register_user.req.gql.dart';
 // **************************************************************************
 
 Serializer<GRegisterUserReq> _$gRegisterUserReqSerializer =
-    new _$GRegisterUserReqSerializer();
+    _$GRegisterUserReqSerializer();
 
 class _$GRegisterUserReqSerializer
     implements StructuredSerializer<GRegisterUserReq> {
@@ -74,7 +74,7 @@ class _$GRegisterUserReqSerializer
   GRegisterUserReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserReqBuilder();
+    final result = GRegisterUserReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -152,7 +152,7 @@ class _$GRegisterUserReq extends GRegisterUserReq {
 
   factory _$GRegisterUserReq(
           [void Function(GRegisterUserReqBuilder)? updates]) =>
-      (new GRegisterUserReqBuilder()..update(updates))._build();
+      (GRegisterUserReqBuilder()..update(updates))._build();
 
   _$GRegisterUserReq._(
       {required this.vars,
@@ -165,21 +165,14 @@ class _$GRegisterUserReq extends GRegisterUserReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GRegisterUserReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GRegisterUserReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GRegisterUserReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GRegisterUserReq rebuild(void Function(GRegisterUserReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserReqBuilder toBuilder() =>
-      new GRegisterUserReqBuilder()..replace(this);
+      GRegisterUserReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -238,7 +231,7 @@ class GRegisterUserReqBuilder
 
   _i3.GRegisterUserVarsBuilder? _vars;
   _i3.GRegisterUserVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GRegisterUserVarsBuilder();
+      _$this._vars ??= _i3.GRegisterUserVarsBuilder();
   set vars(_i3.GRegisterUserVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -262,7 +255,7 @@ class GRegisterUserReqBuilder
 
   _i2.GRegisterUserDataBuilder? _optimisticResponse;
   _i2.GRegisterUserDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GRegisterUserDataBuilder();
+      _$this._optimisticResponse ??= _i2.GRegisterUserDataBuilder();
   set optimisticResponse(_i2.GRegisterUserDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -316,7 +309,6 @@ class GRegisterUserReqBuilder
 
   @override
   void replace(GRegisterUserReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserReq;
   }
 
@@ -332,19 +324,20 @@ class GRegisterUserReqBuilder
     _$GRegisterUserReq _$result;
     try {
       _$result = _$v ??
-          new _$GRegisterUserReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GRegisterUserReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GRegisterUserReq', 'executeOnListen'),
-              context: context);
+          _$GRegisterUserReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GRegisterUserReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GRegisterUserReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -354,7 +347,7 @@ class GRegisterUserReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GRegisterUserReq', _$failedField, e.toString());
       }
       rethrow;

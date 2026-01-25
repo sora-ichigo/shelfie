@@ -40,6 +40,12 @@ export interface UpdateReadingNoteInput {
   note: string;
 }
 
+export interface UpdateRatingInput {
+  userBookId: number;
+  userId: number;
+  rating: number;
+}
+
 export interface RemoveFromShelfInput {
   userBookId: number;
   userId: number;
@@ -74,6 +80,10 @@ export interface BookShelfService {
 
   updateReadingNote(
     input: UpdateReadingNoteInput,
+  ): Promise<Result<UserBook, BookShelfErrors>>;
+
+  updateRating(
+    input: UpdateRatingInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
 
   removeFromShelf(
@@ -374,6 +384,76 @@ export function createBookShelfService(
             feature: "books",
             userBookId: String(userBookId),
             userId: String(userId),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async updateRating(
+      input: UpdateRatingInput,
+    ): Promise<Result<UserBook, BookShelfErrors>> {
+      const { userBookId, userId, rating } = input;
+
+      try {
+        const userBook = await repository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "BOOK_NOT_FOUND",
+            message: "Book not found in shelf",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          logger.warn("Unauthorized rating update attempt", {
+            feature: "books",
+            userBookId: String(userBookId),
+            ownerId: String(userBook.userId),
+            requesterId: String(userId),
+          });
+
+          return err({
+            code: "FORBIDDEN",
+            message: "You are not allowed to update this book",
+          });
+        }
+
+        const updatedBook = await repository.updateUserBook(userBookId, {
+          rating,
+        });
+
+        if (updatedBook === null) {
+          return err({
+            code: "DATABASE_ERROR",
+            message: "Failed to update rating",
+          });
+        }
+
+        logger.info("Rating updated successfully", {
+          feature: "books",
+          userBookId: String(userBookId),
+          userId: String(userId),
+          rating: String(rating),
+        });
+
+        return ok(updatedBook);
+      } catch (error) {
+        logger.error(
+          "Database error while updating rating",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userBookId: String(userBookId),
+            userId: String(userId),
+            rating: String(rating),
           },
         );
 

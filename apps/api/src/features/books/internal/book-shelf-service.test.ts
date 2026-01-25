@@ -78,6 +78,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
 
@@ -145,6 +146,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookByExternalId.mockResolvedValue(
         existingUserBook,
@@ -246,6 +248,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
 
@@ -328,6 +331,7 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
         {
           id: 2,
@@ -344,6 +348,7 @@ describe("BookShelfService", () => {
           completedAt: new Date(),
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
       ];
 
@@ -387,6 +392,7 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
       ];
 
@@ -493,6 +499,7 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
         {
           id: 2,
@@ -509,6 +516,7 @@ describe("BookShelfService", () => {
           completedAt: new Date(),
           note: "Great book!",
           noteUpdatedAt: new Date(),
+          rating: null,
         },
       ];
       mockRepository.mockGetUserBooks.mockResolvedValue(userBooks);
@@ -590,6 +598,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -638,6 +647,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -690,6 +700,7 @@ describe("BookShelfService", () => {
         completedAt: new Date(),
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -762,6 +773,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -823,6 +835,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -875,6 +888,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: "Old note",
         noteUpdatedAt: new Date(),
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 
@@ -947,6 +961,7 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
 

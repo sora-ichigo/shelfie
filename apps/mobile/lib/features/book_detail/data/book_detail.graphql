@@ -26,6 +26,7 @@ query BookDetail($bookId: String!) {
       completedAt
       note
       noteUpdatedAt
+      rating
     }
   }
 }

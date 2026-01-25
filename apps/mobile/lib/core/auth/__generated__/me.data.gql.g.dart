@@ -6,14 +6,14 @@ part of 'me.data.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GGetMeData> _$gGetMeDataSerializer = new _$GGetMeDataSerializer();
+Serializer<GGetMeData> _$gGetMeDataSerializer = _$GGetMeDataSerializer();
 Serializer<GGetMeData_me__base> _$gGetMeDataMeBaseSerializer =
-    new _$GGetMeData_me__baseSerializer();
+    _$GGetMeData_me__baseSerializer();
 Serializer<GGetMeData_me__asUser> _$gGetMeDataMeAsUserSerializer =
-    new _$GGetMeData_me__asUserSerializer();
+    _$GGetMeData_me__asUserSerializer();
 Serializer<GGetMeData_me__asAuthErrorResult>
     _$gGetMeDataMeAsAuthErrorResultSerializer =
-    new _$GGetMeData_me__asAuthErrorResultSerializer();
+    _$GGetMeData_me__asAuthErrorResultSerializer();
 
 class _$GGetMeDataSerializer implements StructuredSerializer<GGetMeData> {
   @override
@@ -39,7 +39,7 @@ class _$GGetMeDataSerializer implements StructuredSerializer<GGetMeData> {
   @override
   GGetMeData deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GGetMeDataBuilder();
+    final result = GGetMeDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -89,7 +89,7 @@ class _$GGetMeData_me__baseSerializer
   GGetMeData_me__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GGetMeData_me__baseBuilder();
+    final result = GGetMeData_me__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -148,7 +148,7 @@ class _$GGetMeData_me__asUserSerializer
   GGetMeData_me__asUser deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GGetMeData_me__asUserBuilder();
+    final result = GGetMeData_me__asUserBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -216,7 +216,7 @@ class _$GGetMeData_me__asAuthErrorResultSerializer
   GGetMeData_me__asAuthErrorResult deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GGetMeData_me__asAuthErrorResultBuilder();
+    final result = GGetMeData_me__asAuthErrorResultBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -251,20 +251,15 @@ class _$GGetMeData extends GGetMeData {
   final GGetMeData_me me;
 
   factory _$GGetMeData([void Function(GGetMeDataBuilder)? updates]) =>
-      (new GGetMeDataBuilder()..update(updates))._build();
+      (GGetMeDataBuilder()..update(updates))._build();
 
-  _$GGetMeData._({required this.G__typename, required this.me}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GGetMeData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(me, r'GGetMeData', 'me');
-  }
-
+  _$GGetMeData._({required this.G__typename, required this.me}) : super._();
   @override
   GGetMeData rebuild(void Function(GGetMeDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GGetMeDataBuilder toBuilder() => new GGetMeDataBuilder()..replace(this);
+  GGetMeDataBuilder toBuilder() => GGetMeDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -319,7 +314,6 @@ class GGetMeDataBuilder implements Builder<GGetMeData, GGetMeDataBuilder> {
 
   @override
   void replace(GGetMeData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMeData;
   }
 
@@ -333,10 +327,11 @@ class GGetMeDataBuilder implements Builder<GGetMeData, GGetMeDataBuilder> {
 
   _$GGetMeData _build() {
     final _$result = _$v ??
-        new _$GGetMeData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GGetMeData', 'G__typename'),
-            me: BuiltValueNullFieldError.checkNotNull(me, r'GGetMeData', 'me'));
+        _$GGetMeData._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GGetMeData', 'G__typename'),
+          me: BuiltValueNullFieldError.checkNotNull(me, r'GGetMeData', 'me'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -348,13 +343,9 @@ class _$GGetMeData_me__base extends GGetMeData_me__base {
 
   factory _$GGetMeData_me__base(
           [void Function(GGetMeData_me__baseBuilder)? updates]) =>
-      (new GGetMeData_me__baseBuilder()..update(updates))._build();
+      (GGetMeData_me__baseBuilder()..update(updates))._build();
 
-  _$GGetMeData_me__base._({required this.G__typename}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GGetMeData_me__base', 'G__typename');
-  }
-
+  _$GGetMeData_me__base._({required this.G__typename}) : super._();
   @override
   GGetMeData_me__base rebuild(
           void Function(GGetMeData_me__baseBuilder) updates) =>
@@ -362,7 +353,7 @@ class _$GGetMeData_me__base extends GGetMeData_me__base {
 
   @override
   GGetMeData_me__baseBuilder toBuilder() =>
-      new GGetMeData_me__baseBuilder()..replace(this);
+      GGetMeData_me__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -409,7 +400,6 @@ class GGetMeData_me__baseBuilder
 
   @override
   void replace(GGetMeData_me__base other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMeData_me__base;
   }
 
@@ -423,9 +413,10 @@ class GGetMeData_me__baseBuilder
 
   _$GGetMeData_me__base _build() {
     final _$result = _$v ??
-        new _$GGetMeData_me__base._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GGetMeData_me__base', 'G__typename'));
+        _$GGetMeData_me__base._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GGetMeData_me__base', 'G__typename'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -441,14 +432,10 @@ class _$GGetMeData_me__asUser extends GGetMeData_me__asUser {
 
   factory _$GGetMeData_me__asUser(
           [void Function(GGetMeData_me__asUserBuilder)? updates]) =>
-      (new GGetMeData_me__asUserBuilder()..update(updates))._build();
+      (GGetMeData_me__asUserBuilder()..update(updates))._build();
 
   _$GGetMeData_me__asUser._({required this.G__typename, this.id, this.email})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GGetMeData_me__asUser', 'G__typename');
-  }
-
+      : super._();
   @override
   GGetMeData_me__asUser rebuild(
           void Function(GGetMeData_me__asUserBuilder) updates) =>
@@ -456,7 +443,7 @@ class _$GGetMeData_me__asUser extends GGetMeData_me__asUser {
 
   @override
   GGetMeData_me__asUserBuilder toBuilder() =>
-      new GGetMeData_me__asUserBuilder()..replace(this);
+      GGetMeData_me__asUserBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -520,7 +507,6 @@ class GGetMeData_me__asUserBuilder
 
   @override
   void replace(GGetMeData_me__asUser other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMeData_me__asUser;
   }
 
@@ -534,11 +520,12 @@ class GGetMeData_me__asUserBuilder
 
   _$GGetMeData_me__asUser _build() {
     final _$result = _$v ??
-        new _$GGetMeData_me__asUser._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GGetMeData_me__asUser', 'G__typename'),
-            id: id,
-            email: email);
+        _$GGetMeData_me__asUser._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GGetMeData_me__asUser', 'G__typename'),
+          id: id,
+          email: email,
+        );
     replace(_$result);
     return _$result;
   }
@@ -555,15 +542,11 @@ class _$GGetMeData_me__asAuthErrorResult
 
   factory _$GGetMeData_me__asAuthErrorResult(
           [void Function(GGetMeData_me__asAuthErrorResultBuilder)? updates]) =>
-      (new GGetMeData_me__asAuthErrorResultBuilder()..update(updates))._build();
+      (GGetMeData_me__asAuthErrorResultBuilder()..update(updates))._build();
 
   _$GGetMeData_me__asAuthErrorResult._(
       {required this.G__typename, this.code, this.message})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GGetMeData_me__asAuthErrorResult', 'G__typename');
-  }
-
+      : super._();
   @override
   GGetMeData_me__asAuthErrorResult rebuild(
           void Function(GGetMeData_me__asAuthErrorResultBuilder) updates) =>
@@ -571,7 +554,7 @@ class _$GGetMeData_me__asAuthErrorResult
 
   @override
   GGetMeData_me__asAuthErrorResultBuilder toBuilder() =>
-      new GGetMeData_me__asAuthErrorResultBuilder()..replace(this);
+      GGetMeData_me__asAuthErrorResultBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -637,7 +620,6 @@ class GGetMeData_me__asAuthErrorResultBuilder
 
   @override
   void replace(GGetMeData_me__asAuthErrorResult other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMeData_me__asAuthErrorResult;
   }
 
@@ -651,11 +633,12 @@ class GGetMeData_me__asAuthErrorResultBuilder
 
   _$GGetMeData_me__asAuthErrorResult _build() {
     final _$result = _$v ??
-        new _$GGetMeData_me__asAuthErrorResult._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GGetMeData_me__asAuthErrorResult', 'G__typename'),
-            code: code,
-            message: message);
+        _$GGetMeData_me__asAuthErrorResult._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename, r'GGetMeData_me__asAuthErrorResult', 'G__typename'),
+          code: code,
+          message: message,
+        );
     replace(_$result);
     return _$result;
   }

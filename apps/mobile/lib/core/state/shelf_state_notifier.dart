@@ -158,6 +158,40 @@ class ShelfState extends _$ShelfState {
     );
   }
 
+  /// 評価を更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateRatingWithApi({
+    required String externalId,
+    required int rating,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    _updateRatingOptimistic(externalId: externalId, rating: rating);
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateRating(
+      userBookId: entry.userBookId,
+      rating: rating,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          rating: userBook.rating,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
   /// 読書状態を更新する（Optimistic Update のみ）
   void updateReadingStatus({
     required String externalId,
@@ -206,6 +240,20 @@ class ShelfState extends _$ShelfState {
     final updated = entry.copyWith(
       note: note,
       noteUpdatedAt: DateTime.now(),
+    );
+
+    state = {...state, externalId: updated};
+  }
+
+  void _updateRatingOptimistic({
+    required String externalId,
+    required int rating,
+  }) {
+    final entry = state[externalId];
+    if (entry == null) return;
+
+    final updated = entry.copyWith(
+      rating: rating,
     );
 
     state = {...state, externalId: updated};

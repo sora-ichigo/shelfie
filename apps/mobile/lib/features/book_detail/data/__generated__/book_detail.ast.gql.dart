@@ -212,6 +212,13 @@ const BookDetail = _i1.OperationDefinitionNode(
               directives: [],
               selectionSet: null,
             ),
+            _i1.FieldNode(
+              name: _i1.NameNode(value: 'rating'),
+              alias: null,
+              arguments: [],
+              directives: [],
+              selectionSet: null,
+            ),
           ]),
         ),
       ]),
