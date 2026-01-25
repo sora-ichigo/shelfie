@@ -67,43 +67,83 @@ class SearchFilterBar extends StatelessWidget {
   }
 
   Widget _buildSortButton(BuildContext context, AppColors appColors) {
+    final isActive = sortOption != SortOption.defaultOption;
+
     return GestureDetector(
       onTap: () => _showSortBottomSheet(context),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        decoration: BoxDecoration(
-          color: appColors.surfaceElevated,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(
-            color: appColors.textSecondary.withOpacity(0.3),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: appColors.surfaceElevated,
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              border: Border.all(
+                color: appColors.textSecondary.withOpacity(0.3),
+              ),
+            ),
+            child: Icon(
+              Icons.tune,
+              size: 20,
+              color: appColors.textPrimary,
+            ),
           ),
-        ),
-        child: Icon(
-          Icons.tune,
-          size: 20,
-          color: appColors.textPrimary,
-        ),
+          if (isActive)
+            Positioned(
+              top: -1,
+              right: -1,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: appColors.textPrimary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
 
   Widget _buildGroupButton(BuildContext context, AppColors appColors) {
+    final isActive = groupOption != GroupOption.defaultOption;
+
     return GestureDetector(
       onTap: () => _showGroupBottomSheet(context),
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        decoration: BoxDecoration(
-          color: appColors.surfaceElevated,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(
-            color: appColors.textSecondary.withOpacity(0.3),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: appColors.surfaceElevated,
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+              border: Border.all(
+                color: appColors.textSecondary.withOpacity(0.3),
+              ),
+            ),
+            child: Icon(
+              Icons.grid_view,
+              size: 20,
+              color: appColors.textPrimary,
+            ),
           ),
-        ),
-        child: Icon(
-          Icons.grid_view,
-          size: 20,
-          color: appColors.textPrimary,
-        ),
+          if (isActive)
+            Positioned(
+              top: -1,
+              right: -1,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: appColors.textPrimary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
