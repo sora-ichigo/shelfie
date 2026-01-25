@@ -32,8 +32,8 @@ abstract class BookShelfRepository {
   /// 本棚の書籍一覧を取得
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   });
@@ -50,8 +50,8 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
   @override
   Future<Either<Failure, MyShelfResult>> getMyShelf({
     String? query,
-    String? sortBy,
-    String? sortOrder,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
   }) async {

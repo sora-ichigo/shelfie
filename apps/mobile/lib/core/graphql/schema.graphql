@@ -356,6 +356,9 @@ enum SortOrder {
 
 """Input for updating user profile"""
 input UpdateProfileInput {
+  """User avatar image URL"""
+  avatarUrl: String
+
   """User display name"""
   name: String!
 }

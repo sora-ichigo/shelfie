@@ -48,7 +48,9 @@ class AccountRepository {
     String? avatarUrl,
   }) async {
     final request = GUpdateProfileReq(
-      (b) => b..vars.input.name = name,
+      (b) => b
+        ..vars.input.name = name
+        ..vars.input.avatarUrl = avatarUrl,
     );
 
     try {

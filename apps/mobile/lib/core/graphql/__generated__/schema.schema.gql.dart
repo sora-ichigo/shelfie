@@ -226,6 +226,7 @@ abstract class GUpdateProfileInput
           [void Function(GUpdateProfileInputBuilder b) updates]) =
       _$GUpdateProfileInput;
 
+  String? get avatarUrl;
   String get name;
   static Serializer<GUpdateProfileInput> get serializer =>
       _$gUpdateProfileInputSerializer;

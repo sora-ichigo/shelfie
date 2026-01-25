@@ -7,7 +7,7 @@ part of 'update_profile.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateProfileVars> _$gUpdateProfileVarsSerializer =
-    new _$GUpdateProfileVarsSerializer();
+    _$GUpdateProfileVarsSerializer();
 
 class _$GUpdateProfileVarsSerializer
     implements StructuredSerializer<GUpdateProfileVars> {
@@ -33,7 +33,7 @@ class _$GUpdateProfileVarsSerializer
   GUpdateProfileVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateProfileVarsBuilder();
+    final result = GUpdateProfileVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -59,13 +59,9 @@ class _$GUpdateProfileVars extends GUpdateProfileVars {
 
   factory _$GUpdateProfileVars(
           [void Function(GUpdateProfileVarsBuilder)? updates]) =>
-      (new GUpdateProfileVarsBuilder()..update(updates))._build();
+      (GUpdateProfileVarsBuilder()..update(updates))._build();
 
-  _$GUpdateProfileVars._({required this.input}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        input, r'GUpdateProfileVars', 'input');
-  }
-
+  _$GUpdateProfileVars._({required this.input}) : super._();
   @override
   GUpdateProfileVars rebuild(
           void Function(GUpdateProfileVarsBuilder) updates) =>
@@ -73,7 +69,7 @@ class _$GUpdateProfileVars extends GUpdateProfileVars {
 
   @override
   GUpdateProfileVarsBuilder toBuilder() =>
-      new GUpdateProfileVarsBuilder()..replace(this);
+      GUpdateProfileVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -103,7 +99,7 @@ class GUpdateProfileVarsBuilder
 
   _i1.GUpdateProfileInputBuilder? _input;
   _i1.GUpdateProfileInputBuilder get input =>
-      _$this._input ??= new _i1.GUpdateProfileInputBuilder();
+      _$this._input ??= _i1.GUpdateProfileInputBuilder();
   set input(_i1.GUpdateProfileInputBuilder? input) => _$this._input = input;
 
   GUpdateProfileVarsBuilder();
@@ -119,7 +115,6 @@ class GUpdateProfileVarsBuilder
 
   @override
   void replace(GUpdateProfileVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileVars;
   }
 
@@ -134,14 +129,17 @@ class GUpdateProfileVarsBuilder
   _$GUpdateProfileVars _build() {
     _$GUpdateProfileVars _$result;
     try {
-      _$result = _$v ?? new _$GUpdateProfileVars._(input: input.build());
+      _$result = _$v ??
+          _$GUpdateProfileVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GUpdateProfileVars', _$failedField, e.toString());
       }
       rethrow;

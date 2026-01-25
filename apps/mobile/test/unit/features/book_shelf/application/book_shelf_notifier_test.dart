@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
@@ -13,6 +14,10 @@ import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 class MockBookShelfRepository extends Mock implements BookShelfRepository {}
+
+class FakeGShelfSortField extends Fake implements GShelfSortField {}
+
+class FakeGSortOrder extends Fake implements GSortOrder {}
 
 void main() {
   late ProviderContainer container;
@@ -49,6 +54,11 @@ void main() {
       hasMore: hasMore,
     );
   }
+
+  setUpAll(() {
+    registerFallbackValue(FakeGShelfSortField());
+    registerFallbackValue(FakeGSortOrder());
+  });
 
   setUp(() {
     mockRepository = MockBookShelfRepository();
@@ -190,8 +200,8 @@ void main() {
         when(
           () => mockRepository.getMyShelf(
             query: any(named: 'query'),
-            sortBy: 'TITLE',
-            sortOrder: 'ASC',
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
             limit: any(named: 'limit'),
             offset: any(named: 'offset'),
           ),
@@ -202,8 +212,8 @@ void main() {
         verify(
           () => mockRepository.getMyShelf(
             query: any(named: 'query'),
-            sortBy: 'TITLE',
-            sortOrder: 'ASC',
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
             limit: any(named: 'limit'),
             offset: any(named: 'offset'),
           ),
@@ -594,8 +604,8 @@ void main() {
         when(
           () => mockRepository.getMyShelf(
             query: any(named: 'query'),
-            sortBy: 'TITLE',
-            sortOrder: 'ASC',
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
             limit: any(named: 'limit'),
             offset: 0,
           ),
@@ -608,8 +618,8 @@ void main() {
         verify(
           () => mockRepository.getMyShelf(
             query: any(named: 'query'),
-            sortBy: 'TITLE',
-            sortOrder: 'ASC',
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
             limit: any(named: 'limit'),
             offset: 0,
           ),

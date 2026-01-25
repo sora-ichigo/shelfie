@@ -37,7 +37,9 @@ export class ValidationError extends Error implements ValidationErrorData {
 }
 
 function createUpdateProfileInputRef(builder: Builder) {
-  return builder.inputRef<{ name: string }>("UpdateProfileInput");
+  return builder.inputRef<{ name: string; avatarUrl?: string }>(
+    "UpdateProfileInput",
+  );
 }
 
 type UpdateProfileInputRef = ReturnType<typeof createUpdateProfileInputRef>;
@@ -117,6 +119,10 @@ export function registerUserTypes(
     description: "Input for updating user profile",
     fields: (t) => ({
       name: t.string({ required: true, description: "User display name" }),
+      avatarUrl: t.string({
+        required: false,
+        description: "User avatar image URL",
+      }),
     }),
   });
 }
@@ -157,6 +163,7 @@ export function registerUserMutations(
         const result = await userService.updateProfile({
           userId: userResult.data.id,
           name: input.name,
+          avatarUrl: input.avatarUrl ?? undefined,
         });
 
         if (!result.success) {

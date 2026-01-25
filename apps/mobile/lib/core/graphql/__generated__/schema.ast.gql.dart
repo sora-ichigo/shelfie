@@ -1252,6 +1252,15 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
   directives: [],
   fields: [
     _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'avatarUrl'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'name'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -1259,7 +1268,7 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
         isNonNull: true,
       ),
       defaultValue: null,
-    )
+    ),
   ],
 );
 const UploadCredentials = _i1.ObjectTypeDefinitionNode(
