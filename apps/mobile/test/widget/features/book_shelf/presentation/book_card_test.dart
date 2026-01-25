@@ -154,7 +154,7 @@ void main() {
         );
 
         final authorFinder = find.byWidgetPredicate((widget) {
-          if (widget is Text && widget.data?.contains('非常に長い') == true) {
+          if (widget is Text && (widget.data?.contains('非常に長い') ?? false)) {
             return widget.maxLines == 1 &&
                 widget.overflow == TextOverflow.ellipsis;
           }
@@ -171,7 +171,7 @@ void main() {
 
         final emptyAuthorFinder = find.byWidgetPredicate((widget) {
           if (widget is Text) {
-            return widget.data?.isEmpty == true;
+            return widget.data?.isEmpty ?? false;
           }
           return false;
         });

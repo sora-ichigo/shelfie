@@ -72,7 +72,7 @@ class BookCard extends StatelessWidget {
   }
 
   Widget _buildPlaceholder(AppColors appColors) {
-    return Container(
+    return ColoredBox(
       color: appColors.surfaceOverlay,
       child: Center(
         child: Icon(

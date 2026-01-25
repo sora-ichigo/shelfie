@@ -124,7 +124,7 @@ void main() {
         );
 
         final card = tester.widget<Card>(find.byType(Card));
-        final shape = card.shape as RoundedRectangleBorder;
+        final shape = card.shape! as RoundedRectangleBorder;
         final borderRadius = shape.borderRadius as BorderRadius;
 
         expect(borderRadius.topLeft.x, greaterThan(0));
