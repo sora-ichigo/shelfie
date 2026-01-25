@@ -96,7 +96,7 @@ void main() {
       container.dispose();
     });
 
-    test('検索成功時に検索履歴が保存される', () async {
+    test('検索成功時に自動で検索履歴が保存されない（確定アクション時のみ保存）', () async {
       when(() => mockBookRepo.searchBooks(
             query: 'flutter',
             limit: any(named: 'limit'),
@@ -127,6 +127,17 @@ void main() {
       expect((state as BookSearchSuccess).books.length, equals(1));
 
       await Future<void>.delayed(const Duration(milliseconds: 100));
+
+      verifyNever(() => mockHistoryRepo.add(any()));
+    });
+
+    test('明示的にaddHistoryを呼ぶと検索履歴が保存される', () async {
+      await container.read(searchHistoryNotifierProvider.future);
+
+      final historyNotifier =
+          container.read(searchHistoryNotifierProvider.notifier);
+
+      await historyNotifier.addHistory('flutter');
 
       verify(() => mockHistoryRepo.add(any())).called(1);
     });
