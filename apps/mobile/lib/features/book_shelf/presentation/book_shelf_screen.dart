@@ -86,7 +86,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
             },
           ),
         ),
-        const SizedBox(height: AppSpacing.sm),
         Expanded(
           child: _buildBookContent(state),
         ),
