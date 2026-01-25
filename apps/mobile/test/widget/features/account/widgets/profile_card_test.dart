@@ -70,7 +70,7 @@ void main() {
       );
 
       expect(find.text('42'), findsOneWidget);
-      expect(find.text('冊'), findsOneWidget);
+      expect(find.text('累計冊数'), findsOneWidget);
     });
 
     testWidgets('読書開始年月が表示される', (tester) async {
@@ -88,7 +88,7 @@ void main() {
         ),
       );
 
-      expect(find.text('2020年4月'), findsOneWidget);
+      expect(find.text('2020/4'), findsOneWidget);
       expect(find.text('読書開始'), findsOneWidget);
     });
 
