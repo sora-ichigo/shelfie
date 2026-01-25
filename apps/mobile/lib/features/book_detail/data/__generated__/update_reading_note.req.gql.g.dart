@@ -7,7 +7,7 @@ part of 'update_reading_note.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingNoteReq> _$gUpdateReadingNoteReqSerializer =
-    new _$GUpdateReadingNoteReqSerializer();
+    _$GUpdateReadingNoteReqSerializer();
 
 class _$GUpdateReadingNoteReqSerializer
     implements StructuredSerializer<GUpdateReadingNoteReq> {
@@ -78,7 +78,7 @@ class _$GUpdateReadingNoteReqSerializer
   GUpdateReadingNoteReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateReadingNoteReqBuilder();
+    final result = GUpdateReadingNoteReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GUpdateReadingNoteReq extends GUpdateReadingNoteReq {
 
   factory _$GUpdateReadingNoteReq(
           [void Function(GUpdateReadingNoteReqBuilder)? updates]) =>
-      (new GUpdateReadingNoteReqBuilder()..update(updates))._build();
+      (GUpdateReadingNoteReqBuilder()..update(updates))._build();
 
   _$GUpdateReadingNoteReq._(
       {required this.vars,
@@ -169,15 +169,7 @@ class _$GUpdateReadingNoteReq extends GUpdateReadingNoteReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        vars, r'GUpdateReadingNoteReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GUpdateReadingNoteReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GUpdateReadingNoteReq', 'executeOnListen');
-  }
-
+      : super._();
   @override
   GUpdateReadingNoteReq rebuild(
           void Function(GUpdateReadingNoteReqBuilder) updates) =>
@@ -185,7 +177,7 @@ class _$GUpdateReadingNoteReq extends GUpdateReadingNoteReq {
 
   @override
   GUpdateReadingNoteReqBuilder toBuilder() =>
-      new GUpdateReadingNoteReqBuilder()..replace(this);
+      GUpdateReadingNoteReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -244,7 +236,7 @@ class GUpdateReadingNoteReqBuilder
 
   _i3.GUpdateReadingNoteVarsBuilder? _vars;
   _i3.GUpdateReadingNoteVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GUpdateReadingNoteVarsBuilder();
+      _$this._vars ??= _i3.GUpdateReadingNoteVarsBuilder();
   set vars(_i3.GUpdateReadingNoteVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -268,7 +260,7 @@ class GUpdateReadingNoteReqBuilder
 
   _i2.GUpdateReadingNoteDataBuilder? _optimisticResponse;
   _i2.GUpdateReadingNoteDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GUpdateReadingNoteDataBuilder();
+      _$this._optimisticResponse ??= _i2.GUpdateReadingNoteDataBuilder();
   set optimisticResponse(
           _i2.GUpdateReadingNoteDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -323,7 +315,6 @@ class GUpdateReadingNoteReqBuilder
 
   @override
   void replace(GUpdateReadingNoteReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingNoteReq;
   }
 
@@ -339,19 +330,20 @@ class GUpdateReadingNoteReqBuilder
     _$GUpdateReadingNoteReq _$result;
     try {
       _$result = _$v ??
-          new _$GUpdateReadingNoteReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GUpdateReadingNoteReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GUpdateReadingNoteReq', 'executeOnListen'),
-              context: context);
+          _$GUpdateReadingNoteReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+                operation, r'GUpdateReadingNoteReq', 'operation'),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                executeOnListen, r'GUpdateReadingNoteReq', 'executeOnListen'),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -361,7 +353,7 @@ class GUpdateReadingNoteReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
+        throw BuiltValueNestedFieldError(
             r'GUpdateReadingNoteReq', _$failedField, e.toString());
       }
       rethrow;

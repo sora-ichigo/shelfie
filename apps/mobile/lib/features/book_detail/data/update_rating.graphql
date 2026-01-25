@@ -1,5 +1,5 @@
-mutation UpdateReadingNote($userBookId: Int!, $note: String!) {
-  updateReadingNote(userBookId: $userBookId, note: $note) {
+mutation UpdateBookRating($userBookId: Int!, $rating: Int!) {
+  updateBookRating(userBookId: $userBookId, rating: $rating) {
     id
     externalId
     title

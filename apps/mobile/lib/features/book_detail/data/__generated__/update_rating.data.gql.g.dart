@@ -1,49 +1,49 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'update_reading_note.data.gql.dart';
+part of 'update_rating.data.gql.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GUpdateReadingNoteData> _$gUpdateReadingNoteDataSerializer =
-    _$GUpdateReadingNoteDataSerializer();
-Serializer<GUpdateReadingNoteData_updateReadingNote>
-    _$gUpdateReadingNoteDataUpdateReadingNoteSerializer =
-    _$GUpdateReadingNoteData_updateReadingNoteSerializer();
+Serializer<GUpdateBookRatingData> _$gUpdateBookRatingDataSerializer =
+    _$GUpdateBookRatingDataSerializer();
+Serializer<GUpdateBookRatingData_updateBookRating>
+    _$gUpdateBookRatingDataUpdateBookRatingSerializer =
+    _$GUpdateBookRatingData_updateBookRatingSerializer();
 
-class _$GUpdateReadingNoteDataSerializer
-    implements StructuredSerializer<GUpdateReadingNoteData> {
+class _$GUpdateBookRatingDataSerializer
+    implements StructuredSerializer<GUpdateBookRatingData> {
   @override
   final Iterable<Type> types = const [
-    GUpdateReadingNoteData,
-    _$GUpdateReadingNoteData
+    GUpdateBookRatingData,
+    _$GUpdateBookRatingData
   ];
   @override
-  final String wireName = 'GUpdateReadingNoteData';
+  final String wireName = 'GUpdateBookRatingData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateReadingNoteData object,
+      Serializers serializers, GUpdateBookRatingData object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'updateReadingNote',
-      serializers.serialize(object.updateReadingNote,
+      'updateBookRating',
+      serializers.serialize(object.updateBookRating,
           specifiedType:
-              const FullType(GUpdateReadingNoteData_updateReadingNote)),
+              const FullType(GUpdateBookRatingData_updateBookRating)),
     ];
 
     return result;
   }
 
   @override
-  GUpdateReadingNoteData deserialize(
+  GUpdateBookRatingData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingNoteDataBuilder();
+    final result = GUpdateBookRatingDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -55,11 +55,11 @@ class _$GUpdateReadingNoteDataSerializer
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'updateReadingNote':
-          result.updateReadingNote.replace(serializers.deserialize(value,
+        case 'updateBookRating':
+          result.updateBookRating.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(GUpdateReadingNoteData_updateReadingNote))!
-              as GUpdateReadingNoteData_updateReadingNote);
+                      const FullType(GUpdateBookRatingData_updateBookRating))!
+              as GUpdateBookRatingData_updateBookRating);
           break;
       }
     }
@@ -68,19 +68,19 @@ class _$GUpdateReadingNoteDataSerializer
   }
 }
 
-class _$GUpdateReadingNoteData_updateReadingNoteSerializer
-    implements StructuredSerializer<GUpdateReadingNoteData_updateReadingNote> {
+class _$GUpdateBookRatingData_updateBookRatingSerializer
+    implements StructuredSerializer<GUpdateBookRatingData_updateBookRating> {
   @override
   final Iterable<Type> types = const [
-    GUpdateReadingNoteData_updateReadingNote,
-    _$GUpdateReadingNoteData_updateReadingNote
+    GUpdateBookRatingData_updateBookRating,
+    _$GUpdateBookRatingData_updateBookRating
   ];
   @override
-  final String wireName = 'GUpdateReadingNoteData_updateReadingNote';
+  final String wireName = 'GUpdateBookRatingData_updateBookRating';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateReadingNoteData_updateReadingNote object,
+      Serializers serializers, GUpdateBookRatingData_updateBookRating object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
@@ -165,10 +165,10 @@ class _$GUpdateReadingNoteData_updateReadingNoteSerializer
   }
 
   @override
-  GUpdateReadingNoteData_updateReadingNote deserialize(
+  GUpdateBookRatingData_updateBookRating deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingNoteData_updateReadingNoteBuilder();
+    final result = GUpdateBookRatingData_updateBookRatingBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -246,114 +246,114 @@ class _$GUpdateReadingNoteData_updateReadingNoteSerializer
   }
 }
 
-class _$GUpdateReadingNoteData extends GUpdateReadingNoteData {
+class _$GUpdateBookRatingData extends GUpdateBookRatingData {
   @override
   final String G__typename;
   @override
-  final GUpdateReadingNoteData_updateReadingNote updateReadingNote;
+  final GUpdateBookRatingData_updateBookRating updateBookRating;
 
-  factory _$GUpdateReadingNoteData(
-          [void Function(GUpdateReadingNoteDataBuilder)? updates]) =>
-      (GUpdateReadingNoteDataBuilder()..update(updates))._build();
+  factory _$GUpdateBookRatingData(
+          [void Function(GUpdateBookRatingDataBuilder)? updates]) =>
+      (GUpdateBookRatingDataBuilder()..update(updates))._build();
 
-  _$GUpdateReadingNoteData._(
-      {required this.G__typename, required this.updateReadingNote})
+  _$GUpdateBookRatingData._(
+      {required this.G__typename, required this.updateBookRating})
       : super._();
   @override
-  GUpdateReadingNoteData rebuild(
-          void Function(GUpdateReadingNoteDataBuilder) updates) =>
+  GUpdateBookRatingData rebuild(
+          void Function(GUpdateBookRatingDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateReadingNoteDataBuilder toBuilder() =>
-      GUpdateReadingNoteDataBuilder()..replace(this);
+  GUpdateBookRatingDataBuilder toBuilder() =>
+      GUpdateBookRatingDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateReadingNoteData &&
+    return other is GUpdateBookRatingData &&
         G__typename == other.G__typename &&
-        updateReadingNote == other.updateReadingNote;
+        updateBookRating == other.updateBookRating;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, updateReadingNote.hashCode);
+    _$hash = $jc(_$hash, updateBookRating.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GUpdateReadingNoteData')
+    return (newBuiltValueToStringHelper(r'GUpdateBookRatingData')
           ..add('G__typename', G__typename)
-          ..add('updateReadingNote', updateReadingNote))
+          ..add('updateBookRating', updateBookRating))
         .toString();
   }
 }
 
-class GUpdateReadingNoteDataBuilder
-    implements Builder<GUpdateReadingNoteData, GUpdateReadingNoteDataBuilder> {
-  _$GUpdateReadingNoteData? _$v;
+class GUpdateBookRatingDataBuilder
+    implements Builder<GUpdateBookRatingData, GUpdateBookRatingDataBuilder> {
+  _$GUpdateBookRatingData? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  GUpdateReadingNoteData_updateReadingNoteBuilder? _updateReadingNote;
-  GUpdateReadingNoteData_updateReadingNoteBuilder get updateReadingNote =>
-      _$this._updateReadingNote ??=
-          GUpdateReadingNoteData_updateReadingNoteBuilder();
-  set updateReadingNote(
-          GUpdateReadingNoteData_updateReadingNoteBuilder? updateReadingNote) =>
-      _$this._updateReadingNote = updateReadingNote;
+  GUpdateBookRatingData_updateBookRatingBuilder? _updateBookRating;
+  GUpdateBookRatingData_updateBookRatingBuilder get updateBookRating =>
+      _$this._updateBookRating ??=
+          GUpdateBookRatingData_updateBookRatingBuilder();
+  set updateBookRating(
+          GUpdateBookRatingData_updateBookRatingBuilder? updateBookRating) =>
+      _$this._updateBookRating = updateBookRating;
 
-  GUpdateReadingNoteDataBuilder() {
-    GUpdateReadingNoteData._initializeBuilder(this);
+  GUpdateBookRatingDataBuilder() {
+    GUpdateBookRatingData._initializeBuilder(this);
   }
 
-  GUpdateReadingNoteDataBuilder get _$this {
+  GUpdateBookRatingDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _updateReadingNote = $v.updateReadingNote.toBuilder();
+      _updateBookRating = $v.updateBookRating.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(GUpdateReadingNoteData other) {
-    _$v = other as _$GUpdateReadingNoteData;
+  void replace(GUpdateBookRatingData other) {
+    _$v = other as _$GUpdateBookRatingData;
   }
 
   @override
-  void update(void Function(GUpdateReadingNoteDataBuilder)? updates) {
+  void update(void Function(GUpdateBookRatingDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateReadingNoteData build() => _build();
+  GUpdateBookRatingData build() => _build();
 
-  _$GUpdateReadingNoteData _build() {
-    _$GUpdateReadingNoteData _$result;
+  _$GUpdateBookRatingData _build() {
+    _$GUpdateBookRatingData _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingNoteData._(
+          _$GUpdateBookRatingData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GUpdateReadingNoteData', 'G__typename'),
-            updateReadingNote: updateReadingNote.build(),
+                G__typename, r'GUpdateBookRatingData', 'G__typename'),
+            updateBookRating: updateBookRating.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'updateReadingNote';
-        updateReadingNote.build();
+        _$failedField = 'updateBookRating';
+        updateBookRating.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'GUpdateReadingNoteData', _$failedField, e.toString());
+            r'GUpdateBookRatingData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -362,8 +362,8 @@ class GUpdateReadingNoteDataBuilder
   }
 }
 
-class _$GUpdateReadingNoteData_updateReadingNote
-    extends GUpdateReadingNoteData_updateReadingNote {
+class _$GUpdateBookRatingData_updateBookRating
+    extends GUpdateBookRatingData_updateBookRating {
   @override
   final String G__typename;
   @override
@@ -395,13 +395,13 @@ class _$GUpdateReadingNoteData_updateReadingNote
   @override
   final int? rating;
 
-  factory _$GUpdateReadingNoteData_updateReadingNote(
-          [void Function(GUpdateReadingNoteData_updateReadingNoteBuilder)?
+  factory _$GUpdateBookRatingData_updateBookRating(
+          [void Function(GUpdateBookRatingData_updateBookRatingBuilder)?
               updates]) =>
-      (GUpdateReadingNoteData_updateReadingNoteBuilder()..update(updates))
+      (GUpdateBookRatingData_updateBookRatingBuilder()..update(updates))
           ._build();
 
-  _$GUpdateReadingNoteData_updateReadingNote._(
+  _$GUpdateBookRatingData_updateBookRating._(
       {required this.G__typename,
       required this.id,
       required this.externalId,
@@ -419,19 +419,19 @@ class _$GUpdateReadingNoteData_updateReadingNote
       this.rating})
       : super._();
   @override
-  GUpdateReadingNoteData_updateReadingNote rebuild(
-          void Function(GUpdateReadingNoteData_updateReadingNoteBuilder)
+  GUpdateBookRatingData_updateBookRating rebuild(
+          void Function(GUpdateBookRatingData_updateBookRatingBuilder)
               updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateReadingNoteData_updateReadingNoteBuilder toBuilder() =>
-      GUpdateReadingNoteData_updateReadingNoteBuilder()..replace(this);
+  GUpdateBookRatingData_updateBookRatingBuilder toBuilder() =>
+      GUpdateBookRatingData_updateBookRatingBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateReadingNoteData_updateReadingNote &&
+    return other is GUpdateBookRatingData_updateBookRating &&
         G__typename == other.G__typename &&
         id == other.id &&
         externalId == other.externalId &&
@@ -474,7 +474,7 @@ class _$GUpdateReadingNoteData_updateReadingNote
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GUpdateReadingNoteData_updateReadingNote')
+            r'GUpdateBookRatingData_updateBookRating')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('externalId', externalId)
@@ -494,11 +494,11 @@ class _$GUpdateReadingNoteData_updateReadingNote
   }
 }
 
-class GUpdateReadingNoteData_updateReadingNoteBuilder
+class GUpdateBookRatingData_updateBookRatingBuilder
     implements
-        Builder<GUpdateReadingNoteData_updateReadingNote,
-            GUpdateReadingNoteData_updateReadingNoteBuilder> {
-  _$GUpdateReadingNoteData_updateReadingNote? _$v;
+        Builder<GUpdateBookRatingData_updateBookRating,
+            GUpdateBookRatingData_updateBookRatingBuilder> {
+  _$GUpdateBookRatingData_updateBookRating? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
@@ -564,11 +564,11 @@ class GUpdateReadingNoteData_updateReadingNoteBuilder
   int? get rating => _$this._rating;
   set rating(int? rating) => _$this._rating = rating;
 
-  GUpdateReadingNoteData_updateReadingNoteBuilder() {
-    GUpdateReadingNoteData_updateReadingNote._initializeBuilder(this);
+  GUpdateBookRatingData_updateBookRatingBuilder() {
+    GUpdateBookRatingData_updateBookRating._initializeBuilder(this);
   }
 
-  GUpdateReadingNoteData_updateReadingNoteBuilder get _$this {
+  GUpdateBookRatingData_updateBookRatingBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -592,41 +592,41 @@ class GUpdateReadingNoteData_updateReadingNoteBuilder
   }
 
   @override
-  void replace(GUpdateReadingNoteData_updateReadingNote other) {
-    _$v = other as _$GUpdateReadingNoteData_updateReadingNote;
+  void replace(GUpdateBookRatingData_updateBookRating other) {
+    _$v = other as _$GUpdateBookRatingData_updateBookRating;
   }
 
   @override
   void update(
-      void Function(GUpdateReadingNoteData_updateReadingNoteBuilder)? updates) {
+      void Function(GUpdateBookRatingData_updateBookRatingBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateReadingNoteData_updateReadingNote build() => _build();
+  GUpdateBookRatingData_updateBookRating build() => _build();
 
-  _$GUpdateReadingNoteData_updateReadingNote _build() {
-    _$GUpdateReadingNoteData_updateReadingNote _$result;
+  _$GUpdateBookRatingData_updateBookRating _build() {
+    _$GUpdateBookRatingData_updateBookRating _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingNoteData_updateReadingNote._(
+          _$GUpdateBookRatingData_updateBookRating._(
             G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GUpdateReadingNoteData_updateReadingNote', 'G__typename'),
+                r'GUpdateBookRatingData_updateBookRating', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GUpdateReadingNoteData_updateReadingNote', 'id'),
+                id, r'GUpdateBookRatingData_updateBookRating', 'id'),
             externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                r'GUpdateReadingNoteData_updateReadingNote', 'externalId'),
+                r'GUpdateBookRatingData_updateBookRating', 'externalId'),
             title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GUpdateReadingNoteData_updateReadingNote', 'title'),
+                title, r'GUpdateBookRatingData_updateBookRating', 'title'),
             authors: authors.build(),
             publisher: publisher,
             publishedDate: publishedDate,
             isbn: isbn,
             coverImageUrl: coverImageUrl,
-            addedAt: BuiltValueNullFieldError.checkNotNull(addedAt,
-                r'GUpdateReadingNoteData_updateReadingNote', 'addedAt'),
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GUpdateBookRatingData_updateBookRating', 'addedAt'),
             readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
-                r'GUpdateReadingNoteData_updateReadingNote', 'readingStatus'),
+                r'GUpdateBookRatingData_updateBookRating', 'readingStatus'),
             completedAt: completedAt,
             note: note,
             noteUpdatedAt: noteUpdatedAt,
@@ -639,7 +639,7 @@ class GUpdateReadingNoteData_updateReadingNoteBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'GUpdateReadingNoteData_updateReadingNote',
+            r'GUpdateBookRatingData_updateBookRating',
             _$failedField,
             e.toString());
       }

@@ -32,6 +32,7 @@ function createMockShelfService(): BookShelfService {
     getUserBooksWithPagination: vi.fn(),
     updateReadingStatus: vi.fn(),
     updateReadingNote: vi.fn(),
+    updateRating: vi.fn(),
     removeFromShelf: vi.fn(),
   };
 }
@@ -868,6 +869,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
 
       vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
@@ -1065,6 +1067,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
 
       vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
@@ -1230,6 +1233,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       vi.mocked(mockShelfService.addBookToShelf).mockResolvedValue(
         ok(mockUserBook),
@@ -1487,6 +1491,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        rating: null,
       };
       vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
         ok(mockUserBook),
@@ -1709,6 +1714,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: "Great book!",
         noteUpdatedAt: new Date(),
+        rating: null,
       };
       vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
         ok(mockUserBook),
@@ -1787,6 +1793,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: "",
         noteUpdatedAt: new Date(),
+        rating: null,
       };
       vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
         ok(mockUserBook),
@@ -2008,6 +2015,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
       ];
 
@@ -2166,6 +2174,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          rating: null,
         },
       ];
 

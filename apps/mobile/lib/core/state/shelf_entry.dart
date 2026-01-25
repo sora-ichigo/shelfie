@@ -32,6 +32,9 @@ class ShelfEntry with _$ShelfEntry {
 
     /// メモの最終更新日時
     DateTime? noteUpdatedAt,
+
+    /// 評価（1-5）
+    int? rating,
   }) = _ShelfEntry;
 
   /// メモが存在するかどうか

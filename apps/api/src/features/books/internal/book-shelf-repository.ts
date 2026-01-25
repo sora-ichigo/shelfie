@@ -19,6 +19,7 @@ export interface UpdateUserBookInput {
   completedAt?: Date | null;
   note?: string;
   noteUpdatedAt?: Date;
+  rating?: number | null;
 }
 
 export type ShelfSortField = "ADDED_AT" | "TITLE" | "AUTHOR";

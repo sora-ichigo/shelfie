@@ -179,6 +179,9 @@ type Mutation {
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
 
+  """Update the rating of a book in the user's shelf"""
+  updateBookRating(rating: Int!, userBookId: Int!): UserBook!
+
   """Update the current user's profile"""
   updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
 
@@ -211,6 +214,36 @@ union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationErr
 
 type MutationUpdateProfileSuccess {
   data: User!
+}
+
+"""Input for querying user's book shelf"""
+input MyShelfInput {
+  """Number of items to return (default: 20)"""
+  limit: Int
+
+  """Number of items to skip (default: 0)"""
+  offset: Int
+
+  """Search query to filter books by title or author"""
+  query: String
+
+  """Field to sort by"""
+  sortBy: ShelfSortField
+
+  """Sort order direction"""
+  sortOrder: SortOrder
+}
+
+"""Result of user's book shelf query"""
+type MyShelfResult {
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+
+  """List of books in the shelf"""
+  items: [UserBook!]!
+
+  """Total number of books matching the query"""
+  totalCount: Int!
 }
 
 type Query {
@@ -249,48 +282,6 @@ enum ReadingStatus {
   READING
 }
 
-"""Sort field for books in shelf"""
-enum ShelfSortField {
-  """Sort by date added to shelf"""
-  ADDED_AT
-  """Sort by book title"""
-  TITLE
-  """Sort by author name"""
-  AUTHOR
-}
-
-"""Sort order direction"""
-enum SortOrder {
-  """Ascending order"""
-  ASC
-  """Descending order"""
-  DESC
-}
-
-"""Input for querying user's book shelf"""
-input MyShelfInput {
-  """Search query to filter books by title or author"""
-  query: String
-  """Field to sort by"""
-  sortBy: String
-  """Sort order direction"""
-  sortOrder: String
-  """Number of items to return (default: 20)"""
-  limit: Int
-  """Number of items to skip (default: 0)"""
-  offset: Int
-}
-
-"""Result of user's book shelf query"""
-type MyShelfResult {
-  """List of books in the shelf"""
-  items: [UserBook!]!
-  """Total number of books matching the query"""
-  totalCount: Int!
-  """Whether there are more books to fetch"""
-  hasMore: Boolean!
-}
-
 """Input for token refresh"""
 input RefreshTokenInput {
   """Refresh token"""
@@ -325,6 +316,27 @@ type SearchBooksResult {
 
   """The total number of books found"""
   totalCount: Int!
+}
+
+"""Sort field for books in shelf"""
+enum ShelfSortField {
+  """Sort by date added to shelf"""
+  ADDED_AT
+
+  """Sort by author name"""
+  AUTHOR
+
+  """Sort by book title"""
+  TITLE
+}
+
+"""Sort order direction"""
+enum SortOrder {
+  """Ascending order"""
+  ASC
+
+  """Descending order"""
+  DESC
 }
 
 """Input for updating user profile"""
@@ -391,6 +403,9 @@ type UserBook {
 
   """The publisher of the book"""
   publisher: String
+
+  """User's rating for the book (1-5)"""
+  rating: Int
 
   """The reading status of the book"""
   readingStatus: ReadingStatus!
