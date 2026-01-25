@@ -9,7 +9,6 @@ void main() {
   Widget buildSearchFilterBar({
     SortOption sortOption = SortOption.addedAtDesc,
     GroupOption groupOption = GroupOption.none,
-    void Function(String)? onSearchChanged,
     void Function(SortOption)? onSortChanged,
     void Function(GroupOption)? onGroupChanged,
   }) {
@@ -19,7 +18,6 @@ void main() {
         body: SearchFilterBar(
           sortOption: sortOption,
           groupOption: groupOption,
-          onSearchChanged: onSearchChanged ?? (_) {},
           onSortChanged: onSortChanged ?? (_) {},
           onGroupChanged: onGroupChanged ?? (_) {},
         ),
@@ -28,74 +26,6 @@ void main() {
   }
 
   group('SearchFilterBar', () {
-    group('検索バー', () {
-      testWidgets('虫眼鏡アイコンが表示される', (tester) async {
-        await tester.pumpWidget(buildSearchFilterBar());
-
-        expect(find.byIcon(Icons.search), findsOneWidget);
-      });
-
-      testWidgets('「本を検索...」プレースホルダーが表示される', (tester) async {
-        await tester.pumpWidget(buildSearchFilterBar());
-
-        expect(find.text('本を検索...'), findsOneWidget);
-      });
-
-      testWidgets('検索入力後にクリアボタンが表示される', (tester) async {
-        await tester.pumpWidget(buildSearchFilterBar());
-
-        await tester.enterText(find.byType(TextField), 'テスト');
-        await tester.pump();
-
-        expect(find.byIcon(Icons.clear), findsOneWidget);
-      });
-
-      testWidgets('クリアボタンタップで入力がクリアされる', (tester) async {
-        await tester.pumpWidget(buildSearchFilterBar());
-
-        await tester.enterText(find.byType(TextField), 'テスト');
-        await tester.pump();
-
-        await tester.tap(find.byIcon(Icons.clear));
-        await tester.pump();
-
-        final textField = tester.widget<TextField>(find.byType(TextField));
-        expect(textField.controller?.text, isEmpty);
-      });
-    });
-
-    group('検索デバウンス', () {
-      testWidgets('検索入力時は300msのデバウンスが適用される', (tester) async {
-        var callCount = 0;
-        String? lastValue;
-
-        await tester.pumpWidget(
-          buildSearchFilterBar(
-            onSearchChanged: (value) {
-              callCount++;
-              lastValue = value;
-            },
-          ),
-        );
-
-        await tester.enterText(find.byType(TextField), 'テ');
-        await tester.pump(const Duration(milliseconds: 100));
-
-        await tester.enterText(find.byType(TextField), 'テス');
-        await tester.pump(const Duration(milliseconds: 100));
-
-        await tester.enterText(find.byType(TextField), 'テスト');
-        await tester.pump(const Duration(milliseconds: 100));
-
-        expect(callCount, equals(0));
-
-        await tester.pump(const Duration(milliseconds: 300));
-
-        expect(callCount, equals(1));
-        expect(lastValue, equals('テスト'));
-      });
-    });
-
     group('ソート選択ドロップダウン', () {
       testWidgets('ソート選択ドロップダウンが表示される', (tester) async {
         await tester.pumpWidget(buildSearchFilterBar());

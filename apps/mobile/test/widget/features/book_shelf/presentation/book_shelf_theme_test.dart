@@ -161,15 +161,13 @@ void main() {
             child: SearchFilterBar(
               sortOption: SortOption.addedAtDesc,
               groupOption: GroupOption.none,
-              onSearchChanged: (_) {},
               onSortChanged: (_) {},
               onGroupChanged: (_) {},
             ),
           ),
         );
 
-        final textField = tester.widget<TextField>(find.byType(TextField));
-        expect(textField, isNotNull);
+        expect(find.byType(DropdownButton<SortOption>), findsOneWidget);
       });
     });
 

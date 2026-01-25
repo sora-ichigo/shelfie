@@ -5,11 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/core/widgets/circle_icon_button.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
@@ -168,8 +168,8 @@ void main() {
         ));
         await tester.pumpAndSettle();
 
-        final profileIconButton = find.byType(CircleIconButton);
-        await tester.tap(profileIconButton);
+        final userAvatar = find.byType(UserAvatar);
+        await tester.tap(userAvatar);
         await tester.pumpAndSettle();
 
         verify(() => mockRouter.push(AppRoutes.account)).called(1);

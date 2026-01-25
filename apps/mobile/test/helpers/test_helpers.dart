@@ -204,7 +204,6 @@ class MockBookShelfNotifier extends BookShelfNotifier {
   BookShelfState build() {
     return BookShelfState.loaded(
       books: const [],
-      searchQuery: '',
       sortOption: SortOption.defaultOption,
       groupOption: GroupOption.defaultOption,
       totalCount: 0,
@@ -216,9 +215,6 @@ class MockBookShelfNotifier extends BookShelfNotifier {
 
   @override
   Future<void> initialize() async {}
-
-  @override
-  Future<void> setSearchQuery(String query) async {}
 
   @override
   Future<void> setSortOption(SortOption option) async {}
