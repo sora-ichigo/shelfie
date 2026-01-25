@@ -165,38 +165,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     return recentBooksAsync.when(
       data: (recentBooks) {
         if (recentBooks.isEmpty) {
-          return const EmptyState(
-            icon: Icons.search,
-            message: '書籍を検索してください',
-          );
+          return const SizedBox.shrink();
         }
 
         return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RecentBooksSection(
-                books: recentBooks,
-                onBookTap: (bookId) =>
-                    context.push(AppRoutes.bookDetail(bookId: bookId)),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              const EmptyState(
-                icon: Icons.search,
-                message: '書籍を検索してください',
-              ),
-            ],
+          child: RecentBooksSection(
+            books: recentBooks,
+            onBookTap: (bookId) =>
+                context.push(AppRoutes.bookDetail(bookId: bookId)),
           ),
         );
       },
-      loading: () => const EmptyState(
-        icon: Icons.search,
-        message: '書籍を検索してください',
-      ),
-      error: (_, __) => const EmptyState(
-        icon: Icons.search,
-        message: '書籍を検索してください',
-      ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 
