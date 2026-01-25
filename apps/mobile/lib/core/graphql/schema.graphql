@@ -1,3 +1,27 @@
+"""Input for adding a book to the shelf"""
+input AddBookInput {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book"""
+  externalId: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The title of the book"""
+  title: String!
+}
+
 """Error object for authentication operations"""
 type AuthError {
   """Error code"""
@@ -39,6 +63,75 @@ type AuthErrorResult {
 
   """Whether the operation can be retried"""
   retryable: Boolean
+}
+
+"""A book from the search results"""
+type Book {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The unique identifier of the book"""
+  id: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The title of the book"""
+  title: String!
+}
+
+"""Detailed information about a book"""
+type BookDetail {
+  """The Amazon URL for the book"""
+  amazonUrl: String
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The categories/genres of the book"""
+  categories: [String!]
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The description of the book"""
+  description: String
+
+  """The Google Books URL for the book (deprecated, use rakutenBooksUrl)"""
+  googleBooksUrl: String @deprecated(reason: "Use rakutenBooksUrl instead")
+
+  """The unique identifier of the book"""
+  id: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The number of pages in the book"""
+  pageCount: Int
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The Rakuten Books URL for the book"""
+  rakutenBooksUrl: String
+
+  """The title of the book"""
+  title: String!
+
+  """The user's reading record for this book (if added to shelf)"""
+  userBook: UserBook
 }
 
 """
@@ -83,14 +176,17 @@ type Mutation {
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
 
-  """Update the reading status of a book in the user's shelf"""
-  updateReadingStatus(userBookId: Int!, status: ReadingStatus!): UserBook!
-
-  """Update the reading note of a book in the user's shelf"""
-  updateReadingNote(userBookId: Int!, note: String!): UserBook!
-
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
+
+  """Update the current user's profile"""
+  updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
+
+  """Update the reading note of a book in the user's shelf"""
+  updateReadingNote(note: String!, userBookId: Int!): UserBook!
+
+  """Update the reading status of a book in the user's shelf"""
+  updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
@@ -111,26 +207,46 @@ type MutationRegisterUserSuccess {
   data: User!
 }
 
+union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
+
+type MutationUpdateProfileSuccess {
+  data: User!
+}
+
 type Query {
+  """Get detailed information about a book by ID"""
+  bookDetail(bookId: String!): BookDetail!
   health: String
 
   """Get the currently authenticated user"""
   me: MeResult!
 
+  """Get books in the user's shelf with pagination, sorting, and search"""
+  myShelf(input: MyShelfInput): MyShelfResult!
+
   """Search for a book by ISBN"""
   searchBookByISBN(isbn: String!): Book
 
-  """Search for books by keyword"""
-  searchBooks(query: String!, limit: Int, offset: Int): SearchBooksResult!
-
-  """Get detailed information about a book by ID"""
-  bookDetail(bookId: String!): BookDetail!
+  """Search for books by keyword (matches title, author, etc.)"""
+  searchBooks(limit: Int, offset: Int, query: String!): SearchBooksResult!
 
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
+}
 
-  """Get books in the user's shelf with pagination, sorting, and search"""
-  myShelf(input: MyShelfInput): MyShelfResult!
+"""Reading status of a book in the user's shelf"""
+enum ReadingStatus {
+  """Unread (backlog)"""
+  BACKLOG
+
+  """Finished reading"""
+  COMPLETED
+
+  """Dropped/Not reading"""
+  DROPPED
+
+  """Currently reading"""
+  READING
 }
 
 """Sort field for books in shelf"""
@@ -199,8 +315,32 @@ input RegisterUserInput {
   password: String!
 }
 
+"""Search results containing a list of books"""
+type SearchBooksResult {
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+
+  """The list of books found"""
+  items: [Book!]!
+
+  """The total number of books found"""
+  totalCount: Int!
+}
+
+"""Input for updating user profile"""
+input UpdateProfileInput {
+  """User display name"""
+  name: String!
+}
+
 """A user in the system"""
 type User {
+  """The URL of the user's avatar image"""
+  avatarUrl: String
+
+  """The number of books in the user's shelf"""
+  bookCount: Int!
+
   """When the user was created"""
   createdAt: DateTime
 
@@ -210,165 +350,63 @@ type User {
   """The unique identifier of the user"""
   id: Int
 
+  """The display name of the user"""
+  name: String
+
   """When the user was last updated"""
   updatedAt: DateTime
 }
 
-"""A book from the search results"""
-type Book {
-  """The unique identifier of the book"""
-  id: String!
-
-  """The title of the book"""
-  title: String!
-
-  """The authors of the book"""
-  authors: [String!]!
-
-  """The publisher of the book"""
-  publisher: String
-
-  """The publication date of the book"""
-  publishedDate: String
-
-  """The ISBN of the book"""
-  isbn: String
-
-  """The cover image URL of the book"""
-  coverImageUrl: String
-}
-
-"""Search results containing a list of books"""
-type SearchBooksResult {
-  """The list of books found"""
-  items: [Book!]!
-
-  """The total number of books found"""
-  totalCount: Int!
-
-  """Whether there are more books to fetch"""
-  hasMore: Boolean!
-}
-
-"""Input for adding a book to the shelf"""
-input AddBookInput {
-  """The external ID of the book"""
-  externalId: String!
-
-  """The title of the book"""
-  title: String!
-
-  """The authors of the book"""
-  authors: [String!]!
-
-  """The publisher of the book"""
-  publisher: String
-
-  """The publication date of the book"""
-  publishedDate: String
-
-  """The ISBN of the book"""
-  isbn: String
-
-  """The cover image URL of the book"""
-  coverImageUrl: String
-}
-
-"""Reading status of a book in the user's shelf"""
-enum ReadingStatus {
-  """Unread (backlog)"""
-  BACKLOG
-  """Currently reading"""
-  READING
-  """Finished reading"""
-  COMPLETED
-  """Dropped/Not reading"""
-  DROPPED
-}
-
 """A book in the user's shelf"""
 type UserBook {
-  """The unique identifier of the user book"""
-  id: Int!
-
-  """The external ID of the book"""
-  externalId: String!
-
-  """The title of the book"""
-  title: String!
-
-  """The authors of the book"""
-  authors: [String!]!
-
-  """The publisher of the book"""
-  publisher: String
-
-  """The publication date of the book"""
-  publishedDate: String
-
-  """The ISBN of the book"""
-  isbn: String
-
-  """The cover image URL of the book"""
-  coverImageUrl: String
-
   """When the book was added to the shelf"""
   addedAt: DateTime!
 
-  """The reading status of the book"""
-  readingStatus: ReadingStatus!
+  """The authors of the book"""
+  authors: [String!]!
 
   """When the book was marked as completed"""
   completedAt: DateTime
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book"""
+  externalId: String!
+
+  """The unique identifier of the user book"""
+  id: Int!
+
+  """The ISBN of the book"""
+  isbn: String
 
   """User's reading note for the book"""
   note: String
 
   """When the note was last updated"""
   noteUpdatedAt: DateTime
-}
-
-"""Detailed information about a book"""
-type BookDetail {
-  """The unique identifier of the book"""
-  id: String!
-
-  """The title of the book"""
-  title: String!
-
-  """The authors of the book"""
-  authors: [String!]!
-
-  """The publisher of the book"""
-  publisher: String
 
   """The publication date of the book"""
   publishedDate: String
 
-  """The number of pages in the book"""
-  pageCount: Int
+  """The publisher of the book"""
+  publisher: String
 
-  """The categories/genres of the book"""
-  categories: [String!]
+  """The reading status of the book"""
+  readingStatus: ReadingStatus!
 
-  """The description of the book"""
-  description: String
+  """The title of the book"""
+  title: String!
+}
 
-  """The ISBN of the book"""
-  isbn: String
+"""Validation error for user input"""
+type ValidationError {
+  """Error code"""
+  code: String
 
-  """The cover image URL of the book"""
-  coverImageUrl: String
+  """Field that caused the error, if applicable"""
+  field: String
 
-  """The Amazon URL for the book"""
-  amazonUrl: String
-
-  """The Google Books URL for the book (deprecated, use rakutenBooksUrl)"""
-  googleBooksUrl: String @deprecated(reason: "Use rakutenBooksUrl instead")
-
-  """The Rakuten Books URL for the book"""
-  rakutenBooksUrl: String
-
-  """The user's reading record for this book (if added to shelf)"""
-  userBook: UserBook
+  """Human-readable error message"""
+  message: String
 }

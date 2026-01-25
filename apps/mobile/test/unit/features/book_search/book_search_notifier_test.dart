@@ -7,10 +7,17 @@ import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
+import 'package:shelfie/features/book_search/data/search_history_repository.dart';
+import 'package:shelfie/features/book_search/domain/search_history_entry.dart';
 
 class MockBookSearchRepository extends Mock implements BookSearchRepository {}
 
 class MockSecureStorageService extends Mock implements SecureStorageService {}
+
+class MockSearchHistoryRepository extends Mock
+    implements SearchHistoryRepository {}
+
+class FakeSearchHistoryEntry extends Fake implements SearchHistoryEntry {}
 
 ProviderContainer createTestContainer({
   List<Override> overrides = const [],
@@ -29,15 +36,27 @@ ProviderContainer createTestContainer({
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
 
+  final mockSearchHistoryRepo = MockSearchHistoryRepository();
+  when(() => mockSearchHistoryRepo.getAll())
+      .thenAnswer((_) async => <SearchHistoryEntry>[]);
+  when(() => mockSearchHistoryRepo.add(any())).thenAnswer((_) async {});
+  when(() => mockSearchHistoryRepo.remove(any())).thenAnswer((_) async {});
+  when(() => mockSearchHistoryRepo.clear()).thenAnswer((_) async {});
+
   return ProviderContainer(
     overrides: [
       secureStorageServiceProvider.overrideWithValue(mockStorage),
+      searchHistoryRepositoryProvider.overrideWithValue(mockSearchHistoryRepo),
       ...overrides,
     ],
   );
 }
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(FakeSearchHistoryEntry());
+  });
+
   group('BookSearchState', () {
     test('initial 状態を作成できる', () {
       const state = BookSearchState.initial();

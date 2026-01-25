@@ -39,7 +39,8 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GRefreshTokenInput,
         GRegisterUserInput,
         GShelfSortField,
-        GSortOrder;
+        GSortOrder,
+        GUpdateProfileInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
 import 'package:shelfie/core/state/__generated__/my_shelf.data.gql.dart'
@@ -48,6 +49,29 @@ import 'package:shelfie/core/state/__generated__/my_shelf.req.gql.dart'
     show GMyShelfReq;
 import 'package:shelfie/core/state/__generated__/my_shelf.var.gql.dart'
     show GMyShelfVars;
+import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart'
+    show
+        GGetMyProfileData_me,
+        GGetMyProfileData,
+        GGetMyProfileData_me__asAuthErrorResult,
+        GGetMyProfileData_me__asUser,
+        GGetMyProfileData_me__base;
+import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.gql.dart'
+    show GGetMyProfileReq;
+import 'package:shelfie/features/account/data/__generated__/get_my_profile.var.gql.dart'
+    show GGetMyProfileVars;
+import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart'
+    show
+        GUpdateProfileData_updateProfile,
+        GUpdateProfileData,
+        GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess,
+        GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data,
+        GUpdateProfileData_updateProfile__asValidationError,
+        GUpdateProfileData_updateProfile__base;
+import 'package:shelfie/features/account/data/__generated__/update_profile.req.gql.dart'
+    show GUpdateProfileReq;
+import 'package:shelfie/features/account/data/__generated__/update_profile.var.gql.dart'
+    show GUpdateProfileVars;
 import 'package:shelfie/features/book_detail/data/__generated__/book_detail.data.gql.dart'
     show
         GBookDetailData,
@@ -137,9 +161,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
   ..add(GGetMeData_me.serializer)
+  ..add(GGetMyProfileData_me.serializer)
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
+  ..add(GUpdateProfileData_updateProfile.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GAddBookInput,
@@ -159,6 +185,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GGetMeData_me__base,
   GGetMeReq,
   GGetMeVars,
+  GGetMyProfileData,
+  GGetMyProfileData_me__asAuthErrorResult,
+  GGetMyProfileData_me__asUser,
+  GGetMyProfileData_me__base,
+  GGetMyProfileReq,
+  GGetMyProfileVars,
   GLoginUserData,
   GLoginUserData_loginUser__asAuthError,
   GLoginUserData_loginUser__asMutationLoginUserSuccess,
@@ -210,6 +242,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSearchBooksVars,
   GShelfSortField,
   GSortOrder,
+  GUpdateProfileData,
+  GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess,
+  GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data,
+  GUpdateProfileData_updateProfile__asValidationError,
+  GUpdateProfileData_updateProfile__base,
+  GUpdateProfileInput,
+  GUpdateProfileReq,
+  GUpdateProfileVars,
   GUpdateReadingNoteData,
   GUpdateReadingNoteData_updateReadingNote,
   GUpdateReadingNoteReq,

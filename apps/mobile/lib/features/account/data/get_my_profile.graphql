@@ -1,0 +1,16 @@
+query GetMyProfile {
+  me {
+    ... on User {
+      id
+      email
+      name
+      avatarUrl
+      createdAt
+      bookCount
+    }
+    ... on AuthErrorResult {
+      code
+      message
+    }
+  }
+}

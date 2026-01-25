@@ -54,6 +54,7 @@ export interface BookShelfRepository {
     userId: number,
     input: GetUserBooksInput,
   ): Promise<GetUserBooksResult>;
+  countUserBooks(userId: number): Promise<number>;
 }
 
 export function createBookShelfRepository(
@@ -164,6 +165,14 @@ export function createBookShelfRepository(
         items,
         totalCount: countResult[0]?.count ?? 0,
       };
+    },
+
+    async countUserBooks(userId: number): Promise<number> {
+      const result = await db
+        .select({ count: count() })
+        .from(userBooks)
+        .where(eq(userBooks.userId, userId));
+      return result[0]?.count ?? 0;
     },
   };
 }

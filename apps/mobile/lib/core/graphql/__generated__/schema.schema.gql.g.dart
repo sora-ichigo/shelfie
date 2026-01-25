@@ -63,6 +63,38 @@ final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
   _$gAuthErrorCodeUSER_NOT_FOUND,
 ]);
 
+const GReadingStatus _$gReadingStatusBACKLOG =
+    const GReadingStatus._('BACKLOG');
+const GReadingStatus _$gReadingStatusCOMPLETED =
+    const GReadingStatus._('COMPLETED');
+const GReadingStatus _$gReadingStatusDROPPED =
+    const GReadingStatus._('DROPPED');
+const GReadingStatus _$gReadingStatusREADING =
+    const GReadingStatus._('READING');
+
+GReadingStatus _$gReadingStatusValueOf(String name) {
+  switch (name) {
+    case 'BACKLOG':
+      return _$gReadingStatusBACKLOG;
+    case 'COMPLETED':
+      return _$gReadingStatusCOMPLETED;
+    case 'DROPPED':
+      return _$gReadingStatusDROPPED;
+    case 'READING':
+      return _$gReadingStatusREADING;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<GReadingStatus> _$gReadingStatusValues =
+    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
+  _$gReadingStatusBACKLOG,
+  _$gReadingStatusCOMPLETED,
+  _$gReadingStatusDROPPED,
+  _$gReadingStatusREADING,
+]);
+
 const GShelfSortField _$gShelfSortFieldADDED_AT =
     const GShelfSortField._('ADDED_AT');
 const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
@@ -109,42 +141,14 @@ final BuiltSet<GSortOrder> _$gSortOrderValues =
   _$gSortOrderDESC,
 ]);
 
-const GReadingStatus _$gReadingStatusBACKLOG =
-    const GReadingStatus._('BACKLOG');
-const GReadingStatus _$gReadingStatusREADING =
-    const GReadingStatus._('READING');
-const GReadingStatus _$gReadingStatusCOMPLETED =
-    const GReadingStatus._('COMPLETED');
-const GReadingStatus _$gReadingStatusDROPPED =
-    const GReadingStatus._('DROPPED');
-
-GReadingStatus _$gReadingStatusValueOf(String name) {
-  switch (name) {
-    case 'BACKLOG':
-      return _$gReadingStatusBACKLOG;
-    case 'READING':
-      return _$gReadingStatusREADING;
-    case 'COMPLETED':
-      return _$gReadingStatusCOMPLETED;
-    case 'DROPPED':
-      return _$gReadingStatusDROPPED;
-    default:
-      throw new ArgumentError(name);
-  }
-}
-
-final BuiltSet<GReadingStatus> _$gReadingStatusValues =
-    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
-  _$gReadingStatusBACKLOG,
-  _$gReadingStatusREADING,
-  _$gReadingStatusCOMPLETED,
-  _$gReadingStatusDROPPED,
-]);
-
+Serializer<GAddBookInput> _$gAddBookInputSerializer =
+    new _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
     new _$GAuthErrorCodeSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     new _$GLoginUserInputSerializer();
+Serializer<GReadingStatus> _$gReadingStatusSerializer =
+    new _$GReadingStatusSerializer();
 Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
     new _$GShelfSortFieldSerializer();
 Serializer<GSortOrder> _$gSortOrderSerializer = new _$GSortOrderSerializer();
@@ -154,10 +158,110 @@ Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
     new _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
     new _$GRegisterUserInputSerializer();
-Serializer<GAddBookInput> _$gAddBookInputSerializer =
-    new _$GAddBookInputSerializer();
-Serializer<GReadingStatus> _$gReadingStatusSerializer =
-    new _$GReadingStatusSerializer();
+Serializer<GUpdateProfileInput> _$gUpdateProfileInputSerializer =
+    new _$GUpdateProfileInputSerializer();
+
+class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
+  @override
+  final Iterable<Type> types = const [GAddBookInput, _$GAddBookInput];
+  @override
+  final String wireName = 'GAddBookInput';
+
+  @override
+  Iterable<Object?> serialize(Serializers serializers, GAddBookInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'authors',
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+      'externalId',
+      serializers.serialize(object.externalId,
+          specifiedType: const FullType(String)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.coverImageUrl;
+    if (value != null) {
+      result
+        ..add('coverImageUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.isbn;
+    if (value != null) {
+      result
+        ..add('isbn')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.publishedDate;
+    if (value != null) {
+      result
+        ..add('publishedDate')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.publisher;
+    if (value != null) {
+      result
+        ..add('publisher')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GAddBookInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GAddBookInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'authors':
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'coverImageUrl':
+          result.coverImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'externalId':
+          result.externalId = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'isbn':
+          result.isbn = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'publishedDate':
+          result.publishedDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'publisher':
+          result.publisher = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
 
 class _$GAuthErrorCodeSerializer
     implements PrimitiveSerializer<GAuthErrorCode> {
@@ -224,6 +328,24 @@ class _$GLoginUserInputSerializer
 
     return result.build();
   }
+}
+
+class _$GReadingStatusSerializer
+    implements PrimitiveSerializer<GReadingStatus> {
+  @override
+  final Iterable<Type> types = const <Type>[GReadingStatus];
+  @override
+  final String wireName = 'GReadingStatus';
+
+  @override
+  Object serialize(Serializers serializers, GReadingStatus object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GReadingStatus deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GReadingStatus.valueOf(serialized as String);
 }
 
 class _$GShelfSortFieldSerializer
@@ -440,64 +562,33 @@ class _$GRegisterUserInputSerializer
   }
 }
 
-class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
+class _$GUpdateProfileInputSerializer
+    implements StructuredSerializer<GUpdateProfileInput> {
   @override
-  final Iterable<Type> types = const [GAddBookInput, _$GAddBookInput];
+  final Iterable<Type> types = const [
+    GUpdateProfileInput,
+    _$GUpdateProfileInput
+  ];
   @override
-  final String wireName = 'GAddBookInput';
+  final String wireName = 'GUpdateProfileInput';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GAddBookInput object,
+  Iterable<Object?> serialize(
+      Serializers serializers, GUpdateProfileInput object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
-      'externalId',
-      serializers.serialize(object.externalId,
-          specifiedType: const FullType(String)),
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
-      'authors',
-      serializers.serialize(object.authors,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
+      'name',
+      serializers.serialize(object.name, specifiedType: const FullType(String)),
     ];
-    Object? value;
-    value = object.publisher;
-    if (value != null) {
-      result
-        ..add('publisher')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.publishedDate;
-    if (value != null) {
-      result
-        ..add('publishedDate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.isbn;
-    if (value != null) {
-      result
-        ..add('isbn')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.coverImageUrl;
-    if (value != null) {
-      result
-        ..add('coverImageUrl')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
+
     return result;
   }
 
   @override
-  GAddBookInput deserialize(
+  GUpdateProfileInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookInputBuilder();
+    final result = new GUpdateProfileInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -505,35 +596,9 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'externalId':
-          result.externalId = serializers.deserialize(value,
+        case 'name':
+          result.name = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
-          break;
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-        case 'authors':
-          result.authors.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
-          break;
-        case 'publisher':
-          result.publisher = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'publishedDate':
-          result.publishedDate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'isbn':
-          result.isbn = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'coverImageUrl':
-          result.coverImageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -542,22 +607,182 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   }
 }
 
-class _$GReadingStatusSerializer
-    implements PrimitiveSerializer<GReadingStatus> {
+class _$GAddBookInput extends GAddBookInput {
   @override
-  final Iterable<Type> types = const <Type>[GReadingStatus];
+  final BuiltList<String> authors;
   @override
-  final String wireName = 'GReadingStatus';
+  final String? coverImageUrl;
+  @override
+  final String externalId;
+  @override
+  final String? isbn;
+  @override
+  final String? publishedDate;
+  @override
+  final String? publisher;
+  @override
+  final String title;
+
+  factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
+      (new GAddBookInputBuilder()..update(updates))._build();
+
+  _$GAddBookInput._(
+      {required this.authors,
+      this.coverImageUrl,
+      required this.externalId,
+      this.isbn,
+      this.publishedDate,
+      this.publisher,
+      required this.title})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        externalId, r'GAddBookInput', 'externalId');
+    BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
+  }
 
   @override
-  Object serialize(Serializers serializers, GReadingStatus object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  GAddBookInput rebuild(void Function(GAddBookInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
-  GReadingStatus deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GReadingStatus.valueOf(serialized as String);
+  GAddBookInputBuilder toBuilder() => new GAddBookInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GAddBookInput &&
+        authors == other.authors &&
+        coverImageUrl == other.coverImageUrl &&
+        externalId == other.externalId &&
+        isbn == other.isbn &&
+        publishedDate == other.publishedDate &&
+        publisher == other.publisher &&
+        title == other.title;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, authors.hashCode);
+    _$hash = $jc(_$hash, coverImageUrl.hashCode);
+    _$hash = $jc(_$hash, externalId.hashCode);
+    _$hash = $jc(_$hash, isbn.hashCode);
+    _$hash = $jc(_$hash, publishedDate.hashCode);
+    _$hash = $jc(_$hash, publisher.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GAddBookInput')
+          ..add('authors', authors)
+          ..add('coverImageUrl', coverImageUrl)
+          ..add('externalId', externalId)
+          ..add('isbn', isbn)
+          ..add('publishedDate', publishedDate)
+          ..add('publisher', publisher)
+          ..add('title', title))
+        .toString();
+  }
+}
+
+class GAddBookInputBuilder
+    implements Builder<GAddBookInput, GAddBookInputBuilder> {
+  _$GAddBookInput? _$v;
+
+  ListBuilder<String>? _authors;
+  ListBuilder<String> get authors =>
+      _$this._authors ??= new ListBuilder<String>();
+  set authors(ListBuilder<String>? authors) => _$this._authors = authors;
+
+  String? _coverImageUrl;
+  String? get coverImageUrl => _$this._coverImageUrl;
+  set coverImageUrl(String? coverImageUrl) =>
+      _$this._coverImageUrl = coverImageUrl;
+
+  String? _externalId;
+  String? get externalId => _$this._externalId;
+  set externalId(String? externalId) => _$this._externalId = externalId;
+
+  String? _isbn;
+  String? get isbn => _$this._isbn;
+  set isbn(String? isbn) => _$this._isbn = isbn;
+
+  String? _publishedDate;
+  String? get publishedDate => _$this._publishedDate;
+  set publishedDate(String? publishedDate) =>
+      _$this._publishedDate = publishedDate;
+
+  String? _publisher;
+  String? get publisher => _$this._publisher;
+  set publisher(String? publisher) => _$this._publisher = publisher;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  GAddBookInputBuilder();
+
+  GAddBookInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _authors = $v.authors.toBuilder();
+      _coverImageUrl = $v.coverImageUrl;
+      _externalId = $v.externalId;
+      _isbn = $v.isbn;
+      _publishedDate = $v.publishedDate;
+      _publisher = $v.publisher;
+      _title = $v.title;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GAddBookInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GAddBookInput;
+  }
+
+  @override
+  void update(void Function(GAddBookInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GAddBookInput build() => _build();
+
+  _$GAddBookInput _build() {
+    _$GAddBookInput _$result;
+    try {
+      _$result = _$v ??
+          new _$GAddBookInput._(
+              authors: authors.build(),
+              coverImageUrl: coverImageUrl,
+              externalId: BuiltValueNullFieldError.checkNotNull(
+                  externalId, r'GAddBookInput', 'externalId'),
+              isbn: isbn,
+              publishedDate: publishedDate,
+              publisher: publisher,
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GAddBookInput', 'title'));
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'authors';
+        authors.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'GAddBookInput', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
 }
 
 class _$GLoginUserInput extends GLoginUserInput {
@@ -977,179 +1202,87 @@ class GRegisterUserInputBuilder
   }
 }
 
-class _$GAddBookInput extends GAddBookInput {
+class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
-  final String externalId;
-  @override
-  final String title;
-  @override
-  final BuiltList<String> authors;
-  @override
-  final String? publisher;
-  @override
-  final String? publishedDate;
-  @override
-  final String? isbn;
-  @override
-  final String? coverImageUrl;
+  final String name;
 
-  factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
-      (new GAddBookInputBuilder()..update(updates))._build();
+  factory _$GUpdateProfileInput(
+          [void Function(GUpdateProfileInputBuilder)? updates]) =>
+      (new GUpdateProfileInputBuilder()..update(updates))._build();
 
-  _$GAddBookInput._(
-      {required this.externalId,
-      required this.title,
-      required this.authors,
-      this.publisher,
-      this.publishedDate,
-      this.isbn,
-      this.coverImageUrl})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GAddBookInput', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
-    BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
+  _$GUpdateProfileInput._({required this.name}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'GUpdateProfileInput', 'name');
   }
 
   @override
-  GAddBookInput rebuild(void Function(GAddBookInputBuilder) updates) =>
+  GUpdateProfileInput rebuild(
+          void Function(GUpdateProfileInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GAddBookInputBuilder toBuilder() => new GAddBookInputBuilder()..replace(this);
+  GUpdateProfileInputBuilder toBuilder() =>
+      new GUpdateProfileInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GAddBookInput &&
-        externalId == other.externalId &&
-        title == other.title &&
-        authors == other.authors &&
-        publisher == other.publisher &&
-        publishedDate == other.publishedDate &&
-        isbn == other.isbn &&
-        coverImageUrl == other.coverImageUrl;
+    return other is GUpdateProfileInput && name == other.name;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
-    _$hash = $jc(_$hash, externalId.hashCode);
-    _$hash = $jc(_$hash, title.hashCode);
-    _$hash = $jc(_$hash, authors.hashCode);
-    _$hash = $jc(_$hash, publisher.hashCode);
-    _$hash = $jc(_$hash, publishedDate.hashCode);
-    _$hash = $jc(_$hash, isbn.hashCode);
-    _$hash = $jc(_$hash, coverImageUrl.hashCode);
+    _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GAddBookInput')
-          ..add('externalId', externalId)
-          ..add('title', title)
-          ..add('authors', authors)
-          ..add('publisher', publisher)
-          ..add('publishedDate', publishedDate)
-          ..add('isbn', isbn)
-          ..add('coverImageUrl', coverImageUrl))
+    return (newBuiltValueToStringHelper(r'GUpdateProfileInput')
+          ..add('name', name))
         .toString();
   }
 }
 
-class GAddBookInputBuilder
-    implements Builder<GAddBookInput, GAddBookInputBuilder> {
-  _$GAddBookInput? _$v;
+class GUpdateProfileInputBuilder
+    implements Builder<GUpdateProfileInput, GUpdateProfileInputBuilder> {
+  _$GUpdateProfileInput? _$v;
 
-  String? _externalId;
-  String? get externalId => _$this._externalId;
-  set externalId(String? externalId) => _$this._externalId = externalId;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  String? _title;
-  String? get title => _$this._title;
-  set title(String? title) => _$this._title = title;
+  GUpdateProfileInputBuilder();
 
-  ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
-  set authors(ListBuilder<String>? authors) => _$this._authors = authors;
-
-  String? _publisher;
-  String? get publisher => _$this._publisher;
-  set publisher(String? publisher) => _$this._publisher = publisher;
-
-  String? _publishedDate;
-  String? get publishedDate => _$this._publishedDate;
-  set publishedDate(String? publishedDate) =>
-      _$this._publishedDate = publishedDate;
-
-  String? _isbn;
-  String? get isbn => _$this._isbn;
-  set isbn(String? isbn) => _$this._isbn = isbn;
-
-  String? _coverImageUrl;
-  String? get coverImageUrl => _$this._coverImageUrl;
-  set coverImageUrl(String? coverImageUrl) =>
-      _$this._coverImageUrl = coverImageUrl;
-
-  GAddBookInputBuilder();
-
-  GAddBookInputBuilder get _$this {
+  GUpdateProfileInputBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _externalId = $v.externalId;
-      _title = $v.title;
-      _authors = $v.authors.toBuilder();
-      _publisher = $v.publisher;
-      _publishedDate = $v.publishedDate;
-      _isbn = $v.isbn;
-      _coverImageUrl = $v.coverImageUrl;
+      _name = $v.name;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(GAddBookInput other) {
+  void replace(GUpdateProfileInput other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GAddBookInput;
+    _$v = other as _$GUpdateProfileInput;
   }
 
   @override
-  void update(void Function(GAddBookInputBuilder)? updates) {
+  void update(void Function(GUpdateProfileInputBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GAddBookInput build() => _build();
+  GUpdateProfileInput build() => _build();
 
-  _$GAddBookInput _build() {
-    _$GAddBookInput _$result;
-    try {
-      _$result = _$v ??
-          new _$GAddBookInput._(
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GAddBookInput', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GAddBookInput', 'title'),
-              authors: authors.build(),
-              publisher: publisher,
-              publishedDate: publishedDate,
-              isbn: isbn,
-              coverImageUrl: coverImageUrl);
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'authors';
-        authors.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GAddBookInput', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+  _$GUpdateProfileInput _build() {
+    final _$result = _$v ??
+        new _$GUpdateProfileInput._(
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'GUpdateProfileInput', 'name'));
     replace(_$result);
     return _$result;
   }

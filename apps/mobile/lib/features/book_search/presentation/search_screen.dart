@@ -9,11 +9,15 @@ import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
+import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
+import 'package:shelfie/features/book_search/application/search_history_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/recent_books_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/search_history_overlay.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -25,18 +29,36 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _searchController = TextEditingController();
+  final _focusNode = FocusNode();
   final _addingBooks = <String>{};
   final _removingBooks = <String>{};
+  bool _isSearchFieldFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_onFocusChange);
+  }
 
   @override
   void dispose() {
+    _focusNode
+      ..removeListener(_onFocusChange)
+      ..dispose();
     _searchController.dispose();
     super.dispose();
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      _isSearchFieldFocused = _focusNode.hasFocus;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(bookSearchNotifierProvider);
+    final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
 
     ref.listen<BookSearchState>(
       bookSearchNotifierProvider,
@@ -52,28 +74,60 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
     );
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScreenHeader(
-              title: '検索',
-              onProfileTap: () => context.push(AppRoutes.account),
-            ),
-            Padding(
-              padding: AppSpacing.vertical(AppSpacing.sm),
-              child: SearchBarWidget(
-                controller: _searchController,
-                onChanged: _onSearchChanged,
-                onScanPressed: _onScanPressed,
+    return GestureDetector(
+      onTap: _dismissOverlay,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ScreenHeader(
+                title: '検索',
+                onProfileTap: () => context.push(AppRoutes.account),
               ),
-            ),
-            Expanded(
-              child: _buildBody(state),
-            ),
-          ],
+              Padding(
+                padding: AppSpacing.vertical(AppSpacing.sm),
+                child: SearchBarWidget(
+                  controller: _searchController,
+                  focusNode: _focusNode,
+                  onChanged: _onSearchChanged,
+                  onSubmitted: _onSearchSubmitted,
+                  onScanPressed: _onScanPressed,
+                ),
+              ),
+              if (_isSearchFieldFocused &&
+                  state is BookSearchInitial &&
+                  searchHistoryAsync.hasValue)
+                _buildSearchHistoryOverlay(searchHistoryAsync.value ?? []),
+              Expanded(
+                child: _buildBody(state),
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSearchHistoryOverlay(
+    List<dynamic> entries,
+  ) {
+    final currentQuery = _searchController.text;
+    final filteredEntries = ref
+        .read(searchHistoryNotifierProvider.notifier)
+        .getFilteredHistory(currentQuery);
+
+    if (filteredEntries.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      constraints: const BoxConstraints(maxHeight: 300),
+      child: SearchHistoryOverlay(
+        entries: filteredEntries,
+        onHistorySelected: _onHistorySelected,
+        onHistoryDeleted: _onHistoryDeleted,
+        onClearAll: _onClearAllHistory,
       ),
     );
   }
@@ -106,9 +160,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Widget _buildInitialState() {
-    return const EmptyState(
-      icon: Icons.search,
-      message: '書籍を検索してください',
+    final recentBooksAsync = ref.watch(recentBooksNotifierProvider);
+
+    return recentBooksAsync.when(
+      data: (recentBooks) {
+        if (recentBooks.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return SingleChildScrollView(
+          child: RecentBooksSection(
+            books: recentBooks,
+            onBookTap: (bookId) =>
+                context.push(AppRoutes.bookDetail(bookId: bookId)),
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 
@@ -160,8 +229,34 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
+  void _dismissOverlay() {
+    _focusNode.unfocus();
+  }
+
   void _onSearchChanged(String query) {
+    setState(() {});
     ref.read(bookSearchNotifierProvider.notifier).searchBooksWithDebounce(query);
+  }
+
+  void _onSearchSubmitted(String query) {
+    if (query.isEmpty) return;
+    _focusNode.unfocus();
+    ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
+    ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+  }
+
+  void _onHistorySelected(String query) {
+    _searchController.text = query;
+    _focusNode.unfocus();
+    ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
+  }
+
+  void _onHistoryDeleted(String query) {
+    ref.read(searchHistoryNotifierProvider.notifier).removeHistory(query);
+  }
+
+  void _onClearAllHistory() {
+    ref.read(searchHistoryNotifierProvider.notifier).clearAll();
   }
 
   Future<void> _onScanPressed() async {
@@ -189,6 +284,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onBookTap(Book book) {
+    final query = _searchController.text;
+    if (query.isNotEmpty) {
+      ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+    }
     context.push(AppRoutes.bookDetail(bookId: book.id));
   }
 

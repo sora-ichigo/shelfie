@@ -1,0 +1,19 @@
+mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input) {
+    ... on MutationUpdateProfileSuccess {
+      data {
+        id
+        email
+        name
+        avatarUrl
+        createdAt
+        bookCount
+      }
+    }
+    ... on ValidationError {
+      code
+      message
+      field
+    }
+  }
+}

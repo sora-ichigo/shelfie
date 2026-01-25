@@ -81,7 +81,9 @@ linter:
     null_check_on_nullable_type_parameter: true
 
     # Error handling
-    only_throw_errors: true
+    # Disable only_throw_errors: We use Failure sealed class with freezed
+    # which doesn't extend Exception but provides exhaustive pattern matching
+    only_throw_errors: false
     avoid_catching_errors: true
 
     # Async
