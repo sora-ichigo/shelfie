@@ -137,7 +137,9 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
                 vertical: AppSpacing.xs,
               ),
               decoration: BoxDecoration(
-                color: appColors.surfaceElevated,
+                color: _isSortMenuOpen
+                    ? Color.lerp(appColors.surfaceElevated, Colors.white, 0.1)
+                    : appColors.surfaceElevated,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
               child: Row(
