@@ -91,6 +91,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   controller: _searchController,
                   focusNode: _focusNode,
                   onChanged: _onSearchChanged,
+                  onSubmitted: _onSearchSubmitted,
                   onScanPressed: _onScanPressed,
                 ),
               ),
@@ -164,38 +165,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     return recentBooksAsync.when(
       data: (recentBooks) {
         if (recentBooks.isEmpty) {
-          return const EmptyState(
-            icon: Icons.search,
-            message: '書籍を検索してください',
-          );
+          return const SizedBox.shrink();
         }
 
         return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RecentBooksSection(
-                books: recentBooks,
-                onBookTap: (bookId) =>
-                    context.push(AppRoutes.bookDetail(bookId: bookId)),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              const EmptyState(
-                icon: Icons.search,
-                message: '書籍を検索してください',
-              ),
-            ],
+          child: RecentBooksSection(
+            books: recentBooks,
+            onBookTap: (bookId) =>
+                context.push(AppRoutes.bookDetail(bookId: bookId)),
           ),
         );
       },
-      loading: () => const EmptyState(
-        icon: Icons.search,
-        message: '書籍を検索してください',
-      ),
-      error: (_, __) => const EmptyState(
-        icon: Icons.search,
-        message: '書籍を検索してください',
-      ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 
@@ -256,6 +238,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(bookSearchNotifierProvider.notifier).searchBooksWithDebounce(query);
   }
 
+  void _onSearchSubmitted(String query) {
+    if (query.isEmpty) return;
+    _focusNode.unfocus();
+    ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
+    ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+  }
+
   void _onHistorySelected(String query) {
     _searchController.text = query;
     _focusNode.unfocus();
@@ -295,6 +284,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onBookTap(Book book) {
+    final query = _searchController.text;
+    if (query.isNotEmpty) {
+      ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+    }
     context.push(AppRoutes.bookDetail(bookId: book.id));
   }
 
