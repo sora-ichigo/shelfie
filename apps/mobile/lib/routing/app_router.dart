@@ -254,10 +254,8 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) => AccountScreen(
         onClose: () => context.pop(),
         onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
-        onNavigateToPremium: () => _showStubSnackbar(context, 'プレミアムプラン'),
         onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
         onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
-        onNavigateToTheme: () => _showStubSnackbar(context, 'テーマ'),
       ),
       routes: [
         GoRoute(

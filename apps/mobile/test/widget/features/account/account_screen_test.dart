@@ -22,10 +22,8 @@ void main() {
   Widget buildTestAccountScreen({
     required AsyncValue<UserProfile> accountState,
     VoidCallback? onNavigateToProfileEdit,
-    VoidCallback? onNavigateToPremium,
     VoidCallback? onNavigateToNotifications,
     VoidCallback? onNavigateToPassword,
-    VoidCallback? onNavigateToTheme,
     VoidCallback? onClose,
   }) {
     return ProviderScope(
@@ -38,10 +36,8 @@ void main() {
         theme: AppTheme.theme,
         home: AccountScreen(
           onNavigateToProfileEdit: onNavigateToProfileEdit ?? () {},
-          onNavigateToPremium: onNavigateToPremium ?? () {},
           onNavigateToNotifications: onNavigateToNotifications ?? () {},
           onNavigateToPassword: onNavigateToPassword ?? () {},
-          onNavigateToTheme: onNavigateToTheme ?? () {},
           onClose: onClose,
         ),
       ),
@@ -88,10 +84,8 @@ void main() {
               theme: AppTheme.theme,
               home: AccountScreen(
                 onNavigateToProfileEdit: () {},
-                onNavigateToPremium: () {},
                 onNavigateToNotifications: () {},
                 onNavigateToPassword: () {},
-                onNavigateToTheme: () {},
               ),
             ),
           ),
@@ -117,7 +111,7 @@ void main() {
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
     });
 
-    testWidgets('displays account menu section with profile edit and premium',
+    testWidgets('displays account menu section with profile edit',
         (tester) async {
       await tester.pumpWidget(
         buildTestAccountScreen(
@@ -127,7 +121,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('プロフィール編集'), findsOneWidget);
-      expect(find.text('プレミアムプラン'), findsOneWidget);
     });
 
     testWidgets('displays settings menu section', (tester) async {
@@ -141,7 +134,6 @@ void main() {
       expect(find.text('設定'), findsOneWidget);
       expect(find.text('通知設定'), findsOneWidget);
       expect(find.text('パスワード設定'), findsOneWidget);
-      expect(find.text('テーマ'), findsOneWidget);
     });
 
     testWidgets('navigates to profile edit when tapped', (tester) async {
@@ -156,23 +148,6 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('プロフィール編集'));
-      await tester.pumpAndSettle();
-
-      expect(navigated, isTrue);
-    });
-
-    testWidgets('navigates to premium when tapped', (tester) async {
-      var navigated = false;
-
-      await tester.pumpWidget(
-        buildTestAccountScreen(
-          accountState: AsyncValue.data(testProfile),
-          onNavigateToPremium: () => navigated = true,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('プレミアムプラン'));
       await tester.pumpAndSettle();
 
       expect(navigated, isTrue);
@@ -218,26 +193,6 @@ void main() {
       expect(navigated, isTrue);
     });
 
-    testWidgets('navigates to theme when tapped', (tester) async {
-      var navigated = false;
-
-      await tester.pumpWidget(
-        buildTestAccountScreen(
-          accountState: AsyncValue.data(testProfile),
-          onNavigateToTheme: () => navigated = true,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -200));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('テーマ'));
-      await tester.pumpAndSettle();
-
-      expect(navigated, isTrue);
-    });
-
     testWidgets('displays chevron icons for all menu items', (tester) async {
       await tester.pumpWidget(
         buildTestAccountScreen(
@@ -246,7 +201,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(3));
     });
 
     testWidgets('calls onClose when back button is tapped', (tester) async {

@@ -11,19 +11,15 @@ import 'package:shelfie/features/account/presentation/widgets/profile_card.dart'
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({
     required this.onNavigateToProfileEdit,
-    required this.onNavigateToPremium,
     required this.onNavigateToNotifications,
     required this.onNavigateToPassword,
-    required this.onNavigateToTheme,
     this.onClose,
     super.key,
   });
 
   final VoidCallback onNavigateToProfileEdit;
-  final VoidCallback onNavigateToPremium;
   final VoidCallback onNavigateToNotifications;
   final VoidCallback onNavigateToPassword;
-  final VoidCallback onNavigateToTheme;
   final VoidCallback? onClose;
 
   @override
@@ -70,12 +66,6 @@ class AccountScreen extends ConsumerWidget {
                     onTap: onNavigateToProfileEdit,
                     icon: Icons.person_outline,
                   ),
-                  AccountMenuItem(
-                    title: 'プレミアムプラン',
-                    onTap: onNavigateToPremium,
-                    icon: Icons.star_outline,
-                    badge: 'PRO',
-                  ),
                 ],
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -91,12 +81,6 @@ class AccountScreen extends ConsumerWidget {
                     title: 'パスワード設定',
                     onTap: onNavigateToPassword,
                     icon: Icons.lock_outline,
-                  ),
-                  AccountMenuItem(
-                    title: 'テーマ',
-                    onTap: onNavigateToTheme,
-                    icon: Icons.palette_outlined,
-                    badge: 'ダーク',
                   ),
                 ],
               ),
