@@ -50,16 +50,12 @@ class ProfileEditForm extends StatelessWidget {
           onChanged: onEmailChanged,
           colors: colors,
           theme: theme,
-          errorText: emailError,
           keyboardType: TextInputType.emailAddress,
+          enabled: false,
         ),
-        if (emailError != null) ...[
-          const SizedBox(height: AppSpacing.xxs),
-          _buildErrorText(theme, emailError!),
-        ],
         const SizedBox(height: AppSpacing.xs),
         Text(
-          'メールアドレスを変更すると、確認メールが送信されます',
+          'アカウントのメールアドレスは変更できません',
           style: theme.textTheme.bodySmall?.copyWith(
             color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
           ),
@@ -85,13 +81,17 @@ class ProfileEditForm extends StatelessWidget {
     required ThemeData theme,
     String? errorText,
     TextInputType? keyboardType,
+    bool enabled = true,
   }) {
     return TextField(
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,
+      enabled: enabled,
       style: theme.textTheme.bodyLarge?.copyWith(
-        color: colors?.textPrimary ?? Colors.white,
+        color: enabled
+            ? (colors?.textPrimary ?? Colors.white)
+            : (colors?.textSecondary ?? const Color(0xFFA0A0A0)),
       ),
       decoration: InputDecoration(
         filled: true,

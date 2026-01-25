@@ -77,7 +77,7 @@ void main() {
       expect(find.text('test@example.com'), findsOneWidget);
     });
 
-    testWidgets('メールアドレス変更の注意書きが表示される', (tester) async {
+    testWidgets('メールアドレス変更不可の注意書きが表示される', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.dark(),
@@ -92,7 +92,26 @@ void main() {
         ),
       );
 
-      expect(find.textContaining('確認メール'), findsOneWidget);
+      expect(find.text('アカウントのメールアドレスは変更できません'), findsOneWidget);
+    });
+
+    testWidgets('メールアドレスフィールドは編集不可', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(
+            body: ProfileEditForm(
+              nameController: TextEditingController(text: 'Test User'),
+              emailController: TextEditingController(text: 'test@example.com'),
+              onNameChanged: (_) {},
+              onEmailChanged: (_) {},
+            ),
+          ),
+        ),
+      );
+
+      final emailField = tester.widget<TextField>(find.byType(TextField).last);
+      expect(emailField.enabled, isFalse);
     });
 
     testWidgets('氏名のバリデーションエラーが表示される', (tester) async {
@@ -112,25 +131,6 @@ void main() {
       );
 
       expect(find.text('氏名を入力してください'), findsOneWidget);
-    });
-
-    testWidgets('メールアドレスのバリデーションエラーが表示される', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: ProfileEditForm(
-              nameController: TextEditingController(text: 'Test User'),
-              emailController: TextEditingController(text: 'invalid'),
-              onNameChanged: (_) {},
-              onEmailChanged: (_) {},
-              emailError: '有効なメールアドレスを入力してください',
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('有効なメールアドレスを入力してください'), findsOneWidget);
     });
 
     testWidgets('氏名入力時にコールバックが呼ばれる', (tester) async {
@@ -154,25 +154,5 @@ void main() {
       expect(changedValue, equals('New Name'));
     });
 
-    testWidgets('メールアドレス入力時にコールバックが呼ばれる', (tester) async {
-      String? changedValue;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: ProfileEditForm(
-              nameController: TextEditingController(text: 'Test User'),
-              emailController: TextEditingController(text: 'test@example.com'),
-              onNameChanged: (_) {},
-              onEmailChanged: (value) => changedValue = value,
-            ),
-          ),
-        ),
-      );
-
-      await tester.enterText(find.byType(TextField).last, 'new@example.com');
-      expect(changedValue, equals('new@example.com'));
-    });
   });
 }
