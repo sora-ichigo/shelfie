@@ -35,10 +35,7 @@ class AccountMenuSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.xs,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
           child: Text(
             title,
             style: theme.textTheme.titleSmall?.copyWith(
@@ -48,10 +45,9 @@ class AccountMenuSection extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           decoration: BoxDecoration(
             color: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderRadius: BorderRadius.circular(AppSpacing.md),
           ),
           child: Column(
             children: [
