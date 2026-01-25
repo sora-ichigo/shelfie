@@ -195,13 +195,14 @@ class _ReadingStatusModalContentState
   }
 
   Widget _buildPrimaryButton() {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final isEnabled = _hasChanges && !_isSaving;
 
     return SizedBox(
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: AppColors.actionGradient,
+          gradient: appColors.actionGradient,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(

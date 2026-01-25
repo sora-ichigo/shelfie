@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_icon_size.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
@@ -89,34 +91,44 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
 
   Widget _buildStarRating(ThemeData theme) {
     final appColors = theme.extension<AppColors>()!;
+    final ratingValue = _selectedRating ?? 0;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(5, (index) {
-        final starValue = index + 1;
-        final isSelected = _selectedRating != null && _selectedRating! >= starValue;
+    return Semantics(
+      label: '評価: $ratingValueつ星（5つ星中）',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(5, (index) {
+          final starValue = index + 1;
+          final isSelected =
+              _selectedRating != null && _selectedRating! >= starValue;
 
-        return GestureDetector(
-          onTap: _isSaving
-              ? null
-              : () {
-                  setState(() {
-                    _selectedRating = starValue;
-                    _error = null;
-                  });
-                },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-            child: Icon(
-              isSelected ? Icons.star : Icons.star_border,
-              size: 48,
-              color: isSelected
-                  ? appColors.brandAccent
-                  : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+          return Semantics(
+            button: true,
+            label: '$starValue星を選択',
+            selected: _selectedRating == starValue,
+            child: GestureDetector(
+              onTap: _isSaving
+                  ? null
+                  : () {
+                      setState(() {
+                        _selectedRating = starValue;
+                        _error = null;
+                      });
+                    },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                child: Icon(
+                  isSelected ? Icons.star : Icons.star_border,
+                  size: AppIconSize.xxl,
+                  color: isSelected
+                      ? appColors.ratingActive
+                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                ),
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
@@ -132,7 +144,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                 backgroundColor: Colors.white.withOpacity(0.1),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
               ),
               child: const Text('キャンセル'),
@@ -148,14 +160,16 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
   }
 
   Widget _buildPrimaryButton() {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
     final isEnabled = _hasChanges && _selectedRating != null && !_isSaving;
 
     return SizedBox(
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: AppColors.actionGradient,
-          borderRadius: BorderRadius.circular(12),
+          gradient: appColors.actionGradient,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
         ),
         child: ElevatedButton(
           onPressed: isEnabled ? _onSave : null,
@@ -166,7 +180,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
             foregroundColor: Colors.white,
             disabledForegroundColor: Colors.white.withOpacity(0.5),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ),
           child: _isSaving

@@ -62,6 +62,33 @@ abstract final class AppTheme {
         selectedIconTheme: const IconThemeData(size: 32),
         unselectedIconTheme: const IconThemeData(size: 32),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: textTheme.bodyMedium?.copyWith(
+          color: AppColors.dark.textSecondary,
+        ),
+        prefixIconColor: AppColors.dark.textSecondary,
+        suffixIconColor: AppColors.dark.textSecondary,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: AppColors.dark.brandPrimary),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: colorScheme.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderSide: BorderSide(color: colorScheme.error),
+        ),
+      ),
     );
   }
 

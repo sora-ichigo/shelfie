@@ -18,9 +18,6 @@ void main() {
         expect(colors.success, isA<Color>());
         expect(colors.warning, isA<Color>());
         expect(colors.info, isA<Color>());
-        expect(colors.onSuccess, isA<Color>());
-        expect(colors.onWarning, isA<Color>());
-        expect(colors.onInfo, isA<Color>());
       });
 
       group('Brand colors', () {
@@ -109,25 +106,16 @@ void main() {
         const newSuccess = Color(0xFF00FF00);
         const newWarning = Color(0xFFFF0000);
         const newInfo = Color(0xFF0000FF);
-        const newOnSuccess = Color(0xFF111111);
-        const newOnWarning = Color(0xFF222222);
-        const newOnInfo = Color(0xFF333333);
 
         final copied = colors.copyWith(
           success: newSuccess,
           warning: newWarning,
           info: newInfo,
-          onSuccess: newOnSuccess,
-          onWarning: newOnWarning,
-          onInfo: newOnInfo,
         );
 
         expect(copied.success, equals(newSuccess));
         expect(copied.warning, equals(newWarning));
         expect(copied.info, equals(newInfo));
-        expect(copied.onSuccess, equals(newOnSuccess));
-        expect(copied.onWarning, equals(newOnWarning));
-        expect(copied.onInfo, equals(newOnInfo));
       });
 
       test('copyWith で引数を省略すると元の値が保持される', () {
@@ -137,9 +125,6 @@ void main() {
         expect(copied.success, equals(colors.success));
         expect(copied.warning, equals(colors.warning));
         expect(copied.info, equals(colors.info));
-        expect(copied.onSuccess, equals(colors.onSuccess));
-        expect(copied.onWarning, equals(colors.onWarning));
-        expect(copied.onInfo, equals(colors.onInfo));
       });
     });
 

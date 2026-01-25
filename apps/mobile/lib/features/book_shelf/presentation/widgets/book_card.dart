@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 /// 書籍カードコンポーネント
@@ -85,16 +87,21 @@ class BookCard extends ConsumerWidget {
   }
 
   Widget _buildRating(AppColors appColors, int rating) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        final isFilled = index < rating;
-        return Icon(
-          isFilled ? Icons.star : Icons.star_border,
-          size: 16,
-          color: appColors.brandAccent,
-        );
-      }),
+    return Semantics(
+      label: '評価: $ratingつ星（5つ星中）',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(5, (index) {
+            final isFilled = index < rating;
+            return Icon(
+              isFilled ? Icons.star : Icons.star_border,
+              size: AppIconSize.xs,
+              color: appColors.brandAccent,
+            );
+          }),
+        ),
+      ),
     );
   }
 
@@ -114,9 +121,8 @@ class BookCard extends ConsumerWidget {
       book.authorsDisplay,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: theme.textTheme.bodySmall?.copyWith(
+      style: AppTypography.captionSmall.copyWith(
         color: appColors.textSecondary,
-        fontSize: 10,
       ),
     );
   }
