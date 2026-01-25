@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
@@ -63,49 +64,27 @@ class _ReadingStatusModalContentState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              '読書状態を変更',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            _buildStatusGrid(theme),
-            if (_error != null) ...[
-              const SizedBox(height: AppSpacing.sm),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  _error!.userMessage,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.error,
-                  ),
+    return BaseBottomSheet(
+      title: '読書状態を変更',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildStatusGrid(theme),
+          if (_error != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _error!.userMessage,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.error,
                 ),
               ),
-            ],
-            const SizedBox(height: AppSpacing.lg),
-            _buildActionButtons(theme),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
+          const SizedBox(height: AppSpacing.lg),
+          _buildActionButtons(theme),
+        ],
       ),
     );
   }
