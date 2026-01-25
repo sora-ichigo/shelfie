@@ -178,7 +178,6 @@ class _SortBottomSheet extends StatelessWidget {
     return ListTile(
       onTap: () => Navigator.of(context).pop(option),
       dense: true,
-      visualDensity: VisualDensity.compact,
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
