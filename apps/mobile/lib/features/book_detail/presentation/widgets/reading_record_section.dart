@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
@@ -196,6 +197,7 @@ class ReadingRecordSection extends StatelessWidget {
 
   Widget _buildRatingDisplay(BuildContext context, int? rating) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     if (rating == null) {
       return Text(
@@ -214,7 +216,7 @@ class ReadingRecordSection extends StatelessWidget {
           isFilled ? Icons.star : Icons.star_border,
           size: 18,
           color: isFilled
-              ? const Color(0xFFFFD54F)
+              ? appColors.brandAccent
               : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
         );
       }),
