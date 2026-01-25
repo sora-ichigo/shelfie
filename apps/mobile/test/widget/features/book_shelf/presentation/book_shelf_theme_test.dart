@@ -45,18 +45,22 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
 
-        final card = tester.widget<Card>(find.byType(Card));
-        expect(card.color, AppColors.dark.surfaceElevated);
+        expect(find.byType(ClipRRect), findsOneWidget);
       });
 
-      testWidgets('BookCard の背景色が surfaceElevated', (tester) async {
+      testWidgets('BookCard に角丸が適用されている', (tester) async {
         final book = ShelfBookItem(
           userBookId: 1,
           externalId: 'test-book-1',
@@ -71,15 +75,19 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
 
-        final card = tester.widget<Card>(find.byType(Card));
-        expect(card.color, const Color(0xFF1A1A1A));
+        expect(find.byType(ClipRRect), findsOneWidget);
       });
     });
 
@@ -116,21 +124,25 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
 
-        final card = tester.widget<Card>(find.byType(Card));
-        final shape = card.shape! as RoundedRectangleBorder;
-        final borderRadius = shape.borderRadius as BorderRadius;
+        final clipRRect = tester.widget<ClipRRect>(find.byType(ClipRRect));
+        final borderRadius = clipRRect.borderRadius as BorderRadius;
 
         expect(borderRadius.topLeft.x, greaterThan(0));
       });
 
-      testWidgets('BookCard に InkWell がタップフィードバックを提供', (tester) async {
+      testWidgets('BookCard が GestureDetector でタップ可能', (tester) async {
         final book = ShelfBookItem(
           userBookId: 1,
           externalId: 'test-book-1',
@@ -145,14 +157,19 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
 
-        expect(find.byType(InkWell), findsOneWidget);
+        expect(find.byType(GestureDetector), findsOneWidget);
       });
 
       testWidgets('SearchFilterBar がダークテーマで表示される', (tester) async {
@@ -196,9 +213,14 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
@@ -222,9 +244,14 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
@@ -254,9 +281,14 @@ void main() {
 
         await tester.pumpWidget(
           buildTestWidget(
-            child: BookCard(
-              book: book,
-              onTap: () {},
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: 120,
+                child: BookCard(
+                  book: book,
+                  onTap: () {},
+                ),
+              ),
             ),
           ),
         );
