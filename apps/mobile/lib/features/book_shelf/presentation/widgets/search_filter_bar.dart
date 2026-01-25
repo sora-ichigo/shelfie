@@ -163,7 +163,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
                     _isSortMenuOpen
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
-                    color: appColors.textSecondary,
+                    color: appColors.textPrimary,
                   ),
                 ],
               ),
