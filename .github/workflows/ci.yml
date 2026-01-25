@@ -124,9 +124,15 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.mobile == 'true' }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
     defaults:
       run:
         working-directory: apps/mobile
+    env:
+      SHARD_INDEX: ${{ matrix.shard }}
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
@@ -141,5 +147,11 @@ jobs:
           key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
           restore-keys: flutter-${{ runner.os }}-
       - run: flutter pub get
-      - name: Run tests
-        run: flutter test --concurrency=8
+      - name: Run tests (shard ${{ matrix.shard }}/3)
+        run: |
+          start_time=$(date +%s)
+          flutter test --concurrency=4 --total-shards=3 --shard-index="$SHARD_INDEX"
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+          echo "### Shard $SHARD_INDEX Test Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Duration: ${duration}s" >> "$GITHUB_STEP_SUMMARY"
