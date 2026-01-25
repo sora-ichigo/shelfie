@@ -82,7 +82,7 @@ class BookCard extends StatelessWidget {
         final isFilled = index < (book.rating ?? 0);
         return Icon(
           isFilled ? Icons.star : Icons.star_border,
-          size: 12,
+          size: 16,
           color: appColors.brandAccent,
         );
       }),
