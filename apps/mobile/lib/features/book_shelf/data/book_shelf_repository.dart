@@ -125,6 +125,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
                 addedAt: item.addedAt,
                 coverImageUrl: item.coverImageUrl,
                 completedAt: item.completedAt,
+                rating: item.rating,
               ),
             )
             .toList(),
