@@ -60,7 +60,6 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
       builder: (context, constraints) {
         final buttonWidth = constraints.maxWidth;
         return PopupMenuButton<SortOption>(
-          initialValue: widget.sortOption,
           onSelected: (option) {
             setState(() => _isSortMenuOpen = false);
             widget.onSortChanged(option);
@@ -76,77 +75,90 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
             minWidth: buttonWidth,
             maxWidth: buttonWidth,
           ),
-      itemBuilder: (context) {
-        return SortOption.values.map((option) {
-          final isSelected = option == widget.sortOption;
-          return PopupMenuItem<SortOption>(
-            value: option,
+          itemBuilder: (context) {
+            final options = SortOption.values;
+            return options.asMap().entries.map((entry) {
+              final index = entry.key;
+              final option = entry.value;
+              final isSelected = option == widget.sortOption;
+              final isFirst = index == 0;
+              final isLast = index == options.length - 1;
+              return PopupMenuItem<SortOption>(
+                value: option,
+                padding: EdgeInsets.zero,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.sm,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.selectionHighlight
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.only(
+                      topLeft: isFirst
+                          ? const Radius.circular(AppRadius.lg)
+                          : Radius.zero,
+                      topRight: isFirst
+                          ? const Radius.circular(AppRadius.lg)
+                          : Radius.zero,
+                      bottomLeft: isLast
+                          ? const Radius.circular(AppRadius.lg)
+                          : Radius.zero,
+                      bottomRight: isLast
+                          ? const Radius.circular(AppRadius.lg)
+                          : Radius.zero,
+                    ),
+                  ),
+                  child: Text(
+                    option.displayName,
+                    style: AppTypography.labelMedium.copyWith(
+                      color: appColors.textPrimary,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              );
+            }).toList();
+          },
+          child: Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.xs,
-              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.xs,
             ),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: AppSpacing.sm,
-              ),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.selectionHighlight
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(AppRadius.sm),
-              ),
-              child: Text(
-                option.displayName,
-                style: AppTypography.labelMedium.copyWith(
+            decoration: BoxDecoration(
+              color: appColors.surfaceElevated,
+              borderRadius: BorderRadius.circular(AppRadius.lg),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.tune,
+                  size: 16,
                   color: appColors.textPrimary,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  decoration:
-                      isSelected ? TextDecoration.underline : TextDecoration.none,
-                  decorationColor: appColors.textPrimary,
                 ),
-              ),
-            ),
-          );
-        }).toList();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xs,
-        ),
-        decoration: BoxDecoration(
-          color: appColors.surfaceElevated,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.tune,
-              size: 16,
-              color: appColors.textPrimary,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: Text(
-                widget.sortOption.displayName,
-                overflow: TextOverflow.ellipsis,
-                style: AppTypography.labelMedium.copyWith(
-                  fontWeight: FontWeight.w600,
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: Text(
+                    widget.sortOption.displayName,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.labelMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
+                Icon(
+                  _isSortMenuOpen
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: appColors.textSecondary,
+                ),
+              ],
             ),
-            Icon(
-              _isSortMenuOpen
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down,
-              color: appColors.textSecondary,
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
       },
     );
   }
