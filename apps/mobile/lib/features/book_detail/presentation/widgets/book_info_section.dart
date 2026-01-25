@@ -104,12 +104,14 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildAddToShelfButton(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return SizedBox(
       width: double.infinity,
       height: 44,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: AppColors.actionGradient,
+          gradient: appColors.actionGradient,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton.icon(

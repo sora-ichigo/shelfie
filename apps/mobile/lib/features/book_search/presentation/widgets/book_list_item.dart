@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
@@ -70,7 +71,7 @@ class BookListItem extends StatelessWidget {
 
     if (book.coverImageUrl != null && book.coverImageUrl!.isNotEmpty) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
         child: Image.network(
           book.coverImageUrl!,
           width: imageWidth,
@@ -90,7 +91,7 @@ class BookListItem extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,

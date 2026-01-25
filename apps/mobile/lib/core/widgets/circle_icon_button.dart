@@ -17,13 +17,15 @@ class CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: size,
         height: size,
-        decoration: const BoxDecoration(
-          gradient: AppColors.actionGradient,
+        decoration: BoxDecoration(
+          gradient: appColors.actionGradient,
           shape: BoxShape.circle,
         ),
         child: Icon(
