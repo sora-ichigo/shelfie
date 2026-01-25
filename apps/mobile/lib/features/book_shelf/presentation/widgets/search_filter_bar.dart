@@ -88,6 +88,7 @@ class _SearchFilterBarState extends State<SearchFilterBar> {
               return PopupMenuItem<SortOption>(
                 value: option,
                 padding: EdgeInsets.zero,
+                height: 40,
                 child: Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
