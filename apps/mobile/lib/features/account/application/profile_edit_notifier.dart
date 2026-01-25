@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/features/account/application/profile_form_state.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
+import 'package:shelfie/features/account/data/avatar_upload_service.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 
 part 'profile_edit_notifier.freezed.dart';
@@ -13,6 +14,9 @@ part 'profile_edit_notifier.g.dart';
 sealed class ProfileEditState with _$ProfileEditState {
   const factory ProfileEditState.initial() = ProfileEditStateInitial;
   const factory ProfileEditState.loading() = ProfileEditStateLoading;
+  const factory ProfileEditState.uploading({
+    required double progress,
+  }) = ProfileEditStateUploading;
   const factory ProfileEditState.success({
     required UserProfile profile,
   }) = ProfileEditStateSuccess;
@@ -33,14 +37,41 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
     state = const ProfileEditState.loading();
 
     final formState = ref.read(profileFormStateProvider);
+    final pendingImage = formState.pendingAvatarImage;
+
+    if (pendingImage != null) {
+      await _saveWithAvatar(formState.name, pendingImage);
+    } else {
+      await _saveNameOnly(formState.name);
+    }
+  }
+
+  Future<void> _saveWithAvatar(String name, XFile image) async {
+    final uploadService = ref.read(avatarUploadServiceProvider);
+
+    final result = await uploadService.uploadAndUpdateProfile(
+      file: image,
+      name: name,
+      onProgress: (progress) {
+        state = ProfileEditState.uploading(progress: progress);
+      },
+    );
+
+    state = result.fold<ProfileEditState>(
+      _mapFailureToErrorState,
+      (profile) => ProfileEditState.success(profile: profile),
+    );
+  }
+
+  Future<void> _saveNameOnly(String name) async {
     final repository = ref.read(accountRepositoryProvider);
 
     final updateResult = await repository.updateProfile(
-      name: formState.name,
+      name: name,
     );
 
     state = updateResult.fold<ProfileEditState>(
-      (failure) => _mapFailureToErrorState(failure),
+      _mapFailureToErrorState,
       (profile) => ProfileEditState.success(profile: profile),
     );
   }

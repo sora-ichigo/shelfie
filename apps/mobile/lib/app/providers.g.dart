@@ -30,6 +30,8 @@ final loggerProvider = Provider<Logger>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef LoggerRef = ProviderRef<Logger>;
 String _$crashlyticsReporterHash() =>
     r'5ce83ff520bf1f3dabf9051ae65fe431d40fd9c1';
@@ -54,6 +56,8 @@ final crashlyticsReporterProvider = Provider<CrashlyticsReporter>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef CrashlyticsReporterRef = ProviderRef<CrashlyticsReporter>;
 String _$isProductionHash() => r'cac0d3a43af1fdc29412f2e3c2c6d1ab6febcc9b';
 
@@ -76,6 +80,8 @@ final isProductionProvider = Provider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef IsProductionRef = ProviderRef<bool>;
 String _$errorHandlerHash() => r'b8e00438b033944b1360526459647063977699fd';
 
@@ -107,6 +113,8 @@ final errorHandlerProvider = Provider<ErrorHandler>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ErrorHandlerRef = ProviderRef<ErrorHandler>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

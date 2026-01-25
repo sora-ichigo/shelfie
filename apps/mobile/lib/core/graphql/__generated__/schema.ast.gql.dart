@@ -433,6 +433,31 @@ const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
 );
+const ImageUploadError = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ImageUploadError'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'code'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'message'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
 const LoginResult = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'LoginResult'),
   directives: [],
@@ -802,6 +827,94 @@ const MutationUpdateProfileSuccess = _i1.ObjectTypeDefinitionNode(
     )
   ],
 );
+const MyShelfInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MyShelfInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'limit'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'offset'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'query'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'sortBy'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ShelfSortField'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'sortOrder'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'SortOrder'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+  ],
+);
+const MyShelfResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MyShelfResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'hasMore'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'items'),
+      directives: [],
+      args: [],
+      type: _i1.ListTypeNode(
+        type: _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'UserBook'),
+          isNonNull: true,
+        ),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'totalCount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+  ],
+);
 const Query = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'Query'),
   directives: [],
@@ -824,6 +937,15 @@ const Query = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'BookDetail'),
         isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'getUploadCredentials'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'QueryGetUploadCredentialsResult'),
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -940,6 +1062,36 @@ const Query = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const QueryGetUploadCredentialsResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'QueryGetUploadCredentialsResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ImageUploadError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'QueryGetUploadCredentialsSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const QueryGetUploadCredentialsSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'QueryGetUploadCredentialsSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'UploadCredentials'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
 const ReadingStatus = _i1.EnumTypeDefinitionNode(
   name: _i1.NameNode(value: 'ReadingStatus'),
   directives: [],
@@ -959,126 +1111,6 @@ const ReadingStatus = _i1.EnumTypeDefinitionNode(
     _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'READING'),
       directives: [],
-    ),
-  ],
-);
-const ShelfSortField = _i1.EnumTypeDefinitionNode(
-  name: _i1.NameNode(value: 'ShelfSortField'),
-  directives: [],
-  values: [
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'ADDED_AT'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'TITLE'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'AUTHOR'),
-      directives: [],
-    ),
-  ],
-);
-const SortOrder = _i1.EnumTypeDefinitionNode(
-  name: _i1.NameNode(value: 'SortOrder'),
-  directives: [],
-  values: [
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'ASC'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'DESC'),
-      directives: [],
-    ),
-  ],
-);
-const MyShelfInput = _i1.InputObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MyShelfInput'),
-  directives: [],
-  fields: [
-    _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'query'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-    _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'sortBy'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-    _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'sortOrder'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'String'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-    _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'limit'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-    _i1.InputValueDefinitionNode(
-      name: _i1.NameNode(value: 'offset'),
-      directives: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: false,
-      ),
-      defaultValue: null,
-    ),
-  ],
-);
-const MyShelfResult = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MyShelfResult'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'items'),
-      directives: [],
-      args: [],
-      type: _i1.ListTypeNode(
-        type: _i1.NamedTypeNode(
-          name: _i1.NameNode(value: 'UserBook'),
-          isNonNull: true,
-        ),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'totalCount'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'hasMore'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Boolean'),
-        isNonNull: true,
-      ),
     ),
   ],
 );
@@ -1183,6 +1215,38 @@ const SearchBooksResult = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const ShelfSortField = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ShelfSortField'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'ADDED_AT'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'AUTHOR'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'TITLE'),
+      directives: [],
+    ),
+  ],
+);
+const SortOrder = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'SortOrder'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'ASC'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'DESC'),
+      directives: [],
+    ),
+  ],
+);
 const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'UpdateProfileInput'),
   directives: [],
@@ -1196,6 +1260,58 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
       ),
       defaultValue: null,
     )
+  ],
+);
+const UploadCredentials = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'UploadCredentials'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'expire'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'publicKey'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'signature'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'token'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'uploadEndpoint'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
   ],
 );
 const User = _i1.ObjectTypeDefinitionNode(
@@ -1437,6 +1553,7 @@ const document = _i1.DocumentNode(definitions: [
   Book,
   BookDetail,
   DateTime,
+  ImageUploadError,
   LoginResult,
   LoginUserInput,
   MeResult,
@@ -1449,17 +1566,20 @@ const document = _i1.DocumentNode(definitions: [
   MutationRegisterUserSuccess,
   MutationUpdateProfileResult,
   MutationUpdateProfileSuccess,
-  Query,
-  ReadingStatus,
-  ShelfSortField,
-  SortOrder,
   MyShelfInput,
   MyShelfResult,
+  Query,
+  QueryGetUploadCredentialsResult,
+  QueryGetUploadCredentialsSuccess,
+  ReadingStatus,
   RefreshTokenInput,
   RefreshTokenResult,
   RegisterUserInput,
   SearchBooksResult,
+  ShelfSortField,
+  SortOrder,
   UpdateProfileInput,
+  UploadCredentials,
   User,
   UserBook,
   ValidationError,

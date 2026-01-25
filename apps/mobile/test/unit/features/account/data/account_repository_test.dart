@@ -6,6 +6,9 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.var.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.data.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.req.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.var.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.var.gql.dart';
@@ -27,6 +30,7 @@ void main() {
     registerFallbackValue(
       GUpdateProfileReq((b) => b..vars.input.name = 'test'),
     );
+    registerFallbackValue(GGetUploadCredentialsReq());
   });
 
   group('AccountRepository', () {
@@ -156,6 +160,107 @@ void main() {
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ValidationFailure>());
+      });
+    });
+
+    group('getUploadCredentials', () {
+      test('returns UploadCredentials on success', () async {
+        final data = GGetUploadCredentialsData.fromJson({
+          'getUploadCredentials': {
+            '__typename': 'QueryGetUploadCredentialsSuccess',
+            'data': {
+              'token': 'test-token-123',
+              'signature': 'test-signature-456',
+              'expire': 1706200000,
+              'publicKey': 'public_test_key',
+              'uploadEndpoint': 'https://upload.imagekit.io/api/v1/files/upload',
+            },
+          },
+        });
+
+        final response =
+            OperationResponse<GGetUploadCredentialsData, GGetUploadCredentialsVars>(
+          operationRequest: GGetUploadCredentialsReq(),
+          data: data,
+        );
+
+        when(() => mockClient.request(any<GGetUploadCredentialsReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        final result = await repository.getUploadCredentials();
+
+        expect(result.isRight(), isTrue);
+        final credentials = result.getRight().toNullable()!;
+        expect(credentials.token, equals('test-token-123'));
+        expect(credentials.signature, equals('test-signature-456'));
+        expect(credentials.expire, equals(1706200000));
+        expect(credentials.publicKey, equals('public_test_key'));
+        expect(
+          credentials.uploadEndpoint,
+          equals('https://upload.imagekit.io/api/v1/files/upload'),
+        );
+      });
+
+      test('returns ServerFailure on ImageUploadError', () async {
+        final data = GGetUploadCredentialsData.fromJson({
+          'getUploadCredentials': {
+            '__typename': 'ImageUploadError',
+            'code': 'CONFIGURATION_ERROR',
+            'message': 'ImageKit is not configured',
+          },
+        });
+
+        final response =
+            OperationResponse<GGetUploadCredentialsData, GGetUploadCredentialsVars>(
+          operationRequest: GGetUploadCredentialsReq(),
+          data: data,
+        );
+
+        when(() => mockClient.request(any<GGetUploadCredentialsReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        final result = await repository.getUploadCredentials();
+
+        expect(result.isLeft(), isTrue);
+        expect(result.getLeft().toNullable(), isA<ServerFailure>());
+      });
+
+      test('returns ServerFailure when response is null', () async {
+        final data = GGetUploadCredentialsData.fromJson({
+          'getUploadCredentials': null,
+        });
+
+        final response =
+            OperationResponse<GGetUploadCredentialsData, GGetUploadCredentialsVars>(
+          operationRequest: GGetUploadCredentialsReq(),
+          data: data,
+        );
+
+        when(() => mockClient.request(any<GGetUploadCredentialsReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        final result = await repository.getUploadCredentials();
+
+        expect(result.isLeft(), isTrue);
+        expect(result.getLeft().toNullable(), isA<ServerFailure>());
+      });
+
+      test('returns ServerFailure when API returns GraphQL errors', () async {
+        final response =
+            OperationResponse<GGetUploadCredentialsData, GGetUploadCredentialsVars>(
+          operationRequest: GGetUploadCredentialsReq(),
+          graphqlErrors: [
+            const gql.GraphQLError(message: 'Unauthorized'),
+          ],
+        );
+
+        when(() => mockClient.request(any<GGetUploadCredentialsReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        final result = await repository.getUploadCredentials();
+
+        expect(result.isLeft(), isTrue);
+        expect(result.getLeft().toNullable(), isA<ServerFailure>());
       });
     });
   });

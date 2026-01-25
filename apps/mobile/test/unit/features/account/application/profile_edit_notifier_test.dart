@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -7,15 +9,25 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/features/account/application/profile_edit_notifier.dart';
 import 'package:shelfie/features/account/application/profile_form_state.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
+import 'package:shelfie/features/account/data/avatar_upload_service.dart';
+import 'package:shelfie/features/account/domain/upload_credentials.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 
 class MockAccountRepository extends Mock implements AccountRepository {}
+
+class MockAvatarUploadService extends Mock implements AvatarUploadService {}
+
+class MockXFile extends Mock implements XFile {}
 
 void main() {
   late MockAccountRepository mockRepository;
 
   setUp(() {
     mockRepository = MockAccountRepository();
+  });
+
+  setUpAll(() {
+    registerFallbackValue(MockXFile());
   });
 
   UserProfile createTestProfile() {
@@ -244,6 +256,99 @@ void main() {
           container.read(profileEditNotifierProvider),
           isA<ProfileEditStateInitial>(),
         );
+      });
+    });
+
+    group('saveWithAvatar', () {
+      late MockAvatarUploadService mockUploadService;
+
+      setUp(() {
+        mockUploadService = MockAvatarUploadService();
+      });
+
+      test('アバター画像あり＋名前変更で保存成功', () async {
+        final profile = createTestProfile();
+        final updatedProfile = profile.copyWith(
+          name: 'New Name',
+          avatarUrl: 'https://ik.imagekit.io/test/new-avatar.jpg',
+        );
+
+        final mockFile = MockXFile();
+        when(() => mockFile.path).thenReturn('/path/to/image.jpg');
+        when(() => mockFile.mimeType).thenReturn('image/jpeg');
+        when(() => mockFile.length()).thenAnswer((_) async => 1024);
+        when(() => mockFile.readAsBytes()).thenAnswer(
+          (_) async => Uint8List.fromList([1, 2, 3]),
+        );
+
+        when(
+          () => mockUploadService.uploadAndUpdateProfile(
+            file: any(named: 'file'),
+            name: any(named: 'name'),
+            onProgress: any(named: 'onProgress'),
+          ),
+        ).thenAnswer((_) async => right(updatedProfile));
+
+        final container = ProviderContainer(
+          overrides: [
+            accountRepositoryProvider.overrideWithValue(mockRepository),
+            avatarUploadServiceProvider.overrideWithValue(mockUploadService),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final formNotifier = container.read(profileFormStateProvider.notifier);
+        formNotifier.initialize(profile);
+        formNotifier.updateName('New Name');
+        formNotifier.setAvatarImage(mockFile);
+
+        await container.read(profileEditNotifierProvider.notifier).save();
+
+        final state = container.read(profileEditNotifierProvider);
+        expect(state, isA<ProfileEditStateSuccess>());
+        expect(
+          (state as ProfileEditStateSuccess).profile.avatarUrl,
+          equals('https://ik.imagekit.io/test/new-avatar.jpg'),
+        );
+      });
+
+      test('アバターアップロード失敗時は error 状態になる', () async {
+        final profile = createTestProfile();
+
+        final mockFile = MockXFile();
+        when(() => mockFile.path).thenReturn('/path/to/image.jpg');
+        when(() => mockFile.mimeType).thenReturn('image/jpeg');
+        when(() => mockFile.length()).thenAnswer((_) async => 1024);
+
+        when(
+          () => mockUploadService.uploadAndUpdateProfile(
+            file: any(named: 'file'),
+            name: any(named: 'name'),
+            onProgress: any(named: 'onProgress'),
+          ),
+        ).thenAnswer(
+          (_) async => left(
+            const ServerFailure(message: 'Upload failed', code: 'UPLOAD_ERROR'),
+          ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            accountRepositoryProvider.overrideWithValue(mockRepository),
+            avatarUploadServiceProvider.overrideWithValue(mockUploadService),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final formNotifier = container.read(profileFormStateProvider.notifier);
+        formNotifier.initialize(profile);
+        formNotifier.updateName('New Name');
+        formNotifier.setAvatarImage(mockFile);
+
+        await container.read(profileEditNotifierProvider.notifier).save();
+
+        final state = container.read(profileEditNotifierProvider);
+        expect(state, isA<ProfileEditStateError>());
       });
     });
   });

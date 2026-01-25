@@ -6,7 +6,7 @@ part of 'serializers.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializers _$serializers = (new Serializers().toBuilder()
+Serializers _$serializers = (Serializers().toBuilder()
       ..add(FetchPolicy.serializer)
       ..add(GAddBookInput.serializer)
       ..add(GAddBookToShelfData.serializer)
@@ -31,6 +31,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GGetMyProfileData_me__base.serializer)
       ..add(GGetMyProfileReq.serializer)
       ..add(GGetMyProfileVars.serializer)
+      ..add(GGetUploadCredentialsData.serializer)
+      ..add(GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
+          .serializer)
+      ..add(
+          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
+              .serializer)
+      ..add(
+          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
+              .serializer)
+      ..add(GGetUploadCredentialsData_getUploadCredentials__base.serializer)
+      ..add(GGetUploadCredentialsReq.serializer)
+      ..add(GGetUploadCredentialsVars.serializer)
       ..add(GLoginUserData.serializer)
       ..add(GLoginUserData_loginUser__asAuthError.serializer)
       ..add(GLoginUserData_loginUser__asMutationLoginUserSuccess.serializer)
@@ -110,48 +122,48 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(GMyShelfData_myShelf_items)]),
-          () => new ListBuilder<GMyShelfData_myShelf_items>())
+          () => ListBuilder<GMyShelfData_myShelf_items>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GMyShelfPaginatedData_myShelf_items)]),
-          () => new ListBuilder<GMyShelfPaginatedData_myShelf_items>())
+          () => ListBuilder<GMyShelfPaginatedData_myShelf_items>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
-          () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+          () => ListBuilder<GSearchBooksData_searchBooks_items>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>())
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => new ListBuilder<String>()))
+          () => ListBuilder<String>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

@@ -8,8 +8,11 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.data.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/update_profile.req.gql.dart';
+import 'package:shelfie/features/account/domain/upload_credentials.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 
 part 'account_repository.g.dart';
@@ -42,6 +45,7 @@ class AccountRepository {
 
   Future<Either<Failure, UserProfile>> updateProfile({
     required String name,
+    String? avatarUrl,
   }) async {
     final request = GUpdateProfileReq(
       (b) => b..vars.input.name = name,
@@ -57,6 +61,82 @@ class AccountRepository {
     } catch (e) {
       return left(UnexpectedFailure(message: e.toString()));
     }
+  }
+
+  Future<Either<Failure, UploadCredentials>> getUploadCredentials() async {
+    final request = GGetUploadCredentialsReq();
+
+    try {
+      final response = await client.request(request).first;
+      return _handleGetUploadCredentialsResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Either<Failure, UploadCredentials> _handleGetUploadCredentialsResponse(
+    OperationResponse<GGetUploadCredentialsData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      final errorMessage = error?.message ?? 'Failed to get upload credentials';
+      return left(ServerFailure(message: errorMessage, code: 'GRAPHQL_ERROR'));
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(
+          message: 'No data received',
+          code: 'NO_DATA',
+        ),
+      );
+    }
+
+    final result = data.getUploadCredentials;
+    if (result == null) {
+      return left(
+        const ServerFailure(
+          message: 'Upload credentials response is null',
+          code: 'NULL_RESPONSE',
+        ),
+      );
+    }
+
+    if (result
+        is GGetUploadCredentialsData_getUploadCredentials__asImageUploadError) {
+      return left(
+        ServerFailure(
+          message: result.message ?? 'Image upload service error',
+          code: result.code ?? 'IMAGE_UPLOAD_ERROR',
+        ),
+      );
+    }
+
+    if (result
+        is GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess) {
+      final credentials = result.data;
+      return right(
+        UploadCredentials(
+          token: credentials.token ?? '',
+          signature: credentials.signature ?? '',
+          expire: credentials.expire ?? 0,
+          publicKey: credentials.publicKey ?? '',
+          uploadEndpoint: credentials.uploadEndpoint ?? '',
+        ),
+      );
+    }
+
+    return left(
+      const ServerFailure(
+        message: 'Unexpected response type',
+        code: 'UNEXPECTED_TYPE',
+      ),
+    );
   }
 
   Either<Failure, UserProfile> _handleGetMyProfileResponse(
