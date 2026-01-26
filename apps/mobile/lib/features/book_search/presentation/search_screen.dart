@@ -77,7 +77,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
     );
 
-    final isSearchInputMode = _isSearchFieldFocused && state is BookSearchInitial;
+    final isSearchActive = _isSearchFieldFocused || state is! BookSearchInitial;
+    final showSearchHistory = _isSearchFieldFocused && state is BookSearchInitial;
 
     return GestureDetector(
       onTap: _dismissOverlay,
@@ -88,7 +89,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             children: [
               AnimatedCrossFade(
                 duration: const Duration(milliseconds: 200),
-                crossFadeState: isSearchInputMode
+                crossFadeState: isSearchActive
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
                 firstChild: ScreenHeader(
@@ -107,7 +108,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onChanged: _onSearchChanged,
                   onSubmitted: _onSearchSubmitted,
                   onScanPressed: _onScanPressed,
-                  showCancelButton: isSearchInputMode,
+                  showCancelButton: isSearchActive,
                   onCancelPressed: _onCancel,
                   hintText: '何を読みたいですか？',
                 ),
@@ -115,7 +116,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: isSearchInputMode
+                  child: showSearchHistory
                       ? _buildSearchInputMode(searchHistoryAsync.valueOrNull ?? [])
                       : _buildBody(state),
                 ),
@@ -248,9 +249,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onCancel() {
+    ref.read(bookSearchNotifierProvider.notifier).reset();
     _searchController.clear();
     _focusNode.unfocus();
-    ref.read(bookSearchNotifierProvider.notifier).reset();
   }
 
   void _onSearchChanged(String query) {
