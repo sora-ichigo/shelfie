@@ -229,12 +229,12 @@ void main() {
         expect(tapped, isTrue);
       });
 
-      testWidgets('タップ可能である', (tester) async {
+      testWidgets('タップ時にリップルエフェクトのフィードバックがある', (tester) async {
         await tester.pumpWidget(
           buildBookCard(book: createTestBook()),
         );
 
-        expect(find.byType(GestureDetector), findsOneWidget);
+        expect(find.byType(InkWell), findsOneWidget);
       });
     });
 
