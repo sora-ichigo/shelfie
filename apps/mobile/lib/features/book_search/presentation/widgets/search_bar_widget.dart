@@ -90,7 +90,7 @@ class SearchBarWidget extends StatelessWidget {
                       const SizedBox(width: AppSpacing.xs),
                       IconButton(
                         onPressed: onScanPressed,
-                        icon: const Icon(Icons.qr_code_scanner),
+                        icon: const Icon(Icons.camera_alt_outlined),
                         tooltip: 'ISBNスキャン',
                       ),
                     ],
