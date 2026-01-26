@@ -29,7 +29,7 @@ class ProfileEditHeader extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.close,
-              color: colors?.textPrimary ?? Colors.white,
+              color: colors?.foreground ?? Colors.white,
             ),
             onPressed: onClose,
           ),
@@ -38,7 +38,7 @@ class ProfileEditHeader extends StatelessWidget {
               child: Text(
                 'プロフィール編集',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: colors?.textPrimary ?? Colors.white,
+                  color: colors?.foreground ?? Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -48,8 +48,8 @@ class ProfileEditHeader extends StatelessWidget {
             icon: Icon(
               Icons.check,
               color: isSaveEnabled
-                  ? (colors?.brandPrimary ?? const Color(0xFF4FD1C5))
-                  : (colors?.textSecondary ?? const Color(0xFFA0A0A0)),
+                  ? (colors?.accent ?? const Color(0xFF4FD1C5))
+                  : (colors?.foregroundMuted ?? const Color(0xFFA0A0A0)),
             ),
             onPressed: isSaveEnabled ? onSave : null,
           ),

@@ -77,16 +77,16 @@ class SearchFilterBar extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
-              color: appColors.surfaceElevated,
+              color: appColors.surface,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               border: Border.all(
-                color: appColors.textSecondary.withOpacity(0.3),
+                color: appColors.foregroundMuted.withOpacity(0.3),
               ),
             ),
             child: Icon(
               Icons.tune,
               size: 16,
-              color: appColors.textPrimary,
+              color: appColors.foreground,
             ),
           ),
           if (isActive)
@@ -97,7 +97,7 @@ class SearchFilterBar extends StatelessWidget {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: appColors.textPrimary,
+                  color: appColors.foreground,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -118,16 +118,16 @@ class SearchFilterBar extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppSpacing.sm),
             decoration: BoxDecoration(
-              color: appColors.surfaceElevated,
+              color: appColors.surface,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               border: Border.all(
-                color: appColors.textSecondary.withOpacity(0.3),
+                color: appColors.foregroundMuted.withOpacity(0.3),
               ),
             ),
             child: Icon(
               Icons.grid_view,
               size: 16,
-              color: appColors.textPrimary,
+              color: appColors.foreground,
             ),
           ),
           if (isActive)
@@ -138,7 +138,7 @@ class SearchFilterBar extends StatelessWidget {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: appColors.textPrimary,
+                  color: appColors.foreground,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -237,7 +237,7 @@ class _OptionTile extends StatelessWidget {
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
-            ? colors?.brandPrimary ?? theme.colorScheme.primary
+            ? colors?.accent ?? theme.colorScheme.primary
             : theme.colorScheme.onSurfaceVariant,
       ),
       title: Text(

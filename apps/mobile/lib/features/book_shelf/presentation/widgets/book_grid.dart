@@ -123,7 +123,7 @@ class _BookGridState extends State<BookGrid> {
               child: Text(
                 group.key,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: appColors.textPrimary,
+                  color: appColors.foreground,
                   fontWeight: FontWeight.bold,
                 ),
               ),

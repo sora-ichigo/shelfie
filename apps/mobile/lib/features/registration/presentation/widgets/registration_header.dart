@@ -25,14 +25,14 @@ class RegistrationHeader extends StatelessWidget {
             children: [
               Icon(
                 Icons.arrow_back,
-                color: colors?.textPrimary ?? Colors.white,
+                color: colors?.foreground ?? Colors.white,
                 size: 20,
               ),
               const SizedBox(width: AppSpacing.xxs),
               Text(
                 '戻る',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textPrimary ?? Colors.white,
+                  color: colors?.foreground ?? Colors.white,
                 ),
               ),
             ],
@@ -44,18 +44,18 @@ class RegistrationHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
+                backgroundColor: colors?.accent ?? const Color(0xFF4FD1C5),
                 child: Icon(
                   Icons.email_outlined,
                   size: 40,
-                  color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
+                  color: colors?.background ?? const Color(0xFF0A0A0A),
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 '新規登録',
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  color: colors?.textPrimary ?? Colors.white,
+                  color: colors?.foreground ?? Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -63,7 +63,7 @@ class RegistrationHeader extends StatelessWidget {
               Text(
                 'アカウントを作成して始めましょう',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                  color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
                 ),
               ),
             ],

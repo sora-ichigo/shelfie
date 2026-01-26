@@ -26,7 +26,7 @@ class LabeledTextField extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors?.textPrimary ?? Colors.white,
+            color: colors?.foreground ?? Colors.white,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
@@ -67,7 +67,7 @@ class EmailField extends StatelessWidget {
         autocorrect: false,
         onChanged: onChanged,
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors?.textPrimary ?? Colors.white,
+          color: colors?.foreground ?? Colors.white,
         ),
         decoration: InputDecoration(
           hintText: hintText,
@@ -117,7 +117,7 @@ class PasswordField extends StatelessWidget {
         enableSuggestions: false,
         onChanged: onChanged,
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors?.textPrimary ?? Colors.white,
+          color: colors?.foreground ?? Colors.white,
         ),
         decoration: InputDecoration(
           hintText: hintText,

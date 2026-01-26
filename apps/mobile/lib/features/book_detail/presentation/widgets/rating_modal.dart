@@ -121,7 +121,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                   isSelected ? Icons.star : Icons.star_border,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.ratingActive
+                      ? appColors.accentSecondary
                       : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
                 ),
               ),
@@ -168,7 +168,11 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: appColors.actionGradient,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [appColors.success, appColors.accent],
+          ),
           borderRadius: BorderRadius.circular(AppRadius.lg),
         ),
         child: ElevatedButton(

@@ -111,7 +111,11 @@ class BookInfoSection extends StatelessWidget {
       height: 44,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: appColors.actionGradient,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [appColors.success, appColors.accent],
+          ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton.icon(
@@ -323,6 +327,7 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildCategoriesChips(ThemeData theme, List<String> translatedCategories) {
+    final appColors = theme.extension<AppColors>()!;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xs),
       child: Row(
@@ -349,17 +354,17 @@ class BookInfoSection extends StatelessWidget {
                         vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.15),
+                        color: appColors.accent.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.primary.withOpacity(0.4),
+                          color: appColors.accent.withOpacity(0.4),
                           width: 1,
                         ),
                       ),
                       child: Text(
                         category,
                         style: theme.textTheme.labelMedium?.copyWith(
-                          color: AppColors.primary,
+                          color: appColors.accent,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

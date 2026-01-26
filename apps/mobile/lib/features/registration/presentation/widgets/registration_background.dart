@@ -7,8 +7,8 @@ class RegistrationBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColors>();
-    final brandPrimary = colors?.brandPrimary ?? const Color(0xFF4FD1C5);
-    final brandBackground = colors?.brandBackground ?? const Color(0xFF0A0A0A);
+    final accentColor = colors?.accent ?? const Color(0xFF4FD1C5);
+    final backgroundColor = colors?.background ?? const Color(0xFF0A0A0A);
 
     return SizedBox.expand(
       child: DecoratedBox(
@@ -17,8 +17,8 @@ class RegistrationBackground extends StatelessWidget {
             center: Alignment.center,
             radius: 1.0,
             colors: [
-              Color.lerp(brandPrimary, brandBackground, 0.75)!,
-              brandBackground,
+              Color.lerp(accentColor, backgroundColor, 0.75)!,
+              backgroundColor,
             ],
             stops: const [0.0, 0.5],
           ),

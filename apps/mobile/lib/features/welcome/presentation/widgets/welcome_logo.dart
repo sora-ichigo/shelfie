@@ -20,8 +20,8 @@ class WelcomeLogo extends StatelessWidget {
       children: [
         _LogoIcon(
           size: logoSize,
-          primaryColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
-          accentColor: colors?.brandAccent ?? const Color(0xFFF6C94A),
+          primaryColor: colors?.accent ?? const Color(0xFF4FD1C5),
+          accentColor: colors?.accentSecondary ?? const Color(0xFFF6C94A),
         ),
         Text(
           'Shelfie',
@@ -30,14 +30,14 @@ class WelcomeLogo extends StatelessWidget {
             fontWeight: FontWeight.w600,
             letterSpacing: 0.0,
             height: 1.2,
-            color: colors?.textPrimary ?? Colors.white,
+            color: colors?.foreground ?? Colors.white,
           ),
         ),
         SizedBox(height: AppSpacing.xs),
         Text(
           '読書家のための本棚',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
               ),
         ),
       ],

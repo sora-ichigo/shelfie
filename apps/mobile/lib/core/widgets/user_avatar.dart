@@ -51,11 +51,11 @@ class _DefaultAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
+      backgroundColor: colors?.accent ?? const Color(0xFF4FD1C5),
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
+        color: colors?.background ?? const Color(0xFF0A0A0A),
       ),
     );
   }
@@ -72,11 +72,11 @@ class _LoadingAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+      backgroundColor: colors?.surface ?? const Color(0xFF1A1A1A),
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+        color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
       ),
     );
   }
@@ -114,7 +114,7 @@ class _ImageAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+      backgroundColor: colors?.surface ?? const Color(0xFF1A1A1A),
       backgroundImage: imageProvider,
     );
   }

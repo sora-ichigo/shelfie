@@ -202,7 +202,11 @@ class _ReadingStatusModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: appColors.actionGradient,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [appColors.success, appColors.accent],
+          ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(

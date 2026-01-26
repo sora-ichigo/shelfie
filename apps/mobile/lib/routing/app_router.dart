@@ -391,7 +391,7 @@ class _MainShell extends StatelessWidget {
             activeIcon: _ActiveTabIcon(
               icon: Icons.auto_stories,
               indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
+                  Theme.of(context).extension<AppColors>()?.accent ??
                       const Color(0xFF4FD1C5),
             ),
             label: '本棚',
@@ -401,7 +401,7 @@ class _MainShell extends StatelessWidget {
             activeIcon: _ActiveTabIcon(
               icon: Icons.search,
               indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.brandPrimary ??
+                  Theme.of(context).extension<AppColors>()?.accent ??
                       const Color(0xFF4FD1C5),
             ),
             label: '検索',

@@ -50,7 +50,7 @@ class ProfileEditForm extends StatelessWidget {
         Text(
           'アカウントのメールアドレスは変更できません',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
           ),
         ),
       ],
@@ -61,7 +61,7 @@ class ProfileEditForm extends StatelessWidget {
     return Text(
       text,
       style: theme.textTheme.titleSmall?.copyWith(
-        color: colors?.textPrimary ?? Colors.white,
+        color: colors?.foreground ?? Colors.white,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -83,12 +83,12 @@ class ProfileEditForm extends StatelessWidget {
       enabled: enabled,
       style: theme.textTheme.bodyLarge?.copyWith(
         color: enabled
-            ? (colors?.textPrimary ?? Colors.white)
-            : (colors?.textSecondary ?? const Color(0xFFA0A0A0)),
+            ? (colors?.foreground ?? Colors.white)
+            : (colors?.foregroundMuted ?? const Color(0xFFA0A0A0)),
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        fillColor: colors?.surface ?? const Color(0xFF1A1A1A),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.xs),
           borderSide: BorderSide.none,
@@ -107,7 +107,7 @@ class ProfileEditForm extends StatelessWidget {
           borderSide: BorderSide(
             color: errorText != null
                 ? theme.colorScheme.error
-                : (colors?.brandPrimary ?? const Color(0xFF4FD1C5)),
+                : (colors?.accent ?? const Color(0xFF4FD1C5)),
             width: 2,
           ),
         ),
@@ -137,11 +137,11 @@ class ProfileEditForm extends StatelessWidget {
       controller: controller,
       enabled: false,
       style: theme.textTheme.bodyLarge?.copyWith(
-        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+        color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        fillColor: colors?.surface ?? const Color(0xFF1A1A1A),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.xs),
           borderSide: BorderSide.none,

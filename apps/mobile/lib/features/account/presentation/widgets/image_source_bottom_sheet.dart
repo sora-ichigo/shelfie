@@ -76,19 +76,19 @@ class _OptionTile extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: colors?.textPrimary ?? Colors.white,
+        color: colors?.foreground ?? Colors.white,
       ),
       title: Text(
         label,
         style: theme.textTheme.bodyLarge?.copyWith(
-          color: colors?.textPrimary ?? Colors.white,
+          color: colors?.foreground ?? Colors.white,
         ),
       ),
       onTap: onTap,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
-      tileColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+      tileColor: colors?.surface ?? const Color(0xFF1A1A1A),
     );
   }
 }
