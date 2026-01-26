@@ -28,16 +28,36 @@ function isJapaneseIsbn(isbn: string | null): boolean {
   return isbn.startsWith("978-4") || isbn.startsWith("9784") || isbn.startsWith("979-4") || isbn.startsWith("9794");
 }
 
+function hasUnknownAuthor(book: Book): boolean {
+  return book.authors.length === 0 || book.authors.some((a) => a === "著者不明");
+}
+
 function isJapaneseBook(book: Book): boolean {
   return isJapaneseIsbn(book.isbn) || hasJapaneseCharacters(book.title);
 }
 
-function filterJapaneseBooks(books: Book[]): Book[] {
-  return books.filter(isJapaneseBook);
+function isValidGoogleBook(book: Book): boolean {
+  return isJapaneseBook(book) && !hasUnknownAuthor(book);
 }
 
-function rakutenFirstMerge(rakutenBooks: Book[], googleBooks: Book[]): Book[] {
-  return [...rakutenBooks, ...googleBooks];
+function filterValidGoogleBooks(books: Book[]): Book[] {
+  return books.filter(isValidGoogleBook);
+}
+
+function balancedInterleave(rakutenBooks: Book[], googleBooks: Book[]): Book[] {
+  const result: Book[] = [];
+  const maxLength = Math.max(rakutenBooks.length, googleBooks.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    if (i < rakutenBooks.length) {
+      result.push(rakutenBooks[i]);
+    }
+    if (i < googleBooks.length) {
+      result.push(googleBooks[i]);
+    }
+  }
+
+  return result;
 }
 
 function deduplicateByIsbn(books: Book[]): Book[] {
@@ -97,15 +117,15 @@ export function createCompositeBookRepository(
         ? rakutenResult.data.items.map(mapRakutenBooksItem)
         : [];
       const googleBooks = googleResult.success
-        ? filterJapaneseBooks(googleResult.data.items.map(mapGoogleBooksVolume))
+        ? filterValidGoogleBooks(googleResult.data.items.map(mapGoogleBooksVolume))
         : [];
 
       if (!rakutenResult.success && !googleResult.success) {
         return err(rakutenResult.error);
       }
 
-      const mergedBooks = rakutenFirstMerge(rakutenBooks, googleBooks);
-      const deduplicatedBooks = deduplicateByIsbn(mergedBooks);
+      const interleavedBooks = balancedInterleave(rakutenBooks, googleBooks);
+      const deduplicatedBooks = deduplicateByIsbn(interleavedBooks);
 
       const totalItems =
         (rakutenResult.success ? rakutenResult.data.totalItems : 0) +

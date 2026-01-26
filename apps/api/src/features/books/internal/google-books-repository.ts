@@ -118,7 +118,7 @@ export function createGoogleBooksRepository(
         q: query,
         maxResults,
         startIndex: offset,
-        orderBy: "relevance",
+        // orderBy: "newest",
         printType: "books",
         langRestrict: "ja",
       });
