@@ -218,6 +218,9 @@ class _ReadingNoteModalContentState
       },
       (_) {
         if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('メモを保存しました')),
+          );
           Navigator.pop(context);
         }
       },

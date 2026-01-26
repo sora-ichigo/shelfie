@@ -251,7 +251,10 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      setState(() => _isUpdating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${status.displayName}に変更しました')),
+      );
+      Navigator.pop(context);
     }
   }
 
@@ -306,7 +309,10 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      setState(() => _isUpdating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('評価を変更しました')),
+      );
+      Navigator.pop(context);
     }
   }
 
@@ -381,52 +387,32 @@ class _BookQuickActionsModalContentState
   }
 
   Future<void> _onDeleteTap() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('本棚から削除'),
-        content: Text('「${widget.book.title}」を本棚から削除しますか？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).extension<AppColors>()!.error,
-            ),
-            child: const Text('削除'),
-          ),
-        ],
-      ),
-    );
+    setState(() => _isUpdating = true);
+    unawaited(HapticFeedback.mediumImpact());
 
-    if ((confirmed ?? false) && mounted) {
-      setState(() => _isUpdating = true);
-      unawaited(HapticFeedback.mediumImpact());
-
-      final result =
-          await ref.read(shelfStateProvider.notifier).removeFromShelf(
-                externalId: widget.book.externalId,
-                userBookId: widget.book.userBookId,
-              );
-
-      result.fold(
-        (failure) {
-          if (mounted) {
-            setState(() => _isUpdating = false);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(failure.userMessage)),
+    final result =
+        await ref.read(shelfStateProvider.notifier).removeFromShelf(
+              externalId: widget.book.externalId,
+              userBookId: widget.book.userBookId,
             );
-          }
-        },
-        (_) {
-          if (mounted) {
-            Navigator.pop(context);
-          }
-        },
-      );
-    }
+
+    result.fold(
+      (failure) {
+        if (mounted) {
+          setState(() => _isUpdating = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(failure.userMessage)),
+          );
+        }
+      },
+      (_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('本棚から削除しました')),
+          );
+          Navigator.pop(context);
+        }
+      },
+    );
   }
 }
