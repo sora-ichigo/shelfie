@@ -12,6 +12,7 @@ import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_grid.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -160,6 +161,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       hasMore: state.hasMore,
       isLoadingMore: state.isLoadingMore,
       onBookTap: _onBookTap,
+      onBookLongPress: _onBookLongPress,
       onLoadMore: () {
         ref.read(bookShelfNotifierProvider.notifier).loadMore();
       },
@@ -168,5 +170,17 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   void _onBookTap(ShelfBookItem book) {
     context.push(AppRoutes.bookDetail(bookId: book.externalId, source: book.source));
+  }
+
+  void _onBookLongPress(ShelfBookItem book) {
+    final shelfEntry = ref.read(shelfStateProvider)[book.externalId];
+    if (shelfEntry == null) return;
+
+    showBookQuickActionsModal(
+      context: context,
+      ref: ref,
+      book: book,
+      shelfEntry: shelfEntry,
+    );
   }
 }

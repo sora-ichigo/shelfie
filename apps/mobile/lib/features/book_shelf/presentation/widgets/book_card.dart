@@ -18,11 +18,13 @@ class BookCard extends ConsumerWidget {
   const BookCard({
     required this.book,
     required this.onTap,
+    this.onLongPress,
     super.key,
   });
 
   final ShelfBookItem book;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +39,7 @@ class BookCard extends ConsumerWidget {
 
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       borderRadius: BorderRadius.circular(AppRadius.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
