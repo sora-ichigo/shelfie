@@ -14,12 +14,15 @@ void main() {
         expect(result, contains('h-100'));
       });
 
-      test('顔検出パラメータが追加される', () {
+      test('パディングリサイズパラメータが追加される', () {
         const url = 'https://ik.imagekit.io/test/avatar.jpg';
 
         final result = ImageKitUrlTransformer.transformUrl(url, size: 100);
 
-        expect(result, contains('fo-face'));
+        expect(result, contains('cm-pad_resize'));
+        expect(result, contains('bg-FFFFFF'));
+        expect(result, contains('q-90'));
+        expect(result, contains('f-auto'));
       });
 
       test('非ImageKit URLはそのまま返す', () {
@@ -47,8 +50,8 @@ void main() {
 
         final result = ImageKitUrlTransformer.transformUrl(url);
 
-        expect(result, contains('w-96'));
-        expect(result, contains('h-96'));
+        expect(result, contains('w-256'));
+        expect(result, contains('h-256'));
       });
 
       test('カスタムサイズが正しく適用される', () {
