@@ -2,6 +2,7 @@
 library;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -240,73 +241,85 @@ List<RouteBase> _buildRoutes() {
     // ウェルカム画面
     GoRoute(
       path: AppRoutes.welcome,
-      builder: (context, state) => const WelcomeScreen(),
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: WelcomeScreen(),
+      ),
     ),
 
     // ログイン画面
     GoRoute(
       path: AppRoutes.login,
-      builder: (context, state) => const LoginScreen(),
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: LoginScreen(),
+      ),
     ),
 
     // 新規登録画面
     GoRoute(
       path: AppRoutes.register,
-      builder: (context, state) => const RegistrationScreen(),
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: RegistrationScreen(),
+      ),
     ),
 
     // エラー画面
     GoRoute(
       path: AppRoutes.error,
-      builder: (context, state) => const _ErrorScreen(),
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: _ErrorScreen(),
+      ),
     ),
 
     // アカウント画面（タブバーなし）
     GoRoute(
       path: AppRoutes.account,
-      builder: (context, state) => Consumer(
-        builder: (context, ref, _) => AccountScreen(
-          onClose: () => context.pop(),
-          onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
-          onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
-          onNavigateToTerms: LegalUrls.openTermsOfService,
-          onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
-          onLogout: () async {
-            final result = await showOkCancelAlertDialog(
-              context: context,
-              title: 'ログアウト',
-              message: 'ログアウトしますか？',
-              okLabel: 'ログアウト',
-              cancelLabel: 'キャンセル',
-              isDestructiveAction: true,
-            );
-            if (result == OkCancelResult.ok && context.mounted) {
-              await ref.read(authStateProvider.notifier).logout();
-            }
-          },
+      pageBuilder: (context, state) => CupertinoPage(
+        child: Consumer(
+          builder: (context, ref, _) => AccountScreen(
+            onClose: () => context.pop(),
+            onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
+            onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
+            onNavigateToTerms: LegalUrls.openTermsOfService,
+            onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
+            onLogout: () async {
+              final result = await showOkCancelAlertDialog(
+                context: context,
+                title: 'ログアウト',
+                message: 'ログアウトしますか？',
+                okLabel: 'ログアウト',
+                cancelLabel: 'キャンセル',
+                isDestructiveAction: true,
+              );
+              if (result == OkCancelResult.ok && context.mounted) {
+                await ref.read(authStateProvider.notifier).logout();
+              }
+            },
+          ),
         ),
       ),
       routes: [
         GoRoute(
           path: 'edit',
-          builder: (context, state) => Consumer(
-            builder: (context, ref, _) {
-              final accountState = ref.watch(accountNotifierProvider);
-              return accountState.when(
-                data: (profile) => ProfileEditScreen(
-                  initialProfile: profile,
-                  onClose: () => context.pop(),
-                  onSaveSuccess: () => context.pop(),
-                ),
-                loading: () => const Scaffold(
-                  body: Center(child: CircularProgressIndicator()),
-                ),
-                error: (error, stack) => Scaffold(
-                  appBar: AppBar(title: const Text('エラー')),
-                  body: Center(child: Text('$error')),
-                ),
-              );
-            },
+          pageBuilder: (context, state) => CupertinoPage(
+            child: Consumer(
+              builder: (context, ref, _) {
+                final accountState = ref.watch(accountNotifierProvider);
+                return accountState.when(
+                  data: (profile) => ProfileEditScreen(
+                    initialProfile: profile,
+                    onClose: () => context.pop(),
+                    onSaveSuccess: () => context.pop(),
+                  ),
+                  loading: () => const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  ),
+                  error: (error, stack) => Scaffold(
+                    appBar: AppBar(title: const Text('エラー')),
+                    body: Center(child: Text('$error')),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],
@@ -315,7 +328,7 @@ List<RouteBase> _buildRoutes() {
     // 本詳細（タブバーなし）
     GoRoute(
       path: '/books/:bookId',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final params = BookDetailParams.fromState(
           pathParameters: state.pathParameters,
           queryParameters: state.uri.queryParameters,
@@ -325,7 +338,9 @@ List<RouteBase> _buildRoutes() {
             : params.source == 'rakuten'
                 ? BookSource.rakuten
                 : null;
-        return BookDetailScreen(bookId: params.bookId, source: source);
+        return CupertinoPage(
+          child: BookDetailScreen(bookId: params.bookId, source: source),
+        );
       },
     ),
 

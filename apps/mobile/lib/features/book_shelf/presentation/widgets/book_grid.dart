@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -70,35 +71,48 @@ class _BookGridState extends State<BookGrid> {
   }
 
   Widget _buildFlatGrid(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              mainAxisSpacing: AppSpacing.xs,
-              crossAxisSpacing: AppSpacing.sm,
-              childAspectRatio: 0.45,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => BookCard(
-                book: widget.books[index],
-                onTap: () => widget.onBookTap(widget.books[index]),
+    return AnimationLimiter(
+      key: ValueKey('flat_${widget.books.map((b) => b.userBookId).join('_')}'),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(AppSpacing.md),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: AppSpacing.xs,
+                crossAxisSpacing: AppSpacing.sm,
+                childAspectRatio: 0.45,
               ),
-              childCount: widget.books.length,
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  columnCount: 3,
+                  duration: const Duration(milliseconds: 300),
+                  child: ScaleAnimation(
+                    scale: 0.9,
+                    child: FadeInAnimation(
+                      child: BookCard(
+                        book: widget.books[index],
+                        onTap: () => widget.onBookTap(widget.books[index]),
+                      ),
+                    ),
+                  ),
+                ),
+                childCount: widget.books.length,
+              ),
             ),
           ),
-        ),
-        if (widget.isLoadingMore)
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(AppSpacing.md),
-              child: LoadingIndicator(),
+          if (widget.isLoadingMore)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(AppSpacing.md),
+                child: LoadingIndicator(),
+              ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -108,54 +122,82 @@ class _BookGridState extends State<BookGrid> {
 
     final groups = widget.groupedBooks.entries.toList();
 
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        for (final group in groups) ...[
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md,
-                AppSpacing.md,
-                AppSpacing.md,
-                AppSpacing.sm,
-              ),
-              child: Text(
-                group.key,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: appColors.foreground,
-                  fontWeight: FontWeight.bold,
+    return AnimationLimiter(
+      key: ValueKey(
+        'grouped_${groups.map((g) => '${g.key}_${g.value.length}').join('_')}',
+      ),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          for (var groupIndex = 0; groupIndex < groups.length; groupIndex++) ...[
+            SliverToBoxAdapter(
+              child: AnimationConfiguration.staggeredList(
+                position: groupIndex,
+                duration: const Duration(milliseconds: 300),
+                child: SlideAnimation(
+                  horizontalOffset: -50,
+                  child: FadeInAnimation(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.md,
+                        AppSpacing.md,
+                        AppSpacing.md,
+                        AppSpacing.sm,
+                      ),
+                      child: Text(
+                        groups[groupIndex].key,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: appColors.foreground,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: AppSpacing.md,
-                crossAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.45,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => BookCard(
-                  book: group.value[index],
-                  onTap: () => widget.onBookTap(group.value[index]),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              sliver: SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: AppSpacing.md,
+                  crossAxisSpacing: AppSpacing.sm,
+                  childAspectRatio: 0.45,
                 ),
-                childCount: group.value.length,
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return AnimationConfiguration.staggeredGrid(
+                      position: index,
+                      columnCount: 3,
+                      duration: const Duration(milliseconds: 300),
+                      child: ScaleAnimation(
+                        scale: 0.9,
+                        child: FadeInAnimation(
+                          child: BookCard(
+                            book: groups[groupIndex].value[index],
+                            onTap: () => widget.onBookTap(
+                              groups[groupIndex].value[index],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: groups[groupIndex].value.length,
+                ),
               ),
             ),
-          ),
+          ],
+          if (widget.isLoadingMore)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(AppSpacing.md),
+                child: LoadingIndicator(),
+              ),
+            ),
         ],
-        if (widget.isLoadingMore)
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(AppSpacing.md),
-              child: LoadingIndicator(),
-            ),
-          ),
-      ],
+      ),
     );
   }
 }
