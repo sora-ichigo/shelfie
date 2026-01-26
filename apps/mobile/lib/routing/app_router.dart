@@ -5,6 +5,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -409,8 +410,8 @@ class _MainShell extends StatelessWidget {
 
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
+      bottomNavigationBar: _AppTabBar(
+        selectedIndex: selectedIndex,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -419,26 +420,49 @@ class _MainShell extends StatelessWidget {
               context.go(AppRoutes.searchTab);
           }
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.auto_stories_outlined),
-            activeIcon: _ActiveTabIcon(
-              icon: Icons.auto_stories,
-              indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.accent ??
-                      const Color(0xFF4FD1C5),
-            ),
+      ),
+    );
+  }
+}
+
+class _AppTabBar extends StatelessWidget {
+  const _AppTabBar({
+    required this.selectedIndex,
+    required this.onTap,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: appColors.background,
+        border: Border(
+          top: BorderSide(color: appColors.surface, width: 0.5),
+        ),
+      ),
+      padding: EdgeInsets.only(top: 12, bottom: bottomPadding + 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _TabItem(
+            icon: CupertinoIcons.book,
+            activeIcon: CupertinoIcons.book_fill,
             label: '本棚',
+            isSelected: selectedIndex == 0,
+            onTap: () => onTap(0),
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.search),
-            activeIcon: _ActiveTabIcon(
-              icon: Icons.search,
-              indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.accent ??
-                      const Color(0xFF4FD1C5),
-            ),
+          _TabItem(
+            icon: CupertinoIcons.search,
+            activeIcon: CupertinoIcons.search,
             label: '検索',
+            isSelected: selectedIndex == 1,
+            onTap: () => onTap(1),
           ),
         ],
       ),
@@ -446,40 +470,59 @@ class _MainShell extends StatelessWidget {
   }
 }
 
-/// アクティブタブのアイコン（上部インジケーター付き）
-class _ActiveTabIcon extends StatelessWidget {
-  const _ActiveTabIcon({
+class _TabItem extends StatelessWidget {
+  const _TabItem({
     required this.icon,
-    required this.indicatorColor,
+    required this.activeIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
   });
 
   final IconData icon;
-  final Color indicatorColor;
+  final IconData activeIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = Theme.of(context)
-            .bottomNavigationBarTheme
-            .selectedIconTheme
-            ?.size ??
-        32;
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.topCenter,
-      children: [
-        Icon(icon, size: iconSize),
-        Positioned(
-          top: -8,
-          child: Container(
-            width: iconSize,
-            height: 3,
-            decoration: BoxDecoration(
-              color: indicatorColor,
-              borderRadius: BorderRadius.circular(1.5),
-            ),
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final color = isSelected ? appColors.foreground : appColors.foregroundMuted;
+
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: label,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: 80,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isSelected ? activeIcon : icon,
+                color: color,
+                size: 26,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -52,16 +52,6 @@ abstract final class AppTheme {
           ),
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.dark.background,
-        selectedItemColor: AppColors.dark.foreground,
-        unselectedItemColor: AppColors.dark.foregroundMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 14),
-        unselectedLabelStyle: const TextStyle(fontSize: 14),
-        selectedIconTheme: const IconThemeData(size: 32),
-        unselectedIconTheme: const IconThemeData(size: 32),
-      ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
           color: AppColors.dark.foregroundMuted,
