@@ -18,29 +18,37 @@ describe("GoogleBooksRepository", () => {
     vi.restoreAllMocks();
   });
 
-  const createMockGoogleBooksItem = (overrides = {}) => ({
-    kind: "books#volume",
-    id: "test-volume-id",
-    volumeInfo: {
-      title: "テスト書籍",
-      authors: ["著者1", "著者2"],
-      publisher: "テスト出版社",
-      publishedDate: "2024-01-01",
-      description: "これはテスト書籍の説明です",
-      industryIdentifiers: [
-        { type: "ISBN_13", identifier: "9784123456789" },
-        { type: "ISBN_10", identifier: "4123456789" },
-      ],
-      pageCount: 300,
-      categories: ["Computers", "Programming"],
-      imageLinks: {
-        thumbnail: "https://books.google.com/thumbnail.jpg",
-        smallThumbnail: "https://books.google.com/small_thumbnail.jpg",
+  const createMockGoogleBooksItem = (
+    overrides: {
+      volumeInfo?: Record<string, unknown>;
+      [key: string]: unknown;
+    } = {},
+  ) => {
+    const { volumeInfo: volumeInfoOverrides, ...rest } = overrides;
+    return {
+      kind: "books#volume",
+      id: "test-volume-id",
+      volumeInfo: {
+        title: "テスト書籍",
+        authors: ["著者1", "著者2"],
+        publisher: "テスト出版社",
+        publishedDate: "2024-01-01",
+        description: "これはテスト書籍の説明です",
+        industryIdentifiers: [
+          { type: "ISBN_13", identifier: "9784123456789" },
+          { type: "ISBN_10", identifier: "4123456789" },
+        ],
+        pageCount: 300,
+        categories: ["Computers", "Programming"],
+        imageLinks: {
+          thumbnail: "https://books.google.com/thumbnail.jpg",
+          smallThumbnail: "https://books.google.com/small_thumbnail.jpg",
+        },
+        ...volumeInfoOverrides,
       },
-      ...overrides.volumeInfo,
-    },
-    ...overrides,
-  });
+      ...rest,
+    };
+  };
 
   describe("searchByQuery", () => {
     it("キーワード検索で書籍一覧を取得できる", async () => {
