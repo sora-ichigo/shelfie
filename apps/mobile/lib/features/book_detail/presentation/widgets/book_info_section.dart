@@ -36,6 +36,8 @@ class BookInfoSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(theme),
+        const SizedBox(height: AppSpacing.md),
+        _buildShelfButton(theme),
         const SizedBox(height: AppSpacing.lg),
         if (headerBottomSlot != null) ...[
           headerBottomSlot!,
@@ -75,7 +77,7 @@ class BookInfoSection extends StatelessWidget {
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 4,
+                    maxLines: 6,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -88,19 +90,22 @@ class BookInfoSection extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: AppSpacing.md),
-                if (isAddingToShelf || isRemovingFromShelf)
-                  _buildLoadingButton(theme)
-                else if (isInShelf)
-                  _buildRemoveFromShelfButton(theme)
-                else
-                  _buildAddToShelfButton(theme),
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  Widget _buildShelfButton(ThemeData theme) {
+    if (isAddingToShelf || isRemovingFromShelf) {
+      return _buildLoadingButton(theme);
+    } else if (isInShelf) {
+      return _buildRemoveFromShelfButton(theme);
+    } else {
+      return _buildAddToShelfButton(theme);
+    }
   }
 
   Widget _buildAddToShelfButton(ThemeData theme) {
