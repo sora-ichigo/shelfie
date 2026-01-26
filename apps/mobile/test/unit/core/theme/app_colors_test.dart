@@ -45,7 +45,7 @@ void main() {
 
         test('surfaceHigh は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfaceHigh, equals(const Color(0xFF2A2A2A)));
+          expect(colors.surfaceHigh, equals(const Color(0xFF1A2E2E)));
         });
 
         test('overlay は30%不透明度で定義されている', () {
