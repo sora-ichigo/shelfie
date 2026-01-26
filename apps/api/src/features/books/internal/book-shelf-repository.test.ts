@@ -98,6 +98,7 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "RAKUTEN",
       };
       mockDb.setResults([mockUserBook]);
 
@@ -153,6 +154,7 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "RAKUTEN",
       };
       mockDb.setResults([createdUserBook]);
 
@@ -184,6 +186,7 @@ describe("BookShelfRepository", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
+          source: "RAKUTEN",
         },
         {
           id: 2,
@@ -201,6 +204,7 @@ describe("BookShelfRepository", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
+          source: "RAKUTEN",
         },
       ];
       mockDb.setResults(mockUserBooks);
@@ -242,6 +246,7 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "RAKUTEN",
       };
       mockDb.setResults([mockUserBook]);
 
@@ -281,6 +286,7 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "RAKUTEN",
       };
       mockDb.setResults([updatedUserBook]);
 
@@ -313,6 +319,7 @@ describe("BookShelfRepository", () => {
         note: "Great book!",
         noteUpdatedAt,
         rating: null,
+        source: "RAKUTEN",
       };
       mockDb.setResults([updatedUserBook]);
 
@@ -381,6 +388,7 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "RAKUTEN",
       };
 
       expect(userBook.id).toBeDefined();

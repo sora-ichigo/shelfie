@@ -54,6 +54,7 @@ describe("CompositeBookRepository", () => {
 
     mockGoogleRepository = {
       searchByQuery: vi.fn(),
+      getVolumeById: vi.fn(),
     };
 
     mockLogger = {
@@ -61,6 +62,7 @@ describe("CompositeBookRepository", () => {
       warn: vi.fn(),
       error: vi.fn(),
       debug: vi.fn(),
+      child: vi.fn().mockReturnThis(),
     };
   });
 
