@@ -6,6 +6,7 @@ import {
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
 } from "./book-mapper.js";
+import type { CompositeBookRepository } from "./composite-book-repository.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
 
 export type BookSearchErrors =
@@ -45,7 +46,7 @@ export interface BookSearchService {
 }
 
 const DEFAULT_LIMIT = 10;
-const MAX_LIMIT = 30;
+const MAX_LIMIT = 20;
 const MIN_LIMIT = 1;
 
 function validateSearchInput(
@@ -133,6 +134,7 @@ function mapExternalApiError(externalError: {
 export function createBookSearchService(
   externalRepository: ExternalBookRepository,
   logger: LoggerService,
+  compositeRepository?: CompositeBookRepository,
 ): BookSearchService {
   return {
     async searchBooks(
@@ -145,6 +147,39 @@ export function createBookSearchService(
       }
 
       const { query, limit, offset } = validationResult.data;
+
+      if (compositeRepository) {
+        const repositoryResult = await compositeRepository.searchByQuery(
+          query,
+          limit,
+          offset,
+        );
+
+        if (!repositoryResult.success) {
+          logger.warn("Composite API error during book search", {
+            feature: "books",
+            query,
+            error: repositoryResult.error,
+          });
+          return err(mapExternalApiError(repositoryResult.error));
+        }
+
+        const { items, totalItems } = repositoryResult.data;
+        const hasMore = offset + items.length < totalItems;
+
+        logger.info("Book search completed successfully (composite)", {
+          feature: "books",
+          query,
+          resultCount: items.length,
+          totalCount: totalItems,
+        });
+
+        return ok({
+          items,
+          totalCount: totalItems,
+          hasMore,
+        });
+      }
 
       const repositoryResult = await externalRepository.searchByQuery(
         query,
