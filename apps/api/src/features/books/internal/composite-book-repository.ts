@@ -25,11 +25,18 @@ function hasJapaneseCharacters(text: string): boolean {
 
 function isJapaneseIsbn(isbn: string | null): boolean {
   if (!isbn) return false;
-  return isbn.startsWith("978-4") || isbn.startsWith("9784") || isbn.startsWith("979-4") || isbn.startsWith("9794");
+  return (
+    isbn.startsWith("978-4") ||
+    isbn.startsWith("9784") ||
+    isbn.startsWith("979-4") ||
+    isbn.startsWith("9794")
+  );
 }
 
 function hasUnknownAuthor(book: Book): boolean {
-  return book.authors.length === 0 || book.authors.some((a) => a === "著者不明");
+  return (
+    book.authors.length === 0 || book.authors.some((a) => a === "著者不明")
+  );
 }
 
 function isJapaneseBook(book: Book): boolean {
@@ -117,7 +124,9 @@ export function createCompositeBookRepository(
         ? rakutenResult.data.items.map(mapRakutenBooksItem)
         : [];
       const googleBooks = googleResult.success
-        ? filterValidGoogleBooks(googleResult.data.items.map(mapGoogleBooksVolume))
+        ? filterValidGoogleBooks(
+            googleResult.data.items.map(mapGoogleBooksVolume),
+          )
         : [];
 
       if (!rakutenResult.success && !googleResult.success) {

@@ -53,9 +53,7 @@ function createMockGoogleBooksVolume(
       publisher: "Google Publisher",
       publishedDate: "2024-01-01",
       description: "A book from Google Books",
-      industryIdentifiers: [
-        { type: "ISBN_13", identifier: "9784123456789" },
-      ],
+      industryIdentifiers: [{ type: "ISBN_13", identifier: "9784123456789" }],
       pageCount: 300,
       categories: ["Technology"],
       imageLinks: {
@@ -659,7 +657,10 @@ describe("BookSearchService", () => {
           ok(mockVolume),
         );
 
-        const result = await service.getBookDetail("google-volume-123", "google");
+        const result = await service.getBookDetail(
+          "google-volume-123",
+          "google",
+        );
 
         expect(result.success).toBe(true);
         if (result.success) {
@@ -692,7 +693,10 @@ describe("BookSearchService", () => {
           err({ code: "NETWORK_ERROR", message: "Network failure" }),
         );
 
-        const result = await service.getBookDetail("google-volume-123", "google");
+        const result = await service.getBookDetail(
+          "google-volume-123",
+          "google",
+        );
 
         expect(result.success).toBe(false);
         if (!result.success) {
