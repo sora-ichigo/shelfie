@@ -50,8 +50,8 @@ void main() {
 
         final result = ImageKitUrlTransformer.transformUrl(url);
 
-        expect(result, contains('w-96'));
-        expect(result, contains('h-96'));
+        expect(result, contains('w-256'));
+        expect(result, contains('h-256'));
       });
 
       test('カスタムサイズが正しく適用される', () {

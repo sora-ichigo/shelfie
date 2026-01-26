@@ -1,6 +1,6 @@
 class ImageKitUrlTransformer {
   static const String _imageKitDomain = 'ik.imagekit.io';
-  static const int _defaultSize = 96;
+  static const int _defaultSize = 256;
 
   static String? transformUrl(String? url, {int? size}) {
     if (url == null) return null;

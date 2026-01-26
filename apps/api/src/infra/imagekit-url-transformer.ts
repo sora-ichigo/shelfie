@@ -1,5 +1,5 @@
 const IMAGEKIT_DOMAIN = "ik.imagekit.io";
-const DEFAULT_AVATAR_SIZE = 128;
+const DEFAULT_AVATAR_SIZE = 256;
 
 export interface TransformOptions {
   width?: number;
