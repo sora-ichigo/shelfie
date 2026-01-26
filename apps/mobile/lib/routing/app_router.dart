@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
+import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
@@ -259,8 +260,8 @@ List<RouteBase> _buildRoutes() {
           onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
           onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
           onNavigateToHelp: () => _showStubSnackbar(context, 'ヘルプ'),
-          onNavigateToTerms: () => _showStubSnackbar(context, '利用規約'),
-          onNavigateToPrivacy: () => _showStubSnackbar(context, 'プライバシーポリシー'),
+          onNavigateToTerms: LegalUrls.openTermsOfService,
+          onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
           onLogout: () async {
             final result = await showOkCancelAlertDialog(
               context: context,
