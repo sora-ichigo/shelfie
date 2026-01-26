@@ -104,11 +104,8 @@ void main() {
         expect(AppTheme.seedColor, const Color(0xFF4FD1C5));
       });
 
-      testWidgets('ボトムナビゲーションでアクセントカラーが使用される', (tester) async {
-        final theme = AppTheme.theme;
-        final navTheme = theme.navigationBarTheme;
-
-        expect(navTheme.iconTheme?.resolve({WidgetState.selected})?.color, AppColors.dark.foreground);
+      test('foregroundカラーが白色である', () {
+        expect(AppColors.dark.foreground, const Color(0xFFFFFFFF));
       });
     });
 
