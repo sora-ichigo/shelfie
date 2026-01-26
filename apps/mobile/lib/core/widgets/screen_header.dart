@@ -34,12 +34,17 @@ class ScreenHeader extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          GestureDetector(
-            onTap: onProfileTap,
-            child: UserAvatar(
-              avatarUrl: avatarUrl,
-              radius: 24,
-              isLoading: isAvatarLoading,
+          Semantics(
+            button: true,
+            label: 'プロフィール',
+            child: InkResponse(
+              onTap: onProfileTap,
+              radius: 28,
+              child: UserAvatar(
+                avatarUrl: avatarUrl,
+                radius: 24,
+                isLoading: isAvatarLoading,
+              ),
             ),
           ),
         ],
