@@ -20,11 +20,17 @@ class PasswordSettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsState = ref.watch(passwordSettingsNotifierProvider);
-    final formNotifier = ref.read(passwordFormStateProvider.notifier);
+    final formState = ref.watch(passwordFormStateProvider);
     final colors = Theme.of(context).extension<AppColors>();
 
     final isLoading = settingsState is PasswordSettingsLoading;
-    final isSaveEnabled = formNotifier.isValid && !isLoading;
+    final isFormValid = formState.currentPassword.isNotEmpty &&
+        formState.newPassword.isNotEmpty &&
+        formState.confirmPassword.isNotEmpty &&
+        formState.currentPasswordError == null &&
+        formState.newPasswordError == null &&
+        formState.confirmPasswordError == null;
+    final isSaveEnabled = isFormValid && !isLoading;
 
     ref.listen<PasswordSettingsState>(
       passwordSettingsNotifierProvider,

@@ -41,7 +41,6 @@ void main() {
 
       expect(find.text('パスワード'), findsOneWidget);
       expect(find.text('パスワードを入力'), findsOneWidget);
-      expect(find.byIcon(Icons.lock_outline), findsOneWidget);
     });
 
     testWidgets('パスワード表示切り替えアイコンが表示される', (tester) async {
@@ -58,7 +57,7 @@ void main() {
         ),
       );
 
-      expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.visibility_off), findsOneWidget);
     });
 
     testWidgets('パスワード表示切り替えアイコンをタップすると表示状態が切り替わる',
@@ -76,12 +75,12 @@ void main() {
         ),
       );
 
-      expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.visibility_off), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.visibility_outlined));
+      await tester.tap(find.byIcon(Icons.visibility_off));
       await tester.pump();
 
-      expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.visibility), findsOneWidget);
     });
 
     testWidgets('パスワードを忘れた方リンクが表示される', (tester) async {

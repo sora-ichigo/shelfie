@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// ラベル付きテキストフィールドの基本レイアウト
@@ -23,7 +24,9 @@ class LabeledTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: theme.textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: AppSpacing.xs),
         child,
@@ -82,6 +85,7 @@ class PasswordField extends StatelessWidget {
     this.label = 'パスワード',
     this.hintText = 'パスワードを入力',
     this.errorText,
+    this.textInputAction,
     super.key,
   });
 
@@ -92,9 +96,13 @@ class PasswordField extends StatelessWidget {
   final String label;
   final String hintText;
   final String? errorText;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
+
     return LabeledTextField(
       label: label,
       child: TextFormField(
@@ -103,17 +111,55 @@ class PasswordField extends StatelessWidget {
         autocorrect: false,
         enableSuggestions: false,
         onChanged: onChanged,
+        textInputAction: textInputAction,
+        style: theme.textTheme.bodyLarge,
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: theme.textTheme.bodyLarge?.copyWith(
+            color: colors?.foregroundMuted,
+          ),
           errorText: errorText,
-          prefixIcon: const Icon(Icons.lock_outline),
           suffixIcon: IconButton(
             icon: Icon(
-              isObscured
-                  ? Icons.visibility_outlined
-                  : Icons.visibility_off_outlined,
+              isObscured ? Icons.visibility_off : Icons.visibility,
+              color: colors?.foregroundMuted,
             ),
             onPressed: onToggleVisibility,
+          ),
+          filled: true,
+          fillColor: colors?.surface,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.accent ?? Colors.blue,
+              width: 2,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.error ?? Colors.red,
+              width: 1,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.error ?? Colors.red,
+              width: 2,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
           ),
         ),
       ),
