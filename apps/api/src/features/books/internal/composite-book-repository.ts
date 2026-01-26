@@ -19,20 +19,25 @@ export interface CompositeBookRepository {
   ): Promise<Result<{ items: Book[]; totalItems: number }, ExternalApiErrors>>;
 }
 
-function balancedInterleave(rakutenBooks: Book[], googleBooks: Book[]): Book[] {
-  const result: Book[] = [];
-  const maxLength = Math.max(rakutenBooks.length, googleBooks.length);
+function hasJapaneseCharacters(text: string): boolean {
+  return /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]/.test(text);
+}
 
-  for (let i = 0; i < maxLength; i++) {
-    if (i < rakutenBooks.length) {
-      result.push(rakutenBooks[i]);
-    }
-    if (i < googleBooks.length) {
-      result.push(googleBooks[i]);
-    }
-  }
+function isJapaneseIsbn(isbn: string | null): boolean {
+  if (!isbn) return false;
+  return isbn.startsWith("978-4") || isbn.startsWith("9784") || isbn.startsWith("979-4") || isbn.startsWith("9794");
+}
 
-  return result;
+function isJapaneseBook(book: Book): boolean {
+  return isJapaneseIsbn(book.isbn) || hasJapaneseCharacters(book.title);
+}
+
+function filterJapaneseBooks(books: Book[]): Book[] {
+  return books.filter(isJapaneseBook);
+}
+
+function rakutenFirstMerge(rakutenBooks: Book[], googleBooks: Book[]): Book[] {
+  return [...rakutenBooks, ...googleBooks];
 }
 
 function deduplicateByIsbn(books: Book[]): Book[] {
@@ -92,15 +97,15 @@ export function createCompositeBookRepository(
         ? rakutenResult.data.items.map(mapRakutenBooksItem)
         : [];
       const googleBooks = googleResult.success
-        ? googleResult.data.items.map(mapGoogleBooksVolume)
+        ? filterJapaneseBooks(googleResult.data.items.map(mapGoogleBooksVolume))
         : [];
 
       if (!rakutenResult.success && !googleResult.success) {
         return err(rakutenResult.error);
       }
 
-      const interleavedBooks = balancedInterleave(rakutenBooks, googleBooks);
-      const deduplicatedBooks = deduplicateByIsbn(interleavedBooks);
+      const mergedBooks = rakutenFirstMerge(rakutenBooks, googleBooks);
+      const deduplicatedBooks = deduplicateByIsbn(mergedBooks);
 
       const totalItems =
         (rakutenResult.success ? rakutenResult.data.totalItems : 0) +

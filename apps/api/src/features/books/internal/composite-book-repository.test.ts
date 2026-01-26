@@ -65,8 +65,8 @@ describe("CompositeBookRepository", () => {
   });
 
   describe("searchByQuery", () => {
-    describe("Balanced Interleaving", () => {
-      it("両APIからの結果を交互に合成する", async () => {
+    describe("楽天優先マージ", () => {
+      it("楽天の結果を先に、次にGoogleの結果を表示する", async () => {
         vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
           success: true,
           data: {
@@ -101,13 +101,13 @@ describe("CompositeBookRepository", () => {
         if (result.success) {
           expect(result.data.items).toHaveLength(4);
           expect(result.data.items[0].title).toBe("楽天本1");
-          expect(result.data.items[1].title).toBe("Google本1");
-          expect(result.data.items[2].title).toBe("楽天本2");
+          expect(result.data.items[1].title).toBe("楽天本2");
+          expect(result.data.items[2].title).toBe("Google本1");
           expect(result.data.items[3].title).toBe("Google本2");
         }
       });
 
-      it("楽天の結果が少ない場合、Googleの残りを追加する", async () => {
+      it("楽天の結果が少ない場合、Googleの結果で補完する", async () => {
         vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
           success: true,
           data: {
@@ -146,7 +146,7 @@ describe("CompositeBookRepository", () => {
         }
       });
 
-      it("Googleの結果が少ない場合、楽天の残りを追加する", async () => {
+      it("Googleの結果が少なくても楽天の結果が全て先に表示される", async () => {
         vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
           success: true,
           data: {
@@ -179,9 +179,109 @@ describe("CompositeBookRepository", () => {
         if (result.success) {
           expect(result.data.items).toHaveLength(4);
           expect(result.data.items[0].title).toBe("楽天本1");
-          expect(result.data.items[1].title).toBe("Google本1");
-          expect(result.data.items[2].title).toBe("楽天本2");
-          expect(result.data.items[3].title).toBe("楽天本3");
+          expect(result.data.items[1].title).toBe("楽天本2");
+          expect(result.data.items[2].title).toBe("楽天本3");
+          expect(result.data.items[3].title).toBe("Google本1");
+        }
+      });
+    });
+
+    describe("Google Books日本語フィルタリング", () => {
+      it("日本のISBN（978-4始まり）を持つGoogle本のみ残す", async () => {
+        vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: { items: [], totalItems: 0 },
+        });
+
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: {
+            items: [
+              createMockGoogleItem("9784111111111", "Japanese Book"),
+              createMockGoogleItem("9781234567890", "English Book"),
+              createMockGoogleItem("9784222222222", "Another Japanese"),
+            ],
+            totalItems: 3,
+          },
+        });
+
+        repository = createCompositeBookRepository(
+          mockRakutenRepository,
+          mockGoogleRepository,
+          mockLogger,
+        );
+
+        const result = await repository.searchByQuery("テスト", 10, 0);
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(2);
+          expect(result.data.items[0].isbn).toBe("9784111111111");
+          expect(result.data.items[1].isbn).toBe("9784222222222");
+        }
+      });
+
+      it("日本語タイトルを持つGoogle本は日本ISBN以外でも残す", async () => {
+        vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: { items: [], totalItems: 0 },
+        });
+
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: {
+            items: [
+              createMockGoogleItem("9781234567890", "プログラミング入門"),
+              createMockGoogleItem("9781111111111", "English Only Title"),
+            ],
+            totalItems: 2,
+          },
+        });
+
+        repository = createCompositeBookRepository(
+          mockRakutenRepository,
+          mockGoogleRepository,
+          mockLogger,
+        );
+
+        const result = await repository.searchByQuery("テスト", 10, 0);
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(1);
+          expect(result.data.items[0].title).toBe("プログラミング入門");
+        }
+      });
+
+      it("ISBNなしでも日本語タイトルがあれば残す", async () => {
+        vi.mocked(mockRakutenRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: { items: [], totalItems: 0 },
+        });
+
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValueOnce({
+          success: true,
+          data: {
+            items: [
+              createMockGoogleItem(null, "日本語の本"),
+              createMockGoogleItem(null, "English Book"),
+            ],
+            totalItems: 2,
+          },
+        });
+
+        repository = createCompositeBookRepository(
+          mockRakutenRepository,
+          mockGoogleRepository,
+          mockLogger,
+        );
+
+        const result = await repository.searchByQuery("テスト", 10, 0);
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(1);
+          expect(result.data.items[0].title).toBe("日本語の本");
         }
       });
     });

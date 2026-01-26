@@ -118,6 +118,9 @@ export function createGoogleBooksRepository(
         q: query,
         maxResults,
         startIndex: offset,
+        orderBy: "relevance",
+        printType: "books",
+        langRestrict: "ja",
       });
 
       const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
