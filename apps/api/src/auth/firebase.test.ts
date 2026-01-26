@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
-  type FirebaseAuthConfig,
   createFirebaseAuthAdapter,
+  type FirebaseAuthConfig,
   getFirebaseAuthConfig,
   initializeFirebaseAuth,
 } from "./firebase";
@@ -174,9 +174,9 @@ describe("Firebase Auth", () => {
 
       const adapter = createFirebaseAuthAdapter();
 
-      await expect(
-        adapter.changePassword("id-token", "weak"),
-      ).rejects.toEqual({ code: "auth/weak-password" });
+      await expect(adapter.changePassword("id-token", "weak")).rejects.toEqual({
+        code: "auth/weak-password",
+      });
     });
 
     it("CREDENTIAL_TOO_OLD_LOGIN_AGAIN エラーを適切にマッピングする", async () => {

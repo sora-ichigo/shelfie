@@ -229,16 +229,6 @@ Future<String?> guardRoute({
   return null;
 }
 
-/// 未実装画面のスタブ用スナックバー表示
-void _showStubSnackbar(BuildContext context, String featureName) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('$featureNameは近日公開予定です'),
-      duration: const Duration(seconds: 2),
-    ),
-  );
-}
-
 /// ルート定義を構築
 List<RouteBase> _buildRoutes() {
   return [

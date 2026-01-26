@@ -443,7 +443,8 @@ export function registerAuthTypes(builder: Builder): void {
     }),
   });
 
-  SendPasswordResetEmailInputRef = createSendPasswordResetEmailInputRef(builder);
+  SendPasswordResetEmailInputRef =
+    createSendPasswordResetEmailInputRef(builder);
   SendPasswordResetEmailInputRef.implement({
     description: "Input for password reset email",
     fields: (t) => ({
