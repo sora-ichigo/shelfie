@@ -65,19 +65,13 @@ class AccountScreen extends ConsumerWidget {
               ProfileCard(profile: profile),
               const SizedBox(height: AppSpacing.lg),
               AccountMenuSection(
-                title: 'アカウント',
+                title: '設定',
                 items: [
                   AccountMenuItem(
                     title: 'プロフィール編集',
                     onTap: onNavigateToProfileEdit,
                     icon: Icons.person_outline,
                   ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              AccountMenuSection(
-                title: '設定',
-                items: [
                   AccountMenuItem(
                     title: 'パスワード設定',
                     onTap: onNavigateToPassword,
