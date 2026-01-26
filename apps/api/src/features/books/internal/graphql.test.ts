@@ -645,7 +645,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
             publishedDate: null,
             isbn: null,
             coverImageUrl: null,
-            source: "RAKUTEN" as const,
+            source: "rakuten" as const,
           },
         ],
         totalCount: 1,
@@ -733,7 +733,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         publishedDate: null,
         isbn: "9781234567890",
         coverImageUrl: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
       vi.mocked(mockSearchService.searchBookByISBN).mockResolvedValue(
         ok(mockBook),
@@ -872,7 +872,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
 
       vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
@@ -1074,7 +1074,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
 
       vi.mocked(mockShelfService.getUserBookByExternalId).mockResolvedValue(
@@ -1241,7 +1241,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
       vi.mocked(mockShelfService.addBookToShelf).mockResolvedValue(
         ok(mockUserBook),
@@ -1500,7 +1500,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
       vi.mocked(mockShelfService.updateReadingStatus).mockResolvedValue(
         ok(mockUserBook),
@@ -1724,7 +1724,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: "Great book!",
         noteUpdatedAt: new Date(),
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
       vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
         ok(mockUserBook),
@@ -1804,7 +1804,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         note: "",
         noteUpdatedAt: new Date(),
         rating: null,
-        source: "RAKUTEN" as const,
+        source: "rakuten" as const,
       };
       vi.mocked(mockShelfService.updateReadingNote).mockResolvedValue(
         ok(mockUserBook),
@@ -2027,7 +2027,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
-          source: "RAKUTEN" as const,
+          source: "rakuten" as const,
         },
       ];
 
@@ -2187,7 +2187,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
-          source: "RAKUTEN" as const,
+          source: "rakuten" as const,
         },
       ];
 
