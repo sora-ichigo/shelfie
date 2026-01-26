@@ -45,12 +45,14 @@ enum AuthErrorCode {
   EMAIL_ALREADY_EXISTS
   INTERNAL_ERROR
   INVALID_CREDENTIALS
+  INVALID_EMAIL
   INVALID_PASSWORD
   INVALID_TOKEN
   NETWORK_ERROR
   TOKEN_EXPIRED
   UNAUTHENTICATED
   USER_NOT_FOUND
+  WEAK_PASSWORD
 }
 
 """Error object for query results"""
@@ -149,6 +151,27 @@ enum BookSource {
   RAKUTEN
 }
 
+"""Input for password change"""
+input ChangePasswordInput {
+  """Current password"""
+  currentPassword: String!
+
+  """User email address"""
+  email: String!
+
+  """New password"""
+  newPassword: String!
+}
+
+"""Result of successful password change"""
+type ChangePasswordResult {
+  """New Firebase ID token"""
+  idToken: String!
+
+  """New refresh token"""
+  refreshToken: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -191,6 +214,9 @@ type Mutation {
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
 
+  """Change user password after verifying current password"""
+  changePassword(input: ChangePasswordInput!): MutationChangePasswordResult
+
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
 
@@ -203,6 +229,9 @@ type Mutation {
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
 
+  """Send password reset email to the specified address"""
+  sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
+
   """Update the rating of a book in the user's shelf"""
   updateBookRating(rating: Int!, userBookId: Int!): UserBook!
 
@@ -214,6 +243,12 @@ type Mutation {
 
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
+}
+
+union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
+
+type MutationChangePasswordSuccess {
+  data: ChangePasswordResult!
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
@@ -232,6 +267,12 @@ union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
   data: User!
+}
+
+union MutationSendPasswordResetEmailResult = AuthError | MutationSendPasswordResetEmailSuccess
+
+type MutationSendPasswordResetEmailSuccess {
+  data: SendPasswordResetEmailResult!
 }
 
 union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
@@ -354,6 +395,18 @@ type SearchBooksResult {
 
   """The total number of books found"""
   totalCount: Int!
+}
+
+"""Input for password reset email"""
+input SendPasswordResetEmailInput {
+  """Email address to send reset link"""
+  email: String!
+}
+
+"""Result of password reset email request"""
+type SendPasswordResetEmailResult {
+  """Whether the email was sent successfully"""
+  success: Boolean
 }
 
 """Sort field for books in shelf"""

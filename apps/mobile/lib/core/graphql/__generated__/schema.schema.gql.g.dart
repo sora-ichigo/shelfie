@@ -12,6 +12,8 @@ const GAuthErrorCode _$gAuthErrorCodeINTERNAL_ERROR =
     const GAuthErrorCode._('INTERNAL_ERROR');
 const GAuthErrorCode _$gAuthErrorCodeINVALID_CREDENTIALS =
     const GAuthErrorCode._('INVALID_CREDENTIALS');
+const GAuthErrorCode _$gAuthErrorCodeINVALID_EMAIL =
+    const GAuthErrorCode._('INVALID_EMAIL');
 const GAuthErrorCode _$gAuthErrorCodeINVALID_PASSWORD =
     const GAuthErrorCode._('INVALID_PASSWORD');
 const GAuthErrorCode _$gAuthErrorCodeINVALID_TOKEN =
@@ -24,6 +26,8 @@ const GAuthErrorCode _$gAuthErrorCodeUNAUTHENTICATED =
     const GAuthErrorCode._('UNAUTHENTICATED');
 const GAuthErrorCode _$gAuthErrorCodeUSER_NOT_FOUND =
     const GAuthErrorCode._('USER_NOT_FOUND');
+const GAuthErrorCode _$gAuthErrorCodeWEAK_PASSWORD =
+    const GAuthErrorCode._('WEAK_PASSWORD');
 
 GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
   switch (name) {
@@ -33,6 +37,8 @@ GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
       return _$gAuthErrorCodeINTERNAL_ERROR;
     case 'INVALID_CREDENTIALS':
       return _$gAuthErrorCodeINVALID_CREDENTIALS;
+    case 'INVALID_EMAIL':
+      return _$gAuthErrorCodeINVALID_EMAIL;
     case 'INVALID_PASSWORD':
       return _$gAuthErrorCodeINVALID_PASSWORD;
     case 'INVALID_TOKEN':
@@ -45,6 +51,8 @@ GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
       return _$gAuthErrorCodeUNAUTHENTICATED;
     case 'USER_NOT_FOUND':
       return _$gAuthErrorCodeUSER_NOT_FOUND;
+    case 'WEAK_PASSWORD':
+      return _$gAuthErrorCodeWEAK_PASSWORD;
     default:
       throw ArgumentError(name);
   }
@@ -55,12 +63,14 @@ final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
   _$gAuthErrorCodeEMAIL_ALREADY_EXISTS,
   _$gAuthErrorCodeINTERNAL_ERROR,
   _$gAuthErrorCodeINVALID_CREDENTIALS,
+  _$gAuthErrorCodeINVALID_EMAIL,
   _$gAuthErrorCodeINVALID_PASSWORD,
   _$gAuthErrorCodeINVALID_TOKEN,
   _$gAuthErrorCodeNETWORK_ERROR,
   _$gAuthErrorCodeTOKEN_EXPIRED,
   _$gAuthErrorCodeUNAUTHENTICATED,
   _$gAuthErrorCodeUSER_NOT_FOUND,
+  _$gAuthErrorCodeWEAK_PASSWORD,
 ]);
 
 const GBookSource _$gBookSourceGOOGLE = const GBookSource._('GOOGLE');
@@ -166,6 +176,8 @@ Serializer<GAddBookInput> _$gAddBookInputSerializer =
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
     _$GAuthErrorCodeSerializer();
 Serializer<GBookSource> _$gBookSourceSerializer = _$GBookSourceSerializer();
+Serializer<GChangePasswordInput> _$gChangePasswordInputSerializer =
+    _$GChangePasswordInputSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     _$GLoginUserInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
@@ -176,6 +188,9 @@ Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
     _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
     _$GRegisterUserInputSerializer();
+Serializer<GSendPasswordResetEmailInput>
+    _$gSendPasswordResetEmailInputSerializer =
+    _$GSendPasswordResetEmailInputSerializer();
 Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
     _$GShelfSortFieldSerializer();
 Serializer<GSortOrder> _$gSortOrderSerializer = _$GSortOrderSerializer();
@@ -328,6 +343,66 @@ class _$GBookSourceSerializer implements PrimitiveSerializer<GBookSource> {
   GBookSource deserialize(Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       GBookSource.valueOf(serialized as String);
+}
+
+class _$GChangePasswordInputSerializer
+    implements StructuredSerializer<GChangePasswordInput> {
+  @override
+  final Iterable<Type> types = const [
+    GChangePasswordInput,
+    _$GChangePasswordInput
+  ];
+  @override
+  final String wireName = 'GChangePasswordInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GChangePasswordInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'currentPassword',
+      serializers.serialize(object.currentPassword,
+          specifiedType: const FullType(String)),
+      'email',
+      serializers.serialize(object.email,
+          specifiedType: const FullType(String)),
+      'newPassword',
+      serializers.serialize(object.newPassword,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GChangePasswordInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = GChangePasswordInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'currentPassword':
+          result.currentPassword = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'email':
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'newPassword':
+          result.newPassword = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
 }
 
 class _$GLoginUserInputSerializer
@@ -568,6 +643,52 @@ class _$GRegisterUserInputSerializer
           break;
         case 'password':
           result.password = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GSendPasswordResetEmailInputSerializer
+    implements StructuredSerializer<GSendPasswordResetEmailInput> {
+  @override
+  final Iterable<Type> types = const [
+    GSendPasswordResetEmailInput,
+    _$GSendPasswordResetEmailInput
+  ];
+  @override
+  final String wireName = 'GSendPasswordResetEmailInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GSendPasswordResetEmailInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'email',
+      serializers.serialize(object.email,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GSendPasswordResetEmailInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = GSendPasswordResetEmailInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'email':
+          result.email = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -846,6 +967,119 @@ class GAddBookInputBuilder
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GChangePasswordInput extends GChangePasswordInput {
+  @override
+  final String currentPassword;
+  @override
+  final String email;
+  @override
+  final String newPassword;
+
+  factory _$GChangePasswordInput(
+          [void Function(GChangePasswordInputBuilder)? updates]) =>
+      (GChangePasswordInputBuilder()..update(updates))._build();
+
+  _$GChangePasswordInput._(
+      {required this.currentPassword,
+      required this.email,
+      required this.newPassword})
+      : super._();
+  @override
+  GChangePasswordInput rebuild(
+          void Function(GChangePasswordInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GChangePasswordInputBuilder toBuilder() =>
+      GChangePasswordInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GChangePasswordInput &&
+        currentPassword == other.currentPassword &&
+        email == other.email &&
+        newPassword == other.newPassword;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, currentPassword.hashCode);
+    _$hash = $jc(_$hash, email.hashCode);
+    _$hash = $jc(_$hash, newPassword.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GChangePasswordInput')
+          ..add('currentPassword', currentPassword)
+          ..add('email', email)
+          ..add('newPassword', newPassword))
+        .toString();
+  }
+}
+
+class GChangePasswordInputBuilder
+    implements Builder<GChangePasswordInput, GChangePasswordInputBuilder> {
+  _$GChangePasswordInput? _$v;
+
+  String? _currentPassword;
+  String? get currentPassword => _$this._currentPassword;
+  set currentPassword(String? currentPassword) =>
+      _$this._currentPassword = currentPassword;
+
+  String? _email;
+  String? get email => _$this._email;
+  set email(String? email) => _$this._email = email;
+
+  String? _newPassword;
+  String? get newPassword => _$this._newPassword;
+  set newPassword(String? newPassword) => _$this._newPassword = newPassword;
+
+  GChangePasswordInputBuilder();
+
+  GChangePasswordInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _currentPassword = $v.currentPassword;
+      _email = $v.email;
+      _newPassword = $v.newPassword;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GChangePasswordInput other) {
+    _$v = other as _$GChangePasswordInput;
+  }
+
+  @override
+  void update(void Function(GChangePasswordInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GChangePasswordInput build() => _build();
+
+  _$GChangePasswordInput _build() {
+    final _$result = _$v ??
+        _$GChangePasswordInput._(
+          currentPassword: BuiltValueNullFieldError.checkNotNull(
+              currentPassword, r'GChangePasswordInput', 'currentPassword'),
+          email: BuiltValueNullFieldError.checkNotNull(
+              email, r'GChangePasswordInput', 'email'),
+          newPassword: BuiltValueNullFieldError.checkNotNull(
+              newPassword, r'GChangePasswordInput', 'newPassword'),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1245,6 +1479,91 @@ class GRegisterUserInputBuilder
               email, r'GRegisterUserInput', 'email'),
           password: BuiltValueNullFieldError.checkNotNull(
               password, r'GRegisterUserInput', 'password'),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GSendPasswordResetEmailInput extends GSendPasswordResetEmailInput {
+  @override
+  final String email;
+
+  factory _$GSendPasswordResetEmailInput(
+          [void Function(GSendPasswordResetEmailInputBuilder)? updates]) =>
+      (GSendPasswordResetEmailInputBuilder()..update(updates))._build();
+
+  _$GSendPasswordResetEmailInput._({required this.email}) : super._();
+  @override
+  GSendPasswordResetEmailInput rebuild(
+          void Function(GSendPasswordResetEmailInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GSendPasswordResetEmailInputBuilder toBuilder() =>
+      GSendPasswordResetEmailInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GSendPasswordResetEmailInput && email == other.email;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, email.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GSendPasswordResetEmailInput')
+          ..add('email', email))
+        .toString();
+  }
+}
+
+class GSendPasswordResetEmailInputBuilder
+    implements
+        Builder<GSendPasswordResetEmailInput,
+            GSendPasswordResetEmailInputBuilder> {
+  _$GSendPasswordResetEmailInput? _$v;
+
+  String? _email;
+  String? get email => _$this._email;
+  set email(String? email) => _$this._email = email;
+
+  GSendPasswordResetEmailInputBuilder();
+
+  GSendPasswordResetEmailInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _email = $v.email;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GSendPasswordResetEmailInput other) {
+    _$v = other as _$GSendPasswordResetEmailInput;
+  }
+
+  @override
+  void update(void Function(GSendPasswordResetEmailInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GSendPasswordResetEmailInput build() => _build();
+
+  _$GSendPasswordResetEmailInput _build() {
+    final _$result = _$v ??
+        _$GSendPasswordResetEmailInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+              email, r'GSendPasswordResetEmailInput', 'email'),
         );
     replace(_$result);
     return _$result;

@@ -14,6 +14,7 @@ import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
+import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
@@ -54,6 +55,9 @@ abstract final class AppRoutes {
 
   /// プロフィール編集画面
   static const accountEdit = '/account/edit';
+
+  /// パスワード設定画面
+  static const accountPassword = '/account/password';
 
   /// エラー画面
   static const error = '/error';
@@ -225,16 +229,6 @@ Future<String?> guardRoute({
   return null;
 }
 
-/// 未実装画面のスタブ用スナックバー表示
-void _showStubSnackbar(BuildContext context, String featureName) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text('$featureNameは近日公開予定です'),
-      duration: const Duration(seconds: 2),
-    ),
-  );
-}
-
 /// ルート定義を構築
 List<RouteBase> _buildRoutes() {
   return [
@@ -278,7 +272,7 @@ List<RouteBase> _buildRoutes() {
           builder: (context, ref, _) => AccountScreen(
             onClose: () => context.pop(),
             onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
-            onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
+            onNavigateToPassword: () => context.push(AppRoutes.accountPassword),
             onNavigateToTerms: LegalUrls.openTermsOfService,
             onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
             onLogout: () async {
@@ -319,6 +313,15 @@ List<RouteBase> _buildRoutes() {
                   ),
                 );
               },
+            ),
+          ),
+        ),
+        GoRoute(
+          path: 'password',
+          pageBuilder: (context, state) => CupertinoPage(
+            child: PasswordSettingsScreen(
+              onClose: () => context.pop(),
+              onSaveSuccess: () => context.pop(),
             ),
           ),
         ),

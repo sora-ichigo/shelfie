@@ -100,6 +100,8 @@ describe("Auth GraphQL Mutations Schema", () => {
     getCurrentUser: vi.fn(),
     login: vi.fn(),
     refreshToken: vi.fn(),
+    changePassword: vi.fn(),
+    sendPasswordResetEmail: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {
@@ -331,5 +333,91 @@ describe("mapLoginErrorToAuthError", () => {
     const result = mapLoginErrorToAuthError(error as LoginServiceError);
 
     expect(result.retryable).toBe(true);
+  });
+});
+
+describe("Auth GraphQL Mutations - changePassword and sendPasswordResetEmail", () => {
+  const createMockAuthService = (): AuthService => ({
+    register: vi.fn(),
+    getCurrentUser: vi.fn(),
+    login: vi.fn(),
+    refreshToken: vi.fn(),
+    changePassword: vi.fn(),
+    sendPasswordResetEmail: vi.fn(),
+  });
+
+  const createSchemaWithMutations = (authService: AuthService) => {
+    const builder = createTestBuilder();
+
+    registerUserTypes(builder);
+    registerAuthTypes(builder);
+
+    builder.queryType({
+      fields: (t) => ({
+        _dummy: t.string({ resolve: () => "test" }),
+      }),
+    });
+
+    registerAuthMutations(builder, authService);
+
+    return builder.toSchema();
+  };
+
+  it("should define changePassword mutation with ChangePasswordInput", () => {
+    const mockAuthService = createMockAuthService();
+    const schema = createSchemaWithMutations(mockAuthService);
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.changePassword).toBeDefined();
+
+    const changePasswordField = fields?.changePassword;
+    const args = changePasswordField?.args;
+    expect(args?.length).toBe(1);
+    expect(args?.[0].name).toBe("input");
+    expect(args?.[0].type.toString()).toBe("ChangePasswordInput!");
+  });
+
+  it("should define ChangePasswordInput with required fields", () => {
+    const mockAuthService = createMockAuthService();
+    const schema = createSchemaWithMutations(mockAuthService);
+    const inputType = schema.getType(
+      "ChangePasswordInput",
+    ) as GraphQLInputObjectType;
+
+    expect(inputType).toBeDefined();
+    const fields = inputType.getFields();
+    expect(fields.email).toBeDefined();
+    expect(fields.currentPassword).toBeDefined();
+    expect(fields.newPassword).toBeDefined();
+  });
+
+  it("should define sendPasswordResetEmail mutation with SendPasswordResetEmailInput", () => {
+    const mockAuthService = createMockAuthService();
+    const schema = createSchemaWithMutations(mockAuthService);
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.sendPasswordResetEmail).toBeDefined();
+
+    const sendPasswordResetEmailField = fields?.sendPasswordResetEmail;
+    const args = sendPasswordResetEmailField?.args;
+    expect(args?.length).toBe(1);
+    expect(args?.[0].name).toBe("input");
+    expect(args?.[0].type.toString()).toBe("SendPasswordResetEmailInput!");
+  });
+
+  it("should define SendPasswordResetEmailInput with email field", () => {
+    const mockAuthService = createMockAuthService();
+    const schema = createSchemaWithMutations(mockAuthService);
+    const inputType = schema.getType(
+      "SendPasswordResetEmailInput",
+    ) as GraphQLInputObjectType;
+
+    expect(inputType).toBeDefined();
+    const fields = inputType.getFields();
+    expect(fields.email).toBeDefined();
   });
 });

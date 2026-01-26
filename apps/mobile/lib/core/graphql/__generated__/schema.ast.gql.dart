@@ -145,6 +145,10 @@ const AuthErrorCode = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'INVALID_EMAIL'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'INVALID_PASSWORD'),
       directives: [],
     ),
@@ -166,6 +170,10 @@ const AuthErrorCode = _i1.EnumTypeDefinitionNode(
     ),
     _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'USER_NOT_FOUND'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'WEAK_PASSWORD'),
       directives: [],
     ),
   ],
@@ -461,6 +469,64 @@ const BookSource = _i1.EnumTypeDefinitionNode(
     ),
   ],
 );
+const ChangePasswordInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ChangePasswordInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'currentPassword'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'email'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'newPassword'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    ),
+  ],
+);
+const ChangePasswordResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ChangePasswordResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'idToken'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'refreshToken'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+  ],
+);
 const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
@@ -587,6 +653,25 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'changePassword'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'input'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'ChangePasswordInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationChangePasswordResult'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'loginUser'),
       directives: [],
       args: [
@@ -660,6 +745,25 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Boolean'),
         isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'sendPasswordResetEmail'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'input'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'SendPasswordResetEmailInput'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationSendPasswordResetEmailResult'),
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -767,6 +871,36 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const MutationChangePasswordResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationChangePasswordResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'AuthError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationChangePasswordSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationChangePasswordSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationChangePasswordSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ChangePasswordResult'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
 const MutationLoginUserResult = _i1.UnionTypeDefinitionNode(
   name: _i1.NameNode(value: 'MutationLoginUserResult'),
   directives: [],
@@ -852,6 +986,36 @@ const MutationRegisterUserSuccess = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'User'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationSendPasswordResetEmailResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationSendPasswordResetEmailResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'AuthError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationSendPasswordResetEmailSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationSendPasswordResetEmailSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationSendPasswordResetEmailSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'SendPasswordResetEmailResult'),
         isNonNull: true,
       ),
     )
@@ -1284,6 +1448,37 @@ const SearchBooksResult = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const SendPasswordResetEmailInput = _i1.InputObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'SendPasswordResetEmailInput'),
+  directives: [],
+  fields: [
+    _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'email'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+      defaultValue: null,
+    )
+  ],
+);
+const SendPasswordResetEmailResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'SendPasswordResetEmailResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'success'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: false,
+      ),
+    )
+  ],
+);
 const ShelfSortField = _i1.EnumTypeDefinitionNode(
   name: _i1.NameNode(value: 'ShelfSortField'),
   directives: [],
@@ -1649,18 +1844,24 @@ const document = _i1.DocumentNode(definitions: [
   Book,
   BookDetail,
   BookSource,
+  ChangePasswordInput,
+  ChangePasswordResult,
   DateTime,
   ImageUploadError,
   LoginResult,
   LoginUserInput,
   MeResult,
   Mutation,
+  MutationChangePasswordResult,
+  MutationChangePasswordSuccess,
   MutationLoginUserResult,
   MutationLoginUserSuccess,
   MutationRefreshTokenResult,
   MutationRefreshTokenSuccess,
   MutationRegisterUserResult,
   MutationRegisterUserSuccess,
+  MutationSendPasswordResetEmailResult,
+  MutationSendPasswordResetEmailSuccess,
   MutationUpdateProfileResult,
   MutationUpdateProfileSuccess,
   MyShelfInput,
@@ -1673,6 +1874,8 @@ const document = _i1.DocumentNode(definitions: [
   RefreshTokenResult,
   RegisterUserInput,
   SearchBooksResult,
+  SendPasswordResetEmailInput,
+  SendPasswordResetEmailResult,
   ShelfSortField,
   SortOrder,
   UpdateProfileInput,

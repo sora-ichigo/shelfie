@@ -34,11 +34,13 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GAddBookInput,
         GAuthErrorCode,
         GBookSource,
+        GChangePasswordInput,
         GLoginUserInput,
         GMyShelfInput,
         GReadingStatus,
         GRefreshTokenInput,
         GRegisterUserInput,
+        GSendPasswordResetEmailInput,
         GShelfSortField,
         GSortOrder,
         GUpdateProfileInput;
@@ -50,6 +52,18 @@ import 'package:shelfie/core/state/__generated__/my_shelf.req.gql.dart'
     show GMyShelfReq;
 import 'package:shelfie/core/state/__generated__/my_shelf.var.gql.dart'
     show GMyShelfVars;
+import 'package:shelfie/features/account/data/__generated__/change_password.data.gql.dart'
+    show
+        GChangePasswordData_changePassword,
+        GChangePasswordData,
+        GChangePasswordData_changePassword__asAuthError,
+        GChangePasswordData_changePassword__asMutationChangePasswordSuccess,
+        GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data,
+        GChangePasswordData_changePassword__base;
+import 'package:shelfie/features/account/data/__generated__/change_password.req.gql.dart'
+    show GChangePasswordReq;
+import 'package:shelfie/features/account/data/__generated__/change_password.var.gql.dart'
+    show GChangePasswordVars;
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart'
     show
         GGetMyProfileData_me,
@@ -73,6 +87,18 @@ import 'package:shelfie/features/account/data/__generated__/get_upload_credentia
     show GGetUploadCredentialsReq;
 import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.var.gql.dart'
     show GGetUploadCredentialsVars;
+import 'package:shelfie/features/account/data/__generated__/send_password_reset_email.data.gql.dart'
+    show
+        GSendPasswordResetEmailData_sendPasswordResetEmail,
+        GSendPasswordResetEmailData,
+        GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError,
+        GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess,
+        GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data,
+        GSendPasswordResetEmailData_sendPasswordResetEmail__base;
+import 'package:shelfie/features/account/data/__generated__/send_password_reset_email.req.gql.dart'
+    show GSendPasswordResetEmailReq;
+import 'package:shelfie/features/account/data/__generated__/send_password_reset_email.var.gql.dart'
+    show GSendPasswordResetEmailVars;
 import 'package:shelfie/features/account/data/__generated__/update_profile.data.gql.dart'
     show
         GUpdateProfileData_updateProfile,
@@ -179,12 +205,14 @@ part 'serializers.gql.g.dart';
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
+  ..add(GChangePasswordData_changePassword.serializer)
   ..add(GGetMeData_me.serializer)
   ..add(GGetMyProfileData_me.serializer)
   ..add(GGetUploadCredentialsData_getUploadCredentials.serializer)
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
+  ..add(GSendPasswordResetEmailData_sendPasswordResetEmail.serializer)
   ..add(GUpdateProfileData_updateProfile.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
@@ -200,6 +228,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GBookDetailReq,
   GBookDetailVars,
   GBookSource,
+  GChangePasswordData,
+  GChangePasswordData_changePassword__asAuthError,
+  GChangePasswordData_changePassword__asMutationChangePasswordSuccess,
+  GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data,
+  GChangePasswordData_changePassword__base,
+  GChangePasswordInput,
+  GChangePasswordReq,
+  GChangePasswordVars,
   GGetMeData,
   GGetMeData_me__asAuthErrorResult,
   GGetMeData_me__asUser,
@@ -268,6 +304,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSearchBooksData_searchBooks_items,
   GSearchBooksReq,
   GSearchBooksVars,
+  GSendPasswordResetEmailData,
+  GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError,
+  GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess,
+  GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data,
+  GSendPasswordResetEmailData_sendPasswordResetEmail__base,
+  GSendPasswordResetEmailInput,
+  GSendPasswordResetEmailReq,
+  GSendPasswordResetEmailVars,
   GShelfSortField,
   GSortOrder,
   GUpdateBookRatingData,

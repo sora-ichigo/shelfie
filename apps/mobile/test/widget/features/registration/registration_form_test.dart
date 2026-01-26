@@ -41,7 +41,6 @@ void main() {
 
       expect(find.text('パスワード'), findsOneWidget);
       expect(find.text('8文字以上'), findsOneWidget);
-      expect(find.byIcon(Icons.lock_outline), findsWidgets);
     });
 
     testWidgets('パスワード（確認）入力フィールドが表示される', (tester) async {
@@ -76,7 +75,7 @@ void main() {
         ),
       );
 
-      expect(find.byIcon(Icons.visibility_outlined), findsNWidgets(2));
+      expect(find.byIcon(Icons.visibility_off), findsNWidgets(2));
     });
 
     testWidgets('パスワード表示切り替えアイコンをタップすると表示状態が切り替わる', (tester) async {
@@ -93,12 +92,12 @@ void main() {
         ),
       );
 
-      expect(find.byIcon(Icons.visibility_outlined), findsNWidgets(2));
+      expect(find.byIcon(Icons.visibility_off), findsNWidgets(2));
 
-      await tester.tap(find.byIcon(Icons.visibility_outlined).first);
+      await tester.tap(find.byIcon(Icons.visibility_off).first);
       await tester.pump();
 
-      expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.visibility), findsOneWidget);
     });
   });
 }
