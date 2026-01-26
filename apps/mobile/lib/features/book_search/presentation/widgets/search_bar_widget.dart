@@ -75,7 +75,12 @@ class SearchBarWidget extends StatelessWidget {
                       const SizedBox(width: AppSpacing.xs),
                       TextButton(
                         onPressed: onCancelPressed,
-                        child: const Text('キャンセル'),
+                        child: Text(
+                          'キャンセル',
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                       ),
                     ],
                   )

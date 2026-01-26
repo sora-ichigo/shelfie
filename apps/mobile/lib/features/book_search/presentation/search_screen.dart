@@ -178,12 +178,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           return const SizedBox.shrink();
         }
 
-        return SingleChildScrollView(
+        return Align(
           key: const ValueKey('recent_books_section'),
-          child: RecentBooksSection(
-            books: recentBooks,
-            onBookTap: (bookId) =>
-                context.push(AppRoutes.bookDetail(bookId: bookId)),
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: RecentBooksSection(
+              books: recentBooks,
+              onBookTap: (bookId) =>
+                  context.push(AppRoutes.bookDetail(bookId: bookId)),
+            ),
           ),
         );
       },
