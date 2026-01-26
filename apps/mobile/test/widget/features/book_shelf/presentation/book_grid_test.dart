@@ -109,6 +109,7 @@ void main() {
     bool hasMore = false,
     bool isLoadingMore = false,
     void Function(ShelfBookItem)? onBookTap,
+    void Function(ShelfBookItem)? onBookLongPress,
     VoidCallback? onLoadMore,
   }) {
     final effectiveShelfState = shelfState ?? createShelfState(books);
@@ -127,6 +128,7 @@ void main() {
             hasMore: hasMore,
             isLoadingMore: isLoadingMore,
             onBookTap: onBookTap ?? (_) {},
+            onBookLongPress: onBookLongPress ?? (_) {},
             onLoadMore: onLoadMore ?? () {},
           ),
         ),

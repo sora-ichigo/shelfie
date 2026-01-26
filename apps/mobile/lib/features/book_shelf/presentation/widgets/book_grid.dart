@@ -18,6 +18,7 @@ class BookGrid extends StatefulWidget {
     required this.hasMore,
     required this.isLoadingMore,
     required this.onBookTap,
+    required this.onBookLongPress,
     required this.onLoadMore,
     super.key,
   });
@@ -28,6 +29,7 @@ class BookGrid extends StatefulWidget {
   final bool hasMore;
   final bool isLoadingMore;
   final void Function(ShelfBookItem) onBookTap;
+  final void Function(ShelfBookItem) onBookLongPress;
   final VoidCallback onLoadMore;
 
   @override
@@ -96,6 +98,8 @@ class _BookGridState extends State<BookGrid> {
                       child: BookCard(
                         book: widget.books[index],
                         onTap: () => widget.onBookTap(widget.books[index]),
+                        onLongPress: () =>
+                            widget.onBookLongPress(widget.books[index]),
                       ),
                     ),
                   ),
@@ -177,6 +181,9 @@ class _BookGridState extends State<BookGrid> {
                           child: BookCard(
                             book: groups[groupIndex].value[index],
                             onTap: () => widget.onBookTap(
+                              groups[groupIndex].value[index],
+                            ),
+                            onLongPress: () => widget.onBookLongPress(
                               groups[groupIndex].value[index],
                             ),
                           ),

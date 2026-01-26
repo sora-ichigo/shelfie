@@ -13,9 +13,11 @@ import 'package:shelfie/features/book_search/application/book_search_state.dart'
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/application/search_history_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
+import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/recent_book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_books_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_history_section.dart';
@@ -183,12 +185,97 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               books: recentBooks,
               onBookTap: (bookId) =>
                   context.push(AppRoutes.bookDetail(bookId: bookId)),
+              onBookLongPress: _onRecentBookLongPress,
             ),
           ),
         );
       },
       loading: () => const SizedBox.shrink(),
       error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
+  void _onRecentBookLongPress(RecentBookEntry book) {
+    showRecentBookQuickActionsModal(
+      context: context,
+      book: book,
+      onAddToShelf: () => _onRecentBookAddToShelf(book),
+      onRemoveFromShelf: () => _onRecentBookRemoveFromShelf(book),
+    );
+  }
+
+  Future<void> _onRecentBookAddToShelf(RecentBookEntry book) async {
+    if (_addingBooks.contains(book.bookId)) return;
+
+    setState(() {
+      _addingBooks.add(book.bookId);
+    });
+
+    final result = await ref.read(shelfStateProvider.notifier).addToShelf(
+          externalId: book.bookId,
+          title: book.title,
+          authors: book.authors,
+          coverImageUrl: book.coverImageUrl,
+        );
+
+    if (!mounted) return;
+
+    setState(() {
+      _addingBooks.remove(book.bookId);
+    });
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.userMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('本棚に追加しました')),
+        );
+      },
+    );
+  }
+
+  Future<void> _onRecentBookRemoveFromShelf(RecentBookEntry book) async {
+    final shelfEntry = ref.read(shelfStateProvider)[book.bookId];
+    if (shelfEntry == null) return;
+
+    if (_removingBooks.contains(book.bookId)) return;
+
+    setState(() {
+      _removingBooks.add(book.bookId);
+    });
+
+    final result = await ref.read(shelfStateProvider.notifier).removeFromShelf(
+          externalId: book.bookId,
+          userBookId: shelfEntry.userBookId,
+        );
+
+    if (!mounted) return;
+
+    setState(() {
+      _removingBooks.remove(book.bookId);
+    });
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.userMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      },
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('本棚から削除しました')),
+        );
+      },
     );
   }
 
