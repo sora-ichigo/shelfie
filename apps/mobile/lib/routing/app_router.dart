@@ -268,9 +268,7 @@ List<RouteBase> _buildRoutes() {
         builder: (context, ref, _) => AccountScreen(
           onClose: () => context.pop(),
           onNavigateToProfileEdit: () => context.push(AppRoutes.accountEdit),
-          onNavigateToNotifications: () => _showStubSnackbar(context, '通知設定'),
           onNavigateToPassword: () => _showStubSnackbar(context, 'パスワード設定'),
-          onNavigateToHelp: () => _showStubSnackbar(context, 'ヘルプ'),
           onNavigateToTerms: LegalUrls.openTermsOfService,
           onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
           onLogout: () async {

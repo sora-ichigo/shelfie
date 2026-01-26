@@ -13,9 +13,7 @@ import 'package:shelfie/features/account/presentation/widgets/profile_card.dart'
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({
     required this.onNavigateToProfileEdit,
-    required this.onNavigateToNotifications,
     required this.onNavigateToPassword,
-    required this.onNavigateToHelp,
     required this.onNavigateToTerms,
     required this.onNavigateToPrivacy,
     required this.onLogout,
@@ -24,9 +22,7 @@ class AccountScreen extends ConsumerWidget {
   });
 
   final VoidCallback onNavigateToProfileEdit;
-  final VoidCallback onNavigateToNotifications;
   final VoidCallback onNavigateToPassword;
-  final VoidCallback onNavigateToHelp;
   final VoidCallback onNavigateToTerms;
   final VoidCallback onNavigateToPrivacy;
   final VoidCallback onLogout;
@@ -83,11 +79,6 @@ class AccountScreen extends ConsumerWidget {
                 title: '設定',
                 items: [
                   AccountMenuItem(
-                    title: '通知設定',
-                    onTap: onNavigateToNotifications,
-                    icon: Icons.notifications_outlined,
-                  ),
-                  AccountMenuItem(
                     title: 'パスワード設定',
                     onTap: onNavigateToPassword,
                     icon: Icons.lock_outline,
@@ -98,11 +89,6 @@ class AccountScreen extends ConsumerWidget {
               AccountMenuSection(
                 title: '詳細',
                 items: [
-                  AccountMenuItem(
-                    title: 'ヘルプ',
-                    onTap: onNavigateToHelp,
-                    icon: Icons.help_outline,
-                  ),
                   AccountMenuItem(
                     title: '利用規約',
                     onTap: onNavigateToTerms,
