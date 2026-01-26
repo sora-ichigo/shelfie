@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/registration/application/registration_notifier.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_background.dart';
@@ -103,14 +104,10 @@ class RegistrationScreen extends ConsumerWidget {
   }
 
   void _onTermsPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('準備中です')),
-    );
+    LegalUrls.openTermsOfService();
   }
 
   void _onPrivacyPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('準備中です')),
-    );
+    LegalUrls.openPrivacyPolicy();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_background.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_content.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -36,14 +37,10 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   void _onTermsPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('利用規約ページは準備中です')),
-    );
+    LegalUrls.openTermsOfService();
   }
 
   void _onPrivacyPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('プライバシーポリシーページは準備中です')),
-    );
+    LegalUrls.openPrivacyPolicy();
   }
 }
