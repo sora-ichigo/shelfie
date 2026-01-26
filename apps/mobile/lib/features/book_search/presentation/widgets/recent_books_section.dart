@@ -78,33 +78,36 @@ class _RecentBookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const cardWidth = 100.0;
     const imageHeight = 130.0;
+    const borderRadius = BorderRadius.all(Radius.circular(8));
 
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: cardWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      width: cardWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Material(
+            borderRadius: borderRadius,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: borderRadius,
               child: SizedBox(
                 width: cardWidth,
                 height: imageHeight,
                 child: _buildCoverImage(context),
               ),
             ),
-            const SizedBox(height: AppSpacing.xs),
-            Expanded(
-              child: Text(
-                book.title,
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Expanded(
+            child: Text(
+              book.title,
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
