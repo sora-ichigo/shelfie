@@ -492,64 +492,63 @@ class BookInfoSection extends StatelessWidget {
     required String url,
     required List<Color> gradientColors,
   }) {
-    return InkWell(
-      onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+    return Material(
+      color: theme.colorScheme.surfaceContainerHigh,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: double.infinity,
-        padding: AppSpacing.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHigh.withOpacity(1.0),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: gradientColors,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                child: FaIcon(
-                  FontAwesomeIcons.amazon,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+      child: InkWell(
+        onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: AppSpacing.all(AppSpacing.md),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: gradientColors,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    description,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.amazon,
+                    size: 20,
+                    color: Colors.white,
                   ),
-                ],
+                ),
               ),
-            ),
-            Icon(
-              Icons.open_in_new,
-              size: 20,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ],
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.open_in_new,
+                size: 20,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -561,70 +560,69 @@ class BookInfoSection extends StatelessWidget {
     required String description,
     required String url,
   }) {
-    return InkWell(
-      onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+    return Material(
+      color: theme.colorScheme.surfaceContainerHigh,
       borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: double.infinity,
-        padding: AppSpacing.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFBF0000),
-                    Color(0xFF8C0000),
+      child: InkWell(
+        onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: AppSpacing.all(AppSpacing.md),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFBF0000),
+                      Color(0xFF8C0000),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Center(
+                  child: Text(
+                    'R',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                child: Text(
-                  'R',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    description,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+              Icon(
+                Icons.open_in_new,
+                size: 20,
+                color: theme.colorScheme.onSurfaceVariant,
               ),
-            ),
-            Icon(
-              Icons.open_in_new,
-              size: 20,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

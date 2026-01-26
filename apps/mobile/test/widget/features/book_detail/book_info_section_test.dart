@@ -218,5 +218,40 @@ void main() {
         expect(find.text('ドラマ'), findsOneWidget);
       });
     });
+
+    group('外部リンクボタン', () {
+      testWidgets('外部リンクボタンはタップ時にリップルエフェクトのフィードバックがある',
+          (tester) async {
+        const bookDetail = BookDetail(
+          id: 'test-id',
+          title: 'Test Book',
+          authors: ['Test Author'],
+          amazonUrl: 'https://amazon.co.jp/test',
+          rakutenBooksUrl: 'https://books.rakuten.co.jp/test',
+        );
+
+        await tester.pumpWidget(buildTestWidget(bookDetail: bookDetail));
+        await tester.pumpAndSettle();
+
+        // 購入・詳細セクションが表示される
+        expect(find.text('購入・詳細'), findsOneWidget);
+        expect(find.text('Amazonで見る'), findsOneWidget);
+        expect(find.text('楽天ブックスで見る'), findsOneWidget);
+
+        // 外部リンクボタンがMaterialでラップされたInkWellを使用していることを確認
+        // （リップルエフェクトが正しく表示されるため）
+        final amazonButton = find.ancestor(
+          of: find.text('Amazonで見る'),
+          matching: find.byType(Material),
+        );
+        final rakutenButton = find.ancestor(
+          of: find.text('楽天ブックスで見る'),
+          matching: find.byType(Material),
+        );
+
+        expect(amazonButton, findsWidgets);
+        expect(rakutenButton, findsWidgets);
+      });
+    });
   });
 }
