@@ -48,8 +48,8 @@ void main() {
         expect(theme.scaffoldBackgroundColor, const Color(0xFF0A0A0A));
       });
 
-      test('AppColors.dark.brandBackground が黒系', () {
-        expect(AppColors.dark.brandBackground, const Color(0xFF0A0A0A));
+      test('AppColors.dark.background が黒系', () {
+        expect(AppColors.dark.background, const Color(0xFF0A0A0A));
       });
 
       testWidgets('BookCard がダークテーマで正しく表示される', (tester) async {
@@ -96,8 +96,8 @@ void main() {
     });
 
     group('アクセントカラー（緑色）の適用', () {
-      test('AppColors.dark.brandPrimary がターコイズグリーン', () {
-        expect(AppColors.dark.brandPrimary, const Color(0xFF4FD1C5));
+      test('AppColors.dark.accent がターコイズグリーン', () {
+        expect(AppColors.dark.accent, const Color(0xFF4FD1C5));
       });
 
       test('AppTheme.seedColor がターコイズグリーン', () {
@@ -108,7 +108,7 @@ void main() {
         final theme = AppTheme.theme;
         final bottomNavTheme = theme.bottomNavigationBarTheme;
 
-        expect(bottomNavTheme.selectedItemColor, AppColors.dark.textPrimary);
+        expect(bottomNavTheme.selectedItemColor, AppColors.dark.foreground);
       });
     });
 
@@ -176,12 +176,12 @@ void main() {
     });
 
     group('テキストカラーの適用', () {
-      test('AppColors.dark.textPrimary が白', () {
-        expect(AppColors.dark.textPrimary, const Color(0xFFFFFFFF));
+      test('AppColors.dark.foreground が白', () {
+        expect(AppColors.dark.foreground, const Color(0xFFFFFFFF));
       });
 
-      test('AppColors.dark.textSecondary がグレー', () {
-        expect(AppColors.dark.textSecondary, const Color(0xFFA0A0A0));
+      test('AppColors.dark.foregroundMuted がグレー', () {
+        expect(AppColors.dark.foregroundMuted, const Color(0xFFA0A0A0));
       });
 
       testWidgets('BookCard のタイトルがプライマリテキストカラー', (tester) async {
@@ -225,13 +225,13 @@ void main() {
         );
 
         final authorText = tester.widget<Text>(find.text('テスト著者'));
-        expect(authorText.style?.color, AppColors.dark.textSecondary);
+        expect(authorText.style?.color, AppColors.dark.foregroundMuted);
       });
     });
 
     group('星評価のアクセントカラー', () {
-      test('AppColors.dark.brandAccent がゴールド', () {
-        expect(AppColors.dark.brandAccent, const Color(0xFFF6C94A));
+      test('AppColors.dark.accentSecondary がゴールド', () {
+        expect(AppColors.dark.accentSecondary, const Color(0xFFF6C94A));
       });
 
       testWidgets('BookCard の星評価がアクセントカラー', (tester) async {
@@ -254,7 +254,7 @@ void main() {
 
         final starIcons = tester.widgetList<Icon>(find.byIcon(Icons.star));
         for (final icon in starIcons) {
-          expect(icon.color, AppColors.dark.brandAccent);
+          expect(icon.color, AppColors.dark.accentSecondary);
         }
       });
     });

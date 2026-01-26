@@ -39,14 +39,14 @@ class AccountMenuSection extends StatelessWidget {
           child: Text(
             title,
             style: theme.textTheme.titleSmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: colors?.foregroundMuted,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-            color: colors?.surface ?? const Color(0xFF1A1A1A),
+            color: colors?.surface,
             borderRadius: BorderRadius.circular(AppSpacing.md),
           ),
           child: Column(
@@ -92,19 +92,13 @@ class _MenuItemTile extends StatelessWidget {
             child: Row(
               children: [
                 if (item.icon != null) ...[
-                  Icon(
-                    item.icon,
-                    color: colors?.foreground ?? Colors.white,
-                    size: 24,
-                  ),
+                  Icon(item.icon, size: 24),
                   const SizedBox(width: AppSpacing.sm),
                 ],
                 Expanded(
                   child: Text(
                     item.title,
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: colors?.foreground ?? Colors.white,
-                    ),
+                    style: theme.textTheme.bodyLarge,
                   ),
                 ),
                 if (item.badge != null) ...[
@@ -114,14 +108,13 @@ class _MenuItemTile extends StatelessWidget {
                       vertical: AppSpacing.xxs,
                     ),
                     decoration: BoxDecoration(
-                      color: (colors?.accent ?? const Color(0xFF4FD1C5))
-                          .withOpacity(0.2),
+                      color: colors?.accent.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(AppSpacing.xxs),
                     ),
                     child: Text(
                       item.badge!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors?.accent ?? const Color(0xFF4FD1C5),
+                        color: colors?.accent,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -130,7 +123,7 @@ class _MenuItemTile extends StatelessWidget {
                 ],
                 Icon(
                   Icons.chevron_right,
-                  color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+                  color: colors?.foregroundMuted,
                 ),
               ],
             ),
@@ -141,7 +134,7 @@ class _MenuItemTile extends StatelessWidget {
             height: 1,
             indent: item.icon != null ? AppSpacing.md + 24 + AppSpacing.sm : AppSpacing.md,
             endIndent: AppSpacing.md,
-            color: colors?.overlay ?? const Color(0x4D000000),
+            color: colors?.overlay,
           ),
       ],
     );

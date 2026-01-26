@@ -50,10 +50,9 @@ class AvatarEditor extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.edit,
                 size: 16,
-                color: colors?.foreground ?? Colors.white,
               ),
             ),
           ),

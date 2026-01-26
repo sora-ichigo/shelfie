@@ -20,54 +20,49 @@ void main() {
         expect(colors.info, isA<Color>());
       });
 
-      group('Brand colors', () {
-        test('brandPrimary はターコイズ色 (#4FD1C5) で定義されている', () {
+      group('Semantic colors', () {
+        test('accent はターコイズ色 (#4FD1C5) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.brandPrimary, equals(const Color(0xFF4FD1C5)));
+          expect(colors.accent, equals(const Color(0xFF4FD1C5)));
         });
 
-        test('brandAccent はゴールド色 (#F6C94A) で定義されている', () {
+        test('accentSecondary はゴールド色 (#F6C94A) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.brandAccent, equals(const Color(0xFFF6C94A)));
+          expect(colors.accentSecondary, equals(const Color(0xFFF6C94A)));
         });
 
-        test('brandBackground はダーク色 (#0A0A0A) で定義されている', () {
+        test('background はダーク色 (#0A0A0A) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.brandBackground, equals(const Color(0xFF0A0A0A)));
+          expect(colors.background, equals(const Color(0xFF0A0A0A)));
         });
       });
 
       group('Surface colors', () {
-        test('surfacePrimary は定義されている', () {
+        test('surface は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfacePrimary, equals(const Color(0xFF0A0A0A)));
+          expect(colors.surface, equals(const Color(0xFF1A1A1A)));
         });
 
-        test('surfaceElevated は定義されている', () {
+        test('surfaceHigh は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfaceElevated, equals(const Color(0xFF1A1A1A)));
+          expect(colors.surfaceHigh, equals(const Color(0xFF2A2A2A)));
         });
 
-        test('surfaceOverlay は30%不透明度で定義されている', () {
+        test('overlay は30%不透明度で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfaceOverlay, equals(const Color(0x4D000000)));
+          expect(colors.overlay, equals(const Color(0x4D000000)));
         });
       });
 
       group('Text colors', () {
-        test('textPrimary は白色で定義されている', () {
+        test('foreground は白色で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.textPrimary, equals(const Color(0xFFFFFFFF)));
+          expect(colors.foreground, equals(const Color(0xFFFFFFFF)));
         });
 
-        test('textSecondary はグレー色で定義されている', () {
+        test('foregroundMuted はグレー色で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.textSecondary, equals(const Color(0xFFA0A0A0)));
-        });
-
-        test('textLink は白色で定義されている', () {
-          const colors = AppColors.dark;
-          expect(colors.textLink, equals(const Color(0xFFFFFFFF)));
+          expect(colors.foregroundMuted, equals(const Color(0xFFA0A0A0)));
         });
       });
 
