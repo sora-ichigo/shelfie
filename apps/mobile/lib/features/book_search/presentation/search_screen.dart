@@ -87,18 +87,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AnimatedCrossFade(
+              AnimatedSize(
                 duration: const Duration(milliseconds: 200),
-                crossFadeState: isSearchActive
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                firstChild: ScreenHeader(
-                  title: '検索',
-                  onProfileTap: () => context.push(AppRoutes.account),
-                  avatarUrl: avatarUrl,
-                  isAvatarLoading: accountAsync.isLoading,
-                ),
-                secondChild: const SizedBox.shrink(),
+                curve: Curves.easeInOut,
+                child: isSearchActive
+                    ? const SizedBox.shrink()
+                    : ScreenHeader(
+                        title: '検索',
+                        onProfileTap: () => context.push(AppRoutes.account),
+                        avatarUrl: avatarUrl,
+                        isAvatarLoading: accountAsync.isLoading,
+                      ),
               ),
               Padding(
                 padding: AppSpacing.vertical(AppSpacing.sm),
@@ -114,12 +113,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
               ),
               Expanded(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: showSearchHistory
-                      ? _buildSearchInputMode(searchHistoryAsync.valueOrNull ?? [])
-                      : _buildBody(state),
-                ),
+                child: showSearchHistory
+                    ? _buildSearchInputMode(searchHistoryAsync.valueOrNull ?? [])
+                    : _buildBody(state),
               ),
             ],
           ),
