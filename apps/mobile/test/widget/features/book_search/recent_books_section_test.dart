@@ -34,6 +34,7 @@ void main() {
     Widget buildTestWidget({
       required List<RecentBookEntry> books,
       void Function(String)? onBookTap,
+      void Function(RecentBookEntry)? onBookLongPress,
     }) {
       return ProviderScope(
         child: MaterialApp(
@@ -42,6 +43,7 @@ void main() {
             body: RecentBooksSection(
               books: books,
               onBookTap: onBookTap ?? (_) {},
+              onBookLongPress: onBookLongPress,
             ),
           ),
         ),
@@ -107,6 +109,41 @@ void main() {
 
       final listViewWidget = tester.widget<ListView>(listView);
       expect(listViewWidget.scrollDirection, Axis.horizontal);
+    });
+
+    testWidgets('項目長押しで onBookLongPress が RecentBookEntry と共に呼ばれる',
+        (tester) async {
+      RecentBookEntry? longPressedBook;
+      await tester.pumpWidget(
+        buildTestWidget(
+          books: testBooks,
+          onBookLongPress: (book) => longPressedBook = book,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('Flutter Complete Guide'));
+      await tester.pumpAndSettle();
+
+      expect(longPressedBook, isNotNull);
+      expect(longPressedBook!.bookId, equals('book1'));
+      expect(longPressedBook!.title, equals('Flutter Complete Guide'));
+    });
+
+    testWidgets('onBookLongPress が null の場合、長押ししても例外が発生しない',
+        (tester) async {
+      await tester.pumpWidget(
+        buildTestWidget(
+          books: testBooks,
+          onBookLongPress: null,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('Flutter Complete Guide'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Flutter Complete Guide'), findsOneWidget);
     });
   });
 }
