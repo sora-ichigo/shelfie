@@ -10,6 +10,10 @@ void main() {
     test('accountEdit route path is defined', () {
       expect(AppRoutes.accountEdit, '/account/edit');
     });
+
+    test('accountPassword route path is defined', () {
+      expect(AppRoutes.accountPassword, '/account/password');
+    });
   });
 
   group('Account routing integration', () {
@@ -17,6 +21,7 @@ void main() {
       final accountRoutes = [
         AppRoutes.account,
         AppRoutes.accountEdit,
+        AppRoutes.accountPassword,
       ];
 
       for (final route in accountRoutes) {

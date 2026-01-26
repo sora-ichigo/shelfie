@@ -20,6 +20,17 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GBookDetailReq.serializer)
       ..add(GBookDetailVars.serializer)
       ..add(GBookSource.serializer)
+      ..add(GChangePasswordData.serializer)
+      ..add(GChangePasswordData_changePassword__asAuthError.serializer)
+      ..add(GChangePasswordData_changePassword__asMutationChangePasswordSuccess
+          .serializer)
+      ..add(
+          GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
+              .serializer)
+      ..add(GChangePasswordData_changePassword__base.serializer)
+      ..add(GChangePasswordInput.serializer)
+      ..add(GChangePasswordReq.serializer)
+      ..add(GChangePasswordVars.serializer)
       ..add(GGetMeData.serializer)
       ..add(GGetMeData_me__asAuthErrorResult.serializer)
       ..add(GGetMeData_me__asUser.serializer)
@@ -99,6 +110,19 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GSearchBooksData_searchBooks_items.serializer)
       ..add(GSearchBooksReq.serializer)
       ..add(GSearchBooksVars.serializer)
+      ..add(GSendPasswordResetEmailData.serializer)
+      ..add(GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError
+          .serializer)
+      ..add(
+          GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess
+              .serializer)
+      ..add(
+          GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
+              .serializer)
+      ..add(GSendPasswordResetEmailData_sendPasswordResetEmail__base.serializer)
+      ..add(GSendPasswordResetEmailInput.serializer)
+      ..add(GSendPasswordResetEmailReq.serializer)
+      ..add(GSendPasswordResetEmailVars.serializer)
       ..add(GShelfSortField.serializer)
       ..add(GSortOrder.serializer)
       ..add(GUpdateBookRatingData.serializer)

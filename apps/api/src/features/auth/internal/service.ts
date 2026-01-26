@@ -30,6 +30,21 @@ export interface RefreshTokenOutput {
   refreshToken: string;
 }
 
+export interface ChangePasswordInput {
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordOutput {
+  idToken: string;
+  refreshToken: string;
+}
+
+export interface SendPasswordResetEmailInput {
+  email: string;
+}
+
 export type AuthServiceError =
   | { code: "EMAIL_ALREADY_EXISTS"; message: string }
   | { code: "INVALID_PASSWORD"; message: string; requirements: string[] }
@@ -45,6 +60,18 @@ export type LoginServiceError =
   | { code: "NETWORK_ERROR"; message: string; retryable: boolean }
   | { code: "INTERNAL_ERROR"; message: string };
 
+export type PasswordChangeServiceError =
+  | { code: "INVALID_CREDENTIALS"; message: string }
+  | { code: "WEAK_PASSWORD"; message: string }
+  | { code: "NETWORK_ERROR"; message: string; retryable: boolean }
+  | { code: "INTERNAL_ERROR"; message: string };
+
+export type SendPasswordResetEmailServiceError =
+  | { code: "USER_NOT_FOUND"; message: string }
+  | { code: "INVALID_EMAIL"; message: string }
+  | { code: "NETWORK_ERROR"; message: string; retryable: boolean }
+  | { code: "INTERNAL_ERROR"; message: string };
+
 export interface FirebaseAuth {
   createUser(
     email: string,
@@ -57,6 +84,11 @@ export interface FirebaseAuth {
   refreshToken(
     refreshToken: string,
   ): Promise<{ idToken: string; refreshToken: string }>;
+  changePassword(
+    idToken: string,
+    newPassword: string,
+  ): Promise<{ idToken: string; refreshToken: string }>;
+  sendPasswordResetEmail(email: string): Promise<void>;
 }
 
 export interface AuthService {
@@ -70,6 +102,12 @@ export interface AuthService {
   refreshToken(
     refreshToken: string,
   ): Promise<Result<RefreshTokenOutput, LoginServiceError>>;
+  changePassword(
+    input: ChangePasswordInput,
+  ): Promise<Result<ChangePasswordOutput, PasswordChangeServiceError>>;
+  sendPasswordResetEmail(
+    input: SendPasswordResetEmailInput,
+  ): Promise<Result<void, SendPasswordResetEmailServiceError>>;
 }
 
 const MIN_PASSWORD_LENGTH = 8;
@@ -189,6 +227,67 @@ export function mapFirebaseRefreshError(firebaseError: {
       return {
         code: "INTERNAL_ERROR",
         message: "トークンのリフレッシュ中にエラーが発生しました",
+      };
+  }
+}
+
+export function mapFirebaseChangePasswordError(firebaseError: {
+  code: string;
+}): PasswordChangeServiceError {
+  const { code } = firebaseError;
+
+  switch (code) {
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+      return {
+        code: "INVALID_CREDENTIALS",
+        message: "現在のパスワードが正しくありません",
+      };
+    case "auth/weak-password":
+      return {
+        code: "WEAK_PASSWORD",
+        message: "新しいパスワードが弱すぎます",
+      };
+    case "auth/network-request-failed":
+      return {
+        code: "NETWORK_ERROR",
+        message: "ネットワークエラーが発生しました",
+        retryable: true,
+      };
+    default:
+      return {
+        code: "INTERNAL_ERROR",
+        message: "パスワード変更中にエラーが発生しました",
+      };
+  }
+}
+
+export function mapFirebaseSendPasswordResetEmailError(firebaseError: {
+  code: string;
+}): SendPasswordResetEmailServiceError {
+  const { code } = firebaseError;
+
+  switch (code) {
+    case "auth/user-not-found":
+      return {
+        code: "USER_NOT_FOUND",
+        message: "このメールアドレスは登録されていません",
+      };
+    case "auth/invalid-email":
+      return {
+        code: "INVALID_EMAIL",
+        message: "メールアドレスの形式が正しくありません",
+      };
+    case "auth/network-request-failed":
+      return {
+        code: "NETWORK_ERROR",
+        message: "ネットワークエラーが発生しました",
+        retryable: true,
+      };
+    default:
+      return {
+        code: "INTERNAL_ERROR",
+        message: "パスワードリセットメールの送信中にエラーが発生しました",
       };
   }
 }
@@ -402,6 +501,128 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         return err({
           code: "INTERNAL_ERROR",
           message: "トークンのリフレッシュ中にエラーが発生しました",
+        });
+      }
+    },
+
+    async changePassword(
+      input: ChangePasswordInput,
+    ): Promise<Result<ChangePasswordOutput, PasswordChangeServiceError>> {
+      logger.info("Password change attempt", {
+        feature: "auth",
+        email: input.email,
+      });
+
+      let currentIdToken: string;
+      try {
+        const signInResult = await firebaseAuth.signIn(
+          input.email,
+          input.currentPassword,
+        );
+        currentIdToken = signInResult.idToken;
+      } catch (error) {
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code) {
+          logger.warn("Password verification failed during change", {
+            feature: "auth",
+            errorCode: firebaseError.code,
+          });
+          return err(
+            mapFirebaseChangePasswordError(firebaseError as { code: string }),
+          );
+        }
+        logger.error(
+          "Unknown error during password verification",
+          error as Error,
+          {
+            feature: "auth",
+          },
+        );
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "パスワード変更中にエラーが発生しました",
+        });
+      }
+
+      try {
+        const result = await firebaseAuth.changePassword(
+          currentIdToken,
+          input.newPassword,
+        );
+
+        logger.info("Password changed successfully", {
+          feature: "auth",
+          email: input.email,
+        });
+
+        return ok({
+          idToken: result.idToken,
+          refreshToken: result.refreshToken,
+        });
+      } catch (error) {
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code) {
+          logger.warn("Firebase changePassword failed", {
+            feature: "auth",
+            errorCode: firebaseError.code,
+          });
+          return err(
+            mapFirebaseChangePasswordError(firebaseError as { code: string }),
+          );
+        }
+        logger.error(
+          "Unknown error during Firebase changePassword",
+          error as Error,
+          {
+            feature: "auth",
+          },
+        );
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "パスワード変更中にエラーが発生しました",
+        });
+      }
+    },
+
+    async sendPasswordResetEmail(
+      input: SendPasswordResetEmailInput,
+    ): Promise<Result<void, SendPasswordResetEmailServiceError>> {
+      logger.info("Password reset email attempt", {
+        feature: "auth",
+        email: input.email,
+      });
+
+      try {
+        await firebaseAuth.sendPasswordResetEmail(input.email);
+
+        logger.info("Password reset email sent successfully", {
+          feature: "auth",
+        });
+
+        return ok(undefined);
+      } catch (error) {
+        const firebaseError = error as { code?: string };
+        if (firebaseError.code) {
+          logger.warn("Firebase sendPasswordResetEmail failed", {
+            feature: "auth",
+            errorCode: firebaseError.code,
+          });
+          return err(
+            mapFirebaseSendPasswordResetEmailError(
+              firebaseError as { code: string },
+            ),
+          );
+        }
+        logger.error(
+          "Unknown error during Firebase sendPasswordResetEmail",
+          error as Error,
+          {
+            feature: "auth",
+          },
+        );
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "パスワードリセットメールの送信中にエラーが発生しました",
         });
       }
     },

@@ -77,6 +77,11 @@ export interface FirebaseAuthAdapter {
   refreshToken(
     refreshToken: string,
   ): Promise<{ idToken: string; refreshToken: string }>;
+  changePassword(
+    idToken: string,
+    newPassword: string,
+  ): Promise<{ idToken: string; refreshToken: string }>;
+  sendPasswordResetEmail(email: string): Promise<void>;
 }
 
 interface FirebaseSignInResponse {
@@ -105,6 +110,15 @@ interface FirebaseRefreshTokenResponse {
   project_id: string;
 }
 
+interface FirebaseUpdateResponse {
+  idToken: string;
+  refreshToken: string;
+}
+
+interface FirebaseSendOobCodeResponse {
+  email: string;
+}
+
 function mapFirebaseRestErrorCode(message: string): string {
   if (message.includes("INVALID_LOGIN_CREDENTIALS")) {
     return "auth/invalid-credential";
@@ -130,6 +144,35 @@ function mapFirebaseRefreshErrorCode(message: string): string {
   }
   if (message.includes("USER_NOT_FOUND")) {
     return "auth/user-not-found";
+  }
+  return "auth/internal-error";
+}
+
+function mapFirebaseUpdatePasswordErrorCode(message: string): string {
+  if (message.includes("INVALID_ID_TOKEN")) {
+    return "auth/invalid-id-token";
+  }
+  if (message.includes("WEAK_PASSWORD")) {
+    return "auth/weak-password";
+  }
+  if (message.includes("CREDENTIAL_TOO_OLD_LOGIN_AGAIN")) {
+    return "auth/requires-recent-login";
+  }
+  if (message.includes("USER_DISABLED")) {
+    return "auth/user-disabled";
+  }
+  if (message.includes("USER_NOT_FOUND")) {
+    return "auth/user-not-found";
+  }
+  return "auth/internal-error";
+}
+
+function mapFirebaseSendOobCodeErrorCode(message: string): string {
+  if (message.includes("EMAIL_NOT_FOUND")) {
+    return "auth/user-not-found";
+  }
+  if (message.includes("INVALID_EMAIL")) {
+    return "auth/invalid-email";
   }
   return "auth/internal-error";
 }
@@ -223,6 +266,75 @@ export function createFirebaseAuthAdapter(): FirebaseAuthAdapter {
         idToken: data.id_token,
         refreshToken: data.refresh_token,
       };
+    },
+
+    async changePassword(
+      idToken: string,
+      newPassword: string,
+    ): Promise<{ idToken: string; refreshToken: string }> {
+      const apiKey = process.env.FIREBASE_WEB_API_KEY;
+      if (!apiKey) {
+        throw { code: "auth/internal-error" };
+      }
+
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idToken,
+          password: newPassword,
+          returnSecureToken: true,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as FirebaseErrorResponse;
+        const errorCode = mapFirebaseUpdatePasswordErrorCode(
+          errorData.error?.message || "",
+        );
+        throw { code: errorCode };
+      }
+
+      const data = (await response.json()) as FirebaseUpdateResponse;
+      return {
+        idToken: data.idToken,
+        refreshToken: data.refreshToken,
+      };
+    },
+
+    async sendPasswordResetEmail(email: string): Promise<void> {
+      const apiKey = process.env.FIREBASE_WEB_API_KEY;
+      if (!apiKey) {
+        throw { code: "auth/internal-error" };
+      }
+
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${apiKey}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          requestType: "PASSWORD_RESET",
+          email,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as FirebaseErrorResponse;
+        const errorCode = mapFirebaseSendOobCodeErrorCode(
+          errorData.error?.message || "",
+        );
+        throw { code: errorCode };
+      }
+
+      // sendPasswordResetEmail は void を返す
+      (await response.json()) as FirebaseSendOobCodeResponse;
     },
   };
 }

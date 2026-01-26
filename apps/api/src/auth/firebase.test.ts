@@ -1,6 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   type FirebaseAuthConfig,
+  createFirebaseAuthAdapter,
   getFirebaseAuthConfig,
   initializeFirebaseAuth,
 } from "./firebase";
@@ -77,6 +78,215 @@ describe("Firebase Auth", () => {
       const result2 = initializeFirebaseAuth();
       expect(result1.initialized).toBe(true);
       expect(result2.initialized).toBe(true);
+    });
+  });
+
+  describe("FirebaseAuthAdapter.changePassword", () => {
+    const originalEnv = process.env;
+    const originalFetch = globalThis.fetch;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env.FIREBASE_WEB_API_KEY = "test-api-key";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+      globalThis.fetch = originalFetch;
+    });
+
+    it("パスワード変更成功時に新しいトークンを返す", async () => {
+      const mockResponse = {
+        idToken: "new-id-token",
+        refreshToken: "new-refresh-token",
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+      const result = await adapter.changePassword(
+        "current-id-token",
+        "newPassword123",
+      );
+
+      expect(result).toEqual({
+        idToken: "new-id-token",
+        refreshToken: "new-refresh-token",
+      });
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=test-api-key",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            idToken: "current-id-token",
+            password: "newPassword123",
+            returnSecureToken: true,
+          }),
+        },
+      );
+    });
+
+    it("FIREBASE_WEB_API_KEY が未設定の場合はエラーをスローする", async () => {
+      delete process.env.FIREBASE_WEB_API_KEY;
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.changePassword("id-token", "newPassword"),
+      ).rejects.toEqual({ code: "auth/internal-error" });
+    });
+
+    it("Firebase エラーレスポンス時に適切なエラーコードをスローする", async () => {
+      const mockErrorResponse = {
+        error: {
+          code: 400,
+          message: "INVALID_ID_TOKEN",
+          errors: [],
+        },
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.changePassword("invalid-token", "newPassword"),
+      ).rejects.toEqual({ code: "auth/invalid-id-token" });
+    });
+
+    it("WEAK_PASSWORD エラーを適切にマッピングする", async () => {
+      const mockErrorResponse = {
+        error: {
+          code: 400,
+          message: "WEAK_PASSWORD",
+          errors: [],
+        },
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.changePassword("id-token", "weak"),
+      ).rejects.toEqual({ code: "auth/weak-password" });
+    });
+
+    it("CREDENTIAL_TOO_OLD_LOGIN_AGAIN エラーを適切にマッピングする", async () => {
+      const mockErrorResponse = {
+        error: {
+          code: 400,
+          message: "CREDENTIAL_TOO_OLD_LOGIN_AGAIN",
+          errors: [],
+        },
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.changePassword("id-token", "newPassword"),
+      ).rejects.toEqual({ code: "auth/requires-recent-login" });
+    });
+  });
+
+  describe("FirebaseAuthAdapter.sendPasswordResetEmail", () => {
+    const originalEnv = process.env;
+    const originalFetch = globalThis.fetch;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
+      process.env.FIREBASE_WEB_API_KEY = "test-api-key";
+    });
+
+    afterEach(() => {
+      process.env = originalEnv;
+      globalThis.fetch = originalFetch;
+    });
+
+    it("パスワードリセットメール送信が成功する", async () => {
+      const mockResponse = {
+        email: "user@example.com",
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+      await adapter.sendPasswordResetEmail("user@example.com");
+
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=test-api-key",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            requestType: "PASSWORD_RESET",
+            email: "user@example.com",
+          }),
+        },
+      );
+    });
+
+    it("FIREBASE_WEB_API_KEY が未設定の場合はエラーをスローする", async () => {
+      delete process.env.FIREBASE_WEB_API_KEY;
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.sendPasswordResetEmail("user@example.com"),
+      ).rejects.toEqual({ code: "auth/internal-error" });
+    });
+
+    it("EMAIL_NOT_FOUND エラーを適切にマッピングする", async () => {
+      const mockErrorResponse = {
+        error: {
+          code: 400,
+          message: "EMAIL_NOT_FOUND",
+          errors: [],
+        },
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.sendPasswordResetEmail("nonexistent@example.com"),
+      ).rejects.toEqual({ code: "auth/user-not-found" });
+    });
+
+    it("INVALID_EMAIL エラーを適切にマッピングする", async () => {
+      const mockErrorResponse = {
+        error: {
+          code: 400,
+          message: "INVALID_EMAIL",
+          errors: [],
+        },
+      };
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve(mockErrorResponse),
+      });
+
+      const adapter = createFirebaseAuthAdapter();
+
+      await expect(
+        adapter.sendPasswordResetEmail("invalid-email"),
+      ).rejects.toEqual({ code: "auth/invalid-email" });
     });
   });
 });

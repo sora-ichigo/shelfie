@@ -5,6 +5,8 @@ import type {
   AuthService,
   AuthServiceError,
   LoginServiceError,
+  PasswordChangeServiceError,
+  SendPasswordResetEmailServiceError,
 } from "./service.js";
 
 export const LOGIN_ERROR_CODES = [
@@ -17,9 +19,31 @@ export const LOGIN_ERROR_CODES = [
 
 export type LoginErrorCode = (typeof LOGIN_ERROR_CODES)[number];
 
+export const PASSWORD_CHANGE_ERROR_CODES = [
+  "INVALID_CREDENTIALS",
+  "WEAK_PASSWORD",
+  "NETWORK_ERROR",
+  "INTERNAL_ERROR",
+] as const;
+
+export type PasswordChangeErrorCode =
+  (typeof PASSWORD_CHANGE_ERROR_CODES)[number];
+
+export const PASSWORD_RESET_ERROR_CODES = [
+  "USER_NOT_FOUND",
+  "INVALID_EMAIL",
+  "NETWORK_ERROR",
+  "INTERNAL_ERROR",
+] as const;
+
+export type PasswordResetErrorCode =
+  (typeof PASSWORD_RESET_ERROR_CODES)[number];
+
 export const AUTH_ERROR_CODES = [
   "EMAIL_ALREADY_EXISTS",
   "INVALID_PASSWORD",
+  "WEAK_PASSWORD",
+  "INVALID_EMAIL",
   "NETWORK_ERROR",
   "INTERNAL_ERROR",
   ...LOGIN_ERROR_CODES,
@@ -105,6 +129,38 @@ export function mapLoginErrorToAuthError(error: LoginServiceError): AuthError {
   );
 }
 
+export function mapPasswordChangeErrorToAuthError(
+  error: PasswordChangeServiceError,
+): AuthError {
+  const field =
+    error.code === "INVALID_CREDENTIALS"
+      ? "currentPassword"
+      : error.code === "WEAK_PASSWORD"
+        ? "newPassword"
+        : null;
+  return new AuthError(
+    error.code as AuthErrorCode,
+    error.message,
+    field,
+    isRetryableError(error.code),
+  );
+}
+
+export function mapPasswordResetErrorToAuthError(
+  error: SendPasswordResetEmailServiceError,
+): AuthError {
+  const field =
+    error.code === "INVALID_EMAIL" || error.code === "USER_NOT_FOUND"
+      ? "email"
+      : null;
+  return new AuthError(
+    error.code as AuthErrorCode,
+    error.message,
+    field,
+    isRetryableError(error.code),
+  );
+}
+
 export function mapLoginErrorToAuthErrorData(
   error: LoginServiceError,
 ): AuthErrorData {
@@ -163,12 +219,63 @@ type RefreshTokenResultObjectRef = ReturnType<
   typeof createRefreshTokenResultRef
 >;
 
+function createChangePasswordInputRef(builder: Builder) {
+  return builder.inputRef<{
+    email: string;
+    currentPassword: string;
+    newPassword: string;
+  }>("ChangePasswordInput");
+}
+
+type ChangePasswordInputRef = ReturnType<typeof createChangePasswordInputRef>;
+
+interface ChangePasswordResultData {
+  idToken: string;
+  refreshToken: string;
+}
+
+function createChangePasswordResultRef(builder: Builder) {
+  return builder.objectRef<ChangePasswordResultData>("ChangePasswordResult");
+}
+
+type ChangePasswordResultObjectRef = ReturnType<
+  typeof createChangePasswordResultRef
+>;
+
+function createSendPasswordResetEmailInputRef(builder: Builder) {
+  return builder.inputRef<{ email: string }>("SendPasswordResetEmailInput");
+}
+
+type SendPasswordResetEmailInputRef = ReturnType<
+  typeof createSendPasswordResetEmailInputRef
+>;
+
+interface SendPasswordResetEmailResultData {
+  success: boolean;
+}
+
+function createSendPasswordResetEmailResultRef(builder: Builder) {
+  return builder.objectRef<SendPasswordResetEmailResultData>(
+    "SendPasswordResetEmailResult",
+  );
+}
+
+type SendPasswordResetEmailResultObjectRef = ReturnType<
+  typeof createSendPasswordResetEmailResultRef
+>;
+
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
 let LoginUserInputRef: LoginUserInputRef | null = null;
 let LoginResultRef: LoginResultObjectRef | null = null;
 let RefreshTokenInputRef: RefreshTokenInputRef | null = null;
 let RefreshTokenResultRef: RefreshTokenResultObjectRef | null = null;
+let ChangePasswordInputRef: ChangePasswordInputRef | null = null;
+let ChangePasswordResultRef: ChangePasswordResultObjectRef | null = null;
+let SendPasswordResetEmailInputRef: SendPasswordResetEmailInputRef | null =
+  null;
+let SendPasswordResetEmailResultRef: SendPasswordResetEmailResultObjectRef | null =
+  null;
 
 type AuthErrorDataObjectRef = ReturnType<typeof createAuthErrorDataRef>;
 
@@ -305,6 +412,58 @@ export function registerAuthTypes(builder: Builder): void {
       }),
     }),
   });
+
+  ChangePasswordInputRef = createChangePasswordInputRef(builder);
+  ChangePasswordInputRef.implement({
+    description: "Input for password change",
+    fields: (t) => ({
+      email: t.string({ required: true, description: "User email address" }),
+      currentPassword: t.string({
+        required: true,
+        description: "Current password",
+      }),
+      newPassword: t.string({ required: true, description: "New password" }),
+    }),
+  });
+
+  ChangePasswordResultRef = createChangePasswordResultRef(builder);
+  ChangePasswordResultRef.implement({
+    description: "Result of successful password change",
+    fields: (t) => ({
+      idToken: t.string({
+        nullable: false,
+        description: "New Firebase ID token",
+        resolve: (parent) => parent.idToken,
+      }),
+      refreshToken: t.string({
+        nullable: false,
+        description: "New refresh token",
+        resolve: (parent) => parent.refreshToken,
+      }),
+    }),
+  });
+
+  SendPasswordResetEmailInputRef = createSendPasswordResetEmailInputRef(builder);
+  SendPasswordResetEmailInputRef.implement({
+    description: "Input for password reset email",
+    fields: (t) => ({
+      email: t.string({
+        required: true,
+        description: "Email address to send reset link",
+      }),
+    }),
+  });
+
+  SendPasswordResetEmailResultRef =
+    createSendPasswordResetEmailResultRef(builder);
+  SendPasswordResetEmailResultRef.implement({
+    description: "Result of password reset email request",
+    fields: (t) => ({
+      success: t.exposeBoolean("success", {
+        description: "Whether the email was sent successfully",
+      }),
+    }),
+  });
 }
 
 export { AuthErrorDataRef };
@@ -399,6 +558,71 @@ export function registerAuthMutations(
           return {
             idToken: result.data.idToken,
             refreshToken: result.data.refreshToken,
+          };
+        },
+      }),
+      changePassword: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: ChangePasswordResultRef!,
+        description: "Change user password after verifying current password",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: ChangePasswordInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (
+          _parent,
+          { input },
+        ): Promise<ChangePasswordResultData> => {
+          const result = await authService.changePassword({
+            email: input.email,
+            currentPassword: input.currentPassword,
+            newPassword: input.newPassword,
+          });
+
+          if (!result.success) {
+            throw mapPasswordChangeErrorToAuthError(result.error);
+          }
+
+          return {
+            idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
+          };
+        },
+      }),
+      sendPasswordResetEmail: t.field({
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: SendPasswordResetEmailResultRef!,
+        description: "Send password reset email to the specified address",
+        errors: {
+          types: [AuthError],
+        },
+        args: {
+          input: t.arg({
+            // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+            type: SendPasswordResetEmailInputRef!,
+            required: true,
+          }),
+        },
+        resolve: async (
+          _parent,
+          { input },
+        ): Promise<SendPasswordResetEmailResultData> => {
+          const result = await authService.sendPasswordResetEmail({
+            email: input.email,
+          });
+
+          if (!result.success) {
+            throw mapPasswordResetErrorToAuthError(result.error);
+          }
+
+          return {
+            success: true,
           };
         },
       }),

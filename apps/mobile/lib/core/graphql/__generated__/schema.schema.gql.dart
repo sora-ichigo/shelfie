@@ -49,6 +49,8 @@ class GAuthErrorCode extends EnumClass {
   static const GAuthErrorCode INVALID_CREDENTIALS =
       _$gAuthErrorCodeINVALID_CREDENTIALS;
 
+  static const GAuthErrorCode INVALID_EMAIL = _$gAuthErrorCodeINVALID_EMAIL;
+
   static const GAuthErrorCode INVALID_PASSWORD =
       _$gAuthErrorCodeINVALID_PASSWORD;
 
@@ -61,6 +63,8 @@ class GAuthErrorCode extends EnumClass {
   static const GAuthErrorCode UNAUTHENTICATED = _$gAuthErrorCodeUNAUTHENTICATED;
 
   static const GAuthErrorCode USER_NOT_FOUND = _$gAuthErrorCodeUSER_NOT_FOUND;
+
+  static const GAuthErrorCode WEAK_PASSWORD = _$gAuthErrorCodeWEAK_PASSWORD;
 
   static Serializer<GAuthErrorCode> get serializer =>
       _$gAuthErrorCodeSerializer;
@@ -82,6 +86,32 @@ class GBookSource extends EnumClass {
   static BuiltSet<GBookSource> get values => _$gBookSourceValues;
 
   static GBookSource valueOf(String name) => _$gBookSourceValueOf(name);
+}
+
+abstract class GChangePasswordInput
+    implements Built<GChangePasswordInput, GChangePasswordInputBuilder> {
+  GChangePasswordInput._();
+
+  factory GChangePasswordInput(
+          [void Function(GChangePasswordInputBuilder b) updates]) =
+      _$GChangePasswordInput;
+
+  String get currentPassword;
+  String get email;
+  String get newPassword;
+  static Serializer<GChangePasswordInput> get serializer =>
+      _$gChangePasswordInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GChangePasswordInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GChangePasswordInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GChangePasswordInput.serializer,
+        json,
+      );
 }
 
 abstract class GLoginUserInput
@@ -202,6 +232,32 @@ abstract class GRegisterUserInput
       );
 }
 
+abstract class GSendPasswordResetEmailInput
+    implements
+        Built<GSendPasswordResetEmailInput,
+            GSendPasswordResetEmailInputBuilder> {
+  GSendPasswordResetEmailInput._();
+
+  factory GSendPasswordResetEmailInput(
+          [void Function(GSendPasswordResetEmailInputBuilder b) updates]) =
+      _$GSendPasswordResetEmailInput;
+
+  String get email;
+  static Serializer<GSendPasswordResetEmailInput> get serializer =>
+      _$gSendPasswordResetEmailInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GSendPasswordResetEmailInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GSendPasswordResetEmailInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GSendPasswordResetEmailInput.serializer,
+        json,
+      );
+}
+
 class GShelfSortField extends EnumClass {
   const GShelfSortField._(String name) : super(name);
 
@@ -263,6 +319,10 @@ const Map<String, Set<String>> possibleTypesMap = {
     'AuthErrorResult',
     'User',
   },
+  'MutationChangePasswordResult': {
+    'AuthError',
+    'MutationChangePasswordSuccess',
+  },
   'MutationLoginUserResult': {
     'AuthError',
     'MutationLoginUserSuccess',
@@ -274,6 +334,10 @@ const Map<String, Set<String>> possibleTypesMap = {
   'MutationRegisterUserResult': {
     'AuthError',
     'MutationRegisterUserSuccess',
+  },
+  'MutationSendPasswordResetEmailResult': {
+    'AuthError',
+    'MutationSendPasswordResetEmailSuccess',
   },
   'MutationUpdateProfileResult': {
     'MutationUpdateProfileSuccess',

@@ -131,6 +131,8 @@ function createMockFirebaseAuth(): FirebaseAuth {
     createUser: vi.fn(),
     signIn: vi.fn(),
     refreshToken: vi.fn(),
+    changePassword: vi.fn(),
+    sendPasswordResetEmail: vi.fn(),
   };
 }
 
@@ -722,5 +724,287 @@ describe("AuthService.refreshToken", () => {
         expect(result.error.retryable).toBe(true);
       }
     }
+  });
+});
+
+describe("AuthService.changePassword", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should change password successfully and return new tokens", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "current-id-token",
+      refreshToken: "current-refresh-token",
+    });
+    vi.mocked(mockFirebaseAuth.changePassword).mockResolvedValue({
+      idToken: "new-id-token",
+      refreshToken: "new-refresh-token",
+    });
+
+    const result = await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "oldPassword123",
+      newPassword: "newPassword123",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.idToken).toBe("new-id-token");
+      expect(result.data.refreshToken).toBe("new-refresh-token");
+    }
+    expect(mockFirebaseAuth.signIn).toHaveBeenCalledWith(
+      "test@example.com",
+      "oldPassword123",
+    );
+    expect(mockFirebaseAuth.changePassword).toHaveBeenCalledWith(
+      "current-id-token",
+      "newPassword123",
+    );
+  });
+
+  it("should return INVALID_CREDENTIALS when current password is wrong", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/invalid-credential",
+    });
+
+    const result = await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "wrongPassword",
+      newPassword: "newPassword123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_CREDENTIALS");
+    }
+    expect(mockFirebaseAuth.changePassword).not.toHaveBeenCalled();
+  });
+
+  it("should return WEAK_PASSWORD when new password is too weak", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "current-id-token",
+      refreshToken: "current-refresh-token",
+    });
+    vi.mocked(mockFirebaseAuth.changePassword).mockRejectedValue({
+      code: "auth/weak-password",
+    });
+
+    const result = await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "oldPassword123",
+      newPassword: "weak",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("WEAK_PASSWORD");
+    }
+  });
+
+  it("should handle network error", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockRejectedValue({
+      code: "auth/network-request-failed",
+    });
+
+    const result = await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "oldPassword",
+      newPassword: "newPassword123",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("NETWORK_ERROR");
+      if (result.error.code === "NETWORK_ERROR") {
+        expect(result.error.retryable).toBe(true);
+      }
+    }
+  });
+
+  it("should log password change attempt", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "current-id-token",
+      refreshToken: "current-refresh-token",
+    });
+    vi.mocked(mockFirebaseAuth.changePassword).mockResolvedValue({
+      idToken: "new-id-token",
+      refreshToken: "new-refresh-token",
+    });
+
+    await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "oldPassword123",
+      newPassword: "newPassword123",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Password change attempt",
+      expect.objectContaining({
+        feature: "auth",
+        email: "test@example.com",
+      }),
+    );
+  });
+
+  it("should not log passwords in logs", async () => {
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "current-id-token",
+      refreshToken: "current-refresh-token",
+    });
+    vi.mocked(mockFirebaseAuth.changePassword).mockResolvedValue({
+      idToken: "new-id-token",
+      refreshToken: "new-refresh-token",
+    });
+
+    await authService.changePassword({
+      email: "test@example.com",
+      currentPassword: "secretOldPassword",
+      newPassword: "secretNewPassword",
+    });
+
+    for (const call of [
+      ...vi.mocked(mockLogger.info).mock.calls,
+      ...vi.mocked(mockLogger.warn).mock.calls,
+      ...vi.mocked(mockLogger.error).mock.calls,
+    ]) {
+      const logData = call[1] as Record<string, unknown>;
+      expect(logData).not.toHaveProperty("currentPassword");
+      expect(logData).not.toHaveProperty("newPassword");
+      expect(JSON.stringify(logData)).not.toContain("secretOldPassword");
+      expect(JSON.stringify(logData)).not.toContain("secretNewPassword");
+    }
+  });
+});
+
+describe("AuthService.sendPasswordResetEmail", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should send password reset email successfully", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockResolvedValue(
+      undefined,
+    );
+
+    const result = await authService.sendPasswordResetEmail({
+      email: "test@example.com",
+    });
+
+    expect(result.success).toBe(true);
+    expect(mockFirebaseAuth.sendPasswordResetEmail).toHaveBeenCalledWith(
+      "test@example.com",
+    );
+  });
+
+  it("should return USER_NOT_FOUND when email does not exist", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockRejectedValue({
+      code: "auth/user-not-found",
+    });
+
+    const result = await authService.sendPasswordResetEmail({
+      email: "nonexistent@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("USER_NOT_FOUND");
+    }
+  });
+
+  it("should return INVALID_EMAIL when email format is invalid", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockRejectedValue({
+      code: "auth/invalid-email",
+    });
+
+    const result = await authService.sendPasswordResetEmail({
+      email: "invalid-email",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INVALID_EMAIL");
+    }
+  });
+
+  it("should handle network error", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockRejectedValue({
+      code: "auth/network-request-failed",
+    });
+
+    const result = await authService.sendPasswordResetEmail({
+      email: "test@example.com",
+    });
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("NETWORK_ERROR");
+      if (result.error.code === "NETWORK_ERROR") {
+        expect(result.error.retryable).toBe(true);
+      }
+    }
+  });
+
+  it("should log password reset email attempt", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockResolvedValue(
+      undefined,
+    );
+
+    await authService.sendPasswordResetEmail({
+      email: "test@example.com",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Password reset email attempt",
+      expect.objectContaining({
+        feature: "auth",
+        email: "test@example.com",
+      }),
+    );
+  });
+
+  it("should log success when email is sent", async () => {
+    vi.mocked(mockFirebaseAuth.sendPasswordResetEmail).mockResolvedValue(
+      undefined,
+    );
+
+    await authService.sendPasswordResetEmail({
+      email: "test@example.com",
+    });
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Password reset email sent successfully",
+      expect.objectContaining({
+        feature: "auth",
+      }),
+    );
   });
 });
