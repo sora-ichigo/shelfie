@@ -18,7 +18,7 @@ import 'package:shelfie/features/book_search/presentation/widgets/book_list_item
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_books_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
-import 'package:shelfie/features/book_search/presentation/widgets/search_history_overlay.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/search_history_section.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -77,6 +77,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
     );
 
+    final isSearchActive = _isSearchFieldFocused || state is! BookSearchInitial;
+    final showSearchHistory = _isSearchFieldFocused && state is BookSearchInitial;
+
     return GestureDetector(
       onTap: _dismissOverlay,
       child: Scaffold(
@@ -84,11 +87,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ScreenHeader(
-                title: '検索',
-                onProfileTap: () => context.push(AppRoutes.account),
-                avatarUrl: avatarUrl,
-                isAvatarLoading: accountAsync.isLoading,
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                child: isSearchActive
+                    ? const SizedBox.shrink()
+                    : ScreenHeader(
+                        title: '検索',
+                        onProfileTap: () => context.push(AppRoutes.account),
+                        avatarUrl: avatarUrl,
+                        isAvatarLoading: accountAsync.isLoading,
+                      ),
               ),
               Padding(
                 padding: AppSpacing.vertical(AppSpacing.sm),
@@ -98,14 +107,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onChanged: _onSearchChanged,
                   onSubmitted: _onSearchSubmitted,
                   onScanPressed: _onScanPressed,
+                  showCancelButton: isSearchActive,
+                  onCancelPressed: _onCancel,
+                  hintText: '何を読みたいですか？',
                 ),
               ),
-              if (_isSearchFieldFocused &&
-                  state is BookSearchInitial &&
-                  searchHistoryAsync.hasValue)
-                _buildSearchHistoryOverlay(searchHistoryAsync.value ?? []),
               Expanded(
-                child: _buildBody(state),
+                child: showSearchHistory
+                    ? _buildSearchInputMode(searchHistoryAsync.valueOrNull ?? [])
+                    : _buildBody(state),
               ),
             ],
           ),
@@ -114,26 +124,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-  Widget _buildSearchHistoryOverlay(
-    List<dynamic> entries,
-  ) {
+  Widget _buildSearchInputMode(List<dynamic> entries) {
     final currentQuery = _searchController.text;
     final filteredEntries = ref
         .read(searchHistoryNotifierProvider.notifier)
         .getFilteredHistory(currentQuery);
 
-    if (filteredEntries.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
-      constraints: const BoxConstraints(maxHeight: 300),
-      child: SearchHistoryOverlay(
-        entries: filteredEntries,
-        onHistorySelected: _onHistorySelected,
-        onHistoryDeleted: _onHistoryDeleted,
-        onClearAll: _onClearAllHistory,
-      ),
+    return SearchHistorySection(
+      key: const ValueKey('search_history_section'),
+      entries: filteredEntries,
+      onHistorySelected: _onHistorySelected,
+      onHistoryDeleted: _onHistoryDeleted,
+      onClearAll: _onClearAllHistory,
     );
   }
 
@@ -173,11 +175,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           return const SizedBox.shrink();
         }
 
-        return SingleChildScrollView(
-          child: RecentBooksSection(
-            books: recentBooks,
-            onBookTap: (bookId) =>
-                context.push(AppRoutes.bookDetail(bookId: bookId)),
+        return Align(
+          key: const ValueKey('recent_books_section'),
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: RecentBooksSection(
+              books: recentBooks,
+              onBookTap: (bookId) =>
+                  context.push(AppRoutes.bookDetail(bookId: bookId)),
+            ),
           ),
         );
       },
@@ -235,6 +241,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _dismissOverlay() {
+    _focusNode.unfocus();
+  }
+
+  void _onCancel() {
+    ref.read(bookSearchNotifierProvider.notifier).reset();
+    _searchController.clear();
     _focusNode.unfocus();
   }
 
