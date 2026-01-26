@@ -23,9 +23,7 @@ void main() {
   Widget buildTestAccountScreen({
     required AsyncValue<UserProfile> accountState,
     VoidCallback? onNavigateToProfileEdit,
-    VoidCallback? onNavigateToNotifications,
     VoidCallback? onNavigateToPassword,
-    VoidCallback? onNavigateToHelp,
     VoidCallback? onNavigateToTerms,
     VoidCallback? onNavigateToPrivacy,
     VoidCallback? onLogout,
@@ -41,9 +39,7 @@ void main() {
         theme: AppTheme.theme,
         home: AccountScreen(
           onNavigateToProfileEdit: onNavigateToProfileEdit ?? () {},
-          onNavigateToNotifications: onNavigateToNotifications ?? () {},
           onNavigateToPassword: onNavigateToPassword ?? () {},
-          onNavigateToHelp: onNavigateToHelp ?? () {},
           onNavigateToTerms: onNavigateToTerms ?? () {},
           onNavigateToPrivacy: onNavigateToPrivacy ?? () {},
           onLogout: onLogout ?? () {},
@@ -93,9 +89,7 @@ void main() {
               theme: AppTheme.theme,
               home: AccountScreen(
                 onNavigateToProfileEdit: () {},
-                onNavigateToNotifications: () {},
                 onNavigateToPassword: () {},
-                onNavigateToHelp: () {},
                 onNavigateToTerms: () {},
                 onNavigateToPrivacy: () {},
                 onLogout: () {},
@@ -145,7 +139,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('設定'), findsOneWidget);
-      expect(find.text('通知設定'), findsOneWidget);
       expect(find.text('パスワード設定'), findsOneWidget);
     });
 
@@ -161,26 +154,6 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('プロフィール編集'));
-      await tester.pumpAndSettle();
-
-      expect(navigated, isTrue);
-    });
-
-    testWidgets('navigates to notifications when tapped', (tester) async {
-      var navigated = false;
-
-      await tester.pumpWidget(
-        buildTestAccountScreen(
-          accountState: AsyncValue.data(testProfile),
-          onNavigateToNotifications: () => navigated = true,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -100));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('通知設定'));
       await tester.pumpAndSettle();
 
       expect(navigated, isTrue);
@@ -214,7 +187,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(6));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(4));
     });
 
     testWidgets('calls onClose when back button is tapped', (tester) async {

@@ -35,8 +35,9 @@ class BookCard extends ConsumerWidget {
     );
     final hasRating = rating != null;
 
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

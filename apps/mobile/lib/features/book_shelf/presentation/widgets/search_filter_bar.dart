@@ -68,82 +68,100 @@ class SearchFilterBar extends StatelessWidget {
 
   Widget _buildSortButton(BuildContext context, AppColors appColors) {
     final isActive = sortOption != SortOption.defaultOption;
+    final borderRadius = BorderRadius.circular(AppRadius.lg);
 
-    return GestureDetector(
-      onTap: () => _showSortBottomSheet(context),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            decoration: BoxDecoration(
-              color: appColors.surface,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(
-                color: appColors.foregroundMuted.withOpacity(0.3),
-              ),
-            ),
-            child: Icon(
-              Icons.tune,
-              size: 16,
-              color: appColors.foreground,
-            ),
-          ),
-          if (isActive)
-            Positioned(
-              top: -1,
-              right: -1,
-              child: Container(
-                width: 8,
-                height: 8,
+    return Semantics(
+      button: true,
+      label: isActive ? '並び替え（${sortOption.displayName}）' : '並び替え',
+      child: Material(
+        color: appColors.surface,
+        borderRadius: borderRadius,
+        child: InkWell(
+          onTap: () => _showSortBottomSheet(context),
+          borderRadius: borderRadius,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  border: Border.all(
+                    color: appColors.foregroundMuted.withOpacity(0.3),
+                  ),
+                ),
+                child: Icon(
+                  Icons.tune,
+                  size: 16,
                   color: appColors.foreground,
-                  shape: BoxShape.circle,
                 ),
               ),
-            ),
-        ],
+              if (isActive)
+                Positioned(
+                  top: -1,
+                  right: -1,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: appColors.foreground,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildGroupButton(BuildContext context, AppColors appColors) {
     final isActive = groupOption != GroupOption.defaultOption;
+    final borderRadius = BorderRadius.circular(AppRadius.lg);
 
-    return GestureDetector(
-      onTap: () => _showGroupBottomSheet(context),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.sm),
-            decoration: BoxDecoration(
-              color: appColors.surface,
-              borderRadius: BorderRadius.circular(AppRadius.lg),
-              border: Border.all(
-                color: appColors.foregroundMuted.withOpacity(0.3),
-              ),
-            ),
-            child: Icon(
-              Icons.grid_view,
-              size: 16,
-              color: appColors.foreground,
-            ),
-          ),
-          if (isActive)
-            Positioned(
-              top: -1,
-              right: -1,
-              child: Container(
-                width: 8,
-                height: 8,
+    return Semantics(
+      button: true,
+      label: isActive ? 'グループ化（${groupOption.displayName}）' : 'グループ化',
+      child: Material(
+        color: appColors.surface,
+        borderRadius: borderRadius,
+        child: InkWell(
+          onTap: () => _showGroupBottomSheet(context),
+          borderRadius: borderRadius,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
                 decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  border: Border.all(
+                    color: appColors.foregroundMuted.withOpacity(0.3),
+                  ),
+                ),
+                child: Icon(
+                  Icons.grid_view,
+                  size: 16,
                   color: appColors.foreground,
-                  shape: BoxShape.circle,
                 ),
               ),
-            ),
-        ],
+              if (isActive)
+                Positioned(
+                  top: -1,
+                  right: -1,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: appColors.foreground,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

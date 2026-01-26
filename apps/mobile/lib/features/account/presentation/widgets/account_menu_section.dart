@@ -44,11 +44,10 @@ class AccountMenuSection extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: colors?.surface,
-            borderRadius: BorderRadius.circular(AppSpacing.md),
-          ),
+        Material(
+          color: colors?.surface,
+          borderRadius: BorderRadius.circular(AppSpacing.md),
+          clipBehavior: Clip.antiAlias,
           child: Column(
             children: [
               for (var i = 0; i < items.length; i++) ...[
