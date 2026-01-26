@@ -106,9 +106,9 @@ void main() {
 
       testWidgets('ボトムナビゲーションでアクセントカラーが使用される', (tester) async {
         final theme = AppTheme.theme;
-        final bottomNavTheme = theme.bottomNavigationBarTheme;
+        final navTheme = theme.navigationBarTheme;
 
-        expect(bottomNavTheme.selectedItemColor, AppColors.dark.foreground);
+        expect(navTheme.iconTheme?.resolve({WidgetState.selected})?.color, AppColors.dark.foreground);
       });
     });
 

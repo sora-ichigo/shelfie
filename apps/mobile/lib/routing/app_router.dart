@@ -11,7 +11,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
@@ -406,9 +405,9 @@ class _MainShell extends StatelessWidget {
 
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (index) {
           switch (index) {
             case 0:
               context.go(AppRoutes.homeTab);
@@ -416,67 +415,19 @@ class _MainShell extends StatelessWidget {
               context.go(AppRoutes.searchTab);
           }
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.auto_stories_outlined),
-            activeIcon: _ActiveTabIcon(
-              icon: Icons.auto_stories,
-              indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.accent ??
-                      const Color(0xFF4FD1C5),
-            ),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.auto_stories_outlined),
+            selectedIcon: Icon(Icons.auto_stories),
             label: '本棚',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.search),
-            activeIcon: _ActiveTabIcon(
-              icon: Icons.search,
-              indicatorColor:
-                  Theme.of(context).extension<AppColors>()?.accent ??
-                      const Color(0xFF4FD1C5),
-            ),
+          NavigationDestination(
+            icon: Icon(Icons.search_outlined),
+            selectedIcon: Icon(Icons.search),
             label: '検索',
           ),
         ],
       ),
-    );
-  }
-}
-
-/// アクティブタブのアイコン（上部インジケーター付き）
-class _ActiveTabIcon extends StatelessWidget {
-  const _ActiveTabIcon({
-    required this.icon,
-    required this.indicatorColor,
-  });
-
-  final IconData icon;
-  final Color indicatorColor;
-
-  @override
-  Widget build(BuildContext context) {
-    final iconSize = Theme.of(context)
-            .bottomNavigationBarTheme
-            .selectedIconTheme
-            ?.size ??
-        32;
-    return Stack(
-      clipBehavior: Clip.none,
-      alignment: Alignment.topCenter,
-      children: [
-        Icon(icon, size: iconSize),
-        Positioned(
-          top: -8,
-          child: Container(
-            width: iconSize,
-            height: 3,
-            decoration: BoxDecoration(
-              color: indicatorColor,
-              borderRadius: BorderRadius.circular(1.5),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -52,15 +52,21 @@ abstract final class AppTheme {
           ),
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        type: BottomNavigationBarType.fixed,
+      navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.dark.background,
-        selectedItemColor: AppColors.dark.foreground,
-        unselectedItemColor: AppColors.dark.foregroundMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 14),
-        unselectedLabelStyle: const TextStyle(fontSize: 14),
-        selectedIconTheme: const IconThemeData(size: 32),
-        unselectedIconTheme: const IconThemeData(size: 32),
+        indicatorColor: AppColors.dark.accent.withValues(alpha: 0.2),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return IconThemeData(size: 24, color: AppColors.dark.foreground);
+          }
+          return IconThemeData(size: 24, color: AppColors.dark.foregroundMuted);
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return TextStyle(fontSize: 12, color: AppColors.dark.foreground);
+          }
+          return TextStyle(fontSize: 12, color: AppColors.dark.foregroundMuted);
+        }),
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
