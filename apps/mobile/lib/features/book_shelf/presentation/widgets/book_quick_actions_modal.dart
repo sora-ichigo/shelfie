@@ -26,6 +26,7 @@ Future<void> showBookQuickActionsModal({
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    useRootNavigator: true,
     builder: (context) => _BookQuickActionsModalContent(
       book: book,
       shelfEntry: shelfEntry,
@@ -175,23 +176,19 @@ class _BookQuickActionsModalContentState
         Row(
           children: [
             Expanded(
-              child:
-                  _buildStatusButton(theme, ReadingStatus.backlog, entry),
+              child: _buildStatusButton(theme, ReadingStatus.backlog, entry),
             ),
             const SizedBox(width: AppSpacing.xs),
             Expanded(
-              child:
-                  _buildStatusButton(theme, ReadingStatus.reading, entry),
+              child: _buildStatusButton(theme, ReadingStatus.reading, entry),
             ),
             const SizedBox(width: AppSpacing.xs),
             Expanded(
-              child:
-                  _buildStatusButton(theme, ReadingStatus.completed, entry),
+              child: _buildStatusButton(theme, ReadingStatus.completed, entry),
             ),
             const SizedBox(width: AppSpacing.xs),
             Expanded(
-              child:
-                  _buildStatusButton(theme, ReadingStatus.dropped, entry),
+              child: _buildStatusButton(theme, ReadingStatus.dropped, entry),
             ),
           ],
         ),
@@ -277,7 +274,8 @@ class _BookQuickActionsModalContentState
           mainAxisAlignment: MainAxisAlignment.start,
           children: List.generate(5, (index) {
             final starValue = index + 1;
-            final isSelected = entry.rating != null && entry.rating! >= starValue;
+            final isSelected =
+                entry.rating != null && entry.rating! >= starValue;
 
             return GestureDetector(
               onTap: _isUpdating ? null : () => _onRatingTap(starValue),
