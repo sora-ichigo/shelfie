@@ -52,22 +52,6 @@ abstract final class AppTheme {
           ),
         ),
       ),
-      navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: AppColors.dark.background,
-        indicatorColor: AppColors.dark.accent.withValues(alpha: 0.2),
-        iconTheme: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return IconThemeData(size: 24, color: AppColors.dark.foreground);
-          }
-          return IconThemeData(size: 24, color: AppColors.dark.foregroundMuted);
-        }),
-        labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return TextStyle(fontSize: 12, color: AppColors.dark.foreground);
-          }
-          return TextStyle(fontSize: 12, color: AppColors.dark.foregroundMuted);
-        }),
-      ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
           color: AppColors.dark.foregroundMuted,

@@ -5,12 +5,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
@@ -432,8 +434,15 @@ class _AppTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Container(
+      decoration: BoxDecoration(
+        color: appColors.background,
+        border: Border(
+          top: BorderSide(color: appColors.surface, width: 0.5),
+        ),
+      ),
       padding: EdgeInsets.only(top: 12, bottom: bottomPadding + 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -475,31 +484,40 @@ class _TabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? Colors.white : CupertinoColors.systemGrey;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final color = isSelected ? appColors.foreground : appColors.foregroundMuted;
 
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 80,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isSelected ? activeIcon : icon,
-              color: color,
-              size: 26,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: label,
+      child: GestureDetector(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTap();
+        },
+        behavior: HitTestBehavior.opaque,
+        child: SizedBox(
+          width: 80,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                isSelected ? activeIcon : icon,
                 color: color,
-                fontSize: 11,
-                fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                size: 26,
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
