@@ -5,7 +5,7 @@ import type {
   Builder,
 } from "../../../graphql/builder.js";
 import type { UserService } from "../../users/index.js";
-import type { Book, BookDetail } from "./book-mapper.js";
+import type { Book, BookDetail, BookSource } from "./book-mapper.js";
 import type { BookSearchService } from "./book-search-service.js";
 import type { BookShelfService } from "./book-shelf-service.js";
 
@@ -34,6 +34,7 @@ type SearchBooksResultRef = ReturnType<typeof createSearchBooksResultRef>;
 type AddBookInputRef = ReturnType<typeof createAddBookInputRef>;
 type UserBookObjectRef = ReturnType<typeof createUserBookRef>;
 type ReadingStatusEnumRef = ReturnType<typeof createReadingStatusEnumRef>;
+type BookSourceEnumRef = ReturnType<typeof createBookSourceEnumRef>;
 type BookDetailObjectRef = ReturnType<typeof createBookDetailRef>;
 type ShelfSortFieldEnumRef = ReturnType<typeof createShelfSortFieldEnumRef>;
 type SortOrderEnumRef = ReturnType<typeof createSortOrderEnumRef>;
@@ -63,6 +64,22 @@ function createReadingStatusEnumRef(builder: Builder) {
       DROPPED: {
         value: "dropped" as ReadingStatusValue,
         description: "Dropped/Not reading",
+      },
+    } as const,
+  });
+}
+
+function createBookSourceEnumRef(builder: Builder) {
+  return builder.enumType("BookSource", {
+    description: "Source of the book data",
+    values: {
+      RAKUTEN: {
+        value: "rakuten" as BookSource,
+        description: "Rakuten Books API",
+      },
+      GOOGLE: {
+        value: "google" as BookSource,
+        description: "Google Books API",
       },
     } as const,
   });
@@ -154,6 +171,7 @@ let SearchBooksResultRef: SearchBooksResultRef;
 let AddBookInputRef: AddBookInputRef;
 let UserBookRef: UserBookObjectRef;
 let ReadingStatusRef: ReadingStatusEnumRef;
+let BookSourceRef: BookSourceEnumRef;
 let BookDetailRef: BookDetailObjectRef;
 let ShelfSortFieldRef: ShelfSortFieldEnumRef;
 let SortOrderRef: SortOrderEnumRef;
@@ -162,6 +180,7 @@ let MyShelfResultRef: MyShelfResultRef;
 
 export function registerBooksTypes(builder: Builder): void {
   ReadingStatusRef = createReadingStatusEnumRef(builder);
+  BookSourceRef = createBookSourceEnumRef(builder);
   BookRef = createBookRef(builder);
 
   BookRef.implement({
@@ -198,6 +217,12 @@ export function registerBooksTypes(builder: Builder): void {
         nullable: true,
         description: "The cover image URL of the book",
         resolve: (parent) => parent.coverImageUrl,
+      }),
+      source: t.field({
+        type: BookSourceRef,
+        nullable: false,
+        description: "The source of the book data (rakuten or google)",
+        resolve: (parent) => parent.source,
       }),
     }),
   });

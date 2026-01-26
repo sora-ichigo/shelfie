@@ -48,6 +48,8 @@ export interface RakutenBooksItem {
   contents?: string;
 }
 
+export type BookSource = "rakuten" | "google";
+
 export interface Book {
   id: string;
   title: string;
@@ -56,6 +58,7 @@ export interface Book {
   publishedDate: string | null;
   isbn: string | null;
   coverImageUrl: string | null;
+  source: BookSource;
 }
 
 function parseAuthors(author: string): string[] {
@@ -102,6 +105,7 @@ export function mapRakutenBooksItem(item: RakutenBooksItem): Book {
     publishedDate: parseSalesDate(item.salesDate),
     isbn: item.isbn,
     coverImageUrl: extractCoverImageUrl(item),
+    source: "rakuten",
   };
 }
 
@@ -170,6 +174,7 @@ export function mapGoogleBooksVolume(volume: GoogleBooksVolume): Book {
     publishedDate: volumeInfo.publishedDate ?? null,
     isbn,
     coverImageUrl: extractGoogleBooksCoverImageUrl(volumeInfo.imageLinks),
+    source: "google",
   };
 }
 

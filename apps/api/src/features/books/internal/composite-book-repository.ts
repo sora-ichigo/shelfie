@@ -1,4 +1,5 @@
 import { err, ok, type Result } from "../../../errors/result.js";
+import type { LoggerService } from "../../../logger/index.js";
 import {
   type Book,
   mapGoogleBooksVolume,
@@ -56,6 +57,7 @@ function deduplicateByIsbn(books: Book[]): Book[] {
 export function createCompositeBookRepository(
   rakutenRepository: ExternalBookRepository,
   googleRepository: GoogleBooksRepository,
+  logger: LoggerService,
 ): CompositeBookRepository {
   return {
     async searchByQuery(
@@ -69,6 +71,22 @@ export function createCompositeBookRepository(
         rakutenRepository.searchByQuery(query, limit, offset),
         googleRepository.searchByQuery(query, limit, offset),
       ]);
+
+      if (!rakutenResult.success) {
+        logger.warn("Rakuten Books API error", {
+          feature: "books",
+          query,
+          error: rakutenResult.error,
+        });
+      }
+
+      if (!googleResult.success) {
+        logger.warn("Google Books API error", {
+          feature: "books",
+          query,
+          error: googleResult.error,
+        });
+      }
 
       const rakutenBooks = rakutenResult.success
         ? rakutenResult.data.items.map(mapRakutenBooksItem)

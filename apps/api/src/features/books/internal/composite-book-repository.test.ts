@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { LoggerService } from "../../../logger/index.js";
 import type { Book } from "./book-mapper.js";
 import {
   type CompositeBookRepository,
@@ -11,6 +12,7 @@ describe("CompositeBookRepository", () => {
   let repository: CompositeBookRepository;
   let mockRakutenRepository: ExternalBookRepository;
   let mockGoogleRepository: GoogleBooksRepository;
+  let mockLogger: LoggerService;
 
   const createMockRakutenItem = (isbn: string, title: string) => ({
     title,
@@ -53,6 +55,13 @@ describe("CompositeBookRepository", () => {
     mockGoogleRepository = {
       searchByQuery: vi.fn(),
     };
+
+    mockLogger = {
+      info: vi.fn(),
+      warn: vi.fn(),
+      error: vi.fn(),
+      debug: vi.fn(),
+    };
   });
 
   describe("searchByQuery", () => {
@@ -83,6 +92,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -121,6 +131,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -159,6 +170,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -197,6 +209,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -234,6 +247,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -272,6 +286,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -301,6 +316,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -329,6 +345,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -354,6 +371,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -380,6 +398,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         await repository.searchByQuery("テスト", 10, 0);
@@ -418,6 +437,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -445,6 +465,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);
@@ -471,6 +492,7 @@ describe("CompositeBookRepository", () => {
         repository = createCompositeBookRepository(
           mockRakutenRepository,
           mockGoogleRepository,
+          mockLogger,
         );
 
         const result = await repository.searchByQuery("テスト", 10, 0);

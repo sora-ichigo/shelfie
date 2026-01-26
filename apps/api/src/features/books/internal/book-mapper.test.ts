@@ -44,6 +44,7 @@ describe("BookMapper", () => {
         publishedDate: "2024-01-15",
         isbn: "9784123456789",
         coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
+        source: "rakuten",
       } satisfies Book);
     });
 
@@ -310,6 +311,7 @@ describe("BookMapper", () => {
         publishedDate: "2024-01-15",
         isbn: "9784123456789",
         coverImageUrl: "https://books.google.com/thumbnail.jpg",
+        source: "google",
       } satisfies Book);
     });
 

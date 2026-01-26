@@ -1,6 +1,7 @@
 export type {
   Book,
   BookDetail,
+  BookSource,
   GoogleBooksVolume,
   GoogleBooksVolumeInfo,
   RakutenBooksItem,
