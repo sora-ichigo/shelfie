@@ -26,7 +26,7 @@ class ProfileCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        color: colors?.surface,
         borderRadius: BorderRadius.circular(AppSpacing.md),
       ),
       child: Column(
@@ -45,14 +45,13 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       profile.name ?? '未設定',
                       style: theme.textTheme.titleMedium?.copyWith(
-                        color: colors?.textPrimary ?? Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
                       profile.email,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                        color: colors?.foregroundMuted,
                       ),
                     ),
                   ],
@@ -62,7 +61,7 @@ class ProfileCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Divider(
-            color: colors?.textSecondary.withOpacity(0.2) ?? Colors.white24,
+            color: colors?.foregroundMuted.withOpacity(0.2),
             height: 1,
           ),
           const SizedBox(height: AppSpacing.md),
@@ -112,7 +111,6 @@ class _StatItem extends StatelessWidget {
         Text(
           value,
           style: theme.textTheme.headlineSmall?.copyWith(
-            color: colors?.textPrimary ?? Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -120,7 +118,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            color: colors?.foregroundMuted,
           ),
         ),
       ],

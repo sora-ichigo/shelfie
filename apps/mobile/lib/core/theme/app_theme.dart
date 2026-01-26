@@ -54,9 +54,9 @@ abstract final class AppTheme {
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.dark.brandBackground,
-        selectedItemColor: AppColors.dark.textPrimary,
-        unselectedItemColor: AppColors.dark.textSecondary,
+        backgroundColor: AppColors.dark.background,
+        selectedItemColor: AppColors.dark.foreground,
+        unselectedItemColor: AppColors.dark.foregroundMuted,
         selectedLabelStyle: const TextStyle(fontSize: 14),
         unselectedLabelStyle: const TextStyle(fontSize: 14),
         selectedIconTheme: const IconThemeData(size: 32),
@@ -64,21 +64,21 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
-          color: AppColors.dark.textSecondary,
+          color: AppColors.dark.foregroundMuted,
         ),
-        prefixIconColor: AppColors.dark.textSecondary,
-        suffixIconColor: AppColors.dark.textSecondary,
+        prefixIconColor: AppColors.dark.foregroundMuted,
+        suffixIconColor: AppColors.dark.foregroundMuted,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+          borderSide: BorderSide(color: AppColors.dark.foregroundMuted),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+          borderSide: BorderSide(color: AppColors.dark.foregroundMuted),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.brandPrimary),
+          borderSide: BorderSide(color: AppColors.dark.accent),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

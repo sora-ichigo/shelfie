@@ -24,7 +24,7 @@ class ProfileEditForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel(theme, colors, '氏名'),
+        _buildLabel(theme, '氏名'),
         const SizedBox(height: AppSpacing.xs),
         _buildTextField(
           controller: nameController,
@@ -39,7 +39,7 @@ class ProfileEditForm extends StatelessWidget {
           _buildErrorText(theme, nameError!),
         ],
         const SizedBox(height: AppSpacing.lg),
-        _buildLabel(theme, colors, 'メールアドレス'),
+        _buildLabel(theme, 'メールアドレス'),
         const SizedBox(height: AppSpacing.xs),
         _buildDisabledTextField(
           controller: emailController,
@@ -50,18 +50,17 @@ class ProfileEditForm extends StatelessWidget {
         Text(
           'アカウントのメールアドレスは変更できません',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+            color: colors?.foregroundMuted,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildLabel(ThemeData theme, AppColors? colors, String text) {
+  Widget _buildLabel(ThemeData theme, String text) {
     return Text(
       text,
       style: theme.textTheme.titleSmall?.copyWith(
-        color: colors?.textPrimary ?? Colors.white,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -81,14 +80,12 @@ class ProfileEditForm extends StatelessWidget {
       onChanged: onChanged,
       keyboardType: keyboardType,
       enabled: enabled,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: enabled
-            ? (colors?.textPrimary ?? Colors.white)
-            : (colors?.textSecondary ?? const Color(0xFFA0A0A0)),
-      ),
+      style: enabled
+          ? null
+          : theme.textTheme.bodyLarge?.copyWith(color: colors?.foregroundMuted),
       decoration: InputDecoration(
         filled: true,
-        fillColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        fillColor: colors?.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.xs),
           borderSide: BorderSide.none,
@@ -96,10 +93,7 @@ class ProfileEditForm extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.xs),
           borderSide: errorText != null
-              ? BorderSide(
-                  color: theme.colorScheme.error,
-                  width: 1,
-                )
+              ? BorderSide(color: theme.colorScheme.error, width: 1)
               : BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
@@ -107,7 +101,7 @@ class ProfileEditForm extends StatelessWidget {
           borderSide: BorderSide(
             color: errorText != null
                 ? theme.colorScheme.error
-                : (colors?.brandPrimary ?? const Color(0xFF4FD1C5)),
+                : (colors?.accent ?? theme.colorScheme.primary),
             width: 2,
           ),
         ),
@@ -137,11 +131,11 @@ class ProfileEditForm extends StatelessWidget {
       controller: controller,
       enabled: false,
       style: theme.textTheme.bodyLarge?.copyWith(
-        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+        color: colors?.foregroundMuted,
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+        fillColor: colors?.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.xs),
           borderSide: BorderSide.none,

@@ -25,7 +25,11 @@ class CircleIconButton extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          gradient: appColors.actionGradient,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [appColors.success, appColors.accent],
+          ),
           shape: BoxShape.circle,
         ),
         child: Icon(

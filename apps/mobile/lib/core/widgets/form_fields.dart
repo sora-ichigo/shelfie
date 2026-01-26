@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// ラベル付きテキストフィールドの基本レイアウト
@@ -18,16 +17,13 @@ class LabeledTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: colors?.textPrimary ?? Colors.white,
-          ),
+          style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(height: AppSpacing.xs),
         child,
@@ -56,9 +52,6 @@ class EmailField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
-
     return LabeledTextField(
       label: 'メールアドレス',
       child: TextFormField(
@@ -66,9 +59,6 @@ class EmailField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         autocorrect: false,
         onChanged: onChanged,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors?.textPrimary ?? Colors.white,
-        ),
         decoration: InputDecoration(
           hintText: hintText,
           errorText: errorText,
@@ -105,9 +95,6 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
-
     return LabeledTextField(
       label: label,
       child: TextFormField(
@@ -116,9 +103,6 @@ class PasswordField extends StatelessWidget {
         autocorrect: false,
         enableSuggestions: false,
         onChanged: onChanged,
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: colors?.textPrimary ?? Colors.white,
-        ),
         decoration: InputDecoration(
           hintText: hintText,
           errorText: errorText,

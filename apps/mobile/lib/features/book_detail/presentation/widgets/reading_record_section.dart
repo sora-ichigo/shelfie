@@ -216,7 +216,7 @@ class ReadingRecordSection extends StatelessWidget {
           isFilled ? Icons.star : Icons.star_border,
           size: 18,
           color: isFilled
-              ? appColors.brandAccent
+              ? appColors.accentSecondary
               : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
         );
       }),

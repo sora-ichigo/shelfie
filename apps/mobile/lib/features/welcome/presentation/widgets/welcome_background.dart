@@ -24,13 +24,13 @@ class WelcomeBackground extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return ColoredBox(
-                  color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
+                  color: colors?.background ?? const Color(0xFF0A0A0A),
                 );
               },
             ),
           ),
           ColoredBox(
-            color: colors?.surfaceOverlay ?? const Color(0x99000000),
+            color: colors?.overlay ?? const Color(0x99000000),
           ),
         ],
       ),

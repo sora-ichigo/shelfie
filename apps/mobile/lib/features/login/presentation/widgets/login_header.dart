@@ -20,21 +20,12 @@ class LoginHeader extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: onBackPressed,
-          child: Row(
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.arrow_back,
-                color: colors?.textPrimary ?? Colors.white,
-                size: 20,
-              ),
-              const SizedBox(width: AppSpacing.xxs),
-              Text(
-                '戻る',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textPrimary ?? Colors.white,
-                ),
-              ),
+              Icon(Icons.arrow_back, size: 20),
+              SizedBox(width: AppSpacing.xxs),
+              Text('戻る'),
             ],
           ),
         ),
@@ -44,18 +35,17 @@ class LoginHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: colors?.brandPrimary ?? const Color(0xFF4FD1C5),
+                backgroundColor: colors?.accent,
                 child: Icon(
                   Icons.lock_outline,
                   size: 40,
-                  color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
+                  color: colors?.background,
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 'ログイン',
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  color: colors?.textPrimary ?? Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -63,7 +53,7 @@ class LoginHeader extends StatelessWidget {
               Text(
                 'おかえりなさい',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                  color: colors?.foregroundMuted,
                 ),
               ),
             ],

@@ -16,8 +16,8 @@ class LegalLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
-    final textColor = colors?.textSecondary ?? const Color(0xFFA0A0A0);
-    final linkColor = colors?.textLink ?? Colors.white;
+    final textColor = colors?.foregroundMuted ?? const Color(0xFFA0A0A0);
+    final linkColor = colors?.accent ?? Colors.white;
 
     final textStyle = theme.textTheme.bodySmall?.copyWith(
       color: textColor,

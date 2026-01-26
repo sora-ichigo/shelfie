@@ -43,17 +43,16 @@ class AvatarEditor extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.xs),
               decoration: BoxDecoration(
-                color: colors?.surfaceElevated ?? const Color(0xFF1A1A1A),
+                color: colors?.surface ?? const Color(0xFF1A1A1A),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: colors?.brandBackground ?? const Color(0xFF0A0A0A),
+                  color: colors?.background ?? const Color(0xFF0A0A0A),
                   width: 2,
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.edit,
                 size: 16,
-                color: colors?.textPrimary ?? Colors.white,
               ),
             ),
           ),
