@@ -9,6 +9,9 @@ class SearchBarWidget extends StatelessWidget {
     this.controller,
     this.focusNode,
     this.onSubmitted,
+    this.showCancelButton = false,
+    this.onCancelPressed,
+    this.hintText = '書籍を検索...',
   });
 
   final void Function(String) onChanged;
@@ -16,6 +19,9 @@ class SearchBarWidget extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String)? onSubmitted;
+  final bool showCancelButton;
+  final VoidCallback? onCancelPressed;
+  final String hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class SearchBarWidget extends StatelessWidget {
                   onSubmitted: onSubmitted,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: '書籍を検索...',
+                    hintText: hintText,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: value.text.isNotEmpty
                         ? IconButton(
@@ -59,11 +65,31 @@ class SearchBarWidget extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          IconButton(
-            onPressed: onScanPressed,
-            icon: const Icon(Icons.qr_code_scanner),
-            tooltip: 'ISBNスキャン',
+          AnimatedSize(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            child: showCancelButton
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(width: AppSpacing.xs),
+                      TextButton(
+                        onPressed: onCancelPressed,
+                        child: const Text('キャンセル'),
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(width: AppSpacing.xs),
+                      IconButton(
+                        onPressed: onScanPressed,
+                        icon: const Icon(Icons.qr_code_scanner),
+                        tooltip: 'ISBNスキャン',
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
