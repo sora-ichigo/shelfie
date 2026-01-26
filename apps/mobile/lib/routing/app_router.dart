@@ -405,9 +405,9 @@ class _MainShell extends StatelessWidget {
 
     return Scaffold(
       body: child,
-      bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: _AppTabBar(
         selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
+        onTap: (index) {
           switch (index) {
             case 0:
               context.go(AppRoutes.homeTab);
@@ -415,18 +415,92 @@ class _MainShell extends StatelessWidget {
               context.go(AppRoutes.searchTab);
           }
         },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.auto_stories_outlined),
-            selectedIcon: Icon(Icons.auto_stories),
+      ),
+    );
+  }
+}
+
+class _AppTabBar extends StatelessWidget {
+  const _AppTabBar({
+    required this.selectedIndex,
+    required this.onTap,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
+    return Container(
+      padding: EdgeInsets.only(top: 12, bottom: bottomPadding + 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _TabItem(
+            icon: CupertinoIcons.book,
+            activeIcon: CupertinoIcons.book_fill,
             label: '本棚',
+            isSelected: selectedIndex == 0,
+            onTap: () => onTap(0),
           ),
-          NavigationDestination(
-            icon: Icon(Icons.search_outlined),
-            selectedIcon: Icon(Icons.search),
+          _TabItem(
+            icon: CupertinoIcons.search,
+            activeIcon: CupertinoIcons.search,
             label: '検索',
+            isSelected: selectedIndex == 1,
+            onTap: () => onTap(1),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TabItem extends StatelessWidget {
+  const _TabItem({
+    required this.icon,
+    required this.activeIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final IconData activeIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isSelected ? Colors.white : CupertinoColors.systemGrey;
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: 80,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected ? activeIcon : icon,
+              color: color,
+              size: 26,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
