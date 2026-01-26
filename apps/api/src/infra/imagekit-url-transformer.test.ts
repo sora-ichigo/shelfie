@@ -20,7 +20,7 @@ describe("transformImageKitUrl", () => {
   it("adds default 128x128 transformation to ImageKit URL", () => {
     const result = transformImageKitUrl(sampleImageKitUrl);
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-128,h-128,fo-face",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-128,h-128,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
     );
   });
 
@@ -30,16 +30,7 @@ describe("transformImageKitUrl", () => {
       height: 256,
     });
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,fo-face",
-    );
-  });
-
-  it("excludes fo-face when focusFace is false", () => {
-    const result = transformImageKitUrl(sampleImageKitUrl, {
-      focusFace: false,
-    });
-    expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-128,h-128",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
     );
   });
 
@@ -48,7 +39,7 @@ describe("transformImageKitUrl", () => {
       "https://ik.imagekit.io/demo/sample-avatar.jpg?existing=param";
     const result = transformImageKitUrl(urlWithParams);
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-128,h-128,fo-face",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-128,h-128,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
     );
   });
 

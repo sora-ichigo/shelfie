@@ -4,7 +4,6 @@ const DEFAULT_AVATAR_SIZE = 128;
 export interface TransformOptions {
   width?: number;
   height?: number;
-  focusFace?: boolean;
 }
 
 export function transformImageKitUrl(
@@ -16,11 +15,8 @@ export function transformImageKitUrl(
 
   const width = options.width ?? DEFAULT_AVATAR_SIZE;
   const height = options.height ?? DEFAULT_AVATAR_SIZE;
-  const focusFace = options.focusFace ?? true;
 
-  const transformations = focusFace
-    ? `tr=w-${width},h-${height},fo-face`
-    : `tr=w-${width},h-${height}`;
+  const transformations = `tr=w-${width},h-${height},cm-pad_resize,bg-FFFFFF,q-90,f-auto`;
 
   const uri = new URL(url);
   uri.search = transformations;
