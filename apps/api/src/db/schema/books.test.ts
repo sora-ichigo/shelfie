@@ -213,6 +213,56 @@ describe("books schema", () => {
       expect(allUserBooks[1].isbn).toBeNull();
     });
 
+    describe("source field", () => {
+      it("should create a user_book with default source as rakuten", async () => {
+        const db = getDb();
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "test-123",
+            title: "Test Book",
+          })
+          .returning();
+
+        expect(userBook.source).toBe("rakuten");
+      });
+
+      it("should create a user_book with explicit source as google", async () => {
+        const db = getDb();
+        const [userBook] = await db
+          .insert(userBooks)
+          .values({
+            userId,
+            externalId: "google-volume-123",
+            title: "Google Book",
+            source: "google",
+          })
+          .returning();
+
+        expect(userBook.source).toBe("google");
+      });
+
+      it("should store all book_source enum values", async () => {
+        const db = getDb();
+        const sources = ["rakuten", "google"] as const;
+
+        for (const [index, source] of sources.entries()) {
+          const [userBook] = await db
+            .insert(userBooks)
+            .values({
+              userId,
+              externalId: `test-${index}`,
+              title: `Test Book ${index}`,
+              source,
+            })
+            .returning();
+
+          expect(userBook.source).toBe(source);
+        }
+      });
+    });
+
     describe("reading status and note fields", () => {
       it("should create a user_book with default reading_status as backlog", async () => {
         const db = getDb();

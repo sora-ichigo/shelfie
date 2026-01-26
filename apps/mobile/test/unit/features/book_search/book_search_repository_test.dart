@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gql_exec/gql_exec.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart';
@@ -99,7 +100,8 @@ void main() {
                       ..publisher = 'Publisher 1'
                       ..publishedDate = '2024-01-01'
                       ..isbn = '9781234567890'
-                      ..coverImageUrl = 'https://example.com/cover1.jpg',
+                      ..coverImageUrl = 'https://example.com/cover1.jpg'
+                      ..source = GBookSource.RAKUTEN,
                   ),
                   GSearchBooksData_searchBooks_items(
                     (item) => item
@@ -109,7 +111,8 @@ void main() {
                       ..publisher = null
                       ..publishedDate = null
                       ..isbn = null
-                      ..coverImageUrl = null,
+                      ..coverImageUrl = null
+                      ..source = GBookSource.GOOGLE,
                   ),
                 ])
                 ..totalCount = 100
@@ -315,7 +318,8 @@ void main() {
                 ..publishedDate = '2024-01-01'
                 ..isbn = '9781234567890'
                 ..coverImageUrl = 'https://example.com/cover.jpg'
-                ..addedAt = DateTime(2024, 6, 15, 10, 30),
+                ..addedAt = DateTime(2024, 6, 15, 10, 30)
+                ..source = GBookSource.RAKUTEN,
             ).toBuilder(),
         );
 

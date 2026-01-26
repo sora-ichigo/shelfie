@@ -293,7 +293,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     if (query.isNotEmpty) {
       ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
     }
-    context.push(AppRoutes.bookDetail(bookId: book.id));
+    context.push(AppRoutes.bookDetail(bookId: book.id, source: book.source));
   }
 
   Future<void> _onAddToShelf(Book book) async {

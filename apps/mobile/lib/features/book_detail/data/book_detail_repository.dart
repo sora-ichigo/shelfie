@@ -21,6 +21,8 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_reading_s
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 part 'book_detail_repository.g.dart';
 
@@ -40,14 +42,17 @@ class BookDetailRepository {
 
   Future<Either<Failure, BookDetailResponse>> getBookDetail({
     required String bookId,
+    BookSource? source,
   }) async {
     final request = GBookDetailReq(
-      (b) => b..vars.bookId = bookId,
+      (b) => b
+        ..vars.bookId = bookId
+        ..vars.source = source != null ? _toGBookSource(source) : null,
     );
 
     try {
       final response = await client.request(request).first;
-      return _handleBookDetailResponse(response);
+      return _handleBookDetailResponse(response, source);
     } on SocketException {
       return left(const NetworkFailure(message: 'No internet connection'));
     } on TimeoutException {
@@ -144,6 +149,7 @@ class BookDetailRepository {
 
   Either<Failure, BookDetailResponse> _handleBookDetailResponse(
     OperationResponse<GBookDetailData, dynamic> response,
+    BookSource? source,
   ) {
     if (response.hasErrors) {
       final error = response.graphqlErrors?.firstOrNull;
@@ -165,7 +171,7 @@ class BookDetailRepository {
     }
 
     final bookDetailData = data.bookDetail;
-    final bookDetail = _mapToBookDetail(bookDetailData);
+    final bookDetail = _mapToBookDetail(bookDetailData, source);
     final userBook = bookDetailData.userBook != null
         ? _mapToUserBook(bookDetailData.userBook!)
         : null;
@@ -293,11 +299,15 @@ class BookDetailRepository {
     };
   }
 
-  BookDetail _mapToBookDetail(GBookDetailData_bookDetail bookDetail) {
+  BookDetail _mapToBookDetail(
+    GBookDetailData_bookDetail bookDetail,
+    BookSource? source,
+  ) {
     return BookDetail(
       id: bookDetail.id,
       title: bookDetail.title,
       authors: bookDetail.authors.toList(),
+      source: source ?? BookSource.rakuten,
       publisher: bookDetail.publisher,
       publishedDate: bookDetail.publishedDate,
       pageCount: bookDetail.pageCount,
@@ -380,6 +390,13 @@ class BookDetailRepository {
       ReadingStatus.reading => GReadingStatus.READING,
       ReadingStatus.completed => GReadingStatus.COMPLETED,
       ReadingStatus.dropped => GReadingStatus.DROPPED,
+    };
+  }
+
+  GBookSource _toGBookSource(BookSource source) {
+    return switch (source) {
+      BookSource.rakuten => GBookSource.RAKUTEN,
+      BookSource.google => GBookSource.GOOGLE,
     };
   }
 }

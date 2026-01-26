@@ -16,6 +16,8 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_s
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
@@ -24,10 +26,12 @@ import 'package:url_launcher/url_launcher.dart';
 class BookDetailScreen extends ConsumerStatefulWidget {
   const BookDetailScreen({
     required this.bookId,
+    this.source,
     super.key,
   });
 
   final String bookId;
+  final BookSource? source;
 
   @override
   ConsumerState<BookDetailScreen> createState() => _BookDetailScreenState();
@@ -46,7 +50,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(bookDetailNotifierProvider(widget.bookId).notifier)
-          .loadBookDetail();
+          .loadBookDetail(source: widget.source);
     });
   }
 
@@ -324,7 +328,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   void _onRetry() {
     ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
-        .loadBookDetail();
+        .loadBookDetail(source: widget.source);
   }
 
   void _addToRecentBooks(BookDetail bookDetail) {

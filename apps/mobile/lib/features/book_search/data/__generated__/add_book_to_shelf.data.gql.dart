@@ -5,6 +5,8 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
+    as _i2;
 import 'package:shelfie/core/graphql/__generated__/serializers.gql.dart' as _i1;
 
 part 'add_book_to_shelf.data.gql.g.dart';
@@ -61,6 +63,7 @@ abstract class GAddBookToShelfData_addBookToShelf
   String? get publishedDate;
   String? get isbn;
   String? get coverImageUrl;
+  _i2.GBookSource get source;
   DateTime get addedAt;
   static Serializer<GAddBookToShelfData_addBookToShelf> get serializer =>
       _$gAddBookToShelfDataAddBookToShelfSerializer;

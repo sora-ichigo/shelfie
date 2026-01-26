@@ -25,6 +25,9 @@ mixin _$BookDetail {
   /// 著者リスト
   List<String> get authors => throw _privateConstructorUsedError;
 
+  /// ソース（rakuten or google）
+  BookSource get source => throw _privateConstructorUsedError;
+
   /// 出版社
   String? get publisher => throw _privateConstructorUsedError;
 
@@ -69,6 +72,7 @@ abstract class $BookDetailCopyWith<$Res> {
       {String id,
       String title,
       List<String> authors,
+      BookSource source,
       String? publisher,
       String? publishedDate,
       int? pageCount,
@@ -98,6 +102,7 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
     Object? id = null,
     Object? title = null,
     Object? authors = null,
+    Object? source = null,
     Object? publisher = freezed,
     Object? publishedDate = freezed,
     Object? pageCount = freezed,
@@ -121,6 +126,10 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
           ? _value.authors
           : authors // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
       publisher: freezed == publisher
           ? _value.publisher
           : publisher // ignore: cast_nullable_to_non_nullable
@@ -173,6 +182,7 @@ abstract class _$$BookDetailImplCopyWith<$Res>
       {String id,
       String title,
       List<String> authors,
+      BookSource source,
       String? publisher,
       String? publishedDate,
       int? pageCount,
@@ -200,6 +210,7 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? authors = null,
+    Object? source = null,
     Object? publisher = freezed,
     Object? publishedDate = freezed,
     Object? pageCount = freezed,
@@ -223,6 +234,10 @@ class __$$BookDetailImplCopyWithImpl<$Res>
           ? _value._authors
           : authors // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
       publisher: freezed == publisher
           ? _value.publisher
           : publisher // ignore: cast_nullable_to_non_nullable
@@ -270,6 +285,7 @@ class _$BookDetailImpl implements _BookDetail {
       {required this.id,
       required this.title,
       required final List<String> authors,
+      this.source = BookSource.rakuten,
       this.publisher,
       this.publishedDate,
       this.pageCount,
@@ -300,6 +316,11 @@ class _$BookDetailImpl implements _BookDetail {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_authors);
   }
+
+  /// ソース（rakuten or google）
+  @override
+  @JsonKey()
+  final BookSource source;
 
   /// 出版社
   @override
@@ -348,7 +369,7 @@ class _$BookDetailImpl implements _BookDetail {
 
   @override
   String toString() {
-    return 'BookDetail(id: $id, title: $title, authors: $authors, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, rakutenBooksUrl: $rakutenBooksUrl)';
+    return 'BookDetail(id: $id, title: $title, authors: $authors, source: $source, publisher: $publisher, publishedDate: $publishedDate, pageCount: $pageCount, categories: $categories, description: $description, isbn: $isbn, thumbnailUrl: $thumbnailUrl, amazonUrl: $amazonUrl, rakutenBooksUrl: $rakutenBooksUrl)';
   }
 
   @override
@@ -359,6 +380,7 @@ class _$BookDetailImpl implements _BookDetail {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
+            (identical(other.source, source) || other.source == source) &&
             (identical(other.publisher, publisher) ||
                 other.publisher == publisher) &&
             (identical(other.publishedDate, publishedDate) ||
@@ -384,6 +406,7 @@ class _$BookDetailImpl implements _BookDetail {
       id,
       title,
       const DeepCollectionEquality().hash(_authors),
+      source,
       publisher,
       publishedDate,
       pageCount,
@@ -408,6 +431,7 @@ abstract class _BookDetail implements BookDetail {
       {required final String id,
       required final String title,
       required final List<String> authors,
+      final BookSource source,
       final String? publisher,
       final String? publishedDate,
       final int? pageCount,
@@ -429,6 +453,10 @@ abstract class _BookDetail implements BookDetail {
   /// 著者リスト
   @override
   List<String> get authors;
+
+  /// ソース（rakuten or google）
+  @override
+  BookSource get source;
 
   /// 出版社
   @override

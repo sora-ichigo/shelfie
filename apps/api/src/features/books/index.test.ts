@@ -41,6 +41,7 @@ describe("books Feature public API", () => {
         publishedDate: null,
         isbn: null,
         coverImageUrl: null,
+        source: "rakuten",
       };
       expect(book.id).toBe("test");
     });
@@ -237,6 +238,7 @@ describe("books Feature public API", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        source: "rakuten",
       };
       expect(userBook.id).toBe(1);
     });

@@ -97,6 +97,9 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
       serializers.serialize(object.authors,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'source',
+      serializers.serialize(object.source,
+          specifiedType: const FullType(_i2.GBookSource)),
       'addedAt',
       serializers.serialize(object.addedAt,
           specifiedType: const FullType(DateTime)),
@@ -182,6 +185,11 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
         case 'coverImageUrl':
           result.coverImageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'source':
+          result.source = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GBookSource))!
+              as _i2.GBookSource;
           break;
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
@@ -330,6 +338,8 @@ class _$GAddBookToShelfData_addBookToShelf
   @override
   final String? coverImageUrl;
   @override
+  final _i2.GBookSource source;
+  @override
   final DateTime addedAt;
 
   factory _$GAddBookToShelfData_addBookToShelf(
@@ -347,6 +357,7 @@ class _$GAddBookToShelfData_addBookToShelf
       this.publishedDate,
       this.isbn,
       this.coverImageUrl,
+      required this.source,
       required this.addedAt})
       : super._();
   @override
@@ -371,6 +382,7 @@ class _$GAddBookToShelfData_addBookToShelf
         publishedDate == other.publishedDate &&
         isbn == other.isbn &&
         coverImageUrl == other.coverImageUrl &&
+        source == other.source &&
         addedAt == other.addedAt;
   }
 
@@ -386,6 +398,7 @@ class _$GAddBookToShelfData_addBookToShelf
     _$hash = $jc(_$hash, publishedDate.hashCode);
     _$hash = $jc(_$hash, isbn.hashCode);
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -403,6 +416,7 @@ class _$GAddBookToShelfData_addBookToShelf
           ..add('publishedDate', publishedDate)
           ..add('isbn', isbn)
           ..add('coverImageUrl', coverImageUrl)
+          ..add('source', source)
           ..add('addedAt', addedAt))
         .toString();
   }
@@ -452,6 +466,10 @@ class GAddBookToShelfData_addBookToShelfBuilder
   set coverImageUrl(String? coverImageUrl) =>
       _$this._coverImageUrl = coverImageUrl;
 
+  _i2.GBookSource? _source;
+  _i2.GBookSource? get source => _$this._source;
+  set source(_i2.GBookSource? source) => _$this._source = source;
+
   DateTime? _addedAt;
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
@@ -472,6 +490,7 @@ class GAddBookToShelfData_addBookToShelfBuilder
       _publishedDate = $v.publishedDate;
       _isbn = $v.isbn;
       _coverImageUrl = $v.coverImageUrl;
+      _source = $v.source;
       _addedAt = $v.addedAt;
       _$v = null;
     }
@@ -510,6 +529,8 @@ class GAddBookToShelfData_addBookToShelfBuilder
             publishedDate: publishedDate,
             isbn: isbn,
             coverImageUrl: coverImageUrl,
+            source: BuiltValueNullFieldError.checkNotNull(
+                source, r'GAddBookToShelfData_addBookToShelf', 'source'),
             addedAt: BuiltValueNullFieldError.checkNotNull(
                 addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt'),
           );

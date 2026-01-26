@@ -8,6 +8,7 @@ mutation AddBookToShelf($bookInput: AddBookInput!) {
     publishedDate
     isbn
     coverImageUrl
+    source
     addedAt
   }
 }

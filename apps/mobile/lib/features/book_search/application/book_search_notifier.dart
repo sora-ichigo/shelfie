@@ -101,6 +101,7 @@ class BookSearchNotifier extends _$BookSearchNotifier {
       publishedDate: book.publishedDate,
       isbn: book.isbn,
       coverImageUrl: book.coverImageUrl,
+      source: book.source,
     );
   }
 

@@ -172,6 +172,9 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
       'readingStatus',
       serializers.serialize(object.readingStatus,
           specifiedType: const FullType(_i2.GReadingStatus)),
+      'source',
+      serializers.serialize(object.source,
+          specifiedType: const FullType(_i2.GBookSource)),
       'addedAt',
       serializers.serialize(object.addedAt,
           specifiedType: const FullType(DateTime)),
@@ -242,6 +245,11 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
           result.readingStatus = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GReadingStatus))!
               as _i2.GReadingStatus;
+          break;
+        case 'source':
+          result.source = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GBookSource))!
+              as _i2.GBookSource;
           break;
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
@@ -535,6 +543,8 @@ class _$GMyShelfPaginatedData_myShelf_items
   @override
   final _i2.GReadingStatus readingStatus;
   @override
+  final _i2.GBookSource source;
+  @override
   final DateTime addedAt;
   @override
   final DateTime? completedAt;
@@ -554,6 +564,7 @@ class _$GMyShelfPaginatedData_myShelf_items
       required this.authors,
       this.coverImageUrl,
       required this.readingStatus,
+      required this.source,
       required this.addedAt,
       this.completedAt,
       this.rating})
@@ -578,6 +589,7 @@ class _$GMyShelfPaginatedData_myShelf_items
         authors == other.authors &&
         coverImageUrl == other.coverImageUrl &&
         readingStatus == other.readingStatus &&
+        source == other.source &&
         addedAt == other.addedAt &&
         completedAt == other.completedAt &&
         rating == other.rating;
@@ -593,6 +605,7 @@ class _$GMyShelfPaginatedData_myShelf_items
     _$hash = $jc(_$hash, authors.hashCode);
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
     _$hash = $jc(_$hash, readingStatus.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
     _$hash = $jc(_$hash, rating.hashCode);
@@ -610,6 +623,7 @@ class _$GMyShelfPaginatedData_myShelf_items
           ..add('authors', authors)
           ..add('coverImageUrl', coverImageUrl)
           ..add('readingStatus', readingStatus)
+          ..add('source', source)
           ..add('addedAt', addedAt)
           ..add('completedAt', completedAt)
           ..add('rating', rating))
@@ -653,6 +667,10 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
   set readingStatus(_i2.GReadingStatus? readingStatus) =>
       _$this._readingStatus = readingStatus;
 
+  _i2.GBookSource? _source;
+  _i2.GBookSource? get source => _$this._source;
+  set source(_i2.GBookSource? source) => _$this._source = source;
+
   DateTime? _addedAt;
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
@@ -679,6 +697,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
       _authors = $v.authors.toBuilder();
       _coverImageUrl = $v.coverImageUrl;
       _readingStatus = $v.readingStatus;
+      _source = $v.source;
       _addedAt = $v.addedAt;
       _completedAt = $v.completedAt;
       _rating = $v.rating;
@@ -718,6 +737,8 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
             coverImageUrl: coverImageUrl,
             readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
                 r'GMyShelfPaginatedData_myShelf_items', 'readingStatus'),
+            source: BuiltValueNullFieldError.checkNotNull(
+                source, r'GMyShelfPaginatedData_myShelf_items', 'source'),
             addedAt: BuiltValueNullFieldError.checkNotNull(
                 addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt'),
             completedAt: completedAt,

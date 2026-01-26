@@ -1,3 +1,27 @@
+export interface GoogleBooksVolumeInfo {
+  title: string;
+  authors?: string[];
+  publisher?: string;
+  publishedDate?: string;
+  description?: string;
+  industryIdentifiers?: Array<{
+    type: "ISBN_10" | "ISBN_13" | string;
+    identifier: string;
+  }>;
+  pageCount?: number;
+  categories?: string[];
+  imageLinks?: {
+    thumbnail?: string;
+    smallThumbnail?: string;
+  };
+}
+
+export interface GoogleBooksVolume {
+  kind: string;
+  id: string;
+  volumeInfo: GoogleBooksVolumeInfo;
+}
+
 export interface RakutenBooksItem {
   title: string;
   titleKana?: string;
@@ -24,6 +48,8 @@ export interface RakutenBooksItem {
   contents?: string;
 }
 
+export type BookSource = "rakuten" | "google";
+
 export interface Book {
   id: string;
   title: string;
@@ -32,6 +58,7 @@ export interface Book {
   publishedDate: string | null;
   isbn: string | null;
   coverImageUrl: string | null;
+  source: BookSource;
 }
 
 function parseAuthors(author: string): string[] {
@@ -78,6 +105,7 @@ export function mapRakutenBooksItem(item: RakutenBooksItem): Book {
     publishedDate: parseSalesDate(item.salesDate),
     isbn: item.isbn,
     coverImageUrl: extractCoverImageUrl(item),
+    source: "rakuten",
   };
 }
 
@@ -105,6 +133,51 @@ function generateAmazonUrl(isbn: string | null): string | null {
   return `https://www.amazon.co.jp/dp/${isbn}`;
 }
 
+function extractIsbn(
+  identifiers?: GoogleBooksVolumeInfo["industryIdentifiers"],
+): string | null {
+  if (!identifiers || identifiers.length === 0) {
+    return null;
+  }
+
+  const isbn13 = identifiers.find((id) => id.type === "ISBN_13");
+  if (isbn13) {
+    return isbn13.identifier;
+  }
+
+  const isbn10 = identifiers.find((id) => id.type === "ISBN_10");
+  if (isbn10) {
+    return isbn10.identifier;
+  }
+
+  return null;
+}
+
+function extractGoogleBooksCoverImageUrl(
+  imageLinks?: GoogleBooksVolumeInfo["imageLinks"],
+): string | null {
+  if (!imageLinks) {
+    return null;
+  }
+  return imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
+}
+
+export function mapGoogleBooksVolume(volume: GoogleBooksVolume): Book {
+  const { volumeInfo } = volume;
+  const isbn = extractIsbn(volumeInfo.industryIdentifiers);
+
+  return {
+    id: isbn ?? volume.id,
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    publisher: volumeInfo.publisher ?? null,
+    publishedDate: volumeInfo.publishedDate ?? null,
+    isbn,
+    coverImageUrl: extractGoogleBooksCoverImageUrl(volumeInfo.imageLinks),
+    source: "google",
+  };
+}
+
 export function mapRakutenBooksItemToDetail(
   item: RakutenBooksItem,
 ): BookDetail {
@@ -124,5 +197,32 @@ export function mapRakutenBooksItemToDetail(
     amazonUrl: generateAmazonUrl(isbn),
     googleBooksUrl: null,
     rakutenBooksUrl: item.itemUrl ?? null,
+  };
+}
+
+function generateGoogleBooksUrl(volumeId: string): string {
+  return `https://books.google.com/books?id=${volumeId}`;
+}
+
+export function mapGoogleBooksVolumeToDetail(
+  volume: GoogleBooksVolume,
+): BookDetail {
+  const { volumeInfo } = volume;
+  const isbn = extractIsbn(volumeInfo.industryIdentifiers);
+
+  return {
+    id: isbn ?? volume.id,
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    publisher: volumeInfo.publisher ?? null,
+    publishedDate: volumeInfo.publishedDate ?? null,
+    pageCount: volumeInfo.pageCount ?? null,
+    categories: volumeInfo.categories ?? null,
+    description: volumeInfo.description ?? null,
+    isbn,
+    coverImageUrl: extractGoogleBooksCoverImageUrl(volumeInfo.imageLinks),
+    amazonUrl: generateAmazonUrl(isbn),
+    googleBooksUrl: generateGoogleBooksUrl(volume.id),
+    rakutenBooksUrl: null,
   };
 }

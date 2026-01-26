@@ -78,16 +78,18 @@ class _RecentBookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const cardWidth = 100.0;
     const imageHeight = 130.0;
+    const borderRadius = BorderRadius.all(Radius.circular(8));
 
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: borderRadius,
       child: SizedBox(
         width: cardWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: borderRadius,
               child: SizedBox(
                 width: cardWidth,
                 height: imageHeight,

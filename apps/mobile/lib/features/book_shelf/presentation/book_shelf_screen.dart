@@ -167,6 +167,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   }
 
   void _onBookTap(ShelfBookItem book) {
-    context.push(AppRoutes.bookDetail(bookId: book.externalId));
+    context.push(AppRoutes.bookDetail(bookId: book.externalId, source: book.source));
   }
 }

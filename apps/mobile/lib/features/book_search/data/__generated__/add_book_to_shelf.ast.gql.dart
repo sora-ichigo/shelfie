@@ -88,6 +88,13 @@ const AddBookToShelf = _i1.OperationDefinitionNode(
           selectionSet: null,
         ),
         _i1.FieldNode(
+          name: _i1.NameNode(value: 'source'),
+          alias: null,
+          arguments: [],
+          directives: [],
+          selectionSet: null,
+        ),
+        _i1.FieldNode(
           name: _i1.NameNode(value: 'addedAt'),
           alias: null,
           arguments: [],

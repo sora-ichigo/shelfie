@@ -15,6 +15,8 @@ import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
@@ -59,7 +61,13 @@ abstract final class AppRoutes {
   static const isbnScan = '/search/isbn-scan';
 
   /// 本詳細画面パスを生成
-  static String bookDetail({required String bookId}) => '/books/$bookId';
+  static String bookDetail({required String bookId, BookSource? source}) {
+    final path = '/books/$bookId';
+    if (source != null) {
+      return '$path?source=${source.name}';
+    }
+    return path;
+  }
 
   /// 検索画面（クエリパラメータ付き）
   static String searchWithQuery({required String query}) =>
@@ -68,18 +76,21 @@ abstract final class AppRoutes {
 
 /// 本詳細画面のパラメータ
 class BookDetailParams {
-  const BookDetailParams({required this.bookId});
+  const BookDetailParams({required this.bookId, this.source});
 
   /// GoRouterState から BookDetailParams を生成
   factory BookDetailParams.fromState({
     required Map<String, String> pathParameters,
+    Map<String, String>? queryParameters,
   }) {
     return BookDetailParams(
       bookId: pathParameters['bookId'] ?? '',
+      source: queryParameters?['source'],
     );
   }
 
   final String bookId;
+  final String? source;
 }
 
 /// 検索画面のパラメータ
@@ -309,8 +320,14 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state) {
         final params = BookDetailParams.fromState(
           pathParameters: state.pathParameters,
+          queryParameters: state.uri.queryParameters,
         );
-        return BookDetailScreen(bookId: params.bookId);
+        final source = params.source == 'google'
+            ? BookSource.google
+            : params.source == 'rakuten'
+                ? BookSource.rakuten
+                : null;
+        return BookDetailScreen(bookId: params.bookId, source: source);
       },
     ),
 

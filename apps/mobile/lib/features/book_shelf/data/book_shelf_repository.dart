@@ -10,6 +10,8 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.data.gql.dart';
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.req.gql.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -133,6 +135,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
           externalId: item.externalId,
           title: item.title,
           authors: item.authors.toList(),
+          source: _mapBookSource(item.source.name),
           addedAt: item.addedAt,
           coverImageUrl: item.coverImageUrl,
         ),
@@ -166,6 +169,13 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
       'COMPLETED' => ReadingStatus.completed,
       'DROPPED' => ReadingStatus.dropped,
       _ => ReadingStatus.backlog,
+    };
+  }
+
+  BookSource _mapBookSource(String source) {
+    return switch (source.toUpperCase()) {
+      'GOOGLE' => BookSource.google,
+      _ => BookSource.rakuten,
     };
   }
 }

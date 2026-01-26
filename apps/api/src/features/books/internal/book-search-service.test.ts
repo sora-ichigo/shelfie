@@ -1,12 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { err, ok } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
-import type { RakutenBooksItem } from "./book-mapper.js";
+import type { GoogleBooksVolume, RakutenBooksItem } from "./book-mapper.js";
 import {
   type BookSearchService,
   createBookSearchService,
 } from "./book-search-service.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
+import type { GoogleBooksRepository } from "./google-books-repository.js";
 
 function createMockLogger(): LoggerService {
   return {
@@ -40,8 +41,32 @@ function createMockRakutenBooksItem(
   };
 }
 
+function createMockGoogleBooksVolume(
+  overrides: Partial<GoogleBooksVolume> = {},
+): GoogleBooksVolume {
+  return {
+    kind: "books#volume",
+    id: "google-volume-id",
+    volumeInfo: {
+      title: "Google Book Title",
+      authors: ["Google Author"],
+      publisher: "Google Publisher",
+      publishedDate: "2024-01-01",
+      description: "A book from Google Books",
+      industryIdentifiers: [{ type: "ISBN_13", identifier: "9784123456789" }],
+      pageCount: 300,
+      categories: ["Technology"],
+      imageLinks: {
+        thumbnail: "https://books.google.com/thumbnail.jpg",
+      },
+    },
+    ...overrides,
+  };
+}
+
 describe("BookSearchService", () => {
   let mockRepository: ExternalBookRepository;
+  let mockGoogleRepository: GoogleBooksRepository;
   let mockLogger: LoggerService;
   let service: BookSearchService;
 
@@ -51,8 +76,17 @@ describe("BookSearchService", () => {
       searchByISBN: vi.fn(),
       getBookByISBN: vi.fn(),
     };
+    mockGoogleRepository = {
+      searchByQuery: vi.fn(),
+      getVolumeById: vi.fn(),
+    };
     mockLogger = createMockLogger();
-    service = createBookSearchService(mockRepository, mockLogger);
+    service = createBookSearchService(
+      mockRepository,
+      mockLogger,
+      undefined,
+      mockGoogleRepository,
+    );
   });
 
   describe("searchBooks", () => {
@@ -579,6 +613,109 @@ describe("BookSearchService", () => {
           expect.stringContaining("not found"),
           expect.any(Object),
         );
+      });
+    });
+
+    describe("source parameter", () => {
+      it("should fetch from Rakuten when source is 'rakuten'", async () => {
+        const mockItem = createMockRakutenBooksItem({
+          title: "Rakuten Book",
+          isbn: "9784123456789",
+        });
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(mockItem));
+
+        const result = await service.getBookDetail("9784123456789", "rakuten");
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.title).toBe("Rakuten Book");
+        }
+        expect(mockRepository.getBookByISBN).toHaveBeenCalledWith(
+          "9784123456789",
+        );
+        expect(mockGoogleRepository.getVolumeById).not.toHaveBeenCalled();
+      });
+
+      it("should fetch from Google Books when source is 'google'", async () => {
+        const mockVolume = createMockGoogleBooksVolume({
+          id: "google-volume-123",
+          volumeInfo: {
+            title: "Google Book",
+            authors: ["Google Author"],
+            publisher: "Google Publisher",
+            publishedDate: "2024-01-01",
+            description: "A description",
+            industryIdentifiers: [
+              { type: "ISBN_13", identifier: "9784123456789" },
+            ],
+            pageCount: 250,
+            categories: ["Programming"],
+            imageLinks: { thumbnail: "https://example.com/cover.jpg" },
+          },
+        });
+        vi.mocked(mockGoogleRepository.getVolumeById).mockResolvedValue(
+          ok(mockVolume),
+        );
+
+        const result = await service.getBookDetail(
+          "google-volume-123",
+          "google",
+        );
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.title).toBe("Google Book");
+          expect(result.data.authors).toEqual(["Google Author"]);
+          expect(result.data.description).toBe("A description");
+          expect(result.data.pageCount).toBe(250);
+        }
+        expect(mockGoogleRepository.getVolumeById).toHaveBeenCalledWith(
+          "google-volume-123",
+        );
+        expect(mockRepository.getBookByISBN).not.toHaveBeenCalled();
+      });
+
+      it("should return NOT_FOUND when Google Books volume is not found", async () => {
+        vi.mocked(mockGoogleRepository.getVolumeById).mockResolvedValue(
+          ok(null),
+        );
+
+        const result = await service.getBookDetail("nonexistent-id", "google");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("NOT_FOUND");
+        }
+      });
+
+      it("should handle Google Books API errors", async () => {
+        vi.mocked(mockGoogleRepository.getVolumeById).mockResolvedValue(
+          err({ code: "NETWORK_ERROR", message: "Network failure" }),
+        );
+
+        const result = await service.getBookDetail(
+          "google-volume-123",
+          "google",
+        );
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("NETWORK_ERROR");
+        }
+      });
+
+      it("should default to Rakuten when source is not provided", async () => {
+        const mockItem = createMockRakutenBooksItem({
+          title: "Default Rakuten Book",
+          isbn: "9784123456789",
+        });
+        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(mockItem));
+
+        const result = await service.getBookDetail("9784123456789");
+
+        expect(result.success).toBe(true);
+        expect(mockRepository.getBookByISBN).toHaveBeenCalled();
+        expect(mockGoogleRepository.getVolumeById).not.toHaveBeenCalled();
       });
     });
   });

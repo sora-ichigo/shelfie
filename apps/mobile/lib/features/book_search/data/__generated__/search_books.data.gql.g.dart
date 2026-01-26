@@ -162,6 +162,9 @@ class _$GSearchBooksData_searchBooks_itemsSerializer
       serializers.serialize(object.authors,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
+      'source',
+      serializers.serialize(object.source,
+          specifiedType: const FullType(_i2.GBookSource)),
     ];
     Object? value;
     value = object.publisher;
@@ -240,6 +243,11 @@ class _$GSearchBooksData_searchBooks_itemsSerializer
         case 'coverImageUrl':
           result.coverImageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'source':
+          result.source = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GBookSource))!
+              as _i2.GBookSource;
           break;
       }
     }
@@ -521,6 +529,8 @@ class _$GSearchBooksData_searchBooks_items
   final String? isbn;
   @override
   final String? coverImageUrl;
+  @override
+  final _i2.GBookSource source;
 
   factory _$GSearchBooksData_searchBooks_items(
           [void Function(GSearchBooksData_searchBooks_itemsBuilder)?
@@ -535,7 +545,8 @@ class _$GSearchBooksData_searchBooks_items
       this.publisher,
       this.publishedDate,
       this.isbn,
-      this.coverImageUrl})
+      this.coverImageUrl,
+      required this.source})
       : super._();
   @override
   GSearchBooksData_searchBooks_items rebuild(
@@ -557,7 +568,8 @@ class _$GSearchBooksData_searchBooks_items
         publisher == other.publisher &&
         publishedDate == other.publishedDate &&
         isbn == other.isbn &&
-        coverImageUrl == other.coverImageUrl;
+        coverImageUrl == other.coverImageUrl &&
+        source == other.source;
   }
 
   @override
@@ -571,6 +583,7 @@ class _$GSearchBooksData_searchBooks_items
     _$hash = $jc(_$hash, publishedDate.hashCode);
     _$hash = $jc(_$hash, isbn.hashCode);
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -585,7 +598,8 @@ class _$GSearchBooksData_searchBooks_items
           ..add('publisher', publisher)
           ..add('publishedDate', publishedDate)
           ..add('isbn', isbn)
-          ..add('coverImageUrl', coverImageUrl))
+          ..add('coverImageUrl', coverImageUrl)
+          ..add('source', source))
         .toString();
   }
 }
@@ -630,6 +644,10 @@ class GSearchBooksData_searchBooks_itemsBuilder
   set coverImageUrl(String? coverImageUrl) =>
       _$this._coverImageUrl = coverImageUrl;
 
+  _i2.GBookSource? _source;
+  _i2.GBookSource? get source => _$this._source;
+  set source(_i2.GBookSource? source) => _$this._source = source;
+
   GSearchBooksData_searchBooks_itemsBuilder() {
     GSearchBooksData_searchBooks_items._initializeBuilder(this);
   }
@@ -645,6 +663,7 @@ class GSearchBooksData_searchBooks_itemsBuilder
       _publishedDate = $v.publishedDate;
       _isbn = $v.isbn;
       _coverImageUrl = $v.coverImageUrl;
+      _source = $v.source;
       _$v = null;
     }
     return this;
@@ -680,6 +699,8 @@ class GSearchBooksData_searchBooks_itemsBuilder
             publishedDate: publishedDate,
             isbn: isbn,
             coverImageUrl: coverImageUrl,
+            source: BuiltValueNullFieldError.checkNotNull(
+                source, r'GSearchBooksData_searchBooks_items', 'source'),
           );
     } catch (_) {
       late String _$failedField;

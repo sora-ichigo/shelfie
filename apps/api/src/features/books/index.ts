@@ -1,9 +1,14 @@
 export type {
   Book,
   BookDetail,
+  BookSource,
+  GoogleBooksVolume,
+  GoogleBooksVolumeInfo,
   RakutenBooksItem,
 } from "./internal/book-mapper.js";
 export {
+  mapGoogleBooksVolume,
+  mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
 } from "./internal/book-mapper.js";
@@ -38,11 +43,15 @@ export type {
   UpdateReadingStatusInput,
 } from "./internal/book-shelf-service.js";
 export { createBookShelfService } from "./internal/book-shelf-service.js";
+export type { CompositeBookRepository } from "./internal/composite-book-repository.js";
+export { createCompositeBookRepository } from "./internal/composite-book-repository.js";
 export type {
   ExternalApiErrors,
   ExternalBookRepository,
 } from "./internal/external-book-repository.js";
 export { createExternalBookRepository } from "./internal/external-book-repository.js";
+export type { GoogleBooksRepository } from "./internal/google-books-repository.js";
+export { createGoogleBooksRepository } from "./internal/google-books-repository.js";
 
 export {
   registerBooksMutations,

@@ -28,6 +28,7 @@ class ShelfState extends _$ShelfState {
     String? publishedDate,
     String? isbn,
     String? coverImageUrl,
+    BookSource source = BookSource.rakuten,
   }) async {
     final repository = ref.read(bookSearchRepositoryProvider);
     final result = await repository.addBookToShelf(
@@ -38,6 +39,7 @@ class ShelfState extends _$ShelfState {
       publishedDate: publishedDate,
       isbn: isbn,
       coverImageUrl: coverImageUrl,
+      source: source,
     );
 
     result.fold(

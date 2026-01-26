@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 part 'shelf_book_item.freezed.dart';
 
@@ -23,6 +25,9 @@ class ShelfBookItem with _$ShelfBookItem {
 
     /// 著者リスト
     required List<String> authors,
+
+    /// 書籍のソース（rakuten or google）
+    @Default(BookSource.rakuten) BookSource source,
 
     /// 本棚への追加日時
     required DateTime addedAt,
