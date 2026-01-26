@@ -66,6 +66,15 @@ const AddBookInput = _i1.InputObjectTypeDefinitionNode(
       defaultValue: null,
     ),
     _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'source'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookSource'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'title'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -267,6 +276,15 @@ const Book = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'source'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookSource'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'title'),
       directives: [],
       args: [],
@@ -426,6 +444,20 @@ const BookDetail = _i1.ObjectTypeDefinitionNode(
         name: _i1.NameNode(value: 'UserBook'),
         isNonNull: false,
       ),
+    ),
+  ],
+);
+const BookSource = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'BookSource'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'GOOGLE'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'RAKUTEN'),
+      directives: [],
     ),
   ],
 );
@@ -960,7 +992,16 @@ const Query = _i1.ObjectTypeDefinitionNode(
             isNonNull: true,
           ),
           defaultValue: null,
-        )
+        ),
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'source'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'BookSource'),
+            isNonNull: false,
+          ),
+          defaultValue: null,
+        ),
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'BookDetail'),
@@ -1547,6 +1588,15 @@ const UserBook = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'source'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookSource'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'title'),
       directives: [],
       args: [],
@@ -1598,6 +1648,7 @@ const document = _i1.DocumentNode(definitions: [
   AuthErrorResult,
   Book,
   BookDetail,
+  BookSource,
   DateTime,
   ImageUploadError,
   LoginResult,

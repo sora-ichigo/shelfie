@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 part 'book_detail.freezed.dart';
 
@@ -17,6 +19,9 @@ class BookDetail with _$BookDetail {
 
     /// 著者リスト
     required List<String> authors,
+
+    /// ソース（rakuten or google）
+    @Default(BookSource.rakuten) BookSource source,
 
     /// 出版社
     String? publisher,

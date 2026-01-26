@@ -18,6 +18,9 @@ input AddBookInput {
   """The publisher of the book"""
   publisher: String
 
+  """The source of the book data (rakuten or google)"""
+  source: BookSource
+
   """The title of the book"""
   title: String!
 }
@@ -85,6 +88,9 @@ type Book {
   """The publisher of the book"""
   publisher: String
 
+  """The source of the book data (rakuten or google)"""
+  source: BookSource!
+
   """The title of the book"""
   title: String!
 }
@@ -132,6 +138,15 @@ type BookDetail {
 
   """The user's reading record for this book (if added to shelf)"""
   userBook: UserBook
+}
+
+"""Source of the book data"""
+enum BookSource {
+  """Google Books API"""
+  GOOGLE
+
+  """Rakuten Books API"""
+  RAKUTEN
 }
 
 """
@@ -257,7 +272,12 @@ type MyShelfResult {
 
 type Query {
   """Get detailed information about a book by ID"""
-  bookDetail(bookId: String!): BookDetail!
+  bookDetail(
+    bookId: String!
+
+    """The source of the book (rakuten or google)"""
+    source: BookSource
+  ): BookDetail!
 
   """署名付きアップロードパラメータを取得"""
   getUploadCredentials: QueryGetUploadCredentialsResult
@@ -386,7 +406,7 @@ type UploadCredentials {
 
 """A user in the system"""
 type User {
-  """The URL of the user's avatar image"""
+  """The URL of the user's avatar image (128x128)"""
   avatarUrl: String
 
   """The number of books in the user's shelf"""
@@ -448,6 +468,9 @@ type UserBook {
 
   """The reading status of the book"""
   readingStatus: ReadingStatus!
+
+  """The source of the book data (rakuten or google)"""
+  source: BookSource!
 
   """The title of the book"""
   title: String!

@@ -63,6 +63,26 @@ final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
   _$gAuthErrorCodeUSER_NOT_FOUND,
 ]);
 
+const GBookSource _$gBookSourceGOOGLE = const GBookSource._('GOOGLE');
+const GBookSource _$gBookSourceRAKUTEN = const GBookSource._('RAKUTEN');
+
+GBookSource _$gBookSourceValueOf(String name) {
+  switch (name) {
+    case 'GOOGLE':
+      return _$gBookSourceGOOGLE;
+    case 'RAKUTEN':
+      return _$gBookSourceRAKUTEN;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<GBookSource> _$gBookSourceValues =
+    BuiltSet<GBookSource>(const <GBookSource>[
+  _$gBookSourceGOOGLE,
+  _$gBookSourceRAKUTEN,
+]);
+
 const GReadingStatus _$gReadingStatusBACKLOG =
     const GReadingStatus._('BACKLOG');
 const GReadingStatus _$gReadingStatusCOMPLETED =
@@ -145,6 +165,7 @@ Serializer<GAddBookInput> _$gAddBookInputSerializer =
     _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
     _$GAuthErrorCodeSerializer();
+Serializer<GBookSource> _$gBookSourceSerializer = _$GBookSourceSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     _$GLoginUserInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
@@ -211,6 +232,13 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.source;
+    if (value != null) {
+      result
+        ..add('source')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GBookSource)));
+    }
     return result;
   }
 
@@ -252,6 +280,10 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
           result.publisher = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'source':
+          result.source = serializers.deserialize(value,
+              specifiedType: const FullType(GBookSource)) as GBookSource?;
+          break;
         case 'title':
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
@@ -279,6 +311,23 @@ class _$GAuthErrorCodeSerializer
   GAuthErrorCode deserialize(Serializers serializers, Object serialized,
           {FullType specifiedType = FullType.unspecified}) =>
       GAuthErrorCode.valueOf(serialized as String);
+}
+
+class _$GBookSourceSerializer implements PrimitiveSerializer<GBookSource> {
+  @override
+  final Iterable<Type> types = const <Type>[GBookSource];
+  @override
+  final String wireName = 'GBookSource';
+
+  @override
+  Object serialize(Serializers serializers, GBookSource object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GBookSource deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GBookSource.valueOf(serialized as String);
 }
 
 class _$GLoginUserInputSerializer
@@ -633,6 +682,8 @@ class _$GAddBookInput extends GAddBookInput {
   @override
   final String? publisher;
   @override
+  final GBookSource? source;
+  @override
   final String title;
 
   factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
@@ -645,6 +696,7 @@ class _$GAddBookInput extends GAddBookInput {
       this.isbn,
       this.publishedDate,
       this.publisher,
+      this.source,
       required this.title})
       : super._();
   @override
@@ -664,6 +716,7 @@ class _$GAddBookInput extends GAddBookInput {
         isbn == other.isbn &&
         publishedDate == other.publishedDate &&
         publisher == other.publisher &&
+        source == other.source &&
         title == other.title;
   }
 
@@ -676,6 +729,7 @@ class _$GAddBookInput extends GAddBookInput {
     _$hash = $jc(_$hash, isbn.hashCode);
     _$hash = $jc(_$hash, publishedDate.hashCode);
     _$hash = $jc(_$hash, publisher.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -690,6 +744,7 @@ class _$GAddBookInput extends GAddBookInput {
           ..add('isbn', isbn)
           ..add('publishedDate', publishedDate)
           ..add('publisher', publisher)
+          ..add('source', source)
           ..add('title', title))
         .toString();
   }
@@ -725,6 +780,10 @@ class GAddBookInputBuilder
   String? get publisher => _$this._publisher;
   set publisher(String? publisher) => _$this._publisher = publisher;
 
+  GBookSource? _source;
+  GBookSource? get source => _$this._source;
+  set source(GBookSource? source) => _$this._source = source;
+
   String? _title;
   String? get title => _$this._title;
   set title(String? title) => _$this._title = title;
@@ -740,6 +799,7 @@ class GAddBookInputBuilder
       _isbn = $v.isbn;
       _publishedDate = $v.publishedDate;
       _publisher = $v.publisher;
+      _source = $v.source;
       _title = $v.title;
       _$v = null;
     }
@@ -771,6 +831,7 @@ class GAddBookInputBuilder
             isbn: isbn,
             publishedDate: publishedDate,
             publisher: publisher,
+            source: source,
             title: BuiltValueNullFieldError.checkNotNull(
                 title, r'GAddBookInput', 'title'),
           );

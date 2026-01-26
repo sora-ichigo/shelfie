@@ -36,6 +36,13 @@
       "when": 1769344968428,
       "tag": "0004_add-rating-column",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1769427769051,
+      "tag": "0005_daily_psynapse",
+      "breakpoints": true
     }
   ]
 }

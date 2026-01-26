@@ -22,6 +22,7 @@ abstract class GAddBookInput
   String? get isbn;
   String? get publishedDate;
   String? get publisher;
+  GBookSource? get source;
   String get title;
   static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
 
@@ -67,6 +68,20 @@ class GAuthErrorCode extends EnumClass {
   static BuiltSet<GAuthErrorCode> get values => _$gAuthErrorCodeValues;
 
   static GAuthErrorCode valueOf(String name) => _$gAuthErrorCodeValueOf(name);
+}
+
+class GBookSource extends EnumClass {
+  const GBookSource._(String name) : super(name);
+
+  static const GBookSource GOOGLE = _$gBookSourceGOOGLE;
+
+  static const GBookSource RAKUTEN = _$gBookSourceRAKUTEN;
+
+  static Serializer<GBookSource> get serializer => _$gBookSourceSerializer;
+
+  static BuiltSet<GBookSource> get values => _$gBookSourceValues;
+
+  static GBookSource valueOf(String name) => _$gBookSourceValueOf(name);
 }
 
 abstract class GLoginUserInput

@@ -3,11 +3,14 @@ import type { LoggerService } from "../../../logger/index.js";
 import {
   type Book,
   type BookDetail,
+  type BookSource,
+  mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
 } from "./book-mapper.js";
 import type { CompositeBookRepository } from "./composite-book-repository.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
+import type { GoogleBooksRepository } from "./google-books-repository.js";
 
 export type BookSearchErrors =
   | { code: "NETWORK_ERROR"; message: string }
@@ -42,7 +45,10 @@ export interface BookSearchService {
     input: SearchByISBNInput,
   ): Promise<Result<Book | null, BookSearchErrors>>;
 
-  getBookDetail(bookId: string): Promise<Result<BookDetail, BookSearchErrors>>;
+  getBookDetail(
+    bookId: string,
+    source?: BookSource,
+  ): Promise<Result<BookDetail, BookSearchErrors>>;
 }
 
 const DEFAULT_LIMIT = 10;
@@ -135,6 +141,7 @@ export function createBookSearchService(
   externalRepository: ExternalBookRepository,
   logger: LoggerService,
   compositeRepository?: CompositeBookRepository,
+  googleRepository?: GoogleBooksRepository,
 ): BookSearchService {
   return {
     async searchBooks(
@@ -259,12 +266,51 @@ export function createBookSearchService(
 
     async getBookDetail(
       bookId: string,
+      source?: BookSource,
     ): Promise<Result<BookDetail, BookSearchErrors>> {
       if (!bookId.trim()) {
         return err({
           code: "VALIDATION_ERROR",
           message: "Book ID cannot be empty",
         });
+      }
+
+      if (source === "google" && googleRepository) {
+        const repositoryResult = await googleRepository.getVolumeById(bookId);
+
+        if (!repositoryResult.success) {
+          logger.warn("Google Books API error during book detail fetch", {
+            feature: "books",
+            bookId,
+            source,
+            error: repositoryResult.error,
+          });
+          return err(mapExternalApiError(repositoryResult.error));
+        }
+
+        const volume = repositoryResult.data;
+
+        if (volume === null) {
+          logger.info("Book not found", {
+            feature: "books",
+            bookId,
+            source,
+          });
+          return err({
+            code: "NOT_FOUND",
+            message: "Book not found",
+          });
+        }
+
+        const bookDetail = mapGoogleBooksVolumeToDetail(volume);
+
+        logger.info("Book detail fetch completed successfully", {
+          feature: "books",
+          bookId,
+          source,
+        });
+
+        return ok(bookDetail);
       }
 
       const repositoryResult = await externalRepository.getBookByISBN(bookId);

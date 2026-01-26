@@ -24,6 +24,9 @@ export interface GoogleBooksRepository {
       ExternalApiErrors
     >
   >;
+  getVolumeById(
+    volumeId: string,
+  ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>>;
 }
 
 const GOOGLE_BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes";
@@ -141,6 +144,32 @@ export function createGoogleBooksRepository(
         items: extractItems(data),
         totalItems: data.totalItems,
       });
+    },
+
+    async getVolumeById(
+      volumeId: string,
+    ): Promise<Result<GoogleBooksVolume | null, ExternalApiErrors>> {
+      const url = `${GOOGLE_BOOKS_API_URL}/${volumeId}?key=${apiKey}`;
+
+      const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
+
+      if (!fetchResult.success) {
+        return fetchResult;
+      }
+
+      const response = fetchResult.data;
+
+      if (response.status === 404) {
+        return ok(null);
+      }
+
+      if (!response.ok) {
+        return err(handleHttpError(response));
+      }
+
+      const data = (await response.json()) as GoogleBooksVolume;
+
+      return ok(data);
     },
   };
 }

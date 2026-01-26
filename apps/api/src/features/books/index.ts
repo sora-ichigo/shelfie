@@ -8,6 +8,7 @@ export type {
 } from "./internal/book-mapper.js";
 export {
   mapGoogleBooksVolume,
+  mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
 } from "./internal/book-mapper.js";

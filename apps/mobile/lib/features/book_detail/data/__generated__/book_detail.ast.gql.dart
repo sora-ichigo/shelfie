@@ -16,7 +16,16 @@ const BookDetail = _i1.OperationDefinitionNode(
       ),
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],
-    )
+    ),
+    _i1.VariableDefinitionNode(
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'source')),
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookSource'),
+        isNonNull: false,
+      ),
+      defaultValue: _i1.DefaultValueNode(value: null),
+      directives: [],
+    ),
   ],
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
@@ -27,7 +36,11 @@ const BookDetail = _i1.OperationDefinitionNode(
         _i1.ArgumentNode(
           name: _i1.NameNode(value: 'bookId'),
           value: _i1.VariableNode(name: _i1.NameNode(value: 'bookId')),
-        )
+        ),
+        _i1.ArgumentNode(
+          name: _i1.NameNode(value: 'source'),
+          value: _i1.VariableNode(name: _i1.NameNode(value: 'source')),
+        ),
       ],
       directives: [],
       selectionSet: _i1.SelectionSetNode(selections: [

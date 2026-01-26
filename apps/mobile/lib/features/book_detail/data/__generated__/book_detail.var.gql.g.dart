@@ -24,7 +24,14 @@ class _$GBookDetailVarsSerializer
       serializers.serialize(object.bookId,
           specifiedType: const FullType(String)),
     ];
-
+    Object? value;
+    value = object.source;
+    if (value != null) {
+      result
+        ..add('source')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.GBookSource)));
+    }
     return result;
   }
 
@@ -44,6 +51,11 @@ class _$GBookDetailVarsSerializer
           result.bookId = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
+        case 'source':
+          result.source = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GBookSource))
+              as _i1.GBookSource?;
+          break;
       }
     }
 
@@ -54,11 +66,13 @@ class _$GBookDetailVarsSerializer
 class _$GBookDetailVars extends GBookDetailVars {
   @override
   final String bookId;
+  @override
+  final _i1.GBookSource? source;
 
   factory _$GBookDetailVars([void Function(GBookDetailVarsBuilder)? updates]) =>
       (GBookDetailVarsBuilder()..update(updates))._build();
 
-  _$GBookDetailVars._({required this.bookId}) : super._();
+  _$GBookDetailVars._({required this.bookId, this.source}) : super._();
   @override
   GBookDetailVars rebuild(void Function(GBookDetailVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -69,13 +83,16 @@ class _$GBookDetailVars extends GBookDetailVars {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GBookDetailVars && bookId == other.bookId;
+    return other is GBookDetailVars &&
+        bookId == other.bookId &&
+        source == other.source;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, bookId.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -83,7 +100,8 @@ class _$GBookDetailVars extends GBookDetailVars {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'GBookDetailVars')
-          ..add('bookId', bookId))
+          ..add('bookId', bookId)
+          ..add('source', source))
         .toString();
   }
 }
@@ -96,12 +114,17 @@ class GBookDetailVarsBuilder
   String? get bookId => _$this._bookId;
   set bookId(String? bookId) => _$this._bookId = bookId;
 
+  _i1.GBookSource? _source;
+  _i1.GBookSource? get source => _$this._source;
+  set source(_i1.GBookSource? source) => _$this._source = source;
+
   GBookDetailVarsBuilder();
 
   GBookDetailVarsBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _bookId = $v.bookId;
+      _source = $v.source;
       _$v = null;
     }
     return this;
@@ -125,6 +148,7 @@ class GBookDetailVarsBuilder
         _$GBookDetailVars._(
           bookId: BuiltValueNullFieldError.checkNotNull(
               bookId, r'GBookDetailVars', 'bookId'),
+          source: source,
         );
     replace(_$result);
     return _$result;

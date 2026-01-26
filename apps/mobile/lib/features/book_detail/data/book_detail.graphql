@@ -1,5 +1,5 @@
-query BookDetail($bookId: String!) {
-  bookDetail(bookId: $bookId) {
+query BookDetail($bookId: String!, $source: BookSource) {
+  bookDetail(bookId: $bookId, source: $source) {
     id
     title
     authors

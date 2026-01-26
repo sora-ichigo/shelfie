@@ -6,6 +6,8 @@ import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 part 'book_detail_notifier.g.dart';
 
@@ -16,11 +18,14 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     return null;
   }
 
-  Future<void> loadBookDetail() async {
+  Future<void> loadBookDetail({BookSource? source}) async {
     state = const AsyncLoading();
 
     final repository = ref.read(bookDetailRepositoryProvider);
-    final result = await repository.getBookDetail(bookId: externalId);
+    final result = await repository.getBookDetail(
+      bookId: externalId,
+      source: source,
+    );
 
     switch (result) {
       case Left(:final value):
@@ -85,6 +90,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       publisher: currentBookDetail.publisher,
       publishedDate: currentBookDetail.publishedDate,
       coverImageUrl: currentBookDetail.thumbnailUrl,
+      source: currentBookDetail.source,
     );
 
     return result.fold(left, (_) => right(null));

@@ -55,6 +55,7 @@ const bookSearchService = createBookSearchService(
   externalBookRepository,
   logger,
   compositeBookRepository,
+  googleBooksRepository,
 );
 const bookShelfRepository = createBookShelfRepository(db);
 const bookShelfService = createBookShelfService(bookShelfRepository, logger);

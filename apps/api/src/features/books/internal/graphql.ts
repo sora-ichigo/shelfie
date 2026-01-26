@@ -19,6 +19,8 @@ export type ReadingStatusValue =
   | "completed"
   | "dropped";
 
+type BookSourceValue = "rakuten" | "google";
+
 interface AddBookInputData {
   externalId: string;
   title: string;
@@ -27,6 +29,7 @@ interface AddBookInputData {
   publishedDate?: string | null;
   isbn?: string | null;
   coverImageUrl?: string | null;
+  source?: BookSourceValue | null;
 }
 
 type BookObjectRef = ReturnType<typeof createBookRef>;
@@ -282,6 +285,11 @@ export function registerBooksTypes(builder: Builder): void {
         required: false,
         description: "The cover image URL of the book",
       }),
+      source: t.field({
+        type: BookSourceRef,
+        required: false,
+        description: "The source of the book data (rakuten or google)",
+      }),
     }),
   });
 
@@ -356,6 +364,12 @@ export function registerBooksTypes(builder: Builder): void {
         nullable: true,
         description: "User's rating for the book (1-5)",
         resolve: (parent) => parent.rating,
+      }),
+      source: t.field({
+        type: BookSourceRef,
+        nullable: false,
+        description: "The source of the book data (rakuten or google)",
+        resolve: (parent) => parent.source,
       }),
     }),
   });
@@ -563,6 +577,11 @@ export function registerBooksQueries(
       },
       args: {
         bookId: t.arg.string({ required: true }),
+        source: t.arg({
+          type: BookSourceRef,
+          required: false,
+          description: "The source of the book (rakuten or google)",
+        }),
       },
       resolve: async (
         _parent,
@@ -571,7 +590,10 @@ export function registerBooksQueries(
       ): Promise<BookDetailWithUserBook> => {
         const authenticatedContext = context as AuthenticatedContext;
 
-        const bookResult = await searchService.getBookDetail(args.bookId);
+        const bookResult = await searchService.getBookDetail(
+          args.bookId,
+          args.source ?? undefined,
+        );
 
         if (!bookResult.success) {
           throw new GraphQLError(bookResult.error.message, {
@@ -764,6 +786,7 @@ export function registerBooksMutations(
             publishedDate: args.bookInput.publishedDate ?? null,
             isbn: args.bookInput.isbn ?? null,
             coverImageUrl: args.bookInput.coverImageUrl ?? null,
+            source: args.bookInput.source ?? undefined,
           },
         });
 

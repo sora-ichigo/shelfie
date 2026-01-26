@@ -16,6 +16,8 @@ export const readingStatusEnum = pgEnum("reading_status", [
   "dropped",
 ]);
 
+export const bookSourceEnum = pgEnum("book_source", ["rakuten", "google"]);
+
 export const USER_BOOKS_USER_ID_INDEX_NAME = "idx_user_books_user_id";
 export const USER_BOOKS_USER_ID_EXTERNAL_ID_UNIQUE_NAME =
   "user_books_user_id_external_id_unique";
@@ -34,6 +36,7 @@ export const userBooks = pgTable(
     publishedDate: text("published_date"),
     isbn: text("isbn"),
     coverImageUrl: text("cover_image_url"),
+    source: bookSourceEnum("source").notNull().default("rakuten"),
     addedAt: timestamp("added_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

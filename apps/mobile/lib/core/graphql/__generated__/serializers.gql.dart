@@ -33,6 +33,7 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
     show
         GAddBookInput,
         GAuthErrorCode,
+        GBookSource,
         GLoginUserInput,
         GMyShelfInput,
         GReadingStatus,
@@ -198,6 +199,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GBookDetailData_bookDetail_userBook,
   GBookDetailReq,
   GBookDetailVars,
+  GBookSource,
   GGetMeData,
   GGetMeData_me__asAuthErrorResult,
   GGetMeData_me__asUser,

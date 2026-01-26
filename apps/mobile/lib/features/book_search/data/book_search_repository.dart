@@ -20,11 +20,14 @@ import 'package:shelfie/features/book_search/data/__generated__/search_books.req
 
 part 'book_search_repository.g.dart';
 
+enum BookSource { rakuten, google }
+
 class Book {
   const Book({
     required this.id,
     required this.title,
     required this.authors,
+    this.source = BookSource.rakuten,
     this.publisher,
     this.publishedDate,
     this.isbn,
@@ -35,6 +38,7 @@ class Book {
   final String id;
   final String title;
   final List<String> authors;
+  final BookSource source;
   final String? publisher;
   final String? publishedDate;
   final String? isbn;
@@ -47,6 +51,7 @@ class Book {
     String? id,
     String? title,
     List<String>? authors,
+    BookSource? source,
     String? publisher,
     String? publishedDate,
     String? isbn,
@@ -58,6 +63,7 @@ class Book {
       id: id ?? this.id,
       title: title ?? this.title,
       authors: authors ?? this.authors,
+      source: source ?? this.source,
       publisher: publisher ?? this.publisher,
       publishedDate: publishedDate ?? this.publishedDate,
       isbn: isbn ?? this.isbn,
@@ -168,6 +174,7 @@ class BookSearchRepository {
     String? publishedDate,
     String? isbn,
     String? coverImageUrl,
+    BookSource source = BookSource.rakuten,
   }) async {
     final request = GAddBookToShelfReq(
       (b) => b
@@ -179,7 +186,10 @@ class BookSearchRepository {
             ..publisher = publisher
             ..publishedDate = publishedDate
             ..isbn = isbn
-            ..coverImageUrl = coverImageUrl,
+            ..coverImageUrl = coverImageUrl
+            ..source = source == BookSource.google
+                ? GBookSource.GOOGLE
+                : GBookSource.RAKUTEN,
         ).toBuilder(),
     );
 
@@ -278,6 +288,9 @@ class BookSearchRepository {
         id: item.id,
         title: item.title,
         authors: item.authors.toList(),
+        source: item.source == GBookSource.GOOGLE
+            ? BookSource.google
+            : BookSource.rakuten,
         publisher: item.publisher,
         publishedDate: item.publishedDate,
         isbn: item.isbn,
@@ -328,6 +341,7 @@ class BookSearchRepository {
         id: book.id,
         title: book.title,
         authors: book.authors.toList(),
+        source: BookSource.rakuten,
         publisher: book.publisher,
         publishedDate: book.publishedDate,
         isbn: book.isbn,

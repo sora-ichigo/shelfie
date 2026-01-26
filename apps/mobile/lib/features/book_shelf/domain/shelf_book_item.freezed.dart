@@ -28,6 +28,9 @@ mixin _$ShelfBookItem {
   /// 著者リスト
   List<String> get authors => throw _privateConstructorUsedError;
 
+  /// 書籍のソース（rakuten or google）
+  BookSource get source => throw _privateConstructorUsedError;
+
   /// 本棚への追加日時
   DateTime get addedAt => throw _privateConstructorUsedError;
 
@@ -52,6 +55,7 @@ abstract class $ShelfBookItemCopyWith<$Res> {
       String externalId,
       String title,
       List<String> authors,
+      BookSource source,
       DateTime addedAt,
       String? coverImageUrl});
 }
@@ -75,6 +79,7 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
     Object? externalId = null,
     Object? title = null,
     Object? authors = null,
+    Object? source = null,
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
   }) {
@@ -95,6 +100,10 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
           ? _value.authors
           : authors // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
       addedAt: null == addedAt
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
@@ -120,6 +129,7 @@ abstract class _$$ShelfBookItemImplCopyWith<$Res>
       String externalId,
       String title,
       List<String> authors,
+      BookSource source,
       DateTime addedAt,
       String? coverImageUrl});
 }
@@ -141,6 +151,7 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
     Object? externalId = null,
     Object? title = null,
     Object? authors = null,
+    Object? source = null,
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
   }) {
@@ -161,6 +172,10 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
           ? _value._authors
           : authors // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
       addedAt: null == addedAt
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
@@ -181,6 +196,7 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
       required this.externalId,
       required this.title,
       required final List<String> authors,
+      this.source = BookSource.rakuten,
       required this.addedAt,
       this.coverImageUrl})
       : _authors = authors,
@@ -209,6 +225,11 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
     return EqualUnmodifiableListView(_authors);
   }
 
+  /// 書籍のソース（rakuten or google）
+  @override
+  @JsonKey()
+  final BookSource source;
+
   /// 本棚への追加日時
   @override
   final DateTime addedAt;
@@ -219,7 +240,7 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
 
   @override
   String toString() {
-    return 'ShelfBookItem(userBookId: $userBookId, externalId: $externalId, title: $title, authors: $authors, addedAt: $addedAt, coverImageUrl: $coverImageUrl)';
+    return 'ShelfBookItem(userBookId: $userBookId, externalId: $externalId, title: $title, authors: $authors, source: $source, addedAt: $addedAt, coverImageUrl: $coverImageUrl)';
   }
 
   @override
@@ -233,14 +254,22 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
                 other.externalId == externalId) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
+            (identical(other.source, source) || other.source == source) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
             (identical(other.coverImageUrl, coverImageUrl) ||
                 other.coverImageUrl == coverImageUrl));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userBookId, externalId, title,
-      const DeepCollectionEquality().hash(_authors), addedAt, coverImageUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      userBookId,
+      externalId,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      source,
+      addedAt,
+      coverImageUrl);
 
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.
@@ -257,6 +286,7 @@ abstract class _ShelfBookItem extends ShelfBookItem {
       required final String externalId,
       required final String title,
       required final List<String> authors,
+      final BookSource source,
       required final DateTime addedAt,
       final String? coverImageUrl}) = _$ShelfBookItemImpl;
   const _ShelfBookItem._() : super._();
@@ -276,6 +306,10 @@ abstract class _ShelfBookItem extends ShelfBookItem {
   /// 著者リスト
   @override
   List<String> get authors;
+
+  /// 書籍のソース（rakuten or google）
+  @override
+  BookSource get source;
 
   /// 本棚への追加日時
   @override

@@ -918,7 +918,10 @@ describe("BooksGraphQL Resolver Behavior", () => {
         {} as never,
       );
 
-      expect(mockSearchService.getBookDetail).toHaveBeenCalledWith("book-123");
+      expect(mockSearchService.getBookDetail).toHaveBeenCalledWith(
+        "book-123",
+        undefined,
+      );
       expect(mockShelfService.getUserBookByExternalId).toHaveBeenCalledWith(
         100,
         "book-123",

@@ -8,6 +8,7 @@ query SearchBooks($query: String!, $limit: Int, $offset: Int) {
       publishedDate
       isbn
       coverImageUrl
+      source
     }
     totalCount
     hasMore

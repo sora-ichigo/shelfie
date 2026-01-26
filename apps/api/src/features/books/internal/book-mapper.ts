@@ -199,3 +199,30 @@ export function mapRakutenBooksItemToDetail(
     rakutenBooksUrl: item.itemUrl ?? null,
   };
 }
+
+function generateGoogleBooksUrl(volumeId: string): string {
+  return `https://books.google.com/books?id=${volumeId}`;
+}
+
+export function mapGoogleBooksVolumeToDetail(
+  volume: GoogleBooksVolume,
+): BookDetail {
+  const { volumeInfo } = volume;
+  const isbn = extractIsbn(volumeInfo.industryIdentifiers);
+
+  return {
+    id: isbn ?? volume.id,
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    publisher: volumeInfo.publisher ?? null,
+    publishedDate: volumeInfo.publishedDate ?? null,
+    pageCount: volumeInfo.pageCount ?? null,
+    categories: volumeInfo.categories ?? null,
+    description: volumeInfo.description ?? null,
+    isbn,
+    coverImageUrl: extractGoogleBooksCoverImageUrl(volumeInfo.imageLinks),
+    amazonUrl: generateAmazonUrl(isbn),
+    googleBooksUrl: generateGoogleBooksUrl(volume.id),
+    rakutenBooksUrl: null,
+  };
+}

@@ -13,6 +13,8 @@ export type BookShelfErrors =
   | { code: "FORBIDDEN"; message: string }
   | { code: "DATABASE_ERROR"; message: string };
 
+export type BookSourceValue = "rakuten" | "google";
+
 export interface AddBookInput {
   externalId: string;
   title: string;
@@ -21,6 +23,7 @@ export interface AddBookInput {
   publishedDate: string | null;
   isbn: string | null;
   coverImageUrl: string | null;
+  source?: BookSourceValue;
 }
 
 export interface AddBookToShelfInput {
@@ -130,6 +133,7 @@ export function createBookShelfService(
           publishedDate: bookInput.publishedDate,
           isbn: bookInput.isbn,
           coverImageUrl: bookInput.coverImageUrl,
+          source: bookInput.source ?? "rakuten",
         });
 
         logger.info("Book added to shelf successfully", {
