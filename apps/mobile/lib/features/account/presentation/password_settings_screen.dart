@@ -6,7 +6,6 @@ import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/account/application/password_form_state.dart';
 import 'package:shelfie/features/account/application/password_settings_notifier.dart';
 import 'package:shelfie/features/account/presentation/widgets/password_change_form.dart';
-import 'package:shelfie/features/account/presentation/widgets/password_reset_section.dart';
 
 class PasswordSettingsScreen extends ConsumerWidget {
   const PasswordSettingsScreen({
@@ -70,38 +69,9 @@ class PasswordSettingsScreen extends ConsumerWidget {
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(AppSpacing.md),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          'パスワードを変更',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                        ),
                         const SizedBox(height: AppSpacing.md),
                         const PasswordChangeForm(),
-                        const SizedBox(height: AppSpacing.xl),
-                        Divider(color: colors?.overlay),
-                        const SizedBox(height: AppSpacing.xl),
-                        Text(
-                          'パスワードを忘れた場合',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        PasswordResetSection(
-                          onSendResetEmail: () {
-                            ref
-                                .read(passwordSettingsNotifierProvider.notifier)
-                                .sendPasswordResetEmail();
-                          },
-                          isLoading: isLoading,
-                        ),
-                        const SizedBox(height: AppSpacing.xxl),
                       ],
                     ),
                   ),
@@ -136,47 +106,33 @@ class _PasswordSettingsHeader extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
 
-    return Container(
+    return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.xs,
         vertical: AppSpacing.xs,
       ),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colors?.overlay ?? Colors.transparent,
-          ),
-        ),
-      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextButton(
+          IconButton(
+            icon: const Icon(Icons.close),
             onPressed: onClose,
-            child: Text(
-              'キャンセル',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: colors?.foregroundMuted,
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                'パスワード設定',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-          Text(
-            'パスワード設定',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+          IconButton(
+            icon: Icon(
+              Icons.check,
+              color: isSaveEnabled ? colors?.accent : colors?.foregroundMuted,
             ),
-          ),
-          TextButton(
             onPressed: isSaveEnabled ? onSave : null,
-            child: Text(
-              '保存',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isSaveEnabled
-                    ? colors?.accent
-                    : colors?.foregroundMuted.withOpacity(0.5),
-              ),
-            ),
           ),
         ],
       ),

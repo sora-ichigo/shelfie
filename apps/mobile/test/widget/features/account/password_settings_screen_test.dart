@@ -67,23 +67,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('パスワード設定'), findsOneWidget);
-      expect(find.text('キャンセル'), findsOneWidget);
-      expect(find.text('保存'), findsOneWidget);
-    });
-
-    testWidgets('displays password change section', (tester) async {
-      await tester.pumpWidget(buildTestPasswordSettingsScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.text('パスワードを変更'), findsOneWidget);
-    });
-
-    testWidgets('displays password reset section', (tester) async {
-      await tester.pumpWidget(buildTestPasswordSettingsScreen());
-      await tester.pumpAndSettle();
-
-      expect(find.text('パスワードを忘れた場合'), findsOneWidget);
-      expect(find.text('リセットメールを送信'), findsOneWidget);
+      expect(find.byIcon(Icons.close), findsOneWidget);
+      expect(find.byIcon(Icons.check), findsOneWidget);
     });
 
     testWidgets('displays form fields', (tester) async {
@@ -95,7 +80,7 @@ void main() {
       expect(find.text('新しいパスワード（確認）'), findsOneWidget);
     });
 
-    testWidgets('calls onClose when cancel button tapped', (tester) async {
+    testWidgets('calls onClose when close button tapped', (tester) async {
       var closed = false;
 
       await tester.pumpWidget(
@@ -105,7 +90,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('キャンセル'));
+      await tester.tap(find.byIcon(Icons.close));
       await tester.pumpAndSettle();
 
       expect(closed, isTrue);
@@ -119,16 +104,16 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final saveButton = find.text('保存');
-      expect(saveButton, findsOneWidget);
+      final saveButtons = find.byIcon(Icons.check);
+      expect(saveButtons, findsOneWidget);
 
-      final textButton = tester.widget<TextButton>(
+      final iconButton = tester.widget<IconButton>(
         find.ancestor(
-          of: saveButton,
-          matching: find.byType(TextButton),
-        ),
+          of: saveButtons,
+          matching: find.byType(IconButton),
+        ).first,
       );
-      expect(textButton.onPressed, isNull);
+      expect(iconButton.onPressed, isNull);
     });
 
     testWidgets('save button is enabled when form is valid', (tester) async {
@@ -143,16 +128,16 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      final saveButton = find.text('保存');
-      expect(saveButton, findsOneWidget);
+      final saveButtons = find.byIcon(Icons.check);
+      expect(saveButtons, findsOneWidget);
 
-      final textButton = tester.widget<TextButton>(
+      final iconButton = tester.widget<IconButton>(
         find.ancestor(
-          of: saveButton,
-          matching: find.byType(TextButton),
-        ),
+          of: saveButtons,
+          matching: find.byType(IconButton),
+        ).first,
       );
-      expect(textButton.onPressed, isNotNull);
+      expect(iconButton.onPressed, isNotNull);
     });
 
     testWidgets('shows loading indicator when in loading state', (tester) async {
@@ -201,7 +186,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
         expect(find.text('パスワードを変更しました'), findsOneWidget);
@@ -243,7 +228,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
         expect(find.text('現在のパスワードが正しくありません'), findsOneWidget);
@@ -266,14 +251,6 @@ void main() {
 
       final visibilityButtons = find.byIcon(Icons.visibility_off);
       expect(visibilityButtons, findsWidgets);
-    });
-
-    testWidgets('reset email button is present', (tester) async {
-      await tester.pumpWidget(buildTestPasswordSettingsScreen());
-      await tester.pumpAndSettle();
-
-      final resetButton = find.text('リセットメールを送信');
-      expect(resetButton, findsOneWidget);
     });
 
     testWidgets('calls onSaveSuccess when password change succeeds', (tester) async {
@@ -324,7 +301,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('保存'));
+      await tester.tap(find.byIcon(Icons.check));
       await tester.pumpAndSettle();
 
       expect(saveSuccessCalled, isTrue);
