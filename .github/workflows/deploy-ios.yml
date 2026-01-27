@@ -78,8 +78,8 @@ jobs:
         working-directory: apps/mobile/ios
         run: |
           bundle exec fastlane sync_devices \
-            --keychain_name build.keychain \
-            --keychain_password "$KEYCHAIN_PASSWORD"
+            keychain_name:build.keychain \
+            keychain_password:"$KEYCHAIN_PASSWORD"
         env:
           KEYCHAIN_PASSWORD: ${{ github.run_id }}
           FIREBASE_IOS_APP_ID: ${{ vars.FIREBASE_IOS_APP_ID }}
