@@ -18,6 +18,8 @@ import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
+import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
+import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
@@ -78,6 +80,12 @@ abstract final class AppRoutes {
   /// 検索画面（クエリパラメータ付き）
   static String searchWithQuery({required String query}) =>
       '$searchTab?q=${Uri.encodeComponent(query)}';
+
+  /// リスト詳細画面パスを生成
+  static String bookListDetail({required int listId}) => '/lists/$listId';
+
+  /// リスト作成画面
+  static const bookListCreate = '/lists/new';
 }
 
 /// 本詳細画面のパラメータ
@@ -218,7 +226,8 @@ Future<String?> guardRoute({
 
     // ネットワークエラーなどの場合は続行（一時的な問題の可能性）
     if (result is SessionValidationFailed) {
-      debugPrint('[guardRoute] Session validation failed (continuing): ${result.message}');
+      debugPrint(
+          '[guardRoute] Session validation failed (continuing): ${result.message}');
     }
   }
 
@@ -344,6 +353,25 @@ List<RouteBase> _buildRoutes() {
                 : null;
         return CupertinoPage(
           child: BookDetailScreen(bookId: params.bookId, source: source),
+        );
+      },
+    ),
+
+    // リスト作成画面（タブバーなし）
+    GoRoute(
+      path: AppRoutes.bookListCreate,
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: BookListEditScreen(),
+      ),
+    ),
+
+    // リスト詳細画面（タブバーなし）
+    GoRoute(
+      path: '/lists/:listId',
+      pageBuilder: (context, state) {
+        final listId = int.parse(state.pathParameters['listId'] ?? '0');
+        return CupertinoPage(
+          child: BookListDetailScreen(listId: listId),
         );
       },
     ),
