@@ -1,0 +1,3 @@
+mutation RemoveBookFromList($listId: Int!, $userBookId: Int!) {
+  removeBookFromList(listId: $listId, userBookId: $userBookId)
+}

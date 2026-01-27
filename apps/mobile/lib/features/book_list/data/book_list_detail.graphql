@@ -1,0 +1,14 @@
+query BookListDetail($listId: Int!) {
+  bookListDetail(listId: $listId) {
+    id
+    title
+    description
+    items {
+      id
+      position
+      addedAt
+    }
+    createdAt
+    updatedAt
+  }
+}

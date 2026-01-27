@@ -1,0 +1,9 @@
+mutation UpdateBookList($input: UpdateBookListInput!) {
+  updateBookList(input: $input) {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
+}

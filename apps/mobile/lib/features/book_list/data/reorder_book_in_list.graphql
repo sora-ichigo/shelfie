@@ -1,0 +1,3 @@
+mutation ReorderBookInList($listId: Int!, $itemId: Int!, $newPosition: Int!) {
+  reorderBookInList(listId: $listId, itemId: $itemId, newPosition: $newPosition)
+}

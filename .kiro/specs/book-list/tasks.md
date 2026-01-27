@@ -93,27 +93,27 @@
   - position 再計算のテストを作成する
   - _Requirements: 1.4, 2.4, 4.5_
 
-- [ ] 6. Mobile GraphQL 定義とコード生成
-- [ ] 6.1 GraphQL オペレーション定義を作成する
+- [x] 6. Mobile GraphQL 定義とコード生成
+- [x] 6.1 GraphQL オペレーション定義を作成する
   - myBookLists クエリの .graphql ファイルを作成する
   - bookListDetail クエリの .graphql ファイルを作成する
   - createBookList, updateBookList, deleteBookList ミューテーションを定義する
   - addBookToList, removeBookFromList, reorderBookInList ミューテーションを定義する
   - _Requirements: 1.2, 2.2, 3.2, 4.2, 5.1, 6.2, 8.1, 9.1_
 
-- [ ] 6.2 Ferry コード生成を実行する
+- [x] 6.2 Ferry コード生成を実行する
   - build_runner で GraphQL 型と操作クラスを生成する
   - 生成された型が設計と一致することを確認する
   - _Requirements: 10.1, 10.2_
 
-- [ ] 7. Mobile リポジトリ・状態管理層の実装
-- [ ] 7.1 BookListRepository を実装する
+- [x] 7. Mobile リポジトリ・状態管理層の実装
+- [x] 7.1 BookListRepository を実装する
   - Ferry クライアントを使用した GraphQL 通信を実装する
   - Result 型（Either<Failure, T>）によるエラーハンドリングを実装する
   - 全ての CRUD 操作のメソッドを実装する
   - _Requirements: 1.2, 2.2, 3.2, 4.2, 5.1, 6.2, 8.1, 9.1_
 
-- [ ] 7.2 BookListNotifier を実装する
+- [x] 7.2 BookListNotifier を実装する
   - リスト一覧の状態管理（loading, loaded, error）を実装する
   - リスト詳細の状態管理を実装する
   - 楽観的更新（並べ替え時）を実装する
