@@ -90,7 +90,7 @@ void main() {
       expect(find.text('メールアドレス'), findsOneWidget);
       expect(find.text('パスワード'), findsOneWidget);
       expect(find.text('おかえりなさい'), findsOneWidget);
-      expect(find.text('戻る'), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
       expect(find.text('パスワードを忘れた方'), findsOneWidget);
     });
   });
