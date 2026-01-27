@@ -60,7 +60,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       child: Column(
         children: [
           ScreenHeader(
-            title: '本棚',
+            title: 'マイライブラリ',
             onProfileTap: () => context.push(AppRoutes.account),
             avatarUrl: avatarUrl,
             isAvatarLoading: accountAsync.isLoading,

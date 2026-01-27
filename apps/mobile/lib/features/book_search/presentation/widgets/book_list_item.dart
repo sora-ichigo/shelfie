@@ -131,7 +131,7 @@ class BookListItem extends StatelessWidget {
               size: 20,
               color: theme.colorScheme.onSurfaceVariant,
             ),
-            tooltip: '本棚から削除',
+            tooltip: 'マイライブラリから削除',
             visualDensity: VisualDensity.compact,
           ),
         ],
@@ -141,7 +141,7 @@ class BookListItem extends StatelessWidget {
     return IconButton(
       onPressed: onAddPressed,
       icon: const Icon(Icons.add_circle_outline),
-      tooltip: '本棚に追加',
+      tooltip: 'マイライブラリに追加',
     );
   }
 

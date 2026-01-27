@@ -24,8 +24,8 @@ void main() {
     });
 
     group('ボトムナビゲーション', () {
-      test('本棚タブと検索タブのラベルが定義されている', () {
-        expect('本棚', isNotEmpty);
+      test('ライブラリタブと検索タブのラベルが定義されている', () {
+        expect('ライブラリ', isNotEmpty);
         expect('検索', isNotEmpty);
       });
 

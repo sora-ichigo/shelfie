@@ -90,7 +90,7 @@ void main() {
     });
 
     group('getBookDetail', () {
-      test('書籍詳細取得成功時（本棚未追加）は Right(BookDetail) を返す', () async {
+      test('書籍詳細取得成功時（マイライブラリ未追加）は Right(BookDetail) を返す', () async {
         final mockData = GBookDetailData(
           (b) => b
             ..bookDetail = GBookDetailData_bookDetail(
@@ -140,7 +140,7 @@ void main() {
         expect(data.userBook, isNull);
       });
 
-      test('書籍詳細取得成功時（本棚追加済み）は Right(BookDetail) を返す', () async {
+      test('書籍詳細取得成功時（マイライブラリ追加済み）は Right(BookDetail) を返す', () async {
         final addedAt = DateTime(2024, 6, 15, 10, 30);
         final completedAt = DateTime(2024, 6, 20, 15, 0);
         final noteUpdatedAt = DateTime(2024, 6, 18, 12, 0);

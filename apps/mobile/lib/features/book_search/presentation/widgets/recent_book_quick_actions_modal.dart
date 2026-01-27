@@ -172,7 +172,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
-              '本棚に追加',
+              'マイライブラリに追加',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: appColors.foreground,
               ),
@@ -209,7 +209,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
-              '本棚から削除',
+              'マイライブラリから削除',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: appColors.error,
               ),

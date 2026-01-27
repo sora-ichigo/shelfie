@@ -55,18 +55,18 @@ void main() {
       );
     }
 
-    testWidgets('本棚に未追加の場合は「本棚に追加」ボタンを表示', (tester) async {
+    testWidgets('マイライブラリに未追加の場合は「マイライブラリに追加」ボタンを表示', (tester) async {
       await tester.pumpWidget(buildTestWidget(book: testBook));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Open Modal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('本棚に追加'), findsOneWidget);
-      expect(find.text('本棚から削除'), findsNothing);
+      expect(find.text('マイライブラリに追加'), findsOneWidget);
+      expect(find.text('マイライブラリから削除'), findsNothing);
     });
 
-    testWidgets('本棚に追加済みの場合は「本棚から削除」ボタンを表示', (tester) async {
+    testWidgets('マイライブラリに追加済みの場合は「マイライブラリから削除」ボタンを表示', (tester) async {
       await tester.pumpWidget(
         buildTestWidget(
           book: testBook,
@@ -78,11 +78,11 @@ void main() {
       await tester.tap(find.text('Open Modal'));
       await tester.pumpAndSettle();
 
-      expect(find.text('本棚から削除'), findsOneWidget);
-      expect(find.text('本棚に追加'), findsNothing);
+      expect(find.text('マイライブラリから削除'), findsOneWidget);
+      expect(find.text('マイライブラリに追加'), findsNothing);
     });
 
-    testWidgets('「本棚に追加」タップで onAddToShelf が呼ばれる', (tester) async {
+    testWidgets('「マイライブラリに追加」タップで onAddToShelf が呼ばれる', (tester) async {
       var addCalled = false;
       await tester.pumpWidget(
         buildTestWidget(
@@ -95,13 +95,13 @@ void main() {
       await tester.tap(find.text('Open Modal'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('本棚に追加'));
+      await tester.tap(find.text('マイライブラリに追加'));
       await tester.pumpAndSettle();
 
       expect(addCalled, isTrue);
     });
 
-    testWidgets('「本棚から削除」タップで onRemoveFromShelf が呼ばれる', (tester) async {
+    testWidgets('「マイライブラリから削除」タップで onRemoveFromShelf が呼ばれる', (tester) async {
       var removeCalled = false;
       await tester.pumpWidget(
         buildTestWidget(
@@ -115,7 +115,7 @@ void main() {
       await tester.tap(find.text('Open Modal'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('本棚から削除'));
+      await tester.tap(find.text('マイライブラリから削除'));
       await tester.pumpAndSettle();
 
       expect(removeCalled, isTrue);

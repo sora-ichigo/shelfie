@@ -393,7 +393,7 @@ void main() {
     });
 
     group('addToShelf', () {
-      test('本棚追加成功時は UserBook が返される', () async {
+      test('マイライブラリ追加成功時は UserBook が返される', () async {
         const book = Book(
           id: 'book-1',
           title: 'Test Book',
@@ -429,7 +429,7 @@ void main() {
         expect(userBook.externalId, equals('book-1'));
       });
 
-      test('本棚追加失敗時は Failure が返される', () async {
+      test('マイライブラリ追加失敗時は Failure が返される', () async {
         const book = Book(
           id: 'book-1',
           title: 'Test Book',

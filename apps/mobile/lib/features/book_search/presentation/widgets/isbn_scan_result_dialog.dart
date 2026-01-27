@@ -333,7 +333,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('本棚に追加'),
+              : const Text('マイライブラリに追加'),
         ),
       ],
     );
