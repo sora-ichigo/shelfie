@@ -75,3 +75,9 @@ resource "google_project_iam_member" "github_actions_sa_user" {
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
+
+resource "google_project_iam_member" "github_actions_appdistro_admin" {
+  project = var.project_id
+  role    = "roles/firebaseappdistro.admin"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}

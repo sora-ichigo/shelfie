@@ -3,14 +3,14 @@
 ## Tasks
 
 - [ ] 1. Terraform で Firebase App Distribution インフラを構築する
-- [ ] 1.1 (P) Firebase App Distribution API の有効化を Terraform で定義する
+- [x] 1.1 (P) Firebase App Distribution API の有効化を Terraform で定義する
   - firebase-auth モジュール内で `firebaseappdistribution.googleapis.com` API を有効化するリソースを追加
   - `disable_on_destroy = false` で API 無効化時のリソース保護を設定
   - Firebase プロジェクト初期化後に実行されるよう依存関係を設定
   - `terraform plan` で変更内容を確認し、API 有効化が正しく計画されることを検証
   - _Requirements: 1.1, 1.2, 7.1_
 
-- [ ] 1.2 (P) GitHub Actions サービスアカウントに Firebase App Distribution 管理権限を付与する
+- [x] 1.2 (P) GitHub Actions サービスアカウントに Firebase App Distribution 管理権限を付与する
   - github-actions-wif モジュールで既存サービスアカウントに `roles/firebaseappdistro.admin` ロールを追加
   - 最小権限の原則を維持し、必要な権限のみを付与
   - `terraform plan` で IAM 変更を確認し、権限付与が正しく計画されることを検証
