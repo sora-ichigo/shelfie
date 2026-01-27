@@ -319,7 +319,8 @@ void main() {
                 ..isbn = '9781234567890'
                 ..coverImageUrl = 'https://example.com/cover.jpg'
                 ..addedAt = DateTime(2024, 6, 15, 10, 30)
-                ..source = GBookSource.RAKUTEN,
+                ..source = GBookSource.RAKUTEN
+                ..readingStatus = GReadingStatus.BACKLOG,
             ).toBuilder(),
         );
 
