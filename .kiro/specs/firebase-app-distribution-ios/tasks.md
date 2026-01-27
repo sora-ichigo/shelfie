@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] 1. Terraform で Firebase App Distribution インフラを構築する
+- [x] 1. Terraform で Firebase App Distribution インフラを構築する
 - [x] 1.1 (P) Firebase App Distribution API の有効化を Terraform で定義する
   - firebase-auth モジュール内で `firebaseappdistribution.googleapis.com` API を有効化するリソースを追加
   - `disable_on_destroy = false` で API 無効化時のリソース保護を設定
@@ -16,7 +16,7 @@
   - `terraform plan` で IAM 変更を確認し、権限付与が正しく計画されることを検証
   - _Requirements: 7.2, 7.3_
 
-- [ ] 2. Fastlane 証明書管理環境をセットアップする
+- [x] 2. Fastlane 証明書管理環境をセットアップする
 - [x] 2.1 Fastlane 設定ファイルを作成する
   - `apps/mobile/ios/fastlane/` ディレクトリを作成
   - Matchfile で証明書リポジトリ URL (`https://github.com/sora-ichigo/shelfie-certificates`)、storage_mode、app_identifier を設定
@@ -85,7 +85,7 @@
   - リリースノートに PR タイトルまたはコミットメッセージを自動挿入（手動実行時はカスタムリリースノートを使用）
   - _Requirements: 3.2, 3.6, 5.2, 6.2, 6.3_
 
-- [ ] 5. GitHub Secrets と Variables を設定する
+- [x] 5. GitHub Secrets と Variables を設定する
   - Fastlane match 暗号化パスワードを `MATCH_PASSWORD` シークレットに設定
   - 証明書リポジトリアクセス用 GitHub PAT を Base64 エンコードして `MATCH_GIT_BASIC_AUTHORIZATION` シークレットに設定（`echo -n "username:PAT" | base64`）
   - Firebase iOS アプリ ID を `FIREBASE_IOS_APP_ID` 変数に設定
@@ -93,28 +93,28 @@
   - 既存の `DEV_GCP_WORKLOAD_IDENTITY_PROVIDER` と `DEV_GCP_SERVICE_ACCOUNT` 変数が設定されていることを確認
   - _Requirements: 4.1, 4.2, 4.3_
 
-- [ ] 6. Firebase Console でテスターグループを設定する
+- [x] 6. Firebase Console でテスターグループを設定する
   - Firebase Console の App Distribution セクションで `internal-testers` グループを作成
   - テスターのメールアドレスをグループに追加
   - 新規ビルド配信時のメール通知を有効化
   - グループエイリアスが GitHub Variables の `FIREBASE_TESTER_GROUPS` と一致することを確認
   - _Requirements: 5.1, 5.3, 5.4, 7.4_
 
-- [ ] 7. デバイス登録の半自動化フローを整備する
+- [x] 7. デバイス登録の半自動化フローを整備する
   - `apps/mobile/ios/fastlane/` に devices.txt テンプレートファイルを作成
   - Fastfile の `register_new_devices` lane が devices.txt を読み込んでデバイス登録できることを確認
   - Firebase Console からテスターデバイス UDID を CSV エクスポートする手順を検証
   - `fastlane register_new_devices` 実行後に Provisioning Profile が再生成されることを確認
   - _Requirements: 2.4_
 
-- [ ] 8. 統合テストを実施する
-- [ ] 8.1 Terraform 変更を適用してインフラをプロビジョニングする
+- [x] 8. 統合テストを実施する
+- [x] 8.1 Terraform 変更を適用してインフラをプロビジョニングする
   - `terraform apply` で Firebase App Distribution API の有効化と IAM 権限の付与を実行
   - Firebase Console で iOS アプリ (`app.shelfie.shelfie`) が登録されていることを確認
   - GCP IAM で `roles/firebaseappdistro.admin` 権限が正しく付与されていることを確認
   - _Requirements: 1.3, 7.3_
 
-- [ ] 8.2 ワークフローを手動実行して E2E 動作を検証する
+- [x] 8.2 ワークフローを手動実行して E2E 動作を検証する
   - GitHub Actions で `workflow_dispatch` を使用してワークフローを手動実行
   - Fastlane match による証明書取得が正常に完了することを確認
   - 全ステップ（セットアップ、署名、ビルド、アップロード）が正常に完了することを確認
