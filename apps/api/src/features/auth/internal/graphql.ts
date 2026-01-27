@@ -476,7 +476,8 @@ export function registerAuthMutations(
   builder.mutationType({
     fields: (t) => ({
       registerUser: t.field({
-        type: UserRef,
+        // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+        type: LoginResultRef!,
         description: "Register a new user with email and password",
         errors: {
           types: [AuthError],
@@ -488,7 +489,7 @@ export function registerAuthMutations(
             required: true,
           }),
         },
-        resolve: async (_parent, { input }): Promise<User> => {
+        resolve: async (_parent, { input }): Promise<LoginResultData> => {
           const result = await authService.register({
             email: input.email,
             password: input.password,
@@ -498,7 +499,11 @@ export function registerAuthMutations(
             throw mapServiceErrorToAuthError(result.error);
           }
 
-          return result.data.user;
+          return {
+            user: result.data.user,
+            idToken: result.data.idToken,
+            refreshToken: result.data.refreshToken,
+          };
         },
       }),
       loginUser: t.field({

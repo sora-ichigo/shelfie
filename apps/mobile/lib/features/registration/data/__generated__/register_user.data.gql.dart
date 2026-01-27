@@ -162,13 +162,14 @@ abstract class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dat
   static void _initializeBuilder(
           GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
               b) =>
-      b..G__typename = 'User';
+      b..G__typename = 'LoginResult';
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int? get id;
-  String? get email;
-  DateTime? get createdAt;
+  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+      get user;
+  String get idToken;
+  String get refreshToken;
   static Serializer<
           GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data>
       get serializer =>
@@ -183,6 +184,49 @@ abstract class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dat
   static GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data?
       fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
             GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
+                .serializer,
+            json,
+          );
+}
+
+abstract class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+    implements
+        Built<
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder> {
+  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user._();
+
+  factory GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user(
+          [void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
+                      b)
+              updates]) =
+      _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user;
+
+  static void _initializeBuilder(
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
+              b) =>
+      b..G__typename = 'User';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int? get id;
+  String? get email;
+  DateTime? get createdAt;
+  static Serializer<
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user>
+      get serializer =>
+          _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataUserSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+            .serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user?
+      fromJson(Map<String, dynamic> json) => _i1.serializers.deserializeWith(
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
                 .serializer,
             json,
           );

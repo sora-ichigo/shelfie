@@ -266,7 +266,7 @@ type MutationRefreshTokenSuccess {
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
-  data: User!
+  data: LoginResult!
 }
 
 union MutationSendPasswordResetEmailResult = AuthError | MutationSendPasswordResetEmailSuccess

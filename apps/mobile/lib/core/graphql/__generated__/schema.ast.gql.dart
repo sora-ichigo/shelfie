@@ -985,7 +985,7 @@ const MutationRegisterUserSuccess = _i1.ObjectTypeDefinitionNode(
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'User'),
+        name: _i1.NameNode(value: 'LoginResult'),
         isNonNull: true,
       ),
     )

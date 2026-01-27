@@ -12,6 +12,8 @@ export interface RegisterUserOutput {
   user: User;
   firebaseUid: string;
   emailVerified: boolean;
+  idToken: string;
+  refreshToken: string;
 }
 
 export interface LoginUserInput {
@@ -361,6 +363,21 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         });
       }
 
+      let tokens: { idToken: string; refreshToken: string };
+      try {
+        tokens = await firebaseAuth.signIn(input.email, input.password);
+      } catch (error) {
+        logger.error(
+          "Failed to sign in after registration",
+          error as Error,
+          { feature: "auth", firebaseUid: firebaseUser.uid },
+        );
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "登録後のログインに失敗しました",
+        });
+      }
+
       logger.info("User registered successfully", {
         feature: "auth",
         userId: String(userResult.data.id),
@@ -370,6 +387,8 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
         user: userResult.data,
         firebaseUid: firebaseUser.uid,
         emailVerified: firebaseUser.emailVerified,
+        idToken: tokens.idToken,
+        refreshToken: tokens.refreshToken,
       });
     },
 
