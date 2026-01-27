@@ -29,6 +29,7 @@ class ShelfState extends _$ShelfState {
     String? isbn,
     String? coverImageUrl,
     BookSource source = BookSource.rakuten,
+    ReadingStatus readingStatus = ReadingStatus.backlog,
   }) async {
     final repository = ref.read(bookSearchRepositoryProvider);
     final result = await repository.addBookToShelf(
@@ -40,6 +41,7 @@ class ShelfState extends _$ShelfState {
       isbn: isbn,
       coverImageUrl: coverImageUrl,
       source: source,
+      readingStatus: readingStatus,
     );
 
     result.fold(
@@ -48,7 +50,7 @@ class ShelfState extends _$ShelfState {
         ShelfEntry(
           userBookId: userBook.id,
           externalId: userBook.externalId,
-          readingStatus: ReadingStatus.backlog,
+          readingStatus: readingStatus,
           addedAt: userBook.addedAt,
         ),
       ),

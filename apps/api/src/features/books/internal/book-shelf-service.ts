@@ -24,6 +24,7 @@ export interface AddBookInput {
   isbn: string | null;
   coverImageUrl: string | null;
   source?: BookSourceValue;
+  readingStatus?: ReadingStatusValue;
 }
 
 export interface AddBookToShelfInput {
@@ -134,6 +135,7 @@ export function createBookShelfService(
           isbn: bookInput.isbn,
           coverImageUrl: bookInput.coverImageUrl,
           source: bookInput.source ?? "rakuten",
+          readingStatus: bookInput.readingStatus ?? "backlog",
         });
 
         logger.info("Book added to shelf successfully", {

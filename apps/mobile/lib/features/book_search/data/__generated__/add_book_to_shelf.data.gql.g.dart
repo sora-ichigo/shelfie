@@ -103,6 +103,9 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
       'addedAt',
       serializers.serialize(object.addedAt,
           specifiedType: const FullType(DateTime)),
+      'readingStatus',
+      serializers.serialize(object.readingStatus,
+          specifiedType: const FullType(_i2.GReadingStatus)),
     ];
     Object? value;
     value = object.publisher;
@@ -194,6 +197,11 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
+          break;
+        case 'readingStatus':
+          result.readingStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GReadingStatus))!
+              as _i2.GReadingStatus;
           break;
       }
     }
@@ -341,6 +349,8 @@ class _$GAddBookToShelfData_addBookToShelf
   final _i2.GBookSource source;
   @override
   final DateTime addedAt;
+  @override
+  final _i2.GReadingStatus readingStatus;
 
   factory _$GAddBookToShelfData_addBookToShelf(
           [void Function(GAddBookToShelfData_addBookToShelfBuilder)?
@@ -358,7 +368,8 @@ class _$GAddBookToShelfData_addBookToShelf
       this.isbn,
       this.coverImageUrl,
       required this.source,
-      required this.addedAt})
+      required this.addedAt,
+      required this.readingStatus})
       : super._();
   @override
   GAddBookToShelfData_addBookToShelf rebuild(
@@ -383,7 +394,8 @@ class _$GAddBookToShelfData_addBookToShelf
         isbn == other.isbn &&
         coverImageUrl == other.coverImageUrl &&
         source == other.source &&
-        addedAt == other.addedAt;
+        addedAt == other.addedAt &&
+        readingStatus == other.readingStatus;
   }
 
   @override
@@ -400,6 +412,7 @@ class _$GAddBookToShelfData_addBookToShelf
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
     _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
+    _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -417,7 +430,8 @@ class _$GAddBookToShelfData_addBookToShelf
           ..add('isbn', isbn)
           ..add('coverImageUrl', coverImageUrl)
           ..add('source', source)
-          ..add('addedAt', addedAt))
+          ..add('addedAt', addedAt)
+          ..add('readingStatus', readingStatus))
         .toString();
   }
 }
@@ -474,6 +488,11 @@ class GAddBookToShelfData_addBookToShelfBuilder
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
 
+  _i2.GReadingStatus? _readingStatus;
+  _i2.GReadingStatus? get readingStatus => _$this._readingStatus;
+  set readingStatus(_i2.GReadingStatus? readingStatus) =>
+      _$this._readingStatus = readingStatus;
+
   GAddBookToShelfData_addBookToShelfBuilder() {
     GAddBookToShelfData_addBookToShelf._initializeBuilder(this);
   }
@@ -492,6 +511,7 @@ class GAddBookToShelfData_addBookToShelfBuilder
       _coverImageUrl = $v.coverImageUrl;
       _source = $v.source;
       _addedAt = $v.addedAt;
+      _readingStatus = $v.readingStatus;
       _$v = null;
     }
     return this;
@@ -533,6 +553,8 @@ class GAddBookToShelfData_addBookToShelfBuilder
                 source, r'GAddBookToShelfData_addBookToShelf', 'source'),
             addedAt: BuiltValueNullFieldError.checkNotNull(
                 addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt'),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
+                r'GAddBookToShelfData_addBookToShelf', 'readingStatus'),
           );
     } catch (_) {
       late String _$failedField;

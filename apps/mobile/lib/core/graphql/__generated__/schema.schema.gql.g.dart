@@ -247,6 +247,13 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.readingStatus;
+    if (value != null) {
+      result
+        ..add('readingStatus')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GReadingStatus)));
+    }
     value = object.source;
     if (value != null) {
       result
@@ -294,6 +301,10 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
         case 'publisher':
           result.publisher = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'readingStatus':
+          result.readingStatus = serializers.deserialize(value,
+              specifiedType: const FullType(GReadingStatus)) as GReadingStatus?;
           break;
         case 'source':
           result.source = serializers.deserialize(value,
@@ -803,6 +814,8 @@ class _$GAddBookInput extends GAddBookInput {
   @override
   final String? publisher;
   @override
+  final GReadingStatus? readingStatus;
+  @override
   final GBookSource? source;
   @override
   final String title;
@@ -817,6 +830,7 @@ class _$GAddBookInput extends GAddBookInput {
       this.isbn,
       this.publishedDate,
       this.publisher,
+      this.readingStatus,
       this.source,
       required this.title})
       : super._();
@@ -837,6 +851,7 @@ class _$GAddBookInput extends GAddBookInput {
         isbn == other.isbn &&
         publishedDate == other.publishedDate &&
         publisher == other.publisher &&
+        readingStatus == other.readingStatus &&
         source == other.source &&
         title == other.title;
   }
@@ -850,6 +865,7 @@ class _$GAddBookInput extends GAddBookInput {
     _$hash = $jc(_$hash, isbn.hashCode);
     _$hash = $jc(_$hash, publishedDate.hashCode);
     _$hash = $jc(_$hash, publisher.hashCode);
+    _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jf(_$hash);
@@ -865,6 +881,7 @@ class _$GAddBookInput extends GAddBookInput {
           ..add('isbn', isbn)
           ..add('publishedDate', publishedDate)
           ..add('publisher', publisher)
+          ..add('readingStatus', readingStatus)
           ..add('source', source)
           ..add('title', title))
         .toString();
@@ -901,6 +918,11 @@ class GAddBookInputBuilder
   String? get publisher => _$this._publisher;
   set publisher(String? publisher) => _$this._publisher = publisher;
 
+  GReadingStatus? _readingStatus;
+  GReadingStatus? get readingStatus => _$this._readingStatus;
+  set readingStatus(GReadingStatus? readingStatus) =>
+      _$this._readingStatus = readingStatus;
+
   GBookSource? _source;
   GBookSource? get source => _$this._source;
   set source(GBookSource? source) => _$this._source = source;
@@ -920,6 +942,7 @@ class GAddBookInputBuilder
       _isbn = $v.isbn;
       _publishedDate = $v.publishedDate;
       _publisher = $v.publisher;
+      _readingStatus = $v.readingStatus;
       _source = $v.source;
       _title = $v.title;
       _$v = null;
@@ -952,6 +975,7 @@ class GAddBookInputBuilder
             isbn: isbn,
             publishedDate: publishedDate,
             publisher: publisher,
+            readingStatus: readingStatus,
             source: source,
             title: BuiltValueNullFieldError.checkNotNull(
                 title, r'GAddBookInput', 'title'),

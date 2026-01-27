@@ -22,6 +22,7 @@ abstract class GAddBookInput
   String? get isbn;
   String? get publishedDate;
   String? get publisher;
+  GReadingStatus? get readingStatus;
   GBookSource? get source;
   String get title;
   static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
