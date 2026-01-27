@@ -28,10 +28,23 @@ export interface CreateBookListItemInput {
   position: number;
 }
 
+export interface FindBookListsOptions {
+  limit?: number;
+  offset?: number;
+}
+
+export interface FindBookListsResult {
+  items: BookList[];
+  totalCount: number;
+}
+
 export interface BookListRepository {
   createBookList(input: CreateBookListInput): Promise<BookList>;
   findBookListById(id: number): Promise<BookList | null>;
-  findBookListsByUserId(userId: number): Promise<BookList[]>;
+  findBookListsByUserId(
+    userId: number,
+    options?: FindBookListsOptions,
+  ): Promise<FindBookListsResult>;
   updateBookList(
     id: number,
     input: UpdateBookListInput,
@@ -81,12 +94,28 @@ export function createBookListRepository(
       return result[0] ?? null;
     },
 
-    async findBookListsByUserId(userId: number): Promise<BookList[]> {
-      return db
+    async findBookListsByUserId(
+      userId: number,
+      options?: FindBookListsOptions,
+    ): Promise<FindBookListsResult> {
+      const limit = options?.limit ?? 20;
+      const offset = options?.offset ?? 0;
+
+      const countResult = await db
+        .select({ count: sql<number>`count(*)::int` })
+        .from(bookLists)
+        .where(eq(bookLists.userId, userId));
+      const totalCount = countResult[0]?.count ?? 0;
+
+      const items = await db
         .select()
         .from(bookLists)
         .where(eq(bookLists.userId, userId))
-        .orderBy(asc(bookLists.createdAt));
+        .orderBy(asc(bookLists.createdAt))
+        .limit(limit)
+        .offset(offset);
+
+      return { items, totalCount };
     },
 
     async updateBookList(

@@ -63,6 +63,18 @@ export interface BookListSummary {
   updatedAt: Date;
 }
 
+export interface GetUserBookListsInput {
+  userId: number;
+  limit?: number;
+  offset?: number;
+}
+
+export interface BookListSummaryResult {
+  items: BookListSummary[];
+  totalCount: number;
+  hasMore: boolean;
+}
+
 interface BookShelfRepositoryMinimal {
   findUserBookById(id: number): Promise<{
     id: number;
@@ -80,8 +92,8 @@ export interface BookListService {
     userId: number,
   ): Promise<Result<BookListWithItems, BookListErrors>>;
   getUserBookLists(
-    userId: number,
-  ): Promise<Result<BookListSummary[], BookListErrors>>;
+    input: GetUserBookListsInput,
+  ): Promise<Result<BookListSummaryResult, BookListErrors>>;
   updateBookList(
     input: UpdateBookListServiceInput,
   ): Promise<Result<BookList, BookListErrors>>;
@@ -214,10 +226,13 @@ export function createBookListService(
     },
 
     async getUserBookLists(
-      userId: number,
-    ): Promise<Result<BookListSummary[], BookListErrors>> {
+      input: GetUserBookListsInput,
+    ): Promise<Result<BookListSummaryResult, BookListErrors>> {
+      const { userId, limit = 20, offset = 0 } = input;
+
       try {
-        const bookLists = await repository.findBookListsByUserId(userId);
+        const { items: bookLists, totalCount } =
+          await repository.findBookListsByUserId(userId, { limit, offset });
 
         const summaries: BookListSummary[] = [];
 
@@ -245,7 +260,9 @@ export function createBookListService(
           });
         }
 
-        return ok(summaries);
+        const hasMore = offset + summaries.length < totalCount;
+
+        return ok({ items: summaries, totalCount, hasMore });
       } catch (error) {
         logger.error(
           "Database error while fetching user book lists",

@@ -391,7 +391,7 @@ describe("BookListService", () => {
   });
 
   describe("getUserBookLists", () => {
-    it("should return all user book lists with summary info", async () => {
+    it("should return all user book lists with summary info and pagination", async () => {
       const mockRepository = createMockRepository();
       const mockBookShelfRepository = createMockBookShelfRepository();
       const mockLogger = createMockLogger();
@@ -414,7 +414,10 @@ describe("BookListService", () => {
           updatedAt: new Date(),
         },
       ];
-      mockRepository.mockFindBookListsByUserId.mockResolvedValue(bookLists);
+      mockRepository.mockFindBookListsByUserId.mockResolvedValue({
+        items: bookLists,
+        totalCount: 2,
+      });
 
       const items1: BookListItem[] = [
         { id: 1, listId: 1, userBookId: 10, position: 0, addedAt: new Date() },
@@ -473,24 +476,29 @@ describe("BookListService", () => {
         mockLogger,
       );
 
-      const result = await service.getUserBookLists(100);
+      const result = await service.getUserBookLists({ userId: 100 });
 
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data).toHaveLength(2);
-        expect(result.data[0].bookCount).toBe(2);
-        expect(result.data[0].coverImages).toHaveLength(2);
-        expect(result.data[1].bookCount).toBe(0);
-        expect(result.data[1].coverImages).toHaveLength(0);
+        expect(result.data.items).toHaveLength(2);
+        expect(result.data.items[0].bookCount).toBe(2);
+        expect(result.data.items[0].coverImages).toHaveLength(2);
+        expect(result.data.items[1].bookCount).toBe(0);
+        expect(result.data.items[1].coverImages).toHaveLength(0);
+        expect(result.data.totalCount).toBe(2);
+        expect(result.data.hasMore).toBe(false);
       }
     });
 
-    it("should return empty array when user has no lists", async () => {
+    it("should return empty result when user has no lists", async () => {
       const mockRepository = createMockRepository();
       const mockBookShelfRepository = createMockBookShelfRepository();
       const mockLogger = createMockLogger();
 
-      mockRepository.mockFindBookListsByUserId.mockResolvedValue([]);
+      mockRepository.mockFindBookListsByUserId.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
 
       const service = createBookListService(
         mockRepository,
@@ -498,12 +506,79 @@ describe("BookListService", () => {
         mockLogger,
       );
 
-      const result = await service.getUserBookLists(100);
+      const result = await service.getUserBookLists({ userId: 100 });
 
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data).toEqual([]);
+        expect(result.data.items).toEqual([]);
+        expect(result.data.totalCount).toBe(0);
+        expect(result.data.hasMore).toBe(false);
       }
+    });
+
+    it("should return hasMore true when there are more items", async () => {
+      const mockRepository = createMockRepository();
+      const mockBookShelfRepository = createMockBookShelfRepository();
+      const mockLogger = createMockLogger();
+
+      const bookLists: BookList[] = [
+        {
+          id: 1,
+          userId: 100,
+          title: "Reading List 1",
+          description: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ];
+      mockRepository.mockFindBookListsByUserId.mockResolvedValue({
+        items: bookLists,
+        totalCount: 3,
+      });
+      mockRepository.mockFindBookListItemsByListId.mockResolvedValue([]);
+
+      const service = createBookListService(
+        mockRepository,
+        mockBookShelfRepository,
+        mockLogger,
+      );
+
+      const result = await service.getUserBookLists({
+        userId: 100,
+        limit: 1,
+        offset: 0,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.items).toHaveLength(1);
+        expect(result.data.totalCount).toBe(3);
+        expect(result.data.hasMore).toBe(true);
+      }
+    });
+
+    it("should pass limit and offset to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockBookShelfRepository = createMockBookShelfRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindBookListsByUserId.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookListService(
+        mockRepository,
+        mockBookShelfRepository,
+        mockLogger,
+      );
+
+      await service.getUserBookLists({ userId: 100, limit: 10, offset: 5 });
+
+      expect(mockRepository.mockFindBookListsByUserId).toHaveBeenCalledWith(
+        100,
+        { limit: 10, offset: 5 },
+      );
     });
   });
 

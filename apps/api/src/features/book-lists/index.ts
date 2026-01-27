@@ -7,6 +7,8 @@ export type {
   CreateBookListInput,
   UpdateBookListInput,
   CreateBookListItemInput,
+  FindBookListsOptions,
+  FindBookListsResult,
 } from "./internal/repository.js";
 
 export { createBookListRepository } from "./internal/repository.js";
@@ -21,6 +23,8 @@ export type {
   ReorderBookInput,
   BookListWithItems,
   BookListSummary,
+  GetUserBookListsInput,
+  BookListSummaryResult,
 } from "./internal/service.js";
 
 export { createBookListService } from "./internal/service.js";
