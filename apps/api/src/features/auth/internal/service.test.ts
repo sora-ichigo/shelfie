@@ -168,6 +168,11 @@ describe("AuthService.register", () => {
       uid: "firebase-uid-123",
       emailVerified: false,
     });
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "test-id-token",
+      refreshToken: "test-refresh-token",
+    });
     vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
       success: true,
       data: mockUser,
@@ -183,8 +188,14 @@ describe("AuthService.register", () => {
       expect(result.data.user.email).toBe("test@example.com");
       expect(result.data.firebaseUid).toBe("firebase-uid-123");
       expect(result.data.emailVerified).toBe(false);
+      expect(result.data.idToken).toBe("test-id-token");
+      expect(result.data.refreshToken).toBe("test-refresh-token");
     }
     expect(mockFirebaseAuth.createUser).toHaveBeenCalledWith(
+      "test@example.com",
+      "password123",
+    );
+    expect(mockFirebaseAuth.signIn).toHaveBeenCalledWith(
       "test@example.com",
       "password123",
     );
@@ -280,6 +291,11 @@ describe("AuthService.register", () => {
     vi.mocked(mockFirebaseAuth.createUser).mockResolvedValue({
       uid: "firebase-uid-123",
       emailVerified: false,
+    });
+    vi.mocked(mockFirebaseAuth.signIn).mockResolvedValue({
+      uid: "firebase-uid-123",
+      idToken: "test-id-token",
+      refreshToken: "test-refresh-token",
     });
     vi.mocked(mockUserService.createUserWithFirebase).mockResolvedValue({
       success: true,

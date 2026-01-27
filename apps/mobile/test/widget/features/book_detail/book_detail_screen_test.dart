@@ -38,6 +38,7 @@ void main() {
         viewedAt: DateTime.now(),
       ),
     );
+    registerFallbackValue(ReadingStatus.backlog);
   });
 
   setUp(() {
@@ -277,16 +278,21 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            readingStatus: any(named: 'readingStatus'),
           )).thenAnswer((_) => addCompleter.future);
 
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('マイライブラリに追加'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('読書状態を選択'), findsOneWidget);
+
+      await tester.tap(find.text('登録'));
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('マイライブラリに追加'), findsNothing);
 
       addCompleter.complete(right(book_search.UserBook(
         id: 1,
@@ -353,6 +359,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            readingStatus: any(named: 'readingStatus'),
           )).thenAnswer((_) async => right(book_search.UserBook(
             id: 1,
             externalId: 'test-id',
@@ -365,6 +372,11 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('マイライブラリに追加'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('読書状態を選択'), findsOneWidget);
+
+      await tester.tap(find.text('登録'));
       await tester.pumpAndSettle();
 
       expect(find.byType(CircularProgressIndicator), findsNothing);

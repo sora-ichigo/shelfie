@@ -105,7 +105,7 @@ void main() {
       expect(find.text('パスワード'), findsOneWidget);
       expect(find.text('パスワード（確認）'), findsOneWidget);
       expect(find.text('アカウントを作成して始めましょう'), findsOneWidget);
-      expect(find.text('戻る'), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
     });
   });
 }

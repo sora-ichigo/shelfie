@@ -7,7 +7,7 @@ part of 'recent_books_notifier.dart';
 // **************************************************************************
 
 String _$recentBooksNotifierHash() =>
-    r'ac7bf964811b327964069858ff1d5a1b97b9945d';
+    r'a9c8f315523cb5d261b605ea5976451675e40ec9';
 
 /// 最近チェックした本の状態管理 Notifier
 ///

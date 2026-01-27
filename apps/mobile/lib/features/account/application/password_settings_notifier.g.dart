@@ -7,7 +7,7 @@ part of 'password_settings_notifier.dart';
 // **************************************************************************
 
 String _$passwordSettingsNotifierHash() =>
-    r'debed921201382eeeecf0653e80abfe9f8b0db88';
+    r'91a0f9cacc3828e121bed2266b48bf093e2e8a3f';
 
 /// See also [PasswordSettingsNotifier].
 @ProviderFor(PasswordSettingsNotifier)

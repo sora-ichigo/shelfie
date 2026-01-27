@@ -30,6 +30,7 @@ interface AddBookInputData {
   isbn?: string | null;
   coverImageUrl?: string | null;
   source?: BookSourceValue | null;
+  readingStatus?: ReadingStatusValue | null;
 }
 
 type BookObjectRef = ReturnType<typeof createBookRef>;
@@ -289,6 +290,12 @@ export function registerBooksTypes(builder: Builder): void {
         type: BookSourceRef,
         required: false,
         description: "The source of the book data (rakuten or google)",
+      }),
+      readingStatus: t.field({
+        type: ReadingStatusRef,
+        required: false,
+        description:
+          "The initial reading status of the book (defaults to backlog)",
       }),
     }),
   });
@@ -787,6 +794,7 @@ export function registerBooksMutations(
             isbn: args.bookInput.isbn ?? null,
             coverImageUrl: args.bookInput.coverImageUrl ?? null,
             source: args.bookInput.source ?? undefined,
+            readingStatus: args.bookInput.readingStatus ?? undefined,
           },
         });
 

@@ -15,6 +15,7 @@ _$RecentBookEntryImpl _$$RecentBookEntryImplFromJson(
           (json['authors'] as List<dynamic>).map((e) => e as String).toList(),
       coverImageUrl: json['coverImageUrl'] as String?,
       viewedAt: DateTime.parse(json['viewedAt'] as String),
+      source: json['source'] as String?,
     );
 
 Map<String, dynamic> _$$RecentBookEntryImplToJson(
@@ -25,4 +26,5 @@ Map<String, dynamic> _$$RecentBookEntryImplToJson(
       'authors': instance.authors,
       if (instance.coverImageUrl case final value?) 'coverImageUrl': value,
       'viewedAt': instance.viewedAt.toIso8601String(),
+      if (instance.source case final value?) 'source': value,
     };

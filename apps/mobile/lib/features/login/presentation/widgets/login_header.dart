@@ -18,15 +18,15 @@ class LoginHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: onBackPressed,
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.arrow_back, size: 20),
-              SizedBox(width: AppSpacing.xxs),
-              Text('戻る'),
-            ],
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onBackPressed,
+            customBorder: const CircleBorder(),
+            child: const Padding(
+              padding: EdgeInsets.all(AppSpacing.xs),
+              child: Icon(Icons.arrow_back_ios_new),
+            ),
           ),
         ),
         const SizedBox(height: AppSpacing.xl),

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/features/registration/application/registration_form_state.dart';
 import 'package:shelfie/features/registration/data/registration_repository.dart';
 
@@ -37,24 +38,34 @@ class RegistrationNotifier extends _$RegistrationNotifier {
       password: formState.password,
     );
 
-    state = result.fold(
-      (error) => switch (error) {
-        EmailAlreadyExistsError(:final message) => RegistrationState.error(
-            message: message,
-            field: 'email',
-          ),
-        InvalidPasswordError(:final message) => RegistrationState.error(
-            message: message,
-            field: 'password',
-          ),
-        NetworkError(:final message) => RegistrationState.error(
-            message: message,
-          ),
-        UnknownError(:final message) => RegistrationState.error(
-            message: message,
-          ),
+    await result.fold(
+      (error) async {
+        state = switch (error) {
+          EmailAlreadyExistsError(:final message) => RegistrationState.error(
+              message: message,
+              field: 'email',
+            ),
+          InvalidPasswordError(:final message) => RegistrationState.error(
+              message: message,
+              field: 'password',
+            ),
+          NetworkError(:final message) => RegistrationState.error(
+              message: message,
+            ),
+          UnknownError(:final message) => RegistrationState.error(
+              message: message,
+            ),
+        };
       },
-      (user) => RegistrationState.success(user: user),
+      (user) async {
+        await ref.read(authStateProvider.notifier).login(
+              userId: user.id.toString(),
+              email: user.email,
+              token: user.idToken,
+              refreshToken: user.refreshToken,
+            );
+        state = RegistrationState.success(user: user);
+      },
     );
   }
 

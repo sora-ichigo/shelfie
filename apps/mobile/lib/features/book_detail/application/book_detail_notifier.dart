@@ -67,7 +67,9 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     );
   }
 
-  Future<Either<Failure, void>> addToShelf() async {
+  Future<Either<Failure, void>> addToShelf({
+    ReadingStatus readingStatus = ReadingStatus.backlog,
+  }) async {
     final currentState = state;
     if (!currentState.hasValue || currentState.value == null) {
       return left(
@@ -91,6 +93,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
       publishedDate: currentBookDetail.publishedDate,
       coverImageUrl: currentBookDetail.thumbnailUrl,
       source: currentBookDetail.source,
+      readingStatus: readingStatus,
     );
 
     return result.fold(left, (_) => right(null));

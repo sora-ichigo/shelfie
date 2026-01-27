@@ -22,7 +22,6 @@ void main() {
 
       expect(find.text('メールアドレス'), findsOneWidget);
       expect(find.text('example@email.com'), findsOneWidget);
-      expect(find.byIcon(Icons.email_outlined), findsOneWidget);
     });
 
     testWidgets('パスワード入力フィールドが表示される', (tester) async {

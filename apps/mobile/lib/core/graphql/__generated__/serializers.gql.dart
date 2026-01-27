@@ -251,6 +251,7 @@ import 'package:shelfie/features/registration/data/__generated__/register_user.d
         GRegisterUserData_registerUser__asAuthError,
         GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
         GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
+        GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
         GRegisterUserData_registerUser__base;
 import 'package:shelfie/features/registration/data/__generated__/register_user.req.gql.dart'
     show GRegisterUserReq;
@@ -368,6 +369,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRegisterUserData_registerUser__asAuthError,
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
+  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
   GRegisterUserData_registerUser__base,
   GRegisterUserInput,
   GRegisterUserReq,

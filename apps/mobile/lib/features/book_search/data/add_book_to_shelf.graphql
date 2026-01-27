@@ -10,5 +10,6 @@ mutation AddBookToShelf($bookInput: AddBookInput!) {
     coverImageUrl
     source
     addedAt
+    readingStatus
   }
 }

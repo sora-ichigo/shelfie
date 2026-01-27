@@ -11,6 +11,7 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart';
 import 'package:shelfie/features/book_search/data/__generated__/search_book_by_isbn.data.gql.dart';
@@ -175,6 +176,7 @@ class BookSearchRepository {
     String? isbn,
     String? coverImageUrl,
     BookSource source = BookSource.rakuten,
+    ReadingStatus readingStatus = ReadingStatus.backlog,
   }) async {
     final request = GAddBookToShelfReq(
       (b) => b
@@ -189,7 +191,8 @@ class BookSearchRepository {
             ..coverImageUrl = coverImageUrl
             ..source = source == BookSource.google
                 ? GBookSource.GOOGLE
-                : GBookSource.RAKUTEN,
+                : GBookSource.RAKUTEN
+            ..readingStatus = _toGReadingStatus(readingStatus),
         ).toBuilder(),
     );
 
@@ -395,5 +398,14 @@ class BookSearchRepository {
         addedAt: userBook.addedAt,
       ),
     );
+  }
+
+  GReadingStatus _toGReadingStatus(ReadingStatus status) {
+    return switch (status) {
+      ReadingStatus.backlog => GReadingStatus.BACKLOG,
+      ReadingStatus.reading => GReadingStatus.READING,
+      ReadingStatus.completed => GReadingStatus.COMPLETED,
+      ReadingStatus.dropped => GReadingStatus.DROPPED,
+    };
   }
 }

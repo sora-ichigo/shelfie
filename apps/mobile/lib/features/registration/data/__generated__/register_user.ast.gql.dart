@@ -46,21 +46,43 @@ const RegisterUser = _i1.OperationDefinitionNode(
               directives: [],
               selectionSet: _i1.SelectionSetNode(selections: [
                 _i1.FieldNode(
-                  name: _i1.NameNode(value: 'id'),
+                  name: _i1.NameNode(value: 'user'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: _i1.SelectionSetNode(selections: [
+                    _i1.FieldNode(
+                      name: _i1.NameNode(value: 'id'),
+                      alias: null,
+                      arguments: [],
+                      directives: [],
+                      selectionSet: null,
+                    ),
+                    _i1.FieldNode(
+                      name: _i1.NameNode(value: 'email'),
+                      alias: null,
+                      arguments: [],
+                      directives: [],
+                      selectionSet: null,
+                    ),
+                    _i1.FieldNode(
+                      name: _i1.NameNode(value: 'createdAt'),
+                      alias: null,
+                      arguments: [],
+                      directives: [],
+                      selectionSet: null,
+                    ),
+                  ]),
+                ),
+                _i1.FieldNode(
+                  name: _i1.NameNode(value: 'idToken'),
                   alias: null,
                   arguments: [],
                   directives: [],
                   selectionSet: null,
                 ),
                 _i1.FieldNode(
-                  name: _i1.NameNode(value: 'email'),
-                  alias: null,
-                  arguments: [],
-                  directives: [],
-                  selectionSet: null,
-                ),
-                _i1.FieldNode(
-                  name: _i1.NameNode(value: 'createdAt'),
+                  name: _i1.NameNode(value: 'refreshToken'),
                   alias: null,
                   arguments: [],
                   directives: [],

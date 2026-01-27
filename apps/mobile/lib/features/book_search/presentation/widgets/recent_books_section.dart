@@ -17,7 +17,7 @@ class RecentBooksSection extends StatelessWidget {
   });
 
   final List<RecentBookEntry> books;
-  final void Function(String bookId) onBookTap;
+  final void Function(RecentBookEntry book) onBookTap;
   final void Function(RecentBookEntry book)? onBookLongPress;
 
   @override
@@ -56,7 +56,7 @@ class RecentBooksSection extends StatelessWidget {
                 ),
                 child: _RecentBookCard(
                   book: book,
-                  onTap: () => onBookTap(book.bookId),
+                  onTap: () => onBookTap(book),
                   onLongPress:
                       onBookLongPress != null ? () => onBookLongPress!(book) : null,
                 ),

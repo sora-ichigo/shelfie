@@ -118,6 +118,7 @@ describe("BookShelfService", () => {
         isbn: "9781234567890",
         coverImageUrl: "https://example.com/cover.jpg",
         source: "rakuten",
+        readingStatus: "backlog",
       });
       expect(mockLogger.info).toHaveBeenCalledWith(
         "Book added to shelf successfully",

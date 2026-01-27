@@ -117,6 +117,9 @@ Serializers _$serializers = (Serializers().toBuilder()
           .serializer)
       ..add(GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
           .serializer)
+      ..add(
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+              .serializer)
       ..add(GRegisterUserData_registerUser__base.serializer)
       ..add(GRegisterUserInput.serializer)
       ..add(GRegisterUserReq.serializer)

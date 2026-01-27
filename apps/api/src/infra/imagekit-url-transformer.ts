@@ -16,7 +16,7 @@ export function transformImageKitUrl(
   const width = options.width ?? DEFAULT_AVATAR_SIZE;
   const height = options.height ?? DEFAULT_AVATAR_SIZE;
 
-  const transformations = `tr=w-${width},h-${height},cm-pad_resize,bg-FFFFFF,q-90,f-auto`;
+  const transformations = `tr=w-${width},h-${height},q-100,f-auto`;
 
   const uri = new URL(url);
   uri.search = transformations;

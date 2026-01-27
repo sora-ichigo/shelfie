@@ -55,6 +55,9 @@ class EmailField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
+
     return LabeledTextField(
       label: 'メールアドレス',
       child: TextFormField(
@@ -62,10 +65,48 @@ class EmailField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         autocorrect: false,
         onChanged: onChanged,
+        style: theme.textTheme.bodyLarge,
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: theme.textTheme.bodyLarge?.copyWith(
+            color: colors?.foregroundMuted,
+          ),
           errorText: errorText,
-          prefixIcon: const Icon(Icons.email_outlined),
+          filled: true,
+          fillColor: colors?.surface,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.accent ?? Colors.blue,
+              width: 2,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.error ?? Colors.red,
+              width: 1,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.sm),
+            borderSide: BorderSide(
+              color: colors?.error ?? Colors.red,
+              width: 2,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
         ),
       ),
     );

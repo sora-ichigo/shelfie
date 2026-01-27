@@ -231,7 +231,7 @@ void main() {
         await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
-        expect(find.text('現在のパスワードが正しくありません'), findsOneWidget);
+        expect(find.text('再度ログインしてください'), findsOneWidget);
       },
     );
 

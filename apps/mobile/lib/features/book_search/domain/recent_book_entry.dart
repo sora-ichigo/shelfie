@@ -24,6 +24,9 @@ class RecentBookEntry with _$RecentBookEntry {
 
     /// 閲覧した日時
     required DateTime viewedAt,
+
+    /// 書籍データの取得元（rakuten または google）
+    String? source,
   }) = _RecentBookEntry;
 
   factory RecentBookEntry.fromJson(Map<String, dynamic> json) =>

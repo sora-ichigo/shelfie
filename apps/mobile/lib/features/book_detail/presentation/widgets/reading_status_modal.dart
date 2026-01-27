@@ -7,7 +7,16 @@ import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
-/// 読書状態選択モーダルを表示する
+/// 読書状態選択モーダルのモード
+enum ReadingStatusModalMode {
+  /// 既存の本の読書状態を変更するモード
+  update,
+
+  /// 新しく本を追加する際に読書状態を選択するモード
+  addToShelf,
+}
+
+/// 読書状態選択モーダルを表示する（変更モード）
 ///
 /// [context] - BuildContext
 /// [currentStatus] - 現在の読書状態
@@ -23,6 +32,7 @@ Future<void> showReadingStatusModal({
     context: context,
     isScrollControlled: true,
     builder: (context) => _ReadingStatusModalContent(
+      mode: ReadingStatusModalMode.update,
       currentStatus: currentStatus,
       userBookId: userBookId,
       externalId: externalId,
@@ -30,16 +40,35 @@ Future<void> showReadingStatusModal({
   );
 }
 
+/// 読書状態選択モーダルを表示する（追加モード）
+///
+/// 選択された読書状態を返す。キャンセルされた場合は null を返す。
+Future<ReadingStatus?> showAddToShelfModal({
+  required BuildContext context,
+}) async {
+  return showModalBottomSheet<ReadingStatus>(
+    context: context,
+    isScrollControlled: true,
+    useRootNavigator: true,
+    builder: (context) => const _ReadingStatusModalContent(
+      mode: ReadingStatusModalMode.addToShelf,
+      currentStatus: ReadingStatus.backlog,
+    ),
+  );
+}
+
 class _ReadingStatusModalContent extends ConsumerStatefulWidget {
   const _ReadingStatusModalContent({
+    required this.mode,
     required this.currentStatus,
-    required this.userBookId,
-    required this.externalId,
+    this.userBookId,
+    this.externalId,
   });
 
+  final ReadingStatusModalMode mode;
   final ReadingStatus currentStatus;
-  final int userBookId;
-  final String externalId;
+  final int? userBookId;
+  final String? externalId;
 
   @override
   ConsumerState<_ReadingStatusModalContent> createState() =>
@@ -58,14 +87,19 @@ class _ReadingStatusModalContentState
     _selectedStatus = widget.currentStatus;
   }
 
-  bool get _hasChanges => _selectedStatus != widget.currentStatus;
+  bool get _isUpdateMode => widget.mode == ReadingStatusModalMode.update;
+  bool get _hasChanges =>
+      !_isUpdateMode || _selectedStatus != widget.currentStatus;
+
+  String get _title => _isUpdateMode ? '読書状態を変更' : '読書状態を選択';
+  String get _primaryButtonLabel => _isUpdateMode ? '保存' : '登録';
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return BaseBottomSheet(
-      title: '読書状態を変更',
+      title: _title,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -230,22 +264,27 @@ class _ReadingStatusModalContentState
                     color: Colors.white,
                   ),
                 )
-              : const Text('保存'),
+              : Text(_primaryButtonLabel),
         ),
       ),
     );
   }
 
   Future<void> _onSave() async {
+    if (!_isUpdateMode) {
+      Navigator.pop(context, _selectedStatus);
+      return;
+    }
+
     setState(() {
       _isSaving = true;
       _error = null;
     });
 
     final notifier =
-        ref.read(bookDetailNotifierProvider(widget.externalId).notifier);
+        ref.read(bookDetailNotifierProvider(widget.externalId!).notifier);
     final result = await notifier.updateReadingStatus(
-      userBookId: widget.userBookId,
+      userBookId: widget.userBookId!,
       status: _selectedStatus,
     );
 

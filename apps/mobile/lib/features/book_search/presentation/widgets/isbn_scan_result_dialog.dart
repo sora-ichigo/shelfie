@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/domain/isbn_extractor.dart';
@@ -79,12 +80,16 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
     final book = _book;
     if (book == null) return;
 
+    final selectedStatus = await showAddToShelfModal(context: context);
+    if (selectedStatus == null || !mounted) return;
+
     setState(() {
       _isAddingToShelf = true;
     });
 
-    final result =
-        await ref.read(bookSearchNotifierProvider.notifier).addToShelf(book);
+    final result = await ref
+        .read(bookSearchNotifierProvider.notifier)
+        .addToShelf(book, readingStatus: selectedStatus);
 
     if (!mounted) return;
 
@@ -101,6 +106,9 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         );
       },
       (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+        );
         Navigator.of(context).pop(true);
       },
     );
