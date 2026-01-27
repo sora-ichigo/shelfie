@@ -243,7 +243,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(failure.message),
+            content: Text(failure.userMessage),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -273,7 +273,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(failure.message),
+            content: Text(failure.userMessage),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
