@@ -82,7 +82,8 @@ jobs:
         run: |
           flutter build ipa \
             --export-options-plist=ios/ExportOptions.plist \
-            --build-number=${{ github.run_number }}
+            --build-number=${{ github.run_number }} \
+            --dart-define=API_BASE_URL=${{ vars.STG_API_BASE_URL }}
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
