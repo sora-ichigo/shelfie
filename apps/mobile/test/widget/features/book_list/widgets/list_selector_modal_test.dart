@@ -4,8 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
-import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
@@ -31,17 +29,6 @@ void main() {
       coverImages: coverImages,
       createdAt: now,
       updatedAt: now,
-    );
-  }
-
-  BookListItem createItem({
-    int id = 1,
-    int position = 0,
-  }) {
-    return BookListItem(
-      id: id,
-      position: position,
-      addedAt: now,
     );
   }
 
@@ -179,7 +166,7 @@ void main() {
     group('loading state', () {
       testWidgets('displays loading indicator while loading', (tester) async {
         when(() => mockRepository.getMyBookLists()).thenAnswer((_) async {
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 500));
           return right(createMyBookListsResult());
         });
 

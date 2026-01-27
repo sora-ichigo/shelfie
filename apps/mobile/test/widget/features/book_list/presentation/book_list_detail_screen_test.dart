@@ -5,8 +5,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
-import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
@@ -51,7 +49,6 @@ void main() {
 
   Widget buildTestWidget({
     required int listId,
-    BookListDetailState? initialState,
   }) {
     return ProviderScope(
       overrides: [
@@ -92,7 +89,7 @@ void main() {
       testWidgets('displays loading indicator while loading', (tester) async {
         when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
             .thenAnswer((_) async {
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 500));
           return right(createDetail());
         });
 

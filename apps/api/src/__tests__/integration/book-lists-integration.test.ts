@@ -813,7 +813,10 @@ describe("BookLists Feature Integration Tests", () => {
     });
 
     it("should return LIST_NOT_FOUND error when accessing non-existent list", async () => {
-      const testUser = await createTestUser("notfound@test.com", "notfound-uid");
+      const testUser = await createTestUser(
+        "notfound@test.com",
+        "notfound-uid",
+      );
 
       const result = await executeQuery<{
         bookListDetail: { id: number };

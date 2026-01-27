@@ -247,7 +247,7 @@ void main() {
             description: any(named: 'description'),
           ),
         ).thenAnswer((_) async {
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future<void>.delayed(const Duration(milliseconds: 500));
           return right(createBookList());
         });
 

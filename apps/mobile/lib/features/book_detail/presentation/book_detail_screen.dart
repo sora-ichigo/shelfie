@@ -176,7 +176,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         isRemovingFromShelf: _isRemovingFromShelf,
         onAddToShelfPressed: _onAddToShelfPressed,
         onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
-        onAddToListPressed: isInShelf ? () => _onAddToListPressed(shelfEntry!) : null,
+        onAddToListPressed: shelfEntry != null ? () => _onAddToListPressed(shelfEntry) : null,
         onLinkTap: _onLinkTap,
         headerBottomSlot: isInShelf
             ? Column(

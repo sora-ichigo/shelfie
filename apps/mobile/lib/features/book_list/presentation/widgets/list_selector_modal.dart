@@ -191,7 +191,7 @@ class _ListSelectorModalContentState
 
   void _onCreateNewList() {
     Navigator.of(context).pop();
-    // TODO: Navigate to create list screen
+    // TODO(shelfie): Navigate to create list screen
   }
 
   void _onListTap(BookListSummary list) {

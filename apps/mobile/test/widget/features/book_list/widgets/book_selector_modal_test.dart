@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
-import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
@@ -33,17 +31,6 @@ void main() {
       authors: authors,
       addedAt: now,
       coverImageUrl: coverImageUrl,
-    );
-  }
-
-  BookListItem createItem({
-    int id = 1,
-    int position = 0,
-  }) {
-    return BookListItem(
-      id: id,
-      position: position,
-      addedAt: now,
     );
   }
 

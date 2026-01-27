@@ -167,14 +167,15 @@ class _ReorderableBookListState extends ConsumerState<ReorderableBookList> {
   }
 
   void _onReorder(int oldIndex, int newIndex) {
+    var adjustedIndex = newIndex;
     setState(() {
       if (oldIndex < newIndex) {
-        newIndex -= 1;
+        adjustedIndex -= 1;
       }
       final item = _items.removeAt(oldIndex);
-      _items.insert(newIndex, item);
+      _items.insert(adjustedIndex, item);
     });
 
-    widget.onReordered?.call(oldIndex, newIndex);
+    widget.onReordered?.call(oldIndex, adjustedIndex);
   }
 }

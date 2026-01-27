@@ -71,9 +71,6 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   Widget _buildLoadedContent(BookListDetail list) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -108,15 +105,15 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onEditPressed(BookListDetail list) {
-    // TODO: Navigate to edit screen
+    // TODO(shelfie): Navigate to edit screen
   }
 
   void _onAddBooksPressed() {
-    // TODO: Show book selector modal
+    // TODO(shelfie): Show book selector modal
   }
 
   void _onItemTap(BookListItem item) {
-    // TODO: Navigate to book detail
+    // TODO(shelfie): Navigate to book detail
   }
 }
 
