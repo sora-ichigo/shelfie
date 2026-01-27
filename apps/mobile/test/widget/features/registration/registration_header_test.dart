@@ -5,7 +5,7 @@ import 'package:shelfie/features/registration/presentation/widgets/registration_
 
 void main() {
   group('RegistrationHeader', () {
-    testWidgets('戻るリンクが表示される', (tester) async {
+    testWidgets('戻るボタンが表示される', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.dark(),
@@ -15,11 +15,10 @@ void main() {
         ),
       );
 
-      expect(find.text('戻る'), findsOneWidget);
-      expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+      expect(find.byIcon(Icons.arrow_back_ios_new), findsOneWidget);
     });
 
-    testWidgets('戻るリンクをタップするとコールバックが呼ばれる', (tester) async {
+    testWidgets('戻るボタンをタップするとコールバックが呼ばれる', (tester) async {
       var callbackCalled = false;
 
       await tester.pumpWidget(
@@ -33,7 +32,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.text('戻る'));
+      await tester.tap(find.byIcon(Icons.arrow_back_ios_new));
       expect(callbackCalled, isTrue);
     });
 
