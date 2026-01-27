@@ -1,0 +1,22 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Fetch certificates and provisioning profiles (readonly)"
+  lane :fetch_certificates do
+    match(
+      type: "adhoc",
+      readonly: true
+    )
+  end
+
+  desc "Register new devices and regenerate profiles"
+  lane :register_new_devices do |options|
+    register_devices(
+      devices_file: options[:devices_file] || "./devices.txt"
+    )
+    match(
+      type: "adhoc",
+      force: true
+    )
+  end
+end

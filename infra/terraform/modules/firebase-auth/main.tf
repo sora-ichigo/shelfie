@@ -17,6 +17,7 @@ resource "google_project_service" "firebase_apis" {
   for_each = toset([
     "firebase.googleapis.com",
     "identitytoolkit.googleapis.com",
+    "firebaseappdistribution.googleapis.com",
   ])
   project            = var.project_id
   service            = each.key

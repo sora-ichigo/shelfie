@@ -1,0 +1,22 @@
+{
+  "feature_name": "firebase-app-distribution-ios",
+  "created_at": "2026-01-27T17:10:35+09:00",
+  "updated_at": "2026-01-27T20:15:00+09:00",
+  "language": "ja",
+  "phase": "tasks-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "ready_for_implementation": false
+}

@@ -1,0 +1,87 @@
+name: Deploy iOS to Firebase App Distribution
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'apps/mobile/**'
+      - '.github/workflows/deploy-ios.yml'
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'Release notes for this build'
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: deploy-ios-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FIREBASE_APP_ID: ${{ vars.FIREBASE_IOS_APP_ID }}
+  TESTER_GROUPS: ${{ vars.FIREBASE_TESTER_GROUPS }}
+  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+  MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+
+jobs:
+  build-and-distribute:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: apps/mobile/ios
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            apps/mobile/.dart_tool
+          key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
+          restore-keys: flutter-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Fetch certificates with Fastlane match
+        working-directory: apps/mobile/ios
+        run: bundle exec fastlane match adhoc --readonly
+
+      - name: Build IPA
+        run: |
+          flutter build ipa \
+            --export-options-plist=ios/ExportOptions.plist \
+            --build-number=${{ github.run_number }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.DEV_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.DEV_GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Distribute to Firebase App Distribution
+        env:
+          RELEASE_NOTES: ${{ inputs.release_notes || github.event.head_commit.message }}
+        run: |
+          firebase appdistribution:distribute build/ios/ipa/*.ipa \
+            --app "$FIREBASE_APP_ID" \
+            --groups "$TESTER_GROUPS" \
+            --release-notes "$RELEASE_NOTES"
