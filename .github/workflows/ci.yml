@@ -22,7 +22,6 @@ jobs:
       api: ${{ steps.filter.outputs.api }}
       web: ${{ steps.filter.outputs.web }}
       mobile: ${{ steps.filter.outputs.mobile }}
-      shared: ${{ steps.filter.outputs.shared }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -36,16 +35,10 @@ jobs:
               - 'apps/web/**'
             mobile:
               - 'apps/mobile/**'
-            shared:
-              - 'packages/shared/**'
-              - 'package.json'
-              - 'pnpm-lock.yaml'
-              - 'tsconfig.base.json'
-              - 'biome.json'
 
   api:
     needs: changes
-    if: ${{ needs.changes.outputs.api == 'true' || needs.changes.outputs.shared == 'true' }}
+    if: ${{ needs.changes.outputs.api == 'true' }}
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -85,7 +78,7 @@ jobs:
 
   web:
     needs: changes
-    if: ${{ needs.changes.outputs.web == 'true' || needs.changes.outputs.shared == 'true' }}
+    if: ${{ needs.changes.outputs.web == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
