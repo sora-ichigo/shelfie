@@ -127,7 +127,7 @@ class BookInfoSection extends StatelessWidget {
           onPressed: onAddToShelfPressed,
           icon: const Icon(Icons.add, color: Colors.white, size: 20),
           label: Text(
-            '本棚に追加',
+            'マイライブラリに追加',
             style: theme.textTheme.labelLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -173,7 +173,7 @@ class BookInfoSection extends StatelessWidget {
         onPressed: onRemoveFromShelfPressed,
         icon: const Icon(Icons.remove, color: Colors.white, size: 20),
         label: Text(
-          '本棚から削除',
+          'マイライブラリから削除',
           style: theme.textTheme.labelLarge?.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.w600,

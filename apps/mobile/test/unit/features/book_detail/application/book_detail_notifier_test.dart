@@ -115,7 +115,7 @@ void main() {
         expect(state.value!.title, equals('Test Book'));
       });
 
-      test('本棚追加済みの書籍の場合は ShelfState にエントリを登録する', () async {
+      test('マイライブラリ追加済みの書籍の場合は ShelfState にエントリを登録する', () async {
         final bookDetail = createMockBookDetail();
         final userBook = createMockUserBook(
           id: 42,

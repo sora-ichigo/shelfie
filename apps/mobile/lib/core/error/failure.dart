@@ -89,6 +89,6 @@ sealed class Failure with _$Failure {
         unexpected: (msg, stackTrace) => '予期しないエラーが発生しました',
         notFound: (msg) => 'お探しの情報が見つかりませんでした',
         forbidden: (msg) => 'この操作は許可されていません',
-        duplicateBook: (msg) => 'この書籍は既に本棚に追加されています',
+        duplicateBook: (msg) => 'この書籍は既にマイライブラリに追加されています',
       );
 }
