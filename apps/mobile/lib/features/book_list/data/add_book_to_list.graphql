@@ -1,0 +1,7 @@
+mutation AddBookToList($listId: Int!, $userBookId: Int!) {
+  addBookToList(listId: $listId, userBookId: $userBookId) {
+    id
+    position
+    addedAt
+  }
+}

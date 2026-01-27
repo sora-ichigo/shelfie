@@ -142,6 +142,81 @@ type BookDetail {
   userBook: UserBook
 }
 
+"""A book list created by a user"""
+type BookList {
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
+"""Detailed information about a book list including items"""
+type BookListDetail {
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The items in the book list"""
+  items: [BookListItem!]!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
+"""An item in a book list"""
+type BookListItem {
+  """When the book was added to the list"""
+  addedAt: DateTime!
+
+  """The unique identifier of the book list item"""
+  id: Int!
+
+  """The position of the item in the list"""
+  position: Int!
+}
+
+"""Summary information about a book list"""
+type BookListSummary {
+  """The number of books in the list"""
+  bookCount: Int!
+
+  """Cover images of books in the list (up to 4)"""
+  coverImages: [String!]!
+
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
 """Source of the book data"""
 enum BookSource {
   """Google Books API"""
@@ -149,6 +224,15 @@ enum BookSource {
 
   """Rakuten Books API"""
   RAKUTEN
+}
+
+"""Input for creating a new book list"""
+input CreateBookListInput {
+  """The description of the book list"""
+  description: String
+
+  """The title of the book list"""
+  title: String!
 }
 
 """Input for password change"""
@@ -211,8 +295,17 @@ input LoginUserInput {
 union MeResult = AuthErrorResult | User
 
 type Mutation {
+  """Add a book to a book list"""
+  addBookToList(listId: Int!, userBookId: Int!): BookListItem!
+
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
+
+  """Create a new book list"""
+  createBookList(input: CreateBookListInput!): BookList!
+
+  """Delete a book list"""
+  deleteBookList(listId: Int!): Boolean!
 
   """Change user password after verifying current password"""
   changePassword(input: ChangePasswordInput!): MutationChangePasswordResult
@@ -226,8 +319,14 @@ type Mutation {
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
 
+  """Remove a book from a book list"""
+  removeBookFromList(listId: Int!, userBookId: Int!): Boolean!
+
   """Remove a book from the user's shelf"""
   removeFromShelf(userBookId: Int!): Boolean!
+
+  """Reorder a book within a book list"""
+  reorderBookInList(itemId: Int!, listId: Int!, newPosition: Int!): Boolean!
 
   """Send password reset email to the specified address"""
   sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
@@ -243,6 +342,9 @@ type Mutation {
 
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
+
+  """Update an existing book list"""
+  updateBookList(input: UpdateBookListInput!): BookList!
 }
 
 union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
@@ -279,6 +381,27 @@ union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationErr
 
 type MutationUpdateProfileSuccess {
   data: User!
+}
+
+"""Input for querying user's book lists with pagination"""
+input MyBookListsInput {
+  """Number of items to return (default: 20)"""
+  limit: Int
+
+  """Number of items to skip (default: 0)"""
+  offset: Int
+}
+
+"""Result of user's book lists query with pagination info"""
+type MyBookListsResult {
+  """Whether there are more book lists to fetch"""
+  hasMore: Boolean!
+
+  """List of book list summaries"""
+  items: [BookListSummary!]!
+
+  """Total number of book lists"""
+  totalCount: Int!
 }
 
 """Input for querying user's book shelf"""
@@ -320,12 +443,18 @@ type Query {
     source: BookSource
   ): BookDetail!
 
+  """Get detailed information about a specific book list"""
+  bookListDetail(listId: Int!): BookListDetail!
+
   """署名付きアップロードパラメータを取得"""
   getUploadCredentials: QueryGetUploadCredentialsResult
   health: String
 
   """Get the currently authenticated user"""
   me: MeResult!
+
+  """Get all book lists created by the authenticated user"""
+  myBookLists(input: MyBookListsInput): MyBookListsResult!
 
   """Get books in the user's shelf with pagination, sorting, and search"""
   myShelf(input: MyShelfInput): MyShelfResult!
@@ -428,6 +557,18 @@ enum SortOrder {
 
   """Descending order"""
   DESC
+}
+
+"""Input for updating an existing book list"""
+input UpdateBookListInput {
+  """The new description of the book list"""
+  description: String
+
+  """The ID of the book list to update"""
+  listId: Int!
+
+  """The new title of the book list"""
+  title: String
 }
 
 """Input for updating user profile"""

@@ -88,6 +88,31 @@ class GBookSource extends EnumClass {
   static GBookSource valueOf(String name) => _$gBookSourceValueOf(name);
 }
 
+abstract class GCreateBookListInput
+    implements Built<GCreateBookListInput, GCreateBookListInputBuilder> {
+  GCreateBookListInput._();
+
+  factory GCreateBookListInput(
+          [void Function(GCreateBookListInputBuilder b) updates]) =
+      _$GCreateBookListInput;
+
+  String? get description;
+  String get title;
+  static Serializer<GCreateBookListInput> get serializer =>
+      _$gCreateBookListInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GCreateBookListInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GCreateBookListInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GCreateBookListInput.serializer,
+        json,
+      );
+}
+
 abstract class GChangePasswordInput
     implements Built<GChangePasswordInput, GChangePasswordInputBuilder> {
   GChangePasswordInput._();
@@ -134,6 +159,31 @@ abstract class GLoginUserInput
   static GLoginUserInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GLoginUserInput.serializer,
+        json,
+      );
+}
+
+abstract class GMyBookListsInput
+    implements Built<GMyBookListsInput, GMyBookListsInputBuilder> {
+  GMyBookListsInput._();
+
+  factory GMyBookListsInput(
+          [void Function(GMyBookListsInputBuilder b) updates]) =
+      _$GMyBookListsInput;
+
+  int? get limit;
+  int? get offset;
+  static Serializer<GMyBookListsInput> get serializer =>
+      _$gMyBookListsInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GMyBookListsInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GMyBookListsInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GMyBookListsInput.serializer,
         json,
       );
 }
@@ -287,6 +337,32 @@ class GSortOrder extends EnumClass {
   static BuiltSet<GSortOrder> get values => _$gSortOrderValues;
 
   static GSortOrder valueOf(String name) => _$gSortOrderValueOf(name);
+}
+
+abstract class GUpdateBookListInput
+    implements Built<GUpdateBookListInput, GUpdateBookListInputBuilder> {
+  GUpdateBookListInput._();
+
+  factory GUpdateBookListInput(
+          [void Function(GUpdateBookListInputBuilder b) updates]) =
+      _$GUpdateBookListInput;
+
+  String? get description;
+  int get listId;
+  String? get title;
+  static Serializer<GUpdateBookListInput> get serializer =>
+      _$gUpdateBookListInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GUpdateBookListInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GUpdateBookListInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GUpdateBookListInput.serializer,
+        json,
+      );
 }
 
 abstract class GUpdateProfileInput

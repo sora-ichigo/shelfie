@@ -35,7 +35,9 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GAuthErrorCode,
         GBookSource,
         GChangePasswordInput,
+        GCreateBookListInput,
         GLoginUserInput,
+        GMyBookListsInput,
         GMyShelfInput,
         GReadingStatus,
         GRefreshTokenInput,
@@ -43,6 +45,7 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GSendPasswordResetEmailInput,
         GShelfSortField,
         GSortOrder,
+        GUpdateBookListInput,
         GUpdateProfileInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
     show Iso8601DateTimeSerializer;
@@ -144,6 +147,60 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_reading_s
     show GUpdateReadingStatusReq;
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.var.gql.dart'
     show GUpdateReadingStatusVars;
+import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.data.gql.dart'
+    show GAddBookToListData, GAddBookToListData_addBookToList;
+import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.req.gql.dart'
+    show GAddBookToListReq;
+import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.var.gql.dart'
+    show GAddBookToListVars;
+import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.data.gql.dart'
+    show
+        GBookListDetailData,
+        GBookListDetailData_bookListDetail,
+        GBookListDetailData_bookListDetail_items;
+import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.req.gql.dart'
+    show GBookListDetailReq;
+import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.var.gql.dart'
+    show GBookListDetailVars;
+import 'package:shelfie/features/book_list/data/__generated__/create_book_list.data.gql.dart'
+    show GCreateBookListData, GCreateBookListData_createBookList;
+import 'package:shelfie/features/book_list/data/__generated__/create_book_list.req.gql.dart'
+    show GCreateBookListReq;
+import 'package:shelfie/features/book_list/data/__generated__/create_book_list.var.gql.dart'
+    show GCreateBookListVars;
+import 'package:shelfie/features/book_list/data/__generated__/delete_book_list.data.gql.dart'
+    show GDeleteBookListData;
+import 'package:shelfie/features/book_list/data/__generated__/delete_book_list.req.gql.dart'
+    show GDeleteBookListReq;
+import 'package:shelfie/features/book_list/data/__generated__/delete_book_list.var.gql.dart'
+    show GDeleteBookListVars;
+import 'package:shelfie/features/book_list/data/__generated__/my_book_lists.data.gql.dart'
+    show
+        GMyBookListsData,
+        GMyBookListsData_myBookLists,
+        GMyBookListsData_myBookLists_items;
+import 'package:shelfie/features/book_list/data/__generated__/my_book_lists.req.gql.dart'
+    show GMyBookListsReq;
+import 'package:shelfie/features/book_list/data/__generated__/my_book_lists.var.gql.dart'
+    show GMyBookListsVars;
+import 'package:shelfie/features/book_list/data/__generated__/remove_book_from_list.data.gql.dart'
+    show GRemoveBookFromListData;
+import 'package:shelfie/features/book_list/data/__generated__/remove_book_from_list.req.gql.dart'
+    show GRemoveBookFromListReq;
+import 'package:shelfie/features/book_list/data/__generated__/remove_book_from_list.var.gql.dart'
+    show GRemoveBookFromListVars;
+import 'package:shelfie/features/book_list/data/__generated__/reorder_book_in_list.data.gql.dart'
+    show GReorderBookInListData;
+import 'package:shelfie/features/book_list/data/__generated__/reorder_book_in_list.req.gql.dart'
+    show GReorderBookInListReq;
+import 'package:shelfie/features/book_list/data/__generated__/reorder_book_in_list.var.gql.dart'
+    show GReorderBookInListVars;
+import 'package:shelfie/features/book_list/data/__generated__/update_book_list.data.gql.dart'
+    show GUpdateBookListData, GUpdateBookListData_updateBookList;
+import 'package:shelfie/features/book_list/data/__generated__/update_book_list.req.gql.dart'
+    show GUpdateBookListReq;
+import 'package:shelfie/features/book_list/data/__generated__/update_book_list.var.gql.dart'
+    show GUpdateBookListVars;
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.data.gql.dart'
     show GAddBookToShelfData, GAddBookToShelfData_addBookToShelf;
 import 'package:shelfie/features/book_search/data/__generated__/add_book_to_shelf.req.gql.dart'
@@ -217,6 +274,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GAddBookInput,
+  GAddBookToListData,
+  GAddBookToListData_addBookToList,
+  GAddBookToListReq,
+  GAddBookToListVars,
   GAddBookToShelfData,
   GAddBookToShelfData_addBookToShelf,
   GAddBookToShelfReq,
@@ -227,6 +288,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GBookDetailData_bookDetail_userBook,
   GBookDetailReq,
   GBookDetailVars,
+  GBookListDetailData,
+  GBookListDetailData_bookListDetail,
+  GBookListDetailData_bookListDetail_items,
+  GBookListDetailReq,
+  GBookListDetailVars,
   GBookSource,
   GChangePasswordData,
   GChangePasswordData_changePassword__asAuthError,
@@ -236,6 +302,14 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GChangePasswordInput,
   GChangePasswordReq,
   GChangePasswordVars,
+  GCreateBookListData,
+  GCreateBookListData_createBookList,
+  GCreateBookListInput,
+  GCreateBookListReq,
+  GCreateBookListVars,
+  GDeleteBookListData,
+  GDeleteBookListReq,
+  GDeleteBookListVars,
   GGetMeData,
   GGetMeData_me__asAuthErrorResult,
   GGetMeData_me__asUser,
@@ -264,6 +338,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserInput,
   GLoginUserReq,
   GLoginUserVars,
+  GMyBookListsData,
+  GMyBookListsData_myBookLists,
+  GMyBookListsData_myBookLists_items,
+  GMyBookListsInput,
+  GMyBookListsReq,
+  GMyBookListsVars,
   GMyShelfData,
   GMyShelfData_myShelf,
   GMyShelfData_myShelf_items,
@@ -292,9 +372,15 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRegisterUserInput,
   GRegisterUserReq,
   GRegisterUserVars,
+  GRemoveBookFromListData,
+  GRemoveBookFromListReq,
+  GRemoveBookFromListVars,
   GRemoveFromShelfData,
   GRemoveFromShelfReq,
   GRemoveFromShelfVars,
+  GReorderBookInListData,
+  GReorderBookInListReq,
+  GReorderBookInListVars,
   GSearchBookByISBNData,
   GSearchBookByISBNData_searchBookByISBN,
   GSearchBookByISBNReq,
@@ -314,6 +400,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSendPasswordResetEmailVars,
   GShelfSortField,
   GSortOrder,
+  GUpdateBookListData,
+  GUpdateBookListData_updateBookList,
+  GUpdateBookListInput,
+  GUpdateBookListReq,
+  GUpdateBookListVars,
   GUpdateBookRatingData,
   GUpdateBookRatingData_updateBookRating,
   GUpdateBookRatingReq,

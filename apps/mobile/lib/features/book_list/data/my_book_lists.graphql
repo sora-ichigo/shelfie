@@ -1,0 +1,15 @@
+query MyBookLists($input: MyBookListsInput) {
+  myBookLists(input: $input) {
+    items {
+      id
+      title
+      description
+      bookCount
+      coverImages
+      createdAt
+      updatedAt
+    }
+    totalCount
+    hasMore
+  }
+}

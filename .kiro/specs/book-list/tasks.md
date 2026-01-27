@@ -93,15 +93,15 @@
   - position 再計算のテストを作成する
   - _Requirements: 1.4, 2.4, 4.5_
 
-- [ ] 6. Mobile GraphQL 定義とコード生成
-- [ ] 6.1 GraphQL オペレーション定義を作成する
+- [x] 6. Mobile GraphQL 定義とコード生成
+- [x] 6.1 GraphQL オペレーション定義を作成する
   - myBookLists クエリの .graphql ファイルを作成する
   - bookListDetail クエリの .graphql ファイルを作成する
   - createBookList, updateBookList, deleteBookList ミューテーションを定義する
   - addBookToList, removeBookFromList, reorderBookInList ミューテーションを定義する
   - _Requirements: 1.2, 2.2, 3.2, 4.2, 5.1, 6.2, 8.1, 9.1_
 
-- [ ] 6.2 Ferry コード生成を実行する
+- [x] 6.2 Ferry コード生成を実行する
   - build_runner で GraphQL 型と操作クラスを生成する
   - 生成された型が設計と一致することを確認する
   - _Requirements: 10.1, 10.2_
