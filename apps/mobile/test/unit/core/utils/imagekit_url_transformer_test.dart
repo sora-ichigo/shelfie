@@ -14,14 +14,12 @@ void main() {
         expect(result, contains('h-100'));
       });
 
-      test('パディングリサイズパラメータが追加される', () {
+      test('品質とフォーマットパラメータが追加される', () {
         const url = 'https://ik.imagekit.io/test/avatar.jpg';
 
         final result = ImageKitUrlTransformer.transformUrl(url, size: 100);
 
-        expect(result, contains('cm-pad_resize'));
-        expect(result, contains('bg-FFFFFF'));
-        expect(result, contains('q-90'));
+        expect(result, contains('q-100'));
         expect(result, contains('f-auto'));
       });
 

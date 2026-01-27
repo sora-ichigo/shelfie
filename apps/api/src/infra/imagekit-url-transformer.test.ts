@@ -20,7 +20,7 @@ describe("transformImageKitUrl", () => {
   it("adds default 256x256 transformation to ImageKit URL", () => {
     const result = transformImageKitUrl(sampleImageKitUrl);
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,q-100,f-auto",
     );
   });
 
@@ -30,7 +30,7 @@ describe("transformImageKitUrl", () => {
       height: 256,
     });
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,q-100,f-auto",
     );
   });
 
@@ -39,7 +39,7 @@ describe("transformImageKitUrl", () => {
       "https://ik.imagekit.io/demo/sample-avatar.jpg?existing=param";
     const result = transformImageKitUrl(urlWithParams);
     expect(result).toBe(
-      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,cm-pad_resize,bg-FFFFFF,q-90,f-auto",
+      "https://ik.imagekit.io/demo/sample-avatar.jpg?tr=w-256,h-256,q-100,f-auto",
     );
   });
 
