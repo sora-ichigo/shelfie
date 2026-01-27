@@ -334,7 +334,7 @@ class _BookQuickActionsModalContentState
           theme: theme,
           appColors: appColors,
           icon: Icons.delete_outline,
-          label: '本棚から削除',
+          label: 'マイライブラリから削除',
           isDestructive: true,
           onTap: _onDeleteTap,
         ),
@@ -408,7 +408,7 @@ class _BookQuickActionsModalContentState
       (_) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('本棚から削除しました')),
+            const SnackBar(content: Text('マイライブラリから削除しました')),
           );
           Navigator.pop(context);
         }

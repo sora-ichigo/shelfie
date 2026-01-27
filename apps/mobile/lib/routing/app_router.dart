@@ -453,7 +453,7 @@ class _AppTabBar extends StatelessWidget {
           _TabItem(
             icon: CupertinoIcons.book,
             activeIcon: CupertinoIcons.book_fill,
-            label: '本棚',
+            label: 'ライブラリ',
             isSelected: selectedIndex == 0,
             onTap: () => onTap(0),
           ),

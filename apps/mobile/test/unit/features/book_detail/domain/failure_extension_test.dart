@@ -75,7 +75,7 @@ void main() {
       test('should provide user-friendly message', () {
         const failure = DuplicateBookFailure(message: 'Duplicate');
 
-        expect(failure.userMessage, equals('この書籍は既に本棚に追加されています'));
+        expect(failure.userMessage, equals('この書籍は既にマイライブラリに追加されています'));
       });
 
       test('should support pattern matching with when', () {

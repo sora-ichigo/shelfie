@@ -213,8 +213,8 @@ void main() {
     });
   });
 
-  group('BookDetailScreen 本棚追加状態', () {
-    testWidgets('未追加時は「本棚に追加」ボタンが表示される', (tester) async {
+  group('BookDetailScreen マイライブラリ追加状態', () {
+    testWidgets('未追加時は「マイライブラリに追加」ボタンが表示される', (tester) async {
       when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
@@ -228,7 +228,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      expect(find.text('本棚に追加'), findsOneWidget);
+      expect(find.text('マイライブラリに追加'), findsOneWidget);
     });
 
     testWidgets('追加済み時は読書記録セクションが表示される', (tester) async {
@@ -251,12 +251,12 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('積読'), findsOneWidget);
-      expect(find.text('本棚に追加'), findsNothing);
+      expect(find.text('マイライブラリに追加'), findsNothing);
     });
   });
 
-  group('BookDetailScreen 本棚操作ローディング', () {
-    testWidgets('本棚追加中はボタンにローディングインジケーターが表示される',
+  group('BookDetailScreen マイライブラリ操作ローディング', () {
+    testWidgets('マイライブラリ追加中はボタンにローディングインジケーターが表示される',
         (tester) async {
       when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
           .thenAnswer((_) async => right((
@@ -282,11 +282,11 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('本棚に追加'));
+      await tester.tap(find.text('マイライブラリに追加'));
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('本棚に追加'), findsNothing);
+      expect(find.text('マイライブラリに追加'), findsNothing);
 
       addCompleter.complete(right(book_search.UserBook(
         id: 1,
@@ -298,7 +298,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('本棚削除中はボタンにローディングインジケーターが表示される',
+    testWidgets('マイライブラリ削除中はボタンにローディングインジケーターが表示される',
         (tester) async {
       final userBook = UserBook(
         id: 1,
@@ -323,17 +323,17 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('本棚から削除'));
+      await tester.tap(find.text('マイライブラリから削除'));
       await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('本棚から削除'), findsNothing);
+      expect(find.text('マイライブラリから削除'), findsNothing);
 
       removeCompleter.complete(right(true));
       await tester.pumpAndSettle();
     });
 
-    testWidgets('本棚追加完了後はローディングが消えてボタンが更新される',
+    testWidgets('マイライブラリ追加完了後はローディングが消えてボタンが更新される',
         (tester) async {
       when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
           .thenAnswer((_) async => right((
@@ -364,11 +364,11 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('本棚に追加'));
+      await tester.tap(find.text('マイライブラリに追加'));
       await tester.pumpAndSettle();
 
       expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.text('本棚から削除'), findsOneWidget);
+      expect(find.text('マイライブラリから削除'), findsOneWidget);
     });
   });
 }

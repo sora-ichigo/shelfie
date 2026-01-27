@@ -305,7 +305,7 @@ void main() {
     });
 
     group('addBookToShelf', () {
-      test('本棚追加成功時は Right(UserBook) を返す', () async {
+      test('マイライブラリ追加成功時は Right(UserBook) を返す', () async {
         final mockData = GAddBookToShelfData(
           (b) => b
             ..addBookToShelf = GAddBookToShelfData_addBookToShelf(

@@ -164,7 +164,7 @@ void main() {
         expect(find.byType(Column), findsWidgets);
       });
 
-      testWidgets('ScreenHeader に「本棚」タイトルを表示する', (tester) async {
+      testWidgets('ScreenHeader に「マイライブラリ」タイトルを表示する', (tester) async {
         await tester.pumpWidget(buildTestApp(
           initialState: BookShelfState.loaded(
             books: const [],
@@ -179,7 +179,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(ScreenHeader), findsOneWidget);
-        expect(find.text('本棚'), findsOneWidget);
+        expect(find.text('マイライブラリ'), findsOneWidget);
       });
 
       testWidgets('プロフィールアイコンをタップするとアカウント画面へ遷移する', (tester) async {

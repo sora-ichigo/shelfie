@@ -82,7 +82,7 @@ void main() {
       expect(find.text('テスト書籍'), findsOneWidget);
       expect(find.text('著者A, 著者B'), findsOneWidget);
       expect(find.text('テスト出版社'), findsOneWidget);
-      expect(find.text('本棚に追加'), findsOneWidget);
+      expect(find.text('マイライブラリに追加'), findsOneWidget);
     });
 
     testWidgets('displays not found message when book is not found',
@@ -140,7 +140,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(FilledButton, '本棚に追加'), findsOneWidget);
+      expect(find.widgetWithText(FilledButton, 'マイライブラリに追加'), findsOneWidget);
     });
 
     testWidgets('can close dialog with cancel button', (tester) async {
