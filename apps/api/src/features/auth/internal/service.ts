@@ -367,11 +367,10 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
       try {
         tokens = await firebaseAuth.signIn(input.email, input.password);
       } catch (error) {
-        logger.error(
-          "Failed to sign in after registration",
-          error as Error,
-          { feature: "auth", firebaseUid: firebaseUser.uid },
-        );
+        logger.error("Failed to sign in after registration", error as Error, {
+          feature: "auth",
+          firebaseUid: firebaseUser.uid,
+        });
         return err({
           code: "INTERNAL_ERROR",
           message: "登録後のログインに失敗しました",
