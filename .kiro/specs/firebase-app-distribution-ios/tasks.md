@@ -17,7 +17,7 @@
   - _Requirements: 7.2, 7.3_
 
 - [ ] 2. Fastlane 証明書管理環境をセットアップする
-- [ ] 2.1 Fastlane 設定ファイルを作成する
+- [x] 2.1 Fastlane 設定ファイルを作成する
   - `apps/mobile/ios/fastlane/` ディレクトリを作成
   - Matchfile で証明書リポジトリ URL (`https://github.com/sora-ichigo/shelfie-certificates`)、storage_mode、app_identifier を設定
   - Appfile で app_identifier (`app.shelfie.shelfie`) を設定
@@ -25,15 +25,16 @@
   - Gemfile に fastlane 依存関係を追加
   - _Requirements: 2.1, 2.2, 4.1, 4.2, 4.4, 4.5_
 
-- [ ] 2.2 証明書リポジトリを初期化する
+- [x] 2.2 証明書リポジトリを初期化する
   - Apple Developer Portal で Ad Hoc 配布用の証明書と Provisioning Profile を準備
   - `fastlane match init` で証明書リポジトリ構成を初期化
   - `fastlane match adhoc` で証明書と Provisioning Profile を暗号化してリポジトリに保存
   - MATCH_PASSWORD を安全に記録（GitHub Secrets 設定用）
   - 証明書リポジトリが Private に設定されていることを確認
+  - **Note**: 手動実行手順は `apps/mobile/ios/fastlane/SETUP.md` に記載
   - _Requirements: 2.1, 4.1, 4.2_
 
-- [ ] 3. iOS Ad Hoc 配布用のエクスポート設定を作成する
+- [x] 3. iOS Ad Hoc 配布用のエクスポート設定を作成する
   - `apps/mobile/ios/` に ExportOptions.plist を作成
   - Ad Hoc 配布方式 (`method: ad-hoc`) を指定
   - 手動署名スタイル (`signingStyle: manual`) を設定
@@ -42,8 +43,8 @@
   - ローカルビルドで IPA 生成が正常に動作することを確認
   - _Requirements: 2.1, 2.2_
 
-- [ ] 4. GitHub Actions iOS ビルド・配信ワークフローを実装する
-- [ ] 4.1 ワークフロー基本構成を定義する
+- [x] 4. GitHub Actions iOS ビルド・配信ワークフローを実装する
+- [x] 4.1 ワークフロー基本構成を定義する
   - `.github/workflows/deploy-ios.yml` を作成
   - master ブランチへのプッシュと `apps/mobile/**` パスの変更をトリガーに設定
   - `workflow_dispatch` による手動実行を有効化し、ブランチ選択とカスタムリリースノート入力を設定
@@ -53,7 +54,7 @@
   - 環境変数（`FIREBASE_APP_ID`, `TESTER_GROUPS`, `MATCH_PASSWORD`, `MATCH_GIT_BASIC_AUTHORIZATION`）を定義
   - _Requirements: 3.1, 3.3, 8.1, 8.2, 8.3_
 
-- [ ] 4.2 環境セットアップステップを実装する
+- [x] 4.2 環境セットアップステップを実装する
   - コードのチェックアウトステップを追加
   - `jdx/mise-action` を使用して Flutter SDK をセットアップ
   - `ruby/setup-ruby` を使用して Ruby 環境をセットアップし、Bundler キャッシュを有効化
@@ -61,21 +62,21 @@
   - `flutter pub get` で依存関係をインストール
   - _Requirements: 3.4, 3.5_
 
-- [ ] 4.3 Fastlane match による証明書取得ステップを実装する
+- [x] 4.3 Fastlane match による証明書取得ステップを実装する
   - working-directory を `apps/mobile/ios` に設定
   - `bundle exec fastlane match adhoc --readonly` で証明書と Provisioning Profile を取得
   - Fastlane match が自動的に一時 Keychain を作成し、証明書をインポート
   - 証明書取得失敗時に明確なエラーメッセージを出力
   - _Requirements: 2.2, 2.3, 4.3, 4.4, 4.5_
 
-- [ ] 4.4 iOS ビルドステップを実装する
+- [x] 4.4 iOS ビルドステップを実装する
   - `flutter build ipa --export-options-plist=ios/ExportOptions.plist` でビルド実行
   - `--build-number=${{ github.run_number }}` でビルド番号を設定
   - ビルド成功時に IPA ファイルパスを後続ステップで使用可能にする
   - Provisioning Profile 期限切れ時に明確なエラーメッセージを出力
   - _Requirements: 2.4, 6.1_
 
-- [ ] 4.5 Firebase App Distribution アップロードステップを実装する
+- [x] 4.5 Firebase App Distribution アップロードステップを実装する
   - `google-github-actions/auth` で Workload Identity Federation 認証を実行
   - GitHub Variables (`DEV_GCP_WORKLOAD_IDENTITY_PROVIDER`, `DEV_GCP_SERVICE_ACCOUNT`) を参照
   - npm 経由で Firebase CLI をインストール

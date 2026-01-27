@@ -1,0 +1,7 @@
+git_url("https://github.com/sora-ichigo/shelfie-certificates")
+storage_mode("git")
+
+type("adhoc")
+app_identifier("app.shelfie.shelfie")
+
+git_basic_authorization(ENV["MATCH_GIT_BASIC_AUTHORIZATION"])
