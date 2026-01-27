@@ -432,7 +432,9 @@ describe("BookMapper", () => {
 
       const book = mapGoogleBooksVolume(volume);
 
-      expect(book.coverImageUrl).toBe("https://example.com/thumbnail.jpg?zoom=2");
+      expect(book.coverImageUrl).toBe(
+        "https://example.com/thumbnail.jpg?zoom=2",
+      );
     });
 
     it("thumbnail がない場合は smallThumbnail を使用する", () => {
