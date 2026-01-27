@@ -18,6 +18,9 @@ input AddBookInput {
   """The publisher of the book"""
   publisher: String
 
+  """The initial reading status of the book (defaults to backlog)"""
+  readingStatus: ReadingStatus
+
   """The source of the book data (rakuten or google)"""
   source: BookSource
 
@@ -368,7 +371,7 @@ type MutationRefreshTokenSuccess {
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
-  data: User!
+  data: LoginResult!
 }
 
 union MutationSendPasswordResetEmailResult = AuthError | MutationSendPasswordResetEmailSuccess

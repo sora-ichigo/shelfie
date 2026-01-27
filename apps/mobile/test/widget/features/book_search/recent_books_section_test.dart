@@ -33,7 +33,7 @@ void main() {
 
     Widget buildTestWidget({
       required List<RecentBookEntry> books,
-      void Function(String)? onBookTap,
+      void Function(RecentBookEntry)? onBookTap,
       void Function(RecentBookEntry)? onBookLongPress,
     }) {
       return ProviderScope(
@@ -68,12 +68,13 @@ void main() {
       expect(find.text('最近チェックした本'), findsNothing);
     });
 
-    testWidgets('項目タップで onBookTap が bookId と共に呼ばれる', (tester) async {
-      String? tappedBookId;
+    testWidgets('項目タップで onBookTap が RecentBookEntry と共に呼ばれる',
+        (tester) async {
+      RecentBookEntry? tappedBook;
       await tester.pumpWidget(
         buildTestWidget(
           books: testBooks,
-          onBookTap: (bookId) => tappedBookId = bookId,
+          onBookTap: (book) => tappedBook = book,
         ),
       );
       await tester.pumpAndSettle();
@@ -81,7 +82,8 @@ void main() {
       await tester.tap(find.text('Flutter Complete Guide'));
       await tester.pumpAndSettle();
 
-      expect(tappedBookId, equals('book1'));
+      expect(tappedBook, isNotNull);
+      expect(tappedBook!.bookId, equals('book1'));
     });
 
     testWidgets('カバー画像がない場合はプレースホルダーアイコンを表示', (tester) async {

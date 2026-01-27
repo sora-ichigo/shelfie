@@ -8,8 +8,7 @@ class ImageKitUrlTransformer {
     if (!isImageKitUrl(url)) return url;
 
     final targetSize = size ?? _defaultSize;
-    final transformations =
-        'tr=w-$targetSize,h-$targetSize,cm-pad_resize,bg-FFFFFF,q-90,f-auto';
+    final transformations = 'tr=w-$targetSize,h-$targetSize,q-100,f-auto';
 
     final uri = Uri.parse(url);
 

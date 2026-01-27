@@ -35,6 +35,9 @@ mixin _$RecentBookEntry {
   /// 閲覧した日時
   DateTime get viewedAt => throw _privateConstructorUsedError;
 
+  /// 書籍データの取得元（rakuten または google）
+  String? get source => throw _privateConstructorUsedError;
+
   /// Serializes this RecentBookEntry to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -56,7 +59,8 @@ abstract class $RecentBookEntryCopyWith<$Res> {
       String title,
       List<String> authors,
       String? coverImageUrl,
-      DateTime viewedAt});
+      DateTime viewedAt,
+      String? source});
 }
 
 /// @nodoc
@@ -79,6 +83,7 @@ class _$RecentBookEntryCopyWithImpl<$Res, $Val extends RecentBookEntry>
     Object? authors = null,
     Object? coverImageUrl = freezed,
     Object? viewedAt = null,
+    Object? source = freezed,
   }) {
     return _then(_value.copyWith(
       bookId: null == bookId
@@ -101,6 +106,10 @@ class _$RecentBookEntryCopyWithImpl<$Res, $Val extends RecentBookEntry>
           ? _value.viewedAt
           : viewedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -118,7 +127,8 @@ abstract class _$$RecentBookEntryImplCopyWith<$Res>
       String title,
       List<String> authors,
       String? coverImageUrl,
-      DateTime viewedAt});
+      DateTime viewedAt,
+      String? source});
 }
 
 /// @nodoc
@@ -139,6 +149,7 @@ class __$$RecentBookEntryImplCopyWithImpl<$Res>
     Object? authors = null,
     Object? coverImageUrl = freezed,
     Object? viewedAt = null,
+    Object? source = freezed,
   }) {
     return _then(_$RecentBookEntryImpl(
       bookId: null == bookId
@@ -161,6 +172,10 @@ class __$$RecentBookEntryImplCopyWithImpl<$Res>
           ? _value.viewedAt
           : viewedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -173,7 +188,8 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
       required this.title,
       required final List<String> authors,
       this.coverImageUrl,
-      required this.viewedAt})
+      required this.viewedAt,
+      this.source})
       : _authors = authors;
 
   factory _$RecentBookEntryImpl.fromJson(Map<String, dynamic> json) =>
@@ -206,9 +222,13 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
   @override
   final DateTime viewedAt;
 
+  /// 書籍データの取得元（rakuten または google）
+  @override
+  final String? source;
+
   @override
   String toString() {
-    return 'RecentBookEntry(bookId: $bookId, title: $title, authors: $authors, coverImageUrl: $coverImageUrl, viewedAt: $viewedAt)';
+    return 'RecentBookEntry(bookId: $bookId, title: $title, authors: $authors, coverImageUrl: $coverImageUrl, viewedAt: $viewedAt, source: $source)';
   }
 
   @override
@@ -222,13 +242,20 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
             (identical(other.coverImageUrl, coverImageUrl) ||
                 other.coverImageUrl == coverImageUrl) &&
             (identical(other.viewedAt, viewedAt) ||
-                other.viewedAt == viewedAt));
+                other.viewedAt == viewedAt) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, bookId, title,
-      const DeepCollectionEquality().hash(_authors), coverImageUrl, viewedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      bookId,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      coverImageUrl,
+      viewedAt,
+      source);
 
   /// Create a copy of RecentBookEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -253,7 +280,8 @@ abstract class _RecentBookEntry implements RecentBookEntry {
       required final String title,
       required final List<String> authors,
       final String? coverImageUrl,
-      required final DateTime viewedAt}) = _$RecentBookEntryImpl;
+      required final DateTime viewedAt,
+      final String? source}) = _$RecentBookEntryImpl;
 
   factory _RecentBookEntry.fromJson(Map<String, dynamic> json) =
       _$RecentBookEntryImpl.fromJson;
@@ -277,6 +305,10 @@ abstract class _RecentBookEntry implements RecentBookEntry {
   /// 閲覧した日時
   @override
   DateTime get viewedAt;
+
+  /// 書籍データの取得元（rakuten または google）
+  @override
+  String? get source;
 
   /// Create a copy of RecentBookEntry
   /// with the given fields replaced by the non-null parameter values.

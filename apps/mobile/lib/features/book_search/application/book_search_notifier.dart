@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
@@ -92,7 +93,10 @@ class BookSearchNotifier extends _$BookSearchNotifier {
     }
   }
 
-  Future<Either<Failure, UserBook>> addToShelf(Book book) async {
+  Future<Either<Failure, UserBook>> addToShelf(
+    Book book, {
+    ReadingStatus readingStatus = ReadingStatus.backlog,
+  }) async {
     return ref.read(shelfStateProvider.notifier).addToShelf(
       externalId: book.id,
       title: book.title,
@@ -102,6 +106,7 @@ class BookSearchNotifier extends _$BookSearchNotifier {
       isbn: book.isbn,
       coverImageUrl: book.coverImageUrl,
       source: book.source,
+      readingStatus: readingStatus,
     );
   }
 

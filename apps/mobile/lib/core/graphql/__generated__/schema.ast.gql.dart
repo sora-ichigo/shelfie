@@ -66,6 +66,15 @@ const AddBookInput = _i1.InputObjectTypeDefinitionNode(
       defaultValue: null,
     ),
     _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'readingStatus'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ReadingStatus'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'source'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -1382,7 +1391,7 @@ const MutationRegisterUserSuccess = _i1.ObjectTypeDefinitionNode(
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'User'),
+        name: _i1.NameNode(value: 'LoginResult'),
         isNonNull: true,
       ),
     )

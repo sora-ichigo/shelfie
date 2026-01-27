@@ -65,6 +65,7 @@ abstract class GAddBookToShelfData_addBookToShelf
   String? get coverImageUrl;
   _i2.GBookSource get source;
   DateTime get addedAt;
+  _i2.GReadingStatus get readingStatus;
   static Serializer<GAddBookToShelfData_addBookToShelf> get serializer =>
       _$gAddBookToShelfDataAddBookToShelfSerializer;
 

@@ -26,6 +26,7 @@ class RecentBooksNotifier extends _$RecentBooksNotifier {
     required String title,
     required List<String> authors,
     String? coverImageUrl,
+    String? source,
   }) async {
     if (bookId.isEmpty || title.isEmpty || authors.isEmpty) {
       return;
@@ -38,6 +39,7 @@ class RecentBooksNotifier extends _$RecentBooksNotifier {
       authors: authors,
       coverImageUrl: coverImageUrl,
       viewedAt: DateTime.now(),
+      source: source,
     );
 
     await repository.add(entry);

@@ -48,7 +48,7 @@ class PasswordSettingsScreen extends ConsumerWidget {
         } else if (next is PasswordSettingsError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(next.failure.message),
+              content: Text(next.failure.userMessage),
               backgroundColor: colors?.error ?? Colors.red,
             ),
           );

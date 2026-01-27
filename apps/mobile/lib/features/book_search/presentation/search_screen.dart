@@ -8,6 +8,7 @@ import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
@@ -183,8 +184,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           child: SingleChildScrollView(
             child: RecentBooksSection(
               books: recentBooks,
-              onBookTap: (bookId) =>
-                  context.push(AppRoutes.bookDetail(bookId: bookId)),
+              onBookTap: (book) => context.push(
+                AppRoutes.bookDetail(
+                  bookId: book.bookId,
+                  source: book.source != null
+                      ? BookSource.values.byName(book.source!)
+                      : null,
+                ),
+              ),
               onBookLongPress: _onRecentBookLongPress,
             ),
           ),
@@ -207,6 +214,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Future<void> _onRecentBookAddToShelf(RecentBookEntry book) async {
     if (_addingBooks.contains(book.bookId)) return;
 
+    final selectedStatus = await showAddToShelfModal(context: context);
+    if (selectedStatus == null || !mounted) return;
+
     setState(() {
       _addingBooks.add(book.bookId);
     });
@@ -216,6 +226,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           title: book.title,
           authors: book.authors,
           coverImageUrl: book.coverImageUrl,
+          readingStatus: selectedStatus,
         );
 
     if (!mounted) return;
@@ -235,7 +246,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       },
       (_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('マイライブラリに追加しました')),
+          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
         );
       },
     );
@@ -398,12 +409,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Future<void> _onAddToShelf(Book book) async {
     if (_addingBooks.contains(book.id)) return;
 
+    final selectedStatus = await showAddToShelfModal(context: context);
+    if (selectedStatus == null || !mounted) return;
+
     setState(() {
       _addingBooks.add(book.id);
     });
 
-    final result =
-        await ref.read(bookSearchNotifierProvider.notifier).addToShelf(book);
+    final result = await ref
+        .read(bookSearchNotifierProvider.notifier)
+        .addToShelf(book, readingStatus: selectedStatus);
 
     if (!mounted) return;
 
@@ -420,7 +435,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (_) {},
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+        );
+      },
     );
   }
 
@@ -450,7 +469,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (_) {},
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('マイライブラリから削除しました')),
+        );
+      },
     );
   }
 }
