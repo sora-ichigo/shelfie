@@ -294,7 +294,8 @@ export function registerBooksTypes(builder: Builder): void {
       readingStatus: t.field({
         type: ReadingStatusRef,
         required: false,
-        description: "The initial reading status of the book (defaults to backlog)",
+        description:
+          "The initial reading status of the book (defaults to backlog)",
       }),
     }),
   });
