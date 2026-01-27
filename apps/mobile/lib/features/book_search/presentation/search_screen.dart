@@ -183,8 +183,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           child: SingleChildScrollView(
             child: RecentBooksSection(
               books: recentBooks,
-              onBookTap: (bookId) =>
-                  context.push(AppRoutes.bookDetail(bookId: bookId)),
+              onBookTap: (book) => context.push(
+                AppRoutes.bookDetail(
+                  bookId: book.bookId,
+                  source: book.source != null
+                      ? BookSource.values.byName(book.source!)
+                      : null,
+                ),
+              ),
               onBookLongPress: _onRecentBookLongPress,
             ),
           ),

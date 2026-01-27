@@ -340,6 +340,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       title: bookDetail.title,
       authors: bookDetail.authors,
       coverImageUrl: bookDetail.thumbnailUrl,
+      source: widget.source?.name,
     );
   }
 }
