@@ -167,7 +167,7 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
     final packageInfo = await PackageInfo.fromPlatform();
     if (mounted) {
       setState(() {
-        _version = 'v${packageInfo.version}';
+        _version = 'v${packageInfo.version} (${packageInfo.buildNumber})';
       });
     }
   }

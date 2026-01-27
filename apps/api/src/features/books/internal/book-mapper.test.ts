@@ -310,7 +310,7 @@ describe("BookMapper", () => {
         publisher: "テスト出版社",
         publishedDate: "2024-01-15",
         isbn: "9784123456789",
-        coverImageUrl: "https://books.google.com/thumbnail.jpg",
+        coverImageUrl: "https://books.google.com/thumbnail.jpg?zoom=2",
         source: "google",
       } satisfies Book);
     });
@@ -432,7 +432,9 @@ describe("BookMapper", () => {
 
       const book = mapGoogleBooksVolume(volume);
 
-      expect(book.coverImageUrl).toBe("https://example.com/thumbnail.jpg");
+      expect(book.coverImageUrl).toBe(
+        "https://example.com/thumbnail.jpg?zoom=2",
+      );
     });
 
     it("thumbnail がない場合は smallThumbnail を使用する", () => {
@@ -447,7 +449,7 @@ describe("BookMapper", () => {
 
       const book = mapGoogleBooksVolume(volume);
 
-      expect(book.coverImageUrl).toBe("https://example.com/small.jpg");
+      expect(book.coverImageUrl).toBe("https://example.com/small.jpg?zoom=2");
     });
 
     it("imageLinks がない場合は coverImageUrl が null を返す", () => {
