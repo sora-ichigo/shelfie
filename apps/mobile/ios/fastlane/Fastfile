@@ -30,15 +30,23 @@ platform :ios do
       output_file: "./devices.txt"
     )
 
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_KEY"]
+    )
+
     register_devices(
-      devices_file: "./devices.txt"
+      devices_file: "./devices.txt",
+      api_key: api_key
     )
 
     match(
       type: "adhoc",
       force: true,
       keychain_name: options[:keychain_name],
-      keychain_password: options[:keychain_password]
+      keychain_password: options[:keychain_password],
+      api_key: api_key
     )
   end
 end
