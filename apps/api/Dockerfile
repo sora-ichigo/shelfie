@@ -18,7 +18,6 @@ FROM base AS deps
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/
-COPY packages/shared/package.json ./packages/shared/
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
@@ -28,10 +27,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 FROM deps AS build
 
 COPY apps/api ./apps/api
-COPY packages/shared ./packages/shared
 COPY tsconfig.base.json ./
 
-RUN pnpm --filter @shelfie/shared build
 RUN pnpm --filter @shelfie/api build
 
 # =============================================================================
@@ -41,12 +38,10 @@ FROM base AS production
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/
-COPY packages/shared/package.json ./packages/shared/
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 COPY --from=build /app/apps/api/dist ./apps/api/dist
-COPY --from=build /app/packages/shared/dist ./packages/shared/dist
 
 USER node
 

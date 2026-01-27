@@ -14,7 +14,7 @@
   - deps ステージで pnpm install --frozen-lockfile を実行し依存関係をインストールする
   - build ステージで pnpm --filter @shelfie/api build を実行しビルド成果物を生成する
   - production ステージで dist と本番依存関係のみをコピーする
-  - pnpm workspaces のモノレポ構成に対応し packages/shared を含める
+  - pnpm workspaces のモノレポ構成に対応する
   - BuildKit キャッシュマウントを活用しビルド時間を短縮する
   - 非 root ユーザー（node）でアプリケーションを実行する
   - ポート 4000 を EXPOSE する

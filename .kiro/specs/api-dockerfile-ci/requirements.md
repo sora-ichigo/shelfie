@@ -12,7 +12,7 @@
 1. The Dockerfile shall be placed at `apps/api/Dockerfile`.
 2. The Dockerfile shall use a Node.js 24 以上のベースイメージを使用する.
 3. The Dockerfile shall pnpm を使用して依存関係をインストールする.
-4. The Dockerfile shall モノレポ構造を考慮し、必要なワークスペースパッケージ（packages/shared 等）を含める.
+4. The Dockerfile shall モノレポ構造を考慮し、必要なワークスペースパッケージを含める.
 5. The Dockerfile shall ビルド成果物（dist/）を生成し、本番用イメージに含める.
 6. The Dockerfile shall マルチステージビルドを採用し、最終イメージのサイズを最小化する.
 7. The Dockerfile shall 非 root ユーザーでアプリケーションを実行する.

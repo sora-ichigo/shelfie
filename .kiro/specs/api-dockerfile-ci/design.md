@@ -20,7 +20,7 @@
 
 ### Existing Architecture Analysis
 - **現在のCI構成**: GitHub Actions で paths-filter を使用した差分検知により、変更のあったパッケージのみビルドを実行
-- **モノレポ構成**: pnpm workspaces で apps/api、apps/web、packages/shared を管理
+- **モノレポ構成**: pnpm workspaces で apps/api、apps/web を管理
 - **ビルドシステム**: Vite を使用して TypeScript を Node.js 向けにビルド（dist/index.js を出力）
 - **ランタイム**: Node.js 24、ポート 4000 で GraphQL エンドポイントを公開
 
@@ -36,7 +36,6 @@ graph TB
 
     subgraph Monorepo[pnpm Monorepo]
         API[apps/api]
-        Shared[packages/shared]
         Dockerfile[Dockerfile]
         Dockerignore[.dockerignore]
     end
@@ -56,7 +55,6 @@ graph TB
     DepsStage --> BuildStage
     BuildStage --> ProdStage
     API --> BuildStage
-    Shared --> BuildStage
 ```
 
 **Architecture Integration**:
@@ -162,7 +160,7 @@ sequenceDiagram
 
 **Responsibilities & Constraints**
 - マルチステージビルドにより開発依存関係を本番イメージから除外
-- pnpm workspaces のモノレポ構成に対応（packages/shared を含む）
+- pnpm workspaces のモノレポ構成に対応
 - 非 root ユーザー（node）でアプリケーションを実行しセキュリティを確保
 - BuildKit キャッシュマウントを活用しビルド時間を短縮
 
@@ -182,7 +180,7 @@ sequenceDiagram
 **Implementation Notes**
 - Integration: pnpm-workspace.yaml を参照し、ワークスペース内の依存関係を解決
 - Validation: `docker build` コマンドでビルド成功を検証
-- Risks: packages/shared のビルドが必要な場合、ビルド順序の考慮が必要
+- Risks: 依存パッケージのビルドが必要な場合、ビルド順序の考慮が必要
 
 #### .dockerignore
 
@@ -228,7 +226,6 @@ sequenceDiagram
 
 **Trigger Conditions**
 - apps/api/** に変更がある場合
-- packages/shared/** に変更がある場合（既存の shared トリガーにより api ジョブが実行）
 - apps/api/Dockerfile に変更がある場合（新規追加）
 
 **Implementation Notes**
