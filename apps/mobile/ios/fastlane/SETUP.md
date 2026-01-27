@@ -124,6 +124,59 @@ bundle exec fastlane match adhoc
 bundle exec fastlane match adhoc --force
 ```
 
+## デバイス登録の手順
+
+新しいテスターデバイスを追加する場合は、以下の手順で Provisioning Profile を更新します。
+
+### 1. Firebase Console からデバイス UDID をエクスポート
+
+1. [Firebase Console](https://console.firebase.google.com/) にアクセス
+2. 対象プロジェクト > App Distribution > テスターとグループ を開く
+3. 「すべてのテスター」タブを選択
+4. 右上の「デバイスをエクスポート」ボタンをクリック
+5. CSV ファイルがダウンロードされる
+
+### 2. devices.txt を更新
+
+ダウンロードした CSV から、`apps/mobile/ios/fastlane/devices.txt` を更新します。
+
+```bash
+# devices.txt の形式（タブ区切り）
+Device ID	Device Name
+00000000-000000000000001	Test Device 1
+00000000-000000000000002	Test Device 2
+```
+
+Firebase からエクスポートした CSV を使用する場合:
+```bash
+# CSV のヘッダーが異なる場合は手動で変換が必要
+# Firebase CSV 形式: Device Identifier,Device Name,Device Platform
+# devices.txt 形式: Device ID<TAB>Device Name
+```
+
+### 3. デバイス登録と Provisioning Profile の再生成
+
+```bash
+cd apps/mobile/ios
+bundle exec fastlane register_new_devices
+```
+
+このコマンドは以下を実行します:
+1. `devices.txt` に記載されたデバイスを Apple Developer Portal に登録
+2. Ad Hoc Provisioning Profile を再生成（`--force` オプション付き）
+3. 更新された Profile を証明書リポジトリにプッシュ
+
+### 4. 新しい IPA のビルドと配信
+
+デバイス登録後、新しい Provisioning Profile で IPA を再ビルドして配信する必要があります。
+
+```bash
+# ローカルでビルドする場合
+flutter build ipa --export-options-plist=ios/ExportOptions.plist
+
+# または GitHub Actions ワークフローを手動実行
+```
+
 ## セキュリティに関する注意事項
 
 - 証明書リポジトリは必ず **Private** に設定してください
