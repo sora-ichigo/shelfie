@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -15,6 +16,8 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:shelfie/features/book_list/data/book_list_repository.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
@@ -173,6 +176,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         isRemovingFromShelf: _isRemovingFromShelf,
         onAddToShelfPressed: _onAddToShelfPressed,
         onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
+        onAddToListPressed: isInShelf ? () => _onAddToListPressed(shelfEntry!) : null,
         onLinkTap: _onLinkTap,
         headerBottomSlot: isInShelf
             ? Column(
@@ -348,6 +352,38 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       authors: bookDetail.authors,
       coverImageUrl: bookDetail.thumbnailUrl,
       source: widget.source?.name,
+    );
+  }
+
+  void _onAddToListPressed(ShelfEntry shelfEntry) {
+    showListSelectorModal(
+      context: context,
+      userBookId: shelfEntry.userBookId,
+      onListSelected: (listId) async {
+        final repository = ref.read(bookListRepositoryProvider);
+        final result = await repository.addBookToList(
+          listId: listId,
+          userBookId: shelfEntry.userBookId,
+        );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(failure.userMessage),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+            );
+          },
+          (_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('リストに追加しました')),
+            );
+          },
+        );
+      },
     );
   }
 }

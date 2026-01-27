@@ -190,13 +190,13 @@
   - 新規作成ボタンを表示する
   - _Requirements: 7.4, 7.7_
 
-- [ ] 10. 既存画面への導線追加
-- [ ] 10.1 BookDetailScreen に「リストに追加」ボタンを追加する
+- [x] 10. 既存画面への導線追加
+- [x] 10.1 BookDetailScreen に「リストに追加」ボタンを追加する
   - ボタンタップで ListSelectorModal を表示する
   - 追加完了後のフィードバック表示を実装する
   - _Requirements: 4.6_
 
-- [ ] 10.2 QuickActionSheet に「リストに追加」アクションを追加する
+- [x] 10.2 QuickActionSheet に「リストに追加」アクションを追加する
   - 長押しメニューに新規アクションを追加する
   - アクションタップで ListSelectorModal を表示する
   - _Requirements: 4.7_
