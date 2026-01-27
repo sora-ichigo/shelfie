@@ -420,7 +420,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (_) {},
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('マイライブラリに追加しました')),
+        );
+      },
     );
   }
 
@@ -450,7 +454,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         );
       },
-      (_) {},
+      (_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('マイライブラリから削除しました')),
+        );
+      },
     );
   }
 }
