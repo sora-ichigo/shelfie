@@ -25,4 +25,7 @@ secret_environment_variables = {
   FIREBASE_PRIVATE_KEY     = "shelfie-api-firebase-private-key"
   RAKUTEN_APPLICATION_ID   = "shelfie-api-rakuten-application-id"
   GOOGLE_BOOKS_API_KEY     = "shelfie-api-google-books-api-key"
+  IMAGEKIT_PUBLIC_KEY      = "shelfie-api-imagekit-public-key"
+  IMAGEKIT_PRIVATE_KEY     = "shelfie-api-imagekit-private-key"
+  IMAGEKIT_URL_ENDPOINT    = "shelfie-api-imagekit-url-endpoint"
 }
