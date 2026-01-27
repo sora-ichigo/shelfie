@@ -1,10 +1,10 @@
-import { getTableName, sql } from "drizzle-orm";
+import { getTableName } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import {
-  BOOK_LISTS_USER_ID_INDEX_NAME,
   BOOK_LIST_ITEMS_LIST_ID_INDEX_NAME,
   BOOK_LIST_ITEMS_UNIQUE_NAME,
   BOOK_LIST_ITEMS_USER_BOOK_ID_INDEX_NAME,
+  BOOK_LISTS_USER_ID_INDEX_NAME,
   type BookList,
   type BookListItem,
   bookListItems,
