@@ -9,6 +9,7 @@ import 'package:shelfie/app/providers.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/data/search_history_repository.dart';
+import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 
 /// アプリケーションのエントリポイント
 ///
@@ -30,10 +31,11 @@ void main() {
       // Hive の初期化（オフラインキャッシュ用）
       await Hive.initFlutter();
 
-      // 検索履歴・最近チェックした本用の Hive Box をオープン
+      // 各種 Hive Box をオープン
       await Future.wait([
         Hive.openBox<Map<dynamic, dynamic>>(searchHistoryBoxName),
         Hive.openBox<Map<dynamic, dynamic>>(recentBooksBoxName),
+        Hive.openBox<String>(bookShelfSettingsBoxName),
       ]);
 
       // アプリを ProviderScope でラップして起動
