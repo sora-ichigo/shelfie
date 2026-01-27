@@ -8,8 +8,8 @@
 
 ## Tasks
 
-- [ ] 1. データベーススキーマとマイグレーションの作成
-- [ ] 1.1 BookList と BookListItem テーブルの Drizzle スキーマを定義する
+- [x] 1. データベーススキーマとマイグレーションの作成
+- [x] 1.1 BookList と BookListItem テーブルの Drizzle スキーマを定義する
   - book_lists テーブル（id, userId, title, description, createdAt, updatedAt）を作成する
   - book_list_items テーブル（id, listId, userBookId, position, addedAt）を作成する
   - users テーブルへの外部キー制約（CASCADE DELETE）を設定する
@@ -18,59 +18,59 @@
   - 検索パフォーマンス用のインデックスを作成する
   - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6_
 
-- [ ] 1.2 マイグレーションを生成して適用する
+- [x] 1.2 マイグレーションを生成して適用する
   - Drizzle Kit でマイグレーションファイルを生成する
   - 開発環境でマイグレーションを実行して検証する
   - _Requirements: 10.1, 10.2_
 
-- [ ] 2. API リポジトリ層の実装
-- [ ] 2.1 (P) BookListRepository を実装する
+- [x] 2. API リポジトリ層の実装
+- [x] 2.1 (P) BookListRepository を実装する
   - リスト作成機能（userId, title, description を保存）を実装する
   - リスト取得機能（ID指定、ユーザーID指定）を実装する
   - リスト更新機能（title, description, updatedAt を更新）を実装する
   - リスト削除機能（カスケード削除）を実装する
   - _Requirements: 1.5, 2.5, 3.3, 10.1_
 
-- [ ] 2.2 (P) BookListItemRepository を実装する
+- [x] 2.2 (P) BookListItemRepository を実装する
   - アイテム作成機能（position を末尾に設定）を実装する
   - アイテム取得機能（listId 指定、重複チェック用）を実装する
   - アイテム削除機能を実装する
   - アイテム並べ替え機能（position 再計算）を実装する
   - _Requirements: 4.3, 5.2, 6.3, 10.2_
 
-- [ ] 3. API サービス層の実装
-- [ ] 3.1 リスト CRUD のビジネスロジックを実装する
+- [x] 3. API サービス層の実装
+- [x] 3.1 リスト CRUD のビジネスロジックを実装する
   - リスト作成時のバリデーション（タイトル必須）を実装する
   - リスト編集時の所有者チェックを実装する
   - リスト削除時の確認と関連アイテムのカスケード削除を実装する
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 3.2 本の追加・削除・並べ替えのビジネスロジックを実装する
+- [x] 3.2 本の追加・削除・並べ替えのビジネスロジックを実装する
   - 本の追加時に UserBook の存在確認を行う
   - 重複追加の検知とエラー返却を実装する
   - 本の削除時に UserBook 自体は削除しない制御を実装する
   - 並べ替え時の position 一括更新を実装する
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3_
 
-- [ ] 3.3 リスト一覧・詳細取得のビジネスロジックを実装する
+- [x] 3.3 リスト一覧・詳細取得のビジネスロジックを実装する
   - ユーザーのリスト一覧取得（表紙画像4枚、冊数集計）を実装する
   - リスト詳細取得（アイテム一覧を position 順）を実装する
   - 所有者以外のアクセス時の FORBIDDEN エラーを実装する
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 9.1, 9.4_
 
-- [ ] 4. API GraphQL 層の実装
-- [ ] 4.1 GraphQL 型定義を実装する
+- [x] 4. API GraphQL 層の実装
+- [x] 4.1 GraphQL 型定義を実装する
   - BookList, BookListItem, BookListDetail, BookListSummary 型を定義する
   - CreateBookListInput, UpdateBookListInput 入力型を定義する
   - エラー型（LIST_NOT_FOUND, FORBIDDEN, DUPLICATE_BOOK 等）を定義する
   - _Requirements: 10.1, 10.2_
 
-- [ ] 4.2 Query リゾルバを実装する
+- [x] 4.2 Query リゾルバを実装する
   - myBookLists クエリ（認証必須、リスト一覧返却）を実装する
   - bookListDetail クエリ（listId 指定、所有者チェック）を実装する
   - _Requirements: 8.1, 9.1_
 
-- [ ] 4.3 Mutation リゾルバを実装する
+- [x] 4.3 Mutation リゾルバを実装する
   - createBookList ミューテーションを実装する
   - updateBookList ミューテーションを実装する
   - deleteBookList ミューテーションを実装する
@@ -79,14 +79,14 @@
   - reorderBookInList ミューテーションを実装する
   - _Requirements: 1.1, 1.2, 2.1, 2.2, 3.2, 4.2, 4.8, 5.1, 6.2_
 
-- [ ] 5. API ユニットテストの実装
-- [ ] 5.1 (P) リポジトリ層のテストを実装する
+- [x] 5. API ユニットテストの実装
+- [x] 5.1 (P) リポジトリ層のテストを実装する
   - BookList CRUD 操作のテストを作成する
   - BookListItem 操作のテストを作成する
   - カスケード削除のテストを作成する
   - _Requirements: 10.6_
 
-- [ ] 5.2 (P) サービス層のテストを実装する
+- [x] 5.2 (P) サービス層のテストを実装する
   - リスト作成・編集・削除のバリデーションテストを作成する
   - 所有者チェックのテストを作成する
   - 重複追加検知のテストを作成する

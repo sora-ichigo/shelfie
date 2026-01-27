@@ -262,10 +262,22 @@ type BookListErrors =
   | { code: "VALIDATION_ERROR"; message: string }
   | { code: "DATABASE_ERROR"; message: string };
 
+interface GetUserBookListsInput {
+  userId: number;
+  limit?: number;
+  offset?: number;
+}
+
+interface BookListSummaryResult {
+  items: BookListSummary[];
+  totalCount: number;
+  hasMore: boolean;
+}
+
 interface BookListService {
   createBookList(input: CreateBookListServiceInput): Promise<Result<BookList, BookListErrors>>;
   getBookList(listId: number, userId: number): Promise<Result<BookListWithItems, BookListErrors>>;
-  getUserBookLists(userId: number): Promise<Result<BookListSummary[], BookListErrors>>;
+  getUserBookLists(input: GetUserBookListsInput): Promise<Result<BookListSummaryResult, BookListErrors>>;
   updateBookList(input: UpdateBookListServiceInput): Promise<Result<BookList, BookListErrors>>;
   deleteBookList(listId: number, userId: number): Promise<Result<void, BookListErrors>>;
 
@@ -360,7 +372,7 @@ interface BookListSummary {
 
 | Method | Operation | Request | Response | Errors |
 |--------|-----------|---------|----------|--------|
-| Query | myBookLists | - | [BookListSummary!]! | UNAUTHENTICATED |
+| Query | myBookLists | MyBookListsInput? | MyBookListsResult! | UNAUTHENTICATED |
 | Query | bookListDetail(listId: Int!) | listId | BookListDetail! | LIST_NOT_FOUND, FORBIDDEN |
 | Mutation | createBookList(input: CreateBookListInput!) | title, description? | BookList! | VALIDATION_ERROR |
 | Mutation | updateBookList(input: UpdateBookListInput!) | listId, title?, description? | BookList! | LIST_NOT_FOUND, FORBIDDEN |
@@ -721,6 +733,17 @@ input UpdateBookListInput {
   listId: Int!
   title: String
   description: String
+}
+
+input MyBookListsInput {
+  limit: Int
+  offset: Int
+}
+
+type MyBookListsResult {
+  items: [BookListSummary!]!
+  totalCount: Int!
+  hasMore: Boolean!
 }
 ```
 
