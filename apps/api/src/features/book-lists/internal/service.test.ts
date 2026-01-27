@@ -4,8 +4,8 @@ import type { UserBook } from "../../../db/schema/books.js";
 import type { BookListRepository } from "./repository.js";
 import {
   type CreateBookListServiceInput,
-  type UpdateBookListServiceInput,
   createBookListService,
+  type UpdateBookListServiceInput,
 } from "./service.js";
 
 function createMockRepository(): BookListRepository & {
@@ -43,7 +43,8 @@ function createMockRepository(): BookListRepository & {
     deleteBookList: mockDeleteBookList,
     createBookListItem: mockCreateBookListItem,
     findBookListItemsByListId: mockFindBookListItemsByListId,
-    findBookListItemByListIdAndUserBookId: mockFindBookListItemByListIdAndUserBookId,
+    findBookListItemByListIdAndUserBookId:
+      mockFindBookListItemByListIdAndUserBookId,
     deleteBookListItem: mockDeleteBookListItem,
     updateBookListItemPosition: mockUpdateBookListItemPosition,
     reorderBookListItems: mockReorderBookListItems,
@@ -63,15 +64,23 @@ function createMockRepository(): BookListRepository & {
   };
 }
 
-interface MockBookShelfRepository {
-  findUserBookById: ReturnType<typeof vi.fn>;
+type BookShelfRepositoryMinimal = {
+  findUserBookById(id: number): Promise<{
+    id: number;
+    userId: number;
+    coverImageUrl: string | null;
+  } | null>;
+};
+
+interface MockBookShelfRepository extends BookShelfRepositoryMinimal {
   mockFindUserBookById: ReturnType<typeof vi.fn>;
 }
 
 function createMockBookShelfRepository(): MockBookShelfRepository {
   const mockFindUserBookById = vi.fn();
   return {
-    findUserBookById: mockFindUserBookById,
+    findUserBookById:
+      mockFindUserBookById as BookShelfRepositoryMinimal["findUserBookById"],
     mockFindUserBookById,
   };
 }

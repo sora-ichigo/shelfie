@@ -3,10 +3,10 @@ import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type BookList,
   type BookListItem,
-  type NewBookList,
-  type NewBookListItem,
   bookListItems,
   bookLists,
+  type NewBookList,
+  type NewBookListItem,
 } from "../../../db/schema/book-lists.js";
 
 export type { BookList, BookListItem, NewBookList, NewBookListItem };

@@ -58,19 +58,19 @@
   - 所有者以外のアクセス時の FORBIDDEN エラーを実装する
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 9.1, 9.4_
 
-- [ ] 4. API GraphQL 層の実装
-- [ ] 4.1 GraphQL 型定義を実装する
+- [x] 4. API GraphQL 層の実装
+- [x] 4.1 GraphQL 型定義を実装する
   - BookList, BookListItem, BookListDetail, BookListSummary 型を定義する
   - CreateBookListInput, UpdateBookListInput 入力型を定義する
   - エラー型（LIST_NOT_FOUND, FORBIDDEN, DUPLICATE_BOOK 等）を定義する
   - _Requirements: 10.1, 10.2_
 
-- [ ] 4.2 Query リゾルバを実装する
+- [x] 4.2 Query リゾルバを実装する
   - myBookLists クエリ（認証必須、リスト一覧返却）を実装する
   - bookListDetail クエリ（listId 指定、所有者チェック）を実装する
   - _Requirements: 8.1, 9.1_
 
-- [ ] 4.3 Mutation リゾルバを実装する
+- [x] 4.3 Mutation リゾルバを実装する
   - createBookList ミューテーションを実装する
   - updateBookList ミューテーションを実装する
   - deleteBookList ミューテーションを実装する
@@ -79,14 +79,14 @@
   - reorderBookInList ミューテーションを実装する
   - _Requirements: 1.1, 1.2, 2.1, 2.2, 3.2, 4.2, 4.8, 5.1, 6.2_
 
-- [ ] 5. API ユニットテストの実装
-- [ ] 5.1 (P) リポジトリ層のテストを実装する
+- [x] 5. API ユニットテストの実装
+- [x] 5.1 (P) リポジトリ層のテストを実装する
   - BookList CRUD 操作のテストを作成する
   - BookListItem 操作のテストを作成する
   - カスケード削除のテストを作成する
   - _Requirements: 10.6_
 
-- [ ] 5.2 (P) サービス層のテストを実装する
+- [x] 5.2 (P) サービス層のテストを実装する
   - リスト作成・編集・削除のバリデーションテストを作成する
   - 所有者チェックのテストを作成する
   - 重複追加検知のテストを作成する

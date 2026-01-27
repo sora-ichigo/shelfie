@@ -8,6 +8,13 @@ import {
   registerAuthTypes,
 } from "../features/auth/index.js";
 import {
+  createBookListRepository,
+  createBookListService,
+  registerBookListsMutations,
+  registerBookListsQueries,
+  registerBookListsTypes,
+} from "../features/book-lists/index.js";
+import {
   createBookSearchService,
   createBookShelfRepository,
   createBookShelfService,
@@ -59,11 +66,18 @@ const bookSearchService = createBookSearchService(
 );
 const bookShelfRepository = createBookShelfRepository(db);
 const bookShelfService = createBookShelfService(bookShelfRepository, logger);
+const bookListRepository = createBookListRepository(db);
+const bookListService = createBookListService(
+  bookListRepository,
+  bookShelfRepository,
+  logger,
+);
 
 registerUserTypes(builder, bookShelfRepository);
 registerAuthTypes(builder);
 registerBooksTypes(builder);
 registerImageUploadTypes(builder);
+registerBookListsTypes(builder);
 
 builder.queryType({
   fields: (t) => ({
@@ -79,6 +93,8 @@ registerBooksQueries(builder, bookSearchService, bookShelfService, userService);
 registerBooksMutations(builder, bookShelfService, userService);
 registerUserMutations(builder, userService);
 registerImageUploadQueries(builder);
+registerBookListsQueries(builder, bookListService, userService);
+registerBookListsMutations(builder, bookListService, userService);
 
 export function buildSchema() {
   return builder.toSchema();
