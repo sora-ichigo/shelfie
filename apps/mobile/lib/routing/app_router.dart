@@ -86,6 +86,9 @@ abstract final class AppRoutes {
 
   /// リスト作成画面
   static const bookListCreate = '/lists/new';
+
+  /// リスト編集画面パスを生成
+  static String bookListEdit({required int listId}) => '/lists/$listId/edit';
 }
 
 /// 本詳細画面のパラメータ
@@ -126,6 +129,22 @@ class SearchParams {
 
   final String query;
   final int page;
+}
+
+/// リスト画面のパラメータ
+class BookListParams {
+  const BookListParams({required this.listId});
+
+  /// GoRouterState から BookListParams を生成
+  factory BookListParams.fromState({
+    required Map<String, String> pathParameters,
+  }) {
+    return BookListParams(
+      listId: int.tryParse(pathParameters['listId'] ?? '0') ?? 0,
+    );
+  }
+
+  final int listId;
 }
 
 /// 認証状態変更を監視するための ChangeNotifier ラッパー
@@ -369,11 +388,27 @@ List<RouteBase> _buildRoutes() {
     GoRoute(
       path: '/lists/:listId',
       pageBuilder: (context, state) {
-        final listId = int.parse(state.pathParameters['listId'] ?? '0');
+        final params = BookListParams.fromState(
+          pathParameters: state.pathParameters,
+        );
         return CupertinoPage(
-          child: BookListDetailScreen(listId: listId),
+          child: BookListDetailScreen(listId: params.listId),
         );
       },
+      routes: [
+        // リスト編集画面（サブルート）
+        GoRoute(
+          path: 'edit',
+          pageBuilder: (context, state) {
+            final params = BookListParams.fromState(
+              pathParameters: state.pathParameters,
+            );
+            return CupertinoPage(
+              child: BookListEditScreen(listId: params.listId),
+            );
+          },
+        ),
+      ],
     ),
 
     // メインシェル（タブナビゲーション）

@@ -201,8 +201,8 @@
   - アクションタップで ListSelectorModal を表示する
   - _Requirements: 4.7_
 
-- [ ] 11. ルーティング設定
-- [ ] 11.1 新規画面のルートを設定する
+- [x] 11. ルーティング設定
+- [x] 11.1 新規画面のルートを設定する
   - BookListDetailScreen のルートを追加する
   - BookListEditScreen のルートを追加する
   - ディープリンク対応を考慮する

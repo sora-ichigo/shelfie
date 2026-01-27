@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/loading_indicator.dart';
+import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
+import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 
 class BookListEditScreen extends ConsumerStatefulWidget {
   const BookListEditScreen({
     this.existingList,
+    this.listId,
     super.key,
   });
 
   final BookList? existingList;
 
-  bool get isEditing => existingList != null;
+  final int? listId;
+
+  bool get isEditing => existingList != null || listId != null;
 
   @override
   ConsumerState<BookListEditScreen> createState() => _BookListEditScreenState();
@@ -25,6 +31,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   late final TextEditingController _descriptionController;
   bool _isSaving = false;
   String? _titleError;
+  BookList? _loadedList;
 
   @override
   void initState() {
@@ -36,6 +43,14 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       text: widget.existingList?.description ?? '',
     );
     _titleController.addListener(_onTitleChanged);
+
+    if (widget.listId != null && widget.existingList == null) {
+      _loadListData();
+    }
+  }
+
+  void _loadListData() {
+    ref.read(bookListDetailNotifierProvider(widget.listId!).notifier).loadDetail();
   }
 
   @override
@@ -58,10 +73,56 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
 
   bool get _canSave => _titleController.text.isNotEmpty && !_isSaving;
 
+  int? get _currentListId => widget.listId ?? widget.existingList?.id;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
+
+    if (widget.listId != null && widget.existingList == null) {
+      final detailState = ref.watch(bookListDetailNotifierProvider(widget.listId!));
+
+      return switch (detailState) {
+        BookListDetailInitial() || BookListDetailLoading() => Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: const Text('リスト編集'),
+            ),
+            body: const LoadingIndicator(fullScreen: true),
+          ),
+        BookListDetailLoaded(:final list) => _buildEditForm(theme, appColors, list),
+        BookListDetailError(:final failure) => Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: const Text('リスト編集'),
+            ),
+            body: Center(child: Text(failure.userMessage)),
+          ),
+      };
+    }
+
+    return _buildEditForm(theme, appColors, null);
+  }
+
+  Widget _buildEditForm(ThemeData theme, AppColors appColors, BookListDetail? loadedDetail) {
+    if (loadedDetail != null && _loadedList == null) {
+      _loadedList = BookList(
+        id: loadedDetail.id,
+        title: loadedDetail.title,
+        description: loadedDetail.description,
+        createdAt: loadedDetail.createdAt,
+        updatedAt: loadedDetail.updatedAt,
+      );
+      _titleController.text = loadedDetail.title;
+      _descriptionController.text = loadedDetail.description ?? '';
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -174,9 +235,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     final title = _titleController.text.trim();
     final description = _descriptionController.text.trim();
 
-    final result = widget.isEditing
+    final listId = _currentListId;
+    final result = widget.isEditing && listId != null
         ? await repository.updateBookList(
-            listId: widget.existingList!.id,
+            listId: listId,
             title: title,
             description: description.isEmpty ? null : description,
           )
@@ -201,6 +263,9 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   }
 
   Future<void> _onDelete() async {
+    final listId = _currentListId;
+    if (listId == null) return;
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -224,9 +289,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     setState(() => _isSaving = true);
 
     final repository = ref.read(bookListRepositoryProvider);
-    final result = await repository.deleteBookList(
-      listId: widget.existingList!.id,
-    );
+    final result = await repository.deleteBookList(listId: listId);
 
     if (!mounted) return;
 
