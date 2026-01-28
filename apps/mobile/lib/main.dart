@@ -13,8 +13,8 @@ import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/data/search_history_repository.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 
-/// Sentry DSN（--dart-define で渡す）
-const _sentryDsn = String.fromEnvironment('SENTRY_DSN');
+const _sentryDsn =
+    'https://6aa9de3b859cc4bf651d397f4d7c8409@o4510782375395328.ingest.us.sentry.io/4510785500348416';
 
 /// アプリケーションのエントリポイント
 ///
@@ -26,7 +26,7 @@ const _sentryDsn = String.fromEnvironment('SENTRY_DSN');
 Future<void> main() async {
   await SentryFlutter.init(
     (options) {
-      options.dsn = _sentryDsn.isNotEmpty ? _sentryDsn : null;
+      options.dsn = _sentryDsn;
       options.tracesSampleRate = kReleaseMode ? 0.2 : 1.0;
       options.environment = kReleaseMode ? 'production' : 'development';
       options.enableAutoSessionTracking = true;
