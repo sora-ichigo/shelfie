@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/form_fields.dart';
@@ -9,6 +11,8 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
+import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 class BookListEditScreen extends ConsumerStatefulWidget {
   const BookListEditScreen({
@@ -37,6 +41,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   bool _isSaving = false;
   String? _titleError;
   BookList? _loadedList;
+  final List<ShelfBookItem> _selectedBooks = [];
 
   @override
   void initState() {
@@ -55,7 +60,9 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   }
 
   void _loadListData() {
-    ref.read(bookListDetailNotifierProvider(widget.listId!).notifier).loadDetail();
+    ref
+        .read(bookListDetailNotifierProvider(widget.listId!).notifier)
+        .loadDetail();
   }
 
   @override
@@ -86,12 +93,17 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     final appColors = theme.extension<AppColors>()!;
 
     if (widget.listId != null && widget.existingList == null) {
-      final detailState = ref.watch(bookListDetailNotifierProvider(widget.listId!));
+      final detailState =
+          ref.watch(bookListDetailNotifierProvider(widget.listId!));
 
       return switch (detailState) {
-        BookListDetailInitial() || BookListDetailLoading() => _buildLoadingScreen(),
-        BookListDetailLoaded(:final list) => _buildEditForm(theme, appColors, list),
-        BookListDetailError(:final failure) => _buildErrorScreen(failure.userMessage),
+        BookListDetailInitial() ||
+        BookListDetailLoading() =>
+          _buildLoadingScreen(),
+        BookListDetailLoaded(:final list) =>
+          _buildEditForm(theme, appColors, list),
+        BookListDetailError(:final failure) =>
+          _buildErrorScreen(failure.userMessage),
       };
     }
 
@@ -138,7 +150,8 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     );
   }
 
-  Widget _buildEditForm(ThemeData theme, AppColors appColors, BookListDetail? loadedDetail) {
+  Widget _buildEditForm(
+      ThemeData theme, AppColors appColors, BookListDetail? loadedDetail) {
     if (loadedDetail != null && _loadedList == null) {
       _loadedList = BookList(
         id: loadedDetail.id,
@@ -174,6 +187,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
                           _buildTitleField(),
                           const SizedBox(height: AppSpacing.md),
                           _buildDescriptionField(),
+                          if (!widget.isEditing) ...[
+                            const SizedBox(height: AppSpacing.xl),
+                            _buildBookSection(theme, appColors),
+                          ],
                           if (widget.isEditing) ...[
                             const SizedBox(height: AppSpacing.xl),
                             _buildDeleteButton(appColors),
@@ -220,6 +237,80 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     );
   }
 
+  Widget _buildBookSection(ThemeData theme, AppColors appColors) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '本（${_selectedBooks.length}冊）',
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        if (_selectedBooks.isEmpty)
+          _BookSectionEmptyCard(
+            appColors: appColors,
+            theme: theme,
+            onAddPressed: _onAddBooksPressed,
+          )
+        else
+          _buildSelectedBooksList(theme, appColors),
+      ],
+    );
+  }
+
+  Widget _buildSelectedBooksList(ThemeData theme, AppColors appColors) {
+    return Column(
+      children: [
+        ..._selectedBooks.map(
+          (book) => Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            child: _SelectedBookListTile(
+              book: book,
+              appColors: appColors,
+              theme: theme,
+              onRemove: () => _onRemoveBook(book),
+            ),
+          ),
+        ),
+        TextButton.icon(
+          onPressed: _onAddBooksPressed,
+          icon: Icon(Icons.add, color: appColors.accent),
+          label: Text(
+            '本を追加',
+            style: TextStyle(color: appColors.accent),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _onAddBooksPressed() {
+    showBookSelectorModal(
+      context: context,
+      existingUserBookIds: const [],
+      initialSelectedUserBookIds:
+          _selectedBooks.map((b) => b.userBookId).toList(),
+      onBookSelected: (book) {
+        setState(() {
+          _selectedBooks.add(book);
+        });
+      },
+      onBookRemoved: (book) {
+        setState(() {
+          _selectedBooks.removeWhere((b) => b.userBookId == book.userBookId);
+        });
+      },
+    );
+  }
+
+  void _onRemoveBook(ShelfBookItem book) {
+    setState(() {
+      _selectedBooks.removeWhere((b) => b.userBookId == book.userBookId);
+    });
+  }
+
   Widget _buildDeleteButton(AppColors appColors) {
     return TextButton(
       onPressed: _isSaving ? null : _onDelete,
@@ -253,15 +344,25 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
 
     if (!mounted) return;
 
-    result.fold(
-      (failure) {
+    await result.fold(
+      (failure) async {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(failure.userMessage)),
         );
       },
-      (bookList) {
-        Navigator.of(context).pop(bookList);
+      (bookList) async {
+        if (!widget.isEditing && _selectedBooks.isNotEmpty) {
+          for (final book in _selectedBooks) {
+            await repository.addBookToList(
+              listId: bookList.id,
+              userBookId: book.userBookId,
+            );
+          }
+        }
+        if (mounted) {
+          Navigator.of(context).pop(bookList);
+        }
       },
     );
   }
@@ -307,6 +408,160 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       (_) {
         Navigator.of(context).pop(null);
       },
+    );
+  }
+}
+
+class _BookSectionEmptyCard extends StatelessWidget {
+  const _BookSectionEmptyCard({
+    required this.appColors,
+    required this.theme,
+    required this.onAddPressed,
+  });
+
+  final AppColors appColors;
+  final ThemeData theme;
+  final VoidCallback onAddPressed;
+
+  static const _iconBackgroundColor = Color(0xFF1E2939);
+  static const _accentTeal = Color(0xFF00D5BE);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: AppSpacing.all(AppSpacing.xl),
+      decoration: BoxDecoration(
+        color: appColors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 64,
+            height: 64,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: _iconBackgroundColor,
+            ),
+            child: Icon(
+              Icons.add,
+              size: 32,
+              color: appColors.foregroundMuted,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            'このリストに本を追加しましょう',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: appColors.foregroundMuted,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          TextButton(
+            onPressed: onAddPressed,
+            child: const Text(
+              '本を追加',
+              style: TextStyle(color: _accentTeal),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SelectedBookListTile extends StatelessWidget {
+  const _SelectedBookListTile({
+    required this.book,
+    required this.appColors,
+    required this.theme,
+    required this.onRemove,
+  });
+
+  final ShelfBookItem book;
+  final AppColors appColors;
+  final ThemeData theme;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: appColors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+            child: SizedBox(
+              width: 36,
+              height: 54,
+              child: book.hasCoverImage
+                  ? CachedNetworkImage(
+                      imageUrl: book.coverImageUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) =>
+                          ColoredBox(color: appColors.surface),
+                      errorWidget: (_, __, ___) =>
+                          _CoverPlaceholder(appColors: appColors),
+                    )
+                  : _CoverPlaceholder(appColors: appColors),
+            ),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  book.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodyMedium,
+                ),
+                Text(
+                  book.authorsDisplay,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: appColors.foregroundMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.close,
+              color: appColors.foregroundMuted,
+            ),
+            onPressed: onRemove,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CoverPlaceholder extends StatelessWidget {
+  const _CoverPlaceholder({required this.appColors});
+
+  final AppColors appColors;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: appColors.foregroundMuted.withOpacity(0.1),
+      child: Center(
+        child: Icon(
+          Icons.book,
+          size: 20,
+          color: appColors.foregroundMuted,
+        ),
+      ),
     );
   }
 }

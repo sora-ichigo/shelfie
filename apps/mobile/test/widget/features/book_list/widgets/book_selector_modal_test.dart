@@ -39,10 +39,9 @@ void main() {
   });
 
   Widget buildTestWidget({
-    required int listId,
     List<ShelfBookItem> books = const [],
     List<int> existingUserBookIds = const [],
-    void Function(int userBookId)? onBookSelected,
+    void Function(ShelfBookItem book)? onBookSelected,
   }) {
     return ProviderScope(
       overrides: [
@@ -57,7 +56,6 @@ void main() {
               onPressed: () {
                 showBookSelectorModal(
                   context: context,
-                  listId: listId,
                   existingUserBookIds: existingUserBookIds,
                   onBookSelected: onBookSelected ?? (_) {},
                 );
@@ -74,7 +72,6 @@ void main() {
     group('structure', () {
       testWidgets('displays modal title', (tester) async {
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: [createBook()],
         ));
         await tester.pump();
@@ -87,7 +84,6 @@ void main() {
 
       testWidgets('displays search field', (tester) async {
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: [createBook()],
         ));
         await tester.pump();
@@ -107,7 +103,6 @@ void main() {
         ];
 
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: books,
         ));
         await tester.pump();
@@ -126,7 +121,6 @@ void main() {
         ];
 
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: books,
           existingUserBookIds: [1],
         ));
@@ -142,7 +136,6 @@ void main() {
       testWidgets('displays empty state when no books available',
           (tester) async {
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: [],
         ));
         await tester.pump();
@@ -162,7 +155,6 @@ void main() {
         ];
 
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: books,
         ));
         await tester.pump();
@@ -180,13 +172,12 @@ void main() {
 
     group('selection', () {
       testWidgets('calls onBookSelected when book is tapped', (tester) async {
-        int? selectedBookId;
+        ShelfBookItem? selectedBook;
         final books = [createBook(userBookId: 10, title: 'Test Book')];
 
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: books,
-          onBookSelected: (id) => selectedBookId = id,
+          onBookSelected: (book) => selectedBook = book,
         ));
         await tester.pump();
 
@@ -196,14 +187,13 @@ void main() {
         await tester.tap(find.text('Test Book'));
         await tester.pumpAndSettle();
 
-        expect(selectedBookId, equals(10));
+        expect(selectedBook?.userBookId, equals(10));
       });
 
       testWidgets('closes modal after selection', (tester) async {
         final books = [createBook(userBookId: 10, title: 'Test Book')];
 
         await tester.pumpWidget(buildTestWidget(
-          listId: 1,
           books: books,
         ));
         await tester.pump();

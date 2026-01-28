@@ -7,7 +7,9 @@ import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
+import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
 
 class BookListDetailScreen extends ConsumerStatefulWidget {
   const BookListDetailScreen({
@@ -109,7 +111,36 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onAddBooksPressed() {
-    // TODO(shelfie): Show book selector modal
+    final state = ref.read(bookListDetailNotifierProvider(widget.listId));
+    if (state is! BookListDetailLoaded) return;
+
+    final existingUserBookIds = state.list.items.map((item) => item.id).toList();
+
+    showBookSelectorModal(
+      context: context,
+      existingUserBookIds: existingUserBookIds,
+      onBookSelected: (book) async {
+        final repository = ref.read(bookListRepositoryProvider);
+        final result = await repository.addBookToList(
+          listId: widget.listId,
+          userBookId: book.userBookId,
+        );
+        result.fold(
+          (failure) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(failure.userMessage)),
+              );
+            }
+          },
+          (_) {
+            ref
+                .read(bookListDetailNotifierProvider(widget.listId).notifier)
+                .refresh();
+          },
+        );
+      },
+    );
   }
 
   void _onItemTap(BookListItem item) {

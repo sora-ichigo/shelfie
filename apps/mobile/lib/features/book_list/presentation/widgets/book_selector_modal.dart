@@ -11,32 +11,36 @@ import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 Future<void> showBookSelectorModal({
   required BuildContext context,
-  required int listId,
   required List<int> existingUserBookIds,
-  required void Function(int userBookId) onBookSelected,
+  required void Function(ShelfBookItem book) onBookSelected,
+  void Function(ShelfBookItem book)? onBookRemoved,
+  List<int> initialSelectedUserBookIds = const [],
 }) async {
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
     builder: (context) => _BookSelectorModalContent(
-      listId: listId,
       existingUserBookIds: existingUserBookIds,
       onBookSelected: onBookSelected,
+      onBookRemoved: onBookRemoved,
+      initialSelectedUserBookIds: initialSelectedUserBookIds,
     ),
   );
 }
 
 class _BookSelectorModalContent extends ConsumerStatefulWidget {
   const _BookSelectorModalContent({
-    required this.listId,
     required this.existingUserBookIds,
     required this.onBookSelected,
+    this.onBookRemoved,
+    this.initialSelectedUserBookIds = const [],
   });
 
-  final int listId;
   final List<int> existingUserBookIds;
-  final void Function(int userBookId) onBookSelected;
+  final void Function(ShelfBookItem book) onBookSelected;
+  final void Function(ShelfBookItem book)? onBookRemoved;
+  final List<int> initialSelectedUserBookIds;
 
   @override
   ConsumerState<_BookSelectorModalContent> createState() =>
@@ -47,6 +51,13 @@ class _BookSelectorModalContentState
     extends ConsumerState<_BookSelectorModalContent> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  late final Set<int> _selectedUserBookIds;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedUserBookIds = {...widget.initialSelectedUserBookIds};
+  }
 
   @override
   void dispose() {
@@ -84,17 +95,14 @@ class _BookSelectorModalContentState
 
   Widget _buildSearchField(BuildContext context) {
     final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
 
     return TextField(
       controller: _searchController,
       onChanged: (value) => setState(() => _searchQuery = value),
+      textInputAction: TextInputAction.search,
       decoration: InputDecoration(
         hintText: '本を検索...',
-        prefixIcon: Icon(
-          Icons.search,
-          color: appColors.foregroundMuted,
-        ),
+        prefixIcon: const Icon(Icons.search),
         suffixIcon: _searchQuery.isNotEmpty
             ? IconButton(
                 icon: const Icon(Icons.clear),
@@ -104,6 +112,13 @@ class _BookSelectorModalContentState
                 },
               )
             : null,
+        filled: true,
+        fillColor: theme.colorScheme.surfaceContainerHighest,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.sm),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: AppSpacing.vertical(AppSpacing.sm),
       ),
     );
   }
@@ -149,9 +164,14 @@ class _BookSelectorModalContentState
           itemCount: filteredBooks.length,
           itemBuilder: (context, index) {
             final book = filteredBooks[index];
+            final isSelected = _isSelected(book);
             return _BookListItem(
               book: book,
-              onTap: () => _onBookTap(book),
+              isSelected: isSelected,
+              onTap: isSelected
+                  ? () => _onBookRemove(book)
+                  : () => _onBookTap(book),
+              onRemove: isSelected ? () => _onBookRemove(book) : null,
             );
           },
         );
@@ -184,80 +204,120 @@ class _BookSelectorModalContentState
   }
 
   void _onBookTap(ShelfBookItem book) {
-    widget.onBookSelected(book.userBookId);
-    Navigator.of(context).pop();
+    setState(() {
+      _selectedUserBookIds.add(book.userBookId);
+    });
+    widget.onBookSelected(book);
+  }
+
+  void _onBookRemove(ShelfBookItem book) {
+    setState(() {
+      _selectedUserBookIds.remove(book.userBookId);
+    });
+    widget.onBookRemoved?.call(book);
+  }
+
+  bool _isSelected(ShelfBookItem book) {
+    return _selectedUserBookIds.contains(book.userBookId);
   }
 }
 
 class _BookListItem extends StatelessWidget {
   const _BookListItem({
     required this.book,
-    required this.onTap,
+    this.isSelected = false,
+    this.onTap,
+    this.onRemove,
   });
 
   final ShelfBookItem book;
-  final VoidCallback onTap;
+  final bool isSelected;
+  final VoidCallback? onTap;
+  final VoidCallback? onRemove;
+
+  static const _imageWidth = 48.0;
+  static const _imageHeight = 72.0;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
 
     return ListTile(
       onTap: onTap,
-      leading: ClipRRect(
-        borderRadius: BorderRadius.circular(AppRadius.sm),
-        child: SizedBox(
-          width: 40,
-          height: 60,
-          child: book.hasCoverImage
-              ? CachedNetworkImage(
-                  imageUrl: book.coverImageUrl!,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => ColoredBox(color: appColors.surface),
-                  errorWidget: (_, __, ___) =>
-                      _CoverPlaceholder(appColors: appColors),
-                )
-              : _CoverPlaceholder(appColors: appColors),
-        ),
-      ),
+      contentPadding: AppSpacing.horizontal(AppSpacing.md),
+      leading: _buildCoverImage(theme),
       title: Text(
         book.title,
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.bodyMedium,
+        style: theme.textTheme.titleSmall,
       ),
       subtitle: Text(
-        book.authorsDisplay,
+        book.authorsDisplay.isNotEmpty ? book.authorsDisplay : '著者不明',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: theme.textTheme.bodySmall?.copyWith(
-          color: appColors.foregroundMuted,
+          color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
-      trailing: Icon(
-        Icons.add_circle_outline,
-        color: appColors.accent,
-      ),
+      trailing: _buildTrailingWidget(theme),
     );
   }
-}
 
-class _CoverPlaceholder extends StatelessWidget {
-  const _CoverPlaceholder({required this.appColors});
+  Widget _buildTrailingWidget(ThemeData theme) {
+    if (isSelected) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: theme.colorScheme.primary,
+          ),
+          const SizedBox(width: 4),
+          IconButton(
+            onPressed: onRemove,
+            icon: Icon(
+              Icons.close,
+              size: 20,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      );
+    }
 
-  final AppColors appColors;
+    return const Icon(Icons.add_circle_outline);
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: appColors.surface,
-      child: Center(
-        child: Icon(
-          Icons.book,
-          size: 20,
-          color: appColors.foregroundMuted,
+  Widget _buildCoverImage(ThemeData theme) {
+    if (book.hasCoverImage) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        child: CachedNetworkImage(
+          imageUrl: book.coverImageUrl!,
+          width: _imageWidth,
+          height: _imageHeight,
+          fit: BoxFit.cover,
+          placeholder: (_, __) => _buildPlaceholder(theme),
+          errorWidget: (_, __, ___) => _buildPlaceholder(theme),
         ),
+      );
+    }
+    return _buildPlaceholder(theme);
+  }
+
+  Widget _buildPlaceholder(ThemeData theme) {
+    return Container(
+      width: _imageWidth,
+      height: _imageHeight,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+      ),
+      child: Icon(
+        Icons.book,
+        color: theme.colorScheme.onSurfaceVariant,
       ),
     );
   }
