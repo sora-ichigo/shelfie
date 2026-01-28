@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
+import 'package:shelfie/core/widgets/form_fields.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
@@ -27,6 +28,9 @@ class BookListEditScreen extends ConsumerStatefulWidget {
 }
 
 class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
+  static const _titleMaxLength = 50;
+  static const _descriptionMaxLength = 200;
+
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
   late final TextEditingController _descriptionController;
@@ -167,12 +171,12 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _buildTitleField(theme, appColors),
+                          _buildTitleField(),
                           const SizedBox(height: AppSpacing.md),
-                          _buildDescriptionField(theme, appColors),
+                          _buildDescriptionField(),
                           if (widget.isEditing) ...[
                             const SizedBox(height: AppSpacing.xl),
-                            _buildDeleteButton(theme, appColors),
+                            _buildDeleteButton(appColors),
                           ],
                         ],
                       ),
@@ -192,55 +196,31 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     );
   }
 
-  Widget _buildTitleField(ThemeData theme, AppColors appColors) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'タイトル',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        TextFormField(
-          key: const Key('title_field'),
-          controller: _titleController,
-          decoration: InputDecoration(
-            hintText: 'リストのタイトルを入力',
-            errorText: _titleError,
-          ),
-          textInputAction: TextInputAction.next,
-        ),
-      ],
+  Widget _buildTitleField() {
+    return LabeledTextField(
+      key: const Key('title_field'),
+      label: 'リスト名',
+      controller: _titleController,
+      maxLength: _titleMaxLength,
+      hintText: '例: 今年読みたい本',
+      errorText: _titleError,
+      textInputAction: TextInputAction.next,
     );
   }
 
-  Widget _buildDescriptionField(ThemeData theme, AppColors appColors) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '説明（任意）',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        TextFormField(
-          key: const Key('description_field'),
-          controller: _descriptionController,
-          decoration: const InputDecoration(
-            hintText: 'リストの説明を入力',
-          ),
-          maxLines: 3,
-          textInputAction: TextInputAction.done,
-        ),
-      ],
+  Widget _buildDescriptionField() {
+    return LabeledTextField(
+      key: const Key('description_field'),
+      label: '説明（任意）',
+      controller: _descriptionController,
+      maxLength: _descriptionMaxLength,
+      hintText: 'このリストについて説明を追加',
+      maxLines: 4,
+      textInputAction: TextInputAction.done,
     );
   }
 
-  Widget _buildDeleteButton(ThemeData theme, AppColors appColors) {
+  Widget _buildDeleteButton(AppColors appColors) {
     return TextButton(
       onPressed: _isSaving ? null : _onDelete,
       child: Text(

@@ -49,11 +49,11 @@ void main() {
 
   group('BookListEditScreen', () {
     group('create mode', () {
-      testWidgets('displays "新規リスト" title when creating', (tester) async {
+      testWidgets('displays "新しいリスト" title when creating', (tester) async {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
 
-        expect(find.text('新規リスト'), findsOneWidget);
+        expect(find.text('新しいリスト'), findsOneWidget);
       });
 
       testWidgets('displays empty title field', (tester) async {
@@ -63,8 +63,10 @@ void main() {
         final titleField = find.byKey(const Key('title_field'));
         expect(titleField, findsOneWidget);
 
-        final textField = tester.widget<TextFormField>(titleField);
-        expect(textField.initialValue, isEmpty);
+        final textField = tester.widget<TextField>(
+          find.descendant(of: titleField, matching: find.byType(TextField)),
+        );
+        expect(textField.controller?.text, isEmpty);
       });
 
       testWidgets('displays empty description field', (tester) async {
@@ -79,13 +81,13 @@ void main() {
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
 
-        final saveButton = find.text('保存');
+        final saveButton = find.byIcon(Icons.check);
         expect(saveButton, findsOneWidget);
 
-        final buttonWidget = tester.widget<ElevatedButton>(
+        final buttonWidget = tester.widget<IconButton>(
           find.ancestor(
             of: saveButton,
-            matching: find.byType(ElevatedButton),
+            matching: find.byType(IconButton),
           ),
         );
         expect(buttonWidget.onPressed, isNull);
@@ -101,10 +103,10 @@ void main() {
         );
         await tester.pump();
 
-        final buttonWidget = tester.widget<ElevatedButton>(
+        final buttonWidget = tester.widget<IconButton>(
           find.ancestor(
-            of: find.text('保存'),
-            matching: find.byType(ElevatedButton),
+            of: find.byIcon(Icons.check),
+            matching: find.byType(IconButton),
           ),
         );
         expect(buttonWidget.onPressed, isNotNull);
@@ -194,7 +196,7 @@ void main() {
         );
         await tester.pump();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
         verify(
@@ -228,7 +230,7 @@ void main() {
         );
         await tester.pump();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
         verify(
@@ -260,7 +262,7 @@ void main() {
         );
         await tester.pump();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pump();
 
         expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -287,7 +289,7 @@ void main() {
         );
         await tester.pump();
 
-        await tester.tap(find.text('保存'));
+        await tester.tap(find.byIcon(Icons.check));
         await tester.pumpAndSettle();
 
         expect(find.byType(SnackBar), findsOneWidget);
