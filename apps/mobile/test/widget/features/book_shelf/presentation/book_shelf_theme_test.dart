@@ -45,11 +45,11 @@ void main() {
       test('scaffoldBackgroundColor が黒系', () {
         final theme = AppTheme.theme;
 
-        expect(theme.scaffoldBackgroundColor, const Color(0xFF0A0A0A));
+        expect(theme.scaffoldBackgroundColor, const Color(0xFF000000));
       });
 
       test('AppColors.dark.background が黒系', () {
-        expect(AppColors.dark.background, const Color(0xFF0A0A0A));
+        expect(AppColors.dark.background, const Color(0xFF000000));
       });
 
       testWidgets('BookCard がダークテーマで正しく表示される', (tester) async {
@@ -97,7 +97,7 @@ void main() {
 
     group('アクセントカラー（緑色）の適用', () {
       test('AppColors.dark.accent がターコイズグリーン', () {
-        expect(AppColors.dark.accent, const Color(0xFF4FD1C5));
+        expect(AppColors.dark.accent, const Color(0xFF009689));
       });
 
       test('AppTheme.seedColor がターコイズグリーン', () {

@@ -88,10 +88,30 @@ class SearchBarWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(width: AppSpacing.xs),
-                      IconButton(
-                        onPressed: onScanPressed,
-                        icon: const Icon(Icons.camera_alt_outlined),
-                        tooltip: 'ISBNスキャン',
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: onScanPressed,
+                          borderRadius: BorderRadius.circular(AppSpacing.sm),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.sm,
+                              vertical: AppSpacing.xs,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.camera_alt_outlined),
+                                Text(
+                                  'バーコード',
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

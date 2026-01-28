@@ -152,7 +152,6 @@ class _BookGridState extends State<BookGrid> {
                         groups[groupIndex].key,
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: appColors.foreground,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

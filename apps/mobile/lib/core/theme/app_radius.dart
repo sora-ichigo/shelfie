@@ -17,6 +17,9 @@ abstract final class AppRadius {
   /// 大きい角丸 (12px) - モーダル、大きいカード
   static const double lg = 12;
 
+  /// より大きい角丸 (16px) - ボタン
+  static const double xl = 16;
+
   /// 完全な円形 (9999px) - 円形ボタン、アバター
   static const double full = 9999;
 

@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
-class ProfileEditHeader extends StatelessWidget {
-  const ProfileEditHeader({
+class EditScreenHeader extends StatelessWidget {
+  const EditScreenHeader({
+    required this.title,
     required this.onClose,
     required this.onSave,
     required this.isSaveEnabled,
     super.key,
   });
 
+  final String title;
   final VoidCallback onClose;
   final VoidCallback onSave;
   final bool isSaveEnabled;
@@ -33,10 +35,8 @@ class ProfileEditHeader extends StatelessWidget {
           Expanded(
             child: Center(
               child: Text(
-                'プロフィール編集',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                title,
+                style: theme.textTheme.titleMedium,
               ),
             ),
           ),

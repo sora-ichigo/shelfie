@@ -2,34 +2,123 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
-/// ラベル付きテキストフィールドの基本レイアウト
+InputDecoration _buildInputDecoration({
+  required ThemeData theme,
+  required AppColors? colors,
+  String? hintText,
+  String? errorText,
+  Widget? suffixIcon,
+}) {
+  return InputDecoration(
+    hintText: hintText,
+    suffixIcon: suffixIcon,
+    filled: true,
+    fillColor: colors?.surface,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSpacing.xs),
+      borderSide: BorderSide.none,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSpacing.xs),
+      borderSide: errorText != null
+          ? BorderSide(color: theme.colorScheme.error, width: 1)
+          : BorderSide.none,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppSpacing.xs),
+      borderSide: BorderSide(
+        color: errorText != null
+            ? theme.colorScheme.error
+            : (colors?.accent ?? theme.colorScheme.primary),
+        width: 2,
+      ),
+    ),
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: AppSpacing.md,
+      vertical: AppSpacing.sm,
+    ),
+  );
+}
+
+/// ラベル付きテキストフィールド
 ///
-/// ラベルテキストと入力フィールドを縦に並べる共通レイアウトを提供する。
+/// ラベルテキストと統一スタイルの入力フィールドを提供する。
 class LabeledTextField extends StatelessWidget {
   const LabeledTextField({
     required this.label,
-    required this.child,
+    this.controller,
+    this.hintText,
+    this.errorText,
+    this.maxLength,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.textInputAction,
+    this.obscureText = false,
+    this.enabled = true,
+    this.onChanged,
+    this.suffixIcon,
     super.key,
   });
 
   final String label;
-  final Widget child;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? errorText;
+  final int? maxLength;
+  final int maxLines;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final bool obscureText;
+  final bool enabled;
+  final ValueChanged<String>? onChanged;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: theme.textTheme.bodyMedium?.copyWith(
+          style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
-        child,
+        TextField(
+          controller: controller,
+          maxLength: maxLength,
+          maxLines: maxLines,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          obscureText: obscureText,
+          enabled: enabled,
+          onChanged: onChanged,
+          style: enabled
+              ? null
+              : theme.textTheme.bodyLarge?.copyWith(
+                  color: colors?.foregroundMuted,
+                ),
+          decoration: _buildInputDecoration(
+            theme: theme,
+            colors: colors,
+            hintText: hintText,
+            errorText: errorText,
+            suffixIcon: suffixIcon,
+          ),
+        ),
+        if (errorText != null) ...[
+          const SizedBox(height: AppSpacing.xxs),
+          Text(
+            errorText!,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.error,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -38,7 +127,7 @@ class LabeledTextField extends StatelessWidget {
 /// メールアドレス入力フィールド
 ///
 /// メールアドレス用にカスタマイズされた TextFormField を提供する。
-/// キーボードタイプがメールアドレス用に設定され、メールアイコンが表示される。
+/// キーボードタイプがメールアドレス用に設定される。
 class EmailField extends StatelessWidget {
   const EmailField({
     required this.value,
@@ -58,57 +147,38 @@ class EmailField extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
 
-    return LabeledTextField(
-      label: 'メールアドレス',
-      child: TextFormField(
-        initialValue: value,
-        keyboardType: TextInputType.emailAddress,
-        autocorrect: false,
-        onChanged: onChanged,
-        style: theme.textTheme.bodyLarge,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: theme.textTheme.bodyLarge?.copyWith(
-            color: colors?.foregroundMuted,
-          ),
-          errorText: errorText,
-          filled: true,
-          fillColor: colors?.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.accent ?? Colors.blue,
-              width: 2,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.error ?? Colors.red,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.error ?? Colors.red,
-              width: 2,
-            ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'メールアドレス',
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-      ),
+        const SizedBox(height: AppSpacing.xs),
+        TextFormField(
+          initialValue: value,
+          keyboardType: TextInputType.emailAddress,
+          autocorrect: false,
+          onChanged: onChanged,
+          decoration: _buildInputDecoration(
+            theme: theme,
+            colors: colors,
+            hintText: hintText,
+            errorText: errorText,
+          ),
+        ),
+        if (errorText != null) ...[
+          const SizedBox(height: AppSpacing.xxs),
+          Text(
+            errorText!,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.error,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
@@ -144,66 +214,47 @@ class PasswordField extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
 
-    return LabeledTextField(
-      label: label,
-      child: TextFormField(
-        initialValue: value,
-        obscureText: isObscured,
-        autocorrect: false,
-        enableSuggestions: false,
-        onChanged: onChanged,
-        textInputAction: textInputAction,
-        style: theme.textTheme.bodyLarge,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: theme.textTheme.bodyLarge?.copyWith(
-            color: colors?.foregroundMuted,
-          ),
-          errorText: errorText,
-          suffixIcon: IconButton(
-            icon: Icon(
-              isObscured ? Icons.visibility_off : Icons.visibility,
-              color: colors?.foregroundMuted,
-            ),
-            onPressed: onToggleVisibility,
-          ),
-          filled: true,
-          fillColor: colors?.surface,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.accent ?? Colors.blue,
-              width: 2,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.error ?? Colors.red,
-              width: 1,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.sm),
-            borderSide: BorderSide(
-              color: colors?.error ?? Colors.red,
-              width: 2,
-            ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.sm,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
           ),
         ),
-      ),
+        const SizedBox(height: AppSpacing.xs),
+        TextFormField(
+          initialValue: value,
+          obscureText: isObscured,
+          autocorrect: false,
+          enableSuggestions: false,
+          onChanged: onChanged,
+          textInputAction: textInputAction,
+          decoration: _buildInputDecoration(
+            theme: theme,
+            colors: colors,
+            hintText: hintText,
+            errorText: errorText,
+            suffixIcon: IconButton(
+              icon: Icon(
+                isObscured ? Icons.visibility_off : Icons.visibility,
+                color: colors?.foregroundMuted,
+              ),
+              onPressed: onToggleVisibility,
+            ),
+          ),
+        ),
+        if (errorText != null) ...[
+          const SizedBox(height: AppSpacing.xxs),
+          Text(
+            errorText!,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.error,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

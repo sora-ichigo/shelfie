@@ -21,9 +21,14 @@ void main() {
       });
 
       group('Semantic colors', () {
-        test('accent はターコイズ色 (#4FD1C5) で定義されている', () {
+        test('accent はティール色 (#009689) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.accent, equals(const Color(0xFF4FD1C5)));
+          expect(colors.accent, equals(const Color(0xFF009689)));
+        });
+
+        test('link は明るいティール色 (#00D5BE) で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.link, equals(const Color(0xFF00D5BE)));
         });
 
         test('accentSecondary はゴールド色 (#F6C94A) で定義されている', () {
@@ -31,9 +36,9 @@ void main() {
           expect(colors.accentSecondary, equals(const Color(0xFFF6C94A)));
         });
 
-        test('background はダーク色 (#0A0A0A) で定義されている', () {
+        test('background はダーク色 (#000000) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.background, equals(const Color(0xFF0A0A0A)));
+          expect(colors.background, equals(const Color(0xFF000000)));
         });
       });
 

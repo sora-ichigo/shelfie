@@ -13,6 +13,8 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
+import 'package:shelfie/features/book_list/data/book_list_repository.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 Future<void> showBookQuickActionsModal({
@@ -326,6 +328,13 @@ class _BookQuickActionsModalContentState
         _buildActionItem(
           theme: theme,
           appColors: appColors,
+          icon: Icons.playlist_add,
+          label: 'リストに追加',
+          onTap: _onAddToListTap,
+        ),
+        _buildActionItem(
+          theme: theme,
+          appColors: appColors,
           icon: Icons.edit_note,
           label: 'メモを編集',
           onTap: () => _onEditNoteTap(entry),
@@ -373,6 +382,41 @@ class _BookQuickActionsModalContentState
           ],
         ),
       ),
+    );
+  }
+
+  void _onAddToListTap() {
+    final repository = ref.read(bookListRepositoryProvider);
+    final userBookId = widget.book.userBookId;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final errorColor = Theme.of(context).colorScheme.error;
+
+    Navigator.pop(context);
+    showListSelectorModal(
+      context: context,
+      userBookId: userBookId,
+      onListSelected: (listId) async {
+        final result = await repository.addBookToList(
+          listId: listId,
+          userBookId: userBookId,
+        );
+
+        result.fold(
+          (failure) {
+            scaffoldMessenger.showSnackBar(
+              SnackBar(
+                content: Text(failure.userMessage),
+                backgroundColor: errorColor,
+              ),
+            );
+          },
+          (_) {
+            scaffoldMessenger.showSnackBar(
+              const SnackBar(content: Text('リストに追加しました')),
+            );
+          },
+        );
+      },
     );
   }
 

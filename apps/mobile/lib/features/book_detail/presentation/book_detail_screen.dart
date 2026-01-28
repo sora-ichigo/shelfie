@@ -1,8 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_icon_size.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -15,6 +22,8 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:shelfie/features/book_list/data/book_list_repository.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
@@ -68,13 +77,11 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: AppSpacing.xs),
-            child: IconButton(
-              icon: const Icon(Icons.share),
-              onPressed: _onSharePressed,
-            ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: _onSharePressed,
           ),
+          _buildMoreMenu(),
         ],
       ),
       body: Stack(
@@ -222,6 +229,27 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     );
   }
 
+  Widget _buildMoreMenu() {
+    return IconButton(
+      icon: const Icon(Icons.more_vert),
+      onPressed: _showMoreBottomSheet,
+    );
+  }
+
+  void _showMoreBottomSheet() {
+    unawaited(HapticFeedback.mediumImpact());
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      builder: (context) => _BookDetailMoreSheet(
+        bookId: widget.bookId,
+        onAddToListPressed: _onAddToListPressed,
+      ),
+    );
+  }
+
   Future<void> _onAddToShelfPressed() async {
     if (_isAddingToShelf) return;
 
@@ -348,6 +376,132 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       authors: bookDetail.authors,
       coverImageUrl: bookDetail.thumbnailUrl,
       source: widget.source?.name,
+    );
+  }
+
+  void _onAddToListPressed(ShelfEntry shelfEntry) {
+    showListSelectorModal(
+      context: context,
+      userBookId: shelfEntry.userBookId,
+      onListSelected: (listId) async {
+        final repository = ref.read(bookListRepositoryProvider);
+        final result = await repository.addBookToList(
+          listId: listId,
+          userBookId: shelfEntry.userBookId,
+        );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(failure.userMessage),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+            );
+          },
+          (_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('リストに追加しました')),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _BookDetailMoreSheet extends ConsumerWidget {
+  const _BookDetailMoreSheet({
+    required this.bookId,
+    required this.onAddToListPressed,
+  });
+
+  final String bookId;
+  final void Function(ShelfEntry) onAddToListPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+    final shelfEntry = ref.watch(
+      shelfStateProvider.select((s) => s[bookId]),
+    );
+    final isInShelf = shelfEntry != null;
+
+    return SafeArea(
+      child: Padding(
+        padding: AppSpacing.all(AppSpacing.md),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildDragHandle(theme),
+            const SizedBox(height: AppSpacing.md),
+            _buildActionItem(
+              context: context,
+              theme: theme,
+              appColors: appColors,
+              icon: Icons.playlist_add,
+              label: 'リストに追加',
+              enabled: isInShelf,
+              onTap: isInShelf
+                  ? () {
+                      unawaited(HapticFeedback.selectionClick());
+                      Navigator.pop(context);
+                      onAddToListPressed(shelfEntry);
+                    }
+                  : null,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDragHandle(ThemeData theme) {
+    return Container(
+      width: 40,
+      height: 4,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+  }
+
+  Widget _buildActionItem({
+    required BuildContext context,
+    required ThemeData theme,
+    required AppColors appColors,
+    required IconData icon,
+    required String label,
+    required bool enabled,
+    VoidCallback? onTap,
+  }) {
+    final color = enabled ? appColors.foreground : appColors.foregroundMuted;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.sm),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: AppIconSize.base),
+            const SizedBox(width: AppSpacing.md),
+            Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/form_fields.dart';
 
 class ProfileEditForm extends StatelessWidget {
   const ProfileEditForm({
@@ -24,27 +25,18 @@ class ProfileEditForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel(theme, '氏名'),
-        const SizedBox(height: AppSpacing.xs),
-        _buildTextField(
+        LabeledTextField(
+          label: '氏名',
           controller: nameController,
           onChanged: onNameChanged,
-          colors: colors,
-          theme: theme,
           errorText: nameError,
           keyboardType: TextInputType.name,
         ),
-        if (nameError != null) ...[
-          const SizedBox(height: AppSpacing.xxs),
-          _buildErrorText(theme, nameError!),
-        ],
         const SizedBox(height: AppSpacing.lg),
-        _buildLabel(theme, 'メールアドレス'),
-        const SizedBox(height: AppSpacing.xs),
-        _buildDisabledTextField(
+        LabeledTextField(
+          label: 'メールアドレス',
           controller: emailController,
-          colors: colors,
-          theme: theme,
+          enabled: false,
         ),
         const SizedBox(height: AppSpacing.xs),
         Text(
@@ -54,97 +46,6 @@ class ProfileEditForm extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildLabel(ThemeData theme, String text) {
-    return Text(
-      text,
-      style: theme.textTheme.titleSmall?.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required ValueChanged<String> onChanged,
-    required AppColors? colors,
-    required ThemeData theme,
-    String? errorText,
-    TextInputType? keyboardType,
-    bool enabled = true,
-  }) {
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      keyboardType: keyboardType,
-      enabled: enabled,
-      style: enabled
-          ? null
-          : theme.textTheme.bodyLarge?.copyWith(color: colors?.foregroundMuted),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: colors?.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-          borderSide: errorText != null
-              ? BorderSide(color: theme.colorScheme.error, width: 1)
-              : BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-          borderSide: BorderSide(
-            color: errorText != null
-                ? theme.colorScheme.error
-                : (colors?.accent ?? theme.colorScheme.primary),
-            width: 2,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildErrorText(ThemeData theme, String error) {
-    return Text(
-      error,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: theme.colorScheme.error,
-      ),
-    );
-  }
-
-  Widget _buildDisabledTextField({
-    required TextEditingController controller,
-    required AppColors? colors,
-    required ThemeData theme,
-  }) {
-    return TextField(
-      controller: controller,
-      enabled: false,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: colors?.foregroundMuted,
-      ),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: colors?.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-      ),
     );
   }
 }

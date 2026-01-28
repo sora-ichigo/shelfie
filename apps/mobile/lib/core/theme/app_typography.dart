@@ -68,15 +68,15 @@ abstract final class AppTypography {
   /// 22px - カードやダイアログのメインタイトル
   static const titleLarge = TextStyle(
     fontSize: 22,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0,
     height: 1.27,
   );
 
-  /// 16px - リストアイテムのタイトル、小さなカードのタイトル
+  /// 18px - リストアイテムのタイトル、小さなカードのタイトル
   static const titleMedium = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.15,
     height: 1.50,
   );
