@@ -108,7 +108,7 @@ class LibraryAllTab extends StatelessWidget {
                 vertical: AppSpacing.xs,
               ),
               child: Text(
-                'すべて見る',
+                'すべて表示',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: appColors.link,
                       fontWeight: FontWeight.w600,
