@@ -159,9 +159,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           _selectedTab = LibraryFilterTab.lists;
         });
       },
-      onCreateListTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
     );
   }
 

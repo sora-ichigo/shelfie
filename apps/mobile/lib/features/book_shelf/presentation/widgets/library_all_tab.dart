@@ -15,7 +15,6 @@ class LibraryAllTab extends StatelessWidget {
     required this.onBookTap,
     required this.onSeeAllBooksTap,
     required this.onSeeAllListsTap,
-    required this.onCreateListTap,
     super.key,
   });
 
@@ -25,7 +24,6 @@ class LibraryAllTab extends StatelessWidget {
   final ValueChanged<ShelfBookItem> onBookTap;
   final VoidCallback onSeeAllBooksTap;
   final VoidCallback onSeeAllListsTap;
-  final VoidCallback onCreateListTap;
 
   @override
   Widget build(BuildContext context) {
@@ -98,21 +96,18 @@ class LibraryAllTab extends StatelessWidget {
   }
 
   Widget _buildListsSection(BuildContext context, AppColors appColors) {
+    final displayLists = lists.take(3).toList();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
       child: Column(
         children: [
-          ...lists.take(3).map(
-                (list) => BookListCard(
-                  summary: list,
-                  onTap: () => onListTap(list),
-                ),
-              ),
-          const SizedBox(height: AppSpacing.sm),
-          _CreateListButton(
-            appColors: appColors,
-            onTap: onCreateListTap,
-          ),
+          for (int i = 0; i < displayLists.length; i++) ...[
+            if (i > 0) const SizedBox(height: AppSpacing.sm),
+            BookListCard(
+              summary: displayLists[i],
+              onTap: () => onListTap(displayLists[i]),
+            ),
+          ],
         ],
       ),
     );
@@ -207,49 +202,6 @@ class _RecentBookCard extends StatelessWidget {
           Icons.book,
           size: 32,
           color: appColors.foregroundMuted,
-        ),
-      ),
-    );
-  }
-}
-
-class _CreateListButton extends StatelessWidget {
-  const _CreateListButton({
-    required this.appColors,
-    required this.onTap,
-  });
-
-  final AppColors appColors;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.md),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-        decoration: BoxDecoration(
-          color: appColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              color: appColors.foregroundMuted,
-              size: 20,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              '新しいリストを作成',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: appColors.foregroundMuted,
-                  ),
-            ),
-          ],
         ),
       ),
     );
