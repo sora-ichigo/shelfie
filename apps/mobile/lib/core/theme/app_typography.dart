@@ -73,10 +73,10 @@ abstract final class AppTypography {
     height: 1.27,
   );
 
-  /// 16px - リストアイテムのタイトル、小さなカードのタイトル
+  /// 18px - リストアイテムのタイトル、小さなカードのタイトル
   static const titleMedium = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.15,
     height: 1.50,
   );

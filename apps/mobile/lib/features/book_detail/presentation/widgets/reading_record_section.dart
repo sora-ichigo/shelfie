@@ -38,9 +38,7 @@ class ReadingRecordSection extends StatelessWidget {
         children: [
           Text(
             '読書記録',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           _buildRecordTable(context),

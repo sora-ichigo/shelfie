@@ -45,9 +45,7 @@ class SearchHistorySection extends StatelessWidget {
                   const SizedBox(width: AppSpacing.xs),
                   Text(
                     '最近の検索',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),

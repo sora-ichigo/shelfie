@@ -127,9 +127,7 @@ class _PasswordSettingsHeader extends StatelessWidget {
             child: Center(
               child: Text(
                 'パスワード設定',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.titleMedium,
               ),
             ),
           ),

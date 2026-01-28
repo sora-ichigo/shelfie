@@ -73,7 +73,6 @@ class LibraryAllTab extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: appColors.foreground,
-                  fontWeight: FontWeight.w700,
                 ),
           ),
           InkWell(

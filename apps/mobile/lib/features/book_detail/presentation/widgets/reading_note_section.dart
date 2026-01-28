@@ -34,9 +34,7 @@ class ReadingNoteSection extends StatelessWidget {
         children: [
           Text(
             '読書メモ',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           _buildNoteContent(context),

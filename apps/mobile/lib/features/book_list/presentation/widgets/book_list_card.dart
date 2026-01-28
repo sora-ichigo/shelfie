@@ -64,9 +64,7 @@ class _CardContent extends StatelessWidget {
                   summary.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: theme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: AppSpacing.xxs),
                 Text(
@@ -122,39 +120,112 @@ class CoverCollage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
     final images = coverImages.take(4).toList();
-    final placeholderCount = 4 - images.length;
 
+    return switch (images.length) {
+      1 => _SingleImageLayout(imageUrl: images[0]),
+      2 => _TwoImagesLayout(imageUrls: images),
+      3 => _ThreeImagesLayout(imageUrls: images),
+      _ => _FourImagesLayout(imageUrls: images),
+    };
+  }
+}
+
+class _SingleImageLayout extends StatelessWidget {
+  const _SingleImageLayout({required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CoverImage(imageUrl: imageUrl);
+  }
+}
+
+class _TwoImagesLayout extends StatelessWidget {
+  const _TwoImagesLayout({required this.imageUrls});
+
+  final List<String> imageUrls;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: _CoverImage(imageUrl: imageUrls[0])),
+        const SizedBox(width: 2),
+        Expanded(child: _CoverImage(imageUrl: imageUrls[1])),
+      ],
+    );
+  }
+}
+
+class _ThreeImagesLayout extends StatelessWidget {
+  const _ThreeImagesLayout({required this.imageUrls});
+
+  final List<String> imageUrls;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(child: _CoverImage(imageUrl: imageUrls[0])),
+        const SizedBox(height: 2),
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(child: _CoverImage(imageUrl: imageUrls[1])),
+              const SizedBox(width: 2),
+              Expanded(child: _CoverImage(imageUrl: imageUrls[2])),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FourImagesLayout extends StatelessWidget {
+  const _FourImagesLayout({required this.imageUrls});
+
+  final List<String> imageUrls;
+
+  @override
+  Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 2,
       mainAxisSpacing: 2,
       crossAxisSpacing: 2,
       physics: const NeverScrollableScrollPhysics(),
-      children: [
-        ...images.map(
-          (url) => CachedNetworkImage(
-            imageUrl: url,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => ColoredBox(
-              color: appColors.surface,
-            ),
-            errorWidget: (context, url, error) => ColoredBox(
-              color: appColors.surface,
-              child: Icon(
-                Icons.book,
-                color: appColors.foregroundMuted,
-              ),
-            ),
-          ),
+      children: imageUrls.map((url) => _CoverImage(imageUrl: url)).toList(),
+    );
+  }
+}
+
+class _CoverImage extends StatelessWidget {
+  const _CoverImage({required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      width: double.infinity,
+      height: double.infinity,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => ColoredBox(
+        color: appColors.surface,
+      ),
+      errorWidget: (context, url, error) => ColoredBox(
+        color: appColors.surface,
+        child: Icon(
+          Icons.book,
+          color: appColors.foregroundMuted,
         ),
-        ...List.generate(
-          placeholderCount,
-          (_) => ColoredBox(color: appColors.surface),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -34,9 +34,7 @@ class ProfileEditHeader extends StatelessWidget {
             child: Center(
               child: Text(
                 'プロフィール編集',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.titleMedium,
               ),
             ),
           ),

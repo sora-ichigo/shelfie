@@ -326,9 +326,7 @@ class BookInfoSection extends StatelessWidget {
         children: [
           Text(
             '書誌情報',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           ...items,
@@ -431,9 +429,7 @@ class BookInfoSection extends StatelessWidget {
         children: [
           Text(
             '作品紹介',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
@@ -494,9 +490,7 @@ class BookInfoSection extends StatelessWidget {
         children: [
           Text(
             '購入・詳細',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.sm),
           if (bookDetail.amazonUrl != null)

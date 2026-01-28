@@ -44,9 +44,7 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Text(
                       profile.name ?? '未設定',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: theme.textTheme.titleMedium,
                     ),
                     Text(
                       profile.email,
