@@ -10,14 +10,14 @@ abstract final class LegalUrls {
   static Future<bool> openTermsOfService() async {
     return launchUrl(
       Uri.parse(termsOfService),
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppBrowserView,
     );
   }
 
   static Future<bool> openPrivacyPolicy() async {
     return launchUrl(
       Uri.parse(privacyPolicy),
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppBrowserView,
     );
   }
 }

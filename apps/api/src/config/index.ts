@@ -27,10 +27,16 @@ interface ExternalApiConfig {
   GOOGLE_BOOKS_API_KEY?: string;
 }
 
+interface MonitoringConfig {
+  SENTRY_DSN?: string;
+  SENTRY_ENVIRONMENT?: string;
+}
+
 type AppConfig = DatabaseEnvConfig &
   ServerEnvConfig &
   SecurityEnvConfig &
-  ExternalApiConfig;
+  ExternalApiConfig &
+  MonitoringConfig;
 
 type ConfigErrorCode = "MISSING_REQUIRED" | "INVALID_VALUE";
 

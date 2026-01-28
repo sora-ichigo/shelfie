@@ -153,13 +153,28 @@ function extractIsbn(
   return null;
 }
 
+function enhanceGoogleBooksImageUrl(url: string): string {
+  try {
+    const urlObj = new URL(url);
+    urlObj.searchParams.set("zoom", "2");
+    urlObj.searchParams.delete("edge");
+    return urlObj.toString();
+  } catch {
+    return url;
+  }
+}
+
 function extractGoogleBooksCoverImageUrl(
   imageLinks?: GoogleBooksVolumeInfo["imageLinks"],
 ): string | null {
   if (!imageLinks) {
     return null;
   }
-  return imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
+  const baseUrl = imageLinks.thumbnail ?? imageLinks.smallThumbnail ?? null;
+  if (!baseUrl) {
+    return null;
+  }
+  return enhanceGoogleBooksImageUrl(baseUrl);
 }
 
 export function mapGoogleBooksVolume(volume: GoogleBooksVolume): Book {

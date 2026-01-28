@@ -9,6 +9,7 @@ import { closePool, getDb, getPool } from "./db";
 import type { GraphQLContext } from "./graphql/context";
 import { createApolloServer, createExpressApp } from "./graphql/server";
 import { logger } from "./logger";
+import { isSentryEnabled, Sentry } from "./sentry.js";
 
 interface ServerComponents {
   apolloServer: ApolloServer<GraphQLContext>;
@@ -87,6 +88,11 @@ async function shutdown(): Promise<void> {
     logger.info("Step 3/3: Closing database connection...");
     await closePool();
     logger.info("Database connection closed");
+
+    if (isSentryEnabled()) {
+      logger.info("Flushing Sentry events...");
+      await Sentry.close(2000);
+    }
 
     logger.info("Graceful shutdown completed");
   } catch (err) {

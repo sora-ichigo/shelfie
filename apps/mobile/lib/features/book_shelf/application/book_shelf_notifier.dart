@@ -3,6 +3,7 @@ import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
+import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
@@ -17,13 +18,16 @@ part 'book_shelf_notifier.g.dart';
 class BookShelfNotifier extends _$BookShelfNotifier {
   static const int _pageSize = 20;
 
-  SortOption _sortOption = SortOption.defaultOption;
-  GroupOption _groupOption = GroupOption.defaultOption;
+  late SortOption _sortOption;
+  late GroupOption _groupOption;
   int _currentOffset = 0;
   List<ShelfBookItem> _allBooks = [];
 
   @override
   BookShelfState build() {
+    final settingsRepository = ref.read(bookShelfSettingsRepositoryProvider);
+    _sortOption = settingsRepository.getSortOption();
+    _groupOption = settingsRepository.getGroupOption();
     return const BookShelfState.initial();
   }
 
@@ -43,6 +47,9 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     _allBooks = [];
     state = const BookShelfState.loading();
 
+    final settingsRepository = ref.read(bookShelfSettingsRepositoryProvider);
+    await settingsRepository.setSortOption(option);
+
     await _fetchBooks();
   }
 
@@ -52,6 +59,9 @@ class BookShelfNotifier extends _$BookShelfNotifier {
 
     _groupOption = option;
     final currentState = state as BookShelfLoaded;
+
+    final settingsRepository = ref.read(bookShelfSettingsRepositoryProvider);
+    settingsRepository.setGroupOption(option);
 
     state = currentState.copyWith(
       groupOption: option,

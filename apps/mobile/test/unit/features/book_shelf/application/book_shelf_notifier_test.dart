@@ -10,11 +10,15 @@ import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
+import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 class MockBookShelfRepository extends Mock implements BookShelfRepository {}
+
+class MockBookShelfSettingsRepository extends Mock
+    implements BookShelfSettingsRepository {}
 
 class FakeGShelfSortField extends Fake implements GShelfSortField {}
 
@@ -23,6 +27,7 @@ class FakeGSortOrder extends Fake implements GSortOrder {}
 void main() {
   late ProviderContainer container;
   late MockBookShelfRepository mockRepository;
+  late MockBookShelfSettingsRepository mockSettingsRepository;
 
   final now = DateTime(2024, 1, 15, 10, 30);
 
@@ -82,13 +87,28 @@ void main() {
   setUpAll(() {
     registerFallbackValue(FakeGShelfSortField());
     registerFallbackValue(FakeGSortOrder());
+    registerFallbackValue(SortOption.defaultOption);
+    registerFallbackValue(GroupOption.defaultOption);
   });
 
   setUp(() {
     mockRepository = MockBookShelfRepository();
+    mockSettingsRepository = MockBookShelfSettingsRepository();
+
+    when(() => mockSettingsRepository.getSortOption())
+        .thenReturn(SortOption.defaultOption);
+    when(() => mockSettingsRepository.getGroupOption())
+        .thenReturn(GroupOption.defaultOption);
+    when(() => mockSettingsRepository.setSortOption(any()))
+        .thenAnswer((_) async {});
+    when(() => mockSettingsRepository.setGroupOption(any()))
+        .thenAnswer((_) async {});
+
     container = ProviderContainer(
       overrides: [
         bookShelfRepositoryProvider.overrideWithValue(mockRepository),
+        bookShelfSettingsRepositoryProvider
+            .overrideWithValue(mockSettingsRepository),
       ],
     );
   });
@@ -655,6 +675,114 @@ void main() {
             limit: any(named: 'limit'),
             offset: 0,
           ),
+        ).called(1);
+      });
+    });
+
+    group('settings persistence', () {
+      test('should load saved sort option on initialize', () async {
+        when(() => mockSettingsRepository.getSortOption())
+            .thenReturn(SortOption.titleAsc);
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        verify(
+          () => mockRepository.getMyShelf(
+            sortBy: GShelfSortField.TITLE,
+            sortOrder: GSortOrder.ASC,
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).called(1);
+
+        final loaded = notifier.state as BookShelfLoaded;
+        expect(loaded.sortOption, SortOption.titleAsc);
+      });
+
+      test('should load saved group option on initialize', () async {
+        when(() => mockSettingsRepository.getGroupOption())
+            .thenReturn(GroupOption.byStatus);
+        final books = [
+          createBook(userBookId: 1, externalId: 'id1'),
+        ];
+        final entries = {
+          'id1': createEntry(
+            userBookId: 1,
+            externalId: 'id1',
+            readingStatus: ReadingStatus.reading,
+          ),
+        };
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(items: books, entries: entries, totalCount: 1),
+          ),
+        );
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        final loaded = notifier.state as BookShelfLoaded;
+        expect(loaded.groupOption, GroupOption.byStatus);
+        expect(loaded.groupedBooks.isNotEmpty, isTrue);
+      });
+
+      test('should persist sort option when setSortOption is called', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        clearInteractions(mockSettingsRepository);
+
+        await notifier.setSortOption(SortOption.authorAsc);
+
+        verify(() => mockSettingsRepository.setSortOption(SortOption.authorAsc))
+            .called(1);
+      });
+
+      test('should persist group option when setGroupOption is called',
+          () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        clearInteractions(mockSettingsRepository);
+
+        notifier.setGroupOption(GroupOption.byAuthor);
+
+        verify(
+          () => mockSettingsRepository.setGroupOption(GroupOption.byAuthor),
         ).called(1);
       });
     });
