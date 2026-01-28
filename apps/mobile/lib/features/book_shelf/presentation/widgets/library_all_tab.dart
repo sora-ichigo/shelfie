@@ -70,7 +70,7 @@ class LibraryAllTab extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
             child: Text(
               'リスト',
-              style: theme.textTheme.titleMedium?.copyWith(
+              style: theme.textTheme.titleLarge?.copyWith(
                 color: appColors.foreground,
               ),
             ),
@@ -95,7 +95,7 @@ class LibraryAllTab extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: appColors.foreground,
                 ),
           ),
