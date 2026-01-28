@@ -9,7 +9,7 @@ resource "google_artifact_registry_repository" "api" {
   format        = "DOCKER"
 
   docker_config {
-    immutable_tags = var.environment == "prod" ? true : false
+    immutable_tags = false
   }
 }
 
