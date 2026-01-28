@@ -12,21 +12,25 @@ class LibraryAllTab extends StatelessWidget {
   const LibraryAllTab({
     required this.lists,
     required this.recentBooks,
+    required this.totalBookCount,
     required this.onListTap,
     required this.onBookTap,
     required this.onBookLongPress,
     required this.onSeeAllBooksTap,
     required this.onSeeAllListsTap,
+    required this.onCreateListTap,
     super.key,
   });
 
   final List<BookListSummary> lists;
   final List<ShelfBookItem> recentBooks;
+  final int totalBookCount;
   final ValueChanged<BookListSummary> onListTap;
   final ValueChanged<ShelfBookItem> onBookTap;
   final ValueChanged<ShelfBookItem> onBookLongPress;
   final VoidCallback onSeeAllBooksTap;
   final VoidCallback onSeeAllListsTap;
+  final VoidCallback onCreateListTap;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +47,15 @@ class LibraryAllTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
       children: [
-        _buildSectionTitleWithAction(
-          context,
-          'リスト',
-          appColors,
-          onSeeAllListsTap,
-        ),
-        const SizedBox(height: AppSpacing.sm),
+        if (lists.isNotEmpty) ...[
+          _buildSectionTitleWithAction(
+            context,
+            'リスト',
+            appColors,
+            onSeeAllListsTap,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
         _buildListsSection(context, appColors),
         const SizedBox(height: AppSpacing.lg),
         if (recentBooks.isNotEmpty) ...[
@@ -106,6 +112,10 @@ class LibraryAllTab extends StatelessWidget {
   }
 
   Widget _buildListsSection(BuildContext context, AppColors appColors) {
+    if (lists.isEmpty) {
+      return _buildCreateListCard(context, appColors);
+    }
+
     final displayLists = lists.take(3).toList();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -119,6 +129,83 @@ class LibraryAllTab extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildCreateListCard(BuildContext context, AppColors appColors) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.xl,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: appColors.accent,
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                boxShadow: [
+                  BoxShadow(
+                    color: appColors.accent.withValues(alpha: 0.4),
+                    blurRadius: 16,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: Icon(
+                Icons.add,
+                color: appColors.onAccent,
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '最初のリストを作成',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: appColors.foreground,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              '本を整理して、\nあなただけのリストを作りましょう',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: appColors.foregroundMuted,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            FilledButton(
+              onPressed: onCreateListTap,
+              style: FilledButton.styleFrom(
+                backgroundColor: appColors.foreground,
+                foregroundColor: appColors.background,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.full),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.xl,
+                  vertical: AppSpacing.sm,
+                ),
+              ),
+              child: const Text('リストを作成'),
+            ),
+          ],
+        ),
       ),
     );
   }

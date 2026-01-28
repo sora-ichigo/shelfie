@@ -143,14 +143,15 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   Widget _buildAllTab(
       BookShelfLoaded bookShelfState, List<BookListSummary> lists) {
     final shelfState = ref.watch(shelfStateProvider);
-    final recentBooks = bookShelfState.books
+    final filteredBooks = bookShelfState.books
         .where((book) => shelfState.containsKey(book.externalId))
-        .take(10)
         .toList();
+    final recentBooks = filteredBooks.take(10).toList();
 
     return LibraryAllTab(
       lists: lists,
       recentBooks: recentBooks,
+      totalBookCount: filteredBooks.length,
       onListTap: _onListTap,
       onBookTap: _onBookTap,
       onBookLongPress: _onBookLongPress,
@@ -163,6 +164,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         setState(() {
           _selectedTab = LibraryFilterTab.lists;
         });
+      },
+      onCreateListTap: () {
+        context.push(AppRoutes.bookListCreate);
       },
     );
   }
