@@ -361,6 +361,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
           }
         }
         if (mounted) {
+          await ref.read(bookListNotifierProvider.notifier).refresh();
           Navigator.of(context).pop(bookList);
         }
       },
