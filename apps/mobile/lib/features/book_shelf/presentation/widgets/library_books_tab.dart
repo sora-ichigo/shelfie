@@ -39,6 +39,13 @@ class LibraryBooksTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (books.isEmpty) {
+      return const EmptyState(
+        icon: Icons.auto_stories_outlined,
+        message: '本を追加してみましょう',
+      );
+    }
+
     return Column(
       children: [
         Padding(
@@ -54,29 +61,18 @@ class LibraryBooksTab extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: _buildContent(),
+          child: BookGrid(
+            books: books,
+            groupedBooks: groupedBooks,
+            isGrouped: isGrouped,
+            hasMore: hasMore,
+            isLoadingMore: isLoadingMore,
+            onBookTap: onBookTap,
+            onBookLongPress: onBookLongPress,
+            onLoadMore: onLoadMore,
+          ),
         ),
       ],
-    );
-  }
-
-  Widget _buildContent() {
-    if (books.isEmpty) {
-      return const EmptyState(
-        icon: Icons.auto_stories_outlined,
-        message: '本を追加してみましょう',
-      );
-    }
-
-    return BookGrid(
-      books: books,
-      groupedBooks: groupedBooks,
-      isGrouped: isGrouped,
-      hasMore: hasMore,
-      isLoadingMore: isLoadingMore,
-      onBookTap: onBookTap,
-      onBookLongPress: onBookLongPress,
-      onLoadMore: onLoadMore,
     );
   }
 }

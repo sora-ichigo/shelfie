@@ -2,23 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 
 class LibraryListsTab extends StatelessWidget {
   const LibraryListsTab({
     required this.lists,
+    required this.hasBooks,
     required this.onListTap,
     required this.onCreateTap,
     super.key,
   });
 
   final List<BookListSummary> lists;
+  final bool hasBooks;
   final ValueChanged<BookListSummary> onListTap;
   final VoidCallback onCreateTap;
 
   @override
   Widget build(BuildContext context) {
+    if (!hasBooks) {
+      return const EmptyState(
+        icon: Icons.auto_stories_outlined,
+        message: '本を追加してみましょう',
+      );
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.all(AppSpacing.md),
       itemCount: lists.length + 1,

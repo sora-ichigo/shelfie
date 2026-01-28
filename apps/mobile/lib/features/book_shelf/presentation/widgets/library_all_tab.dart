@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -29,6 +30,13 @@ class LibraryAllTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (recentBooks.isEmpty) {
+      return const EmptyState(
+        icon: Icons.auto_stories_outlined,
+        message: '本を追加してみましょう',
+      );
+    }
+
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 

@@ -129,10 +129,14 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         ? bookListState.lists
         : <BookListSummary>[];
 
+    final shelfState = ref.watch(shelfStateProvider);
+    final hasBooks = bookShelfState.books
+        .any((book) => shelfState.containsKey(book.externalId));
+
     return switch (_selectedTab) {
       LibraryFilterTab.all => _buildAllTab(bookShelfState, lists),
       LibraryFilterTab.books => _buildBooksTab(bookShelfState),
-      LibraryFilterTab.lists => _buildListsTab(lists),
+      LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
     };
   }
 
@@ -194,9 +198,10 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     );
   }
 
-  Widget _buildListsTab(List<BookListSummary> lists) {
+  Widget _buildListsTab(List<BookListSummary> lists, bool hasBooks) {
     return LibraryListsTab(
       lists: lists,
+      hasBooks: hasBooks,
       onListTap: _onListTap,
       onCreateTap: () {
         context.push(AppRoutes.bookListCreate);
