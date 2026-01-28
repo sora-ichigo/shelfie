@@ -42,6 +42,7 @@ COPY apps/api/package.json ./apps/api/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
 
 COPY --from=build /app/apps/api/dist ./apps/api/dist
+COPY apps/api/certs ./apps/api/certs
 
 USER node
 

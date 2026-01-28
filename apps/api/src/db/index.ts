@@ -1,5 +1,7 @@
+import fs from "node:fs";
+import path from "node:path";
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { Pool, type PoolConfig } from "pg";
 import { config } from "../config/index.js";
 
 export * from "./schema/index.js";
@@ -15,10 +17,24 @@ function getDatabaseUrl(): string {
   return url;
 }
 
+function getSslConfig(): PoolConfig["ssl"] {
+  if (config.isTest()) {
+    return undefined;
+  }
+
+  const certPath = path.join(import.meta.dirname, "../certs/supabase-ca.crt");
+  if (fs.existsSync(certPath)) {
+    return { ca: fs.readFileSync(certPath).toString() };
+  }
+
+  return true;
+}
+
 export function getPool(): Pool {
   if (!pool) {
     pool = new Pool({
       connectionString: getDatabaseUrl(),
+      ssl: getSslConfig(),
       max: config.getOrDefault("DB_POOL_MAX", 20),
       idleTimeoutMillis: config.getOrDefault("DB_IDLE_TIMEOUT_MS", 30000),
       connectionTimeoutMillis: config.getOrDefault(
