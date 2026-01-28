@@ -151,7 +151,7 @@ void main() {
   });
 
   group('LibraryBooksTab', () {
-    testWidgets('displays sort/group filter bar', (tester) async {
+    testWidgets('displays empty state when books is empty', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
@@ -159,6 +159,38 @@ void main() {
             home: Scaffold(
               body: LibraryBooksTab(
                 books: [],
+                groupedBooks: {},
+                sortOption: SortOption.defaultOption,
+                groupOption: GroupOption.defaultOption,
+                hasMore: false,
+                isLoadingMore: false,
+                onBookTap: (_) {},
+                onBookLongPress: (_) {},
+                onLoadMore: () {},
+                onSortChanged: (_) {},
+                onGroupChanged: (_) {},
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('本を追加してみましょう'), findsOneWidget);
+    });
+
+    testWidgets('displays sort/group filter bar when books exist',
+        (tester) async {
+      final books = [
+        createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
+      ];
+
+      await tester.pumpWidget(
+        ProviderScope(
+          child: MaterialApp(
+            theme: AppTheme.dark(),
+            home: Scaffold(
+              body: LibraryBooksTab(
+                books: books,
                 groupedBooks: {},
                 sortOption: SortOption.defaultOption,
                 groupOption: GroupOption.defaultOption,
@@ -238,7 +270,8 @@ void main() {
       expect(find.text('My List 2'), findsOneWidget);
     });
 
-    testWidgets('displays create button', (tester) async {
+    testWidgets('displays empty state with create button when lists is empty',
+        (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.dark(),
@@ -253,10 +286,11 @@ void main() {
         ),
       );
 
-      expect(find.text('新しいリスト'), findsOneWidget);
+      expect(find.text('最初のリストを作成'), findsOneWidget);
+      expect(find.text('リストを作成'), findsOneWidget);
     });
 
-    testWidgets('calls onCreateTap when create button is tapped',
+    testWidgets('calls onCreateTap when create button is tapped in empty state',
         (tester) async {
       var tapped = false;
 
@@ -274,10 +308,32 @@ void main() {
         ),
       );
 
-      await tester.tap(find.text('新しいリスト'));
+      await tester.tap(find.text('リストを作成'));
       await tester.pumpAndSettle();
 
       expect(tapped, isTrue);
+    });
+
+    testWidgets('displays create button when lists exist', (tester) async {
+      final lists = [
+        createListSummary(id: 1, title: 'Existing List'),
+      ];
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(
+            body: LibraryListsTab(
+              lists: lists,
+              hasBooks: true,
+              onListTap: (_) {},
+              onCreateTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('新しいリスト'), findsOneWidget);
     });
   });
 }
