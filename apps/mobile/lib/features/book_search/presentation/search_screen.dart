@@ -112,7 +112,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   onScanPressed: _onScanPressed,
                   showCancelButton: isSearchActive,
                   onCancelPressed: _onCancel,
-                  hintText: '何を読みたいですか？',
+                  hintText: 'タイトル、著者名、タグ',
                 ),
               ),
               Expanded(
