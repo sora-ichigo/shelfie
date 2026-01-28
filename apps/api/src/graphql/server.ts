@@ -7,6 +7,7 @@ import { createAuthContext } from "../auth";
 import { config } from "../config";
 import { createErrorHandler } from "../errors";
 import { logger } from "../logger";
+import { isSentryEnabled, Sentry } from "../sentry.js";
 import type { GraphQLContext } from "./context";
 import { schema } from "./schema";
 
@@ -58,6 +59,10 @@ export function createExpressApp(
       },
     }),
   );
+
+  if (isSentryEnabled()) {
+    Sentry.setupExpressErrorHandler(app);
+  }
 
   return app;
 }
