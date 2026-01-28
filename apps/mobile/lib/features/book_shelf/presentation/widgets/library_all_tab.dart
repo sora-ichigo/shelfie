@@ -47,17 +47,6 @@ class LibraryAllTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
       children: [
-        if (lists.isNotEmpty) ...[
-          _buildSectionTitleWithAction(
-            context,
-            'リスト',
-            appColors,
-            onSeeAllListsTap,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-        ],
-        _buildListsSection(context, appColors),
-        const SizedBox(height: AppSpacing.lg),
         if (recentBooks.isNotEmpty) ...[
           _buildSectionTitleWithAction(
             context,
@@ -67,7 +56,28 @@ class LibraryAllTab extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           _buildRecentBooksGrid(),
+          const SizedBox(height: AppSpacing.lg),
         ],
+        if (lists.isNotEmpty) ...[
+          _buildSectionTitleWithAction(
+            context,
+            'リスト',
+            appColors,
+            onSeeAllListsTap,
+          ),
+        ] else ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            child: Text(
+              'リスト',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: appColors.foreground,
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: AppSpacing.sm),
+        _buildListsSection(context, appColors),
       ],
     );
   }
