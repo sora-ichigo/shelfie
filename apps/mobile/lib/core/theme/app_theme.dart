@@ -19,7 +19,7 @@ abstract final class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.dark,
-      surface: const Color(0xFF0A0A0A),
+      surface: AppColors.dark.background,
       onSurface: Colors.white,
     );
 
@@ -29,7 +29,7 @@ abstract final class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: const Color(0xFF0A0A0A),
+      scaffoldBackgroundColor: AppColors.dark.background,
       textTheme: textTheme,
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(

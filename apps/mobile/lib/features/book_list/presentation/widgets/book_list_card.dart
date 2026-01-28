@@ -19,7 +19,7 @@ class BookListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.md),
+      borderRadius: BorderRadius.circular(AppRadius.xl),
       child: _CardContent(summary: summary),
     );
   }
@@ -38,7 +38,7 @@ class _CardContent extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: appColors.surfaceCard,
-        borderRadius: BorderRadius.circular(AppRadius.md),
+        borderRadius: BorderRadius.circular(AppRadius.xl),
       ),
       padding: const EdgeInsets.all(AppSpacing.sm),
       child: Row(

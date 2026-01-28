@@ -20,17 +20,11 @@ class LibraryListsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
-          child: _CreateListButton(
-            onTap: onCreateTap,
-            appColors: appColors,
-          ),
+          child: _CreateListButton(onTap: onCreateTap),
         ),
         Expanded(
           child: lists.isEmpty
@@ -38,13 +32,13 @@ class LibraryListsTab extends StatelessWidget {
                   icon: Icons.playlist_add,
                   message: 'リストを作成して本を整理しましょう',
                 )
-              : _buildListView(context, appColors),
+              : _buildListView(context),
         ),
       ],
     );
   }
 
-  Widget _buildListView(BuildContext context, AppColors appColors) {
+  Widget _buildListView(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
@@ -64,50 +58,34 @@ class LibraryListsTab extends StatelessWidget {
 }
 
 class _CreateListButton extends StatelessWidget {
-  const _CreateListButton({
-    required this.onTap,
-    required this.appColors,
-  });
+  const _CreateListButton({required this.onTap});
 
   final VoidCallback onTap;
-  final AppColors appColors;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.md),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: appColors.accent,
-            width: 1.5,
+    return SizedBox(
+      width: double.infinity,
+      height: 44,
+      child: ElevatedButton.icon(
+        onPressed: onTap,
+        icon: const Icon(Icons.add, color: Colors.white, size: 20),
+        label: Text(
+          '新しいリスト',
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
           ),
-          borderRadius: BorderRadius.circular(AppRadius.md),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              color: appColors.accent,
-              size: 20,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              '新規作成',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.accent,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        style: ElevatedButton.styleFrom(
+          backgroundColor: appColors.accent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.xl),
+          ),
         ),
       ),
     );
