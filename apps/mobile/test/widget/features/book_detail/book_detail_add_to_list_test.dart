@@ -133,8 +133,8 @@ void main() {
     );
   }
 
-  group('BookDetailScreen リストに追加ボタン', () {
-    testWidgets('本棚に追加済みの場合、リストに追加ボタンが表示される', (tester) async {
+  group('BookDetailScreen リストに追加メニュー', () {
+    testWidgets('本棚に追加済みの場合、メニューからリストに追加が選択可能', (tester) async {
       final userBook = UserBook(
         id: 1,
         readingStatus: ReadingStatus.backlog,
@@ -148,10 +148,13 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
+
       expect(find.text('リストに追加'), findsOneWidget);
     });
 
-    testWidgets('本棚に追加されていない場合、リストに追加ボタンは表示されない', (tester) async {
+    testWidgets('本棚に追加されていない場合、リストに追加メニューは無効', (tester) async {
       await tester.pumpWidget(buildTestWidget(
         bookId: 'test-id',
         userBook: null,
@@ -159,10 +162,19 @@ void main() {
       ));
       await tester.pumpAndSettle();
 
-      expect(find.text('リストに追加'), findsNothing);
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
+
+      final menuItem = find.text('リストに追加');
+      expect(menuItem, findsOneWidget);
+
+      await tester.tap(menuItem);
+      await tester.pumpAndSettle();
+
+      expect(find.text('リストを選択'), findsNothing);
     });
 
-    testWidgets('リストに追加ボタンをタップするとモーダルが表示される', (tester) async {
+    testWidgets('リストに追加メニューをタップするとモーダルが表示される', (tester) async {
       final userBook = UserBook(
         id: 1,
         readingStatus: ReadingStatus.backlog,
@@ -174,6 +186,9 @@ void main() {
         userBook: userBook,
         lists: [createSummary(title: 'My Favorites')],
       ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('リストに追加'));
@@ -199,6 +214,9 @@ void main() {
         userBook: userBook,
         lists: [createSummary(id: 1, title: 'My Favorites')],
       ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('リストに追加'));
@@ -231,6 +249,9 @@ void main() {
         userBook: userBook,
         lists: [createSummary(id: 1, title: 'My Favorites')],
       ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.more_vert));
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('リストに追加'));

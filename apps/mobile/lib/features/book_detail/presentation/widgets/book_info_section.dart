@@ -14,7 +14,6 @@ class BookInfoSection extends StatelessWidget {
     this.isRemovingFromShelf = false,
     this.onAddToShelfPressed,
     this.onRemoveFromShelfPressed,
-    this.onAddToListPressed,
     this.onLinkTap,
     this.headerBottomSlot,
     super.key,
@@ -26,7 +25,6 @@ class BookInfoSection extends StatelessWidget {
   final bool isRemovingFromShelf;
   final VoidCallback? onAddToShelfPressed;
   final VoidCallback? onRemoveFromShelfPressed;
-  final VoidCallback? onAddToListPressed;
   final void Function(String url)? onLinkTap;
   final Widget? headerBottomSlot;
 
@@ -40,10 +38,6 @@ class BookInfoSection extends StatelessWidget {
         _buildHeader(theme),
         const SizedBox(height: AppSpacing.md),
         _buildShelfButton(theme),
-        if (isInShelf) ...[
-          const SizedBox(height: AppSpacing.sm),
-          _buildAddToListButton(theme),
-        ],
         const SizedBox(height: AppSpacing.lg),
         if (headerBottomSlot != null) ...[
           headerBottomSlot!,
@@ -188,32 +182,6 @@ class BookInfoSection extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: theme.colorScheme.surfaceContainerHighest,
           shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAddToListButton(ThemeData theme) {
-    final appColors = theme.extension<AppColors>()!;
-
-    return SizedBox(
-      width: double.infinity,
-      height: 44,
-      child: OutlinedButton.icon(
-        onPressed: onAddToListPressed,
-        icon: Icon(Icons.playlist_add, color: appColors.accent, size: 20),
-        label: Text(
-          'リストに追加',
-          style: theme.textTheme.labelLarge?.copyWith(
-            color: appColors.accent,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        style: OutlinedButton.styleFrom(
-          side: BorderSide(color: appColors.accent),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
