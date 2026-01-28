@@ -146,4 +146,81 @@ void main() {
       });
     });
   });
+
+  group('CoverCollage', () {
+    Widget buildCoverCollage(List<String> coverImages) {
+      return MaterialApp(
+        theme: AppTheme.dark(),
+        home: Scaffold(
+          body: SizedBox(
+            width: 80,
+            height: 80,
+            child: CoverCollage(coverImages: coverImages),
+          ),
+        ),
+      );
+    }
+
+    testWidgets('displays single image full size when 1 image provided',
+        (tester) async {
+      await tester.pumpWidget(buildCoverCollage([
+        'https://example.com/cover1.jpg',
+      ]));
+      await tester.pump();
+
+      expect(find.byType(GridView), findsNothing);
+    });
+
+    testWidgets('displays 2 images side by side when 2 images provided',
+        (tester) async {
+      await tester.pumpWidget(buildCoverCollage([
+        'https://example.com/cover1.jpg',
+        'https://example.com/cover2.jpg',
+      ]));
+      await tester.pump();
+
+      final row = find.byType(Row);
+      expect(row, findsOneWidget);
+    });
+
+    testWidgets('displays 3 images in 1+2 layout when 3 images provided',
+        (tester) async {
+      await tester.pumpWidget(buildCoverCollage([
+        'https://example.com/cover1.jpg',
+        'https://example.com/cover2.jpg',
+        'https://example.com/cover3.jpg',
+      ]));
+      await tester.pump();
+
+      final column = find.byType(Column);
+      expect(column, findsOneWidget);
+    });
+
+    testWidgets('displays 4 images in 2x2 grid when 4 images provided',
+        (tester) async {
+      await tester.pumpWidget(buildCoverCollage([
+        'https://example.com/cover1.jpg',
+        'https://example.com/cover2.jpg',
+        'https://example.com/cover3.jpg',
+        'https://example.com/cover4.jpg',
+      ]));
+      await tester.pump();
+
+      final gridView = find.byType(GridView);
+      expect(gridView, findsOneWidget);
+    });
+
+    testWidgets('does not add empty cells for missing images', (tester) async {
+      await tester.pumpWidget(buildCoverCollage([
+        'https://example.com/cover1.jpg',
+        'https://example.com/cover2.jpg',
+      ]));
+      await tester.pump();
+
+      expect(find.byType(GridView), findsNothing);
+
+      final expandedWidgets = find.byType(Expanded);
+      expect(expandedWidgets, findsNWidgets(2));
+    });
+  });
 }
