@@ -376,41 +376,6 @@ List<RouteBase> _buildRoutes() {
       },
     ),
 
-    // リスト作成画面（タブバーなし）
-    GoRoute(
-      path: AppRoutes.bookListCreate,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: BookListEditScreen(),
-      ),
-    ),
-
-    // リスト詳細画面（タブバーなし）
-    GoRoute(
-      path: '/lists/:listId',
-      pageBuilder: (context, state) {
-        final params = BookListParams.fromState(
-          pathParameters: state.pathParameters,
-        );
-        return CupertinoPage(
-          child: BookListDetailScreen(listId: params.listId),
-        );
-      },
-      routes: [
-        // リスト編集画面（サブルート）
-        GoRoute(
-          path: 'edit',
-          pageBuilder: (context, state) {
-            final params = BookListParams.fromState(
-              pathParameters: state.pathParameters,
-            );
-            return CupertinoPage(
-              child: BookListEditScreen(listId: params.listId),
-            );
-          },
-        ),
-      ],
-    ),
-
     // メインシェル（タブナビゲーション）
     ShellRoute(
       builder: (context, state, child) => _MainShell(child: child),
@@ -444,6 +409,40 @@ List<RouteBase> _buildRoutes() {
               ),
             ),
           ],
+        ),
+        // リスト作成画面
+        GoRoute(
+          path: AppRoutes.bookListCreate,
+          pageBuilder: (context, state) => const CupertinoPage(
+            child: BookListEditScreen(),
+          ),
+        ),
+      ],
+    ),
+
+    // リスト詳細画面（タブバーなし）
+    GoRoute(
+      path: '/lists/:listId',
+      pageBuilder: (context, state) {
+        final params = BookListParams.fromState(
+          pathParameters: state.pathParameters,
+        );
+        return CupertinoPage(
+          child: BookListDetailScreen(listId: params.listId),
+        );
+      },
+      routes: [
+        // リスト編集画面（サブルート）
+        GoRoute(
+          path: 'edit',
+          pageBuilder: (context, state) {
+            final params = BookListParams.fromState(
+              pathParameters: state.pathParameters,
+            );
+            return CupertinoPage(
+              child: BookListEditScreen(listId: params.listId),
+            );
+          },
         ),
       ],
     ),

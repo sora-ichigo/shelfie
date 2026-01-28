@@ -7,6 +7,7 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/book_list_edit_header.dart';
 
 class BookListEditScreen extends ConsumerStatefulWidget {
   const BookListEditScreen({
@@ -84,31 +85,53 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       final detailState = ref.watch(bookListDetailNotifierProvider(widget.listId!));
 
       return switch (detailState) {
-        BookListDetailInitial() || BookListDetailLoading() => Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: const Text('リスト編集'),
-            ),
-            body: const LoadingIndicator(fullScreen: true),
-          ),
+        BookListDetailInitial() || BookListDetailLoading() => _buildLoadingScreen(),
         BookListDetailLoaded(:final list) => _buildEditForm(theme, appColors, list),
-        BookListDetailError(:final failure) => Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: const Text('リスト編集'),
-            ),
-            body: Center(child: Text(failure.userMessage)),
-          ),
+        BookListDetailError(:final failure) => _buildErrorScreen(failure.userMessage),
       };
     }
 
     return _buildEditForm(theme, appColors, null);
+  }
+
+  Widget _buildLoadingScreen() {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            BookListEditHeader(
+              title: 'リスト編集',
+              onClose: () => Navigator.of(context).pop(),
+              onSave: () {},
+              isSaveEnabled: false,
+            ),
+            const Expanded(
+              child: LoadingIndicator(fullScreen: true),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorScreen(String message) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            BookListEditHeader(
+              title: 'リスト編集',
+              onClose: () => Navigator.of(context).pop(),
+              onSave: () {},
+              isSaveEnabled: false,
+            ),
+            Expanded(
+              child: Center(child: Text(message)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildEditForm(ThemeData theme, AppColors appColors, BookListDetail? loadedDetail) {
@@ -125,31 +148,45 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Text(widget.isEditing ? 'リスト編集' : '新規リスト'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: AppSpacing.all(AppSpacing.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildTitleField(theme, appColors),
-              const SizedBox(height: AppSpacing.md),
-              _buildDescriptionField(theme, appColors),
-              const SizedBox(height: AppSpacing.xl),
-              _buildSaveButton(theme),
-              if (widget.isEditing) ...[
-                const SizedBox(height: AppSpacing.md),
-                _buildDeleteButton(theme, appColors),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                BookListEditHeader(
+                  title: widget.isEditing ? 'リスト編集' : '新しいリスト',
+                  onClose: () => Navigator.of(context).pop(),
+                  onSave: _onSave,
+                  isSaveEnabled: _canSave,
+                ),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      padding: AppSpacing.all(AppSpacing.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildTitleField(theme, appColors),
+                          const SizedBox(height: AppSpacing.md),
+                          _buildDescriptionField(theme, appColors),
+                          if (widget.isEditing) ...[
+                            const SizedBox(height: AppSpacing.xl),
+                            _buildDeleteButton(theme, appColors),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ],
-          ),
+            ),
+            if (_isSaving)
+              ColoredBox(
+                color: Colors.black.withOpacity(0.3),
+                child: const LoadingIndicator(fullScreen: true),
+              ),
+          ],
         ),
       ),
     );
@@ -200,19 +237,6 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
           textInputAction: TextInputAction.done,
         ),
       ],
-    );
-  }
-
-  Widget _buildSaveButton(ThemeData theme) {
-    return ElevatedButton(
-      onPressed: _canSave ? _onSave : null,
-      child: _isSaving
-          ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : const Text('保存'),
     );
   }
 
