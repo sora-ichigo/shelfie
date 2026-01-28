@@ -42,7 +42,6 @@ class _CardContent extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(AppSpacing.sm),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 80,
@@ -68,24 +67,21 @@ class _CardContent extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xxs),
                 Text(
-                  '${summary.bookCount}冊',
+                  summary.description != null
+                      ? '${summary.bookCount}冊 ・ ${summary.description}'
+                      : '${summary.bookCount}冊',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: appColors.foregroundMuted,
                   ),
                 ),
-                if (summary.description != null) ...[
-                  const SizedBox(height: AppSpacing.xxs),
-                  Text(
-                    summary.description!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: appColors.foregroundMuted,
-                    ),
-                  ),
-                ],
               ],
             ),
+          ),
+          Icon(
+            Icons.chevron_right,
+            color: appColors.foregroundMuted,
           ),
         ],
       ),
