@@ -57,6 +57,12 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     if (widget.listId != null && widget.existingList == null) {
       _loadListData();
     }
+
+    if (!widget.isEditing) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _onAddBooksPressed();
+      });
+    }
   }
 
   void _loadListData() {
@@ -184,13 +190,13 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          if (!widget.isEditing) ...[
+                            _buildBookSection(theme, appColors),
+                            const SizedBox(height: AppSpacing.xl),
+                          ],
                           _buildTitleField(),
                           const SizedBox(height: AppSpacing.md),
                           _buildDescriptionField(),
-                          if (!widget.isEditing) ...[
-                            const SizedBox(height: AppSpacing.xl),
-                            _buildBookSection(theme, appColors),
-                          ],
                           if (widget.isEditing) ...[
                             const SizedBox(height: AppSpacing.xl),
                             _buildDeleteButton(appColors),
