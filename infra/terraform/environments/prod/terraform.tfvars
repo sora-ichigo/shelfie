@@ -1,5 +1,5 @@
 environment           = "prod"
-project_id            = "shelfie-prod"
+project_id            = "shelfie-production-485714"
 region                = "asia-northeast1"
 min_instances         = 1
 max_instances         = 10
@@ -14,14 +14,20 @@ github_repo  = "shelfie"
 # Environment Variables
 environment_variables = {
   NODE_ENV              = "production"
-  FIREBASE_PROJECT_ID   = "shelfie-prod"
-  FIREBASE_CLIENT_EMAIL = "" # TODO: Set after creating Firebase service account
+  FIREBASE_PROJECT_ID   = "shelfie-production-485714"
+  FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@shelfie-production-485714.iam.gserviceaccount.com"
+  FIREBASE_WEB_API_KEY  = "" # TODO: Set after terraform apply (from firebase_auth module)
   SENTRY_DSN            = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
   SENTRY_ENVIRONMENT    = "prod"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
 secret_environment_variables = {
-  DATABASE_URL         = "shelfie-api-database-url"
-  FIREBASE_PRIVATE_KEY = "shelfie-api-firebase-private-key"
+  DATABASE_URL           = "shelfie-api-database-url"
+  FIREBASE_PRIVATE_KEY   = "shelfie-api-firebase-private-key"
+  RAKUTEN_APPLICATION_ID = "shelfie-api-rakuten-application-id"
+  GOOGLE_BOOKS_API_KEY   = "shelfie-api-google-books-api-key"
+  IMAGEKIT_PUBLIC_KEY    = "shelfie-api-imagekit-public-key"
+  IMAGEKIT_PRIVATE_KEY   = "shelfie-api-imagekit-private-key"
+  IMAGEKIT_URL_ENDPOINT  = "shelfie-api-imagekit-url-endpoint"
 }

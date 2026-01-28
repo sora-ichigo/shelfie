@@ -28,21 +28,22 @@ provider "google-beta" {
 module "api_cloud_run" {
   source = "../../modules/api-cloud-run"
 
-  project_id            = var.project_id
-  region                = var.region
-  environment           = var.environment
-  service_name          = var.service_name
-  image_name            = var.image_name
-  image_tag             = var.image_tag
-  cpu_limit             = var.cpu_limit
-  memory_limit          = var.memory_limit
-  min_instances         = var.min_instances
-  max_instances         = var.max_instances
-  request_timeout       = var.request_timeout
-  service_account_id    = var.service_account_id
-  allow_unauthenticated = var.allow_unauthenticated
-  ingress               = var.ingress
-  environment_variables = var.environment_variables
+  project_id                   = var.project_id
+  region                       = var.region
+  environment                  = var.environment
+  service_name                 = var.service_name
+  image_name                   = var.image_name
+  image_tag                    = var.image_tag
+  cpu_limit                    = var.cpu_limit
+  memory_limit                 = var.memory_limit
+  min_instances                = var.min_instances
+  max_instances                = var.max_instances
+  request_timeout              = var.request_timeout
+  service_account_id           = var.service_account_id
+  allow_unauthenticated        = var.allow_unauthenticated
+  ingress                      = var.ingress
+  environment_variables        = var.environment_variables
+  secret_environment_variables = var.secret_environment_variables
 }
 
 output "cloud_run_service_url" {
@@ -83,5 +84,81 @@ module "google_books_api" {
 output "google_books_api_key" {
   description = "Google Books API key for server-side use"
   value       = module.google_books_api.api_key
+  sensitive   = true
+}
+
+output "google_books_api_key_name" {
+  description = "Google Books API key resource name"
+  value       = module.google_books_api.api_key_name
+}
+
+# =============================================================================
+# GitHub Actions Workload Identity Federation
+# =============================================================================
+
+module "github_actions_wif" {
+  source = "../../modules/github-actions-wif"
+
+  project_id                   = var.project_id
+  github_owner                 = var.github_owner
+  github_repo                  = var.github_repo
+  artifact_registry_location   = var.region
+  artifact_registry_repository = "shelfie-api"
+  cloud_run_service_name       = var.service_name
+  cloud_run_location           = var.region
+
+  depends_on = [module.api_cloud_run]
+}
+
+output "github_actions_workload_identity_provider" {
+  description = "Workload Identity Provider for GitHub Actions"
+  value       = module.github_actions_wif.workload_identity_provider
+}
+
+output "github_actions_service_account_email" {
+  description = "Service account email for GitHub Actions"
+  value       = module.github_actions_wif.service_account_email
+}
+
+# =============================================================================
+# Firebase Authentication
+# =============================================================================
+
+module "firebase_auth" {
+  source = "../../modules/firebase-auth"
+
+  providers = {
+    google-beta = google-beta
+  }
+
+  project_id         = var.project_id
+  environment        = var.environment
+  authorized_domains = ["${var.project_id}.firebaseapp.com", "${var.project_id}.web.app"]
+
+  android_package_name = "app.shelfie.shelfie"
+  ios_bundle_id        = "app.shelfie.shelfie"
+
+  depends_on = [module.api_cloud_run]
+}
+
+output "firebase_project_id" {
+  description = "Firebase Project ID"
+  value       = module.firebase_auth.firebase_project_id
+}
+
+output "firebase_authorized_domains" {
+  description = "Authorized domains for Firebase Authentication"
+  value       = module.firebase_auth.identity_platform_authorized_domains
+}
+
+output "android_config_json" {
+  description = "google-services.json content for Android (base64 encoded)"
+  value       = module.firebase_auth.android_config_json
+  sensitive   = true
+}
+
+output "ios_config_plist" {
+  description = "GoogleService-Info.plist content for iOS (base64 encoded)"
+  value       = module.firebase_auth.ios_config_plist
   sensitive   = true
 }

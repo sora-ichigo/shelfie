@@ -116,3 +116,23 @@ variable "environment_variables" {
     SENTRY_DSN = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
   }
 }
+
+variable "secret_environment_variables" {
+  description = "Environment variables sourced from Secret Manager. Map of env var name to secret name."
+  type        = map(string)
+  default     = {}
+}
+
+# =============================================================================
+# GitHub Actions Configuration
+# =============================================================================
+
+variable "github_owner" {
+  description = "GitHub repository owner (organization or user)"
+  type        = string
+}
+
+variable "github_repo" {
+  description = "GitHub repository name"
+  type        = string
+}
