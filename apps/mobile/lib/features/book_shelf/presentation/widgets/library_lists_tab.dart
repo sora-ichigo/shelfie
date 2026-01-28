@@ -42,10 +42,9 @@ class LibraryListsTab extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
       ),
       itemCount: lists.length,
-      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
+      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
       itemBuilder: (context, index) {
         final list = lists[index];
         return BookListCard(
@@ -69,7 +68,7 @@ class _CreateListButton extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      height: 44,
+      height: 56,
       child: ElevatedButton.icon(
         onPressed: onTap,
         icon: const Icon(Icons.add, color: Colors.white, size: 20),
@@ -77,7 +76,6 @@ class _CreateListButton extends StatelessWidget {
           '新しいリスト',
           style: theme.textTheme.labelLarge?.copyWith(
             color: Colors.white,
-            fontWeight: FontWeight.w600,
           ),
         ),
         style: ElevatedButton.styleFrom(
