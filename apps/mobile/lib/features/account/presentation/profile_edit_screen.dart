@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/application/profile_edit_notifier.dart';
@@ -10,7 +11,6 @@ import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:shelfie/features/account/presentation/widgets/avatar_editor.dart';
 import 'package:shelfie/features/account/presentation/widgets/image_source_bottom_sheet.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_edit_form.dart';
-import 'package:shelfie/features/account/presentation/widgets/profile_edit_header.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({
@@ -95,7 +95,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           children: [
             Column(
               children: [
-                ProfileEditHeader(
+                EditScreenHeader(
+                  title: 'プロフィール編集',
                   onClose: widget.onClose,
                   onSave: _handleSave,
                   isSaveEnabled: isSaveEnabled,

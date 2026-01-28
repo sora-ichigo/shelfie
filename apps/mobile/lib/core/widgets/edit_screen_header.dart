@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
-class BookListEditHeader extends StatelessWidget {
-  const BookListEditHeader({
+class EditScreenHeader extends StatelessWidget {
+  const EditScreenHeader({
     required this.title,
     required this.onClose,
     required this.onSave,

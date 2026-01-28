@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
-import 'package:shelfie/features/book_list/presentation/widgets/book_list_edit_header.dart';
 
 class BookListEditScreen extends ConsumerStatefulWidget {
   const BookListEditScreen({
@@ -99,7 +99,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            BookListEditHeader(
+            EditScreenHeader(
               title: 'リスト編集',
               onClose: () => Navigator.of(context).pop(),
               onSave: () {},
@@ -119,7 +119,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            BookListEditHeader(
+            EditScreenHeader(
               title: 'リスト編集',
               onClose: () => Navigator.of(context).pop(),
               onSave: () {},
@@ -153,7 +153,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
           children: [
             Column(
               children: [
-                BookListEditHeader(
+                EditScreenHeader(
                   title: widget.isEditing ? 'リスト編集' : '新しいリスト',
                   onClose: () => Navigator.of(context).pop(),
                   onSave: _onSave,

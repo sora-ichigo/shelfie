@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/account/application/password_form_state.dart';
 import 'package:shelfie/features/account/application/password_settings_notifier.dart';
@@ -62,7 +63,8 @@ class PasswordSettingsScreen extends ConsumerWidget {
           children: [
             Column(
               children: [
-                _PasswordSettingsHeader(
+                EditScreenHeader(
+                  title: 'パスワード設定',
                   onClose: onClose,
                   onSave: () {
                     ref
@@ -91,54 +93,6 @@ class PasswordSettingsScreen extends ConsumerWidget {
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PasswordSettingsHeader extends StatelessWidget {
-  const _PasswordSettingsHeader({
-    required this.onClose,
-    required this.onSave,
-    required this.isSaveEnabled,
-  });
-
-  final VoidCallback onClose;
-  final VoidCallback onSave;
-  final bool isSaveEnabled;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.xs,
-        vertical: AppSpacing.xs,
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: onClose,
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                'パスワード設定',
-                style: theme.textTheme.titleMedium,
-              ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.check,
-              color: isSaveEnabled ? colors?.accent : colors?.foregroundMuted,
-            ),
-            onPressed: isSaveEnabled ? onSave : null,
-          ),
-        ],
       ),
     );
   }
