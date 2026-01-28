@@ -17,10 +17,17 @@ class BookListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+
+    return Material(
+      color: appColors.surfaceCard,
       borderRadius: BorderRadius.circular(AppRadius.xl),
-      child: _CardContent(summary: summary),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.xl),
+        child: _CardContent(summary: summary),
+      ),
     );
   }
 }
@@ -35,11 +42,7 @@ class _CardContent extends StatelessWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: appColors.surfaceCard,
-        borderRadius: BorderRadius.circular(AppRadius.xl),
-      ),
+    return Padding(
       padding: const EdgeInsets.all(AppSpacing.sm),
       child: Row(
         children: [
