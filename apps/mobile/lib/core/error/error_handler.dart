@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shelfie/core/error/failure.dart';
 
 /// ログ出力用インターフェース
@@ -233,4 +234,20 @@ class NoOpCrashlyticsReporter implements CrashlyticsReporter {
 
   @override
   Future<void> recordFlutterError(FlutterErrorDetails details) async {}
+}
+
+/// Sentry を使用したエラー報告実装
+class SentryCrashlyticsReporter implements CrashlyticsReporter {
+  @override
+  Future<void> recordError(Object error, StackTrace? stackTrace) async {
+    await Sentry.captureException(error, stackTrace: stackTrace);
+  }
+
+  @override
+  Future<void> recordFlutterError(FlutterErrorDetails details) async {
+    await Sentry.captureException(
+      details.exception,
+      stackTrace: details.stack,
+    );
+  }
 }

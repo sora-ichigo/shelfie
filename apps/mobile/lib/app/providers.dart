@@ -23,12 +23,12 @@ Logger logger(Ref ref) {
 /// Crashlytics Reporter Provider
 ///
 /// エラー報告用の Provider。
-/// Firebase Crashlytics が利用可能な場合はそれを使用し、
-/// それ以外の場合は NoOp 実装を使用する。
-///
-/// 本番環境でのエラー報告に使用される。
+/// 本番環境では Sentry を使用し、開発環境では NoOp 実装を使用する。
 @Riverpod(keepAlive: true)
 CrashlyticsReporter crashlyticsReporter(Ref ref) {
+  if (kReleaseMode) {
+    return SentryCrashlyticsReporter();
+  }
   return NoOpCrashlyticsReporter();
 }
 
