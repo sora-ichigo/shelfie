@@ -149,6 +149,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       recentBooks: recentBooks,
       onListTap: _onListTap,
       onBookTap: _onBookTap,
+      onBookLongPress: _onBookLongPress,
       onSeeAllBooksTap: () {
         setState(() {
           _selectedTab = LibraryFilterTab.books;

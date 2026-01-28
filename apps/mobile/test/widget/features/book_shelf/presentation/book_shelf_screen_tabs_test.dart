@@ -53,17 +53,19 @@ void main() {
       ];
 
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: LibraryAllTab(
-              lists: lists,
-              recentBooks: [],
-              onListTap: (_) {},
-              onBookTap: (_) {},
-              onSeeAllBooksTap: () {},
-              onSeeAllListsTap: () {},
-              onCreateListTap: () {},
+        ProviderScope(
+          child: MaterialApp(
+            theme: AppTheme.dark(),
+            home: Scaffold(
+              body: LibraryAllTab(
+                lists: lists,
+                recentBooks: [],
+                onListTap: (_) {},
+                onBookTap: (_) {},
+                onBookLongPress: (_) {},
+                onSeeAllBooksTap: () {},
+                onSeeAllListsTap: () {},
+              ),
             ),
           ),
         ),
@@ -81,17 +83,19 @@ void main() {
       ];
 
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: LibraryAllTab(
-              lists: [],
-              recentBooks: books,
-              onListTap: (_) {},
-              onBookTap: (_) {},
-              onSeeAllBooksTap: () {},
-              onSeeAllListsTap: () {},
-              onCreateListTap: () {},
+        ProviderScope(
+          child: MaterialApp(
+            theme: AppTheme.dark(),
+            home: Scaffold(
+              body: LibraryAllTab(
+                lists: [],
+                recentBooks: books,
+                onListTap: (_) {},
+                onBookTap: (_) {},
+                onBookLongPress: (_) {},
+                onSeeAllBooksTap: () {},
+                onSeeAllListsTap: () {},
+              ),
             ),
           ),
         ),
@@ -107,17 +111,19 @@ void main() {
       var tapped = false;
 
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: LibraryAllTab(
-              lists: [],
-              recentBooks: [createBook()],
-              onListTap: (_) {},
-              onBookTap: (_) {},
-              onSeeAllBooksTap: () => tapped = true,
-              onSeeAllListsTap: () {},
-              onCreateListTap: () {},
+        ProviderScope(
+          child: MaterialApp(
+            theme: AppTheme.dark(),
+            home: Scaffold(
+              body: LibraryAllTab(
+                lists: [],
+                recentBooks: [createBook()],
+                onListTap: (_) {},
+                onBookTap: (_) {},
+                onBookLongPress: (_) {},
+                onSeeAllBooksTap: () => tapped = true,
+                onSeeAllListsTap: () {},
+              ),
             ),
           ),
         ),
@@ -125,54 +131,6 @@ void main() {
 
       final seeAllButtons = find.text('すべて見る');
       await tester.tap(seeAllButtons.last);
-      await tester.pumpAndSettle();
-
-      expect(tapped, isTrue);
-    });
-
-    testWidgets('displays create list button', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: LibraryAllTab(
-              lists: [],
-              recentBooks: [],
-              onListTap: (_) {},
-              onBookTap: (_) {},
-              onSeeAllBooksTap: () {},
-              onSeeAllListsTap: () {},
-              onCreateListTap: () {},
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('新しいリストを作成'), findsOneWidget);
-    });
-
-    testWidgets('calls onCreateListTap when create button is tapped',
-        (tester) async {
-      var tapped = false;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: LibraryAllTab(
-              lists: [],
-              recentBooks: [],
-              onListTap: (_) {},
-              onBookTap: (_) {},
-              onSeeAllBooksTap: () {},
-              onSeeAllListsTap: () {},
-              onCreateListTap: () => tapped = true,
-            ),
-          ),
-        ),
-      );
-
-      await tester.tap(find.text('新しいリストを作成'));
       await tester.pumpAndSettle();
 
       expect(tapped, isTrue);

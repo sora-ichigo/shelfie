@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
@@ -6,6 +5,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/book_card.dart';
 
 class LibraryAllTab extends StatelessWidget {
   const LibraryAllTab({
@@ -13,6 +13,7 @@ class LibraryAllTab extends StatelessWidget {
     required this.recentBooks,
     required this.onListTap,
     required this.onBookTap,
+    required this.onBookLongPress,
     required this.onSeeAllBooksTap,
     required this.onSeeAllListsTap,
     super.key,
@@ -22,6 +23,7 @@ class LibraryAllTab extends StatelessWidget {
   final List<ShelfBookItem> recentBooks;
   final ValueChanged<BookListSummary> onListTap;
   final ValueChanged<ShelfBookItem> onBookTap;
+  final ValueChanged<ShelfBookItem> onBookLongPress;
   final VoidCallback onSeeAllBooksTap;
   final VoidCallback onSeeAllListsTap;
 
@@ -50,7 +52,7 @@ class LibraryAllTab extends StatelessWidget {
             onSeeAllBooksTap,
           ),
           const SizedBox(height: AppSpacing.sm),
-          _buildRecentBooksHorizontalScroll(context, appColors),
+          _buildRecentBooksGrid(),
         ],
       ],
     );
@@ -113,96 +115,29 @@ class LibraryAllTab extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentBooksHorizontalScroll(
-    BuildContext context,
-    AppColors appColors,
-  ) {
-    return SizedBox(
-      height: 180,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-        itemCount: recentBooks.length,
-        separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.sm),
+  Widget _buildRecentBooksGrid() {
+    final displayBooks = recentBooks.take(6).toList();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: AppSpacing.xs,
+          crossAxisSpacing: AppSpacing.sm,
+          childAspectRatio: 0.45,
+        ),
+        itemCount: displayBooks.length,
         itemBuilder: (context, index) {
-          final book = recentBooks[index];
-          return _RecentBookCard(
+          final book = displayBooks[index];
+          return BookCard(
             book: book,
-            appColors: appColors,
             onTap: () => onBookTap(book),
+            onLongPress: () => onBookLongPress(book),
           );
         },
-      ),
-    );
-  }
-}
-
-class _RecentBookCard extends StatelessWidget {
-  const _RecentBookCard({
-    required this.book,
-    required this.appColors,
-    required this.onTap,
-  });
-
-  final ShelfBookItem book;
-  final AppColors appColors;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.md),
-      child: SizedBox(
-        width: 90,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 2 / 3,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.md),
-                child: _buildCoverImage(),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              book.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCoverImage() {
-    if (book.hasCoverImage) {
-      return CachedNetworkImage(
-        imageUrl: book.coverImageUrl!,
-        fit: BoxFit.cover,
-        placeholder: (_, __) => _buildPlaceholder(),
-        errorWidget: (_, __, ___) => _buildPlaceholder(),
-      );
-    }
-    return _buildPlaceholder();
-  }
-
-  Widget _buildPlaceholder() {
-    return ColoredBox(
-      color: appColors.surface,
-      child: Center(
-        child: Icon(
-          Icons.book,
-          size: 32,
-          color: appColors.foregroundMuted,
-        ),
       ),
     );
   }
