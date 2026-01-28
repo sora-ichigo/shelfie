@@ -16,6 +16,8 @@ environment_variables = {
   NODE_ENV              = "production"
   FIREBASE_PROJECT_ID   = "shelfie-prod"
   FIREBASE_CLIENT_EMAIL = "" # TODO: Set after creating Firebase service account
+  SENTRY_DSN            = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
+  SENTRY_ENVIRONMENT    = "prod"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)

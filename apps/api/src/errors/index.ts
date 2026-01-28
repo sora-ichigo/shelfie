@@ -1,5 +1,6 @@
 import { GraphQLError, type GraphQLFormattedError } from "graphql";
 import type { LoggerService } from "../logger";
+import { isSentryEnabled, Sentry } from "../sentry.js";
 
 export type ErrorCategory = "USER_ERROR" | "SYSTEM_ERROR" | "BUSINESS_ERROR";
 
@@ -145,6 +146,9 @@ export class ErrorHandler {
         break;
       default:
         this.logger.error(`GraphQL System Error: ${message}`, errorInstance);
+        if (isSentryEnabled() && errorInstance) {
+          Sentry.captureException(errorInstance);
+        }
         break;
     }
   }

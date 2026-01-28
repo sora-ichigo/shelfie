@@ -112,5 +112,7 @@ variable "ingress" {
 variable "environment_variables" {
   description = "Additional environment variables for the container"
   type        = map(string)
-  default     = {}
+  default = {
+    SENTRY_DSN = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
+  }
 }
