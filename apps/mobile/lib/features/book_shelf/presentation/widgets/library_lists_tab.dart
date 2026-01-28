@@ -5,6 +5,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/create_list_card.dart';
 
 class LibraryListsTab extends StatelessWidget {
   const LibraryListsTab({
@@ -26,6 +27,12 @@ class LibraryListsTab extends StatelessWidget {
       return const EmptyState(
         icon: Icons.auto_stories_outlined,
         message: '本を追加してみましょう',
+      );
+    }
+
+    if (lists.isEmpty) {
+      return Center(
+        child: CreateListCard(onCreateTap: onCreateTap),
       );
     }
 
