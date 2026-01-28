@@ -189,6 +189,16 @@ void main() {
         ).thenAnswer(
           (_) async => right(createBookList(title: 'New List')),
         );
+        when(
+          () => mockRepository.getMyBookLists(
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            const MyBookListsResult(items: [], totalCount: 0, hasMore: false),
+          ),
+        );
 
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
@@ -220,6 +230,16 @@ void main() {
           ),
         ).thenAnswer(
           (_) async => right(createBookList(title: 'Updated List')),
+        );
+        when(
+          () => mockRepository.getMyBookLists(
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            const MyBookListsResult(items: [], totalCount: 0, hasMore: false),
+          ),
         );
 
         await tester.pumpWidget(
@@ -255,6 +275,16 @@ void main() {
           await Future<void>.delayed(const Duration(milliseconds: 500));
           return right(createBookList());
         });
+        when(
+          () => mockRepository.getMyBookLists(
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            const MyBookListsResult(items: [], totalCount: 0, hasMore: false),
+          ),
+        );
 
         await tester.pumpWidget(buildTestWidget());
         await tester.pump();
