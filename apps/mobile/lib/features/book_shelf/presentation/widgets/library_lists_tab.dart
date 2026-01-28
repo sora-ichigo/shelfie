@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 
@@ -20,36 +19,25 @@ class LibraryListsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: _CreateListButton(onTap: onCreateTap),
-        ),
-        Expanded(
-          child: lists.isEmpty
-              ? const EmptyState(
-                  icon: Icons.playlist_add,
-                  message: 'リストを作成して本を整理しましょう',
-                )
-              : _buildListView(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildListView(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-      ),
-      itemCount: lists.length,
-      separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.sm),
+    return ListView.builder(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      itemCount: lists.length + 1,
       itemBuilder: (context, index) {
-        final list = lists[index];
-        return BookListCard(
-          summary: list,
-          onTap: () => onListTap(list),
+        if (index == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            child: _CreateListButton(onTap: onCreateTap),
+          );
+        }
+        final list = lists[index - 1];
+        return Padding(
+          padding: EdgeInsets.only(
+            top: index == 1 ? 0 : AppSpacing.sm,
+          ),
+          child: BookListCard(
+            summary: list,
+            onTap: () => onListTap(list),
+          ),
         );
       },
     );
@@ -79,7 +67,7 @@ class _CreateListButton extends StatelessWidget {
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: appColors.accent,
+          backgroundColor: appColors.surfaceSubtle,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.xl),

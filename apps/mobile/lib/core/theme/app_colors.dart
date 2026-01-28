@@ -27,6 +27,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.surface,
     required this.surfaceCard,
     required this.surfaceHigh,
+    required this.surfaceSubtle,
     required this.overlay,
     required this.foreground,
     required this.foregroundMuted,
@@ -59,6 +60,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _neutral500 = Color(0xFFA0A0A0);
   static const Color _white = Color(0xFFFFFFFF);
   static const Color _blackOverlay = Color(0x4D000000);
+  static const Color _white5 = Color(0x0DFFFFFF);
 
   // ===========================================================================
   // Semantic Colors（意味的カラー）
@@ -75,6 +77,9 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// 浮き上がった要素（モーダル、シート等）の背景色
   final Color surfaceHigh;
+
+  /// 薄い背景色（ボタン、入力フィールド等）
+  final Color surfaceSubtle;
 
   /// オーバーレイ（スクリム、背景暗転）の色
   final Color overlay;
@@ -115,6 +120,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surface: _neutral800,
     surfaceCard: _neutral850,
     surfaceHigh: _teal800,
+    surfaceSubtle: _white5,
     overlay: _blackOverlay,
     foreground: _white,
     foregroundMuted: _neutral500,
@@ -134,6 +140,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? surface,
     Color? surfaceCard,
     Color? surfaceHigh,
+    Color? surfaceSubtle,
     Color? overlay,
     Color? foreground,
     Color? foregroundMuted,
@@ -151,6 +158,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surface: surface ?? this.surface,
       surfaceCard: surfaceCard ?? this.surfaceCard,
       surfaceHigh: surfaceHigh ?? this.surfaceHigh,
+      surfaceSubtle: surfaceSubtle ?? this.surfaceSubtle,
       overlay: overlay ?? this.overlay,
       foreground: foreground ?? this.foreground,
       foregroundMuted: foregroundMuted ?? this.foregroundMuted,
@@ -173,6 +181,7 @@ class AppColors extends ThemeExtension<AppColors> {
       surface: Color.lerp(surface, other.surface, t)!,
       surfaceCard: Color.lerp(surfaceCard, other.surfaceCard, t)!,
       surfaceHigh: Color.lerp(surfaceHigh, other.surfaceHigh, t)!,
+      surfaceSubtle: Color.lerp(surfaceSubtle, other.surfaceSubtle, t)!,
       overlay: Color.lerp(overlay, other.overlay, t)!,
       foreground: Color.lerp(foreground, other.foreground, t)!,
       foregroundMuted: Color.lerp(foregroundMuted, other.foregroundMuted, t)!,
