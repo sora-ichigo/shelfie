@@ -84,7 +84,7 @@ void main() {
       expect(find.text('My List 2', skipOffstage: false), findsOneWidget);
     });
 
-    testWidgets('displays "最近追加した本" section with recent books',
+    testWidgets('displays "最近" section with recent books',
         (tester) async {
       final books = [
         createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
@@ -112,7 +112,7 @@ void main() {
         ),
       );
 
-      expect(find.text('最近追加した本'), findsOneWidget);
+      expect(find.text('最近'), findsOneWidget);
       expect(find.text('Book 1'), findsOneWidget);
       expect(find.text('Book 2'), findsOneWidget);
     });

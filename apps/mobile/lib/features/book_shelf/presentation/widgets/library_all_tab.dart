@@ -50,7 +50,7 @@ class LibraryAllTab extends StatelessWidget {
         if (recentBooks.isNotEmpty) ...[
           _buildSectionTitleWithAction(
             context,
-            '最近追加した本',
+            '最近',
             appColors,
             onSeeAllBooksTap,
           ),
