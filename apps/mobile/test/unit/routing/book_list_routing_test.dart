@@ -66,17 +66,32 @@ void main() {
         expect(path, '/lists/456/edit');
       });
 
-      test('/lists/new ルートがトップレベルルートとして登録されている', () {
+      test('/lists/new ルートが登録されている', () {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        final hasBookListCreateRoute = routes.any(
-          (route) => route is GoRoute && route.path == '/lists/new',
-        );
-        expect(hasBookListCreateRoute, isTrue);
+        bool hasRoute(List<RouteBase> routes, String path) {
+          for (final route in routes) {
+            if (route is GoRoute && route.path == path) return true;
+            if (route is ShellRoute) {
+              if (hasRoute(route.routes, path)) return true;
+            }
+            if (route is StatefulShellRoute) {
+              for (final branch in route.branches) {
+                if (hasRoute(branch.routes, path)) return true;
+              }
+            }
+            if (route is GoRoute && route.routes.isNotEmpty) {
+              if (hasRoute(route.routes, path)) return true;
+            }
+          }
+          return false;
+        }
+
+        expect(hasRoute(routes, '/lists/new'), isTrue);
       });
 
       test('/lists/:listId/edit ルートが登録されている', () {
@@ -98,7 +113,9 @@ void main() {
 
       testWidgets('BookListEditScreen が作成モードで動作する', (tester) async {
         await tester.pumpWidget(
-          buildTestWidget(child: const BookListEditScreen()),
+          buildTestWidget(
+            child: const BookListEditScreen(autoOpenBookSelector: false),
+          ),
         );
         await tester.pump();
 
@@ -109,7 +126,7 @@ void main() {
         );
         expect(editWidget.isEditing, isFalse);
 
-        expect(find.text('新規リスト'), findsOneWidget);
+        expect(find.text('新しいリスト'), findsOneWidget);
 
         await tester.pump(const Duration(seconds: 1));
       });

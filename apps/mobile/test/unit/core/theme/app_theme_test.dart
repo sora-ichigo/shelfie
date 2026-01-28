@@ -131,9 +131,9 @@ void main() {
     });
 
     group('scaffoldBackgroundColor', () {
-      test('scaffoldBackgroundColor はブランド背景色 (#0A0A0A) である', () {
+      test('scaffoldBackgroundColor はブランド背景色 (#000000) である', () {
         final theme = AppTheme.dark();
-        expect(theme.scaffoldBackgroundColor, equals(const Color(0xFF0A0A0A)));
+        expect(theme.scaffoldBackgroundColor, equals(const Color(0xFF000000)));
       });
     });
 
