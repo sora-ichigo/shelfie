@@ -42,7 +42,10 @@ void main() {
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
-        home: BookListEditScreen(existingList: existingList),
+        home: BookListEditScreen(
+          existingList: existingList,
+          autoOpenBookSelector: false,
+        ),
       ),
     );
   }

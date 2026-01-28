@@ -18,12 +18,16 @@ class BookListEditScreen extends ConsumerStatefulWidget {
   const BookListEditScreen({
     this.existingList,
     this.listId,
+    this.autoOpenBookSelector = true,
     super.key,
   });
 
   final BookList? existingList;
 
   final int? listId;
+
+  /// 新規作成時に自動で本選択モーダルを開くかどうか
+  final bool autoOpenBookSelector;
 
   bool get isEditing => existingList != null || listId != null;
 
@@ -58,7 +62,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       _loadListData();
     }
 
-    if (!widget.isEditing) {
+    if (!widget.isEditing && widget.autoOpenBookSelector) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _onAddBooksPressed();
       });
