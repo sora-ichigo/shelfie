@@ -149,10 +149,18 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       recentBooks: recentBooks,
       onListTap: _onListTap,
       onBookTap: _onBookTap,
-      onSeeAllTap: () {
+      onSeeAllBooksTap: () {
         setState(() {
           _selectedTab = LibraryFilterTab.books;
         });
+      },
+      onSeeAllListsTap: () {
+        setState(() {
+          _selectedTab = LibraryFilterTab.lists;
+        });
+      },
+      onCreateListTap: () {
+        context.push(AppRoutes.bookListCreate);
       },
     );
   }

@@ -32,39 +32,17 @@ void main() {
     return MaterialApp(
       theme: AppTheme.dark(),
       home: Scaffold(
-        body: SizedBox(
-          width: 180,
-          child: BookListCard.vertical(
-            summary: summary,
-            onTap: onTap ?? () {},
-          ),
+        body: BookListCard(
+          summary: summary,
+          onTap: onTap ?? () {},
         ),
       ),
     );
   }
 
-  group('BookListCard vertical variant', () {
-    group('2x2 cover image collage', () {
-      testWidgets('displays 2x2 collage when 4 or more cover images',
-          (tester) async {
-        final summary = createSummary(
-          coverImages: [
-            'https://example.com/cover1.jpg',
-            'https://example.com/cover2.jpg',
-            'https://example.com/cover3.jpg',
-            'https://example.com/cover4.jpg',
-          ],
-        );
-
-        await tester.pumpWidget(buildTestWidget(summary: summary));
-        await tester.pump();
-
-        final coverCollage = find.byType(CoverCollage);
-        expect(coverCollage, findsOneWidget);
-      });
-
-      testWidgets('displays available covers when less than 4 images',
-          (tester) async {
+  group('BookListCard', () {
+    group('cover image display', () {
+      testWidgets('displays cover collage when images exist', (tester) async {
         final summary = createSummary(
           coverImages: [
             'https://example.com/cover1.jpg',
@@ -75,8 +53,7 @@ void main() {
         await tester.pumpWidget(buildTestWidget(summary: summary));
         await tester.pump();
 
-        final coverCollage = find.byType(CoverCollage);
-        expect(coverCollage, findsOneWidget);
+        expect(find.byType(CoverCollage), findsOneWidget);
       });
 
       testWidgets('displays placeholder when no cover images', (tester) async {
@@ -117,54 +94,37 @@ void main() {
         expect(titleText, findsOneWidget);
 
         final textWidget = tester.widget<Text>(titleText);
-        expect(textWidget.maxLines, 2);
+        expect(textWidget.maxLines, 1);
         expect(textWidget.overflow, TextOverflow.ellipsis);
       });
     });
 
-    group('book count display', () {
-      testWidgets('displays book count', (tester) async {
-        final summary = createSummary(bookCount: 5);
-
-        await tester.pumpWidget(buildTestWidget(summary: summary));
-        await tester.pump();
-
-        expect(find.text('5冊'), findsOneWidget);
-      });
-
-      testWidgets('displays singular form for 0 books', (tester) async {
-        final summary = createSummary(bookCount: 0);
-
-        await tester.pumpWidget(buildTestWidget(summary: summary));
-        await tester.pump();
-
-        expect(find.text('0冊'), findsOneWidget);
-      });
-    });
-
-    group('description display', () {
-      testWidgets('displays description when present', (tester) async {
-        final summary = createSummary(description: 'A collection of favorites');
-
-        await tester.pumpWidget(buildTestWidget(summary: summary));
-        await tester.pump();
-
-        expect(find.text('A collection of favorites'), findsOneWidget);
-      });
-
-      testWidgets('does not display description when null', (tester) async {
-        final summary = createSummary(description: null);
-
-        await tester.pumpWidget(buildTestWidget(summary: summary));
-        await tester.pump();
-
-        final descriptionTexts = find.byWidgetPredicate(
-          (widget) =>
-              widget is Text &&
-              widget.data != summary.title &&
-              widget.data != '${summary.bookCount}冊',
+    group('book count and description display', () {
+      testWidgets('displays book count and description in one line',
+          (tester) async {
+        final summary = createSummary(
+          bookCount: 5,
+          description: 'A collection',
         );
-        expect(descriptionTexts, findsNothing);
+
+        await tester.pumpWidget(buildTestWidget(summary: summary));
+        await tester.pump();
+
+        expect(find.textContaining('5冊'), findsOneWidget);
+        expect(find.textContaining('A collection'), findsOneWidget);
+      });
+
+      testWidgets('displays only book count when no description',
+          (tester) async {
+        final summary = createSummary(
+          bookCount: 3,
+          description: null,
+        );
+
+        await tester.pumpWidget(buildTestWidget(summary: summary));
+        await tester.pump();
+
+        expect(find.text('3冊'), findsOneWidget);
       });
     });
 

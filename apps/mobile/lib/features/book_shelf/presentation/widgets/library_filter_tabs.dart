@@ -35,7 +35,7 @@ class LibraryFilterTabs extends StatelessWidget {
       children: LibraryFilterTab.values.map((tab) {
         return Padding(
           padding: EdgeInsets.only(
-            right: tab != LibraryFilterTab.lists ? AppSpacing.sm : 0,
+            right: tab != LibraryFilterTab.lists ? AppSpacing.xs : 0,
           ),
           child: _FilterTabButton(
             label: tab.label,
@@ -74,20 +74,17 @@ class _FilterTabButton extends StatelessWidget {
           vertical: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? appColors.accent : Colors.transparent,
+          color: isSelected
+              ? appColors.accent
+              : Colors.white.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppRadius.full),
-          border: Border.all(
-            color: isSelected
-                ? appColors.accent
-                : appColors.foregroundMuted.withValues(alpha: 0.3),
-          ),
         ),
         child: Text(
           label,
           style: theme.textTheme.bodyMedium?.copyWith(
             color:
                 isSelected ? appColors.foreground : appColors.foregroundMuted,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           ),
         ),
       ),

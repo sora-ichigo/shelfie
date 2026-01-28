@@ -46,7 +46,7 @@ void main() {
   }
 
   group('LibraryAllTab', () {
-    testWidgets('displays horizontal list of book lists', (tester) async {
+    testWidgets('displays list of book lists', (tester) async {
       final lists = [
         createListSummary(id: 1, title: 'My List 1'),
         createListSummary(id: 2, title: 'My List 2'),
@@ -61,7 +61,9 @@ void main() {
               recentBooks: [],
               onListTap: (_) {},
               onBookTap: (_) {},
-              onSeeAllTap: () {},
+              onSeeAllBooksTap: () {},
+              onSeeAllListsTap: () {},
+              onCreateListTap: () {},
             ),
           ),
         ),
@@ -87,7 +89,9 @@ void main() {
               recentBooks: books,
               onListTap: (_) {},
               onBookTap: (_) {},
-              onSeeAllTap: () {},
+              onSeeAllBooksTap: () {},
+              onSeeAllListsTap: () {},
+              onCreateListTap: () {},
             ),
           ),
         ),
@@ -98,7 +102,8 @@ void main() {
       expect(find.text('Book 2'), findsOneWidget);
     });
 
-    testWidgets('calls onSeeAllTap when "すべて見る" is tapped', (tester) async {
+    testWidgets('calls onSeeAllBooksTap when "すべて見る" in books section is tapped',
+        (tester) async {
       var tapped = false;
 
       await tester.pumpWidget(
@@ -110,13 +115,64 @@ void main() {
               recentBooks: [createBook()],
               onListTap: (_) {},
               onBookTap: (_) {},
-              onSeeAllTap: () => tapped = true,
+              onSeeAllBooksTap: () => tapped = true,
+              onSeeAllListsTap: () {},
+              onCreateListTap: () {},
             ),
           ),
         ),
       );
 
-      await tester.tap(find.text('すべて見る'));
+      final seeAllButtons = find.text('すべて見る');
+      await tester.tap(seeAllButtons.last);
+      await tester.pumpAndSettle();
+
+      expect(tapped, isTrue);
+    });
+
+    testWidgets('displays create list button', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(
+            body: LibraryAllTab(
+              lists: [],
+              recentBooks: [],
+              onListTap: (_) {},
+              onBookTap: (_) {},
+              onSeeAllBooksTap: () {},
+              onSeeAllListsTap: () {},
+              onCreateListTap: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('新しいリストを作成'), findsOneWidget);
+    });
+
+    testWidgets('calls onCreateListTap when create button is tapped',
+        (tester) async {
+      var tapped = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(
+            body: LibraryAllTab(
+              lists: [],
+              recentBooks: [],
+              onListTap: (_) {},
+              onBookTap: (_) {},
+              onSeeAllBooksTap: () {},
+              onSeeAllListsTap: () {},
+              onCreateListTap: () => tapped = true,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('新しいリストを作成'));
       await tester.pumpAndSettle();
 
       expect(tapped, isTrue);

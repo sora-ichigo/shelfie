@@ -5,56 +5,28 @@ import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 
-enum BookListCardVariant { vertical, horizontal }
-
 class BookListCard extends StatelessWidget {
-  const BookListCard._({
+  const BookListCard({
     required this.summary,
     required this.onTap,
-    required this.variant,
+    super.key,
   });
-
-  factory BookListCard.vertical({
-    required BookListSummary summary,
-    required VoidCallback onTap,
-  }) {
-    return BookListCard._(
-      summary: summary,
-      onTap: onTap,
-      variant: BookListCardVariant.vertical,
-    );
-  }
-
-  factory BookListCard.horizontal({
-    required BookListSummary summary,
-    required VoidCallback onTap,
-  }) {
-    return BookListCard._(
-      summary: summary,
-      onTap: onTap,
-      variant: BookListCardVariant.horizontal,
-    );
-  }
 
   final BookListSummary summary;
   final VoidCallback onTap;
-  final BookListCardVariant variant;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppRadius.md),
-      child: switch (variant) {
-        BookListCardVariant.vertical => _VerticalLayout(summary: summary),
-        BookListCardVariant.horizontal => _HorizontalLayout(summary: summary),
-      },
+      child: _CardContent(summary: summary),
     );
   }
 }
 
-class _VerticalLayout extends StatelessWidget {
-  const _VerticalLayout({required this.summary});
+class _CardContent extends StatelessWidget {
+  const _CardContent({required this.summary});
 
   final BookListSummary summary;
 
@@ -63,106 +35,62 @@ class _VerticalLayout extends StatelessWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.md),
-            child: summary.coverImages.isEmpty
-                ? _CoverPlaceholder(appColors: appColors)
-                : CoverCollage(coverImages: summary.coverImages),
+    return Container(
+      decoration: BoxDecoration(
+        color: appColors.surfaceCard,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              child: summary.coverImages.isEmpty
+                  ? _CoverPlaceholder(appColors: appColors)
+                  : CoverCollage(coverImages: summary.coverImages),
+            ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          summary.title,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.xxs),
-        Text(
-          '${summary.bookCount}冊',
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: appColors.foregroundMuted,
-          ),
-        ),
-        if (summary.description != null) ...[
-          const SizedBox(height: AppSpacing.xxs),
-          Text(
-            summary.description!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.foregroundMuted,
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  summary.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xxs),
+                Text(
+                  '${summary.bookCount}冊',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: appColors.foregroundMuted,
+                  ),
+                ),
+                if (summary.description != null) ...[
+                  const SizedBox(height: AppSpacing.xxs),
+                  Text(
+                    summary.description!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: appColors.foregroundMuted,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ],
-      ],
-    );
-  }
-}
-
-class _HorizontalLayout extends StatelessWidget {
-  const _HorizontalLayout({required this.summary});
-
-  final BookListSummary summary;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
-    return Row(
-      children: [
-        SizedBox(
-          width: 60,
-          height: 60,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.sm),
-            child: summary.coverImages.isEmpty
-                ? _CoverPlaceholder(appColors: appColors)
-                : SingleCoverImage(imageUrl: summary.coverImages.first),
-          ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                summary.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xxs),
-              Text(
-                summary.description != null
-                    ? '${summary.bookCount}冊 | ${summary.description}'
-                    : '${summary.bookCount}冊',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: appColors.foregroundMuted,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: AppSpacing.sm),
-        Icon(
-          Icons.chevron_right,
-          color: appColors.foregroundMuted,
-        ),
-      ],
+      ),
     );
   }
 }

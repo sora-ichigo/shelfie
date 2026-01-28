@@ -54,7 +54,7 @@ class LibraryListsTab extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) {
         final list = lists[index];
-        return BookListCard.horizontal(
+        return BookListCard(
           summary: list,
           onTap: () => onListTap(list),
         );

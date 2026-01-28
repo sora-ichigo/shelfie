@@ -13,7 +13,9 @@ class LibraryAllTab extends StatelessWidget {
     required this.recentBooks,
     required this.onListTap,
     required this.onBookTap,
-    required this.onSeeAllTap,
+    required this.onSeeAllBooksTap,
+    required this.onSeeAllListsTap,
+    required this.onCreateListTap,
     super.key,
   });
 
@@ -21,7 +23,9 @@ class LibraryAllTab extends StatelessWidget {
   final List<ShelfBookItem> recentBooks;
   final ValueChanged<BookListSummary> onListTap;
   final ValueChanged<ShelfBookItem> onBookTap;
-  final VoidCallback onSeeAllTap;
+  final VoidCallback onSeeAllBooksTap;
+  final VoidCallback onSeeAllListsTap;
+  final VoidCallback onCreateListTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +35,22 @@ class LibraryAllTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
       children: [
-        if (lists.isNotEmpty) ...[
-          _buildSectionTitle(context, 'リスト', appColors),
-          const SizedBox(height: AppSpacing.sm),
-          _buildListsHorizontalScroll(context),
-          const SizedBox(height: AppSpacing.lg),
-        ],
+        _buildSectionTitleWithAction(
+          context,
+          'リスト',
+          appColors,
+          onSeeAllListsTap,
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        _buildListsSection(context, appColors),
+        const SizedBox(height: AppSpacing.lg),
         if (recentBooks.isNotEmpty) ...[
-          _buildSectionTitleWithAction(context, '最近追加した本', appColors),
+          _buildSectionTitleWithAction(
+            context,
+            '最近追加した本',
+            appColors,
+            onSeeAllBooksTap,
+          ),
           const SizedBox(height: AppSpacing.sm),
           _buildRecentBooksHorizontalScroll(context, appColors),
         ],
@@ -46,27 +58,11 @@ class LibraryAllTab extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(
-    BuildContext context,
-    String title,
-    AppColors appColors,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: appColors.foreground,
-              fontWeight: FontWeight.bold,
-            ),
-      ),
-    );
-  }
-
   Widget _buildSectionTitleWithAction(
     BuildContext context,
     String title,
     AppColors appColors,
+    VoidCallback onSeeAllTap,
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -77,7 +73,7 @@ class LibraryAllTab extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: appColors.foreground,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                 ),
           ),
           InkWell(
@@ -91,8 +87,8 @@ class LibraryAllTab extends StatelessWidget {
               child: Text(
                 'すべて見る',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: appColors.accent,
-                      fontWeight: FontWeight.w500,
+                      color: appColors.link,
+                      fontWeight: FontWeight.w600,
                     ),
               ),
             ),
@@ -102,24 +98,23 @@ class LibraryAllTab extends StatelessWidget {
     );
   }
 
-  Widget _buildListsHorizontalScroll(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-        itemCount: lists.length,
-        separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.md),
-        itemBuilder: (context, index) {
-          final list = lists[index];
-          return SizedBox(
-            width: 140,
-            child: BookListCard.vertical(
-              summary: list,
-              onTap: () => onListTap(list),
-            ),
-          );
-        },
+  Widget _buildListsSection(BuildContext context, AppColors appColors) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Column(
+        children: [
+          ...lists.take(3).map(
+                (list) => BookListCard(
+                  summary: list,
+                  onTap: () => onListTap(list),
+                ),
+              ),
+          const SizedBox(height: AppSpacing.sm),
+          _CreateListButton(
+            appColors: appColors,
+            onTap: onCreateListTap,
+          ),
+        ],
       ),
     );
   }
@@ -213,6 +208,49 @@ class _RecentBookCard extends StatelessWidget {
           Icons.book,
           size: 32,
           color: appColors.foregroundMuted,
+        ),
+      ),
+    );
+  }
+}
+
+class _CreateListButton extends StatelessWidget {
+  const _CreateListButton({
+    required this.appColors,
+    required this.onTap,
+  });
+
+  final AppColors appColors;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+        decoration: BoxDecoration(
+          color: appColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.add,
+              color: appColors.foregroundMuted,
+              size: 20,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Text(
+              '新しいリストを作成',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: appColors.foregroundMuted,
+                  ),
+            ),
+          ],
         ),
       ),
     );
