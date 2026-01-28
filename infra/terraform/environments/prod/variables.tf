@@ -92,7 +92,7 @@ variable "service_account_id" {
 variable "allow_unauthenticated" {
   description = "Allow unauthenticated access to the Cloud Run service"
   type        = bool
-  default     = false
+  default     = true
 }
 
 # =============================================================================
