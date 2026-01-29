@@ -18,7 +18,7 @@ function getDatabaseUrl(): string {
 }
 
 function getSslConfig(): PoolConfig["ssl"] {
-  if (config.isTest()) {
+  if (config.isTest() || config.isDevelopment()) {
     return undefined;
   }
 
