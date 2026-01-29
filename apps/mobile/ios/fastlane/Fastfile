@@ -20,6 +20,23 @@ platform :ios do
     )
   end
 
+  desc "Fetch App Store Distribution certificates and provisioning profiles (readonly)"
+  lane :fetch_appstore_certificates do |options|
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_content: ENV["APP_STORE_CONNECT_API_KEY_KEY"]
+    )
+
+    match(
+      type: "appstore",
+      readonly: true,
+      keychain_name: options[:keychain_name],
+      keychain_password: options[:keychain_password],
+      api_key: api_key
+    )
+  end
+
   desc "Sync devices from Firebase App Distribution and regenerate profiles"
   lane :sync_devices do |options|
     app_id = ENV["FIREBASE_IOS_APP_ID"]
