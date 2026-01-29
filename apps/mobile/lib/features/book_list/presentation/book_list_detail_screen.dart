@@ -201,10 +201,32 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
     showBookSelectorModal(
       context: context,
-      existingUserBookIds: existingUserBookIds,
+      existingUserBookIds: const [],
+      initialSelectedUserBookIds: existingUserBookIds,
       onBookSelected: (book) async {
         final repository = ref.read(bookListRepositoryProvider);
         final result = await repository.addBookToList(
+          listId: widget.listId,
+          userBookId: book.userBookId,
+        );
+        result.fold(
+          (failure) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(failure.userMessage)),
+              );
+            }
+          },
+          (_) {
+            ref
+                .read(bookListDetailNotifierProvider(widget.listId).notifier)
+                .refresh();
+          },
+        );
+      },
+      onBookRemoved: (book) async {
+        final repository = ref.read(bookListRepositoryProvider);
+        final result = await repository.removeBookFromList(
           listId: widget.listId,
           userBookId: book.userBookId,
         );
