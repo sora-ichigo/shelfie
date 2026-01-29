@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -12,6 +13,8 @@ import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
+import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class BookListDetailScreen extends ConsumerStatefulWidget {
@@ -113,6 +116,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                   item: item,
                   position: index + 1,
                   onTap: () => _onItemTap(item),
+                  onLongPress: () => _onItemLongPress(item),
                 );
               },
               childCount: list.items.length,
@@ -245,6 +249,35 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
           },
         );
       },
+    );
+  }
+
+  void _onItemLongPress(BookListItem item) {
+    final userBook = item.userBook;
+    if (userBook == null) return;
+
+    final shelfEntry = ref.read(shelfStateProvider)[userBook.externalId];
+    if (shelfEntry == null) return;
+
+    final source = switch (userBook.source) {
+      'google' => BookSource.google,
+      'rakuten' => BookSource.rakuten,
+      _ => BookSource.rakuten,
+    };
+
+    showBookQuickActionsModal(
+      context: context,
+      ref: ref,
+      book: ShelfBookItem(
+        userBookId: userBook.id,
+        externalId: userBook.externalId,
+        title: userBook.title,
+        authors: userBook.authors,
+        source: source,
+        addedAt: item.addedAt,
+        coverImageUrl: userBook.coverImageUrl,
+      ),
+      shelfEntry: shelfEntry,
     );
   }
 
@@ -548,11 +581,13 @@ class _BookListItemTile extends StatelessWidget {
     required this.item,
     required this.position,
     required this.onTap,
+    required this.onLongPress,
   });
 
   final BookListItem item;
   final int position;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -562,6 +597,7 @@ class _BookListItemTile extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
