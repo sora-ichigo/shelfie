@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -36,6 +37,10 @@ Future<void> main() async {
     appRunner: () async {
       // Google Fonts のランタイムフェッチを無効化（バンドルされたフォントを使用）
       GoogleFonts.config.allowRuntimeFetching = false;
+
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
 
       // Hive の初期化（オフラインキャッシュ用）
       await Hive.initFlutter();
