@@ -1,4 +1,4 @@
-import type { BookList, BookListItem } from "../../../db/schema/book-lists.js";
+import type { BookList } from "../../../db/schema/book-lists.js";
 import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
 import type { BookListRepository } from "./repository.js";

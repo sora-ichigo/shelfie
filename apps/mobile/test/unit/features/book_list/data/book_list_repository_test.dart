@@ -245,6 +245,12 @@ void main() {
                       ..addedAt = addedAt,
                   ),
                 ])
+                ..stats = GBookListDetailData_bookListDetail_stats(
+                  (s) => s
+                    ..bookCount = 1
+                    ..completedCount = 0
+                    ..coverImages = ListBuilder<String>(),
+                ).toBuilder()
                 ..createdAt = createdAt
                 ..updatedAt = updatedAt,
             ).toBuilder(),

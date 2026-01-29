@@ -658,11 +658,7 @@ export function registerBookListsMutations(
         listId: t.arg.int({ required: true }),
         userBookId: t.arg.int({ required: true }),
       },
-      resolve: async (
-        _parent,
-        args,
-        context,
-      ): Promise<BookListDetailItem> => {
+      resolve: async (_parent, args, context): Promise<BookListDetailItem> => {
         const authenticatedContext = context as AuthenticatedContext;
 
         if (!authenticatedContext.user?.uid) {
