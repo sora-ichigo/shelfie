@@ -659,6 +659,15 @@ const BookListDetailUserBook = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'externalId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'id'),
       directives: [],
       args: [],
@@ -669,6 +678,15 @@ const BookListDetailUserBook = _i1.ObjectTypeDefinitionNode(
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'readingStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'source'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(

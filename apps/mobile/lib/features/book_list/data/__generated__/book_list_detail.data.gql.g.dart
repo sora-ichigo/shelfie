@@ -283,6 +283,9 @@ class _$GBookListDetailData_bookListDetail_items_userBookSerializer
           specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'externalId',
+      serializers.serialize(object.externalId,
+          specifiedType: const FullType(String)),
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
@@ -292,6 +295,9 @@ class _$GBookListDetailData_bookListDetail_items_userBookSerializer
               const FullType(BuiltList, const [const FullType(String)])),
       'readingStatus',
       serializers.serialize(object.readingStatus,
+          specifiedType: const FullType(String)),
+      'source',
+      serializers.serialize(object.source,
           specifiedType: const FullType(String)),
     ];
     Object? value;
@@ -325,6 +331,10 @@ class _$GBookListDetailData_bookListDetail_items_userBookSerializer
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int))! as int;
           break;
+        case 'externalId':
+          result.externalId = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
         case 'title':
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
@@ -341,6 +351,10 @@ class _$GBookListDetailData_bookListDetail_items_userBookSerializer
           break;
         case 'readingStatus':
           result.readingStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'source':
+          result.source = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -908,6 +922,8 @@ class _$GBookListDetailData_bookListDetail_items_userBook
   @override
   final int id;
   @override
+  final String externalId;
+  @override
   final String title;
   @override
   final BuiltList<String> authors;
@@ -915,6 +931,8 @@ class _$GBookListDetailData_bookListDetail_items_userBook
   final String? coverImageUrl;
   @override
   final String readingStatus;
+  @override
+  final String source;
 
   factory _$GBookListDetailData_bookListDetail_items_userBook(
           [void Function(
@@ -927,10 +945,12 @@ class _$GBookListDetailData_bookListDetail_items_userBook
   _$GBookListDetailData_bookListDetail_items_userBook._(
       {required this.G__typename,
       required this.id,
+      required this.externalId,
       required this.title,
       required this.authors,
       this.coverImageUrl,
-      required this.readingStatus})
+      required this.readingStatus,
+      required this.source})
       : super._();
   @override
   GBookListDetailData_bookListDetail_items_userBook rebuild(
@@ -949,10 +969,12 @@ class _$GBookListDetailData_bookListDetail_items_userBook
     return other is GBookListDetailData_bookListDetail_items_userBook &&
         G__typename == other.G__typename &&
         id == other.id &&
+        externalId == other.externalId &&
         title == other.title &&
         authors == other.authors &&
         coverImageUrl == other.coverImageUrl &&
-        readingStatus == other.readingStatus;
+        readingStatus == other.readingStatus &&
+        source == other.source;
   }
 
   @override
@@ -960,10 +982,12 @@ class _$GBookListDetailData_bookListDetail_items_userBook
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
     _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, externalId.hashCode);
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, authors.hashCode);
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
     _$hash = $jc(_$hash, readingStatus.hashCode);
+    _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -974,10 +998,12 @@ class _$GBookListDetailData_bookListDetail_items_userBook
             r'GBookListDetailData_bookListDetail_items_userBook')
           ..add('G__typename', G__typename)
           ..add('id', id)
+          ..add('externalId', externalId)
           ..add('title', title)
           ..add('authors', authors)
           ..add('coverImageUrl', coverImageUrl)
-          ..add('readingStatus', readingStatus))
+          ..add('readingStatus', readingStatus)
+          ..add('source', source))
         .toString();
   }
 }
@@ -995,6 +1021,10 @@ class GBookListDetailData_bookListDetail_items_userBookBuilder
   int? _id;
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
+
+  String? _externalId;
+  String? get externalId => _$this._externalId;
+  set externalId(String? externalId) => _$this._externalId = externalId;
 
   String? _title;
   String? get title => _$this._title;
@@ -1014,6 +1044,10 @@ class GBookListDetailData_bookListDetail_items_userBookBuilder
   set readingStatus(String? readingStatus) =>
       _$this._readingStatus = readingStatus;
 
+  String? _source;
+  String? get source => _$this._source;
+  set source(String? source) => _$this._source = source;
+
   GBookListDetailData_bookListDetail_items_userBookBuilder() {
     GBookListDetailData_bookListDetail_items_userBook._initializeBuilder(this);
   }
@@ -1023,10 +1057,12 @@ class GBookListDetailData_bookListDetail_items_userBookBuilder
     if ($v != null) {
       _G__typename = $v.G__typename;
       _id = $v.id;
+      _externalId = $v.externalId;
       _title = $v.title;
       _authors = $v.authors.toBuilder();
       _coverImageUrl = $v.coverImageUrl;
       _readingStatus = $v.readingStatus;
+      _source = $v.source;
       _$v = null;
     }
     return this;
@@ -1058,6 +1094,10 @@ class GBookListDetailData_bookListDetail_items_userBookBuilder
                 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
                 id, r'GBookListDetailData_bookListDetail_items_userBook', 'id'),
+            externalId: BuiltValueNullFieldError.checkNotNull(
+                externalId,
+                r'GBookListDetailData_bookListDetail_items_userBook',
+                'externalId'),
             title: BuiltValueNullFieldError.checkNotNull(title,
                 r'GBookListDetailData_bookListDetail_items_userBook', 'title'),
             authors: authors.build(),
@@ -1066,6 +1106,8 @@ class GBookListDetailData_bookListDetail_items_userBookBuilder
                 readingStatus,
                 r'GBookListDetailData_bookListDetail_items_userBook',
                 'readingStatus'),
+            source: BuiltValueNullFieldError.checkNotNull(source,
+                r'GBookListDetailData_bookListDetail_items_userBook', 'source'),
           );
     } catch (_) {
       late String _$failedField;

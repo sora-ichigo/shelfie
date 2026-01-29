@@ -190,10 +190,12 @@ class BookListRepositoryImpl implements BookListRepository {
                 userBook: item.userBook != null
                     ? BookListItemUserBook(
                         id: item.userBook!.id,
+                        externalId: item.userBook!.externalId,
                         title: item.userBook!.title,
                         authors: item.userBook!.authors.toList(),
                         coverImageUrl: item.userBook!.coverImageUrl,
                         readingStatus: item.userBook!.readingStatus,
+                        source: item.userBook!.source,
                       )
                     : null,
               ),
@@ -397,10 +399,12 @@ class BookListRepositoryImpl implements BookListRepository {
         userBook: item.userBook != null
             ? BookListItemUserBook(
                 id: item.userBook!.id,
+                externalId: item.userBook!.externalId,
                 title: item.userBook!.title,
                 authors: item.userBook!.authors.toList(),
                 coverImageUrl: item.userBook!.coverImageUrl,
                 readingStatus: item.userBook!.readingStatus,
+                source: item.userBook!.source,
               )
             : null,
       ),

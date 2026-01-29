@@ -53,10 +53,12 @@ class BookListItem with _$BookListItem {
 class BookListItemUserBook with _$BookListItemUserBook {
   const factory BookListItemUserBook({
     required int id,
+    required String externalId,
     required String title,
     required List<String> authors,
     String? coverImageUrl,
     required String readingStatus,
+    required String source,
   }) = _BookListItemUserBook;
 }
 

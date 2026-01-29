@@ -32,19 +32,23 @@ interface MyBookListsInputData {
 
 interface BookListDetailUserBook {
   id: number;
+  externalId: string;
   title: string;
   authors: string[];
   coverImageUrl: string | null;
   readingStatus: string;
+  source: string;
 }
 
 interface BookShelfRepositoryForTypes {
   findUserBookById(id: number): Promise<{
     id: number;
+    externalId: string;
     title: string;
     authors: string[];
     coverImageUrl: string | null;
     readingStatus: string;
+    source: string;
   } | null>;
 }
 
@@ -163,6 +167,10 @@ export function registerBookListsTypes(
         description: "The unique identifier of the user book",
         nullable: false,
       }),
+      externalId: t.exposeString("externalId", {
+        description: "The external ID of the book (Google Books or Rakuten)",
+        nullable: false,
+      }),
       title: t.exposeString("title", {
         description: "The title of the book",
         nullable: false,
@@ -178,6 +186,10 @@ export function registerBookListsTypes(
       }),
       readingStatus: t.exposeString("readingStatus", {
         description: "The reading status of the book",
+        nullable: false,
+      }),
+      source: t.exposeString("source", {
+        description: "The source of the book (google or rakuten)",
         nullable: false,
       }),
     }),
@@ -230,10 +242,12 @@ export function registerBookListsTypes(
           }
           return {
             id: userBook.id,
+            externalId: userBook.externalId,
             title: userBook.title,
             authors: userBook.authors,
             coverImageUrl: userBook.coverImageUrl,
             readingStatus: userBook.readingStatus,
+            source: userBook.source,
           };
         },
       }),

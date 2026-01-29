@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -10,6 +11,8 @@ import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 class BookListDetailScreen extends ConsumerStatefulWidget {
   const BookListDetailScreen({
@@ -167,7 +170,17 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onItemTap(BookListItem item) {
-    // TODO(shelfie): Navigate to book detail
+    final userBook = item.userBook;
+    if (userBook == null) return;
+
+    final source = switch (userBook.source) {
+      'google' => BookSource.google,
+      'rakuten' => BookSource.rakuten,
+      _ => null,
+    };
+    context.push(
+      AppRoutes.bookDetail(bookId: userBook.externalId, source: source),
+    );
   }
 }
 

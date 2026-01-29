@@ -991,10 +991,12 @@ abstract class _BookListItem implements BookListItem {
 /// @nodoc
 mixin _$BookListItemUserBook {
   int get id => throw _privateConstructorUsedError;
+  String get externalId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   List<String> get authors => throw _privateConstructorUsedError;
   String? get coverImageUrl => throw _privateConstructorUsedError;
   String get readingStatus => throw _privateConstructorUsedError;
+  String get source => throw _privateConstructorUsedError;
 
   /// Create a copy of BookListItemUserBook
   /// with the given fields replaced by the non-null parameter values.
@@ -1011,10 +1013,12 @@ abstract class $BookListItemUserBookCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
+      String externalId,
       String title,
       List<String> authors,
       String? coverImageUrl,
-      String readingStatus});
+      String readingStatus,
+      String source});
 }
 
 /// @nodoc
@@ -1034,16 +1038,22 @@ class _$BookListItemUserBookCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = null,
+    Object? externalId = null,
     Object? title = null,
     Object? authors = null,
     Object? coverImageUrl = freezed,
     Object? readingStatus = null,
+    Object? source = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -1060,6 +1070,10 @@ class _$BookListItemUserBookCopyWithImpl<$Res,
           ? _value.readingStatus
           : readingStatus // ignore: cast_nullable_to_non_nullable
               as String,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -1074,10 +1088,12 @@ abstract class _$$BookListItemUserBookImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
+      String externalId,
       String title,
       List<String> authors,
       String? coverImageUrl,
-      String readingStatus});
+      String readingStatus,
+      String source});
 }
 
 /// @nodoc
@@ -1094,16 +1110,22 @@ class __$$BookListItemUserBookImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? externalId = null,
     Object? title = null,
     Object? authors = null,
     Object? coverImageUrl = freezed,
     Object? readingStatus = null,
+    Object? source = null,
   }) {
     return _then(_$BookListItemUserBookImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -1120,6 +1142,10 @@ class __$$BookListItemUserBookImplCopyWithImpl<$Res>
           ? _value.readingStatus
           : readingStatus // ignore: cast_nullable_to_non_nullable
               as String,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -1129,14 +1155,18 @@ class __$$BookListItemUserBookImplCopyWithImpl<$Res>
 class _$BookListItemUserBookImpl implements _BookListItemUserBook {
   const _$BookListItemUserBookImpl(
       {required this.id,
+      required this.externalId,
       required this.title,
       required final List<String> authors,
       this.coverImageUrl,
-      required this.readingStatus})
+      required this.readingStatus,
+      required this.source})
       : _authors = authors;
 
   @override
   final int id;
+  @override
+  final String externalId;
   @override
   final String title;
   final List<String> _authors;
@@ -1151,10 +1181,12 @@ class _$BookListItemUserBookImpl implements _BookListItemUserBook {
   final String? coverImageUrl;
   @override
   final String readingStatus;
+  @override
+  final String source;
 
   @override
   String toString() {
-    return 'BookListItemUserBook(id: $id, title: $title, authors: $authors, coverImageUrl: $coverImageUrl, readingStatus: $readingStatus)';
+    return 'BookListItemUserBook(id: $id, externalId: $externalId, title: $title, authors: $authors, coverImageUrl: $coverImageUrl, readingStatus: $readingStatus, source: $source)';
   }
 
   @override
@@ -1163,22 +1195,27 @@ class _$BookListItemUserBookImpl implements _BookListItemUserBook {
         (other.runtimeType == runtimeType &&
             other is _$BookListItemUserBookImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.externalId, externalId) ||
+                other.externalId == externalId) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
             (identical(other.coverImageUrl, coverImageUrl) ||
                 other.coverImageUrl == coverImageUrl) &&
             (identical(other.readingStatus, readingStatus) ||
-                other.readingStatus == readingStatus));
+                other.readingStatus == readingStatus) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      externalId,
       title,
       const DeepCollectionEquality().hash(_authors),
       coverImageUrl,
-      readingStatus);
+      readingStatus,
+      source);
 
   /// Create a copy of BookListItemUserBook
   /// with the given fields replaced by the non-null parameter values.
@@ -1194,13 +1231,17 @@ class _$BookListItemUserBookImpl implements _BookListItemUserBook {
 abstract class _BookListItemUserBook implements BookListItemUserBook {
   const factory _BookListItemUserBook(
       {required final int id,
+      required final String externalId,
       required final String title,
       required final List<String> authors,
       final String? coverImageUrl,
-      required final String readingStatus}) = _$BookListItemUserBookImpl;
+      required final String readingStatus,
+      required final String source}) = _$BookListItemUserBookImpl;
 
   @override
   int get id;
+  @override
+  String get externalId;
   @override
   String get title;
   @override
@@ -1209,6 +1250,8 @@ abstract class _BookListItemUserBook implements BookListItemUserBook {
   String? get coverImageUrl;
   @override
   String get readingStatus;
+  @override
+  String get source;
 
   /// Create a copy of BookListItemUserBook
   /// with the given fields replaced by the non-null parameter values.

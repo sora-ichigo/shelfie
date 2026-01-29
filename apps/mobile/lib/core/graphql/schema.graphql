@@ -210,11 +210,17 @@ type BookListDetailUserBook {
   """The cover image URL of the book"""
   coverImageUrl: String
 
+  """The external ID of the book (Google Books or Rakuten)"""
+  externalId: String!
+
   """The unique identifier of the user book"""
   id: Int!
 
   """The reading status of the book"""
   readingStatus: String!
+
+  """The source of the book (google or rakuten)"""
+  source: String!
 
   """The title of the book"""
   title: String!

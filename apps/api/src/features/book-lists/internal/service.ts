@@ -93,10 +93,12 @@ interface BookShelfRepositoryMinimal {
   findUserBookById(id: number): Promise<{
     id: number;
     userId: number;
+    externalId: string;
     title: string;
     authors: string[];
     coverImageUrl: string | null;
     readingStatus: string;
+    source: string;
   } | null>;
 }
 

@@ -9,10 +9,12 @@ query BookListDetail($listId: Int!) {
       addedAt
       userBook {
         id
+        externalId
         title
         authors
         coverImageUrl
         readingStatus
+        source
       }
     }
     stats {

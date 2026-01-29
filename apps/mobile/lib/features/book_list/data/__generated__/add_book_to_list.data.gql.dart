@@ -90,10 +90,12 @@ abstract class GAddBookToListData_addBookToList_userBook
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
   int get id;
+  String get externalId;
   String get title;
   BuiltList<String> get authors;
   String? get coverImageUrl;
   String get readingStatus;
+  String get source;
   static Serializer<GAddBookToListData_addBookToList_userBook> get serializer =>
       _$gAddBookToListDataAddBookToListUserBookSerializer;
 

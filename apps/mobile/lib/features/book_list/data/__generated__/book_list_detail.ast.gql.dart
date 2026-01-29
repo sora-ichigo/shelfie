@@ -93,6 +93,13 @@ const BookListDetail = _i1.OperationDefinitionNode(
                   selectionSet: null,
                 ),
                 _i1.FieldNode(
+                  name: _i1.NameNode(value: 'externalId'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                _i1.FieldNode(
                   name: _i1.NameNode(value: 'title'),
                   alias: null,
                   arguments: [],
@@ -115,6 +122,13 @@ const BookListDetail = _i1.OperationDefinitionNode(
                 ),
                 _i1.FieldNode(
                   name: _i1.NameNode(value: 'readingStatus'),
+                  alias: null,
+                  arguments: [],
+                  directives: [],
+                  selectionSet: null,
+                ),
+                _i1.FieldNode(
+                  name: _i1.NameNode(value: 'source'),
                   alias: null,
                   arguments: [],
                   directives: [],

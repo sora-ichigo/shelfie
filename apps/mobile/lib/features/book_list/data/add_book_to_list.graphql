@@ -5,10 +5,12 @@ mutation AddBookToList($listId: Int!, $userBookId: Int!) {
     addedAt
     userBook {
       id
+      externalId
       title
       authors
       coverImageUrl
       readingStatus
+      source
     }
   }
 }
