@@ -93,6 +93,4 @@ jobs:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
-          APP_REVIEW_DEMO_USER: ${{ secrets.APP_REVIEW_DEMO_USER }}
-          APP_REVIEW_DEMO_PASSWORD: ${{ secrets.APP_REVIEW_DEMO_PASSWORD }}
         run: bundle exec fastlane release_appstore
