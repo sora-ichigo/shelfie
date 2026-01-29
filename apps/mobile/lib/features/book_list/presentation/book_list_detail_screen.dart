@@ -131,7 +131,65 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onMorePressed(BookListDetail list) {
-    // TODO(shelfie): Show more options menu
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              title: const Text(
+                'リストを削除',
+                style: TextStyle(color: Colors.red),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                _showDeleteConfirmation(list);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmation(BookListDetail list) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('リストを削除'),
+        content: const Text('このリストを削除しますか？この操作は取り消せません。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('削除', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    final notifier = ref.read(bookListNotifierProvider.notifier);
+    final result = await notifier.deleteList(listId: list.id);
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(failure.userMessage)),
+        );
+      },
+      (_) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   void _onAddBooksPressed() {
