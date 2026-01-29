@@ -5,7 +5,7 @@ min_instances         = 1
 max_instances         = 10
 cpu_limit             = "2"
 memory_limit          = "1Gi"
-allow_unauthenticated = false
+allow_unauthenticated = true
 
 # GitHub Actions CD
 github_owner = "sora-ichigo"
