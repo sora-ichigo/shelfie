@@ -52,9 +52,7 @@ class ShelfState extends _$ShelfState {
           externalId: userBook.externalId,
           readingStatus: readingStatus,
           addedAt: userBook.addedAt,
-          completedAt: readingStatus == ReadingStatus.completed
-              ? DateTime.now()
-              : null,
+          completedAt: _resolveCompletedAt(readingStatus),
         ),
       ),
     );
@@ -222,16 +220,9 @@ class ShelfState extends _$ShelfState {
     final entry = state[externalId];
     if (entry == null) return;
 
-    final DateTime? completedAt;
-    if (status == ReadingStatus.completed) {
-      completedAt = DateTime.now();
-    } else {
-      completedAt = null;
-    }
-
     final updated = entry.copyWith(
       readingStatus: status,
-      completedAt: completedAt,
+      completedAt: _resolveCompletedAt(status),
     );
 
     state = {...state, externalId: updated};
@@ -286,6 +277,10 @@ class ShelfState extends _$ShelfState {
         addedAt: DateTime.now(),
       ),
     );
+  }
+
+  static DateTime? _resolveCompletedAt(ReadingStatus status) {
+    return status == ReadingStatus.completed ? DateTime.now() : null;
   }
 
   /// 全てのエントリをクリアする
