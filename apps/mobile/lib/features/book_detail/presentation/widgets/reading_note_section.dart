@@ -75,8 +75,6 @@ class ReadingNoteSection extends StatelessWidget {
                       ? null
                       : theme.colorScheme.onSurfaceVariant,
                 ),
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
