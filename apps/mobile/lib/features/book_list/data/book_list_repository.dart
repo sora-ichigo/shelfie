@@ -187,9 +187,23 @@ class BookListRepositoryImpl implements BookListRepository {
                 id: item.id,
                 position: item.position,
                 addedAt: item.addedAt,
+                userBook: item.userBook != null
+                    ? BookListItemUserBook(
+                        id: item.userBook!.id,
+                        title: item.userBook!.title,
+                        authors: item.userBook!.authors.toList(),
+                        coverImageUrl: item.userBook!.coverImageUrl,
+                        readingStatus: item.userBook!.readingStatus,
+                      )
+                    : null,
               ),
             )
             .toList(),
+        stats: BookListDetailStats(
+          bookCount: detail.stats.bookCount,
+          completedCount: detail.stats.completedCount,
+          coverImages: detail.stats.coverImages.toList(),
+        ),
         createdAt: detail.createdAt,
         updatedAt: detail.updatedAt,
       ),
@@ -380,6 +394,15 @@ class BookListRepositoryImpl implements BookListRepository {
         id: item.id,
         position: item.position,
         addedAt: item.addedAt,
+        userBook: item.userBook != null
+            ? BookListItemUserBook(
+                id: item.userBook!.id,
+                title: item.userBook!.title,
+                authors: item.userBook!.authors.toList(),
+                coverImageUrl: item.userBook!.coverImageUrl,
+                readingStatus: item.userBook!.readingStatus,
+              )
+            : null,
       ),
     );
   }

@@ -49,6 +49,11 @@ void main() {
       title: title,
       description: description,
       items: items,
+      stats: const BookListDetailStats(
+        bookCount: 0,
+        completedCount: 0,
+        coverImages: [],
+      ),
       createdAt: createdAt ?? now,
       updatedAt: updatedAt ?? now,
     );

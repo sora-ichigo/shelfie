@@ -18,6 +18,7 @@ export type {
 export { createBookListRepository } from "./internal/repository.js";
 export type {
   AddBookToListInput,
+  BookListDetailItem,
   BookListErrors,
   BookListService,
   BookListSummary,

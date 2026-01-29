@@ -554,9 +554,18 @@ const BookListDetail = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.ListTypeNode(
         type: _i1.NamedTypeNode(
-          name: _i1.NameNode(value: 'BookListItem'),
+          name: _i1.NameNode(value: 'BookListDetailItem'),
           isNonNull: true,
         ),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'stats'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookListDetailStats'),
         isNonNull: true,
       ),
     ),
@@ -580,8 +589,8 @@ const BookListDetail = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
-const BookListItem = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'BookListItem'),
+const BookListDetailItem = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'BookListDetailItem'),
   directives: [],
   interfaces: [],
   fields: [
@@ -609,6 +618,107 @@ const BookListItem = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'userBook'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'BookListDetailUserBook'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
+const BookListDetailUserBook = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'BookListDetailUserBook'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'authors'),
+      directives: [],
+      args: [],
+      type: _i1.ListTypeNode(
+        type: _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'String'),
+          isNonNull: true,
+        ),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'coverImageUrl'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'readingStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'title'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: true,
+      ),
+    ),
+  ],
+);
+const BookListDetailStats = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'BookListDetailStats'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'bookCount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'completedCount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'coverImages'),
+      directives: [],
+      args: [],
+      type: _i1.ListTypeNode(
+        type: _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'String'),
+          isNonNull: true,
+        ),
         isNonNull: true,
       ),
     ),
@@ -913,7 +1023,7 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
         ),
       ],
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'BookListItem'),
+        name: _i1.NameNode(value: 'BookListDetailItem'),
         isNonNull: true,
       ),
     ),
@@ -2383,7 +2493,9 @@ const document = _i1.DocumentNode(definitions: [
   BookDetail,
   BookList,
   BookListDetail,
-  BookListItem,
+  BookListDetailItem,
+  BookListDetailUserBook,
+  BookListDetailStats,
   BookListSummary,
   BookSource,
   CreateBookListInput,

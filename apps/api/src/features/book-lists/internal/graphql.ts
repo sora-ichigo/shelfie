@@ -1,11 +1,13 @@
 import { GraphQLError } from "graphql";
-import type { BookList, BookListItem } from "../../../db/schema/book-lists.js";
+import type { BookList } from "../../../db/schema/book-lists.js";
 import type {
   AuthenticatedContext,
   Builder,
 } from "../../../graphql/builder.js";
 import type { UserService } from "../../users/index.js";
 import type {
+  BookListDetailItem,
+  BookListDetailStats,
   BookListService,
   BookListSummary,
   BookListSummaryResult,
@@ -28,8 +30,30 @@ interface MyBookListsInputData {
   offset?: number | null;
 }
 
+interface BookListDetailUserBook {
+  id: number;
+  title: string;
+  authors: string[];
+  coverImageUrl: string | null;
+  readingStatus: string;
+}
+
+interface BookShelfRepositoryForTypes {
+  findUserBookById(id: number): Promise<{
+    id: number;
+    title: string;
+    authors: string[];
+    coverImageUrl: string | null;
+    readingStatus: string;
+  } | null>;
+}
+
 type BookListObjectRef = ReturnType<typeof createBookListRef>;
 type BookListItemObjectRef = ReturnType<typeof createBookListItemRef>;
+type BookListDetailUserBookRef = ReturnType<
+  typeof createBookListDetailUserBookRef
+>;
+type BookListDetailStatsRef = ReturnType<typeof createBookListDetailStatsRef>;
 type BookListSummaryObjectRef = ReturnType<typeof createBookListSummaryRef>;
 type BookListDetailObjectRef = ReturnType<typeof createBookListDetailRef>;
 type CreateBookListInputRef = ReturnType<typeof createCreateBookListInputRef>;
@@ -42,7 +66,15 @@ function createBookListRef(builder: Builder) {
 }
 
 function createBookListItemRef(builder: Builder) {
-  return builder.objectRef<BookListItem>("BookListItem");
+  return builder.objectRef<BookListDetailItem>("BookListDetailItem");
+}
+
+function createBookListDetailUserBookRef(builder: Builder) {
+  return builder.objectRef<BookListDetailUserBook>("BookListDetailUserBook");
+}
+
+function createBookListDetailStatsRef(builder: Builder) {
+  return builder.objectRef<BookListDetailStats>("BookListDetailStats");
 }
 
 function createBookListSummaryRef(builder: Builder) {
@@ -71,6 +103,8 @@ function createMyBookListsResultRef(builder: Builder) {
 
 let BookListRef: BookListObjectRef;
 let BookListItemRef: BookListItemObjectRef;
+let BookListDetailUserBookRef: BookListDetailUserBookRef;
+let BookListDetailStatsRef: BookListDetailStatsRef;
 let BookListSummaryRef: BookListSummaryObjectRef;
 let BookListDetailRef: BookListDetailObjectRef;
 let CreateBookListInputRef: CreateBookListInputRef;
@@ -78,9 +112,14 @@ let UpdateBookListInputRef: UpdateBookListInputRef;
 let MyBookListsInputRef: MyBookListsInputRef;
 let MyBookListsResultRef: MyBookListsResultRef;
 
-export function registerBookListsTypes(builder: Builder): void {
+export function registerBookListsTypes(
+  builder: Builder,
+  bookShelfRepository: BookShelfRepositoryForTypes,
+): void {
   BookListRef = createBookListRef(builder);
   BookListItemRef = createBookListItemRef(builder);
+  BookListDetailUserBookRef = createBookListDetailUserBookRef(builder);
+  BookListDetailStatsRef = createBookListDetailStatsRef(builder);
   BookListSummaryRef = createBookListSummaryRef(builder);
   BookListDetailRef = createBookListDetailRef(builder);
   CreateBookListInputRef = createCreateBookListInputRef(builder);
@@ -117,8 +156,53 @@ export function registerBookListsTypes(builder: Builder): void {
     }),
   });
 
+  BookListDetailUserBookRef.implement({
+    description: "User book information in a book list detail",
+    fields: (t) => ({
+      id: t.exposeInt("id", {
+        description: "The unique identifier of the user book",
+        nullable: false,
+      }),
+      title: t.exposeString("title", {
+        description: "The title of the book",
+        nullable: false,
+      }),
+      authors: t.exposeStringList("authors", {
+        description: "The authors of the book",
+        nullable: false,
+      }),
+      coverImageUrl: t.string({
+        nullable: true,
+        description: "The cover image URL of the book",
+        resolve: (parent) => parent.coverImageUrl,
+      }),
+      readingStatus: t.exposeString("readingStatus", {
+        description: "The reading status of the book",
+        nullable: false,
+      }),
+    }),
+  });
+
+  BookListDetailStatsRef.implement({
+    description: "Statistics for a book list",
+    fields: (t) => ({
+      bookCount: t.exposeInt("bookCount", {
+        description: "Total number of books in the list",
+        nullable: false,
+      }),
+      completedCount: t.exposeInt("completedCount", {
+        description: "Number of completed books in the list",
+        nullable: false,
+      }),
+      coverImages: t.exposeStringList("coverImages", {
+        description: "Cover images of books in the list (up to 4)",
+        nullable: false,
+      }),
+    }),
+  });
+
   BookListItemRef.implement({
-    description: "An item in a book list",
+    description: "An item in a book list with user book details",
     fields: (t) => ({
       id: t.exposeInt("id", {
         description: "The unique identifier of the book list item",
@@ -132,6 +216,26 @@ export function registerBookListsTypes(builder: Builder): void {
         type: "DateTime",
         description: "When the book was added to the list",
         nullable: false,
+      }),
+      userBook: t.field({
+        type: BookListDetailUserBookRef,
+        nullable: true,
+        description: "The user book details (loaded on demand)",
+        resolve: async (parent) => {
+          const userBook = await bookShelfRepository.findUserBookById(
+            parent.userBookId,
+          );
+          if (!userBook) {
+            return null;
+          }
+          return {
+            id: userBook.id,
+            title: userBook.title,
+            authors: userBook.authors,
+            coverImageUrl: userBook.coverImageUrl,
+            readingStatus: userBook.readingStatus,
+          };
+        },
       }),
     }),
   });
@@ -194,6 +298,12 @@ export function registerBookListsTypes(builder: Builder): void {
         nullable: false,
         description: "The items in the book list",
         resolve: (parent) => parent.items,
+      }),
+      stats: t.field({
+        type: BookListDetailStatsRef,
+        nullable: false,
+        description: "Statistics for the book list",
+        resolve: (parent) => parent.stats,
       }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
@@ -534,7 +644,11 @@ export function registerBookListsMutations(
         listId: t.arg.int({ required: true }),
         userBookId: t.arg.int({ required: true }),
       },
-      resolve: async (_parent, args, context): Promise<BookListItem> => {
+      resolve: async (
+        _parent,
+        args,
+        context,
+      ): Promise<BookListDetailItem> => {
         const authenticatedContext = context as AuthenticatedContext;
 
         if (!authenticatedContext.user?.uid) {

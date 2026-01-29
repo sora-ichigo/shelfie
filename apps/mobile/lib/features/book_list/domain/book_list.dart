@@ -33,6 +33,7 @@ class BookListDetail with _$BookListDetail {
     required String title,
     String? description,
     required List<BookListItem> items,
+    required BookListDetailStats stats,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _BookListDetail;
@@ -44,7 +45,28 @@ class BookListItem with _$BookListItem {
     required int id,
     required int position,
     required DateTime addedAt,
+    BookListItemUserBook? userBook,
   }) = _BookListItem;
+}
+
+@freezed
+class BookListItemUserBook with _$BookListItemUserBook {
+  const factory BookListItemUserBook({
+    required int id,
+    required String title,
+    required List<String> authors,
+    String? coverImageUrl,
+    required String readingStatus,
+  }) = _BookListItemUserBook;
+}
+
+@freezed
+class BookListDetailStats with _$BookListDetailStats {
+  const factory BookListDetailStats({
+    required int bookCount,
+    required int completedCount,
+    required List<String> coverImages,
+  }) = _BookListDetailStats;
 }
 
 @freezed

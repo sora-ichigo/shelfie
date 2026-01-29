@@ -68,7 +68,10 @@ type BookShelfRepositoryMinimal = {
   findUserBookById(id: number): Promise<{
     id: number;
     userId: number;
+    title: string;
+    authors: string[];
     coverImageUrl: string | null;
+    readingStatus: string;
   } | null>;
 };
 

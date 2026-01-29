@@ -12,8 +12,9 @@ import {
   registerBookListsQueries,
   registerBookListsTypes,
 } from "./graphql.js";
-import type { BookList, BookListItem } from "./repository.js";
+import type { BookList } from "./repository.js";
 import type {
+  BookListDetailItem,
   BookListService,
   BookListSummary,
   BookListWithItems,
@@ -29,6 +30,12 @@ function createMockBookListService(): BookListService {
     addBookToList: vi.fn(),
     removeBookFromList: vi.fn(),
     reorderBookInList: vi.fn(),
+  };
+}
+
+function createMockBookShelfRepository() {
+  return {
+    findUserBookById: vi.fn().mockResolvedValue(null),
   };
 }
 
@@ -67,7 +74,7 @@ describe("BookLists GraphQL", () => {
 
     beforeAll(() => {
       const builder = createTestBuilder();
-      registerBookListsTypes(builder);
+      registerBookListsTypes(builder, createMockBookShelfRepository());
 
       builder.queryType({
         fields: (t) => ({
@@ -92,9 +99,9 @@ describe("BookLists GraphQL", () => {
       expect(fields.updatedAt).toBeDefined();
     });
 
-    it("BookListItem type should have required fields", () => {
+    it("BookListDetailItem type should have required fields", () => {
       const bookListItemType = schema.getType(
-        "BookListItem",
+        "BookListDetailItem",
       ) as GraphQLObjectType;
       expect(bookListItemType).toBeDefined();
 
@@ -104,6 +111,7 @@ describe("BookLists GraphQL", () => {
       expect(fields.position).toBeDefined();
       expect(fields.position.type.toString()).toBe("Int!");
       expect(fields.addedAt).toBeDefined();
+      expect(fields.userBook).toBeDefined();
     });
 
     it("BookListSummary type should have required fields", () => {
@@ -133,7 +141,7 @@ describe("BookLists GraphQL", () => {
       expect(fields.title).toBeDefined();
       expect(fields.description).toBeDefined();
       expect(fields.items).toBeDefined();
-      expect(fields.items.type.toString()).toBe("[BookListItem!]!");
+      expect(fields.items.type.toString()).toBe("[BookListDetailItem!]!");
     });
 
     it("CreateBookListInput input type should have required fields", () => {
@@ -198,7 +206,7 @@ describe("BookLists GraphQL", () => {
 
     function buildSchemaWithQueries() {
       const builder = createTestBuilder();
-      registerBookListsTypes(builder);
+      registerBookListsTypes(builder, createMockBookShelfRepository());
 
       builder.queryType({});
       registerBookListsQueries(builder, bookListService, userService);
@@ -324,12 +332,16 @@ describe("BookLists GraphQL", () => {
           items: [
             {
               id: 1,
-              listId: 1,
               userBookId: 10,
               position: 0,
               addedAt: new Date("2026-01-01"),
             },
           ],
+          stats: {
+            bookCount: 1,
+            completedCount: 0,
+            coverImages: [],
+          },
         };
 
         vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
@@ -444,7 +456,7 @@ describe("BookLists GraphQL", () => {
 
     function buildSchemaWithMutations() {
       const builder = createTestBuilder();
-      registerBookListsTypes(builder);
+      registerBookListsTypes(builder, createMockBookShelfRepository());
 
       builder.queryType({
         fields: (t) => ({
@@ -624,9 +636,8 @@ describe("BookLists GraphQL", () => {
     describe("addBookToList", () => {
       it("should add a book to a list when authenticated and owner", async () => {
         const schema = buildSchemaWithMutations();
-        const mockItem: BookListItem = {
+        const mockItem: BookListDetailItem = {
           id: 1,
-          listId: 1,
           userBookId: 10,
           position: 0,
           addedAt: new Date("2026-01-01"),

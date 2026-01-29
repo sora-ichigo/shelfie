@@ -11,6 +11,9 @@ Serializer<GAddBookToListData> _$gAddBookToListDataSerializer =
 Serializer<GAddBookToListData_addBookToList>
     _$gAddBookToListDataAddBookToListSerializer =
     _$GAddBookToListData_addBookToListSerializer();
+Serializer<GAddBookToListData_addBookToList_userBook>
+    _$gAddBookToListDataAddBookToListUserBookSerializer =
+    _$GAddBookToListData_addBookToList_userBookSerializer();
 
 class _$GAddBookToListDataSerializer
     implements StructuredSerializer<GAddBookToListData> {
@@ -91,7 +94,15 @@ class _$GAddBookToListData_addBookToListSerializer
       serializers.serialize(object.addedAt,
           specifiedType: const FullType(DateTime)),
     ];
-
+    Object? value;
+    value = object.userBook;
+    if (value != null) {
+      result
+        ..add('userBook')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GAddBookToListData_addBookToList_userBook)));
+    }
     return result;
   }
 
@@ -122,6 +133,99 @@ class _$GAddBookToListData_addBookToListSerializer
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
+          break;
+        case 'userBook':
+          result.userBook.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      GAddBookToListData_addBookToList_userBook))!
+              as GAddBookToListData_addBookToList_userBook);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GAddBookToListData_addBookToList_userBookSerializer
+    implements StructuredSerializer<GAddBookToListData_addBookToList_userBook> {
+  @override
+  final Iterable<Type> types = const [
+    GAddBookToListData_addBookToList_userBook,
+    _$GAddBookToListData_addBookToList_userBook
+  ];
+  @override
+  final String wireName = 'GAddBookToListData_addBookToList_userBook';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GAddBookToListData_addBookToList_userBook object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'authors',
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
+      'readingStatus',
+      serializers.serialize(object.readingStatus,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.coverImageUrl;
+    if (value != null) {
+      result
+        ..add('coverImageUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GAddBookToListData_addBookToList_userBook deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = GAddBookToListData_addBookToList_userBookBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+        case 'authors':
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'coverImageUrl':
+          result.coverImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'readingStatus':
+          result.readingStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -254,6 +358,8 @@ class _$GAddBookToListData_addBookToList
   final int position;
   @override
   final DateTime addedAt;
+  @override
+  final GAddBookToListData_addBookToList_userBook? userBook;
 
   factory _$GAddBookToListData_addBookToList(
           [void Function(GAddBookToListData_addBookToListBuilder)? updates]) =>
@@ -263,7 +369,8 @@ class _$GAddBookToListData_addBookToList
       {required this.G__typename,
       required this.id,
       required this.position,
-      required this.addedAt})
+      required this.addedAt,
+      this.userBook})
       : super._();
   @override
   GAddBookToListData_addBookToList rebuild(
@@ -281,7 +388,8 @@ class _$GAddBookToListData_addBookToList
         G__typename == other.G__typename &&
         id == other.id &&
         position == other.position &&
-        addedAt == other.addedAt;
+        addedAt == other.addedAt &&
+        userBook == other.userBook;
   }
 
   @override
@@ -291,6 +399,7 @@ class _$GAddBookToListData_addBookToList
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, position.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
+    _$hash = $jc(_$hash, userBook.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -301,7 +410,8 @@ class _$GAddBookToListData_addBookToList
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('position', position)
-          ..add('addedAt', addedAt))
+          ..add('addedAt', addedAt)
+          ..add('userBook', userBook))
         .toString();
   }
 }
@@ -328,6 +438,12 @@ class GAddBookToListData_addBookToListBuilder
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
 
+  GAddBookToListData_addBookToList_userBookBuilder? _userBook;
+  GAddBookToListData_addBookToList_userBookBuilder get userBook =>
+      _$this._userBook ??= GAddBookToListData_addBookToList_userBookBuilder();
+  set userBook(GAddBookToListData_addBookToList_userBookBuilder? userBook) =>
+      _$this._userBook = userBook;
+
   GAddBookToListData_addBookToListBuilder() {
     GAddBookToListData_addBookToList._initializeBuilder(this);
   }
@@ -339,6 +455,7 @@ class GAddBookToListData_addBookToListBuilder
       _id = $v.id;
       _position = $v.position;
       _addedAt = $v.addedAt;
+      _userBook = $v.userBook?.toBuilder();
       _$v = null;
     }
     return this;
@@ -358,17 +475,208 @@ class GAddBookToListData_addBookToListBuilder
   GAddBookToListData_addBookToList build() => _build();
 
   _$GAddBookToListData_addBookToList _build() {
-    final _$result = _$v ??
-        _$GAddBookToListData_addBookToList._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GAddBookToListData_addBookToList', 'G__typename'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'GAddBookToListData_addBookToList', 'id'),
-          position: BuiltValueNullFieldError.checkNotNull(
-              position, r'GAddBookToListData_addBookToList', 'position'),
-          addedAt: BuiltValueNullFieldError.checkNotNull(
-              addedAt, r'GAddBookToListData_addBookToList', 'addedAt'),
-        );
+    _$GAddBookToListData_addBookToList _$result;
+    try {
+      _$result = _$v ??
+          _$GAddBookToListData_addBookToList._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GAddBookToListData_addBookToList', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GAddBookToListData_addBookToList', 'id'),
+            position: BuiltValueNullFieldError.checkNotNull(
+                position, r'GAddBookToListData_addBookToList', 'position'),
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GAddBookToListData_addBookToList', 'addedAt'),
+            userBook: _userBook?.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'userBook';
+        _userBook?.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'GAddBookToListData_addBookToList', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GAddBookToListData_addBookToList_userBook
+    extends GAddBookToListData_addBookToList_userBook {
+  @override
+  final String G__typename;
+  @override
+  final int id;
+  @override
+  final String title;
+  @override
+  final BuiltList<String> authors;
+  @override
+  final String? coverImageUrl;
+  @override
+  final String readingStatus;
+
+  factory _$GAddBookToListData_addBookToList_userBook(
+          [void Function(GAddBookToListData_addBookToList_userBookBuilder)?
+              updates]) =>
+      (GAddBookToListData_addBookToList_userBookBuilder()..update(updates))
+          ._build();
+
+  _$GAddBookToListData_addBookToList_userBook._(
+      {required this.G__typename,
+      required this.id,
+      required this.title,
+      required this.authors,
+      this.coverImageUrl,
+      required this.readingStatus})
+      : super._();
+  @override
+  GAddBookToListData_addBookToList_userBook rebuild(
+          void Function(GAddBookToListData_addBookToList_userBookBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GAddBookToListData_addBookToList_userBookBuilder toBuilder() =>
+      GAddBookToListData_addBookToList_userBookBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GAddBookToListData_addBookToList_userBook &&
+        G__typename == other.G__typename &&
+        id == other.id &&
+        title == other.title &&
+        authors == other.authors &&
+        coverImageUrl == other.coverImageUrl &&
+        readingStatus == other.readingStatus;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, G__typename.hashCode);
+    _$hash = $jc(_$hash, id.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jc(_$hash, authors.hashCode);
+    _$hash = $jc(_$hash, coverImageUrl.hashCode);
+    _$hash = $jc(_$hash, readingStatus.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+            r'GAddBookToListData_addBookToList_userBook')
+          ..add('G__typename', G__typename)
+          ..add('id', id)
+          ..add('title', title)
+          ..add('authors', authors)
+          ..add('coverImageUrl', coverImageUrl)
+          ..add('readingStatus', readingStatus))
+        .toString();
+  }
+}
+
+class GAddBookToListData_addBookToList_userBookBuilder
+    implements
+        Builder<GAddBookToListData_addBookToList_userBook,
+            GAddBookToListData_addBookToList_userBookBuilder> {
+  _$GAddBookToListData_addBookToList_userBook? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  ListBuilder<String>? _authors;
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
+  set authors(ListBuilder<String>? authors) => _$this._authors = authors;
+
+  String? _coverImageUrl;
+  String? get coverImageUrl => _$this._coverImageUrl;
+  set coverImageUrl(String? coverImageUrl) =>
+      _$this._coverImageUrl = coverImageUrl;
+
+  String? _readingStatus;
+  String? get readingStatus => _$this._readingStatus;
+  set readingStatus(String? readingStatus) =>
+      _$this._readingStatus = readingStatus;
+
+  GAddBookToListData_addBookToList_userBookBuilder() {
+    GAddBookToListData_addBookToList_userBook._initializeBuilder(this);
+  }
+
+  GAddBookToListData_addBookToList_userBookBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _id = $v.id;
+      _title = $v.title;
+      _authors = $v.authors.toBuilder();
+      _coverImageUrl = $v.coverImageUrl;
+      _readingStatus = $v.readingStatus;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GAddBookToListData_addBookToList_userBook other) {
+    _$v = other as _$GAddBookToListData_addBookToList_userBook;
+  }
+
+  @override
+  void update(
+      void Function(GAddBookToListData_addBookToList_userBookBuilder)?
+          updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GAddBookToListData_addBookToList_userBook build() => _build();
+
+  _$GAddBookToListData_addBookToList_userBook _build() {
+    _$GAddBookToListData_addBookToList_userBook _$result;
+    try {
+      _$result = _$v ??
+          _$GAddBookToListData_addBookToList_userBook._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GAddBookToListData_addBookToList_userBook', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GAddBookToListData_addBookToList_userBook', 'id'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GAddBookToListData_addBookToList_userBook', 'title'),
+            authors: authors.build(),
+            coverImageUrl: coverImageUrl,
+            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
+                r'GAddBookToListData_addBookToList_userBook', 'readingStatus'),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'authors';
+        authors.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'GAddBookToListData_addBookToList_userBook',
+            _$failedField,
+            e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

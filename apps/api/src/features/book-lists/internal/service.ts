@@ -43,6 +43,19 @@ export interface ReorderBookInput {
   newPosition: number;
 }
 
+export interface BookListDetailItem {
+  id: number;
+  userBookId: number;
+  position: number;
+  addedAt: Date;
+}
+
+export interface BookListDetailStats {
+  bookCount: number;
+  completedCount: number;
+  coverImages: string[];
+}
+
 export interface BookListWithItems {
   id: number;
   userId: number;
@@ -50,7 +63,8 @@ export interface BookListWithItems {
   description: string | null;
   createdAt: Date;
   updatedAt: Date;
-  items: BookListItem[];
+  items: BookListDetailItem[];
+  stats: BookListDetailStats;
 }
 
 export interface BookListSummary {
@@ -79,7 +93,10 @@ interface BookShelfRepositoryMinimal {
   findUserBookById(id: number): Promise<{
     id: number;
     userId: number;
+    title: string;
+    authors: string[];
     coverImageUrl: string | null;
+    readingStatus: string;
   } | null>;
 }
 
@@ -104,7 +121,7 @@ export interface BookListService {
 
   addBookToList(
     input: AddBookToListInput,
-  ): Promise<Result<BookListItem, BookListErrors>>;
+  ): Promise<Result<BookListDetailItem, BookListErrors>>;
   removeBookFromList(
     input: RemoveBookFromListInput,
   ): Promise<Result<void, BookListErrors>>;
@@ -193,7 +210,34 @@ export function createBookListService(
           });
         }
 
-        const items = await repository.findBookListItemsByListId(listId);
+        const rawItems = await repository.findBookListItemsByListId(listId);
+
+        const items: BookListDetailItem[] = [];
+        const coverImages: string[] = [];
+        let completedCount = 0;
+
+        for (const item of rawItems) {
+          items.push({
+            id: item.id,
+            userBookId: item.userBookId,
+            position: item.position,
+            addedAt: item.addedAt,
+          });
+
+          const userBook = await bookShelfRepository.findUserBookById(
+            item.userBookId,
+          );
+
+          if (userBook) {
+            if (userBook.coverImageUrl && coverImages.length < 4) {
+              coverImages.push(userBook.coverImageUrl);
+            }
+
+            if (userBook.readingStatus === "completed") {
+              completedCount++;
+            }
+          }
+        }
 
         return ok({
           id: bookList.id,
@@ -203,6 +247,11 @@ export function createBookListService(
           createdAt: bookList.createdAt,
           updatedAt: bookList.updatedAt,
           items,
+          stats: {
+            bookCount: items.length,
+            completedCount,
+            coverImages,
+          },
         });
       } catch (error) {
         logger.error(
@@ -434,7 +483,7 @@ export function createBookListService(
 
     async addBookToList(
       input: AddBookToListInput,
-    ): Promise<Result<BookListItem, BookListErrors>> {
+    ): Promise<Result<BookListDetailItem, BookListErrors>> {
       const { listId, userId, userBookId } = input;
 
       try {
@@ -512,7 +561,12 @@ export function createBookListService(
           position: newPosition,
         });
 
-        return ok(item);
+        return ok({
+          id: item.id,
+          userBookId: item.userBookId,
+          position: item.position,
+          addedAt: item.addedAt,
+        });
       } catch (error) {
         logger.error(
           "Database error while adding book to list",

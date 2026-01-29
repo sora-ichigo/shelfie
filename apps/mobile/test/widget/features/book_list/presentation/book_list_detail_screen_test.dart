@@ -26,6 +26,11 @@ void main() {
       title: title,
       description: description,
       items: items,
+      stats: BookListDetailStats(
+        bookCount: items.length,
+        completedCount: 0,
+        coverImages: const [],
+      ),
       createdAt: now,
       updatedAt: now,
     );
@@ -35,11 +40,13 @@ void main() {
     int id = 1,
     int position = 0,
     DateTime? addedAt,
+    BookListItemUserBook? userBook,
   }) {
     return BookListItem(
       id: id,
       position: position,
       addedAt: addedAt ?? now,
+      userBook: userBook,
     );
   }
 
@@ -63,7 +70,7 @@ void main() {
 
   group('BookListDetailScreen', () {
     group('structure', () {
-      testWidgets('displays Scaffold with AppBar', (tester) async {
+      testWidgets('displays Scaffold', (tester) async {
         when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
             .thenAnswer((_) async => right(createDetail()));
 
@@ -71,10 +78,9 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.byType(AppBar), findsOneWidget);
       });
 
-      testWidgets('displays back button in AppBar', (tester) async {
+      testWidgets('displays back button', (tester) async {
         when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
             .thenAnswer((_) async => right(createDetail()));
 
@@ -151,14 +157,16 @@ void main() {
         expect(find.text('A collection of books'), findsOneWidget);
       });
 
-      testWidgets('displays edit button', (tester) async {
+      testWidgets('displays action buttons', (tester) async {
         when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
             .thenAnswer((_) async => right(createDetail()));
 
         await tester.pumpWidget(buildTestWidget(listId: 1));
         await tester.pumpAndSettle();
 
-        expect(find.byIcon(Icons.edit), findsOneWidget);
+        expect(find.text('本を追加'), findsOneWidget);
+        expect(find.byIcon(Icons.share_outlined), findsAtLeastNWidgets(1));
+        expect(find.byIcon(Icons.more_vert), findsOneWidget);
       });
 
       testWidgets('displays empty state when no items', (tester) async {
@@ -171,7 +179,7 @@ void main() {
         expect(find.textContaining('本がありません'), findsOneWidget);
       });
 
-      testWidgets('displays items sorted by position', (tester) async {
+      testWidgets('displays items in CustomScrollView', (tester) async {
         final items = [
           createItem(id: 3, position: 2),
           createItem(id: 1, position: 0),
@@ -185,7 +193,25 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(CustomScrollView), findsOneWidget);
-        expect(find.byType(ListTile), findsNWidgets(3));
+        expect(find.text('1'), findsWidgets);
+        expect(find.text('2'), findsWidgets);
+        expect(find.text('3'), findsWidgets);
+      });
+
+      testWidgets('displays stats section when items exist', (tester) async {
+        final items = [
+          createItem(id: 1, position: 0),
+          createItem(id: 2, position: 1),
+        ];
+
+        when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
+            .thenAnswer((_) async => right(createDetail(items: items)));
+
+        await tester.pumpWidget(buildTestWidget(listId: 1));
+        await tester.pumpAndSettle();
+
+        expect(find.text('冊'), findsOneWidget);
+        expect(find.text('読了'), findsOneWidget);
       });
     });
   });

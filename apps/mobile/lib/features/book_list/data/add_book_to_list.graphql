@@ -3,5 +3,12 @@ mutation AddBookToList($listId: Int!, $userBookId: Int!) {
     id
     position
     addedAt
+    userBook {
+      id
+      title
+      authors
+      coverImageUrl
+      readingStatus
+    }
   }
 }
