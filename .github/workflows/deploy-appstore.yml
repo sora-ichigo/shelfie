@@ -1,0 +1,96 @@
+name: Deploy iOS to App Store Connect
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'Build number (defaults to github.run_number)'
+        required: false
+        type: string
+        default: ''
+      release_notes:
+        description: 'Release notes for this build'
+        required: false
+        type: string
+        default: ''
+
+concurrency:
+  group: deploy-appstore-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+  MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+
+jobs:
+  build-and-upload:
+    runs-on: macos-15
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: apps/mobile/ios
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            apps/mobile/.dart_tool
+          key: flutter-${{ runner.os }}-${{ hashFiles('apps/mobile/pubspec.lock') }}
+          restore-keys: flutter-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup Keychain
+        env:
+          KEYCHAIN_PASSWORD: ${{ github.run_id }}
+        run: |
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security list-keychains -d user -s build.keychain login.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security set-keychain-settings -t 3600 -u build.keychain
+
+      - name: Fetch App Store certificates
+        working-directory: apps/mobile/ios
+        env:
+          KEYCHAIN_PASSWORD: ${{ github.run_id }}
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
+        run: |
+          bundle exec fastlane fetch_appstore_certificates \
+            keychain_name:build.keychain \
+            keychain_password:"$KEYCHAIN_PASSWORD"
+
+      - name: Build IPA
+        env:
+          BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
+          API_BASE_URL: ${{ vars.PROD_API_BASE_URL }}
+        run: |
+          flutter build ipa \
+            --export-options-plist=ios/ExportOptionsAppStore.plist \
+            --build-number="$BUILD_NUMBER" \
+            --dart-define=API_BASE_URL="$API_BASE_URL"
+
+      - name: Upload to App Store Connect
+        working-directory: apps/mobile/ios
+        env:
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
+        run: bundle exec fastlane release_appstore
