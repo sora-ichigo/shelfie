@@ -158,6 +158,37 @@ class BookListDetailNotifier extends _$BookListDetailNotifier {
     return result;
   }
 
+  void removeItemByExternalId(String externalId, {required bool wasCompleted}) {
+    final currentState = state;
+    if (currentState is! BookListDetailLoaded) return;
+
+    final list = currentState.list;
+    if (!list.items.any((item) => item.userBook?.externalId == externalId)) {
+      return;
+    }
+
+    final updatedItems = list.items
+        .where((item) => item.userBook?.externalId != externalId)
+        .toList();
+
+    state = BookListDetailState.loaded(
+      list: list.copyWith(
+        items: updatedItems,
+        stats: list.stats.copyWith(
+          bookCount: list.stats.bookCount - 1,
+          completedCount: wasCompleted
+              ? list.stats.completedCount - 1
+              : list.stats.completedCount,
+          coverImages: updatedItems
+              .where((item) => item.userBook?.coverImageUrl != null)
+              .take(2)
+              .map((item) => item.userBook!.coverImageUrl!)
+              .toList(),
+        ),
+      ),
+    );
+  }
+
   Future<Either<Failure, void>> reorderBook({
     required int itemId,
     required int oldIndex,

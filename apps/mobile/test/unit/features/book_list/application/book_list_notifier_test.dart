@@ -551,6 +551,148 @@ void main() {
       });
     });
 
+    group('removeItemByExternalId', () {
+      BookListDetail createDetailWithBooks({
+        List<BookListItem>? items,
+        int bookCount = 2,
+        int completedCount = 1,
+        List<String> coverImages = const ['cover1.jpg', 'cover2.jpg'],
+      }) {
+        return BookListDetail(
+          id: 1,
+          title: 'Test List',
+          items: items ??
+              [
+                BookListItem(
+                  id: 10,
+                  position: 0,
+                  addedAt: now,
+                  userBook: const BookListItemUserBook(
+                    id: 100,
+                    externalId: 'book-a',
+                    title: 'Book A',
+                    authors: ['Author A'],
+                    coverImageUrl: 'cover1.jpg',
+                    readingStatus: 'completed',
+                    source: 'rakuten',
+                  ),
+                ),
+                BookListItem(
+                  id: 20,
+                  position: 1,
+                  addedAt: now,
+                  userBook: const BookListItemUserBook(
+                    id: 200,
+                    externalId: 'book-b',
+                    title: 'Book B',
+                    authors: ['Author B'],
+                    coverImageUrl: 'cover2.jpg',
+                    readingStatus: 'reading',
+                    source: 'google',
+                  ),
+                ),
+              ],
+          stats: BookListDetailStats(
+            bookCount: bookCount,
+            completedCount: completedCount,
+            coverImages: coverImages,
+          ),
+          createdAt: now,
+          updatedAt: now,
+        );
+      }
+
+      test('should remove item and decrement bookCount', () async {
+        final detail = createDetailWithBooks();
+        when(() => mockRepository.getBookListDetail(listId: 1))
+            .thenAnswer((_) async => right(detail));
+
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+        await notifier.loadDetail();
+
+        notifier.removeItemByExternalId('book-b', wasCompleted: false);
+
+        final loaded = notifier.state as BookListDetailLoaded;
+        expect(loaded.list.items.length, 1);
+        expect(loaded.list.items.first.userBook?.externalId, 'book-a');
+        expect(loaded.list.stats.bookCount, 1);
+      });
+
+      test('should decrement completedCount when removing completed book',
+          () async {
+        final detail = createDetailWithBooks();
+        when(() => mockRepository.getBookListDetail(listId: 1))
+            .thenAnswer((_) async => right(detail));
+
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+        await notifier.loadDetail();
+
+        notifier.removeItemByExternalId('book-a', wasCompleted: true);
+
+        final loaded = notifier.state as BookListDetailLoaded;
+        expect(loaded.list.stats.completedCount, 0);
+        expect(loaded.list.stats.bookCount, 1);
+      });
+
+      test('should not decrement completedCount when removing non-completed book',
+          () async {
+        final detail = createDetailWithBooks();
+        when(() => mockRepository.getBookListDetail(listId: 1))
+            .thenAnswer((_) async => right(detail));
+
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+        await notifier.loadDetail();
+
+        notifier.removeItemByExternalId('book-b', wasCompleted: false);
+
+        final loaded = notifier.state as BookListDetailLoaded;
+        expect(loaded.list.stats.completedCount, 1);
+      });
+
+      test('should update coverImages after removal', () async {
+        final detail = createDetailWithBooks();
+        when(() => mockRepository.getBookListDetail(listId: 1))
+            .thenAnswer((_) async => right(detail));
+
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+        await notifier.loadDetail();
+
+        notifier.removeItemByExternalId('book-a', wasCompleted: true);
+
+        final loaded = notifier.state as BookListDetailLoaded;
+        expect(loaded.list.stats.coverImages, ['cover2.jpg']);
+      });
+
+      test('should do nothing when externalId not found', () async {
+        final detail = createDetailWithBooks();
+        when(() => mockRepository.getBookListDetail(listId: 1))
+            .thenAnswer((_) async => right(detail));
+
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+        await notifier.loadDetail();
+
+        notifier.removeItemByExternalId('nonexistent', wasCompleted: false);
+
+        final loaded = notifier.state as BookListDetailLoaded;
+        expect(loaded.list.items.length, 2);
+        expect(loaded.list.stats.bookCount, 2);
+      });
+
+      test('should do nothing when state is not loaded', () {
+        final notifier =
+            container.read(bookListDetailNotifierProvider(1).notifier);
+
+        notifier.removeItemByExternalId('book-a', wasCompleted: false);
+
+        expect(notifier.state, isA<BookListDetailInitial>());
+      });
+    });
+
     group('refresh', () {
       test('should refetch detail', () async {
         final detail = createDetail(id: 1, title: 'Original');

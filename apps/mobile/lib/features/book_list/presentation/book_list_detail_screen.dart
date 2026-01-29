@@ -43,6 +43,24 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(shelfStateProvider, (previous, next) {
+      if (previous == null) return;
+
+      final removedIds =
+          previous.keys.where((id) => !next.containsKey(id)).toList();
+      if (removedIds.isEmpty) return;
+
+      final notifier = ref.read(
+        bookListDetailNotifierProvider(widget.listId).notifier,
+      );
+      for (final id in removedIds) {
+        notifier.removeItemByExternalId(
+          id,
+          wasCompleted: previous[id]?.isCompleted ?? false,
+        );
+      }
+    });
+
     final state = ref.watch(bookListDetailNotifierProvider(widget.listId));
 
     return Scaffold(
