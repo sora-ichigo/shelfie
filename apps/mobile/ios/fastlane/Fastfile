@@ -47,7 +47,7 @@ platform :ios do
 
     deliver(
       api_key: api_key,
-      ipa: Dir.glob("../../build/ios/ipa/*.ipa").first,
+      ipa: Dir.glob("../build/ios/ipa/*.ipa").first,
       submit_for_review: false,
       force: true
     )
