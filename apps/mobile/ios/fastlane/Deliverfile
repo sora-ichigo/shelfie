@@ -5,7 +5,6 @@ automatic_release(false)
 
 force(true)
 
-metadata_path("./metadata")
 skip_screenshots(true)
 
 precheck_include_in_app_purchases(false)
