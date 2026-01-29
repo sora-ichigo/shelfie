@@ -75,8 +75,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // Scroll down to see the lists section
-      await tester.drag(find.byType(ListView), const Offset(0, -300));
+      // Scroll down to see the lists section (use first to target vertical ListView)
+      await tester.drag(find.byType(ListView).first, const Offset(0, -300));
       await tester.pumpAndSettle();
 
       expect(find.text('リスト', skipOffstage: false), findsOneWidget);
