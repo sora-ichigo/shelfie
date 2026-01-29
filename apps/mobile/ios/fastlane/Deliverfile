@@ -1,0 +1,17 @@
+app_identifier("app.shelfie.shelfie")
+
+submit_for_review(false)
+automatic_release(false)
+
+force(true)
+
+metadata_path("./metadata")
+skip_screenshots(true)
+
+precheck_include_in_app_purchases(false)
+run_precheck_before_submit(true)
+
+app_review_information(
+  demo_user: ENV["APP_REVIEW_DEMO_USER"],
+  demo_password: ENV["APP_REVIEW_DEMO_PASSWORD"]
+)

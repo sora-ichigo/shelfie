@@ -14,15 +14,15 @@
   - Matchfile のデフォルト type（`adhoc`）は変更せず、レーン内で `appstore` をオーバーライドする
   - _Requirements: 1.1, 1.2, 1.3, 1.5, 5.3, 5.4_
 
-- [ ] 2. App Store 提出用 Fastlane 設定
-- [ ] 2.1 Deliverfile を作成する
+- [x] 2. App Store 提出用 Fastlane 設定
+- [x] 2.1 Deliverfile を作成する
   - `deliver` の共通設定（`metadata_path`、`force`、`submit_for_review: false`、`precheck_include_in_app_purchases` 等）を定義する
   - 審査提出は App Store Connect 上で手動実行する方針のため、`submit_for_review` を `false` に固定する
   - メタデータディレクトリのパス（`metadata/`）を指定する
   - タスク 1.2 の証明書取得レーンが完了している前提で実装する
   - _Requirements: 2.1, 2.3, 4.3_
 
-- [ ] 2.2 Fastfile に App Store アップロードレーンを追加する
+- [x] 2.2 Fastfile に App Store アップロードレーンを追加する
   - `release_appstore` レーンを追加し、App Store Connect API キーで認証した上で `deliver` を呼び出す
   - IPA ファイルパスを Flutter ビルドの出力ディレクトリから自動取得する
   - `Deliverfile` の共通設定を活用しつつ、レーン内で `api_key` と `ipa` パスをオーバーライドする
@@ -42,7 +42,7 @@
   - デモアカウント情報（`demo_user`、`demo_password`）は機密情報のためリポジトリにはコミットせず、`Deliverfile` 内で環境変数から読み込む設計とする
   - _Requirements: 4.5_
 
-- [ ] 4. App Store 配信用 GitHub Actions ワークフローを構築する
+- [x] 4. App Store 配信用 GitHub Actions ワークフローを構築する
   - `deploy-appstore.yml` を新規作成し、`workflow_dispatch` による手動トリガーで App Store 向けビルドと App Store Connect へのアップロードを実行するワークフローを構成する
   - 入力パラメータとして `build_number`（デフォルト: `github.run_number`）と `release_notes` を定義する
   - ランナーを `macos-15` にバージョン固定し、本番リリースビルドの再現性を確保する
