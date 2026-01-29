@@ -253,10 +253,14 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${status.displayName}に変更しました')),
-      );
-      Navigator.pop(context);
+      if (status == ReadingStatus.completed) {
+        setState(() => _isUpdating = false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${status.displayName}に変更しました')),
+        );
+        Navigator.pop(context);
+      }
     }
   }
 

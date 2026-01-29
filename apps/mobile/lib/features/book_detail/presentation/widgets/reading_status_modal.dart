@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
@@ -42,11 +43,11 @@ Future<void> showReadingStatusModal({
 
 /// 読書状態選択モーダルを表示する（追加モード）
 ///
-/// 選択された読書状態を返す。キャンセルされた場合は null を返す。
-Future<ReadingStatus?> showAddToShelfModal({
+/// 選択された読書状態と任意の評価を返す。キャンセルされた場合は null を返す。
+Future<({ReadingStatus status, int? rating})?> showAddToShelfModal({
   required BuildContext context,
 }) async {
-  return showModalBottomSheet<ReadingStatus>(
+  return showModalBottomSheet<({ReadingStatus status, int? rating})>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
@@ -78,6 +79,7 @@ class _ReadingStatusModalContent extends ConsumerStatefulWidget {
 class _ReadingStatusModalContentState
     extends ConsumerState<_ReadingStatusModalContent> {
   late ReadingStatus _selectedStatus;
+  int? _selectedRating;
   bool _isSaving = false;
   Failure? _error;
 
@@ -89,7 +91,9 @@ class _ReadingStatusModalContentState
 
   bool get _isUpdateMode => widget.mode == ReadingStatusModalMode.update;
   bool get _hasChanges =>
-      !_isUpdateMode || _selectedStatus != widget.currentStatus;
+      !_isUpdateMode ||
+      _selectedStatus != widget.currentStatus ||
+      (_selectedStatus == ReadingStatus.completed && _selectedRating != null);
 
   String get _title => _isUpdateMode ? '読書状態を変更' : '読書状態を選択';
   String get _primaryButtonLabel => _isUpdateMode ? '保存' : '登録';
@@ -104,6 +108,14 @@ class _ReadingStatusModalContentState
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildStatusGrid(theme),
+          AnimatedSize(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            alignment: Alignment.topCenter,
+            child: _selectedStatus == ReadingStatus.completed
+                ? _buildRatingSection(theme)
+                : const SizedBox.shrink(),
+          ),
           if (_error != null) ...[
             const SizedBox(height: AppSpacing.sm),
             Align(
@@ -163,6 +175,9 @@ class _ReadingStatusModalContentState
           : () {
               setState(() {
                 _selectedStatus = status;
+                if (status != ReadingStatus.completed) {
+                  _selectedRating = null;
+                }
                 _error = null;
               });
             },
@@ -189,6 +204,54 @@ class _ReadingStatusModalContentState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildRatingSection(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppSpacing.lg),
+        Text(
+          '評価（任意）',
+          style: theme.textTheme.labelMedium?.copyWith(
+            color: appColors.foregroundMuted,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(5, (index) {
+            final starValue = index + 1;
+            final isSelected =
+                _selectedRating != null && _selectedRating! >= starValue;
+
+            return GestureDetector(
+              onTap: _isSaving
+                  ? null
+                  : () {
+                      setState(() {
+                        _selectedRating =
+                            _selectedRating == starValue ? null : starValue;
+                        _error = null;
+                      });
+                    },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+                child: Icon(
+                  isSelected ? Icons.star : Icons.star_border,
+                  size: AppIconSize.xxl,
+                  color: isSelected
+                      ? appColors.accentSecondary
+                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 
@@ -272,7 +335,10 @@ class _ReadingStatusModalContentState
 
   Future<void> _onSave() async {
     if (!_isUpdateMode) {
-      Navigator.pop(context, _selectedStatus);
+      Navigator.pop(
+        context,
+        (status: _selectedStatus, rating: _selectedRating),
+      );
       return;
     }
 
@@ -288,7 +354,7 @@ class _ReadingStatusModalContentState
       status: _selectedStatus,
     );
 
-    result.fold(
+    final failed = result.fold(
       (failure) {
         if (mounted) {
           setState(() {
@@ -296,12 +362,22 @@ class _ReadingStatusModalContentState
             _error = failure;
           });
         }
+        return true;
       },
-      (_) {
-        if (mounted) {
-          Navigator.pop(context);
-        }
-      },
+      (_) => false,
     );
+
+    if (failed) return;
+
+    if (_selectedStatus == ReadingStatus.completed && _selectedRating != null) {
+      await notifier.updateRating(
+        userBookId: widget.userBookId!,
+        rating: _selectedRating!,
+      );
+    }
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 }

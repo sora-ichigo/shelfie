@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -214,8 +216,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Future<void> _onRecentBookAddToShelf(RecentBookEntry book) async {
     if (_addingBooks.contains(book.bookId)) return;
 
-    final selectedStatus = await showAddToShelfModal(context: context);
-    if (selectedStatus == null || !mounted) return;
+    final addResult = await showAddToShelfModal(context: context);
+    if (addResult == null || !mounted) return;
 
     setState(() {
       _addingBooks.add(book.bookId);
@@ -226,7 +228,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           title: book.title,
           authors: book.authors,
           coverImageUrl: book.coverImageUrl,
-          readingStatus: selectedStatus,
+          readingStatus: addResult.status,
         );
 
     if (!mounted) return;
@@ -245,8 +247,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         );
       },
       (_) {
+        if (addResult.rating != null) {
+          unawaited(
+            ref.read(shelfStateProvider.notifier).updateRatingWithApi(
+                  externalId: book.bookId,
+                  rating: addResult.rating!,
+                ),
+          );
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+          SnackBar(
+            content: Text('「${addResult.status.displayName}」で登録しました'),
+          ),
         );
       },
     );
@@ -409,8 +421,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Future<void> _onAddToShelf(Book book) async {
     if (_addingBooks.contains(book.id)) return;
 
-    final selectedStatus = await showAddToShelfModal(context: context);
-    if (selectedStatus == null || !mounted) return;
+    final addResult = await showAddToShelfModal(context: context);
+    if (addResult == null || !mounted) return;
 
     setState(() {
       _addingBooks.add(book.id);
@@ -418,7 +430,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     final result = await ref
         .read(bookSearchNotifierProvider.notifier)
-        .addToShelf(book, readingStatus: selectedStatus);
+        .addToShelf(book, readingStatus: addResult.status);
 
     if (!mounted) return;
 
@@ -436,8 +448,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         );
       },
       (_) {
+        if (addResult.rating != null) {
+          unawaited(
+            ref.read(shelfStateProvider.notifier).updateRatingWithApi(
+                  externalId: book.id,
+                  rating: addResult.rating!,
+                ),
+          );
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+          SnackBar(
+            content: Text('「${addResult.status.displayName}」で登録しました'),
+          ),
         );
       },
     );
