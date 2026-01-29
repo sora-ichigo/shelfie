@@ -73,7 +73,6 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         SliverToBoxAdapter(
           child: _ActionButtons(
             onAddBook: _onAddBooksPressed,
-            onShare: () => _onSharePressed(list),
             onMore: () => _onMorePressed(list),
           ),
         ),
@@ -392,18 +391,15 @@ class _CoverCollage extends StatelessWidget {
 class _ActionButtons extends StatelessWidget {
   const _ActionButtons({
     required this.onAddBook,
-    required this.onShare,
     required this.onMore,
   });
 
   final VoidCallback onAddBook;
-  final VoidCallback onShare;
   final VoidCallback onMore;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -426,12 +422,6 @@ class _ActionButtons extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          _CircleIconButton(
-            icon: Icons.share_outlined,
-            onPressed: onShare,
-            backgroundColor: appColors.surface,
           ),
           const SizedBox(width: AppSpacing.sm),
           _CircleIconButton(
