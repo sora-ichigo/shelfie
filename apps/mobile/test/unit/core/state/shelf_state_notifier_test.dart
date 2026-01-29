@@ -11,6 +11,11 @@ import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 class MockBookSearchRepository extends Mock implements BookSearchRepository {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(ReadingStatus.backlog);
+    registerFallbackValue(BookSource.rakuten);
+  });
+
   late ProviderContainer container;
   late MockBookSearchRepository mockRepository;
 
@@ -193,6 +198,46 @@ void main() {
         expect(result.isRight(), isTrue);
         expect(notifier.isInShelf('book-123'), isTrue);
         expect(notifier.getUserBookId('book-123'), 1);
+      });
+
+      test('should set completedAt when readingStatus is completed', () async {
+        final now = DateTime.now();
+        when(
+          () => mockRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            UserBook(
+              id: 1,
+              externalId: 'book-123',
+              title: 'Test Book',
+              authors: ['Author'],
+              addedAt: now,
+            ),
+          ),
+        );
+
+        final notifier = container.read(shelfStateProvider.notifier);
+        final result = await notifier.addToShelf(
+          externalId: 'book-123',
+          title: 'Test Book',
+          authors: ['Author'],
+          readingStatus: ReadingStatus.completed,
+        );
+
+        expect(result.isRight(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.completed);
+        expect(entry?.completedAt, isNotNull);
       });
 
       test('should not update state on failure', () async {

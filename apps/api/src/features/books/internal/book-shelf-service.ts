@@ -95,6 +95,10 @@ export interface BookShelfService {
   ): Promise<Result<void, BookShelfErrors>>;
 }
 
+function resolveCompletedAt(status: ReadingStatusValue): Date | null {
+  return status === "completed" ? new Date() : null;
+}
+
 export function createBookShelfService(
   repository: BookShelfRepository,
   logger: LoggerService,
@@ -125,6 +129,8 @@ export function createBookShelfService(
           });
         }
 
+        const readingStatus = bookInput.readingStatus ?? "backlog";
+        const completedAt = resolveCompletedAt(readingStatus);
         const userBook = await repository.createUserBook({
           userId,
           externalId: bookInput.externalId,
@@ -135,7 +141,8 @@ export function createBookShelfService(
           isbn: bookInput.isbn,
           coverImageUrl: bookInput.coverImageUrl,
           source: bookInput.source ?? "rakuten",
-          readingStatus: bookInput.readingStatus ?? "backlog",
+          readingStatus,
+          ...(completedAt !== null && { completedAt }),
         });
 
         logger.info("Book added to shelf successfully", {
@@ -290,11 +297,9 @@ export function createBookShelfService(
           });
         }
 
-        const completedAt = status === "completed" ? new Date() : null;
-
         const updatedBook = await repository.updateUserBook(userBookId, {
           readingStatus: status,
-          completedAt,
+          completedAt: resolveCompletedAt(status),
         });
 
         if (updatedBook === null) {
