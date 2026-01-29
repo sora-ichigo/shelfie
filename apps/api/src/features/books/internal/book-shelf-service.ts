@@ -125,6 +125,7 @@ export function createBookShelfService(
           });
         }
 
+        const readingStatus = bookInput.readingStatus ?? "backlog";
         const userBook = await repository.createUserBook({
           userId,
           externalId: bookInput.externalId,
@@ -135,7 +136,8 @@ export function createBookShelfService(
           isbn: bookInput.isbn,
           coverImageUrl: bookInput.coverImageUrl,
           source: bookInput.source ?? "rakuten",
-          readingStatus: bookInput.readingStatus ?? "backlog",
+          readingStatus,
+          ...(readingStatus === "completed" && { completedAt: new Date() }),
         });
 
         logger.info("Book added to shelf successfully", {

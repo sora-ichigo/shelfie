@@ -231,6 +231,108 @@ describe("BookShelfService", () => {
       );
     });
 
+    it("should set completedAt when readingStatus is completed", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookByExternalId.mockResolvedValue(null);
+
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "completed",
+        completedAt: new Date(),
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const input: AddBookToShelfInput = {
+        userId: 100,
+        bookInput: {
+          externalId: "google-book-123",
+          title: "Test Book",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          readingStatus: "completed",
+        },
+      };
+
+      const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(true);
+      expect(mockRepository.mockCreateUserBook).toHaveBeenCalledWith(
+        expect.objectContaining({
+          readingStatus: "completed",
+          completedAt: expect.any(Date),
+        }),
+      );
+    });
+
+    it("should not set completedAt when readingStatus is not completed", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookByExternalId.mockResolvedValue(null);
+
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const input: AddBookToShelfInput = {
+        userId: 100,
+        bookInput: {
+          externalId: "google-book-123",
+          title: "Test Book",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          readingStatus: "reading",
+        },
+      };
+
+      const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(true);
+      const createCallArgs = mockRepository.mockCreateUserBook.mock.calls[0][0];
+      expect(createCallArgs.completedAt).toBeUndefined();
+    });
+
     it("should handle book with optional fields as null", async () => {
       const mockRepository = createMockRepository();
       const mockLogger = createMockLogger();

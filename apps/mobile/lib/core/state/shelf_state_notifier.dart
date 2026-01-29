@@ -52,6 +52,9 @@ class ShelfState extends _$ShelfState {
           externalId: userBook.externalId,
           readingStatus: readingStatus,
           addedAt: userBook.addedAt,
+          completedAt: readingStatus == ReadingStatus.completed
+              ? DateTime.now()
+              : null,
         ),
       ),
     );
