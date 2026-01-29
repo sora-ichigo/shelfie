@@ -181,7 +181,7 @@ class BookListDetailNotifier extends _$BookListDetailNotifier {
               : list.stats.completedCount,
           coverImages: updatedItems
               .where((item) => item.userBook?.coverImageUrl != null)
-              .take(2)
+              .take(4)
               .map((item) => item.userBook!.coverImageUrl!)
               .toList(),
         ),

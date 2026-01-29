@@ -16,6 +16,13 @@ abstract class ShareService {
     required String title,
     String? url,
   });
+
+  /// ブックリスト情報を共有する
+  Future<void> shareBookList({
+    required String title,
+    String? description,
+    required int bookCount,
+  });
 }
 
 /// ShareService の実装
@@ -29,6 +36,22 @@ class ShareServiceImpl implements ShareService {
 
     // ignore: deprecated_member_use
     await Share.share(text);
+  }
+
+  @override
+  Future<void> shareBookList({
+    required String title,
+    String? description,
+    required int bookCount,
+  }) async {
+    final buffer = StringBuffer(title);
+    if (description != null && description.isNotEmpty) {
+      buffer.write('\n$description');
+    }
+    buffer.write('\n$bookCount冊');
+
+    // ignore: deprecated_member_use
+    await Share.share(buffer.toString());
   }
 }
 

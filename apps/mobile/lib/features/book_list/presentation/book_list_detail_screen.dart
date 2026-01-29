@@ -7,6 +7,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
+import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
@@ -148,8 +149,13 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
     );
   }
 
-  void _onSharePressed(BookListDetail list) {
-    // TODO(shelfie): Implement share functionality
+  Future<void> _onSharePressed(BookListDetail list) async {
+    final shareService = ref.read(shareServiceProvider);
+    await shareService.shareBookList(
+      title: list.title,
+      description: list.description,
+      bookCount: list.stats.bookCount,
+    );
   }
 
   void _onMorePressed(BookListDetail list) {
@@ -418,20 +424,19 @@ class _CoverCollage extends StatelessWidget {
 
   final List<String> coverImages;
 
+  static const double _size = 90;
+  static const double _half = 45;
+  static const double _radius = 8;
+
   @override
   Widget build(BuildContext context) {
-    const double totalWidth = 120;
-    const double totalHeight = 90;
-    const double singleWidth = 60;
-    const double singleHeight = 90;
-
     if (coverImages.isEmpty) {
       return Container(
-        width: totalWidth,
-        height: totalHeight,
+        width: _size,
+        height: _size,
         decoration: BoxDecoration(
           color: Colors.white12,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(_radius),
         ),
         child: const Icon(
           Icons.menu_book_outlined,
@@ -443,77 +448,142 @@ class _CoverCollage extends StatelessWidget {
 
     if (coverImages.length == 1) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: CachedNetworkImage(
-          imageUrl: coverImages[0],
-          width: singleWidth,
-          height: singleHeight,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            width: singleWidth,
-            height: singleHeight,
-            color: Colors.white12,
-          ),
-          errorWidget: (context, url, error) => Container(
-            width: singleWidth,
-            height: singleHeight,
-            color: Colors.white12,
-            child: const Icon(Icons.book, color: Colors.white38),
-          ),
-        ),
+        borderRadius: BorderRadius.circular(_radius),
+        child: _buildImage(coverImages[0], _size, _size),
       );
     }
 
+    if (coverImages.length == 2) {
+      return _buildTwoImages();
+    }
+
+    if (coverImages.length == 3) {
+      return _buildThreeImages();
+    }
+
+    return _buildFourImages();
+  }
+
+  /// 2枚: 左右2列
+  Widget _buildTwoImages() {
     return SizedBox(
-      width: totalWidth,
-      height: totalHeight,
+      width: _size,
+      height: _size,
       child: Row(
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
+              topLeft: Radius.circular(_radius),
+              bottomLeft: Radius.circular(_radius),
             ),
-            child: CachedNetworkImage(
-              imageUrl: coverImages[0],
-              width: singleWidth,
-              height: singleHeight,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                width: singleWidth,
-                height: singleHeight,
-                color: Colors.white12,
-              ),
-              errorWidget: (context, url, error) => Container(
-                width: singleWidth,
-                height: singleHeight,
-                color: Colors.white12,
-              ),
-            ),
+            child: _buildImage(coverImages[0], _half, _size),
           ),
           ClipRRect(
             borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(8),
-              bottomRight: Radius.circular(8),
+              topRight: Radius.circular(_radius),
+              bottomRight: Radius.circular(_radius),
             ),
-            child: CachedNetworkImage(
-              imageUrl: coverImages.length > 1 ? coverImages[1] : coverImages[0],
-              width: singleWidth,
-              height: singleHeight,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                width: singleWidth,
-                height: singleHeight,
-                color: Colors.white12,
-              ),
-              errorWidget: (context, url, error) => Container(
-                width: singleWidth,
-                height: singleHeight,
-                color: Colors.white12,
-              ),
-            ),
+            child: _buildImage(coverImages[1], _half, _size),
           ),
         ],
+      ),
+    );
+  }
+
+  /// 3枚: 左1枚 + 右2枚縦
+  Widget _buildThreeImages() {
+    return SizedBox(
+      width: _size,
+      height: _size,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(_radius),
+              bottomLeft: Radius.circular(_radius),
+            ),
+            child: _buildImage(coverImages[0], _half, _size),
+          ),
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[1], _half, _half),
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[2], _half, _half),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 4枚: 2x2グリッド
+  Widget _buildFourImages() {
+    return SizedBox(
+      width: _size,
+      height: _size,
+      child: Row(
+        children: [
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[0], _half, _half),
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[2], _half, _half),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[1], _half, _half),
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(_radius),
+                ),
+                child: _buildImage(coverImages[3], _half, _half),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImage(String url, double width, double height) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      width: width,
+      height: height,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Container(
+        width: width,
+        height: height,
+        color: Colors.white12,
+      ),
+      errorWidget: (context, url, error) => Container(
+        width: width,
+        height: height,
+        color: Colors.white12,
       ),
     );
   }
