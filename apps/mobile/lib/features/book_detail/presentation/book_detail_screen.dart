@@ -253,8 +253,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   Future<void> _onAddToShelfPressed() async {
     if (_isAddingToShelf) return;
 
-    final selectedStatus = await showAddToShelfModal(context: context);
-    if (selectedStatus == null || !mounted) return;
+    final addResult = await showAddToShelfModal(context: context);
+    if (addResult == null || !mounted) return;
 
     setState(() {
       _isAddingToShelf = true;
@@ -262,7 +262,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     final result = await ref
         .read(bookDetailNotifierProvider(widget.bookId).notifier)
-        .addToShelf(readingStatus: selectedStatus);
+        .addToShelf(readingStatus: addResult.status);
 
     if (!mounted) return;
 
@@ -280,8 +280,25 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         );
       },
       (_) {
+        if (addResult.rating != null) {
+          final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+          if (shelfEntry != null) {
+            unawaited(
+              ref
+                  .read(
+                    bookDetailNotifierProvider(widget.bookId).notifier,
+                  )
+                  .updateRating(
+                    userBookId: shelfEntry.userBookId,
+                    rating: addResult.rating!,
+                  ),
+            );
+          }
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+          SnackBar(
+            content: Text('「${addResult.status.displayName}」で登録しました'),
+          ),
         );
       },
     );

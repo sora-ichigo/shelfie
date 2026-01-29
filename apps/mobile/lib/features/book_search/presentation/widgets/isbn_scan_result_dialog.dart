@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
@@ -80,8 +83,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
     final book = _book;
     if (book == null) return;
 
-    final selectedStatus = await showAddToShelfModal(context: context);
-    if (selectedStatus == null || !mounted) return;
+    final addResult = await showAddToShelfModal(context: context);
+    if (addResult == null || !mounted) return;
 
     setState(() {
       _isAddingToShelf = true;
@@ -89,7 +92,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
 
     final result = await ref
         .read(bookSearchNotifierProvider.notifier)
-        .addToShelf(book, readingStatus: selectedStatus);
+        .addToShelf(book, readingStatus: addResult.status);
 
     if (!mounted) return;
 
@@ -106,8 +109,18 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         );
       },
       (_) {
+        if (addResult.rating != null) {
+          unawaited(
+            ref.read(shelfStateProvider.notifier).updateRatingWithApi(
+                  externalId: book.id,
+                  rating: addResult.rating!,
+                ),
+          );
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('「${selectedStatus.displayName}」で登録しました')),
+          SnackBar(
+            content: Text('「${addResult.status.displayName}」で登録しました'),
+          ),
         );
         Navigator.of(context).pop(true);
       },
