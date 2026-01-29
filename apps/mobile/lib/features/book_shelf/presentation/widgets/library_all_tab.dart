@@ -148,29 +148,37 @@ class LibraryAllTab extends StatelessWidget {
   }
 
   Widget _buildRecentBooksGrid() {
-    final displayBooks = recentBooks.take(6).toList();
+    final displayBooks = recentBooks.take(10).toList();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: AppSpacing.xs,
-          crossAxisSpacing: AppSpacing.sm,
-          childAspectRatio: 0.45,
-        ),
-        itemCount: displayBooks.length,
-        itemBuilder: (context, index) {
-          final book = displayBooks[index];
-          return BookCard(
-            book: book,
-            onTap: () => onBookTap(book),
-            onLongPress: () => onBookLongPress(book),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth =
+            (constraints.maxWidth - 2 * AppSpacing.md - 2 * AppSpacing.sm) / 3;
+        final cardHeight = cardWidth / 0.45;
+
+        return SizedBox(
+          height: cardHeight,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: AppSpacing.md),
+            itemCount: displayBooks.length,
+            itemBuilder: (context, index) {
+              final book = displayBooks[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: AppSpacing.sm),
+                child: SizedBox(
+                  width: cardWidth,
+                  child: BookCard(
+                    book: book,
+                    onTap: () => onBookTap(book),
+                    onLongPress: () => onBookLongPress(book),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
