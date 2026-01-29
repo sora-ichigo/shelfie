@@ -1,11 +1,6 @@
 name: Deploy iOS to Firebase App Distribution
 
 on:
-  push:
-    branches: [master]
-    paths:
-      - 'apps/mobile/**'
-      - '.github/workflows/deploy-ios.yml'
   workflow_dispatch:
     inputs:
       release_notes:
@@ -109,7 +104,7 @@ jobs:
 
       - name: Distribute to Firebase App Distribution
         env:
-          RELEASE_NOTES: ${{ inputs.release_notes || github.event.head_commit.message }}
+          RELEASE_NOTES: ${{ inputs.release_notes }}
         run: |
           firebase appdistribution:distribute build/ios/ipa/*.ipa \
             --app "$FIREBASE_APP_ID" \
