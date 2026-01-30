@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 
@@ -27,6 +29,9 @@ void main() {
         bookSearchRepositoryProvider.overrideWithValue(repository),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          extensions: const [AppColors.dark],
+        ),
         home: Scaffold(
           body: Builder(
             builder: (context) {
@@ -81,8 +86,7 @@ void main() {
 
       expect(find.text('テスト書籍'), findsOneWidget);
       expect(find.text('著者A, 著者B'), findsOneWidget);
-      expect(find.text('テスト出版社'), findsOneWidget);
-      expect(find.text('マイライブラリに追加'), findsOneWidget);
+      expect(find.text('登録'), findsOneWidget);
     });
 
     testWidgets('displays not found message when book is not found',
@@ -119,7 +123,7 @@ void main() {
       expect(find.text('再試行'), findsOneWidget);
     });
 
-    testWidgets('shows add to shelf button when book is found', (tester) async {
+    testWidgets('shows register button when book is found', (tester) async {
       final testBook = Book(
         id: 'test-id',
         title: 'テスト書籍',
@@ -140,7 +144,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(FilledButton, 'マイライブラリに追加'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, '登録'), findsOneWidget);
     });
 
     testWidgets('can close dialog with cancel button', (tester) async {
@@ -164,7 +168,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(TextButton, 'キャンセル'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'キャンセル'), findsOneWidget);
     });
   });
 }
