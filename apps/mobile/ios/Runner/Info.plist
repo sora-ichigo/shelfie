@@ -46,5 +46,7 @@
 		<string>プロフィール画像を設定するために写真ライブラリにアクセスします</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 	</dict>
 </plist>

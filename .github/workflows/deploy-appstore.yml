@@ -77,6 +77,11 @@ jobs:
             keychain_name:build.keychain \
             keychain_password:"$KEYCHAIN_PASSWORD"
 
+      - name: Configure App Store signing
+        run: |
+          sed -i '' 's/match AdHoc app.shelfie.shelfie/match AppStore app.shelfie.shelfie/g' \
+            ios/Runner.xcodeproj/project.pbxproj
+
       - name: Build IPA
         env:
           BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}

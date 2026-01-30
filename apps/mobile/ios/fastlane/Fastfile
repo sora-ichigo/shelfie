@@ -45,9 +45,12 @@ platform :ios do
       key_content: ENV["APP_STORE_CONNECT_API_KEY_KEY"]
     )
 
+    ipa_file = Dir.glob("../../build/ios/ipa/*.ipa").first
+    UI.user_error!("IPA file not found") unless ipa_file
+
     deliver(
       api_key: api_key,
-      ipa: Dir.glob("../../build/ios/ipa/*.ipa").first,
+      ipa: File.expand_path(ipa_file),
       submit_for_review: false,
       force: true
     )
