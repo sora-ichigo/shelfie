@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -25,6 +26,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
   MobileScannerController? _controller;
   bool _isScanning = true;
   bool _cameraPermissionDenied = false;
+  bool _cameraError = false;
   String? _lastScannedISBN;
 
   @override
@@ -77,6 +79,13 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
                     }
                   });
                 }
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted && !_cameraError) {
+                    setState(() {
+                      _cameraError = true;
+                    });
+                  }
+                });
                 return Center(
                   child: Text(
                     'カメラの初期化に失敗しました',
@@ -87,9 +96,12 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
                 );
               },
             ),
-          _buildScanOverlay(theme),
+          if (!_cameraError) ...[
+            _buildScanOverlay(theme),
+            _buildInstructionText(theme),
+          ],
           _buildTopBar(theme),
-          _buildInstructionText(theme),
+          if (_cameraError && kDebugMode) _buildDebugISBNInput(theme),
         ],
       ),
     );
@@ -193,6 +205,47 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
           color: Colors.white,
         ),
         textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildDebugISBNInput(ThemeData theme) {
+    return Positioned(
+      right: AppSpacing.md,
+      bottom: AppSpacing.xl,
+      child: FloatingActionButton.small(
+        onPressed: () async {
+          final controller = TextEditingController(text: '9784798158167');
+          final isbn = await showDialog<String>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('ISBN を入力'),
+              content: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                autofocus: true,
+                decoration: const InputDecoration(hintText: '978...'),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('キャンセル'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    final isbn = ISBNExtractor.extractISBN(controller.text);
+                    Navigator.of(context).pop(isbn);
+                  },
+                  child: const Text('決定'),
+                ),
+              ],
+            ),
+          );
+          if (isbn != null && mounted) {
+            Navigator.of(context).pop(isbn);
+          }
+        },
+        child: const Icon(Icons.edit, size: 18),
       ),
     );
   }

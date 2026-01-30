@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -16,6 +17,7 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 Future<void> showBookQuickActionsModal({
   required BuildContext context,
@@ -98,52 +100,65 @@ class _BookQuickActionsModalContentState
     );
   }
 
+  void _navigateToBookDetail() {
+    Navigator.pop(context);
+    context.push(
+      AppRoutes.bookDetail(
+        bookId: widget.book.externalId,
+        source: widget.book.source,
+      ),
+    );
+  }
+
   Widget _buildBookInfo(ThemeData theme, AppColors appColors) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(AppRadius.sm),
-          child: SizedBox(
-            width: 48,
-            height: 72,
-            child: widget.book.hasCoverImage
-                ? CachedNetworkImage(
-                    imageUrl: widget.book.coverImageUrl!,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        _buildImagePlaceholder(appColors),
-                    errorWidget: (context, url, error) =>
-                        _buildImagePlaceholder(appColors),
-                  )
-                : _buildImagePlaceholder(appColors),
+    return GestureDetector(
+      onTap: _navigateToBookDetail,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+            child: SizedBox(
+              width: 48,
+              height: 72,
+              child: widget.book.hasCoverImage
+                  ? CachedNetworkImage(
+                      imageUrl: widget.book.coverImageUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          _buildImagePlaceholder(appColors),
+                      errorWidget: (context, url, error) =>
+                          _buildImagePlaceholder(appColors),
+                    )
+                  : _buildImagePlaceholder(appColors),
+            ),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.book.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.book.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xxs),
-              Text(
-                widget.book.authorsDisplay,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTypography.captionSmall.copyWith(
-                  color: appColors.foregroundMuted,
+                const SizedBox(height: AppSpacing.xxs),
+                Text(
+                  widget.book.authorsDisplay,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.captionSmall.copyWith(
+                    color: appColors.foregroundMuted,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
