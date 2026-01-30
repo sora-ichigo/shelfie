@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
