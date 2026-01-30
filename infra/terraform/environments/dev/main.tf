@@ -111,6 +111,7 @@ module "firebase_auth" {
 
   android_package_name = "app.shelfie.shelfie"
   ios_bundle_id        = "app.shelfie.shelfie"
+  ios_dev_bundle_id    = "app.shelfie.shelfie.dev"
 
   depends_on = [module.api_cloud_run]
 }
@@ -135,6 +136,11 @@ output "ios_config_plist" {
   description = "GoogleService-Info.plist content for iOS (base64 encoded)"
   value       = module.firebase_auth.ios_config_plist
   sensitive   = true
+}
+
+output "ios_dev_app_id" {
+  description = "Firebase iOS Dev App ID (for App Distribution)"
+  value       = module.firebase_auth.ios_dev_app_id
 }
 
 # =============================================================================
