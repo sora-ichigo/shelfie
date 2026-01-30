@@ -175,7 +175,10 @@ type BookListDetail {
   id: Int!
 
   """The items in the book list"""
-  items: [BookListItem!]!
+  items: [BookListDetailItem!]!
+
+  """Statistics for the book list"""
+  stats: BookListDetailStats!
 
   """The title of the book list"""
   title: String!
@@ -184,8 +187,8 @@ type BookListDetail {
   updatedAt: DateTime!
 }
 
-"""An item in a book list"""
-type BookListItem {
+"""An item in a book list with user book details"""
+type BookListDetailItem {
   """When the book was added to the list"""
   addedAt: DateTime!
 
@@ -194,6 +197,45 @@ type BookListItem {
 
   """The position of the item in the list"""
   position: Int!
+
+  """The user book details (loaded on demand)"""
+  userBook: BookListDetailUserBook
+}
+
+"""User book information in a book list detail"""
+type BookListDetailUserBook {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book (Google Books or Rakuten)"""
+  externalId: String!
+
+  """The unique identifier of the user book"""
+  id: Int!
+
+  """The reading status of the book"""
+  readingStatus: String!
+
+  """The source of the book (google or rakuten)"""
+  source: String!
+
+  """The title of the book"""
+  title: String!
+}
+
+"""Statistics for a book list"""
+type BookListDetailStats {
+  """Total number of books in the list"""
+  bookCount: Int!
+
+  """Number of completed books in the list"""
+  completedCount: Int!
+
+  """Cover images of books in the list (up to 4)"""
+  coverImages: [String!]!
 }
 
 """Summary information about a book list"""
@@ -299,7 +341,7 @@ union MeResult = AuthErrorResult | User
 
 type Mutation {
   """Add a book to a book list"""
-  addBookToList(listId: Int!, userBookId: Int!): BookListItem!
+  addBookToList(listId: Int!, userBookId: Int!): BookListDetailItem!
 
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!

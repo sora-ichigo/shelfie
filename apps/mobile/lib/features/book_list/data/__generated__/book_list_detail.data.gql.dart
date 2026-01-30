@@ -57,6 +57,7 @@ abstract class GBookListDetailData_bookListDetail
   String get title;
   String? get description;
   BuiltList<GBookListDetailData_bookListDetail_items> get items;
+  GBookListDetailData_bookListDetail_stats get stats;
   DateTime get createdAt;
   DateTime get updatedAt;
   static Serializer<GBookListDetailData_bookListDetail> get serializer =>
@@ -87,13 +88,14 @@ abstract class GBookListDetailData_bookListDetail_items
 
   static void _initializeBuilder(
           GBookListDetailData_bookListDetail_itemsBuilder b) =>
-      b..G__typename = 'BookListItem';
+      b..G__typename = 'BookListDetailItem';
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
   int get id;
   int get position;
   DateTime get addedAt;
+  GBookListDetailData_bookListDetail_items_userBook? get userBook;
   static Serializer<GBookListDetailData_bookListDetail_items> get serializer =>
       _$gBookListDetailDataBookListDetailItemsSerializer;
 
@@ -106,6 +108,81 @@ abstract class GBookListDetailData_bookListDetail_items
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GBookListDetailData_bookListDetail_items.serializer,
+        json,
+      );
+}
+
+abstract class GBookListDetailData_bookListDetail_items_userBook
+    implements
+        Built<GBookListDetailData_bookListDetail_items_userBook,
+            GBookListDetailData_bookListDetail_items_userBookBuilder> {
+  GBookListDetailData_bookListDetail_items_userBook._();
+
+  factory GBookListDetailData_bookListDetail_items_userBook(
+      [void Function(GBookListDetailData_bookListDetail_items_userBookBuilder b)
+          updates]) = _$GBookListDetailData_bookListDetail_items_userBook;
+
+  static void _initializeBuilder(
+          GBookListDetailData_bookListDetail_items_userBookBuilder b) =>
+      b..G__typename = 'BookListDetailUserBook';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get id;
+  String get externalId;
+  String get title;
+  BuiltList<String> get authors;
+  String? get coverImageUrl;
+  String get readingStatus;
+  String get source;
+  static Serializer<GBookListDetailData_bookListDetail_items_userBook>
+      get serializer =>
+          _$gBookListDetailDataBookListDetailItemsUserBookSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GBookListDetailData_bookListDetail_items_userBook.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GBookListDetailData_bookListDetail_items_userBook? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GBookListDetailData_bookListDetail_items_userBook.serializer,
+        json,
+      );
+}
+
+abstract class GBookListDetailData_bookListDetail_stats
+    implements
+        Built<GBookListDetailData_bookListDetail_stats,
+            GBookListDetailData_bookListDetail_statsBuilder> {
+  GBookListDetailData_bookListDetail_stats._();
+
+  factory GBookListDetailData_bookListDetail_stats(
+      [void Function(GBookListDetailData_bookListDetail_statsBuilder b)
+          updates]) = _$GBookListDetailData_bookListDetail_stats;
+
+  static void _initializeBuilder(
+          GBookListDetailData_bookListDetail_statsBuilder b) =>
+      b..G__typename = 'BookListDetailStats';
+
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  int get bookCount;
+  int get completedCount;
+  BuiltList<String> get coverImages;
+  static Serializer<GBookListDetailData_bookListDetail_stats> get serializer =>
+      _$gBookListDetailDataBookListDetailStatsSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GBookListDetailData_bookListDetail_stats.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GBookListDetailData_bookListDetail_stats? fromJson(
+          Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GBookListDetailData_bookListDetail_stats.serializer,
         json,
       );
 }

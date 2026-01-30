@@ -34,15 +34,12 @@ final loggerProvider = Provider<Logger>.internal(
 // ignore: unused_element
 typedef LoggerRef = ProviderRef<Logger>;
 String _$crashlyticsReporterHash() =>
-    r'652380a9323d8ce96ba9e134e8d8e1032323e0ad';
+    r'db30d5238eaf551aed2d6bce57771a65ba761915';
 
 /// Crashlytics Reporter Provider
 ///
 /// エラー報告用の Provider。
-/// Firebase Crashlytics が利用可能な場合はそれを使用し、
-/// それ以外の場合は NoOp 実装を使用する。
-///
-/// 本番環境でのエラー報告に使用される。
+/// 本番環境では Sentry を使用し、開発環境では NoOp 実装を使用する。
 ///
 /// Copied from [crashlyticsReporter].
 @ProviderFor(crashlyticsReporter)

@@ -148,7 +148,10 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_reading_s
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.var.gql.dart'
     show GUpdateReadingStatusVars;
 import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.data.gql.dart'
-    show GAddBookToListData, GAddBookToListData_addBookToList;
+    show
+        GAddBookToListData,
+        GAddBookToListData_addBookToList,
+        GAddBookToListData_addBookToList_userBook;
 import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.req.gql.dart'
     show GAddBookToListReq;
 import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.var.gql.dart'
@@ -157,7 +160,9 @@ import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.d
     show
         GBookListDetailData,
         GBookListDetailData_bookListDetail,
-        GBookListDetailData_bookListDetail_items;
+        GBookListDetailData_bookListDetail_items,
+        GBookListDetailData_bookListDetail_items_userBook,
+        GBookListDetailData_bookListDetail_stats;
 import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.req.gql.dart'
     show GBookListDetailReq;
 import 'package:shelfie/features/book_list/data/__generated__/book_list_detail.var.gql.dart'
@@ -277,6 +282,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAddBookInput,
   GAddBookToListData,
   GAddBookToListData_addBookToList,
+  GAddBookToListData_addBookToList_userBook,
   GAddBookToListReq,
   GAddBookToListVars,
   GAddBookToShelfData,
@@ -292,6 +298,8 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GBookListDetailData,
   GBookListDetailData_bookListDetail,
   GBookListDetailData_bookListDetail_items,
+  GBookListDetailData_bookListDetail_items_userBook,
+  GBookListDetailData_bookListDetail_stats,
   GBookListDetailReq,
   GBookListDetailVars,
   GBookSource,

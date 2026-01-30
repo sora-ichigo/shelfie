@@ -77,7 +77,7 @@ registerUserTypes(builder, bookShelfRepository);
 registerAuthTypes(builder);
 registerBooksTypes(builder);
 registerImageUploadTypes(builder);
-registerBookListsTypes(builder);
+registerBookListsTypes(builder, bookShelfRepository);
 
 builder.queryType({
   fields: (t) => ({

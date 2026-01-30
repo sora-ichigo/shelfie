@@ -7,6 +7,20 @@ query BookListDetail($listId: Int!) {
       id
       position
       addedAt
+      userBook {
+        id
+        externalId
+        title
+        authors
+        coverImageUrl
+        readingStatus
+        source
+      }
+    }
+    stats {
+      bookCount
+      completedCount
+      coverImages
     }
     createdAt
     updatedAt
