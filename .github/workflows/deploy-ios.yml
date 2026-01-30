@@ -31,6 +31,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure dev bundle ID
+        run: |
+          sed -i '' 's/app\.shelfie\.shelfie/app.shelfie.shelfie.dev/g' \
+            ios/Runner.xcodeproj/project.pbxproj \
+            ios/ExportOptions.plist \
+            ios/fastlane/Matchfile
+          plutil -replace BUNDLE_ID -string "app.shelfie.shelfie.dev" \
+            ios/Runner/GoogleService-Info.plist
+          plutil -replace GOOGLE_APP_ID -string "$FIREBASE_APP_ID" \
+            ios/Runner/GoogleService-Info.plist
+          plutil -replace CFBundleDisplayName -string "Shelfie Dev" \
+            ios/Runner/Info.plist
+
       - name: Setup mise
         uses: jdx/mise-action@v2
 

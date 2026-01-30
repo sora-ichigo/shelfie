@@ -89,6 +89,17 @@ resource "google_firebase_apple_app" "default" {
   depends_on = [google_firebase_project.default]
 }
 
+resource "google_firebase_apple_app" "dev" {
+  count = var.ios_dev_bundle_id != null ? 1 : 0
+
+  provider     = google-beta
+  project      = var.project_id
+  display_name = "shelfie-${var.environment}-ios-dev"
+  bundle_id    = var.ios_dev_bundle_id
+
+  depends_on = [google_firebase_project.default]
+}
+
 resource "google_firebase_web_app" "default" {
   count = var.enable_web_app ? 1 : 0
 
@@ -117,6 +128,14 @@ data "google_firebase_apple_app_config" "default" {
   provider = google-beta
   project  = var.project_id
   app_id   = google_firebase_apple_app.default[0].app_id
+}
+
+data "google_firebase_apple_app_config" "dev" {
+  count = var.ios_dev_bundle_id != null ? 1 : 0
+
+  provider = google-beta
+  project  = var.project_id
+  app_id   = google_firebase_apple_app.dev[0].app_id
 }
 
 data "google_firebase_web_app_config" "default" {

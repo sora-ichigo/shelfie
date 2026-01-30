@@ -22,6 +22,11 @@ output "ios_app_id" {
   value       = var.ios_bundle_id != null ? google_firebase_apple_app.default[0].app_id : null
 }
 
+output "ios_dev_app_id" {
+  description = "Firebase iOS Dev App ID (for App Distribution)"
+  value       = var.ios_dev_bundle_id != null ? google_firebase_apple_app.dev[0].app_id : null
+}
+
 output "web_app_id" {
   description = "Firebase Web App ID"
   value       = var.enable_web_app ? google_firebase_web_app.default[0].app_id : null
