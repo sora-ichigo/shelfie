@@ -18,7 +18,6 @@ import 'package:shelfie/features/book_search/application/recent_books_notifier.d
 import 'package:shelfie/features/book_search/application/search_history_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
-import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_book_quick_actions_modal.dart';
@@ -387,12 +386,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onScanPressed() async {
-    final isbn = await Navigator.of(context).push<String>(
-      MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (context) => const ISBNScanScreen(),
-      ),
-    );
+    final isbn = await context.push<String>(AppRoutes.isbnScan);
 
     if (isbn != null && mounted) {
       await ISBNScanResultDialog.show(context, isbn);

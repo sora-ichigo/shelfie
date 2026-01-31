@@ -398,16 +398,6 @@ List<RouteBase> _buildRoutes() {
           pageBuilder: (context, state) => const NoTransitionPage(
             child: SearchScreen(),
           ),
-          routes: [
-            // ISBN スキャン画面（モーダル）
-            GoRoute(
-              path: 'isbn-scan',
-              pageBuilder: (context, state) => const MaterialPage(
-                fullscreenDialog: true,
-                child: ISBNScanScreen(),
-              ),
-            ),
-          ],
         ),
         // リスト作成画面
         GoRoute(
@@ -417,6 +407,15 @@ List<RouteBase> _buildRoutes() {
           ),
         ),
       ],
+    ),
+
+    // ISBN スキャン画面（タブバーなし）
+    GoRoute(
+      path: AppRoutes.isbnScan,
+      pageBuilder: (context, state) => const CupertinoPage(
+        fullscreenDialog: true,
+        child: ISBNScanScreen(),
+      ),
     ),
 
     // リスト詳細画面（タブバーなし）
