@@ -15,6 +15,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
+import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -409,15 +410,34 @@ class _BookQuickActionsModalContentState
     final repository = ref.read(bookListRepositoryProvider);
     final userBookId = widget.book.userBookId;
 
-    Navigator.pop(context);
-
     showListSelectorModal(
       context: context,
       userBookId: userBookId,
       onListSelected: (listId) async {
-        await repository.addBookToList(
+        final result = await repository.addBookToList(
           listId: listId,
           userBookId: userBookId,
+        );
+
+        if (!mounted) return;
+
+        result.fold(
+          (failure) {
+            AdaptiveSnackBar.show(
+              context,
+              message: failure.userMessage,
+              type: AdaptiveSnackBarType.error,
+            );
+          },
+          (_) {
+            ref.read(bookListNotifierProvider.notifier).refresh();
+            AdaptiveSnackBar.show(
+              context,
+              message: 'リストに追加しました',
+              type: AdaptiveSnackBarType.success,
+            );
+            Navigator.pop(context);
+          },
         );
       },
     );

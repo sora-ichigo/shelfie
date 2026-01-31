@@ -169,7 +169,7 @@ void main() {
       expect(find.text('My Reading List'), findsOneWidget);
     });
 
-    testWidgets('リスト選択後にaddBookToListが呼ばれる', (tester) async {
+    testWidgets('リスト選択後にスナックバーでフィードバックが表示される', (tester) async {
       when(() => mockBookListRepository.addBookToList(
             listId: any(named: 'listId'),
             userBookId: any(named: 'userBookId'),
@@ -191,13 +191,10 @@ void main() {
       await tester.tap(find.text('My Reading List'));
       await tester.pumpAndSettle();
 
-      verify(() => mockBookListRepository.addBookToList(
-            listId: 10,
-            userBookId: 5,
-          )).called(1);
+      expect(find.text('リストに追加しました'), findsOneWidget);
     });
 
-    testWidgets('リスト追加エラー時もaddBookToListが呼ばれる', (tester) async {
+    testWidgets('リスト追加エラー時にエラーメッセージが表示される', (tester) async {
       when(() => mockBookListRepository.addBookToList(
             listId: any(named: 'listId'),
             userBookId: any(named: 'userBookId'),
@@ -223,10 +220,7 @@ void main() {
       await tester.tap(find.text('My Reading List'));
       await tester.pumpAndSettle();
 
-      verify(() => mockBookListRepository.addBookToList(
-            listId: 10,
-            userBookId: 5,
-          )).called(1);
+      expect(find.text('この書籍は既にマイライブラリに追加されています'), findsOneWidget);
     });
   });
 }
