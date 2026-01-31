@@ -14,6 +14,20 @@ enum ReadingStatus {
   /// 読まない
   dropped;
 
+  /// グループ表示時のソート順（小さいほど先に表示）
+  int get displayOrder {
+    switch (this) {
+      case ReadingStatus.reading:
+        return 0;
+      case ReadingStatus.backlog:
+        return 1;
+      case ReadingStatus.completed:
+        return 2;
+      case ReadingStatus.dropped:
+        return 3;
+    }
+  }
+
   /// 日本語の表示名を返す
   String get displayName {
     switch (this) {

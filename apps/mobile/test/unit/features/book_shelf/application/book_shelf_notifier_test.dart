@@ -366,6 +366,41 @@ void main() {
         expect(loaded.groupedBooks['読了']?.length, 1);
       });
 
+      test('should order status groups as 読書中→積読→読了→読まない', () async {
+        final books = [
+          createBook(userBookId: 1, externalId: 'id1'),
+          createBook(userBookId: 2, externalId: 'id2'),
+          createBook(userBookId: 3, externalId: 'id3'),
+          createBook(userBookId: 4, externalId: 'id4'),
+        ];
+        final entries = {
+          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.dropped),
+          'id2': createEntry(userBookId: 2, externalId: 'id2', readingStatus: ReadingStatus.completed),
+          'id3': createEntry(userBookId: 3, externalId: 'id3', readingStatus: ReadingStatus.backlog),
+          'id4': createEntry(userBookId: 4, externalId: 'id4', readingStatus: ReadingStatus.reading),
+        };
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(items: books, entries: entries, totalCount: 4),
+          ),
+        );
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+        notifier.setGroupOption(GroupOption.byStatus);
+
+        final loaded = notifier.state as BookShelfLoaded;
+        final groupKeys = loaded.groupedBooks.keys.toList();
+        expect(groupKeys, ['読書中', '積読', '読了', '読まない']);
+      });
+
       test('should group books by author', () async {
         final books = [
           createBook(userBookId: 1, externalId: 'id1', authors: ['Author A']),
