@@ -474,7 +474,8 @@ class _MainShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = _calculateSelectedIndex(context);
-    final isNavBarHidden = ref.watch(navBarHiddenProvider);
+    final isNavBarHidden =
+        selectedIndex == 1 && ref.watch(navBarHiddenProvider);
 
     void onTap(int index) {
       switch (index) {
@@ -503,7 +504,7 @@ class _MainShell extends ConsumerWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.search),
-            label: '検索',
+            label: 'さがす',
           ),
         ],
       ),
@@ -515,7 +516,7 @@ class _MainShell extends ConsumerWidget {
         ),
         AdaptiveNavigationDestination(
           icon: 'magnifyingglass',
-          label: '検索',
+          label: 'さがす',
         ),
       ],
     );
