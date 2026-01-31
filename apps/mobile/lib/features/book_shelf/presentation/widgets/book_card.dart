@@ -56,9 +56,7 @@ class BookCard extends ConsumerWidget {
             _buildRating(appColors, rating),
             const SizedBox(height: AppSpacing.xxs),
           ],
-          _buildTitle(theme),
-          const SizedBox(height: AppSpacing.xxs),
-          _buildAuthors(theme, appColors),
+          _buildTitle(appColors),
         ],
       ),
     );
@@ -109,25 +107,16 @@ class BookCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildTitle(ThemeData theme) {
+  Widget _buildTitle(AppColors appColors) {
     return Text(
       book.title,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: theme.textTheme.bodySmall?.copyWith(
-        fontWeight: FontWeight.w700,
+      style: AppTypography.bodySecondary.copyWith(
+        color: appColors.foregroundSecondary,
       ),
     );
   }
 
-  Widget _buildAuthors(ThemeData theme, AppColors appColors) {
-    return Text(
-      book.authorsDisplay,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: AppTypography.captionSmall.copyWith(
-        color: appColors.foregroundMuted,
-      ),
-    );
-  }
+
 }
