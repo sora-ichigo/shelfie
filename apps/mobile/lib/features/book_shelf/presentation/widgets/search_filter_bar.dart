@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/widgets/icon_tap_area.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
+import 'package:shelfie/core/widgets/icon_tap_area.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -64,7 +64,7 @@ class SearchFilterBar extends StatelessWidget {
           semanticLabel: sortOption != SortOption.defaultOption
               ? '並び替え（${sortOption.displayName}）'
               : '並び替え',
-          color: appColors.foreground,
+          color: appColors.chipHighlight,
           onTap: () => _showSortBottomSheet(context),
         ),
         _FilterIconButton(
@@ -73,7 +73,7 @@ class SearchFilterBar extends StatelessWidget {
           semanticLabel: groupOption != GroupOption.defaultOption
               ? 'グループ化（${groupOption.displayName}）'
               : 'グループ化',
-          color: appColors.foreground,
+          color: appColors.chipHighlight,
           onTap: () => _showGroupBottomSheet(context),
         ),
       ],
