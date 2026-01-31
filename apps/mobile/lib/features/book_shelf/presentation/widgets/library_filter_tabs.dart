@@ -73,7 +73,7 @@ class _FilterTabButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? appColors.accent
+              ? appColors.chipSelected
               : Colors.white.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppRadius.full),
         ),
@@ -81,8 +81,9 @@ class _FilterTabButton extends StatelessWidget {
           label,
           style: theme.textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w400,
-            color:
-                isSelected ? appColors.foreground : appColors.foregroundMuted,
+            color: isSelected
+                ? appColors.onChipSelected
+                : appColors.foregroundMuted,
           ),
         ),
       ),
