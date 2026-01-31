@@ -270,6 +270,11 @@ class _BookQuickActionsModalContentState
 
     if (mounted) {
       setState(() => _isUpdating = false);
+      AdaptiveSnackBar.show(
+        context,
+        message: '${status.displayName}に変更しました',
+        type: AdaptiveSnackBarType.success,
+      );
     }
   }
 
