@@ -480,6 +480,7 @@ class _MainShell extends StatelessWidget {
     }
 
     return AdaptiveScaffold(
+      minimizeBehavior: TabBarMinimizeBehavior.never,
       body: Material(
         type: MaterialType.transparency,
         child: child,
