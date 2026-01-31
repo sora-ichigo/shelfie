@@ -51,13 +51,16 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final accountAsync = ref.watch(accountNotifierProvider);
 
     ref.listen(
-      shelfStateProvider.select((s) => s.length),
+      shelfStateProvider,
       (previous, next) {
-        if (previous != null && next > previous) {
-          final currentState = ref.read(bookShelfNotifierProvider);
-          if (currentState is BookShelfLoaded) {
-            ref.read(bookShelfNotifierProvider.notifier).refresh();
-          }
+        if (previous == null) return;
+        final currentState = ref.read(bookShelfNotifierProvider);
+        if (currentState is! BookShelfLoaded) return;
+
+        if (next.length > previous.length) {
+          ref.read(bookShelfNotifierProvider.notifier).refresh();
+        } else {
+          ref.read(bookShelfNotifierProvider.notifier).regroupBooks();
         }
       },
     );

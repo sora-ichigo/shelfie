@@ -70,6 +70,17 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     );
   }
 
+  /// 現在の ShelfState に基づいてグループ化を再計算する
+  void regroupBooks() {
+    if (state is! BookShelfLoaded) return;
+    if (_groupOption == GroupOption.none) return;
+
+    final currentState = state as BookShelfLoaded;
+    state = currentState.copyWith(
+      groupedBooks: _groupBooks(currentState.books, _groupOption),
+    );
+  }
+
   /// 次のページを取得（無限スクロール用）
   Future<void> loadMore() async {
     if (state is! BookShelfLoaded) return;

@@ -628,6 +628,80 @@ void main() {
       });
     });
 
+    group('regroupBooks', () {
+      test('should regroup books based on current ShelfState', () async {
+        final books = [
+          createBook(userBookId: 1, externalId: 'id1'),
+          createBook(userBookId: 2, externalId: 'id2'),
+          createBook(userBookId: 3, externalId: 'id3'),
+        ];
+        final entries = {
+          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
+          'id2': createEntry(userBookId: 2, externalId: 'id2', readingStatus: ReadingStatus.reading),
+          'id3': createEntry(userBookId: 3, externalId: 'id3', readingStatus: ReadingStatus.completed),
+        };
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(items: books, entries: entries, totalCount: 3),
+          ),
+        );
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+        notifier.setGroupOption(GroupOption.byStatus);
+
+        final loadedBefore = notifier.state as BookShelfLoaded;
+        expect(loadedBefore.groupedBooks['読書中']?.length, 2);
+        expect(loadedBefore.groupedBooks['読了']?.length, 1);
+
+        // ShelfState の読書状態を外部から変更（Quick Action を模倣）
+        container.read(shelfStateProvider.notifier).updateReadingStatus(
+              externalId: 'id1',
+              status: ReadingStatus.completed,
+            );
+
+        // regroupBooks を呼ぶと新しい ShelfState に基づいて再グループ化される
+        notifier.regroupBooks();
+
+        final loadedAfter = notifier.state as BookShelfLoaded;
+        expect(loadedAfter.groupedBooks['読書中']?.length, 1);
+        expect(loadedAfter.groupedBooks['読了']?.length, 2);
+      });
+
+      test('should do nothing if state is not loaded', () async {
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        notifier.regroupBooks();
+        expect(notifier.state, isA<BookShelfInitial>());
+      });
+
+      test('should do nothing if groupOption is none', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        // groupOption はデフォルトの none
+        notifier.regroupBooks();
+
+        final loaded = notifier.state as BookShelfLoaded;
+        expect(loaded.groupedBooks, isEmpty);
+      });
+    });
+
     group('refresh', () {
       test('should refetch from first page', () async {
         when(
