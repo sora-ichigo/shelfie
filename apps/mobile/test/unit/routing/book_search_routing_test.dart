@@ -65,25 +65,17 @@ void main() {
         expect(AppRoutes.isbnScan, '/search/isbn-scan');
       });
 
-      test('ISBN スキャンルートが検索ルートのサブルートとして定義されている', () {
+      test('ISBN スキャンルートがトップレベルルートとして定義されている', () {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を取得
-        final shellRoute =
-            routes.firstWhere((r) => r is ShellRoute) as ShellRoute;
-
-        // 検索ルートを取得
-        final searchRoute = shellRoute.routes.firstWhere(
-          (r) => r is GoRoute && r.path == AppRoutes.searchTab,
-        ) as GoRoute;
-
-        // ISBN スキャンがサブルートとして存在することを確認
-        final hasIsbnScanRoute = searchRoute.routes.any(
-          (r) => r is GoRoute && r.path == 'isbn-scan',
+        // ISBN スキャンがトップレベルルートとして存在することを確認
+        // （タブバーなしで表示するため ShellRoute の外に配置）
+        final hasIsbnScanRoute = routes.any(
+          (r) => r is GoRoute && r.path == AppRoutes.isbnScan,
         );
         expect(hasIsbnScanRoute, isTrue);
       });
@@ -95,18 +87,9 @@ void main() {
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を取得
-        final shellRoute =
-            routes.firstWhere((r) => r is ShellRoute) as ShellRoute;
-
-        // 検索ルートを取得
-        final searchRoute = shellRoute.routes.firstWhere(
-          (r) => r is GoRoute && r.path == AppRoutes.searchTab,
-        ) as GoRoute;
-
-        // ISBN スキャンルートを取得
-        final isbnScanRoute = searchRoute.routes.firstWhere(
-          (r) => r is GoRoute && r.path == 'isbn-scan',
+        // ISBN スキャンルートを取得（トップレベルルート）
+        final isbnScanRoute = routes.firstWhere(
+          (r) => r is GoRoute && r.path == AppRoutes.isbnScan,
         ) as GoRoute;
 
         // pageBuilder が定義されていることを確認（fullscreenDialog として設定）
