@@ -12,7 +12,9 @@ import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
+import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
@@ -89,11 +91,16 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         onTabChanged: _onTabChanged,
                       ),
                       const Spacer(),
-                      if (_selectedTab == LibraryFilterTab.books &&
-                          loaded != null)
-                        SearchFilterBar(
-                          sortOption: loaded.sortOption,
-                          groupOption: loaded.groupOption,
+                      Visibility(
+                        visible: _selectedTab == LibraryFilterTab.books,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: SearchFilterBar(
+                          sortOption: loaded?.sortOption ??
+                              SortOption.defaultOption,
+                          groupOption: loaded?.groupOption ??
+                              GroupOption.defaultOption,
                           onSortChanged: (option) {
                             ref
                                 .read(bookShelfNotifierProvider.notifier)
@@ -105,6 +112,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                                 .setGroupOption(option);
                           },
                         ),
+                      ),
                     ],
                   ),
                 ),
