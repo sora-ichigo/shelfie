@@ -26,7 +26,7 @@ void main() {
     group('ボトムナビゲーション', () {
       test('ライブラリタブと検索タブのラベルが定義されている', () {
         expect('ライブラリ', isNotEmpty);
-        expect('さがす', isNotEmpty);
+        expect('検索', isNotEmpty);
       });
 
       test('タブのルートが正しく定義されている', () {
