@@ -12,12 +12,14 @@ import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
+import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/library_all_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class BookShelfScreen extends ConsumerStatefulWidget {
@@ -28,7 +30,10 @@ class BookShelfScreen extends ConsumerStatefulWidget {
 }
 
 class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
-  LibraryFilterTab _selectedTab = LibraryFilterTab.all;
+  LibraryFilterTab _selectedTab = LibraryFilterTab.books;
+
+  static const _headerHeight = AppSpacing.sm + 40.0 + AppSpacing.sm;
+  static const _filterTabHeight = AppSpacing.xxs * 2 + 40.0;
 
   @override
   void initState() {
@@ -44,7 +49,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final bookShelfState = ref.watch(bookShelfNotifierProvider);
     final bookListState = ref.watch(bookListNotifierProvider);
     final accountAsync = ref.watch(accountNotifierProvider);
-    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     ref.listen(
       shelfStateProvider.select((s) => s.length),
@@ -58,33 +62,111 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       },
     );
 
-    return SafeArea(
-      child: Column(
-        children: [
-          ScreenHeader(
-            title: 'マイライブラリ',
-            onProfileTap: () => context.push(AppRoutes.account),
-            avatarUrl: avatarUrl,
-            isAvatarLoading: accountAsync.isLoading,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.sm,
+    final loaded = bookShelfState is BookShelfLoaded ? bookShelfState : null;
+
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            pinned: true,
+            toolbarHeight: 0,
+            expandedHeight: _headerHeight + _filterTabHeight,
+            backgroundColor:
+                Theme.of(context).scaffoldBackgroundColor,
+            surfaceTintColor: Colors.transparent,
+            scrolledUnderElevation: 0,
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final topPadding =
+                    MediaQuery.of(context).padding.top;
+                final headerSpace =
+                    (constraints.maxHeight -
+                            topPadding -
+                            _filterTabHeight)
+                        .clamp(0.0, _headerHeight);
+                final opacity =
+                    (2 * headerSpace / _headerHeight - 1)
+                        .clamp(0.0, 1.0);
+                return Column(
+                  children: [
+                    SizedBox(height: topPadding),
+                    Opacity(
+                      opacity: opacity,
+                      child: SizedBox(
+                        height: headerSpace,
+                        child: ScreenHeader(
+                          title: 'ライブラリ',
+                          onProfileTap: () =>
+                              context.push(AppRoutes.account),
+                          avatarUrl:
+                              accountAsync.valueOrNull?.avatarUrl,
+                          isAvatarLoading: accountAsync.isLoading,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: LibraryFilterTabs(
-                selectedTab: _selectedTab,
-                onTabChanged: _onTabChanged,
+            bottom: PreferredSize(
+              preferredSize:
+                  const Size.fromHeight(_filterTabHeight),
+              child: ColoredBox(
+                color:
+                    Theme.of(context).scaffoldBackgroundColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.xxs,
+                  ),
+                  child: Row(
+                    children: [
+                      LibraryFilterTabs(
+                        selectedTab: _selectedTab,
+                        onTabChanged: _onTabChanged,
+                      ),
+                      const Spacer(),
+                      Visibility(
+                        visible:
+                            _selectedTab ==
+                            LibraryFilterTab.books,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: SearchFilterBar(
+                          sortOption:
+                              loaded?.sortOption ??
+                              SortOption.defaultOption,
+                          groupOption:
+                              loaded?.groupOption ??
+                              GroupOption.defaultOption,
+                          onSortChanged: (option) {
+                            ref
+                                .read(
+                                  bookShelfNotifierProvider
+                                      .notifier,
+                                )
+                                .setSortOption(option);
+                          },
+                          onGroupChanged: (option) {
+                            ref
+                                .read(
+                                  bookShelfNotifierProvider
+                                      .notifier,
+                                )
+                                .setGroupOption(option);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-          Expanded(
-            child: _buildContent(bookShelfState, bookListState),
-          ),
-        ],
-      ),
+        ];
+      },
+      body: _buildContent(bookShelfState, bookListState),
     );
   }
 
@@ -134,41 +216,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         .any((book) => shelfState.containsKey(book.externalId));
 
     return switch (_selectedTab) {
-      LibraryFilterTab.all => _buildAllTab(bookShelfState, lists),
       LibraryFilterTab.books => _buildBooksTab(bookShelfState),
       LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
     };
-  }
-
-  Widget _buildAllTab(
-      BookShelfLoaded bookShelfState, List<BookListSummary> lists) {
-    final shelfState = ref.watch(shelfStateProvider);
-    final filteredBooks = bookShelfState.books
-        .where((book) => shelfState.containsKey(book.externalId))
-        .toList();
-    final recentBooks = filteredBooks.take(10).toList();
-
-    return LibraryAllTab(
-      lists: lists,
-      recentBooks: recentBooks,
-      totalBookCount: filteredBooks.length,
-      onListTap: _onListTap,
-      onBookTap: _onBookTap,
-      onBookLongPress: _onBookLongPress,
-      onSeeAllBooksTap: () {
-        setState(() {
-          _selectedTab = LibraryFilterTab.books;
-        });
-      },
-      onSeeAllListsTap: () {
-        setState(() {
-          _selectedTab = LibraryFilterTab.lists;
-        });
-      },
-      onCreateListTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
-    );
   }
 
   Widget _buildBooksTab(BookShelfLoaded bookShelfState) {
@@ -184,7 +234,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     return LibraryBooksTab(
       books: filteredBooks,
       groupedBooks: filteredGroupedBooks,
-      sortOption: bookShelfState.sortOption,
       groupOption: bookShelfState.groupOption,
       hasMore: bookShelfState.hasMore,
       isLoadingMore: bookShelfState.isLoadingMore,
@@ -192,12 +241,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       onBookLongPress: _onBookLongPress,
       onLoadMore: () {
         ref.read(bookShelfNotifierProvider.notifier).loadMore();
-      },
-      onSortChanged: (option) {
-        ref.read(bookShelfNotifierProvider.notifier).setSortOption(option);
-      },
-      onGroupChanged: (option) {
-        ref.read(bookShelfNotifierProvider.notifier).setGroupOption(option);
       },
     );
   }

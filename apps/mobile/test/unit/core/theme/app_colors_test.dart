@@ -36,9 +36,9 @@ void main() {
           expect(colors.accentSecondary, equals(const Color(0xFFF6C94A)));
         });
 
-        test('background はダーク色 (#000000) で定義されている', () {
+        test('background はダーク色 (#121113) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.background, equals(const Color(0xFF000000)));
+          expect(colors.background, equals(const Color(0xFF121113)));
         });
       });
 

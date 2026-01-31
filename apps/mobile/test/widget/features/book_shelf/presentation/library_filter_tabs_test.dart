@@ -6,7 +6,7 @@ import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_
 void main() {
   group('LibraryFilterTabs', () {
     Widget buildTestWidget({
-      LibraryFilterTab selectedTab = LibraryFilterTab.all,
+      LibraryFilterTab selectedTab = LibraryFilterTab.books,
       ValueChanged<LibraryFilterTab>? onTabChanged,
     }) {
       return MaterialApp(
@@ -21,24 +21,11 @@ void main() {
     }
 
     group('tab display', () {
-      testWidgets('displays all three tabs', (tester) async {
+      testWidgets('displays two tabs', (tester) async {
         await tester.pumpWidget(buildTestWidget());
 
         expect(find.text('すべて'), findsOneWidget);
-        expect(find.text('本'), findsOneWidget);
-        expect(find.text('リスト'), findsOneWidget);
-      });
-
-      testWidgets('highlights selected "all" tab', (tester) async {
-        await tester.pumpWidget(buildTestWidget(
-          selectedTab: LibraryFilterTab.all,
-        ));
-
-        final allTab = find.ancestor(
-          of: find.text('すべて'),
-          matching: find.byType(InkWell),
-        );
-        expect(allTab, findsOneWidget);
+        expect(find.text('ブックリスト'), findsOneWidget);
       });
 
       testWidgets('highlights selected "books" tab', (tester) async {
@@ -47,7 +34,7 @@ void main() {
         ));
 
         final booksTab = find.ancestor(
-          of: find.text('本'),
+          of: find.text('すべて'),
           matching: find.byType(InkWell),
         );
         expect(booksTab, findsOneWidget);
@@ -59,7 +46,7 @@ void main() {
         ));
 
         final listsTab = find.ancestor(
-          of: find.text('リスト'),
+          of: find.text('ブックリスト'),
           matching: find.byType(InkWell),
         );
         expect(listsTab, findsOneWidget);
@@ -67,31 +54,16 @@ void main() {
     });
 
     group('tab interaction', () {
-      testWidgets('calls onTabChanged with "all" when "すべて" is tapped',
-          (tester) async {
-        LibraryFilterTab? changedTab;
-
-        await tester.pumpWidget(buildTestWidget(
-          selectedTab: LibraryFilterTab.books,
-          onTabChanged: (tab) => changedTab = tab,
-        ));
-
-        await tester.tap(find.text('すべて'));
-        await tester.pumpAndSettle();
-
-        expect(changedTab, LibraryFilterTab.all);
-      });
-
       testWidgets('calls onTabChanged with "books" when "本" is tapped',
           (tester) async {
         LibraryFilterTab? changedTab;
 
         await tester.pumpWidget(buildTestWidget(
-          selectedTab: LibraryFilterTab.all,
+          selectedTab: LibraryFilterTab.lists,
           onTabChanged: (tab) => changedTab = tab,
         ));
 
-        await tester.tap(find.text('本'));
+        await tester.tap(find.text('すべて'));
         await tester.pumpAndSettle();
 
         expect(changedTab, LibraryFilterTab.books);
@@ -102,11 +74,11 @@ void main() {
         LibraryFilterTab? changedTab;
 
         await tester.pumpWidget(buildTestWidget(
-          selectedTab: LibraryFilterTab.all,
+          selectedTab: LibraryFilterTab.books,
           onTabChanged: (tab) => changedTab = tab,
         ));
 
-        await tester.tap(find.text('リスト'));
+        await tester.tap(find.text('ブックリスト'));
         await tester.pumpAndSettle();
 
         expect(changedTab, LibraryFilterTab.lists);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_radius.dart';
-import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
+import 'package:shelfie/core/widgets/icon_tap_area.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -59,110 +58,69 @@ class SearchFilterBar extends StatelessWidget {
 
     return Row(
       children: [
-        _buildSortButton(context, appColors),
-        const SizedBox(width: AppSpacing.xs),
-        _buildGroupButton(context, appColors),
+        _FilterIconButton(
+          icon: Icons.tune,
+          isActive: sortOption != SortOption.defaultOption,
+          semanticLabel: sortOption != SortOption.defaultOption
+              ? '並び替え（${sortOption.displayName}）'
+              : '並び替え',
+          color: appColors.chipHighlight,
+          onTap: () => _showSortBottomSheet(context),
+        ),
+        _FilterIconButton(
+          icon: Icons.grid_view,
+          isActive: groupOption != GroupOption.defaultOption,
+          semanticLabel: groupOption != GroupOption.defaultOption
+              ? 'グループ化（${groupOption.displayName}）'
+              : 'グループ化',
+          color: appColors.chipHighlight,
+          onTap: () => _showGroupBottomSheet(context),
+        ),
       ],
     );
   }
+}
 
-  Widget _buildSortButton(BuildContext context, AppColors appColors) {
-    final isActive = sortOption != SortOption.defaultOption;
-    final borderRadius = BorderRadius.circular(AppRadius.lg);
+class _FilterIconButton extends StatelessWidget {
+  const _FilterIconButton({
+    required this.icon,
+    required this.isActive,
+    required this.semanticLabel,
+    required this.color,
+    required this.onTap,
+  });
 
-    return Semantics(
-      button: true,
-      label: isActive ? '並び替え（${sortOption.displayName}）' : '並び替え',
-      child: Material(
-        color: appColors.surface,
-        borderRadius: borderRadius,
-        child: InkWell(
-          onTap: () => _showSortBottomSheet(context),
-          borderRadius: borderRadius,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  border: Border.all(
-                    color: appColors.foregroundMuted.withOpacity(0.3),
-                  ),
-                ),
-                child: Icon(
-                  Icons.tune,
-                  size: 16,
-                  color: appColors.foreground,
-                ),
-              ),
-              if (isActive)
-                Positioned(
-                  top: -1,
-                  right: -1,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: appColors.foreground,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+  final IconData icon;
+  final bool isActive;
+  final String semanticLabel;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        IconTapArea(
+          icon: icon,
+          onTap: onTap,
+          color: color,
+          semanticLabel: semanticLabel,
         ),
-      ),
-    );
-  }
-
-  Widget _buildGroupButton(BuildContext context, AppColors appColors) {
-    final isActive = groupOption != GroupOption.defaultOption;
-    final borderRadius = BorderRadius.circular(AppRadius.lg);
-
-    return Semantics(
-      button: true,
-      label: isActive ? 'グループ化（${groupOption.displayName}）' : 'グループ化',
-      child: Material(
-        color: appColors.surface,
-        borderRadius: borderRadius,
-        child: InkWell(
-          onTap: () => _showGroupBottomSheet(context),
-          borderRadius: borderRadius,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  border: Border.all(
-                    color: appColors.foregroundMuted.withOpacity(0.3),
-                  ),
-                ),
-                child: Icon(
-                  Icons.grid_view,
-                  size: 16,
-                  color: appColors.foreground,
-                ),
+        if (isActive)
+          Positioned(
+            top: 6,
+            right: 6,
+            child: Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
               ),
-              if (isActive)
-                Positioned(
-                  top: -1,
-                  right: -1,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: appColors.foreground,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-            ],
+            ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 enum LibraryFilterTab {
-  all,
   books,
   lists,
 }
@@ -12,9 +11,8 @@ enum LibraryFilterTab {
 extension LibraryFilterTabX on LibraryFilterTab {
   String get label {
     return switch (this) {
-      LibraryFilterTab.all => 'すべて',
-      LibraryFilterTab.books => '本',
-      LibraryFilterTab.lists => 'リスト',
+      LibraryFilterTab.books => 'すべて',
+      LibraryFilterTab.lists => 'ブックリスト',
     };
   }
 }
@@ -70,21 +68,22 @@ class _FilterTabButton extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
+          horizontal: AppSpacing.sm,
           vertical: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? appColors.accent
-              : Colors.white.withValues(alpha: 0.1),
+              ? appColors.chipHighlight
+              : appColors.chipUnselected,
           borderRadius: BorderRadius.circular(AppRadius.full),
         ),
         child: Text(
           label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color:
-                isSelected ? appColors.foreground : appColors.foregroundMuted,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+          style: theme.textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w400,
+            color: isSelected
+                ? appColors.onChipHighlight
+                : appColors.chipHighlight,
           ),
         ),
       ),

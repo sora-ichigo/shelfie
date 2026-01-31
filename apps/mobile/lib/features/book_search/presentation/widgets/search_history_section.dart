@@ -64,6 +64,10 @@ class SearchHistorySection extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom +
+                  kBottomNavigationBarHeight,
+            ),
             itemCount: entries.length,
             itemBuilder: (context, index) {
               final entry = entries[index];

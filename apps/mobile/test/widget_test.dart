@@ -110,8 +110,8 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      // 認証済みはマイライブラリ画面が表示される
-      expect(find.text('マイライブラリ'), findsWidgets);
+      // 認証済みはライブラリ画面が表示される
+      expect(find.text('ライブラリ'), findsWidgets);
 
       // タイマーをクリアするためにウィジェットを破棄
       await tester.pumpWidget(const SizedBox.shrink());

@@ -39,6 +39,9 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.warning,
     required this.error,
     required this.info,
+    required this.chipUnselected,
+    required this.chipHighlight,
+    required this.onChipHighlight,
   });
 
   // ===========================================================================
@@ -61,6 +64,9 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _white = Color(0xFFFFFFFF);
   static const Color _blackOverlay = Color(0x4D000000);
   static const Color _white5 = Color(0x0DFFFFFF);
+  static const Color _mauve1 = Color(0xFF121113);
+  static const Color _mauveAlpha4 = Color(0x1DEEE5F8);
+  static const Color _mauveAlpha12 = Color(0xEFFDFDFF);
 
   // ===========================================================================
   // Semantic Colors（意味的カラー）
@@ -114,9 +120,18 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 情報を表すカラー
   final Color info;
 
+  /// チップ・タグの非選択時背景色
+  final Color chipUnselected;
+
+  /// チップ・タグの選択時背景色
+  final Color chipHighlight;
+
+  /// チップ・タグの選択時テキスト色
+  final Color onChipHighlight;
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
-    background: _neutral900,
+    background: _mauve1,
     surface: _neutral800,
     surfaceCard: _neutral850,
     surfaceHigh: _teal800,
@@ -132,6 +147,9 @@ class AppColors extends ThemeExtension<AppColors> {
     warning: _gold300,
     error: _red400,
     info: _blue300,
+    chipUnselected: _mauveAlpha4,
+    chipHighlight: _mauveAlpha12,
+    onChipHighlight: _mauve1,
   );
 
   @override
@@ -152,6 +170,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? warning,
     Color? error,
     Color? info,
+    Color? chipUnselected,
+    Color? chipHighlight,
+    Color? onChipHighlight,
   }) {
     return AppColors(
       background: background ?? this.background,
@@ -170,6 +191,9 @@ class AppColors extends ThemeExtension<AppColors> {
       warning: warning ?? this.warning,
       error: error ?? this.error,
       info: info ?? this.info,
+      chipUnselected: chipUnselected ?? this.chipUnselected,
+      chipHighlight: chipHighlight ?? this.chipHighlight,
+      onChipHighlight: onChipHighlight ?? this.onChipHighlight,
     );
   }
 
@@ -193,6 +217,9 @@ class AppColors extends ThemeExtension<AppColors> {
       warning: Color.lerp(warning, other.warning, t)!,
       error: Color.lerp(error, other.error, t)!,
       info: Color.lerp(info, other.info, t)!,
+      chipUnselected: Color.lerp(chipUnselected, other.chipUnselected, t)!,
+      chipHighlight: Color.lerp(chipHighlight, other.chipHighlight, t)!,
+      onChipHighlight: Color.lerp(onChipHighlight, other.onChipHighlight, t)!,
     );
   }
 }

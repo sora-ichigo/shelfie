@@ -248,7 +248,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('読書家のための本棚'), findsNothing);
-        expect(find.text('マイライブラリ'), findsAtLeast(1));
+        expect(find.text('ライブラリ'), findsAtLeast(1));
       });
     });
   });

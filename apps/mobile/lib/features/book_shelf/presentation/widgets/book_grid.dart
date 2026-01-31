@@ -37,60 +37,53 @@ class BookGrid extends StatefulWidget {
 }
 
 class _BookGridState extends State<BookGrid> {
-  final ScrollController _scrollController = ScrollController();
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (!widget.hasMore || widget.isLoadingMore) return false;
+    if (notification is! ScrollUpdateNotification) return false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (!widget.hasMore || widget.isLoadingMore) return;
-
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
+    final maxScroll = notification.metrics.maxScrollExtent;
+    final currentScroll = notification.metrics.pixels;
     final threshold = maxScroll * 0.8;
 
     if (currentScroll >= threshold) {
       widget.onLoadMore();
     }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isGrouped) {
-      return _buildGroupedGrid(context);
-    }
-    return _buildFlatGrid(context);
+    final child = widget.isGrouped
+        ? _buildGroupedGrid(context)
+        : _buildFlatGrid(context);
+    return NotificationListener<ScrollNotification>(
+      onNotification: _onScrollNotification,
+      child: child,
+    );
   }
 
   Widget _buildFlatGrid(BuildContext context) {
     return AnimationLimiter(
       key: ValueKey('flat_${widget.books.map((b) => b.userBookId).join('_')}'),
       child: CustomScrollView(
-        controller: _scrollController,
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.only(
+              left: AppSpacing.md,
+              right: AppSpacing.md,
+              top: AppSpacing.md,
+            ),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 4,
                 mainAxisSpacing: AppSpacing.xs,
-                crossAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.45,
+                crossAxisSpacing: AppSpacing.xs,
+                childAspectRatio: 0.40,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) => AnimationConfiguration.staggeredGrid(
                   position: index,
-                  columnCount: 3,
+                  columnCount: 4,
                   duration: const Duration(milliseconds: 300),
                   child: ScaleAnimation(
                     scale: 0.9,
@@ -115,6 +108,12 @@ class _BookGridState extends State<BookGrid> {
                 child: LoadingIndicator(),
               ),
             ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: MediaQuery.of(context).padding.bottom +
+                  kBottomNavigationBarHeight,
+            ),
+          ),
         ],
       ),
     );
@@ -131,7 +130,6 @@ class _BookGridState extends State<BookGrid> {
         'grouped_${groups.map((g) => '${g.key}_${g.value.length}').join('_')}',
       ),
       child: CustomScrollView(
-        controller: _scrollController,
         slivers: [
           for (var groupIndex = 0; groupIndex < groups.length; groupIndex++) ...[
             SliverToBoxAdapter(
@@ -163,16 +161,16 @@ class _BookGridState extends State<BookGrid> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 4,
                   mainAxisSpacing: AppSpacing.md,
-                  crossAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 0.45,
+                  crossAxisSpacing: AppSpacing.xs,
+                  childAspectRatio: 0.40,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return AnimationConfiguration.staggeredGrid(
                       position: index,
-                      columnCount: 3,
+                      columnCount: 4,
                       duration: const Duration(milliseconds: 300),
                       child: ScaleAnimation(
                         scale: 0.9,
@@ -202,6 +200,12 @@ class _BookGridState extends State<BookGrid> {
                 child: LoadingIndicator(),
               ),
             ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: MediaQuery.of(context).padding.bottom +
+                  kBottomNavigationBarHeight,
+            ),
+          ),
         ],
       ),
     );

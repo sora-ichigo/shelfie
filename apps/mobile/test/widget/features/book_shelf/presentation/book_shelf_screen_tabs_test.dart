@@ -5,8 +5,6 @@ import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/library_all_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
 
@@ -45,111 +43,6 @@ void main() {
     );
   }
 
-  group('LibraryAllTab', () {
-    testWidgets('displays list of book lists', (tester) async {
-      final lists = [
-        createListSummary(id: 1, title: 'My List 1'),
-        createListSummary(id: 2, title: 'My List 2'),
-      ];
-      final books = [createBook()];
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryAllTab(
-                lists: lists,
-                recentBooks: books,
-                totalBookCount: books.length,
-                onListTap: (_) {},
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onSeeAllBooksTap: () {},
-                onSeeAllListsTap: () {},
-                onCreateListTap: () {},
-              ),
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // Scroll down to see the lists section (use first to target vertical ListView)
-      await tester.drag(find.byType(ListView).first, const Offset(0, -300));
-      await tester.pumpAndSettle();
-
-      expect(find.text('リスト', skipOffstage: false), findsOneWidget);
-      expect(find.text('My List 1', skipOffstage: false), findsOneWidget);
-      expect(find.text('My List 2', skipOffstage: false), findsOneWidget);
-    });
-
-    testWidgets('displays "最近" section with recent books',
-        (tester) async {
-      final books = [
-        createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
-        createBook(userBookId: 2, title: 'Book 2', externalId: 'ext-2'),
-      ];
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryAllTab(
-                lists: [],
-                recentBooks: books,
-                totalBookCount: books.length,
-                onListTap: (_) {},
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onSeeAllBooksTap: () {},
-                onSeeAllListsTap: () {},
-                onCreateListTap: () {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('最近'), findsOneWidget);
-      expect(find.text('Book 1'), findsOneWidget);
-      expect(find.text('Book 2'), findsOneWidget);
-    });
-
-    testWidgets('calls onSeeAllBooksTap when "すべて表示" in books section is tapped',
-        (tester) async {
-      var tapped = false;
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryAllTab(
-                lists: [],
-                recentBooks: [createBook()],
-                totalBookCount: 1,
-                onListTap: (_) {},
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onSeeAllBooksTap: () => tapped = true,
-                onSeeAllListsTap: () {},
-                onCreateListTap: () {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      final seeAllButtons = find.text('すべて表示');
-      await tester.tap(seeAllButtons.last);
-      await tester.pumpAndSettle();
-
-      expect(tapped, isTrue);
-    });
-  });
-
   group('LibraryBooksTab', () {
     testWidgets('displays empty state when books is empty', (tester) async {
       await tester.pumpWidget(
@@ -160,15 +53,12 @@ void main() {
               body: LibraryBooksTab(
                 books: [],
                 groupedBooks: {},
-                sortOption: SortOption.defaultOption,
                 groupOption: GroupOption.defaultOption,
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
               ),
             ),
           ),
@@ -176,38 +66,6 @@ void main() {
       );
 
       expect(find.text('本を追加してみましょう'), findsOneWidget);
-    });
-
-    testWidgets('displays sort/group filter bar when books exist',
-        (tester) async {
-      final books = [
-        createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
-      ];
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryBooksTab(
-                books: books,
-                groupedBooks: {},
-                sortOption: SortOption.defaultOption,
-                groupOption: GroupOption.defaultOption,
-                hasMore: false,
-                isLoadingMore: false,
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byIcon(Icons.tune), findsOneWidget);
     });
 
     testWidgets('displays books in grid', (tester) async {
@@ -224,15 +82,12 @@ void main() {
               body: LibraryBooksTab(
                 books: books,
                 groupedBooks: {},
-                sortOption: SortOption.defaultOption,
                 groupOption: GroupOption.defaultOption,
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
               ),
             ),
           ),
