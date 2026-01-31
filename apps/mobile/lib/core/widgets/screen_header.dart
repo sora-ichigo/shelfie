@@ -11,7 +11,7 @@ class ScreenHeader extends StatelessWidget {
     super.key,
   });
 
-  static const _avatarRadius = 24.0;
+  static const _avatarRadius = 20.0;
 
   final String title;
   final VoidCallback onProfileTap;
