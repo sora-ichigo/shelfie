@@ -48,7 +48,8 @@ void main() {
           tester.widget<MaterialApp>(find.byType(MaterialApp));
 
       // ダークモードが適用されていることを確認
-      expect(materialApp.theme?.brightness, equals(Brightness.dark));
+      // AdaptiveApp.router は materialDarkTheme を darkTheme に設定する
+      expect(materialApp.darkTheme?.brightness, equals(Brightness.dark));
     });
 
     testWidgets('AppTheme のテーマが適用されていること', (WidgetTester tester) async {
@@ -63,11 +64,12 @@ void main() {
           tester.widget<MaterialApp>(find.byType(MaterialApp));
 
       // Material 3 が有効になっていることを確認
-      expect(materialApp.theme?.useMaterial3, isTrue);
+      // AdaptiveApp.router は materialDarkTheme を darkTheme に設定する
+      expect(materialApp.darkTheme?.useMaterial3, isTrue);
 
       // シードカラーが正しく設定されていることを確認
       expect(
-        materialApp.theme?.colorScheme.primary,
+        materialApp.darkTheme?.colorScheme.primary,
         equals(AppTheme.theme.colorScheme.primary),
       );
     });
