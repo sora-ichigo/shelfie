@@ -22,10 +22,10 @@ class ScreenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        left: AppSpacing.md,
-        right: AppSpacing.md,
-        top: AppSpacing.md,
-        bottom: AppSpacing.xs,
+        left: AppSpacing.xs,
+        right: AppSpacing.xs,
+        top: AppSpacing.sm,
+        bottom: AppSpacing.sm,
       ),
       child: Row(
         children: [

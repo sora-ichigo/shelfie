@@ -243,8 +243,8 @@ class _ScreenHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   final Widget child;
 
-  // ScreenHeader: top(16) + avatar diameter(40) + bottom(8)
-  static const _height = AppSpacing.md + 40.0 + AppSpacing.xs;
+  // ScreenHeader: top(12) + avatar diameter(40) + bottom(12)
+  static const _height = AppSpacing.sm + 40.0 + AppSpacing.sm;
 
   @override
   double get maxExtent => _height;
