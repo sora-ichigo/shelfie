@@ -269,16 +269,7 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      if (status == ReadingStatus.completed) {
-        setState(() => _isUpdating = false);
-      } else {
-        AdaptiveSnackBar.show(
-          context,
-          message: '${status.displayName}に変更しました',
-          type: AdaptiveSnackBarType.success,
-        );
-        Navigator.pop(context);
-      }
+      setState(() => _isUpdating = false);
     }
   }
 
