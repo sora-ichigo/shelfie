@@ -2,17 +2,16 @@
 library;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
@@ -451,8 +450,9 @@ List<RouteBase> _buildRoutes() {
 
 /// メインシェル（タブバー）
 ///
-/// ShellRoute のビルダーとして使用され、ボトムナビゲーションを提供する。
-/// 現在のルートに基づいてタブの選択状態を管理する。
+/// ShellRoute のビルダーとして使用され、プラットフォーム適応型ナビゲーションを提供する。
+/// AdaptiveScaffold + AdaptiveBottomNavigationBar を使用し、
+/// プラットフォーム判定は adaptive_platform_ui に完全委譲する。
 class _MainShell extends StatelessWidget {
   const _MainShell({required this.child});
 
@@ -470,9 +470,12 @@ class _MainShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedIndex = _calculateSelectedIndex(context);
 
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: _AppTabBar(
+    return AdaptiveScaffold(
+      body: Material(
+        type: MaterialType.transparency,
+        child: child,
+      ),
+      bottomNavigationBar: AdaptiveBottomNavigationBar(
         selectedIndex: selectedIndex,
         onTap: (index) {
           switch (index) {
@@ -482,108 +485,17 @@ class _MainShell extends StatelessWidget {
               context.go(AppRoutes.searchTab);
           }
         },
-      ),
-    );
-  }
-}
-
-class _AppTabBar extends StatelessWidget {
-  const _AppTabBar({
-    required this.selectedIndex,
-    required this.onTap,
-  });
-
-  final int selectedIndex;
-  final ValueChanged<int> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-    final appColors = Theme.of(context).extension<AppColors>()!;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: appColors.background,
-        border: Border(
-          top: BorderSide(color: appColors.surface, width: 0.5),
-        ),
-      ),
-      padding: EdgeInsets.only(top: 12, bottom: bottomPadding + 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _TabItem(
-            icon: CupertinoIcons.book,
-            activeIcon: CupertinoIcons.book_fill,
+        items: const [
+          AdaptiveNavigationDestination(
+            icon: 'book.fill',
             label: 'ライブラリ',
-            isSelected: selectedIndex == 0,
-            onTap: () => onTap(0),
           ),
-          _TabItem(
-            icon: CupertinoIcons.search,
-            activeIcon: CupertinoIcons.search,
+          AdaptiveNavigationDestination(
+            icon: 'magnifyingglass',
             label: '検索',
-            isSelected: selectedIndex == 1,
-            onTap: () => onTap(1),
+            isSearch: true,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _TabItem extends StatelessWidget {
-  const _TabItem({
-    required this.icon,
-    required this.activeIcon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final IconData activeIcon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final color = isSelected ? appColors.foreground : appColors.foregroundMuted;
-
-    return Semantics(
-      button: true,
-      selected: isSelected,
-      label: label,
-      child: GestureDetector(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          onTap();
-        },
-        behavior: HitTestBehavior.opaque,
-        child: SizedBox(
-          width: 80,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                isSelected ? activeIcon : icon,
-                color: color,
-                size: 26,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  color: color,
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.w500 : FontWeight.normal,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

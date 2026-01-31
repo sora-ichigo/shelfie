@@ -4,10 +4,11 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: '>=3.9.2 <4.0.0'
 
 dependencies:
   adaptive_dialog: ^2.2.0
+  adaptive_platform_ui: ^0.1.101
   built_collection: any
   built_value: any
   cached_network_image: ^3.4.1

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -84,4 +85,8 @@ abstract final class AppTheme {
 
   /// アプリのデフォルトテーマを返す（ダークモード）
   static ThemeData get theme => dark();
+
+  /// Cupertino ダークテーマを返す
+  static CupertinoThemeData get cupertinoTheme =>
+      const CupertinoThemeData(brightness: Brightness.dark);
 }
