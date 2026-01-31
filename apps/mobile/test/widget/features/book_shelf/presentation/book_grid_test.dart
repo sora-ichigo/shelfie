@@ -138,7 +138,7 @@ void main() {
 
   group('BookGrid', () {
     group('グリッドレイアウト', () {
-      testWidgets('3列のグリッドレイアウトで書籍カードが配置される', (tester) async {
+      testWidgets('4列のグリッドレイアウトで書籍カードが配置される', (tester) async {
         await tester.pumpWidget(
           buildBookGrid(books: createTestBooks(6)),
         );

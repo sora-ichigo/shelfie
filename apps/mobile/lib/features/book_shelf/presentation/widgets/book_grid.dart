@@ -75,15 +75,15 @@ class _BookGridState extends State<BookGrid> {
             ),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 4,
                 mainAxisSpacing: AppSpacing.xs,
-                crossAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.45,
+                crossAxisSpacing: AppSpacing.xs,
+                childAspectRatio: 0.40,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) => AnimationConfiguration.staggeredGrid(
                   position: index,
-                  columnCount: 3,
+                  columnCount: 4,
                   duration: const Duration(milliseconds: 300),
                   child: ScaleAnimation(
                     scale: 0.9,
@@ -161,16 +161,16 @@ class _BookGridState extends State<BookGrid> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 4,
                   mainAxisSpacing: AppSpacing.md,
-                  crossAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 0.45,
+                  crossAxisSpacing: AppSpacing.xs,
+                  childAspectRatio: 0.40,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return AnimationConfiguration.staggeredGrid(
                       position: index,
-                      columnCount: 3,
+                      columnCount: 4,
                       duration: const Duration(milliseconds: 300),
                       child: ScaleAnimation(
                         scale: 0.9,
