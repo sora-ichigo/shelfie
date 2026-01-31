@@ -126,11 +126,32 @@ export interface BookDetail {
   rakutenBooksUrl: string | null;
 }
 
-function generateAmazonUrl(isbn: string | null): string | null {
+export function isbn13ToIsbn10(isbn: string | null): string | null {
   if (!isbn) {
     return null;
   }
-  return `https://www.amazon.co.jp/dp/${isbn}`;
+  if (isbn.length === 10) {
+    return isbn;
+  }
+  if (!isbn.startsWith("978")) {
+    return null;
+  }
+  const body = isbn.slice(3, 12);
+  let sum = 0;
+  for (let i = 0; i < 9; i++) {
+    sum += Number(body[i]) * (10 - i);
+  }
+  const remainder = (11 - (sum % 11)) % 11;
+  const check = remainder === 10 ? "X" : String(remainder);
+  return body + check;
+}
+
+function generateAmazonUrl(isbn: string | null): string | null {
+  const isbn10 = isbn13ToIsbn10(isbn);
+  if (!isbn10) {
+    return null;
+  }
+  return `https://www.amazon.co.jp/dp/${isbn10}`;
 }
 
 function extractIsbn(
