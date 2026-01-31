@@ -33,8 +33,10 @@ abstract final class AppTheme {
       scaffoldBackgroundColor: AppColors.dark.background,
       textTheme: textTheme,
       iconTheme: const IconThemeData(color: Colors.white),
-      appBarTheme: const AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
+      appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          systemNavigationBarColor: AppColors.dark.background,
+        ),
       ),
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(

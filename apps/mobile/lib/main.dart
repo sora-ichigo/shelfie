@@ -10,6 +10,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/app/providers.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/data/search_history_repository.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
@@ -51,7 +52,11 @@ Future<void> _initAndRunApp() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.light.copyWith(
+      systemNavigationBarColor: AppColors.dark.background,
+    ),
+  );
 
   await Hive.initFlutter();
 

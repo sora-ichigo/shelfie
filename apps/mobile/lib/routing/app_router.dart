@@ -12,6 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
@@ -493,7 +494,7 @@ class _MainShell extends StatelessWidget {
           onTap: onTap,
           activeColor: Colors.white,
           inactiveColor: Colors.white70,
-          backgroundColor: CupertinoColors.black,
+          backgroundColor: AppColors.dark.background,
           border: const Border(),
           items: const [
             BottomNavigationBarItem(
