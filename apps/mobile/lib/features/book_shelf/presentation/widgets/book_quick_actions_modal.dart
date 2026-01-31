@@ -15,6 +15,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
+import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -269,16 +270,12 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      if (status == ReadingStatus.completed) {
-        setState(() => _isUpdating = false);
-      } else {
-        AdaptiveSnackBar.show(
-          context,
-          message: '${status.displayName}に変更しました',
-          type: AdaptiveSnackBarType.success,
-        );
-        Navigator.pop(context);
-      }
+      setState(() => _isUpdating = false);
+      AdaptiveSnackBar.show(
+        context,
+        message: '${status.displayName}に変更しました',
+        type: AdaptiveSnackBarType.success,
+      );
     }
   }
 
@@ -333,12 +330,12 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
+      setState(() => _isUpdating = false);
       AdaptiveSnackBar.show(
         context,
         message: '評価を変更しました',
         type: AdaptiveSnackBarType.success,
       );
-      Navigator.pop(context);
     }
   }
 
@@ -412,9 +409,7 @@ class _BookQuickActionsModalContentState
   void _onAddToListTap() {
     final repository = ref.read(bookListRepositoryProvider);
     final userBookId = widget.book.userBookId;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
-    Navigator.pop(context);
     showListSelectorModal(
       context: context,
       userBookId: userBookId,
@@ -424,22 +419,24 @@ class _BookQuickActionsModalContentState
           userBookId: userBookId,
         );
 
+        if (!mounted) return;
+
         result.fold(
           (failure) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(
-                content: Text(failure.userMessage),
-                backgroundColor: Colors.red.shade700,
-              ),
+            AdaptiveSnackBar.show(
+              context,
+              message: failure.userMessage,
+              type: AdaptiveSnackBarType.error,
             );
           },
           (_) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(
-                content: const Text('リストに追加しました'),
-                backgroundColor: Colors.green.shade700,
-              ),
+            ref.read(bookListNotifierProvider.notifier).refresh();
+            AdaptiveSnackBar.show(
+              context,
+              message: 'リストに追加しました',
+              type: AdaptiveSnackBarType.success,
             );
+            Navigator.pop(context);
           },
         );
       },
@@ -448,6 +445,7 @@ class _BookQuickActionsModalContentState
 
   void _onEditNoteTap(ShelfEntry entry) {
     Navigator.pop(context);
+
     showReadingNoteModal(
       context: context,
       currentNote: entry.note,
