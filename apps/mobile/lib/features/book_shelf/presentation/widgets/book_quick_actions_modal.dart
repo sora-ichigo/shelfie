@@ -412,7 +412,7 @@ class _BookQuickActionsModalContentState
   void _onAddToListTap() {
     final repository = ref.read(bookListRepositoryProvider);
     final userBookId = widget.book.userBookId;
-    final parentContext = context;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     Navigator.pop(context);
     showListSelectorModal(
@@ -426,17 +426,19 @@ class _BookQuickActionsModalContentState
 
         result.fold(
           (failure) {
-            AdaptiveSnackBar.show(
-              parentContext,
-              message: failure.userMessage,
-              type: AdaptiveSnackBarType.error,
+            scaffoldMessenger.showSnackBar(
+              SnackBar(
+                content: Text(failure.userMessage),
+                backgroundColor: Colors.red.shade700,
+              ),
             );
           },
           (_) {
-            AdaptiveSnackBar.show(
-              parentContext,
-              message: 'リストに追加しました',
-              type: AdaptiveSnackBarType.success,
+            scaffoldMessenger.showSnackBar(
+              SnackBar(
+                content: const Text('リストに追加しました'),
+                backgroundColor: Colors.green.shade700,
+              ),
             );
           },
         );
