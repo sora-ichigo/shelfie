@@ -477,6 +477,8 @@ class _MainShell extends StatelessWidget {
       ),
       bottomNavigationBar: AdaptiveBottomNavigationBar(
         selectedIndex: selectedIndex,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -493,7 +495,6 @@ class _MainShell extends StatelessWidget {
           AdaptiveNavigationDestination(
             icon: 'magnifyingglass',
             label: '検索',
-            isSearch: true,
           ),
         ],
       ),
