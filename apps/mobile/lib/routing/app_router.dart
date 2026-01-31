@@ -470,6 +470,15 @@ class _MainShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedIndex = _calculateSelectedIndex(context);
 
+    void onTap(int index) {
+      switch (index) {
+        case 0:
+          context.go(AppRoutes.homeTab);
+        case 1:
+          context.go(AppRoutes.searchTab);
+      }
+    }
+
     return AdaptiveScaffold(
       body: Material(
         type: MaterialType.transparency,
@@ -479,14 +488,25 @@ class _MainShell extends StatelessWidget {
         selectedIndex: selectedIndex,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              context.go(AppRoutes.homeTab);
-            case 1:
-              context.go(AppRoutes.searchTab);
-          }
-        },
+        cupertinoTabBar: CupertinoTabBar(
+          currentIndex: selectedIndex,
+          onTap: onTap,
+          activeColor: Colors.white,
+          inactiveColor: Colors.white70,
+          backgroundColor: CupertinoColors.black,
+          border: const Border(),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.book),
+              label: 'ライブラリ',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.search),
+              label: '検索',
+            ),
+          ],
+        ),
+        onTap: onTap,
         items: const [
           AdaptiveNavigationDestination(
             icon: 'book.fill',
