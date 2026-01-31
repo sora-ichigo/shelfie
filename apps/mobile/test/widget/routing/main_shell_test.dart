@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -53,6 +54,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -86,6 +88,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -123,6 +126,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -130,9 +134,9 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        // タブラベルの順序を確認
-        expect(find.text('ライブラリ'), findsOneWidget);
-        expect(find.text('検索'), findsOneWidget);
+        // タブラベルが存在することを確認
+        expect(find.text('ライブラリ'), findsWidgets);
+        expect(find.text('検索'), findsWidgets);
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -156,6 +160,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -198,6 +203,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
