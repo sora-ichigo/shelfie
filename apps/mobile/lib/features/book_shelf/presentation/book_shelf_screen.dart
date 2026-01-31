@@ -5,6 +5,8 @@ import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
+import 'package:shelfie/core/widgets/screen_header.dart';
+import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
@@ -14,8 +16,8 @@ import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class BookShelfScreen extends ConsumerStatefulWidget {
@@ -41,6 +43,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   Widget build(BuildContext context) {
     final bookShelfState = ref.watch(bookShelfNotifierProvider);
     final bookListState = ref.watch(bookListNotifierProvider);
+    final accountAsync = ref.watch(accountNotifierProvider);
 
     ref.listen(
       shelfStateProvider.select((s) => s.length),
@@ -60,6 +63,12 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       bottom: false,
       child: Column(
         children: [
+          ScreenHeader(
+            title: 'ライブラリ',
+            onProfileTap: () => context.push(AppRoutes.account),
+            avatarUrl: accountAsync.valueOrNull?.avatarUrl,
+            isAvatarLoading: accountAsync.isLoading,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,

@@ -11,6 +11,8 @@ class ScreenHeader extends StatelessWidget {
     super.key,
   });
 
+  static const _avatarRadius = 24.0;
+
   final String title;
   final VoidCallback onProfileTap;
   final String? avatarUrl;
@@ -26,13 +28,19 @@ class ScreenHeader extends StatelessWidget {
         bottom: AppSpacing.xs,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+          SizedBox(width: _avatarRadius * 2),
+          Expanded(
+            child: Center(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontFamily: 'NotoSansJP',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
                 ),
+              ),
+            ),
           ),
           Semantics(
             button: true,
@@ -42,7 +50,7 @@ class ScreenHeader extends StatelessWidget {
               radius: 28,
               child: UserAvatar(
                 avatarUrl: avatarUrl,
-                radius: 24,
+                radius: _avatarRadius,
                 isLoading: isAvatarLoading,
               ),
             ),
