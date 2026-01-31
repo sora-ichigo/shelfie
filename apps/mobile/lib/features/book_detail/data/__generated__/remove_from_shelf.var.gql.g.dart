@@ -7,7 +7,7 @@ part of 'remove_from_shelf.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveFromShelfVars> _$gRemoveFromShelfVarsSerializer =
-    _$GRemoveFromShelfVarsSerializer();
+    new _$GRemoveFromShelfVarsSerializer();
 
 class _$GRemoveFromShelfVarsSerializer
     implements StructuredSerializer<GRemoveFromShelfVars> {
@@ -36,7 +36,7 @@ class _$GRemoveFromShelfVarsSerializer
   GRemoveFromShelfVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRemoveFromShelfVarsBuilder();
+    final result = new GRemoveFromShelfVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -61,9 +61,13 @@ class _$GRemoveFromShelfVars extends GRemoveFromShelfVars {
 
   factory _$GRemoveFromShelfVars(
           [void Function(GRemoveFromShelfVarsBuilder)? updates]) =>
-      (GRemoveFromShelfVarsBuilder()..update(updates))._build();
+      (new GRemoveFromShelfVarsBuilder()..update(updates))._build();
 
-  _$GRemoveFromShelfVars._({required this.userBookId}) : super._();
+  _$GRemoveFromShelfVars._({required this.userBookId}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GRemoveFromShelfVars', 'userBookId');
+  }
+
   @override
   GRemoveFromShelfVars rebuild(
           void Function(GRemoveFromShelfVarsBuilder) updates) =>
@@ -71,7 +75,7 @@ class _$GRemoveFromShelfVars extends GRemoveFromShelfVars {
 
   @override
   GRemoveFromShelfVarsBuilder toBuilder() =>
-      GRemoveFromShelfVarsBuilder()..replace(this);
+      new GRemoveFromShelfVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -116,6 +120,7 @@ class GRemoveFromShelfVarsBuilder
 
   @override
   void replace(GRemoveFromShelfVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveFromShelfVars;
   }
 
@@ -129,10 +134,9 @@ class GRemoveFromShelfVarsBuilder
 
   _$GRemoveFromShelfVars _build() {
     final _$result = _$v ??
-        _$GRemoveFromShelfVars._(
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GRemoveFromShelfVars', 'userBookId'),
-        );
+        new _$GRemoveFromShelfVars._(
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GRemoveFromShelfVars', 'userBookId'));
     replace(_$result);
     return _$result;
   }

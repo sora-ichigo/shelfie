@@ -14,7 +14,7 @@ import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -221,11 +221,9 @@ class MockBookShelfNotifier extends BookShelfNotifier {
     return BookShelfState.loaded(
       books: const [],
       sortOption: SortOption.defaultOption,
-      groupOption: GroupOption.defaultOption,
       totalCount: 0,
       hasMore: false,
       isLoadingMore: false,
-      groupedBooks: const {},
     );
   }
 
@@ -234,9 +232,6 @@ class MockBookShelfNotifier extends BookShelfNotifier {
 
   @override
   Future<void> setSortOption(SortOption option) async {}
-
-  @override
-  void setGroupOption(GroupOption option) {}
 
   @override
   Future<void> loadMore() async {}

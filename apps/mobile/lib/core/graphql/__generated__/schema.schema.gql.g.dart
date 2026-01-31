@@ -54,12 +54,12 @@ GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
     case 'WEAK_PASSWORD':
       return _$gAuthErrorCodeWEAK_PASSWORD;
     default:
-      throw ArgumentError(name);
+      throw new ArgumentError(name);
   }
 }
 
 final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
-    BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
+    new BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
   _$gAuthErrorCodeEMAIL_ALREADY_EXISTS,
   _$gAuthErrorCodeINTERNAL_ERROR,
   _$gAuthErrorCodeINVALID_CREDENTIALS,
@@ -83,12 +83,12 @@ GBookSource _$gBookSourceValueOf(String name) {
     case 'RAKUTEN':
       return _$gBookSourceRAKUTEN;
     default:
-      throw ArgumentError(name);
+      throw new ArgumentError(name);
   }
 }
 
 final BuiltSet<GBookSource> _$gBookSourceValues =
-    BuiltSet<GBookSource>(const <GBookSource>[
+    new BuiltSet<GBookSource>(const <GBookSource>[
   _$gBookSourceGOOGLE,
   _$gBookSourceRAKUTEN,
 ]);
@@ -113,12 +113,12 @@ GReadingStatus _$gReadingStatusValueOf(String name) {
     case 'READING':
       return _$gReadingStatusREADING;
     default:
-      throw ArgumentError(name);
+      throw new ArgumentError(name);
   }
 }
 
 final BuiltSet<GReadingStatus> _$gReadingStatusValues =
-    BuiltSet<GReadingStatus>(const <GReadingStatus>[
+    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
   _$gReadingStatusBACKLOG,
   _$gReadingStatusCOMPLETED,
   _$gReadingStatusDROPPED,
@@ -140,12 +140,12 @@ GShelfSortField _$gShelfSortFieldValueOf(String name) {
     case 'TITLE':
       return _$gShelfSortFieldTITLE;
     default:
-      throw ArgumentError(name);
+      throw new ArgumentError(name);
   }
 }
 
 final BuiltSet<GShelfSortField> _$gShelfSortFieldValues =
-    BuiltSet<GShelfSortField>(const <GShelfSortField>[
+    new BuiltSet<GShelfSortField>(const <GShelfSortField>[
   _$gShelfSortFieldADDED_AT,
   _$gShelfSortFieldAUTHOR,
   _$gShelfSortFieldTITLE,
@@ -161,47 +161,47 @@ GSortOrder _$gSortOrderValueOf(String name) {
     case 'DESC':
       return _$gSortOrderDESC;
     default:
-      throw ArgumentError(name);
+      throw new ArgumentError(name);
   }
 }
 
 final BuiltSet<GSortOrder> _$gSortOrderValues =
-    BuiltSet<GSortOrder>(const <GSortOrder>[
+    new BuiltSet<GSortOrder>(const <GSortOrder>[
   _$gSortOrderASC,
   _$gSortOrderDESC,
 ]);
 
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
-    _$GAddBookInputSerializer();
+    new _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
-    _$GAuthErrorCodeSerializer();
-Serializer<GBookSource> _$gBookSourceSerializer = _$GBookSourceSerializer();
+    new _$GAuthErrorCodeSerializer();
+Serializer<GBookSource> _$gBookSourceSerializer = new _$GBookSourceSerializer();
 Serializer<GCreateBookListInput> _$gCreateBookListInputSerializer =
-    _$GCreateBookListInputSerializer();
+    new _$GCreateBookListInputSerializer();
 Serializer<GChangePasswordInput> _$gChangePasswordInputSerializer =
-    _$GChangePasswordInputSerializer();
+    new _$GChangePasswordInputSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
-    _$GLoginUserInputSerializer();
+    new _$GLoginUserInputSerializer();
 Serializer<GMyBookListsInput> _$gMyBookListsInputSerializer =
-    _$GMyBookListsInputSerializer();
+    new _$GMyBookListsInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
-    _$GMyShelfInputSerializer();
+    new _$GMyShelfInputSerializer();
 Serializer<GReadingStatus> _$gReadingStatusSerializer =
-    _$GReadingStatusSerializer();
+    new _$GReadingStatusSerializer();
 Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
-    _$GRefreshTokenInputSerializer();
+    new _$GRefreshTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
-    _$GRegisterUserInputSerializer();
+    new _$GRegisterUserInputSerializer();
 Serializer<GSendPasswordResetEmailInput>
     _$gSendPasswordResetEmailInputSerializer =
-    _$GSendPasswordResetEmailInputSerializer();
+    new _$GSendPasswordResetEmailInputSerializer();
 Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
-    _$GShelfSortFieldSerializer();
-Serializer<GSortOrder> _$gSortOrderSerializer = _$GSortOrderSerializer();
+    new _$GShelfSortFieldSerializer();
+Serializer<GSortOrder> _$gSortOrderSerializer = new _$GSortOrderSerializer();
 Serializer<GUpdateBookListInput> _$gUpdateBookListInputSerializer =
-    _$GUpdateBookListInputSerializer();
+    new _$GUpdateBookListInputSerializer();
 Serializer<GUpdateProfileInput> _$gUpdateProfileInputSerializer =
-    _$GUpdateProfileInputSerializer();
+    new _$GUpdateProfileInputSerializer();
 
 class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   @override
@@ -274,7 +274,7 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   GAddBookInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GAddBookInputBuilder();
+    final result = new GAddBookInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -396,7 +396,7 @@ class _$GCreateBookListInputSerializer
   GCreateBookListInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GCreateBookListInputBuilder();
+    final result = new GCreateBookListInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -452,7 +452,7 @@ class _$GChangePasswordInputSerializer
   GChangePasswordInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordInputBuilder();
+    final result = new GChangePasswordInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -505,7 +505,7 @@ class _$GLoginUserInputSerializer
   GLoginUserInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GLoginUserInputBuilder();
+    final result = new GLoginUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -559,7 +559,7 @@ class _$GMyBookListsInputSerializer
   GMyBookListsInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsInputBuilder();
+    final result = new GMyBookListsInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -612,6 +612,13 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.readingStatus;
+    if (value != null) {
+      result
+        ..add('readingStatus')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GReadingStatus)));
+    }
     value = object.sortBy;
     if (value != null) {
       result
@@ -633,7 +640,7 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
   GMyShelfInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyShelfInputBuilder();
+    final result = new GMyShelfInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -652,6 +659,10 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
         case 'query':
           result.query = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'readingStatus':
+          result.readingStatus = serializers.deserialize(value,
+              specifiedType: const FullType(GReadingStatus)) as GReadingStatus?;
           break;
         case 'sortBy':
           result.sortBy = serializers.deserialize(value,
@@ -711,7 +722,7 @@ class _$GRefreshTokenInputSerializer
   GRefreshTokenInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRefreshTokenInputBuilder();
+    final result = new GRefreshTokenInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -757,7 +768,7 @@ class _$GRegisterUserInputSerializer
   GRegisterUserInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRegisterUserInputBuilder();
+    final result = new GRegisterUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -807,7 +818,7 @@ class _$GSendPasswordResetEmailInputSerializer
   GSendPasswordResetEmailInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSendPasswordResetEmailInputBuilder();
+    final result = new GSendPasswordResetEmailInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -901,7 +912,7 @@ class _$GUpdateBookListInputSerializer
   GUpdateBookListInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateBookListInputBuilder();
+    final result = new GUpdateBookListInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -961,7 +972,7 @@ class _$GUpdateProfileInputSerializer
   GUpdateProfileInput deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateProfileInputBuilder();
+    final result = new GUpdateProfileInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -1005,7 +1016,7 @@ class _$GAddBookInput extends GAddBookInput {
   final String title;
 
   factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
-      (GAddBookInputBuilder()..update(updates))._build();
+      (new GAddBookInputBuilder()..update(updates))._build();
 
   _$GAddBookInput._(
       {required this.authors,
@@ -1017,13 +1028,19 @@ class _$GAddBookInput extends GAddBookInput {
       this.readingStatus,
       this.source,
       required this.title})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        externalId, r'GAddBookInput', 'externalId');
+    BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
+  }
+
   @override
   GAddBookInput rebuild(void Function(GAddBookInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GAddBookInputBuilder toBuilder() => GAddBookInputBuilder()..replace(this);
+  GAddBookInputBuilder toBuilder() => new GAddBookInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1077,7 +1094,8 @@ class GAddBookInputBuilder
   _$GAddBookInput? _$v;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
+  ListBuilder<String> get authors =>
+      _$this._authors ??= new ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _coverImageUrl;
@@ -1136,6 +1154,7 @@ class GAddBookInputBuilder
 
   @override
   void replace(GAddBookInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookInput;
   }
 
@@ -1151,26 +1170,25 @@ class GAddBookInputBuilder
     _$GAddBookInput _$result;
     try {
       _$result = _$v ??
-          _$GAddBookInput._(
-            authors: authors.build(),
-            coverImageUrl: coverImageUrl,
-            externalId: BuiltValueNullFieldError.checkNotNull(
-                externalId, r'GAddBookInput', 'externalId'),
-            isbn: isbn,
-            publishedDate: publishedDate,
-            publisher: publisher,
-            readingStatus: readingStatus,
-            source: source,
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GAddBookInput', 'title'),
-          );
+          new _$GAddBookInput._(
+              authors: authors.build(),
+              coverImageUrl: coverImageUrl,
+              externalId: BuiltValueNullFieldError.checkNotNull(
+                  externalId, r'GAddBookInput', 'externalId'),
+              isbn: isbn,
+              publishedDate: publishedDate,
+              publisher: publisher,
+              readingStatus: readingStatus,
+              source: source,
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GAddBookInput', 'title'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GAddBookInput', _$failedField, e.toString());
       }
       rethrow;
@@ -1188,9 +1206,14 @@ class _$GCreateBookListInput extends GCreateBookListInput {
 
   factory _$GCreateBookListInput(
           [void Function(GCreateBookListInputBuilder)? updates]) =>
-      (GCreateBookListInputBuilder()..update(updates))._build();
+      (new GCreateBookListInputBuilder()..update(updates))._build();
 
-  _$GCreateBookListInput._({this.description, required this.title}) : super._();
+  _$GCreateBookListInput._({this.description, required this.title})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GCreateBookListInput', 'title');
+  }
+
   @override
   GCreateBookListInput rebuild(
           void Function(GCreateBookListInputBuilder) updates) =>
@@ -1198,7 +1221,7 @@ class _$GCreateBookListInput extends GCreateBookListInput {
 
   @override
   GCreateBookListInputBuilder toBuilder() =>
-      GCreateBookListInputBuilder()..replace(this);
+      new GCreateBookListInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1252,6 +1275,7 @@ class GCreateBookListInputBuilder
 
   @override
   void replace(GCreateBookListInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListInput;
   }
 
@@ -1265,11 +1289,10 @@ class GCreateBookListInputBuilder
 
   _$GCreateBookListInput _build() {
     final _$result = _$v ??
-        _$GCreateBookListInput._(
-          description: description,
-          title: BuiltValueNullFieldError.checkNotNull(
-              title, r'GCreateBookListInput', 'title'),
-        );
+        new _$GCreateBookListInput._(
+            description: description,
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GCreateBookListInput', 'title'));
     replace(_$result);
     return _$result;
   }
@@ -1285,13 +1308,21 @@ class _$GChangePasswordInput extends GChangePasswordInput {
 
   factory _$GChangePasswordInput(
           [void Function(GChangePasswordInputBuilder)? updates]) =>
-      (GChangePasswordInputBuilder()..update(updates))._build();
+      (new GChangePasswordInputBuilder()..update(updates))._build();
 
   _$GChangePasswordInput._(
       {required this.currentPassword,
       required this.email,
       required this.newPassword})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        currentPassword, r'GChangePasswordInput', 'currentPassword');
+    BuiltValueNullFieldError.checkNotNull(
+        email, r'GChangePasswordInput', 'email');
+    BuiltValueNullFieldError.checkNotNull(
+        newPassword, r'GChangePasswordInput', 'newPassword');
+  }
+
   @override
   GChangePasswordInput rebuild(
           void Function(GChangePasswordInputBuilder) updates) =>
@@ -1299,7 +1330,7 @@ class _$GChangePasswordInput extends GChangePasswordInput {
 
   @override
   GChangePasswordInputBuilder toBuilder() =>
-      GChangePasswordInputBuilder()..replace(this);
+      new GChangePasswordInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1362,6 +1393,7 @@ class GChangePasswordInputBuilder
 
   @override
   void replace(GChangePasswordInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordInput;
   }
 
@@ -1375,14 +1407,13 @@ class GChangePasswordInputBuilder
 
   _$GChangePasswordInput _build() {
     final _$result = _$v ??
-        _$GChangePasswordInput._(
-          currentPassword: BuiltValueNullFieldError.checkNotNull(
-              currentPassword, r'GChangePasswordInput', 'currentPassword'),
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'GChangePasswordInput', 'email'),
-          newPassword: BuiltValueNullFieldError.checkNotNull(
-              newPassword, r'GChangePasswordInput', 'newPassword'),
-        );
+        new _$GChangePasswordInput._(
+            currentPassword: BuiltValueNullFieldError.checkNotNull(
+                currentPassword, r'GChangePasswordInput', 'currentPassword'),
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'GChangePasswordInput', 'email'),
+            newPassword: BuiltValueNullFieldError.checkNotNull(
+                newPassword, r'GChangePasswordInput', 'newPassword'));
     replace(_$result);
     return _$result;
   }
@@ -1395,16 +1426,22 @@ class _$GLoginUserInput extends GLoginUserInput {
   final String password;
 
   factory _$GLoginUserInput([void Function(GLoginUserInputBuilder)? updates]) =>
-      (GLoginUserInputBuilder()..update(updates))._build();
+      (new GLoginUserInputBuilder()..update(updates))._build();
 
   _$GLoginUserInput._({required this.email, required this.password})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(email, r'GLoginUserInput', 'email');
+    BuiltValueNullFieldError.checkNotNull(
+        password, r'GLoginUserInput', 'password');
+  }
+
   @override
   GLoginUserInput rebuild(void Function(GLoginUserInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserInputBuilder toBuilder() => GLoginUserInputBuilder()..replace(this);
+  GLoginUserInputBuilder toBuilder() =>
+      new GLoginUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1458,6 +1495,7 @@ class GLoginUserInputBuilder
 
   @override
   void replace(GLoginUserInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserInput;
   }
 
@@ -1471,12 +1509,11 @@ class GLoginUserInputBuilder
 
   _$GLoginUserInput _build() {
     final _$result = _$v ??
-        _$GLoginUserInput._(
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'GLoginUserInput', 'email'),
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'GLoginUserInput', 'password'),
-        );
+        new _$GLoginUserInput._(
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'GLoginUserInput', 'email'),
+            password: BuiltValueNullFieldError.checkNotNull(
+                password, r'GLoginUserInput', 'password'));
     replace(_$result);
     return _$result;
   }
@@ -1490,16 +1527,17 @@ class _$GMyBookListsInput extends GMyBookListsInput {
 
   factory _$GMyBookListsInput(
           [void Function(GMyBookListsInputBuilder)? updates]) =>
-      (GMyBookListsInputBuilder()..update(updates))._build();
+      (new GMyBookListsInputBuilder()..update(updates))._build();
 
   _$GMyBookListsInput._({this.limit, this.offset}) : super._();
+
   @override
   GMyBookListsInput rebuild(void Function(GMyBookListsInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GMyBookListsInputBuilder toBuilder() =>
-      GMyBookListsInputBuilder()..replace(this);
+      new GMyBookListsInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1553,6 +1591,7 @@ class GMyBookListsInputBuilder
 
   @override
   void replace(GMyBookListsInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsInput;
   }
 
@@ -1565,11 +1604,8 @@ class GMyBookListsInputBuilder
   GMyBookListsInput build() => _build();
 
   _$GMyBookListsInput _build() {
-    final _$result = _$v ??
-        _$GMyBookListsInput._(
-          limit: limit,
-          offset: offset,
-        );
+    final _$result =
+        _$v ?? new _$GMyBookListsInput._(limit: limit, offset: offset);
     replace(_$result);
     return _$result;
   }
@@ -1583,22 +1619,30 @@ class _$GMyShelfInput extends GMyShelfInput {
   @override
   final String? query;
   @override
+  final GReadingStatus? readingStatus;
+  @override
   final GShelfSortField? sortBy;
   @override
   final GSortOrder? sortOrder;
 
   factory _$GMyShelfInput([void Function(GMyShelfInputBuilder)? updates]) =>
-      (GMyShelfInputBuilder()..update(updates))._build();
+      (new GMyShelfInputBuilder()..update(updates))._build();
 
   _$GMyShelfInput._(
-      {this.limit, this.offset, this.query, this.sortBy, this.sortOrder})
+      {this.limit,
+      this.offset,
+      this.query,
+      this.readingStatus,
+      this.sortBy,
+      this.sortOrder})
       : super._();
+
   @override
   GMyShelfInput rebuild(void Function(GMyShelfInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfInputBuilder toBuilder() => GMyShelfInputBuilder()..replace(this);
+  GMyShelfInputBuilder toBuilder() => new GMyShelfInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1607,6 +1651,7 @@ class _$GMyShelfInput extends GMyShelfInput {
         limit == other.limit &&
         offset == other.offset &&
         query == other.query &&
+        readingStatus == other.readingStatus &&
         sortBy == other.sortBy &&
         sortOrder == other.sortOrder;
   }
@@ -1617,6 +1662,7 @@ class _$GMyShelfInput extends GMyShelfInput {
     _$hash = $jc(_$hash, limit.hashCode);
     _$hash = $jc(_$hash, offset.hashCode);
     _$hash = $jc(_$hash, query.hashCode);
+    _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jc(_$hash, sortBy.hashCode);
     _$hash = $jc(_$hash, sortOrder.hashCode);
     _$hash = $jf(_$hash);
@@ -1629,6 +1675,7 @@ class _$GMyShelfInput extends GMyShelfInput {
           ..add('limit', limit)
           ..add('offset', offset)
           ..add('query', query)
+          ..add('readingStatus', readingStatus)
           ..add('sortBy', sortBy)
           ..add('sortOrder', sortOrder))
         .toString();
@@ -1651,6 +1698,11 @@ class GMyShelfInputBuilder
   String? get query => _$this._query;
   set query(String? query) => _$this._query = query;
 
+  GReadingStatus? _readingStatus;
+  GReadingStatus? get readingStatus => _$this._readingStatus;
+  set readingStatus(GReadingStatus? readingStatus) =>
+      _$this._readingStatus = readingStatus;
+
   GShelfSortField? _sortBy;
   GShelfSortField? get sortBy => _$this._sortBy;
   set sortBy(GShelfSortField? sortBy) => _$this._sortBy = sortBy;
@@ -1667,6 +1719,7 @@ class GMyShelfInputBuilder
       _limit = $v.limit;
       _offset = $v.offset;
       _query = $v.query;
+      _readingStatus = $v.readingStatus;
       _sortBy = $v.sortBy;
       _sortOrder = $v.sortOrder;
       _$v = null;
@@ -1676,6 +1729,7 @@ class GMyShelfInputBuilder
 
   @override
   void replace(GMyShelfInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfInput;
   }
 
@@ -1689,13 +1743,13 @@ class GMyShelfInputBuilder
 
   _$GMyShelfInput _build() {
     final _$result = _$v ??
-        _$GMyShelfInput._(
-          limit: limit,
-          offset: offset,
-          query: query,
-          sortBy: sortBy,
-          sortOrder: sortOrder,
-        );
+        new _$GMyShelfInput._(
+            limit: limit,
+            offset: offset,
+            query: query,
+            readingStatus: readingStatus,
+            sortBy: sortBy,
+            sortOrder: sortOrder);
     replace(_$result);
     return _$result;
   }
@@ -1707,9 +1761,13 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
 
   factory _$GRefreshTokenInput(
           [void Function(GRefreshTokenInputBuilder)? updates]) =>
-      (GRefreshTokenInputBuilder()..update(updates))._build();
+      (new GRefreshTokenInputBuilder()..update(updates))._build();
 
-  _$GRefreshTokenInput._({required this.refreshToken}) : super._();
+  _$GRefreshTokenInput._({required this.refreshToken}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        refreshToken, r'GRefreshTokenInput', 'refreshToken');
+  }
+
   @override
   GRefreshTokenInput rebuild(
           void Function(GRefreshTokenInputBuilder) updates) =>
@@ -1717,7 +1775,7 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
 
   @override
   GRefreshTokenInputBuilder toBuilder() =>
-      GRefreshTokenInputBuilder()..replace(this);
+      new GRefreshTokenInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1762,6 +1820,7 @@ class GRefreshTokenInputBuilder
 
   @override
   void replace(GRefreshTokenInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRefreshTokenInput;
   }
 
@@ -1775,10 +1834,9 @@ class GRefreshTokenInputBuilder
 
   _$GRefreshTokenInput _build() {
     final _$result = _$v ??
-        _$GRefreshTokenInput._(
-          refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken, r'GRefreshTokenInput', 'refreshToken'),
-        );
+        new _$GRefreshTokenInput._(
+            refreshToken: BuiltValueNullFieldError.checkNotNull(
+                refreshToken, r'GRefreshTokenInput', 'refreshToken'));
     replace(_$result);
     return _$result;
   }
@@ -1792,10 +1850,16 @@ class _$GRegisterUserInput extends GRegisterUserInput {
 
   factory _$GRegisterUserInput(
           [void Function(GRegisterUserInputBuilder)? updates]) =>
-      (GRegisterUserInputBuilder()..update(updates))._build();
+      (new GRegisterUserInputBuilder()..update(updates))._build();
 
   _$GRegisterUserInput._({required this.email, required this.password})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        email, r'GRegisterUserInput', 'email');
+    BuiltValueNullFieldError.checkNotNull(
+        password, r'GRegisterUserInput', 'password');
+  }
+
   @override
   GRegisterUserInput rebuild(
           void Function(GRegisterUserInputBuilder) updates) =>
@@ -1803,7 +1867,7 @@ class _$GRegisterUserInput extends GRegisterUserInput {
 
   @override
   GRegisterUserInputBuilder toBuilder() =>
-      GRegisterUserInputBuilder()..replace(this);
+      new GRegisterUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1857,6 +1921,7 @@ class GRegisterUserInputBuilder
 
   @override
   void replace(GRegisterUserInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserInput;
   }
 
@@ -1870,12 +1935,11 @@ class GRegisterUserInputBuilder
 
   _$GRegisterUserInput _build() {
     final _$result = _$v ??
-        _$GRegisterUserInput._(
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'GRegisterUserInput', 'email'),
-          password: BuiltValueNullFieldError.checkNotNull(
-              password, r'GRegisterUserInput', 'password'),
-        );
+        new _$GRegisterUserInput._(
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'GRegisterUserInput', 'email'),
+            password: BuiltValueNullFieldError.checkNotNull(
+                password, r'GRegisterUserInput', 'password'));
     replace(_$result);
     return _$result;
   }
@@ -1887,9 +1951,13 @@ class _$GSendPasswordResetEmailInput extends GSendPasswordResetEmailInput {
 
   factory _$GSendPasswordResetEmailInput(
           [void Function(GSendPasswordResetEmailInputBuilder)? updates]) =>
-      (GSendPasswordResetEmailInputBuilder()..update(updates))._build();
+      (new GSendPasswordResetEmailInputBuilder()..update(updates))._build();
 
-  _$GSendPasswordResetEmailInput._({required this.email}) : super._();
+  _$GSendPasswordResetEmailInput._({required this.email}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        email, r'GSendPasswordResetEmailInput', 'email');
+  }
+
   @override
   GSendPasswordResetEmailInput rebuild(
           void Function(GSendPasswordResetEmailInputBuilder) updates) =>
@@ -1897,7 +1965,7 @@ class _$GSendPasswordResetEmailInput extends GSendPasswordResetEmailInput {
 
   @override
   GSendPasswordResetEmailInputBuilder toBuilder() =>
-      GSendPasswordResetEmailInputBuilder()..replace(this);
+      new GSendPasswordResetEmailInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1944,6 +2012,7 @@ class GSendPasswordResetEmailInputBuilder
 
   @override
   void replace(GSendPasswordResetEmailInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailInput;
   }
 
@@ -1957,10 +2026,9 @@ class GSendPasswordResetEmailInputBuilder
 
   _$GSendPasswordResetEmailInput _build() {
     final _$result = _$v ??
-        _$GSendPasswordResetEmailInput._(
-          email: BuiltValueNullFieldError.checkNotNull(
-              email, r'GSendPasswordResetEmailInput', 'email'),
-        );
+        new _$GSendPasswordResetEmailInput._(
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, r'GSendPasswordResetEmailInput', 'email'));
     replace(_$result);
     return _$result;
   }
@@ -1976,10 +2044,14 @@ class _$GUpdateBookListInput extends GUpdateBookListInput {
 
   factory _$GUpdateBookListInput(
           [void Function(GUpdateBookListInputBuilder)? updates]) =>
-      (GUpdateBookListInputBuilder()..update(updates))._build();
+      (new GUpdateBookListInputBuilder()..update(updates))._build();
 
   _$GUpdateBookListInput._({this.description, required this.listId, this.title})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listId, r'GUpdateBookListInput', 'listId');
+  }
+
   @override
   GUpdateBookListInput rebuild(
           void Function(GUpdateBookListInputBuilder) updates) =>
@@ -1987,7 +2059,7 @@ class _$GUpdateBookListInput extends GUpdateBookListInput {
 
   @override
   GUpdateBookListInputBuilder toBuilder() =>
-      GUpdateBookListInputBuilder()..replace(this);
+      new GUpdateBookListInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2049,6 +2121,7 @@ class GUpdateBookListInputBuilder
 
   @override
   void replace(GUpdateBookListInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookListInput;
   }
 
@@ -2062,12 +2135,11 @@ class GUpdateBookListInputBuilder
 
   _$GUpdateBookListInput _build() {
     final _$result = _$v ??
-        _$GUpdateBookListInput._(
-          description: description,
-          listId: BuiltValueNullFieldError.checkNotNull(
-              listId, r'GUpdateBookListInput', 'listId'),
-          title: title,
-        );
+        new _$GUpdateBookListInput._(
+            description: description,
+            listId: BuiltValueNullFieldError.checkNotNull(
+                listId, r'GUpdateBookListInput', 'listId'),
+            title: title);
     replace(_$result);
     return _$result;
   }
@@ -2081,9 +2153,12 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
 
   factory _$GUpdateProfileInput(
           [void Function(GUpdateProfileInputBuilder)? updates]) =>
-      (GUpdateProfileInputBuilder()..update(updates))._build();
+      (new GUpdateProfileInputBuilder()..update(updates))._build();
 
-  _$GUpdateProfileInput._({this.avatarUrl, required this.name}) : super._();
+  _$GUpdateProfileInput._({this.avatarUrl, required this.name}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(name, r'GUpdateProfileInput', 'name');
+  }
+
   @override
   GUpdateProfileInput rebuild(
           void Function(GUpdateProfileInputBuilder) updates) =>
@@ -2091,7 +2166,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
 
   @override
   GUpdateProfileInputBuilder toBuilder() =>
-      GUpdateProfileInputBuilder()..replace(this);
+      new GUpdateProfileInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2145,6 +2220,7 @@ class GUpdateProfileInputBuilder
 
   @override
   void replace(GUpdateProfileInput other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileInput;
   }
 
@@ -2158,11 +2234,10 @@ class GUpdateProfileInputBuilder
 
   _$GUpdateProfileInput _build() {
     final _$result = _$v ??
-        _$GUpdateProfileInput._(
-          avatarUrl: avatarUrl,
-          name: BuiltValueNullFieldError.checkNotNull(
-              name, r'GUpdateProfileInput', 'name'),
-        );
+        new _$GUpdateProfileInput._(
+            avatarUrl: avatarUrl,
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, r'GUpdateProfileInput', 'name'));
     replace(_$result);
     return _$result;
   }

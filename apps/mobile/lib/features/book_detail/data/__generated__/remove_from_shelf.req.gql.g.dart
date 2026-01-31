@@ -7,7 +7,7 @@ part of 'remove_from_shelf.req.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveFromShelfReq> _$gRemoveFromShelfReqSerializer =
-    _$GRemoveFromShelfReqSerializer();
+    new _$GRemoveFromShelfReqSerializer();
 
 class _$GRemoveFromShelfReqSerializer
     implements StructuredSerializer<GRemoveFromShelfReq> {
@@ -78,7 +78,7 @@ class _$GRemoveFromShelfReqSerializer
   GRemoveFromShelfReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRemoveFromShelfReqBuilder();
+    final result = new GRemoveFromShelfReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GRemoveFromShelfReq extends GRemoveFromShelfReq {
 
   factory _$GRemoveFromShelfReq(
           [void Function(GRemoveFromShelfReqBuilder)? updates]) =>
-      (GRemoveFromShelfReqBuilder()..update(updates))._build();
+      (new GRemoveFromShelfReqBuilder()..update(updates))._build();
 
   _$GRemoveFromShelfReq._(
       {required this.vars,
@@ -169,7 +169,14 @@ class _$GRemoveFromShelfReq extends GRemoveFromShelfReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GRemoveFromShelfReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GRemoveFromShelfReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GRemoveFromShelfReq', 'executeOnListen');
+  }
+
   @override
   GRemoveFromShelfReq rebuild(
           void Function(GRemoveFromShelfReqBuilder) updates) =>
@@ -177,7 +184,7 @@ class _$GRemoveFromShelfReq extends GRemoveFromShelfReq {
 
   @override
   GRemoveFromShelfReqBuilder toBuilder() =>
-      GRemoveFromShelfReqBuilder()..replace(this);
+      new GRemoveFromShelfReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -236,7 +243,7 @@ class GRemoveFromShelfReqBuilder
 
   _i3.GRemoveFromShelfVarsBuilder? _vars;
   _i3.GRemoveFromShelfVarsBuilder get vars =>
-      _$this._vars ??= _i3.GRemoveFromShelfVarsBuilder();
+      _$this._vars ??= new _i3.GRemoveFromShelfVarsBuilder();
   set vars(_i3.GRemoveFromShelfVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -260,7 +267,7 @@ class GRemoveFromShelfReqBuilder
 
   _i2.GRemoveFromShelfDataBuilder? _optimisticResponse;
   _i2.GRemoveFromShelfDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GRemoveFromShelfDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GRemoveFromShelfDataBuilder();
   set optimisticResponse(_i2.GRemoveFromShelfDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -314,6 +321,7 @@ class GRemoveFromShelfReqBuilder
 
   @override
   void replace(GRemoveFromShelfReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveFromShelfReq;
   }
 
@@ -329,20 +337,19 @@ class GRemoveFromShelfReqBuilder
     _$GRemoveFromShelfReq _$result;
     try {
       _$result = _$v ??
-          _$GRemoveFromShelfReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GRemoveFromShelfReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GRemoveFromShelfReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GRemoveFromShelfReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GRemoveFromShelfReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GRemoveFromShelfReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -352,7 +359,7 @@ class GRemoveFromShelfReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GRemoveFromShelfReq', _$failedField, e.toString());
       }
       rethrow;

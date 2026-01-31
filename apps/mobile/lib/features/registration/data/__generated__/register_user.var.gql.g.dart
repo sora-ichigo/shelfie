@@ -7,7 +7,7 @@ part of 'register_user.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRegisterUserVars> _$gRegisterUserVarsSerializer =
-    _$GRegisterUserVarsSerializer();
+    new _$GRegisterUserVarsSerializer();
 
 class _$GRegisterUserVarsSerializer
     implements StructuredSerializer<GRegisterUserVars> {
@@ -32,7 +32,7 @@ class _$GRegisterUserVarsSerializer
   GRegisterUserVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRegisterUserVarsBuilder();
+    final result = new GRegisterUserVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -58,16 +58,19 @@ class _$GRegisterUserVars extends GRegisterUserVars {
 
   factory _$GRegisterUserVars(
           [void Function(GRegisterUserVarsBuilder)? updates]) =>
-      (GRegisterUserVarsBuilder()..update(updates))._build();
+      (new GRegisterUserVarsBuilder()..update(updates))._build();
 
-  _$GRegisterUserVars._({required this.input}) : super._();
+  _$GRegisterUserVars._({required this.input}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(input, r'GRegisterUserVars', 'input');
+  }
+
   @override
   GRegisterUserVars rebuild(void Function(GRegisterUserVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserVarsBuilder toBuilder() =>
-      GRegisterUserVarsBuilder()..replace(this);
+      new GRegisterUserVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -97,7 +100,7 @@ class GRegisterUserVarsBuilder
 
   _i1.GRegisterUserInputBuilder? _input;
   _i1.GRegisterUserInputBuilder get input =>
-      _$this._input ??= _i1.GRegisterUserInputBuilder();
+      _$this._input ??= new _i1.GRegisterUserInputBuilder();
   set input(_i1.GRegisterUserInputBuilder? input) => _$this._input = input;
 
   GRegisterUserVarsBuilder();
@@ -113,6 +116,7 @@ class GRegisterUserVarsBuilder
 
   @override
   void replace(GRegisterUserVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserVars;
   }
 
@@ -127,17 +131,14 @@ class GRegisterUserVarsBuilder
   _$GRegisterUserVars _build() {
     _$GRegisterUserVars _$result;
     try {
-      _$result = _$v ??
-          _$GRegisterUserVars._(
-            input: input.build(),
-          );
+      _$result = _$v ?? new _$GRegisterUserVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GRegisterUserVars', _$failedField, e.toString());
       }
       rethrow;

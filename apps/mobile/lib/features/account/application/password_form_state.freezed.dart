@@ -26,9 +26,7 @@ mixin _$PasswordFormData {
   String? get newPasswordError => throw _privateConstructorUsedError;
   String? get confirmPasswordError => throw _privateConstructorUsedError;
 
-  /// Create a copy of PasswordFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $PasswordFormDataCopyWith<PasswordFormData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,8 +59,6 @@ class _$PasswordFormDataCopyWithImpl<$Res, $Val extends PasswordFormData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of PasswordFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,8 +141,6 @@ class __$$PasswordFormDataImplCopyWithImpl<$Res>
       $Res Function(_$PasswordFormDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PasswordFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -285,9 +279,7 @@ class _$PasswordFormDataImpl implements _PasswordFormData {
       newPasswordError,
       confirmPasswordError);
 
-  /// Create a copy of PasswordFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordFormDataImplCopyWith<_$PasswordFormDataImpl> get copyWith =>
@@ -325,11 +317,8 @@ abstract class _PasswordFormData implements PasswordFormData {
   String? get newPasswordError;
   @override
   String? get confirmPasswordError;
-
-  /// Create a copy of PasswordFormData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PasswordFormDataImplCopyWith<_$PasswordFormDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -7,7 +7,7 @@ part of 'refresh_token.req.gql.dart';
 // **************************************************************************
 
 Serializer<GRefreshTokenReq> _$gRefreshTokenReqSerializer =
-    _$GRefreshTokenReqSerializer();
+    new _$GRefreshTokenReqSerializer();
 
 class _$GRefreshTokenReqSerializer
     implements StructuredSerializer<GRefreshTokenReq> {
@@ -74,7 +74,7 @@ class _$GRefreshTokenReqSerializer
   GRefreshTokenReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRefreshTokenReqBuilder();
+    final result = new GRefreshTokenReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -152,7 +152,7 @@ class _$GRefreshTokenReq extends GRefreshTokenReq {
 
   factory _$GRefreshTokenReq(
           [void Function(GRefreshTokenReqBuilder)? updates]) =>
-      (GRefreshTokenReqBuilder()..update(updates))._build();
+      (new GRefreshTokenReqBuilder()..update(updates))._build();
 
   _$GRefreshTokenReq._(
       {required this.vars,
@@ -165,14 +165,21 @@ class _$GRefreshTokenReq extends GRefreshTokenReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GRefreshTokenReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GRefreshTokenReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GRefreshTokenReq', 'executeOnListen');
+  }
+
   @override
   GRefreshTokenReq rebuild(void Function(GRefreshTokenReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenReqBuilder toBuilder() =>
-      GRefreshTokenReqBuilder()..replace(this);
+      new GRefreshTokenReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -231,7 +238,7 @@ class GRefreshTokenReqBuilder
 
   _i3.GRefreshTokenVarsBuilder? _vars;
   _i3.GRefreshTokenVarsBuilder get vars =>
-      _$this._vars ??= _i3.GRefreshTokenVarsBuilder();
+      _$this._vars ??= new _i3.GRefreshTokenVarsBuilder();
   set vars(_i3.GRefreshTokenVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -255,7 +262,7 @@ class GRefreshTokenReqBuilder
 
   _i2.GRefreshTokenDataBuilder? _optimisticResponse;
   _i2.GRefreshTokenDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GRefreshTokenDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GRefreshTokenDataBuilder();
   set optimisticResponse(_i2.GRefreshTokenDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -309,6 +316,7 @@ class GRefreshTokenReqBuilder
 
   @override
   void replace(GRefreshTokenReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRefreshTokenReq;
   }
 
@@ -324,20 +332,19 @@ class GRefreshTokenReqBuilder
     _$GRefreshTokenReq _$result;
     try {
       _$result = _$v ??
-          _$GRefreshTokenReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GRefreshTokenReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GRefreshTokenReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GRefreshTokenReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GRefreshTokenReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GRefreshTokenReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -347,7 +354,7 @@ class GRefreshTokenReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GRefreshTokenReq', _$failedField, e.toString());
       }
       rethrow;

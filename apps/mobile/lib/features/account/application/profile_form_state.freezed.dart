@@ -21,9 +21,7 @@ mixin _$ProfileFormData {
   XFile? get pendingAvatarImage => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
-  /// Create a copy of ProfileFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ProfileFormDataCopyWith<ProfileFormData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,8 +46,6 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ProfileFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,8 +95,6 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
       _$ProfileFormDataImpl _value, $Res Function(_$ProfileFormDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ProfileFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -173,9 +167,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   int get hashCode =>
       Object.hash(runtimeType, name, email, pendingAvatarImage, hasChanges);
 
-  /// Create a copy of ProfileFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileFormDataImplCopyWith<_$ProfileFormDataImpl> get copyWith =>
@@ -198,11 +190,8 @@ abstract class _ProfileFormData implements ProfileFormData {
   XFile? get pendingAvatarImage;
   @override
   bool get hasChanges;
-
-  /// Create a copy of ProfileFormData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProfileFormDataImplCopyWith<_$ProfileFormDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

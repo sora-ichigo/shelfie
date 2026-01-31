@@ -3,23 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/error_view.dart';
-import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
-import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
-import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/status_section_list.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class BookShelfScreen extends ConsumerStatefulWidget {
@@ -39,33 +34,19 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(bookShelfNotifierProvider.notifier).initialize();
+      for (final status in ReadingStatus.values) {
+        ref
+            .read(statusSectionNotifierProvider(status).notifier)
+            .initialize();
+      }
       ref.read(bookListNotifierProvider.notifier).loadLists();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final bookShelfState = ref.watch(bookShelfNotifierProvider);
     final bookListState = ref.watch(bookListNotifierProvider);
     final accountAsync = ref.watch(accountNotifierProvider);
-
-    ref.listen(
-      shelfStateProvider,
-      (previous, next) {
-        if (previous == null) return;
-        final currentState = ref.read(bookShelfNotifierProvider);
-        if (currentState is! BookShelfLoaded) return;
-
-        if (next.length > previous.length) {
-          ref.read(bookShelfNotifierProvider.notifier).refresh();
-        } else {
-          ref.read(bookShelfNotifierProvider.notifier).regroupBooks();
-        }
-      },
-    );
-
-    final loaded = bookShelfState is BookShelfLoaded ? bookShelfState : null;
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -128,39 +109,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         selectedTab: _selectedTab,
                         onTabChanged: _onTabChanged,
                       ),
-                      const Spacer(),
-                      Visibility(
-                        visible:
-                            _selectedTab ==
-                            LibraryFilterTab.books,
-                        maintainSize: true,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        child: SearchFilterBar(
-                          sortOption:
-                              loaded?.sortOption ??
-                              SortOption.defaultOption,
-                          groupOption:
-                              loaded?.groupOption ??
-                              GroupOption.defaultOption,
-                          onSortChanged: (option) {
-                            ref
-                                .read(
-                                  bookShelfNotifierProvider
-                                      .notifier,
-                                )
-                                .setSortOption(option);
-                          },
-                          onGroupChanged: (option) {
-                            ref
-                                .read(
-                                  bookShelfNotifierProvider
-                                      .notifier,
-                                )
-                                .setGroupOption(option);
-                          },
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -169,7 +117,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ),
         ];
       },
-      body: _buildContent(bookShelfState, bookListState),
+      body: _buildContent(bookListState),
     );
   }
 
@@ -179,73 +127,21 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     });
   }
 
-  Widget _buildContent(
-      BookShelfState bookShelfState, BookListState bookListState) {
-    final isLoading = bookShelfState is BookShelfInitial ||
-        bookShelfState is BookShelfLoading ||
-        bookListState is BookListInitial ||
-        bookListState is BookListLoading;
-
-    if (isLoading) {
-      return const LoadingIndicator(fullScreen: true);
-    }
-
-    if (bookShelfState is BookShelfError) {
-      return ErrorView(
-        failure: bookShelfState.failure,
-        onRetry: () => ref.read(bookShelfNotifierProvider.notifier).refresh(),
-        retryButtonText: 'リトライ',
-      );
-    }
-
-    if (bookListState is BookListError) {
-      return ErrorView(
-        failure: bookListState.failure,
-        onRetry: () => ref.read(bookListNotifierProvider.notifier).refresh(),
-        retryButtonText: 'リトライ',
-      );
-    }
-
-    if (bookShelfState is! BookShelfLoaded) {
-      return const LoadingIndicator(fullScreen: true);
-    }
-
+  Widget _buildContent(BookListState bookListState) {
     final lists = bookListState is BookListLoaded
         ? bookListState.lists
         : <BookListSummary>[];
 
     final shelfState = ref.watch(shelfStateProvider);
-    final hasBooks = bookShelfState.books
-        .any((book) => shelfState.containsKey(book.externalId));
+    final hasBooks = shelfState.isNotEmpty;
 
     return switch (_selectedTab) {
-      LibraryFilterTab.books => _buildBooksTab(bookShelfState),
+      LibraryFilterTab.books => StatusSectionList(
+          onBookTap: _onBookTap,
+          onBookLongPress: _onBookLongPress,
+        ),
       LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
     };
-  }
-
-  Widget _buildBooksTab(BookShelfLoaded bookShelfState) {
-    final shelfState = ref.watch(shelfStateProvider);
-    final filteredBooks = bookShelfState.books
-        .where((book) => shelfState.containsKey(book.externalId))
-        .toList();
-
-    final filteredGroupedBooks = bookShelfState.isGrouped
-        ? _filterGroupedBooks(bookShelfState.groupedBooks, shelfState)
-        : bookShelfState.groupedBooks;
-
-    return LibraryBooksTab(
-      books: filteredBooks,
-      groupedBooks: filteredGroupedBooks,
-      groupOption: bookShelfState.groupOption,
-      hasMore: bookShelfState.hasMore,
-      isLoadingMore: bookShelfState.isLoadingMore,
-      onBookTap: _onBookTap,
-      onBookLongPress: _onBookLongPress,
-      onLoadMore: () {
-        ref.read(bookShelfNotifierProvider.notifier).loadMore();
-      },
-    );
   }
 
   Widget _buildListsTab(List<BookListSummary> lists, bool hasBooks) {
@@ -257,19 +153,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         context.push(AppRoutes.bookListCreate);
       },
     );
-  }
-
-  Map<String, List<ShelfBookItem>> _filterGroupedBooks(
-    Map<String, List<ShelfBookItem>> groupedBooks,
-    Map<String, dynamic> shelfState,
-  ) {
-    return groupedBooks.map((key, books) {
-      final filtered = books
-          .where((book) => shelfState.containsKey(book.externalId))
-          .toList();
-      return MapEntry(key, filtered);
-    })
-      ..removeWhere((key, books) => books.isEmpty);
   }
 
   void _onBookTap(ShelfBookItem book) {

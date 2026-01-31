@@ -7,7 +7,7 @@ part of 'my_book_lists.req.gql.dart';
 // **************************************************************************
 
 Serializer<GMyBookListsReq> _$gMyBookListsReqSerializer =
-    _$GMyBookListsReqSerializer();
+    new _$GMyBookListsReqSerializer();
 
 class _$GMyBookListsReqSerializer
     implements StructuredSerializer<GMyBookListsReq> {
@@ -74,7 +74,7 @@ class _$GMyBookListsReqSerializer
   GMyBookListsReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsReqBuilder();
+    final result = new GMyBookListsReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -151,7 +151,7 @@ class _$GMyBookListsReq extends GMyBookListsReq {
   final _i4.Context? context;
 
   factory _$GMyBookListsReq([void Function(GMyBookListsReqBuilder)? updates]) =>
-      (GMyBookListsReqBuilder()..update(updates))._build();
+      (new GMyBookListsReqBuilder()..update(updates))._build();
 
   _$GMyBookListsReq._(
       {required this.vars,
@@ -164,13 +164,21 @@ class _$GMyBookListsReq extends GMyBookListsReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GMyBookListsReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GMyBookListsReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GMyBookListsReq', 'executeOnListen');
+  }
+
   @override
   GMyBookListsReq rebuild(void Function(GMyBookListsReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyBookListsReqBuilder toBuilder() => GMyBookListsReqBuilder()..replace(this);
+  GMyBookListsReqBuilder toBuilder() =>
+      new GMyBookListsReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -229,7 +237,7 @@ class GMyBookListsReqBuilder
 
   _i3.GMyBookListsVarsBuilder? _vars;
   _i3.GMyBookListsVarsBuilder get vars =>
-      _$this._vars ??= _i3.GMyBookListsVarsBuilder();
+      _$this._vars ??= new _i3.GMyBookListsVarsBuilder();
   set vars(_i3.GMyBookListsVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -252,7 +260,7 @@ class GMyBookListsReqBuilder
 
   _i2.GMyBookListsDataBuilder? _optimisticResponse;
   _i2.GMyBookListsDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GMyBookListsDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GMyBookListsDataBuilder();
   set optimisticResponse(_i2.GMyBookListsDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -306,6 +314,7 @@ class GMyBookListsReqBuilder
 
   @override
   void replace(GMyBookListsReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsReq;
   }
 
@@ -321,20 +330,19 @@ class GMyBookListsReqBuilder
     _$GMyBookListsReq _$result;
     try {
       _$result = _$v ??
-          _$GMyBookListsReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GMyBookListsReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GMyBookListsReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GMyBookListsReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GMyBookListsReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GMyBookListsReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -344,7 +352,7 @@ class GMyBookListsReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GMyBookListsReq', _$failedField, e.toString());
       }
       rethrow;

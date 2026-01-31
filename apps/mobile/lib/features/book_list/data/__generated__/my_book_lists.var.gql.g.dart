@@ -7,7 +7,7 @@ part of 'my_book_lists.var.gql.dart';
 // **************************************************************************
 
 Serializer<GMyBookListsVars> _$gMyBookListsVarsSerializer =
-    _$GMyBookListsVarsSerializer();
+    new _$GMyBookListsVarsSerializer();
 
 class _$GMyBookListsVarsSerializer
     implements StructuredSerializer<GMyBookListsVars> {
@@ -35,7 +35,7 @@ class _$GMyBookListsVarsSerializer
   GMyBookListsVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsVarsBuilder();
+    final result = new GMyBookListsVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -61,16 +61,17 @@ class _$GMyBookListsVars extends GMyBookListsVars {
 
   factory _$GMyBookListsVars(
           [void Function(GMyBookListsVarsBuilder)? updates]) =>
-      (GMyBookListsVarsBuilder()..update(updates))._build();
+      (new GMyBookListsVarsBuilder()..update(updates))._build();
 
   _$GMyBookListsVars._({this.input}) : super._();
+
   @override
   GMyBookListsVars rebuild(void Function(GMyBookListsVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GMyBookListsVarsBuilder toBuilder() =>
-      GMyBookListsVarsBuilder()..replace(this);
+      new GMyBookListsVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -100,7 +101,7 @@ class GMyBookListsVarsBuilder
 
   _i1.GMyBookListsInputBuilder? _input;
   _i1.GMyBookListsInputBuilder get input =>
-      _$this._input ??= _i1.GMyBookListsInputBuilder();
+      _$this._input ??= new _i1.GMyBookListsInputBuilder();
   set input(_i1.GMyBookListsInputBuilder? input) => _$this._input = input;
 
   GMyBookListsVarsBuilder();
@@ -116,6 +117,7 @@ class GMyBookListsVarsBuilder
 
   @override
   void replace(GMyBookListsVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsVars;
   }
 
@@ -130,17 +132,14 @@ class GMyBookListsVarsBuilder
   _$GMyBookListsVars _build() {
     _$GMyBookListsVars _$result;
     try {
-      _$result = _$v ??
-          _$GMyBookListsVars._(
-            input: _input?.build(),
-          );
+      _$result = _$v ?? new _$GMyBookListsVars._(input: _input?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         _input?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GMyBookListsVars', _$failedField, e.toString());
       }
       rethrow;

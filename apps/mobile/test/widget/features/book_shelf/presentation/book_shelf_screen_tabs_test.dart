@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
@@ -52,8 +52,7 @@ void main() {
             home: Scaffold(
               body: LibraryBooksTab(
                 books: [],
-                groupedBooks: {},
-                groupOption: GroupOption.defaultOption,
+
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
@@ -81,8 +80,7 @@ void main() {
             home: Scaffold(
               body: LibraryBooksTab(
                 books: books,
-                groupedBooks: {},
-                groupOption: GroupOption.defaultOption,
+
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},

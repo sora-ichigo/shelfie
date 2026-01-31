@@ -134,7 +134,7 @@ class _BookSelectorModalContentState
     return shelfState.when(
       initial: () => const Center(child: CircularProgressIndicator()),
       loading: () => const Center(child: CircularProgressIndicator()),
-      loaded: (books, _, __, ___, ____, _____, ______) {
+      loaded: (books, _, __, ___, ____) {
         final filteredBooks = _filterBooks(books);
 
         if (filteredBooks.isEmpty) {

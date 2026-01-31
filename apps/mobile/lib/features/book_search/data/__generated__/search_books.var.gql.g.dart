@@ -7,7 +7,7 @@ part of 'search_books.var.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBooksVars> _$gSearchBooksVarsSerializer =
-    _$GSearchBooksVarsSerializer();
+    new _$GSearchBooksVarsSerializer();
 
 class _$GSearchBooksVarsSerializer
     implements StructuredSerializer<GSearchBooksVars> {
@@ -44,7 +44,7 @@ class _$GSearchBooksVarsSerializer
   GSearchBooksVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSearchBooksVarsBuilder();
+    final result = new GSearchBooksVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -81,17 +81,20 @@ class _$GSearchBooksVars extends GSearchBooksVars {
 
   factory _$GSearchBooksVars(
           [void Function(GSearchBooksVarsBuilder)? updates]) =>
-      (GSearchBooksVarsBuilder()..update(updates))._build();
+      (new GSearchBooksVarsBuilder()..update(updates))._build();
 
   _$GSearchBooksVars._({required this.query, this.limit, this.offset})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(query, r'GSearchBooksVars', 'query');
+  }
+
   @override
   GSearchBooksVars rebuild(void Function(GSearchBooksVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GSearchBooksVarsBuilder toBuilder() =>
-      GSearchBooksVarsBuilder()..replace(this);
+      new GSearchBooksVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -153,6 +156,7 @@ class GSearchBooksVarsBuilder
 
   @override
   void replace(GSearchBooksVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksVars;
   }
 
@@ -166,12 +170,11 @@ class GSearchBooksVarsBuilder
 
   _$GSearchBooksVars _build() {
     final _$result = _$v ??
-        _$GSearchBooksVars._(
-          query: BuiltValueNullFieldError.checkNotNull(
-              query, r'GSearchBooksVars', 'query'),
-          limit: limit,
-          offset: offset,
-        );
+        new _$GSearchBooksVars._(
+            query: BuiltValueNullFieldError.checkNotNull(
+                query, r'GSearchBooksVars', 'query'),
+            limit: limit,
+            offset: offset);
     replace(_$result);
     return _$result;
   }

@@ -7,13 +7,13 @@ part of 'my_book_lists.data.gql.dart';
 // **************************************************************************
 
 Serializer<GMyBookListsData> _$gMyBookListsDataSerializer =
-    _$GMyBookListsDataSerializer();
+    new _$GMyBookListsDataSerializer();
 Serializer<GMyBookListsData_myBookLists>
     _$gMyBookListsDataMyBookListsSerializer =
-    _$GMyBookListsData_myBookListsSerializer();
+    new _$GMyBookListsData_myBookListsSerializer();
 Serializer<GMyBookListsData_myBookLists_items>
     _$gMyBookListsDataMyBookListsItemsSerializer =
-    _$GMyBookListsData_myBookLists_itemsSerializer();
+    new _$GMyBookListsData_myBookLists_itemsSerializer();
 
 class _$GMyBookListsDataSerializer
     implements StructuredSerializer<GMyBookListsData> {
@@ -41,7 +41,7 @@ class _$GMyBookListsDataSerializer
   GMyBookListsData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsDataBuilder();
+    final result = new GMyBookListsDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -102,7 +102,7 @@ class _$GMyBookListsData_myBookListsSerializer
   GMyBookListsData_myBookLists deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsData_myBookListsBuilder();
+    final result = new GMyBookListsData_myBookListsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -187,7 +187,7 @@ class _$GMyBookListsData_myBookLists_itemsSerializer
   GMyBookListsData_myBookLists_items deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMyBookListsData_myBookLists_itemsBuilder();
+    final result = new GMyBookListsData_myBookLists_itemsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -244,17 +244,23 @@ class _$GMyBookListsData extends GMyBookListsData {
 
   factory _$GMyBookListsData(
           [void Function(GMyBookListsDataBuilder)? updates]) =>
-      (GMyBookListsDataBuilder()..update(updates))._build();
+      (new GMyBookListsDataBuilder()..update(updates))._build();
 
   _$GMyBookListsData._({required this.G__typename, required this.myBookLists})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GMyBookListsData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        myBookLists, r'GMyBookListsData', 'myBookLists');
+  }
+
   @override
   GMyBookListsData rebuild(void Function(GMyBookListsDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GMyBookListsDataBuilder toBuilder() =>
-      GMyBookListsDataBuilder()..replace(this);
+      new GMyBookListsDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -292,7 +298,7 @@ class GMyBookListsDataBuilder
 
   GMyBookListsData_myBookListsBuilder? _myBookLists;
   GMyBookListsData_myBookListsBuilder get myBookLists =>
-      _$this._myBookLists ??= GMyBookListsData_myBookListsBuilder();
+      _$this._myBookLists ??= new GMyBookListsData_myBookListsBuilder();
   set myBookLists(GMyBookListsData_myBookListsBuilder? myBookLists) =>
       _$this._myBookLists = myBookLists;
 
@@ -312,6 +318,7 @@ class GMyBookListsDataBuilder
 
   @override
   void replace(GMyBookListsData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsData;
   }
 
@@ -327,18 +334,17 @@ class GMyBookListsDataBuilder
     _$GMyBookListsData _$result;
     try {
       _$result = _$v ??
-          _$GMyBookListsData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GMyBookListsData', 'G__typename'),
-            myBookLists: myBookLists.build(),
-          );
+          new _$GMyBookListsData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GMyBookListsData', 'G__typename'),
+              myBookLists: myBookLists.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'myBookLists';
         myBookLists.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GMyBookListsData', _$failedField, e.toString());
       }
       rethrow;
@@ -360,14 +366,24 @@ class _$GMyBookListsData_myBookLists extends GMyBookListsData_myBookLists {
 
   factory _$GMyBookListsData_myBookLists(
           [void Function(GMyBookListsData_myBookListsBuilder)? updates]) =>
-      (GMyBookListsData_myBookListsBuilder()..update(updates))._build();
+      (new GMyBookListsData_myBookListsBuilder()..update(updates))._build();
 
   _$GMyBookListsData_myBookLists._(
       {required this.G__typename,
       required this.items,
       required this.totalCount,
       required this.hasMore})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GMyBookListsData_myBookLists', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        items, r'GMyBookListsData_myBookLists', 'items');
+    BuiltValueNullFieldError.checkNotNull(
+        totalCount, r'GMyBookListsData_myBookLists', 'totalCount');
+    BuiltValueNullFieldError.checkNotNull(
+        hasMore, r'GMyBookListsData_myBookLists', 'hasMore');
+  }
+
   @override
   GMyBookListsData_myBookLists rebuild(
           void Function(GMyBookListsData_myBookListsBuilder) updates) =>
@@ -375,7 +391,7 @@ class _$GMyBookListsData_myBookLists extends GMyBookListsData_myBookLists {
 
   @override
   GMyBookListsData_myBookListsBuilder toBuilder() =>
-      GMyBookListsData_myBookListsBuilder()..replace(this);
+      new GMyBookListsData_myBookListsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -421,7 +437,7 @@ class GMyBookListsData_myBookListsBuilder
 
   ListBuilder<GMyBookListsData_myBookLists_items>? _items;
   ListBuilder<GMyBookListsData_myBookLists_items> get items =>
-      _$this._items ??= ListBuilder<GMyBookListsData_myBookLists_items>();
+      _$this._items ??= new ListBuilder<GMyBookListsData_myBookLists_items>();
   set items(ListBuilder<GMyBookListsData_myBookLists_items>? items) =>
       _$this._items = items;
 
@@ -451,6 +467,7 @@ class GMyBookListsData_myBookListsBuilder
 
   @override
   void replace(GMyBookListsData_myBookLists other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsData_myBookLists;
   }
 
@@ -466,22 +483,21 @@ class GMyBookListsData_myBookListsBuilder
     _$GMyBookListsData_myBookLists _$result;
     try {
       _$result = _$v ??
-          _$GMyBookListsData_myBookLists._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GMyBookListsData_myBookLists', 'G__typename'),
-            items: items.build(),
-            totalCount: BuiltValueNullFieldError.checkNotNull(
-                totalCount, r'GMyBookListsData_myBookLists', 'totalCount'),
-            hasMore: BuiltValueNullFieldError.checkNotNull(
-                hasMore, r'GMyBookListsData_myBookLists', 'hasMore'),
-          );
+          new _$GMyBookListsData_myBookLists._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GMyBookListsData_myBookLists', 'G__typename'),
+              items: items.build(),
+              totalCount: BuiltValueNullFieldError.checkNotNull(
+                  totalCount, r'GMyBookListsData_myBookLists', 'totalCount'),
+              hasMore: BuiltValueNullFieldError.checkNotNull(
+                  hasMore, r'GMyBookListsData_myBookLists', 'hasMore'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'items';
         items.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GMyBookListsData_myBookLists', _$failedField, e.toString());
       }
       rethrow;
@@ -513,7 +529,8 @@ class _$GMyBookListsData_myBookLists_items
   factory _$GMyBookListsData_myBookLists_items(
           [void Function(GMyBookListsData_myBookLists_itemsBuilder)?
               updates]) =>
-      (GMyBookListsData_myBookLists_itemsBuilder()..update(updates))._build();
+      (new GMyBookListsData_myBookLists_itemsBuilder()..update(updates))
+          ._build();
 
   _$GMyBookListsData_myBookLists_items._(
       {required this.G__typename,
@@ -524,7 +541,23 @@ class _$GMyBookListsData_myBookLists_items
       required this.coverImages,
       required this.createdAt,
       required this.updatedAt})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GMyBookListsData_myBookLists_items', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'GMyBookListsData_myBookLists_items', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GMyBookListsData_myBookLists_items', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        bookCount, r'GMyBookListsData_myBookLists_items', 'bookCount');
+    BuiltValueNullFieldError.checkNotNull(
+        coverImages, r'GMyBookListsData_myBookLists_items', 'coverImages');
+    BuiltValueNullFieldError.checkNotNull(
+        createdAt, r'GMyBookListsData_myBookLists_items', 'createdAt');
+    BuiltValueNullFieldError.checkNotNull(
+        updatedAt, r'GMyBookListsData_myBookLists_items', 'updatedAt');
+  }
+
   @override
   GMyBookListsData_myBookLists_items rebuild(
           void Function(GMyBookListsData_myBookLists_itemsBuilder) updates) =>
@@ -532,7 +565,7 @@ class _$GMyBookListsData_myBookLists_items
 
   @override
   GMyBookListsData_myBookLists_itemsBuilder toBuilder() =>
-      GMyBookListsData_myBookLists_itemsBuilder()..replace(this);
+      new GMyBookListsData_myBookLists_itemsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -606,7 +639,7 @@ class GMyBookListsData_myBookLists_itemsBuilder
 
   ListBuilder<String>? _coverImages;
   ListBuilder<String> get coverImages =>
-      _$this._coverImages ??= ListBuilder<String>();
+      _$this._coverImages ??= new ListBuilder<String>();
   set coverImages(ListBuilder<String>? coverImages) =>
       _$this._coverImages = coverImages;
 
@@ -640,6 +673,7 @@ class GMyBookListsData_myBookLists_itemsBuilder
 
   @override
   void replace(GMyBookListsData_myBookLists_items other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsData_myBookLists_items;
   }
 
@@ -656,29 +690,28 @@ class GMyBookListsData_myBookLists_itemsBuilder
     _$GMyBookListsData_myBookLists_items _$result;
     try {
       _$result = _$v ??
-          _$GMyBookListsData_myBookLists_items._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GMyBookListsData_myBookLists_items', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GMyBookListsData_myBookLists_items', 'id'),
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GMyBookListsData_myBookLists_items', 'title'),
-            description: description,
-            bookCount: BuiltValueNullFieldError.checkNotNull(
-                bookCount, r'GMyBookListsData_myBookLists_items', 'bookCount'),
-            coverImages: coverImages.build(),
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'GMyBookListsData_myBookLists_items', 'createdAt'),
-            updatedAt: BuiltValueNullFieldError.checkNotNull(
-                updatedAt, r'GMyBookListsData_myBookLists_items', 'updatedAt'),
-          );
+          new _$GMyBookListsData_myBookLists_items._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                  r'GMyBookListsData_myBookLists_items', 'G__typename'),
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'GMyBookListsData_myBookLists_items', 'id'),
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GMyBookListsData_myBookLists_items', 'title'),
+              description: description,
+              bookCount: BuiltValueNullFieldError.checkNotNull(
+                  bookCount, r'GMyBookListsData_myBookLists_items', 'bookCount'),
+              coverImages: coverImages.build(),
+              createdAt: BuiltValueNullFieldError.checkNotNull(createdAt,
+                  r'GMyBookListsData_myBookLists_items', 'createdAt'),
+              updatedAt: BuiltValueNullFieldError.checkNotNull(updatedAt,
+                  r'GMyBookListsData_myBookLists_items', 'updatedAt'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'coverImages';
         coverImages.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GMyBookListsData_myBookLists_items', _$failedField, e.toString());
       }
       rethrow;

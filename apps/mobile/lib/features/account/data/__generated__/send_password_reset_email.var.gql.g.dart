@@ -8,7 +8,7 @@ part of 'send_password_reset_email.var.gql.dart';
 
 Serializer<GSendPasswordResetEmailVars>
     _$gSendPasswordResetEmailVarsSerializer =
-    _$GSendPasswordResetEmailVarsSerializer();
+    new _$GSendPasswordResetEmailVarsSerializer();
 
 class _$GSendPasswordResetEmailVarsSerializer
     implements StructuredSerializer<GSendPasswordResetEmailVars> {
@@ -37,7 +37,7 @@ class _$GSendPasswordResetEmailVarsSerializer
   GSendPasswordResetEmailVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSendPasswordResetEmailVarsBuilder();
+    final result = new GSendPasswordResetEmailVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -64,9 +64,13 @@ class _$GSendPasswordResetEmailVars extends GSendPasswordResetEmailVars {
 
   factory _$GSendPasswordResetEmailVars(
           [void Function(GSendPasswordResetEmailVarsBuilder)? updates]) =>
-      (GSendPasswordResetEmailVarsBuilder()..update(updates))._build();
+      (new GSendPasswordResetEmailVarsBuilder()..update(updates))._build();
 
-  _$GSendPasswordResetEmailVars._({required this.input}) : super._();
+  _$GSendPasswordResetEmailVars._({required this.input}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        input, r'GSendPasswordResetEmailVars', 'input');
+  }
+
   @override
   GSendPasswordResetEmailVars rebuild(
           void Function(GSendPasswordResetEmailVarsBuilder) updates) =>
@@ -74,7 +78,7 @@ class _$GSendPasswordResetEmailVars extends GSendPasswordResetEmailVars {
 
   @override
   GSendPasswordResetEmailVarsBuilder toBuilder() =>
-      GSendPasswordResetEmailVarsBuilder()..replace(this);
+      new GSendPasswordResetEmailVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -106,7 +110,7 @@ class GSendPasswordResetEmailVarsBuilder
 
   _i1.GSendPasswordResetEmailInputBuilder? _input;
   _i1.GSendPasswordResetEmailInputBuilder get input =>
-      _$this._input ??= _i1.GSendPasswordResetEmailInputBuilder();
+      _$this._input ??= new _i1.GSendPasswordResetEmailInputBuilder();
   set input(_i1.GSendPasswordResetEmailInputBuilder? input) =>
       _$this._input = input;
 
@@ -123,6 +127,7 @@ class GSendPasswordResetEmailVarsBuilder
 
   @override
   void replace(GSendPasswordResetEmailVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailVars;
   }
 
@@ -137,17 +142,15 @@ class GSendPasswordResetEmailVarsBuilder
   _$GSendPasswordResetEmailVars _build() {
     _$GSendPasswordResetEmailVars _$result;
     try {
-      _$result = _$v ??
-          _$GSendPasswordResetEmailVars._(
-            input: input.build(),
-          );
+      _$result =
+          _$v ?? new _$GSendPasswordResetEmailVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSendPasswordResetEmailVars', _$failedField, e.toString());
       }
       rethrow;

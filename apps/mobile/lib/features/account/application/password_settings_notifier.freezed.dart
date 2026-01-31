@@ -85,9 +85,6 @@ class _$PasswordSettingsStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -107,9 +104,6 @@ class __$$PasswordSettingsInitialImplCopyWithImpl<$Res>
       _$PasswordSettingsInitialImpl _value,
       $Res Function(_$PasswordSettingsInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -228,9 +222,6 @@ class __$$PasswordSettingsLoadingImplCopyWithImpl<$Res>
       _$PasswordSettingsLoadingImpl _value,
       $Res Function(_$PasswordSettingsLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -352,8 +343,6 @@ class __$$PasswordSettingsSuccessImplCopyWithImpl<$Res>
       $Res Function(_$PasswordSettingsSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -392,9 +381,7 @@ class _$PasswordSettingsSuccessImpl implements PasswordSettingsSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordSettingsSuccessImplCopyWith<_$PasswordSettingsSuccessImpl>
@@ -481,10 +468,7 @@ abstract class PasswordSettingsSuccess implements PasswordSettingsState {
       _$PasswordSettingsSuccessImpl;
 
   String get message;
-
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PasswordSettingsSuccessImplCopyWith<_$PasswordSettingsSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -510,8 +494,6 @@ class __$$PasswordSettingsErrorImplCopyWithImpl<$Res>
       $Res Function(_$PasswordSettingsErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -525,8 +507,6 @@ class __$$PasswordSettingsErrorImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -560,9 +540,7 @@ class _$PasswordSettingsErrorImpl implements PasswordSettingsError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordSettingsErrorImplCopyWith<_$PasswordSettingsErrorImpl>
@@ -649,10 +627,7 @@ abstract class PasswordSettingsError implements PasswordSettingsState {
       _$PasswordSettingsErrorImpl;
 
   Failure get failure;
-
-  /// Create a copy of PasswordSettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$PasswordSettingsErrorImplCopyWith<_$PasswordSettingsErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

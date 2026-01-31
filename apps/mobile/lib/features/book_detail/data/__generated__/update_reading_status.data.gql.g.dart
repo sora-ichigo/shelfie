@@ -7,10 +7,10 @@ part of 'update_reading_status.data.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingStatusData> _$gUpdateReadingStatusDataSerializer =
-    _$GUpdateReadingStatusDataSerializer();
+    new _$GUpdateReadingStatusDataSerializer();
 Serializer<GUpdateReadingStatusData_updateReadingStatus>
     _$gUpdateReadingStatusDataUpdateReadingStatusSerializer =
-    _$GUpdateReadingStatusData_updateReadingStatusSerializer();
+    new _$GUpdateReadingStatusData_updateReadingStatusSerializer();
 
 class _$GUpdateReadingStatusDataSerializer
     implements StructuredSerializer<GUpdateReadingStatusData> {
@@ -43,7 +43,7 @@ class _$GUpdateReadingStatusDataSerializer
   GUpdateReadingStatusData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingStatusDataBuilder();
+    final result = new GUpdateReadingStatusDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -169,7 +169,7 @@ class _$GUpdateReadingStatusData_updateReadingStatusSerializer
   GUpdateReadingStatusData_updateReadingStatus deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingStatusData_updateReadingStatusBuilder();
+    final result = new GUpdateReadingStatusData_updateReadingStatusBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -255,11 +255,17 @@ class _$GUpdateReadingStatusData extends GUpdateReadingStatusData {
 
   factory _$GUpdateReadingStatusData(
           [void Function(GUpdateReadingStatusDataBuilder)? updates]) =>
-      (GUpdateReadingStatusDataBuilder()..update(updates))._build();
+      (new GUpdateReadingStatusDataBuilder()..update(updates))._build();
 
   _$GUpdateReadingStatusData._(
       {required this.G__typename, required this.updateReadingStatus})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GUpdateReadingStatusData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(updateReadingStatus,
+        r'GUpdateReadingStatusData', 'updateReadingStatus');
+  }
+
   @override
   GUpdateReadingStatusData rebuild(
           void Function(GUpdateReadingStatusDataBuilder) updates) =>
@@ -267,7 +273,7 @@ class _$GUpdateReadingStatusData extends GUpdateReadingStatusData {
 
   @override
   GUpdateReadingStatusDataBuilder toBuilder() =>
-      GUpdateReadingStatusDataBuilder()..replace(this);
+      new GUpdateReadingStatusDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -307,7 +313,7 @@ class GUpdateReadingStatusDataBuilder
   GUpdateReadingStatusData_updateReadingStatusBuilder? _updateReadingStatus;
   GUpdateReadingStatusData_updateReadingStatusBuilder get updateReadingStatus =>
       _$this._updateReadingStatus ??=
-          GUpdateReadingStatusData_updateReadingStatusBuilder();
+          new GUpdateReadingStatusData_updateReadingStatusBuilder();
   set updateReadingStatus(
           GUpdateReadingStatusData_updateReadingStatusBuilder?
               updateReadingStatus) =>
@@ -329,6 +335,7 @@ class GUpdateReadingStatusDataBuilder
 
   @override
   void replace(GUpdateReadingStatusData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingStatusData;
   }
 
@@ -344,18 +351,17 @@ class GUpdateReadingStatusDataBuilder
     _$GUpdateReadingStatusData _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingStatusData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GUpdateReadingStatusData', 'G__typename'),
-            updateReadingStatus: updateReadingStatus.build(),
-          );
+          new _$GUpdateReadingStatusData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GUpdateReadingStatusData', 'G__typename'),
+              updateReadingStatus: updateReadingStatus.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'updateReadingStatus';
         updateReadingStatus.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateReadingStatusData', _$failedField, e.toString());
       }
       rethrow;
@@ -401,7 +407,8 @@ class _$GUpdateReadingStatusData_updateReadingStatus
   factory _$GUpdateReadingStatusData_updateReadingStatus(
           [void Function(GUpdateReadingStatusData_updateReadingStatusBuilder)?
               updates]) =>
-      (GUpdateReadingStatusData_updateReadingStatusBuilder()..update(updates))
+      (new GUpdateReadingStatusData_updateReadingStatusBuilder()
+            ..update(updates))
           ._build();
 
   _$GUpdateReadingStatusData_updateReadingStatus._(
@@ -420,7 +427,23 @@ class _$GUpdateReadingStatusData_updateReadingStatus
       this.note,
       this.noteUpdatedAt,
       this.rating})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GUpdateReadingStatusData_updateReadingStatus', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'GUpdateReadingStatusData_updateReadingStatus', 'id');
+    BuiltValueNullFieldError.checkNotNull(externalId,
+        r'GUpdateReadingStatusData_updateReadingStatus', 'externalId');
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GUpdateReadingStatusData_updateReadingStatus', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        authors, r'GUpdateReadingStatusData_updateReadingStatus', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        addedAt, r'GUpdateReadingStatusData_updateReadingStatus', 'addedAt');
+    BuiltValueNullFieldError.checkNotNull(readingStatus,
+        r'GUpdateReadingStatusData_updateReadingStatus', 'readingStatus');
+  }
+
   @override
   GUpdateReadingStatusData_updateReadingStatus rebuild(
           void Function(GUpdateReadingStatusData_updateReadingStatusBuilder)
@@ -429,7 +452,7 @@ class _$GUpdateReadingStatusData_updateReadingStatus
 
   @override
   GUpdateReadingStatusData_updateReadingStatusBuilder toBuilder() =>
-      GUpdateReadingStatusData_updateReadingStatusBuilder()..replace(this);
+      new GUpdateReadingStatusData_updateReadingStatusBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -520,7 +543,8 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
+  ListBuilder<String> get authors =>
+      _$this._authors ??= new ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -596,6 +620,7 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
 
   @override
   void replace(GUpdateReadingStatusData_updateReadingStatus other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingStatusData_updateReadingStatus;
   }
 
@@ -613,38 +638,39 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
     _$GUpdateReadingStatusData_updateReadingStatus _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingStatusData_updateReadingStatus._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GUpdateReadingStatusData_updateReadingStatus', 'id'),
-            externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'externalId'),
-            title: BuiltValueNullFieldError.checkNotNull(title,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'title'),
-            authors: authors.build(),
-            publisher: publisher,
-            publishedDate: publishedDate,
-            isbn: isbn,
-            coverImageUrl: coverImageUrl,
-            addedAt: BuiltValueNullFieldError.checkNotNull(addedAt,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'addedAt'),
-            readingStatus: BuiltValueNullFieldError.checkNotNull(
-                readingStatus,
-                r'GUpdateReadingStatusData_updateReadingStatus',
-                'readingStatus'),
-            completedAt: completedAt,
-            note: note,
-            noteUpdatedAt: noteUpdatedAt,
-            rating: rating,
-          );
+          new _$GUpdateReadingStatusData_updateReadingStatus._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename,
+                  r'GUpdateReadingStatusData_updateReadingStatus',
+                  'G__typename'),
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'GUpdateReadingStatusData_updateReadingStatus', 'id'),
+              externalId: BuiltValueNullFieldError.checkNotNull(
+                  externalId, r'GUpdateReadingStatusData_updateReadingStatus', 'externalId'),
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GUpdateReadingStatusData_updateReadingStatus', 'title'),
+              authors: authors.build(),
+              publisher: publisher,
+              publishedDate: publishedDate,
+              isbn: isbn,
+              coverImageUrl: coverImageUrl,
+              addedAt: BuiltValueNullFieldError.checkNotNull(
+                  addedAt, r'GUpdateReadingStatusData_updateReadingStatus', 'addedAt'),
+              readingStatus: BuiltValueNullFieldError.checkNotNull(
+                  readingStatus,
+                  r'GUpdateReadingStatusData_updateReadingStatus',
+                  'readingStatus'),
+              completedAt: completedAt,
+              note: note,
+              noteUpdatedAt: noteUpdatedAt,
+              rating: rating);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateReadingStatusData_updateReadingStatus',
             _$failedField,
             e.toString());

@@ -199,6 +199,7 @@ abstract class GMyShelfInput
   int? get limit;
   int? get offset;
   String? get query;
+  GReadingStatus? get readingStatus;
   GShelfSortField? get sortBy;
   GSortOrder? get sortOrder;
   static Serializer<GMyShelfInput> get serializer => _$gMyShelfInputSerializer;

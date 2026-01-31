@@ -554,6 +554,86 @@ describe("BookShelfService", () => {
       });
     });
 
+    it("should pass readingStatus filter to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        readingStatus: "reading",
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        readingStatus: "reading",
+        limit: 20,
+        offset: 0,
+      });
+    });
+
+    it("should pass readingStatus combined with sortBy/limit/offset to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        readingStatus: "completed",
+        sortBy: "TITLE",
+        sortOrder: "DESC",
+        limit: 10,
+        offset: 5,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        readingStatus: "completed",
+        sortBy: "TITLE",
+        sortOrder: "DESC",
+        limit: 10,
+        offset: 5,
+      });
+    });
+
+    it("should not include readingStatus when not specified", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        limit: 20,
+        offset: 0,
+      });
+    });
+
     it("should return DATABASE_ERROR when repository throws", async () => {
       const mockRepository = createMockRepository();
       const mockLogger = createMockLogger();

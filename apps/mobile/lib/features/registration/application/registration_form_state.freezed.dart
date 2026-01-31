@@ -22,9 +22,7 @@ mixin _$RegistrationFormData {
   bool get isPasswordObscured => throw _privateConstructorUsedError;
   bool get isPasswordConfirmationObscured => throw _privateConstructorUsedError;
 
-  /// Create a copy of RegistrationFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $RegistrationFormDataCopyWith<RegistrationFormData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,8 +52,6 @@ class _$RegistrationFormDataCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RegistrationFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,8 +110,6 @@ class __$$RegistrationFormDataImplCopyWithImpl<$Res>
       $Res Function(_$RegistrationFormDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RegistrationFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -203,9 +197,7 @@ class _$RegistrationFormDataImpl implements _RegistrationFormData {
   int get hashCode => Object.hash(runtimeType, email, password,
       passwordConfirmation, isPasswordObscured, isPasswordConfirmationObscured);
 
-  /// Create a copy of RegistrationFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$RegistrationFormDataImplCopyWith<_$RegistrationFormDataImpl>
@@ -232,11 +224,8 @@ abstract class _RegistrationFormData implements RegistrationFormData {
   bool get isPasswordObscured;
   @override
   bool get isPasswordConfirmationObscured;
-
-  /// Create a copy of RegistrationFormData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$RegistrationFormDataImplCopyWith<_$RegistrationFormDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

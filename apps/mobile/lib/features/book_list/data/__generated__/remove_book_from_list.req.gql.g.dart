@@ -7,7 +7,7 @@ part of 'remove_book_from_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveBookFromListReq> _$gRemoveBookFromListReqSerializer =
-    _$GRemoveBookFromListReqSerializer();
+    new _$GRemoveBookFromListReqSerializer();
 
 class _$GRemoveBookFromListReqSerializer
     implements StructuredSerializer<GRemoveBookFromListReq> {
@@ -78,7 +78,7 @@ class _$GRemoveBookFromListReqSerializer
   GRemoveBookFromListReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRemoveBookFromListReqBuilder();
+    final result = new GRemoveBookFromListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GRemoveBookFromListReq extends GRemoveBookFromListReq {
 
   factory _$GRemoveBookFromListReq(
           [void Function(GRemoveBookFromListReqBuilder)? updates]) =>
-      (GRemoveBookFromListReqBuilder()..update(updates))._build();
+      (new GRemoveBookFromListReqBuilder()..update(updates))._build();
 
   _$GRemoveBookFromListReq._(
       {required this.vars,
@@ -169,7 +169,15 @@ class _$GRemoveBookFromListReq extends GRemoveBookFromListReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        vars, r'GRemoveBookFromListReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GRemoveBookFromListReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GRemoveBookFromListReq', 'executeOnListen');
+  }
+
   @override
   GRemoveBookFromListReq rebuild(
           void Function(GRemoveBookFromListReqBuilder) updates) =>
@@ -177,7 +185,7 @@ class _$GRemoveBookFromListReq extends GRemoveBookFromListReq {
 
   @override
   GRemoveBookFromListReqBuilder toBuilder() =>
-      GRemoveBookFromListReqBuilder()..replace(this);
+      new GRemoveBookFromListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -236,7 +244,7 @@ class GRemoveBookFromListReqBuilder
 
   _i3.GRemoveBookFromListVarsBuilder? _vars;
   _i3.GRemoveBookFromListVarsBuilder get vars =>
-      _$this._vars ??= _i3.GRemoveBookFromListVarsBuilder();
+      _$this._vars ??= new _i3.GRemoveBookFromListVarsBuilder();
   set vars(_i3.GRemoveBookFromListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -261,7 +269,7 @@ class GRemoveBookFromListReqBuilder
 
   _i2.GRemoveBookFromListDataBuilder? _optimisticResponse;
   _i2.GRemoveBookFromListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GRemoveBookFromListDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GRemoveBookFromListDataBuilder();
   set optimisticResponse(
           _i2.GRemoveBookFromListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -316,6 +324,7 @@ class GRemoveBookFromListReqBuilder
 
   @override
   void replace(GRemoveBookFromListReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveBookFromListReq;
   }
 
@@ -331,20 +340,21 @@ class GRemoveBookFromListReqBuilder
     _$GRemoveBookFromListReq _$result;
     try {
       _$result = _$v ??
-          _$GRemoveBookFromListReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GRemoveBookFromListReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GRemoveBookFromListReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GRemoveBookFromListReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GRemoveBookFromListReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen,
+                  r'GRemoveBookFromListReq',
+                  'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -354,7 +364,7 @@ class GRemoveBookFromListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GRemoveBookFromListReq', _$failedField, e.toString());
       }
       rethrow;

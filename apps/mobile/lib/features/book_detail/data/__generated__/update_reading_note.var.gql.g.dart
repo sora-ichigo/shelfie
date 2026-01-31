@@ -7,7 +7,7 @@ part of 'update_reading_note.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingNoteVars> _$gUpdateReadingNoteVarsSerializer =
-    _$GUpdateReadingNoteVarsSerializer();
+    new _$GUpdateReadingNoteVarsSerializer();
 
 class _$GUpdateReadingNoteVarsSerializer
     implements StructuredSerializer<GUpdateReadingNoteVars> {
@@ -38,7 +38,7 @@ class _$GUpdateReadingNoteVarsSerializer
   GUpdateReadingNoteVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingNoteVarsBuilder();
+    final result = new GUpdateReadingNoteVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -69,10 +69,16 @@ class _$GUpdateReadingNoteVars extends GUpdateReadingNoteVars {
 
   factory _$GUpdateReadingNoteVars(
           [void Function(GUpdateReadingNoteVarsBuilder)? updates]) =>
-      (GUpdateReadingNoteVarsBuilder()..update(updates))._build();
+      (new GUpdateReadingNoteVarsBuilder()..update(updates))._build();
 
   _$GUpdateReadingNoteVars._({required this.userBookId, required this.note})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GUpdateReadingNoteVars', 'userBookId');
+    BuiltValueNullFieldError.checkNotNull(
+        note, r'GUpdateReadingNoteVars', 'note');
+  }
+
   @override
   GUpdateReadingNoteVars rebuild(
           void Function(GUpdateReadingNoteVarsBuilder) updates) =>
@@ -80,7 +86,7 @@ class _$GUpdateReadingNoteVars extends GUpdateReadingNoteVars {
 
   @override
   GUpdateReadingNoteVarsBuilder toBuilder() =>
-      GUpdateReadingNoteVarsBuilder()..replace(this);
+      new GUpdateReadingNoteVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -134,6 +140,7 @@ class GUpdateReadingNoteVarsBuilder
 
   @override
   void replace(GUpdateReadingNoteVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingNoteVars;
   }
 
@@ -147,12 +154,11 @@ class GUpdateReadingNoteVarsBuilder
 
   _$GUpdateReadingNoteVars _build() {
     final _$result = _$v ??
-        _$GUpdateReadingNoteVars._(
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GUpdateReadingNoteVars', 'userBookId'),
-          note: BuiltValueNullFieldError.checkNotNull(
-              note, r'GUpdateReadingNoteVars', 'note'),
-        );
+        new _$GUpdateReadingNoteVars._(
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GUpdateReadingNoteVars', 'userBookId'),
+            note: BuiltValueNullFieldError.checkNotNull(
+                note, r'GUpdateReadingNoteVars', 'note'));
     replace(_$result);
     return _$result;
   }

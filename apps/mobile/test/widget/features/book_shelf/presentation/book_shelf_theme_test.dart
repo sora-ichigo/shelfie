@@ -4,7 +4,7 @@ import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_card.dart';
@@ -160,15 +160,12 @@ void main() {
           buildTestWidget(
             child: SearchFilterBar(
               sortOption: SortOption.addedAtDesc,
-              groupOption: GroupOption.none,
               onSortChanged: (_) {},
-              onGroupChanged: (_) {},
             ),
           ),
         );
 
         expect(find.byIcon(Icons.tune), findsOneWidget);
-        expect(find.byIcon(Icons.grid_view), findsOneWidget);
       });
     });
 

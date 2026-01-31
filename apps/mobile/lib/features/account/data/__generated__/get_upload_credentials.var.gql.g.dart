@@ -7,7 +7,7 @@ part of 'get_upload_credentials.var.gql.dart';
 // **************************************************************************
 
 Serializer<GGetUploadCredentialsVars> _$gGetUploadCredentialsVarsSerializer =
-    _$GGetUploadCredentialsVarsSerializer();
+    new _$GGetUploadCredentialsVarsSerializer();
 
 class _$GGetUploadCredentialsVarsSerializer
     implements StructuredSerializer<GGetUploadCredentialsVars> {
@@ -30,16 +30,17 @@ class _$GGetUploadCredentialsVarsSerializer
   GGetUploadCredentialsVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return GGetUploadCredentialsVarsBuilder().build();
+    return new GGetUploadCredentialsVarsBuilder().build();
   }
 }
 
 class _$GGetUploadCredentialsVars extends GGetUploadCredentialsVars {
   factory _$GGetUploadCredentialsVars(
           [void Function(GGetUploadCredentialsVarsBuilder)? updates]) =>
-      (GGetUploadCredentialsVarsBuilder()..update(updates))._build();
+      (new GGetUploadCredentialsVarsBuilder()..update(updates))._build();
 
   _$GGetUploadCredentialsVars._() : super._();
+
   @override
   GGetUploadCredentialsVars rebuild(
           void Function(GGetUploadCredentialsVarsBuilder) updates) =>
@@ -47,7 +48,7 @@ class _$GGetUploadCredentialsVars extends GGetUploadCredentialsVars {
 
   @override
   GGetUploadCredentialsVarsBuilder toBuilder() =>
-      GGetUploadCredentialsVarsBuilder()..replace(this);
+      new GGetUploadCredentialsVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -75,6 +76,7 @@ class GGetUploadCredentialsVarsBuilder
 
   @override
   void replace(GGetUploadCredentialsVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetUploadCredentialsVars;
   }
 
@@ -87,7 +89,7 @@ class GGetUploadCredentialsVarsBuilder
   GGetUploadCredentialsVars build() => _build();
 
   _$GGetUploadCredentialsVars _build() {
-    final _$result = _$v ?? _$GGetUploadCredentialsVars._();
+    final _$result = _$v ?? new _$GGetUploadCredentialsVars._();
     replace(_$result);
     return _$result;
   }

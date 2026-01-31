@@ -7,7 +7,7 @@ part of 'change_password.req.gql.dart';
 // **************************************************************************
 
 Serializer<GChangePasswordReq> _$gChangePasswordReqSerializer =
-    _$GChangePasswordReqSerializer();
+    new _$GChangePasswordReqSerializer();
 
 class _$GChangePasswordReqSerializer
     implements StructuredSerializer<GChangePasswordReq> {
@@ -75,7 +75,7 @@ class _$GChangePasswordReqSerializer
   GChangePasswordReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordReqBuilder();
+    final result = new GChangePasswordReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -153,7 +153,7 @@ class _$GChangePasswordReq extends GChangePasswordReq {
 
   factory _$GChangePasswordReq(
           [void Function(GChangePasswordReqBuilder)? updates]) =>
-      (GChangePasswordReqBuilder()..update(updates))._build();
+      (new GChangePasswordReqBuilder()..update(updates))._build();
 
   _$GChangePasswordReq._(
       {required this.vars,
@@ -166,7 +166,14 @@ class _$GChangePasswordReq extends GChangePasswordReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GChangePasswordReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GChangePasswordReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GChangePasswordReq', 'executeOnListen');
+  }
+
   @override
   GChangePasswordReq rebuild(
           void Function(GChangePasswordReqBuilder) updates) =>
@@ -174,7 +181,7 @@ class _$GChangePasswordReq extends GChangePasswordReq {
 
   @override
   GChangePasswordReqBuilder toBuilder() =>
-      GChangePasswordReqBuilder()..replace(this);
+      new GChangePasswordReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -233,7 +240,7 @@ class GChangePasswordReqBuilder
 
   _i3.GChangePasswordVarsBuilder? _vars;
   _i3.GChangePasswordVarsBuilder get vars =>
-      _$this._vars ??= _i3.GChangePasswordVarsBuilder();
+      _$this._vars ??= new _i3.GChangePasswordVarsBuilder();
   set vars(_i3.GChangePasswordVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -257,7 +264,7 @@ class GChangePasswordReqBuilder
 
   _i2.GChangePasswordDataBuilder? _optimisticResponse;
   _i2.GChangePasswordDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GChangePasswordDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GChangePasswordDataBuilder();
   set optimisticResponse(_i2.GChangePasswordDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -311,6 +318,7 @@ class GChangePasswordReqBuilder
 
   @override
   void replace(GChangePasswordReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordReq;
   }
 
@@ -326,20 +334,19 @@ class GChangePasswordReqBuilder
     _$GChangePasswordReq _$result;
     try {
       _$result = _$v ??
-          _$GChangePasswordReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GChangePasswordReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GChangePasswordReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GChangePasswordReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GChangePasswordReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GChangePasswordReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -349,7 +356,7 @@ class GChangePasswordReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GChangePasswordReq', _$failedField, e.toString());
       }
       rethrow;

@@ -7,7 +7,7 @@ part of 'send_password_reset_email.req.gql.dart';
 // **************************************************************************
 
 Serializer<GSendPasswordResetEmailReq> _$gSendPasswordResetEmailReqSerializer =
-    _$GSendPasswordResetEmailReqSerializer();
+    new _$GSendPasswordResetEmailReqSerializer();
 
 class _$GSendPasswordResetEmailReqSerializer
     implements StructuredSerializer<GSendPasswordResetEmailReq> {
@@ -78,7 +78,7 @@ class _$GSendPasswordResetEmailReqSerializer
   GSendPasswordResetEmailReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSendPasswordResetEmailReqBuilder();
+    final result = new GSendPasswordResetEmailReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -159,7 +159,7 @@ class _$GSendPasswordResetEmailReq extends GSendPasswordResetEmailReq {
 
   factory _$GSendPasswordResetEmailReq(
           [void Function(GSendPasswordResetEmailReqBuilder)? updates]) =>
-      (GSendPasswordResetEmailReqBuilder()..update(updates))._build();
+      (new GSendPasswordResetEmailReqBuilder()..update(updates))._build();
 
   _$GSendPasswordResetEmailReq._(
       {required this.vars,
@@ -172,7 +172,15 @@ class _$GSendPasswordResetEmailReq extends GSendPasswordResetEmailReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        vars, r'GSendPasswordResetEmailReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GSendPasswordResetEmailReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GSendPasswordResetEmailReq', 'executeOnListen');
+  }
+
   @override
   GSendPasswordResetEmailReq rebuild(
           void Function(GSendPasswordResetEmailReqBuilder) updates) =>
@@ -180,7 +188,7 @@ class _$GSendPasswordResetEmailReq extends GSendPasswordResetEmailReq {
 
   @override
   GSendPasswordResetEmailReqBuilder toBuilder() =>
-      GSendPasswordResetEmailReqBuilder()..replace(this);
+      new GSendPasswordResetEmailReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -240,7 +248,7 @@ class GSendPasswordResetEmailReqBuilder
 
   _i3.GSendPasswordResetEmailVarsBuilder? _vars;
   _i3.GSendPasswordResetEmailVarsBuilder get vars =>
-      _$this._vars ??= _i3.GSendPasswordResetEmailVarsBuilder();
+      _$this._vars ??= new _i3.GSendPasswordResetEmailVarsBuilder();
   set vars(_i3.GSendPasswordResetEmailVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -266,7 +274,8 @@ class GSendPasswordResetEmailReqBuilder
 
   _i2.GSendPasswordResetEmailDataBuilder? _optimisticResponse;
   _i2.GSendPasswordResetEmailDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GSendPasswordResetEmailDataBuilder();
+      _$this._optimisticResponse ??=
+          new _i2.GSendPasswordResetEmailDataBuilder();
   set optimisticResponse(
           _i2.GSendPasswordResetEmailDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -321,6 +330,7 @@ class GSendPasswordResetEmailReqBuilder
 
   @override
   void replace(GSendPasswordResetEmailReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailReq;
   }
 
@@ -336,22 +346,21 @@ class GSendPasswordResetEmailReqBuilder
     _$GSendPasswordResetEmailReq _$result;
     try {
       _$result = _$v ??
-          _$GSendPasswordResetEmailReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GSendPasswordResetEmailReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen,
-                r'GSendPasswordResetEmailReq',
-                'executeOnListen'),
-            context: context,
-          );
+          new _$GSendPasswordResetEmailReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GSendPasswordResetEmailReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen,
+                  r'GSendPasswordResetEmailReq',
+                  'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -361,7 +370,7 @@ class GSendPasswordResetEmailReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSendPasswordResetEmailReq', _$failedField, e.toString());
       }
       rethrow;

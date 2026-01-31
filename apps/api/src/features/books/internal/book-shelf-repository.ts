@@ -31,6 +31,7 @@ export interface GetUserBooksInput {
   sortOrder?: SortOrder;
   limit?: number;
   offset?: number;
+  readingStatus?: ReadingStatusValue;
 }
 
 export interface GetUserBooksResult {
@@ -125,9 +126,14 @@ export function createBookShelfRepository(
         sortOrder = "DESC",
         limit = 20,
         offset = 0,
+        readingStatus,
       } = input;
 
       const conditions = [eq(userBooks.userId, userId)];
+
+      if (readingStatus) {
+        conditions.push(eq(userBooks.readingStatus, readingStatus));
+      }
 
       if (query && query.trim() !== "") {
         const searchPattern = `%${query}%`;

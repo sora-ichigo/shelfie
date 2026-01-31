@@ -37,9 +37,7 @@ mixin _$UserBook {
   /// 評価（1-5）
   int? get rating => throw _privateConstructorUsedError;
 
-  /// Create a copy of UserBook
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $UserBookCopyWith<UserBook> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -69,8 +67,6 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UserBook
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,8 +137,6 @@ class __$$UserBookImplCopyWithImpl<$Res>
       _$UserBookImpl _value, $Res Function(_$UserBookImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserBook
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -254,9 +248,7 @@ class _$UserBookImpl extends _UserBook {
   int get hashCode => Object.hash(runtimeType, id, readingStatus, addedAt,
       completedAt, note, noteUpdatedAt, rating);
 
-  /// Create a copy of UserBook
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UserBookImplCopyWith<_$UserBookImpl> get copyWith =>
@@ -274,38 +266,36 @@ abstract class _UserBook extends UserBook {
       final int? rating}) = _$UserBookImpl;
   const _UserBook._() : super._();
 
-  /// 読書記録の ID
   @override
+
+  /// 読書記録の ID
   int get id;
+  @override
 
   /// 読書状態
-  @override
   ReadingStatus get readingStatus;
+  @override
 
   /// 本棚に追加した日時
-  @override
   DateTime get addedAt;
+  @override
 
   /// 読了日（readingStatus が completed の場合のみ設定）
-  @override
   DateTime? get completedAt;
+  @override
 
   /// 読書メモ
-  @override
   String? get note;
+  @override
 
   /// メモの最終更新日時
-  @override
   DateTime? get noteUpdatedAt;
+  @override
 
   /// 評価（1-5）
-  @override
   int? get rating;
-
-  /// Create a copy of UserBook
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UserBookImplCopyWith<_$UserBookImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

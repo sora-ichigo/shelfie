@@ -7,21 +7,21 @@ part of 'get_upload_credentials.data.gql.dart';
 // **************************************************************************
 
 Serializer<GGetUploadCredentialsData> _$gGetUploadCredentialsDataSerializer =
-    _$GGetUploadCredentialsDataSerializer();
+    new _$GGetUploadCredentialsDataSerializer();
 Serializer<GGetUploadCredentialsData_getUploadCredentials__base>
     _$gGetUploadCredentialsDataGetUploadCredentialsBaseSerializer =
-    _$GGetUploadCredentialsData_getUploadCredentials__baseSerializer();
+    new _$GGetUploadCredentialsData_getUploadCredentials__baseSerializer();
 Serializer<
         GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess>
     _$gGetUploadCredentialsDataGetUploadCredentialsAsQueryGetUploadCredentialsSuccessSerializer =
-    _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessSerializer();
+    new _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessSerializer();
 Serializer<
         GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data>
     _$gGetUploadCredentialsDataGetUploadCredentialsAsQueryGetUploadCredentialsSuccessDataSerializer =
-    _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataSerializer();
+    new _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataSerializer();
 Serializer<GGetUploadCredentialsData_getUploadCredentials__asImageUploadError>
     _$gGetUploadCredentialsDataGetUploadCredentialsAsImageUploadErrorSerializer =
-    _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorSerializer();
+    new _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorSerializer();
 
 class _$GGetUploadCredentialsDataSerializer
     implements StructuredSerializer<GGetUploadCredentialsData> {
@@ -58,7 +58,7 @@ class _$GGetUploadCredentialsDataSerializer
   GGetUploadCredentialsData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetUploadCredentialsDataBuilder();
+    final result = new GGetUploadCredentialsDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -114,7 +114,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__baseSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GGetUploadCredentialsData_getUploadCredentials__baseBuilder();
+        new GGetUploadCredentialsData_getUploadCredentials__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -170,7 +170,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder();
+        new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -262,7 +262,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder();
+        new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -346,7 +346,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorSerial
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder();
+        new GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -381,11 +381,15 @@ class _$GGetUploadCredentialsData extends GGetUploadCredentialsData {
 
   factory _$GGetUploadCredentialsData(
           [void Function(GGetUploadCredentialsDataBuilder)? updates]) =>
-      (GGetUploadCredentialsDataBuilder()..update(updates))._build();
+      (new GGetUploadCredentialsDataBuilder()..update(updates))._build();
 
   _$GGetUploadCredentialsData._(
       {required this.G__typename, this.getUploadCredentials})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GGetUploadCredentialsData', 'G__typename');
+  }
+
   @override
   GGetUploadCredentialsData rebuild(
           void Function(GGetUploadCredentialsDataBuilder) updates) =>
@@ -393,7 +397,7 @@ class _$GGetUploadCredentialsData extends GGetUploadCredentialsData {
 
   @override
   GGetUploadCredentialsDataBuilder toBuilder() =>
-      GGetUploadCredentialsDataBuilder()..replace(this);
+      new GGetUploadCredentialsDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -454,6 +458,7 @@ class GGetUploadCredentialsDataBuilder
 
   @override
   void replace(GGetUploadCredentialsData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetUploadCredentialsData;
   }
 
@@ -467,11 +472,10 @@ class GGetUploadCredentialsDataBuilder
 
   _$GGetUploadCredentialsData _build() {
     final _$result = _$v ??
-        _$GGetUploadCredentialsData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GGetUploadCredentialsData', 'G__typename'),
-          getUploadCredentials: getUploadCredentials,
-        );
+        new _$GGetUploadCredentialsData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GGetUploadCredentialsData', 'G__typename'),
+            getUploadCredentials: getUploadCredentials);
     replace(_$result);
     return _$result;
   }
@@ -486,13 +490,17 @@ class _$GGetUploadCredentialsData_getUploadCredentials__base
           [void Function(
                   GGetUploadCredentialsData_getUploadCredentials__baseBuilder)?
               updates]) =>
-      (GGetUploadCredentialsData_getUploadCredentials__baseBuilder()
+      (new GGetUploadCredentialsData_getUploadCredentials__baseBuilder()
             ..update(updates))
           ._build();
 
   _$GGetUploadCredentialsData_getUploadCredentials__base._(
       {required this.G__typename})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GGetUploadCredentialsData_getUploadCredentials__base', 'G__typename');
+  }
+
   @override
   GGetUploadCredentialsData_getUploadCredentials__base rebuild(
           void Function(
@@ -502,7 +510,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__base
 
   @override
   GGetUploadCredentialsData_getUploadCredentials__baseBuilder toBuilder() =>
-      GGetUploadCredentialsData_getUploadCredentials__baseBuilder()
+      new GGetUploadCredentialsData_getUploadCredentials__baseBuilder()
         ..replace(this);
 
   @override
@@ -555,6 +563,7 @@ class GGetUploadCredentialsData_getUploadCredentials__baseBuilder
 
   @override
   void replace(GGetUploadCredentialsData_getUploadCredentials__base other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetUploadCredentialsData_getUploadCredentials__base;
   }
 
@@ -571,12 +580,11 @@ class GGetUploadCredentialsData_getUploadCredentials__baseBuilder
 
   _$GGetUploadCredentialsData_getUploadCredentials__base _build() {
     final _$result = _$v ??
-        _$GGetUploadCredentialsData_getUploadCredentials__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GGetUploadCredentialsData_getUploadCredentials__base',
-              'G__typename'),
-        );
+        new _$GGetUploadCredentialsData_getUploadCredentials__base._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GGetUploadCredentialsData_getUploadCredentials__base',
+                'G__typename'));
     replace(_$result);
     return _$result;
   }
@@ -594,13 +602,23 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
           [void Function(
                   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder)?
               updates]) =>
-      (GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder()
+      (new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess._(
       {required this.G__typename, required this.data})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        data,
+        r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess',
+        'data');
+  }
+
   @override
   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
       rebuild(
@@ -612,7 +630,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
   @override
   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder
       toBuilder() =>
-          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder()
+          new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccessBuilder()
             ..replace(this);
 
   @override
@@ -659,7 +677,7 @@ class GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredential
       _data;
   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder
       get data => _$this._data ??=
-          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder();
+          new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder();
   set data(
           GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder?
               data) =>
@@ -685,6 +703,7 @@ class GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredential
   void replace(
       GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess;
   }
@@ -707,21 +726,20 @@ class GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredential
         _$result;
     try {
       _$result = _$v ??
-          _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
+          new _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess
               ._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess',
-                'G__typename'),
-            data: data.build(),
-          );
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename,
+                  r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess',
+                  'G__typename'),
+              data: data.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess',
             _$failedField,
             e.toString());
@@ -752,7 +770,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
           [void Function(
                   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder)?
               updates]) =>
-      (GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder()
+      (new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
@@ -763,7 +781,13 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
       this.expire,
       this.publicKey,
       this.uploadEndpoint})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data',
+        'G__typename');
+  }
+
   @override
   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
       rebuild(
@@ -775,7 +799,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredenti
   @override
   GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder
       toBuilder() =>
-          GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder()
+          new GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -875,6 +899,7 @@ class GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredential
   void replace(
       GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data;
   }
@@ -894,18 +919,17 @@ class GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredential
   _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
       _build() {
     final _$result = _$v ??
-        _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
+        new _$GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data
             ._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data',
-              'G__typename'),
-          token: token,
-          signature: signature,
-          expire: expire,
-          publicKey: publicKey,
-          uploadEndpoint: uploadEndpoint,
-        );
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GGetUploadCredentialsData_getUploadCredentials__asQueryGetUploadCredentialsSuccess_data',
+                'G__typename'),
+            token: token,
+            signature: signature,
+            expire: expire,
+            publicKey: publicKey,
+            uploadEndpoint: uploadEndpoint);
     replace(_$result);
     return _$result;
   }
@@ -924,13 +948,19 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
           [void Function(
                   GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder)?
               updates]) =>
-      (GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder()
+      (new GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder()
             ..update(updates))
           ._build();
 
   _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError._(
       {required this.G__typename, this.code, this.message})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GGetUploadCredentialsData_getUploadCredentials__asImageUploadError',
+        'G__typename');
+  }
+
   @override
   GGetUploadCredentialsData_getUploadCredentials__asImageUploadError rebuild(
           void Function(
@@ -941,7 +971,7 @@ class _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
   @override
   GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder
       toBuilder() =>
-          GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder()
+          new GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder()
             ..replace(this);
 
   @override
@@ -1015,6 +1045,7 @@ class GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder
   void replace(
       GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError;
   }
@@ -1034,14 +1065,14 @@ class GGetUploadCredentialsData_getUploadCredentials__asImageUploadErrorBuilder
   _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
       _build() {
     final _$result = _$v ??
-        _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GGetUploadCredentialsData_getUploadCredentials__asImageUploadError',
-              'G__typename'),
-          code: code,
-          message: message,
-        );
+        new _$GGetUploadCredentialsData_getUploadCredentials__asImageUploadError
+            ._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GGetUploadCredentialsData_getUploadCredentials__asImageUploadError',
+                'G__typename'),
+            code: code,
+            message: message);
     replace(_$result);
     return _$result;
   }

@@ -7,14 +7,14 @@ part of 'get_my_profile.data.gql.dart';
 // **************************************************************************
 
 Serializer<GGetMyProfileData> _$gGetMyProfileDataSerializer =
-    _$GGetMyProfileDataSerializer();
+    new _$GGetMyProfileDataSerializer();
 Serializer<GGetMyProfileData_me__base> _$gGetMyProfileDataMeBaseSerializer =
-    _$GGetMyProfileData_me__baseSerializer();
+    new _$GGetMyProfileData_me__baseSerializer();
 Serializer<GGetMyProfileData_me__asUser> _$gGetMyProfileDataMeAsUserSerializer =
-    _$GGetMyProfileData_me__asUserSerializer();
+    new _$GGetMyProfileData_me__asUserSerializer();
 Serializer<GGetMyProfileData_me__asAuthErrorResult>
     _$gGetMyProfileDataMeAsAuthErrorResultSerializer =
-    _$GGetMyProfileData_me__asAuthErrorResultSerializer();
+    new _$GGetMyProfileData_me__asAuthErrorResultSerializer();
 
 class _$GGetMyProfileDataSerializer
     implements StructuredSerializer<GGetMyProfileData> {
@@ -42,7 +42,7 @@ class _$GGetMyProfileDataSerializer
   GGetMyProfileData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetMyProfileDataBuilder();
+    final result = new GGetMyProfileDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -93,7 +93,7 @@ class _$GGetMyProfileData_me__baseSerializer
   GGetMyProfileData_me__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetMyProfileData_me__baseBuilder();
+    final result = new GGetMyProfileData_me__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -176,7 +176,7 @@ class _$GGetMyProfileData_me__asUserSerializer
   GGetMyProfileData_me__asUser deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetMyProfileData_me__asUserBuilder();
+    final result = new GGetMyProfileData_me__asUserBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -260,7 +260,7 @@ class _$GGetMyProfileData_me__asAuthErrorResultSerializer
   GGetMyProfileData_me__asAuthErrorResult deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetMyProfileData_me__asAuthErrorResultBuilder();
+    final result = new GGetMyProfileData_me__asAuthErrorResultBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -296,17 +296,22 @@ class _$GGetMyProfileData extends GGetMyProfileData {
 
   factory _$GGetMyProfileData(
           [void Function(GGetMyProfileDataBuilder)? updates]) =>
-      (GGetMyProfileDataBuilder()..update(updates))._build();
+      (new GGetMyProfileDataBuilder()..update(updates))._build();
 
   _$GGetMyProfileData._({required this.G__typename, required this.me})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GGetMyProfileData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(me, r'GGetMyProfileData', 'me');
+  }
+
   @override
   GGetMyProfileData rebuild(void Function(GGetMyProfileDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GGetMyProfileDataBuilder toBuilder() =>
-      GGetMyProfileDataBuilder()..replace(this);
+      new GGetMyProfileDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -362,6 +367,7 @@ class GGetMyProfileDataBuilder
 
   @override
   void replace(GGetMyProfileData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMyProfileData;
   }
 
@@ -375,12 +381,11 @@ class GGetMyProfileDataBuilder
 
   _$GGetMyProfileData _build() {
     final _$result = _$v ??
-        _$GGetMyProfileData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GGetMyProfileData', 'G__typename'),
-          me: BuiltValueNullFieldError.checkNotNull(
-              me, r'GGetMyProfileData', 'me'),
-        );
+        new _$GGetMyProfileData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GGetMyProfileData', 'G__typename'),
+            me: BuiltValueNullFieldError.checkNotNull(
+                me, r'GGetMyProfileData', 'me'));
     replace(_$result);
     return _$result;
   }
@@ -392,9 +397,13 @@ class _$GGetMyProfileData_me__base extends GGetMyProfileData_me__base {
 
   factory _$GGetMyProfileData_me__base(
           [void Function(GGetMyProfileData_me__baseBuilder)? updates]) =>
-      (GGetMyProfileData_me__baseBuilder()..update(updates))._build();
+      (new GGetMyProfileData_me__baseBuilder()..update(updates))._build();
 
-  _$GGetMyProfileData_me__base._({required this.G__typename}) : super._();
+  _$GGetMyProfileData_me__base._({required this.G__typename}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GGetMyProfileData_me__base', 'G__typename');
+  }
+
   @override
   GGetMyProfileData_me__base rebuild(
           void Function(GGetMyProfileData_me__baseBuilder) updates) =>
@@ -402,7 +411,7 @@ class _$GGetMyProfileData_me__base extends GGetMyProfileData_me__base {
 
   @override
   GGetMyProfileData_me__baseBuilder toBuilder() =>
-      GGetMyProfileData_me__baseBuilder()..replace(this);
+      new GGetMyProfileData_me__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -451,6 +460,7 @@ class GGetMyProfileData_me__baseBuilder
 
   @override
   void replace(GGetMyProfileData_me__base other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMyProfileData_me__base;
   }
 
@@ -464,10 +474,9 @@ class GGetMyProfileData_me__baseBuilder
 
   _$GGetMyProfileData_me__base _build() {
     final _$result = _$v ??
-        _$GGetMyProfileData_me__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GGetMyProfileData_me__base', 'G__typename'),
-        );
+        new _$GGetMyProfileData_me__base._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GGetMyProfileData_me__base', 'G__typename'));
     replace(_$result);
     return _$result;
   }
@@ -491,7 +500,7 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
 
   factory _$GGetMyProfileData_me__asUser(
           [void Function(GGetMyProfileData_me__asUserBuilder)? updates]) =>
-      (GGetMyProfileData_me__asUserBuilder()..update(updates))._build();
+      (new GGetMyProfileData_me__asUserBuilder()..update(updates))._build();
 
   _$GGetMyProfileData_me__asUser._(
       {required this.G__typename,
@@ -501,7 +510,13 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
       this.avatarUrl,
       this.createdAt,
       required this.bookCount})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GGetMyProfileData_me__asUser', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        bookCount, r'GGetMyProfileData_me__asUser', 'bookCount');
+  }
+
   @override
   GGetMyProfileData_me__asUser rebuild(
           void Function(GGetMyProfileData_me__asUserBuilder) updates) =>
@@ -509,7 +524,7 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
 
   @override
   GGetMyProfileData_me__asUserBuilder toBuilder() =>
-      GGetMyProfileData_me__asUserBuilder()..replace(this);
+      new GGetMyProfileData_me__asUserBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -607,6 +622,7 @@ class GGetMyProfileData_me__asUserBuilder
 
   @override
   void replace(GGetMyProfileData_me__asUser other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMyProfileData_me__asUser;
   }
 
@@ -620,17 +636,16 @@ class GGetMyProfileData_me__asUserBuilder
 
   _$GGetMyProfileData_me__asUser _build() {
     final _$result = _$v ??
-        _$GGetMyProfileData_me__asUser._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GGetMyProfileData_me__asUser', 'G__typename'),
-          id: id,
-          email: email,
-          name: name,
-          avatarUrl: avatarUrl,
-          createdAt: createdAt,
-          bookCount: BuiltValueNullFieldError.checkNotNull(
-              bookCount, r'GGetMyProfileData_me__asUser', 'bookCount'),
-        );
+        new _$GGetMyProfileData_me__asUser._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GGetMyProfileData_me__asUser', 'G__typename'),
+            id: id,
+            email: email,
+            name: name,
+            avatarUrl: avatarUrl,
+            createdAt: createdAt,
+            bookCount: BuiltValueNullFieldError.checkNotNull(
+                bookCount, r'GGetMyProfileData_me__asUser', 'bookCount'));
     replace(_$result);
     return _$result;
   }
@@ -648,12 +663,16 @@ class _$GGetMyProfileData_me__asAuthErrorResult
   factory _$GGetMyProfileData_me__asAuthErrorResult(
           [void Function(GGetMyProfileData_me__asAuthErrorResultBuilder)?
               updates]) =>
-      (GGetMyProfileData_me__asAuthErrorResultBuilder()..update(updates))
+      (new GGetMyProfileData_me__asAuthErrorResultBuilder()..update(updates))
           ._build();
 
   _$GGetMyProfileData_me__asAuthErrorResult._(
       {required this.G__typename, this.code, this.message})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GGetMyProfileData_me__asAuthErrorResult', 'G__typename');
+  }
+
   @override
   GGetMyProfileData_me__asAuthErrorResult rebuild(
           void Function(GGetMyProfileData_me__asAuthErrorResultBuilder)
@@ -662,7 +681,7 @@ class _$GGetMyProfileData_me__asAuthErrorResult
 
   @override
   GGetMyProfileData_me__asAuthErrorResultBuilder toBuilder() =>
-      GGetMyProfileData_me__asAuthErrorResultBuilder()..replace(this);
+      new GGetMyProfileData_me__asAuthErrorResultBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -729,6 +748,7 @@ class GGetMyProfileData_me__asAuthErrorResultBuilder
 
   @override
   void replace(GGetMyProfileData_me__asAuthErrorResult other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMyProfileData_me__asAuthErrorResult;
   }
 
@@ -743,12 +763,11 @@ class GGetMyProfileData_me__asAuthErrorResultBuilder
 
   _$GGetMyProfileData_me__asAuthErrorResult _build() {
     final _$result = _$v ??
-        _$GGetMyProfileData_me__asAuthErrorResult._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-              r'GGetMyProfileData_me__asAuthErrorResult', 'G__typename'),
-          code: code,
-          message: message,
-        );
+        new _$GGetMyProfileData_me__asAuthErrorResult._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GGetMyProfileData_me__asAuthErrorResult', 'G__typename'),
+            code: code,
+            message: message);
     replace(_$result);
     return _$result;
   }

@@ -6,7 +6,8 @@ part of 'my_shelf.var.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GMyShelfVars> _$gMyShelfVarsSerializer = _$GMyShelfVarsSerializer();
+Serializer<GMyShelfVars> _$gMyShelfVarsSerializer =
+    new _$GMyShelfVarsSerializer();
 
 class _$GMyShelfVarsSerializer implements StructuredSerializer<GMyShelfVars> {
   @override
@@ -24,21 +25,22 @@ class _$GMyShelfVarsSerializer implements StructuredSerializer<GMyShelfVars> {
   GMyShelfVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return GMyShelfVarsBuilder().build();
+    return new GMyShelfVarsBuilder().build();
   }
 }
 
 class _$GMyShelfVars extends GMyShelfVars {
   factory _$GMyShelfVars([void Function(GMyShelfVarsBuilder)? updates]) =>
-      (GMyShelfVarsBuilder()..update(updates))._build();
+      (new GMyShelfVarsBuilder()..update(updates))._build();
 
   _$GMyShelfVars._() : super._();
+
   @override
   GMyShelfVars rebuild(void Function(GMyShelfVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfVarsBuilder toBuilder() => GMyShelfVarsBuilder()..replace(this);
+  GMyShelfVarsBuilder toBuilder() => new GMyShelfVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -65,6 +67,7 @@ class GMyShelfVarsBuilder
 
   @override
   void replace(GMyShelfVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfVars;
   }
 
@@ -77,7 +80,7 @@ class GMyShelfVarsBuilder
   GMyShelfVars build() => _build();
 
   _$GMyShelfVars _build() {
-    final _$result = _$v ?? _$GMyShelfVars._();
+    final _$result = _$v ?? new _$GMyShelfVars._();
     replace(_$result);
     return _$result;
   }
