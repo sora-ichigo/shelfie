@@ -39,6 +39,9 @@ class ShelfieApp extends ConsumerWidget {
       themeMode: ThemeMode.dark,
       materialDarkTheme: AppTheme.theme,
       cupertinoDarkTheme: AppTheme.cupertinoTheme,
+      builder: (context, child) {
+        return Theme(data: AppTheme.theme, child: child!);
+      },
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
