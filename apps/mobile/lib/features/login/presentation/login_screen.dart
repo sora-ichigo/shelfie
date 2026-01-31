@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,15 +71,16 @@ class LoginScreen extends ConsumerWidget {
   ) {
     switch (state) {
       case LoginStateSuccess(:final email):
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('ログインしました: $email')),
+        AdaptiveSnackBar.show(
+          context,
+          message: 'ログインしました: $email',
+          type: AdaptiveSnackBarType.success,
         );
       case LoginStateError(:final message):
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.red,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: message,
+          type: AdaptiveSnackBarType.error,
         );
       case LoginStateInitial():
       case LoginStateLoading():
@@ -99,8 +101,10 @@ class LoginScreen extends ConsumerWidget {
   }
 
   void _onForgotPasswordPressed(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('準備中です')),
+    AdaptiveSnackBar.show(
+      context,
+      message: '準備中です',
+      type: AdaptiveSnackBarType.info,
     );
   }
 }

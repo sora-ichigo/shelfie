@@ -1,6 +1,6 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -22,7 +22,6 @@ class PasswordSettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settingsState = ref.watch(passwordSettingsNotifierProvider);
     final formState = ref.watch(passwordFormStateProvider);
-    final colors = Theme.of(context).extension<AppColors>();
 
     final isLoading = settingsState is PasswordSettingsLoading;
     final isFormValid = formState.currentPassword.isNotEmpty &&
@@ -37,21 +36,19 @@ class PasswordSettingsScreen extends ConsumerWidget {
       passwordSettingsNotifierProvider,
       (previous, next) {
         if (next is PasswordSettingsSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(next.message),
-              backgroundColor: colors?.accent ?? Colors.green,
-            ),
+          AdaptiveSnackBar.show(
+            context,
+            message: next.message,
+            type: AdaptiveSnackBarType.success,
           );
           if (next.message.contains('変更')) {
             onSaveSuccess();
           }
         } else if (next is PasswordSettingsError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(next.failure.userMessage),
-              backgroundColor: colors?.error ?? Colors.red,
-            ),
+          AdaptiveSnackBar.show(
+            context,
+            message: next.failure.userMessage,
+            type: AdaptiveSnackBarType.error,
           );
         }
       },

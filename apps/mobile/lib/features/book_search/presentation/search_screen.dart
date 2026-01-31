@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -72,11 +73,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       bookSearchNotifierProvider,
       (previous, next) {
         if (next is BookSearchError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(next.failure.userMessage),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
+          AdaptiveSnackBar.show(
+            context,
+            message: next.failure.userMessage,
+            type: AdaptiveSnackBarType.error,
           );
         }
       },
@@ -239,11 +239,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
@@ -255,10 +254,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${addResult.status.displayName}」で登録しました'),
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: '「${addResult.status.displayName}」で登録しました',
+          type: AdaptiveSnackBarType.success,
         );
       },
     );
@@ -287,16 +286,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('マイライブラリから削除しました')),
+        AdaptiveSnackBar.show(
+          context,
+          message: 'マイライブラリから削除しました',
+          type: AdaptiveSnackBarType.success,
         );
       },
     );
@@ -440,11 +440,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
@@ -456,10 +455,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${addResult.status.displayName}」で登録しました'),
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: '「${addResult.status.displayName}」で登録しました',
+          type: AdaptiveSnackBarType.success,
         );
       },
     );
@@ -484,16 +483,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('マイライブラリから削除しました')),
+        AdaptiveSnackBar.show(
+          context,
+          message: 'マイライブラリから削除しました',
+          type: AdaptiveSnackBarType.success,
         );
       },
     );

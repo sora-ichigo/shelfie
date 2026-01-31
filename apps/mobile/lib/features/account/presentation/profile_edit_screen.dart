@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -74,11 +75,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             widget.onSaveSuccess();
           },
           error: (message, field) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(message),
-                backgroundColor: Theme.of(context).colorScheme.error,
-              ),
+            AdaptiveSnackBar.show(
+              context,
+              message: message,
+              type: AdaptiveSnackBarType.error,
             );
           },
         );
