@@ -51,6 +51,8 @@ Future<void> _initAndRunApp() async {
     DeviceOrientation.portraitUp,
   ]);
 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
   await Hive.initFlutter();
 
   await Future.wait([

@@ -32,6 +32,9 @@ class BookShelfScreen extends ConsumerStatefulWidget {
 class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   LibraryFilterTab _selectedTab = LibraryFilterTab.books;
 
+  static const _headerHeight = AppSpacing.sm + 40.0 + AppSpacing.sm;
+  static const _filterTabHeight = AppSpacing.xxs * 2 + 40.0;
+
   @override
   void initState() {
     super.initState();
@@ -61,24 +64,56 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
     final loaded = bookShelfState is BookShelfLoaded ? bookShelfState : null;
 
-    return SafeArea(
-      bottom: false,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverPersistentHeader(
-              delegate: _ScreenHeaderDelegate(
-                child: ScreenHeader(
-                  title: 'ライブラリ',
-                  onProfileTap: () => context.push(AppRoutes.account),
-                  avatarUrl: accountAsync.valueOrNull?.avatarUrl,
-                  isAvatarLoading: accountAsync.isLoading,
-                ),
-              ),
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            pinned: true,
+            toolbarHeight: 0,
+            expandedHeight: _headerHeight + _filterTabHeight,
+            backgroundColor:
+                Theme.of(context).scaffoldBackgroundColor,
+            surfaceTintColor: Colors.transparent,
+            scrolledUnderElevation: 0,
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final topPadding =
+                    MediaQuery.of(context).padding.top;
+                final headerSpace =
+                    (constraints.maxHeight -
+                            topPadding -
+                            _filterTabHeight)
+                        .clamp(0.0, _headerHeight);
+                final opacity =
+                    (2 * headerSpace / _headerHeight - 1)
+                        .clamp(0.0, 1.0);
+                return Column(
+                  children: [
+                    SizedBox(height: topPadding),
+                    Opacity(
+                      opacity: opacity,
+                      child: SizedBox(
+                        height: headerSpace,
+                        child: ScreenHeader(
+                          title: 'ライブラリ',
+                          onProfileTap: () =>
+                              context.push(AppRoutes.account),
+                          avatarUrl:
+                              accountAsync.valueOrNull?.avatarUrl,
+                          isAvatarLoading: accountAsync.isLoading,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _FilterTabHeaderDelegate(
+            bottom: PreferredSize(
+              preferredSize:
+                  const Size.fromHeight(_filterTabHeight),
+              child: ColoredBox(
+                color:
+                    Theme.of(context).scaffoldBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.md,
@@ -92,23 +127,33 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                       ),
                       const Spacer(),
                       Visibility(
-                        visible: _selectedTab == LibraryFilterTab.books,
+                        visible:
+                            _selectedTab ==
+                            LibraryFilterTab.books,
                         maintainSize: true,
                         maintainAnimation: true,
                         maintainState: true,
                         child: SearchFilterBar(
-                          sortOption: loaded?.sortOption ??
+                          sortOption:
+                              loaded?.sortOption ??
                               SortOption.defaultOption,
-                          groupOption: loaded?.groupOption ??
+                          groupOption:
+                              loaded?.groupOption ??
                               GroupOption.defaultOption,
                           onSortChanged: (option) {
                             ref
-                                .read(bookShelfNotifierProvider.notifier)
+                                .read(
+                                  bookShelfNotifierProvider
+                                      .notifier,
+                                )
                                 .setSortOption(option);
                           },
                           onGroupChanged: (option) {
                             ref
-                                .read(bookShelfNotifierProvider.notifier)
+                                .read(
+                                  bookShelfNotifierProvider
+                                      .notifier,
+                                )
                                 .setGroupOption(option);
                           },
                         ),
@@ -118,10 +163,10 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                 ),
               ),
             ),
-          ];
-        },
-        body: _buildContent(bookShelfState, bookListState),
-      ),
+          ),
+        ];
+      },
+      body: _buildContent(bookShelfState, bookListState),
     );
   }
 
@@ -243,70 +288,5 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   void _onListTap(BookListSummary list) {
     context.push(AppRoutes.bookListDetail(listId: list.id));
-  }
-}
-
-class _ScreenHeaderDelegate extends SliverPersistentHeaderDelegate {
-  _ScreenHeaderDelegate({required this.child});
-
-  final Widget child;
-
-  // ScreenHeader: top(12) + avatar diameter(40) + bottom(12)
-  static const _height = AppSpacing.sm + 40.0 + AppSpacing.sm;
-
-  @override
-  double get maxExtent => _height;
-
-  @override
-  double get minExtent => 0;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    final opacity = (1 - shrinkOffset / maxExtent * 2).clamp(0.0, 1.0);
-    return Opacity(
-      opacity: opacity,
-      child: child,
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant _ScreenHeaderDelegate oldDelegate) {
-    return child != oldDelegate.child;
-  }
-}
-
-class _FilterTabHeaderDelegate extends SliverPersistentHeaderDelegate {
-  _FilterTabHeaderDelegate({required this.child});
-
-  final Widget child;
-
-  // padding(xxs*2) + アイコンタッチエリア(40px)
-  static const _height = AppSpacing.xxs * 2 + 40.0;
-
-  @override
-  double get minExtent => _height;
-
-  @override
-  double get maxExtent => _height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return ColoredBox(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: child,
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant _FilterTabHeaderDelegate oldDelegate) {
-    return child != oldDelegate.child;
   }
 }

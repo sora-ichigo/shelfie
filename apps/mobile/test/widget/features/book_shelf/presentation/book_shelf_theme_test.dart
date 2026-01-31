@@ -45,11 +45,11 @@ void main() {
       test('scaffoldBackgroundColor が黒系', () {
         final theme = AppTheme.theme;
 
-        expect(theme.scaffoldBackgroundColor, const Color(0xFF000000));
+        expect(theme.scaffoldBackgroundColor, const Color(0xFF121113));
       });
 
       test('AppColors.dark.background が黒系', () {
-        expect(AppColors.dark.background, const Color(0xFF000000));
+        expect(AppColors.dark.background, const Color(0xFF121113));
       });
 
       testWidgets('BookCard がダークテーマで正しく表示される', (tester) async {

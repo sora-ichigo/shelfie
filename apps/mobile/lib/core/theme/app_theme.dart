@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
@@ -32,6 +33,9 @@ abstract final class AppTheme {
       scaffoldBackgroundColor: AppColors.dark.background,
       textTheme: textTheme,
       iconTheme: const IconThemeData(color: Colors.white),
+      appBarTheme: const AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+      ),
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
