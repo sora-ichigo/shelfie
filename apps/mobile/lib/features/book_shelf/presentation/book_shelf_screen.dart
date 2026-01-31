@@ -64,12 +64,14 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            SliverToBoxAdapter(
-              child: ScreenHeader(
-                title: 'ライブラリ',
-                onProfileTap: () => context.push(AppRoutes.account),
-                avatarUrl: accountAsync.valueOrNull?.avatarUrl,
-                isAvatarLoading: accountAsync.isLoading,
+            SliverPersistentHeader(
+              delegate: _ScreenHeaderDelegate(
+                child: ScreenHeader(
+                  title: 'ライブラリ',
+                  onProfileTap: () => context.push(AppRoutes.account),
+                  avatarUrl: accountAsync.valueOrNull?.avatarUrl,
+                  isAvatarLoading: accountAsync.isLoading,
+                ),
               ),
             ),
             SliverPersistentHeader(
@@ -233,6 +235,39 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   void _onListTap(BookListSummary list) {
     context.push(AppRoutes.bookListDetail(listId: list.id));
+  }
+}
+
+class _ScreenHeaderDelegate extends SliverPersistentHeaderDelegate {
+  _ScreenHeaderDelegate({required this.child});
+
+  final Widget child;
+
+  // ScreenHeader: top(16) + avatar diameter(40) + bottom(8)
+  static const _height = AppSpacing.md + 40.0 + AppSpacing.xs;
+
+  @override
+  double get maxExtent => _height;
+
+  @override
+  double get minExtent => 0;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final opacity = (1 - shrinkOffset / maxExtent * 2).clamp(0.0, 1.0);
+    return Opacity(
+      opacity: opacity,
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _ScreenHeaderDelegate oldDelegate) {
+    return child != oldDelegate.child;
   }
 }
 
