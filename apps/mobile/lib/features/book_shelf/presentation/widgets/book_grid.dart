@@ -37,46 +37,35 @@ class BookGrid extends StatefulWidget {
 }
 
 class _BookGridState extends State<BookGrid> {
-  final ScrollController _scrollController = ScrollController();
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (!widget.hasMore || widget.isLoadingMore) return false;
+    if (notification is! ScrollUpdateNotification) return false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (!widget.hasMore || widget.isLoadingMore) return;
-
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
+    final maxScroll = notification.metrics.maxScrollExtent;
+    final currentScroll = notification.metrics.pixels;
     final threshold = maxScroll * 0.8;
 
     if (currentScroll >= threshold) {
       widget.onLoadMore();
     }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isGrouped) {
-      return _buildGroupedGrid(context);
-    }
-    return _buildFlatGrid(context);
+    final child = widget.isGrouped
+        ? _buildGroupedGrid(context)
+        : _buildFlatGrid(context);
+    return NotificationListener<ScrollNotification>(
+      onNotification: _onScrollNotification,
+      child: child,
+    );
   }
 
   Widget _buildFlatGrid(BuildContext context) {
     return AnimationLimiter(
       key: ValueKey('flat_${widget.books.map((b) => b.userBookId).join('_')}'),
       child: CustomScrollView(
-        controller: _scrollController,
         slivers: [
           SliverPadding(
             padding: const EdgeInsets.all(AppSpacing.md),
@@ -131,7 +120,6 @@ class _BookGridState extends State<BookGrid> {
         'grouped_${groups.map((g) => '${g.key}_${g.value.length}').join('_')}',
       ),
       child: CustomScrollView(
-        controller: _scrollController,
         slivers: [
           for (var groupIndex = 0; groupIndex < groups.length; groupIndex++) ...[
             SliverToBoxAdapter(
