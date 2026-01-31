@@ -67,7 +67,6 @@ class SearchFilterBar extends StatelessWidget {
           color: appColors.foreground,
           onTap: () => _showSortBottomSheet(context),
         ),
-        const SizedBox(width: AppSpacing.sm),
         _FilterIconButton(
           icon: Icons.grid_view,
           isActive: groupOption != GroupOption.defaultOption,
@@ -103,25 +102,32 @@ class _FilterIconButton extends StatelessWidget {
       button: true,
       label: semanticLabel,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: onTap,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Icon(icon, size: 20, color: color),
-            if (isActive)
-              Positioned(
-                top: -2,
-                right: -2,
-                child: Container(
-                  width: 6,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Center(
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Icon(icon, size: 24, color: color),
+                if (isActive)
+                  Positioned(
+                    top: -2,
+                    right: -2,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );

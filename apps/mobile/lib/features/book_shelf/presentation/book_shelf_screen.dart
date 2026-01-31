@@ -80,7 +80,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.md,
-                    vertical: AppSpacing.sm,
+                    vertical: AppSpacing.xxs,
                   ),
                   child: Row(
                     children: [
@@ -276,9 +276,8 @@ class _FilterTabHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   final Widget child;
 
-  // padding(sm*2) + タブボタン内padding(xs*2) + テキスト行高(labelMedium: 12px * 1.33 ≈ 16)
-  // フォントやパディングを変更した場合はここも更新すること
-  static const _height = AppSpacing.sm * 2 + AppSpacing.xs * 2 + 16.0;
+  // padding(xxs*2) + アイコンタッチエリア(40px)
+  static const _height = AppSpacing.xxs * 2 + 40.0;
 
   @override
   double get minExtent => _height;
