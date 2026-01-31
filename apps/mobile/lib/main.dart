@@ -25,40 +25,44 @@ const _sentryDsn =
 /// 3. ErrorHandler の初期化
 /// 4. ProviderScope でアプリをラップして起動
 Future<void> main() async {
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = _sentryDsn;
-      options.tracesSampleRate = kReleaseMode ? 0.2 : 1.0;
-      options.environment = kReleaseMode ? 'production' : 'development';
-      options.enableAutoSessionTracking = true;
-      options.attachThreads = true;
-      options.enableAutoNativeBreadcrumbs = true;
-    },
-    appRunner: () async {
-      // Google Fonts のランタイムフェッチを無効化（バンドルされたフォントを使用）
-      GoogleFonts.config.allowRuntimeFetching = false;
+  if (kReleaseMode) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = _sentryDsn;
+        options.tracesSampleRate = 0.2;
+        options.environment = 'production';
+        options.enableAutoSessionTracking = true;
+        options.attachThreads = true;
+        options.enableAutoNativeBreadcrumbs = true;
+      },
+      appRunner: () => _initAndRunApp(),
+    );
+  } else {
+    await _initAndRunApp();
+  }
+}
 
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-      ]);
+Future<void> _initAndRunApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-      // Hive の初期化（オフラインキャッシュ用）
-      await Hive.initFlutter();
+  GoogleFonts.config.allowRuntimeFetching = false;
 
-      // 各種 Hive Box をオープン
-      await Future.wait([
-        Hive.openBox<Map<dynamic, dynamic>>(searchHistoryBoxName),
-        Hive.openBox<Map<dynamic, dynamic>>(recentBooksBoxName),
-        Hive.openBox<String>(bookShelfSettingsBoxName),
-      ]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
-      // アプリを ProviderScope でラップして起動
-      runApp(
-        const ProviderScope(
-          child: _AppInitializer(),
-        ),
-      );
-    },
+  await Hive.initFlutter();
+
+  await Future.wait([
+    Hive.openBox<Map<dynamic, dynamic>>(searchHistoryBoxName),
+    Hive.openBox<Map<dynamic, dynamic>>(recentBooksBoxName),
+    Hive.openBox<String>(bookShelfSettingsBoxName),
+  ]);
+
+  runApp(
+    const ProviderScope(
+      child: _AppInitializer(),
+    ),
   );
 }
 

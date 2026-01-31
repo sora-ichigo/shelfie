@@ -1,5 +1,6 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -38,6 +39,12 @@ class ShelfieApp extends ConsumerWidget {
       themeMode: ThemeMode.dark,
       materialDarkTheme: AppTheme.theme,
       cupertinoDarkTheme: AppTheme.cupertinoTheme,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('ja')],
       routerConfig: router,
     );
   }

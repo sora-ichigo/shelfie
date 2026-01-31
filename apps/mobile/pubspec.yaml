@@ -18,6 +18,8 @@ dependencies:
   ferry_hive_store: ^0.6.0+1
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_riverpod: ^2.5.1
   flutter_secure_storage: ^9.2.2
   flutter_staggered_animations: ^1.1.1
