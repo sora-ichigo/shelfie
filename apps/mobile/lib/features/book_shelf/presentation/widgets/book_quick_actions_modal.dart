@@ -329,12 +329,12 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
+      setState(() => _isUpdating = false);
       AdaptiveSnackBar.show(
         context,
         message: '評価を変更しました',
         type: AdaptiveSnackBarType.success,
       );
-      Navigator.pop(context);
     }
   }
 
@@ -408,35 +408,16 @@ class _BookQuickActionsModalContentState
   void _onAddToListTap() {
     final repository = ref.read(bookListRepositoryProvider);
     final userBookId = widget.book.userBookId;
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     Navigator.pop(context);
+
     showListSelectorModal(
       context: context,
       userBookId: userBookId,
       onListSelected: (listId) async {
-        final result = await repository.addBookToList(
+        await repository.addBookToList(
           listId: listId,
           userBookId: userBookId,
-        );
-
-        result.fold(
-          (failure) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(
-                content: Text(failure.userMessage),
-                backgroundColor: Colors.red.shade700,
-              ),
-            );
-          },
-          (_) {
-            scaffoldMessenger.showSnackBar(
-              SnackBar(
-                content: const Text('リストに追加しました'),
-                backgroundColor: Colors.green.shade700,
-              ),
-            );
-          },
         );
       },
     );
@@ -444,6 +425,7 @@ class _BookQuickActionsModalContentState
 
   void _onEditNoteTap(ShelfEntry entry) {
     Navigator.pop(context);
+
     showReadingNoteModal(
       context: context,
       currentNote: entry.note,
