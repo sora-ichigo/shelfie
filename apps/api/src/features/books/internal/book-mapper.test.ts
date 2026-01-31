@@ -3,6 +3,7 @@ import {
   type Book,
   type BookDetail,
   type GoogleBooksVolume,
+  isbn13ToIsbn10,
   mapGoogleBooksVolume,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
@@ -27,6 +28,28 @@ const createRakutenBooksItem = (
   reviewAverage: "4.5",
   booksGenreId: "001004008",
   ...overrides,
+});
+
+describe("isbn13ToIsbn10", () => {
+  it("978 始まりの ISBN-13 を ISBN-10 に変換する", () => {
+    expect(isbn13ToIsbn10("9784101010014")).toBe("4101010013");
+  });
+
+  it("チェックディジットが 10 の場合は X を返す", () => {
+    expect(isbn13ToIsbn10("9781558608320")).toBe("155860832X");
+  });
+
+  it("ISBN-10（10桁）はそのまま返す", () => {
+    expect(isbn13ToIsbn10("4123456782")).toBe("4123456782");
+  });
+
+  it("979 始まりの ISBN-13 は変換不可で null を返す", () => {
+    expect(isbn13ToIsbn10("9791234567896")).toBeNull();
+  });
+
+  it("null を渡すと null を返す", () => {
+    expect(isbn13ToIsbn10(null)).toBeNull();
+  });
 });
 
 describe("BookMapper", () => {
@@ -197,7 +220,7 @@ describe("BookMapper", () => {
         description: "これはテスト書籍の説明です。",
         isbn: "9784123456789",
         coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
-        amazonUrl: "https://www.amazon.co.jp/dp/9784123456789",
+        amazonUrl: "https://www.amazon.co.jp/dp/4123456782",
         googleBooksUrl: null,
         rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
       } satisfies BookDetail);
@@ -241,16 +264,14 @@ describe("BookMapper", () => {
       expect(detail.description).toBeNull();
     });
 
-    it("ISBN から Amazon URL を生成する", () => {
+    it("ISBN-13 から ISBN-10 に変換して Amazon URL を生成する", () => {
       const item = createRakutenBooksItem({
         isbn: "9781234567890",
       });
 
       const detail = mapRakutenBooksItemToDetail(item);
 
-      expect(detail.amazonUrl).toBe(
-        "https://www.amazon.co.jp/dp/9781234567890",
-      );
+      expect(detail.amazonUrl).toBe("https://www.amazon.co.jp/dp/123456789X");
     });
 
     it("itemUrl を rakutenBooksUrl として返す", () => {
