@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/icon_tap_area.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
@@ -98,38 +98,29 @@ class _FilterIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: semanticLabel,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Center(
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(icon, size: 24, color: color),
-                if (isActive)
-                  Positioned(
-                    top: -2,
-                    right: -2,
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-              ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        IconTapArea(
+          icon: icon,
+          onTap: onTap,
+          color: color,
+          semanticLabel: semanticLabel,
+        ),
+        if (isActive)
+          Positioned(
+            top: 6,
+            right: 6,
+            child: Container(
+              width: 6,
+              height: 6,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }
