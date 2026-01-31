@@ -24,8 +24,8 @@ void main() {
       testWidgets('displays two tabs', (tester) async {
         await tester.pumpWidget(buildTestWidget());
 
-        expect(find.text('本'), findsOneWidget);
-        expect(find.text('リスト'), findsOneWidget);
+        expect(find.text('すべて'), findsOneWidget);
+        expect(find.text('ブックリスト'), findsOneWidget);
       });
 
       testWidgets('highlights selected "books" tab', (tester) async {
@@ -34,7 +34,7 @@ void main() {
         ));
 
         final booksTab = find.ancestor(
-          of: find.text('本'),
+          of: find.text('すべて'),
           matching: find.byType(InkWell),
         );
         expect(booksTab, findsOneWidget);
@@ -46,7 +46,7 @@ void main() {
         ));
 
         final listsTab = find.ancestor(
-          of: find.text('リスト'),
+          of: find.text('ブックリスト'),
           matching: find.byType(InkWell),
         );
         expect(listsTab, findsOneWidget);
@@ -63,7 +63,7 @@ void main() {
           onTabChanged: (tab) => changedTab = tab,
         ));
 
-        await tester.tap(find.text('本'));
+        await tester.tap(find.text('すべて'));
         await tester.pumpAndSettle();
 
         expect(changedTab, LibraryFilterTab.books);
@@ -78,7 +78,7 @@ void main() {
           onTabChanged: (tab) => changedTab = tab,
         ));
 
-        await tester.tap(find.text('リスト'));
+        await tester.tap(find.text('ブックリスト'));
         await tester.pumpAndSettle();
 
         expect(changedTab, LibraryFilterTab.lists);

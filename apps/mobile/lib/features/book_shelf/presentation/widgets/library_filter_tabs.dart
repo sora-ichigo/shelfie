@@ -11,8 +11,8 @@ enum LibraryFilterTab {
 extension LibraryFilterTabX on LibraryFilterTab {
   String get label {
     return switch (this) {
-      LibraryFilterTab.books => '本',
-      LibraryFilterTab.lists => 'リスト',
+      LibraryFilterTab.books => 'すべて',
+      LibraryFilterTab.lists => 'ブックリスト',
     };
   }
 }

@@ -28,8 +28,8 @@ void main() {
         ));
         await tester.pump();
 
-        expect(find.text('本'), findsOneWidget);
-        expect(find.text('リスト'), findsOneWidget);
+        expect(find.text('すべて'), findsOneWidget);
+        expect(find.text('ブックリスト'), findsOneWidget);
       });
 
       testWidgets('highlights selected tab (books)', (tester) async {
@@ -40,7 +40,7 @@ void main() {
         await tester.pump();
 
         final booksTabContainer = find.ancestor(
-          of: find.text('本'),
+          of: find.text('すべて'),
           matching: find.byType(AnimatedContainer),
         );
         expect(booksTabContainer, findsOneWidget);
@@ -54,7 +54,7 @@ void main() {
         await tester.pump();
 
         final listsTabContainer = find.ancestor(
-          of: find.text('リスト'),
+          of: find.text('ブックリスト'),
           matching: find.byType(AnimatedContainer),
         );
         expect(listsTabContainer, findsOneWidget);
@@ -72,7 +72,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('本'));
+        await tester.tap(find.text('すべて'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.books);
@@ -88,7 +88,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('リスト'));
+        await tester.tap(find.text('ブックリスト'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.lists);
@@ -103,7 +103,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('リスト'));
+        await tester.tap(find.text('ブックリスト'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.lists);
@@ -118,7 +118,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('本'));
+        await tester.tap(find.text('すべて'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.books);
@@ -127,11 +127,11 @@ void main() {
 
     group('LibraryFilterTab extension', () {
       test('returns correct label for books', () {
-        expect(LibraryFilterTab.books.label, '本');
+        expect(LibraryFilterTab.books.label, 'すべて');
       });
 
       test('returns correct label for lists', () {
-        expect(LibraryFilterTab.lists.label, 'リスト');
+        expect(LibraryFilterTab.lists.label, 'ブックリスト');
       });
     });
   });
