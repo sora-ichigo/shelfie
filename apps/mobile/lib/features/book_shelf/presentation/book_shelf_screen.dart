@@ -5,8 +5,6 @@ import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
-import 'package:shelfie/core/widgets/screen_header.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
@@ -43,8 +41,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   Widget build(BuildContext context) {
     final bookShelfState = ref.watch(bookShelfNotifierProvider);
     final bookListState = ref.watch(bookListNotifierProvider);
-    final accountAsync = ref.watch(accountNotifierProvider);
-    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     ref.listen(
       shelfStateProvider.select((s) => s.length),
@@ -59,14 +55,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     );
 
     return SafeArea(
+      bottom: false,
       child: Column(
         children: [
-          ScreenHeader(
-            title: 'マイライブラリ',
-            onProfileTap: () => context.push(AppRoutes.account),
-            avatarUrl: avatarUrl,
-            isAvatarLoading: accountAsync.isLoading,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,

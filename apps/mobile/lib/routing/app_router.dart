@@ -480,6 +480,19 @@ class _MainShell extends StatelessWidget {
 
     return AdaptiveScaffold(
       minimizeBehavior: TabBarMinimizeBehavior.never,
+      appBar: selectedIndex == 0
+          ? AdaptiveAppBar(
+              title: 'ライブラリ',
+              useNativeToolbar: false,
+              actions: [
+                AdaptiveAppBarAction(
+                  onPressed: () => context.push(AppRoutes.account),
+                  iosSymbol: 'person.crop.circle',
+                  icon: Icons.account_circle,
+                ),
+              ],
+            )
+          : null,
       body: Material(
         type: MaterialType.transparency,
         child: child,
