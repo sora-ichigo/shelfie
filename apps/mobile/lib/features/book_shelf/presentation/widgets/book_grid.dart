@@ -78,7 +78,7 @@ class _BookGridState extends State<BookGrid> {
                 crossAxisCount: 3,
                 mainAxisSpacing: AppSpacing.xs,
                 crossAxisSpacing: AppSpacing.sm,
-                childAspectRatio: 0.5,
+                childAspectRatio: 0.45,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) => AnimationConfiguration.staggeredGrid(
@@ -158,7 +158,7 @@ class _BookGridState extends State<BookGrid> {
                   crossAxisCount: 3,
                   mainAxisSpacing: AppSpacing.md,
                   crossAxisSpacing: AppSpacing.sm,
-                  childAspectRatio: 0.5,
+                  childAspectRatio: 0.45,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
