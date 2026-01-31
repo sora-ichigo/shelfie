@@ -5,7 +5,6 @@ import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
 
@@ -54,15 +53,12 @@ void main() {
               body: LibraryBooksTab(
                 books: [],
                 groupedBooks: {},
-                sortOption: SortOption.defaultOption,
                 groupOption: GroupOption.defaultOption,
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
               ),
             ),
           ),
@@ -70,38 +66,6 @@ void main() {
       );
 
       expect(find.text('本を追加してみましょう'), findsOneWidget);
-    });
-
-    testWidgets('displays sort/group filter bar when books exist',
-        (tester) async {
-      final books = [
-        createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
-      ];
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryBooksTab(
-                books: books,
-                groupedBooks: {},
-                sortOption: SortOption.defaultOption,
-                groupOption: GroupOption.defaultOption,
-                hasMore: false,
-                isLoadingMore: false,
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byIcon(Icons.tune), findsOneWidget);
     });
 
     testWidgets('displays books in grid', (tester) async {
@@ -118,15 +82,12 @@ void main() {
               body: LibraryBooksTab(
                 books: books,
                 groupedBooks: {},
-                sortOption: SortOption.defaultOption,
                 groupOption: GroupOption.defaultOption,
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
-                onSortChanged: (_) {},
-                onGroupChanged: (_) {},
               ),
             ),
           ),

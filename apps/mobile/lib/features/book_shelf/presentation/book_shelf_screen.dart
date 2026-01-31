@@ -14,6 +14,7 @@ import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -53,6 +54,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       },
     );
 
+    final loaded = bookShelfState is BookShelfLoaded ? bookShelfState : null;
+
     return SafeArea(
       bottom: false,
       child: Column(
@@ -62,12 +65,29 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
               horizontal: AppSpacing.md,
               vertical: AppSpacing.sm,
             ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: LibraryFilterTabs(
-                selectedTab: _selectedTab,
-                onTabChanged: _onTabChanged,
-              ),
+            child: Row(
+              children: [
+                LibraryFilterTabs(
+                  selectedTab: _selectedTab,
+                  onTabChanged: _onTabChanged,
+                ),
+                const Spacer(),
+                if (_selectedTab == LibraryFilterTab.books && loaded != null)
+                  SearchFilterBar(
+                    sortOption: loaded.sortOption,
+                    groupOption: loaded.groupOption,
+                    onSortChanged: (option) {
+                      ref
+                          .read(bookShelfNotifierProvider.notifier)
+                          .setSortOption(option);
+                    },
+                    onGroupChanged: (option) {
+                      ref
+                          .read(bookShelfNotifierProvider.notifier)
+                          .setGroupOption(option);
+                    },
+                  ),
+              ],
             ),
           ),
           Expanded(
@@ -142,7 +162,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     return LibraryBooksTab(
       books: filteredBooks,
       groupedBooks: filteredGroupedBooks,
-      sortOption: bookShelfState.sortOption,
       groupOption: bookShelfState.groupOption,
       hasMore: bookShelfState.hasMore,
       isLoadingMore: bookShelfState.isLoadingMore,
@@ -150,12 +169,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       onBookLongPress: _onBookLongPress,
       onLoadMore: () {
         ref.read(bookShelfNotifierProvider.notifier).loadMore();
-      },
-      onSortChanged: (option) {
-        ref.read(bookShelfNotifierProvider.notifier).setSortOption(option);
-      },
-      onGroupChanged: (option) {
-        ref.read(bookShelfNotifierProvider.notifier).setGroupOption(option);
       },
     );
   }

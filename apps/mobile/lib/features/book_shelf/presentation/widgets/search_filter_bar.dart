@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_shelf/domain/group_option.dart';
@@ -59,108 +58,70 @@ class SearchFilterBar extends StatelessWidget {
 
     return Row(
       children: [
-        _buildSortButton(context, appColors),
-        const SizedBox(width: AppSpacing.xs),
-        _buildGroupButton(context, appColors),
+        _FilterIconButton(
+          icon: Icons.tune,
+          isActive: sortOption != SortOption.defaultOption,
+          semanticLabel: sortOption != SortOption.defaultOption
+              ? '並び替え（${sortOption.displayName}）'
+              : '並び替え',
+          color: appColors.foreground,
+          onTap: () => _showSortBottomSheet(context),
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        _FilterIconButton(
+          icon: Icons.grid_view,
+          isActive: groupOption != GroupOption.defaultOption,
+          semanticLabel: groupOption != GroupOption.defaultOption
+              ? 'グループ化（${groupOption.displayName}）'
+              : 'グループ化',
+          color: appColors.foreground,
+          onTap: () => _showGroupBottomSheet(context),
+        ),
       ],
     );
   }
+}
 
-  Widget _buildSortButton(BuildContext context, AppColors appColors) {
-    final isActive = sortOption != SortOption.defaultOption;
-    final borderRadius = BorderRadius.circular(AppRadius.lg);
+class _FilterIconButton extends StatelessWidget {
+  const _FilterIconButton({
+    required this.icon,
+    required this.isActive,
+    required this.semanticLabel,
+    required this.color,
+    required this.onTap,
+  });
 
+  final IconData icon;
+  final bool isActive;
+  final String semanticLabel;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: isActive ? '並び替え（${sortOption.displayName}）' : '並び替え',
-      child: Material(
-        color: appColors.surface,
-        borderRadius: borderRadius,
-        child: InkWell(
-          onTap: () => _showSortBottomSheet(context),
-          borderRadius: borderRadius,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  border: Border.all(
-                    color: appColors.foregroundMuted.withOpacity(0.3),
+      label: semanticLabel,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Icon(icon, size: 20, color: color),
+            if (isActive)
+              Positioned(
+                top: -2,
+                right: -2,
+                child: Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
                   ),
-                ),
-                child: Icon(
-                  Icons.tune,
-                  size: 16,
-                  color: appColors.foreground,
                 ),
               ),
-              if (isActive)
-                Positioned(
-                  top: -1,
-                  right: -1,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: appColors.foreground,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGroupButton(BuildContext context, AppColors appColors) {
-    final isActive = groupOption != GroupOption.defaultOption;
-    final borderRadius = BorderRadius.circular(AppRadius.lg);
-
-    return Semantics(
-      button: true,
-      label: isActive ? 'グループ化（${groupOption.displayName}）' : 'グループ化',
-      child: Material(
-        color: appColors.surface,
-        borderRadius: borderRadius,
-        child: InkWell(
-          onTap: () => _showGroupBottomSheet(context),
-          borderRadius: borderRadius,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  border: Border.all(
-                    color: appColors.foregroundMuted.withOpacity(0.3),
-                  ),
-                ),
-                child: Icon(
-                  Icons.grid_view,
-                  size: 16,
-                  color: appColors.foreground,
-                ),
-              ),
-              if (isActive)
-                Positioned(
-                  top: -1,
-                  right: -1,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: appColors.foreground,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+          ],
         ),
       ),
     );
