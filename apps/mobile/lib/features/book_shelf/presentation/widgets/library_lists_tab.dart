@@ -36,8 +36,16 @@ class LibraryListsTab extends StatelessWidget {
       );
     }
 
+    final bottomInset =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
+
     return ListView.builder(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: EdgeInsets.only(
+        left: AppSpacing.md,
+        right: AppSpacing.md,
+        top: AppSpacing.md,
+        bottom: bottomInset,
+      ),
       itemCount: lists.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {

@@ -108,6 +108,12 @@ class _BookGridState extends State<BookGrid> {
                 child: LoadingIndicator(),
               ),
             ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: MediaQuery.of(context).padding.bottom +
+                  kBottomNavigationBarHeight,
+            ),
+          ),
         ],
       ),
     );
@@ -194,6 +200,12 @@ class _BookGridState extends State<BookGrid> {
                 child: LoadingIndicator(),
               ),
             ),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: MediaQuery.of(context).padding.bottom +
+                  kBottomNavigationBarHeight,
+            ),
+          ),
         ],
       ),
     );

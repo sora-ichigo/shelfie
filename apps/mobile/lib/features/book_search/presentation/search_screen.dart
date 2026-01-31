@@ -179,10 +179,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           return const SizedBox.shrink();
         }
 
+        final bottomInset = MediaQuery.of(context).padding.bottom +
+            kBottomNavigationBarHeight;
+
         return Align(
           key: const ValueKey('recent_books_section'),
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: bottomInset),
             child: RecentBooksSection(
               books: recentBooks,
               onBookTap: (book) => context.push(
@@ -308,6 +312,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }) {
     final shelfState = ref.watch(shelfStateProvider);
 
+    final bottomInset =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification) {
@@ -319,6 +326,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         return false;
       },
       child: ListView.builder(
+        padding: EdgeInsets.only(bottom: bottomInset),
         itemCount: books.length + (isLoadingMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == books.length) {
