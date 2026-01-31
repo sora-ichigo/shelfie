@@ -35,7 +35,6 @@ class ScreenHeader extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontFamily: 'NotoSansJP',
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                 ),

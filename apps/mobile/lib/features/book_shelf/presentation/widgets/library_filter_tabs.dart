@@ -68,7 +68,7 @@ class _FilterTabButton extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
+          horizontal: AppSpacing.sm,
           vertical: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
@@ -79,10 +79,10 @@ class _FilterTabButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: theme.textTheme.bodyMedium?.copyWith(
+          style: theme.textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.w400,
             color:
                 isSelected ? appColors.foreground : appColors.foregroundMuted,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
           ),
         ),
       ),

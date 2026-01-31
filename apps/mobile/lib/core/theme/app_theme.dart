@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
@@ -24,7 +23,7 @@ abstract final class AppTheme {
       onSurface: Colors.white,
     );
 
-    final textTheme = GoogleFonts.interTextTheme(AppTypography.textTheme);
+    final textTheme = AppTypography.textTheme.apply(fontFamily: 'NotoSansJP');
 
     return ThemeData(
       useMaterial3: true,
