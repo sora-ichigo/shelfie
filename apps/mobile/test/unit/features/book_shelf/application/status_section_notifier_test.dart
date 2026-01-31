@@ -5,10 +5,13 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
+import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 class MockBookShelfRepository implements BookShelfRepository {
   MyShelfResult? nextResult;
@@ -17,6 +20,8 @@ class MockBookShelfRepository implements BookShelfRepository {
   GReadingStatus? lastReadingStatus;
   int? lastOffset;
   int? lastLimit;
+  GShelfSortField? lastSortBy;
+  GSortOrder? lastSortOrder;
 
   @override
   Future<Either<Failure, MyShelfResult>> getMyShelf({
@@ -31,6 +36,8 @@ class MockBookShelfRepository implements BookShelfRepository {
     lastReadingStatus = readingStatus;
     lastOffset = offset;
     lastLimit = limit;
+    lastSortBy = sortBy;
+    lastSortOrder = sortOrder;
     if (nextError != null) {
       return left(nextError!);
     }
@@ -73,15 +80,36 @@ MyShelfResult createMockResult({
   );
 }
 
+class FakeBookShelfSettingsRepository
+    implements BookShelfSettingsRepository {
+  SortOption _current = SortOption.defaultOption;
+
+  FakeBookShelfSettingsRepository([SortOption? initial]) {
+    if (initial != null) _current = initial;
+  }
+
+  @override
+  SortOption getSortOption() => _current;
+
+  @override
+  Future<void> setSortOption(SortOption option) async {
+    _current = option;
+  }
+}
+
 void main() {
   late MockBookShelfRepository mockRepository;
+  late FakeBookShelfSettingsRepository fakeSettingsRepo;
   late ProviderContainer container;
 
   setUp(() {
     mockRepository = MockBookShelfRepository();
+    fakeSettingsRepo = FakeBookShelfSettingsRepository();
     container = ProviderContainer(
       overrides: [
         bookShelfRepositoryProvider.overrideWithValue(mockRepository),
+        bookShelfSettingsRepositoryProvider
+            .overrideWithValue(fakeSettingsRepo),
       ],
     );
   });
@@ -354,6 +382,8 @@ void main() {
           final c = ProviderContainer(
             overrides: [
               bookShelfRepositoryProvider.overrideWithValue(mockRepo),
+              bookShelfSettingsRepositoryProvider
+                  .overrideWithValue(FakeBookShelfSettingsRepository()),
             ],
           );
 
@@ -372,6 +402,83 @@ void main() {
 
           c.dispose();
         }
+      });
+    });
+
+    group('ソートパラメータ', () {
+      test('initialize でデフォルトのソートパラメータが渡される', () async {
+        mockRepository.nextResult = createMockResult();
+
+        final notifier = container.read(
+          statusSectionNotifierProvider(ReadingStatus.reading).notifier,
+        );
+        await notifier.initialize();
+
+        expect(mockRepository.lastSortBy, GShelfSortField.ADDED_AT);
+        expect(mockRepository.lastSortOrder, GSortOrder.DESC);
+      });
+
+      test('initialize でカスタムのソートパラメータが渡される', () async {
+        final customSettingsRepo =
+            FakeBookShelfSettingsRepository(SortOption.titleAsc);
+        final mockRepo = MockBookShelfRepository();
+        mockRepo.nextResult = createMockResult();
+
+        final c = ProviderContainer(
+          overrides: [
+            bookShelfRepositoryProvider.overrideWithValue(mockRepo),
+            bookShelfSettingsRepositoryProvider
+                .overrideWithValue(customSettingsRepo),
+          ],
+        );
+
+        final notifier = c.read(
+          statusSectionNotifierProvider(ReadingStatus.reading).notifier,
+        );
+        await notifier.initialize();
+
+        expect(mockRepo.lastSortBy, GShelfSortField.TITLE);
+        expect(mockRepo.lastSortOrder, GSortOrder.ASC);
+
+        c.dispose();
+      });
+
+      test('loadMore で現在のソートパラメータが渡される', () async {
+        mockRepository.nextResult = createMockResult(
+          count: 3,
+          totalCount: 10,
+          hasMore: true,
+        );
+
+        final notifier = container.read(
+          statusSectionNotifierProvider(ReadingStatus.reading).notifier,
+        );
+        await notifier.initialize();
+
+        mockRepository.nextResult = createMockResult(
+          count: 3,
+          totalCount: 10,
+          hasMore: true,
+        );
+        await notifier.loadMore();
+
+        expect(mockRepository.lastSortBy, GShelfSortField.ADDED_AT);
+        expect(mockRepository.lastSortOrder, GSortOrder.DESC);
+      });
+
+      test('refresh で現在のソートパラメータが渡される', () async {
+        mockRepository.nextResult = createMockResult();
+
+        final notifier = container.read(
+          statusSectionNotifierProvider(ReadingStatus.reading).notifier,
+        );
+        await notifier.initialize();
+
+        mockRepository.nextResult = createMockResult();
+        await notifier.refresh();
+
+        expect(mockRepository.lastSortBy, GShelfSortField.ADDED_AT);
+        expect(mockRepository.lastSortOrder, GSortOrder.DESC);
       });
     });
   });

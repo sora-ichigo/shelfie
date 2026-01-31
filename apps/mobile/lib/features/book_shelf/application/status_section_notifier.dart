@@ -3,6 +3,7 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 
@@ -30,8 +31,11 @@ class StatusSectionNotifier extends _$StatusSectionNotifier {
     state = const StatusSectionState.loading();
 
     final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(sortOptionNotifierProvider);
     final result = await repository.getMyShelf(
       readingStatus: _toGReadingStatus(status),
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
       limit: _pageSize,
       offset: 0,
     );
@@ -58,8 +62,11 @@ class StatusSectionNotifier extends _$StatusSectionNotifier {
     state = current.copyWith(isLoadingMore: true);
 
     final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(sortOptionNotifierProvider);
     final result = await repository.getMyShelf(
       readingStatus: _toGReadingStatus(status),
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
       limit: _pageSize,
       offset: current.books.length,
     );
@@ -80,8 +87,11 @@ class StatusSectionNotifier extends _$StatusSectionNotifier {
 
   Future<void> refresh() async {
     final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(sortOptionNotifierProvider);
     final result = await repository.getMyShelf(
       readingStatus: _toGReadingStatus(status),
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
       limit: _pageSize,
       offset: 0,
     );
