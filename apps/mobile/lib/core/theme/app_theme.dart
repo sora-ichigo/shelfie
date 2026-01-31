@@ -32,6 +32,7 @@ abstract final class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.dark.background,
       textTheme: textTheme,
+      iconTheme: const IconThemeData(color: Colors.white),
       extensions: const [AppColors.dark],
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -87,6 +88,8 @@ abstract final class AppTheme {
   static ThemeData get theme => dark();
 
   /// Cupertino ダークテーマを返す
-  static CupertinoThemeData get cupertinoTheme =>
-      const CupertinoThemeData(brightness: Brightness.dark);
+  static CupertinoThemeData get cupertinoTheme => const CupertinoThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.white,
+      );
 }
