@@ -126,7 +126,7 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
-    background: _neutral900,
+    background: _mauve1,
     surface: _neutral800,
     surfaceCard: _neutral850,
     surfaceHigh: _teal800,

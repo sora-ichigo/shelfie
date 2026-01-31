@@ -87,8 +87,9 @@ abstract final class AppTheme {
   static ThemeData get theme => dark();
 
   /// Cupertino ダークテーマを返す
-  static CupertinoThemeData get cupertinoTheme => const CupertinoThemeData(
+  static CupertinoThemeData get cupertinoTheme => CupertinoThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.white,
+        scaffoldBackgroundColor: AppColors.dark.background,
       );
 }
