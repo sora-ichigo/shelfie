@@ -56,7 +56,7 @@ class BookCard extends ConsumerWidget {
             _buildRating(appColors, rating),
             const SizedBox(height: AppSpacing.xxs),
           ],
-          _buildTitle(appColors),
+          _buildTitle(theme),
         ],
       ),
     );
@@ -107,16 +107,12 @@ class BookCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildTitle(AppColors appColors) {
+  Widget _buildTitle(ThemeData theme) {
     return Text(
       book.title,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: AppTypography.bodySecondary.copyWith(
-        color: appColors.foregroundSecondary,
-      ),
+      style: theme.textTheme.bodySmall,
     );
   }
-
-
 }

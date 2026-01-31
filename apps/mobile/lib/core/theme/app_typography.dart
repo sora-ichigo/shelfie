@@ -109,13 +109,6 @@ abstract final class AppTypography {
     height: 1.43,
   );
 
-  /// 14px - セカンダリ本文テキスト（Figma: body/secondary）
-  static const bodySecondary = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    height: 1.6,
-  );
-
   /// 12px - 補足テキスト、キャプション、利用規約など
   static const bodySmall = TextStyle(
     fontSize: 12,

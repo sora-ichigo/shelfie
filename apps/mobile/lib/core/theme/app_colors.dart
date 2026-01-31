@@ -31,7 +31,6 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.overlay,
     required this.foreground,
     required this.foregroundMuted,
-    required this.foregroundSecondary,
     required this.accent,
     required this.accentSecondary,
     required this.link,
@@ -66,7 +65,6 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _blackOverlay = Color(0x4D000000);
   static const Color _white5 = Color(0x0DFFFFFF);
   static const Color _mauve1 = Color(0xFF121113);
-  static const Color _mauve11 = Color(0xFFB5B2BC);
   static const Color _mauveAlpha4 = Color(0x1DEEE5F8);
   static const Color _mauveAlpha12 = Color(0xEFFDFDFF);
 
@@ -97,9 +95,6 @@ class AppColors extends ThemeExtension<AppColors> {
 
   /// 補助的なテキスト・アイコン色（secondary、placeholder等）
   final Color foregroundMuted;
-
-  /// セカンダリテキスト色（Mauve/11）
-  final Color foregroundSecondary;
 
   /// プライマリアクセントカラー（CTA、リンク、ブランドカラー）
   final Color accent;
@@ -144,7 +139,6 @@ class AppColors extends ThemeExtension<AppColors> {
     overlay: _blackOverlay,
     foreground: _white,
     foregroundMuted: _neutral500,
-    foregroundSecondary: _mauve11,
     accent: _teal400,
     accentSecondary: _gold400,
     link: _teal300,
@@ -168,7 +162,6 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? overlay,
     Color? foreground,
     Color? foregroundMuted,
-    Color? foregroundSecondary,
     Color? accent,
     Color? accentSecondary,
     Color? link,
@@ -190,7 +183,6 @@ class AppColors extends ThemeExtension<AppColors> {
       overlay: overlay ?? this.overlay,
       foreground: foreground ?? this.foreground,
       foregroundMuted: foregroundMuted ?? this.foregroundMuted,
-      foregroundSecondary: foregroundSecondary ?? this.foregroundSecondary,
       accent: accent ?? this.accent,
       accentSecondary: accentSecondary ?? this.accentSecondary,
       link: link ?? this.link,
@@ -217,7 +209,6 @@ class AppColors extends ThemeExtension<AppColors> {
       overlay: Color.lerp(overlay, other.overlay, t)!,
       foreground: Color.lerp(foreground, other.foreground, t)!,
       foregroundMuted: Color.lerp(foregroundMuted, other.foregroundMuted, t)!,
-      foregroundSecondary: Color.lerp(foregroundSecondary, other.foregroundSecondary, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
       accentSecondary: Color.lerp(accentSecondary, other.accentSecondary, t)!,
       link: Color.lerp(link, other.link, t)!,
