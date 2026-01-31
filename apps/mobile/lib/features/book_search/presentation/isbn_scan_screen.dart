@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -69,7 +70,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
             MobileScanner(
               controller: controller,
               onDetect: _onBarcodeDetected,
-              errorBuilder: (context, error, child) {
+              errorBuilder: (context, error) {
                 if (error.errorCode == MobileScannerErrorCode.permissionDenied) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (mounted) {
@@ -272,10 +273,10 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
     // 設定アプリを開く（プラットフォーム固有の実装が必要）
     // 現時点では、ユーザーに手動で設定を開くよう促す
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('設定アプリからカメラへのアクセスを許可してください'),
-        ),
+      AdaptiveSnackBar.show(
+        context,
+        message: '設定アプリからカメラへのアクセスを許可してください',
+        type: AdaptiveSnackBarType.info,
       );
     }
   }

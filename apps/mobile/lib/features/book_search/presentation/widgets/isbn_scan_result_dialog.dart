@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,11 +132,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         setState(() {
           _isAddingToShelf = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
@@ -147,10 +147,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                 ),
           );
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${_selectedStatus.displayName}」で登録しました'),
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: '「${_selectedStatus.displayName}」で登録しました',
+          type: AdaptiveSnackBarType.success,
         );
         Navigator.of(context).pop(true);
       },

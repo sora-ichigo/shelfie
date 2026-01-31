@@ -8,6 +8,7 @@
     "dev:api": "pnpm --filter @shelfie/api dev",
     "dev:web": "pnpm --filter @shelfie/web dev",
     "dev:mobile": "cd apps/mobile && flutter run",
+    "dev:mobile:device": "cd apps/mobile && flutter run -d iphone --dart-define=API_BASE_URL=http://$(ipconfig getifaddr en0):4000",
     "build": "pnpm -r build",
     "lint": "biome lint .",
     "format": "biome format . --write",

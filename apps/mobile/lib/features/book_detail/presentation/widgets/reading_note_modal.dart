@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -218,8 +219,10 @@ class _ReadingNoteModalContentState
       },
       (_) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('メモを保存しました')),
+          AdaptiveSnackBar.show(
+            context,
+            message: 'メモを保存しました',
+            type: AdaptiveSnackBarType.success,
           );
           Navigator.pop(context);
         }

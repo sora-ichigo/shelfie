@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -271,8 +272,10 @@ class _BookQuickActionsModalContentState
       if (status == ReadingStatus.completed) {
         setState(() => _isUpdating = false);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${status.displayName}に変更しました')),
+        AdaptiveSnackBar.show(
+          context,
+          message: '${status.displayName}に変更しました',
+          type: AdaptiveSnackBarType.success,
         );
         Navigator.pop(context);
       }
@@ -330,8 +333,10 @@ class _BookQuickActionsModalContentState
         );
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('評価を変更しました')),
+      AdaptiveSnackBar.show(
+        context,
+        message: '評価を変更しました',
+        type: AdaptiveSnackBarType.success,
       );
       Navigator.pop(context);
     }
@@ -408,7 +413,6 @@ class _BookQuickActionsModalContentState
     final repository = ref.read(bookListRepositoryProvider);
     final userBookId = widget.book.userBookId;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final errorColor = Theme.of(context).colorScheme.error;
 
     Navigator.pop(context);
     showListSelectorModal(
@@ -425,13 +429,16 @@ class _BookQuickActionsModalContentState
             scaffoldMessenger.showSnackBar(
               SnackBar(
                 content: Text(failure.userMessage),
-                backgroundColor: errorColor,
+                backgroundColor: Colors.red.shade700,
               ),
             );
           },
           (_) {
             scaffoldMessenger.showSnackBar(
-              const SnackBar(content: Text('リストに追加しました')),
+              SnackBar(
+                content: const Text('リストに追加しました'),
+                backgroundColor: Colors.green.shade700,
+              ),
             );
           },
         );
@@ -463,15 +470,19 @@ class _BookQuickActionsModalContentState
       (failure) {
         if (mounted) {
           setState(() => _isUpdating = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(failure.userMessage)),
+          AdaptiveSnackBar.show(
+            context,
+            message: failure.userMessage,
+            type: AdaptiveSnackBarType.error,
           );
         }
       },
       (_) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('マイライブラリから削除しました')),
+          AdaptiveSnackBar.show(
+            context,
+            message: 'マイライブラリから削除しました',
+            type: AdaptiveSnackBarType.success,
           );
           Navigator.pop(context);
         }

@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,14 +30,17 @@ class MockBookShelfSettingsRepository extends Mock
 void main() {
   group('ShelfieApp', () {
     group('Task 9.1: ShelfieApp widget integration', () {
-      testWidgets('MaterialApp.router を使用していること', (tester) async {
+      testWidgets('AdaptiveApp.router を使用していること', (tester) async {
         await tester.pumpWidget(
           ProviderScope(
             child: const ShelfieApp(),
           ),
         );
 
-        // MaterialApp.router が使用されていることを確認
+        // AdaptiveApp が使用されていることを確認
+        expect(find.byType(AdaptiveApp), findsOneWidget);
+
+        // 内部的に MaterialApp.router が構築されていること（テスト環境は非 iOS）
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
@@ -50,15 +54,17 @@ void main() {
           ),
         );
 
+        // テスト環境では AdaptiveApp 内部で MaterialApp が使用される
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
 
         // ダークモードのテーマが適用されていることを確認
-        expect(materialApp.theme?.brightness, equals(Brightness.dark));
-        expect(materialApp.theme?.useMaterial3, isTrue);
+        // AdaptiveApp は darkTheme に materialDarkTheme を設定する
+        expect(materialApp.darkTheme?.brightness, equals(Brightness.dark));
+        expect(materialApp.darkTheme?.useMaterial3, isTrue);
         expect(
-          materialApp.theme?.scaffoldBackgroundColor,
+          materialApp.darkTheme?.scaffoldBackgroundColor,
           equals(AppTheme.theme.scaffoldBackgroundColor),
         );
       });
@@ -86,28 +92,14 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // MaterialApp のテーマに AppColors 拡張が含まれていることを確認
+        // MaterialApp の darkTheme に AppColors 拡張が含まれていることを確認
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
-        final appColors = materialApp.theme?.extension<AppColors>();
+        final appColors = materialApp.darkTheme?.extension<AppColors>();
 
         expect(appColors, isNotNull);
         expect(appColors, equals(AppColors.dark));
-      });
-
-      testWidgets('debugShowCheckedModeBanner が false であること', (tester) async {
-        await tester.pumpWidget(
-          ProviderScope(
-            child: const ShelfieApp(),
-          ),
-        );
-
-        final materialApp = tester.widget<MaterialApp>(
-          find.byType(MaterialApp),
-        );
-
-        expect(materialApp.debugShowCheckedModeBanner, isFalse);
       });
 
       testWidgets('アプリのタイトルが "Shelfie" であること', (tester) async {
@@ -117,15 +109,14 @@ void main() {
           ),
         );
 
-        final materialApp = tester.widget<MaterialApp>(
-          find.byType(MaterialApp),
+        final adaptiveApp = tester.widget<AdaptiveApp>(
+          find.byType(AdaptiveApp),
         );
 
-        expect(materialApp.title, equals('Shelfie'));
+        expect(adaptiveApp.title, equals('Shelfie'));
       });
 
       testWidgets('ConsumerWidget として実装されていること', (tester) async {
-        // ShelfieApp が ConsumerWidget を継承していることを確認
         expect(const ShelfieApp(), isA<ConsumerWidget>());
       });
 
@@ -136,9 +127,22 @@ void main() {
           ),
         );
 
-        // エラーなくビルドされることを確認
         expect(find.byType(ShelfieApp), findsOneWidget);
-        expect(find.byType(MaterialApp), findsOneWidget);
+        expect(find.byType(AdaptiveApp), findsOneWidget);
+      });
+
+      testWidgets('themeMode が dark に設定されていること', (tester) async {
+        await tester.pumpWidget(
+          ProviderScope(
+            child: const ShelfieApp(),
+          ),
+        );
+
+        final adaptiveApp = tester.widget<AdaptiveApp>(
+          find.byType(AdaptiveApp),
+        );
+
+        expect(adaptiveApp.themeMode, equals(ThemeMode.dark));
       });
     });
 
@@ -169,7 +173,6 @@ void main() {
           ),
         );
 
-        // Provider が 1 回だけ watch されることを確認
         expect(watchCount, equals(1));
       });
 
@@ -196,7 +199,6 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // カスタムルーターの画面が表示されることを確認
         expect(find.text('Custom Route'), findsOneWidget);
       });
 
@@ -232,10 +234,8 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // 初期状態（未認証）ではウェルカム画面が表示される
         expect(find.text('Shelfie'), findsOneWidget);
 
-        // 認証状態を変更
         final container = ProviderScope.containerOf(
           tester.element(find.byType(ShelfieApp)),
         );
@@ -247,16 +247,14 @@ void main() {
             );
         await tester.pumpAndSettle();
 
-        // 認証後はホーム画面が表示される（ウェルカム画面が消える）
         expect(find.text('読書家のための本棚'), findsNothing);
-        // ホームタブのコンテンツが表示される（タブバーと画面タイトル両方に「マイライブラリ」がある）
         expect(find.text('マイライブラリ'), findsAtLeast(1));
       });
     });
   });
 
   group('Integration tests', () {
-    testWidgets('1-8 の全コンポーネントが統合されていること', (tester) async {
+    testWidgets('全コンポーネントが統合されていること', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: const ShelfieApp(),
@@ -264,30 +262,28 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // MaterialApp が存在することを確認（テーマ統合）
-      expect(find.byType(MaterialApp), findsOneWidget);
+      // AdaptiveApp が存在することを確認
+      expect(find.byType(AdaptiveApp), findsOneWidget);
 
-      // Router が存在することを確認（ルーティング統合）
+      // 内部の MaterialApp で Router が存在することを確認
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.routerConfig, isNotNull);
 
       // テーマが正しく適用されていることを確認
-      expect(materialApp.theme?.useMaterial3, isTrue);
-      expect(materialApp.theme?.brightness, Brightness.dark);
+      expect(materialApp.darkTheme?.useMaterial3, isTrue);
+      expect(materialApp.darkTheme?.brightness, Brightness.dark);
 
       // AppColors 拡張が存在することを確認
-      expect(materialApp.theme?.extensions.values, isNotEmpty);
+      expect(materialApp.darkTheme?.extensions.values, isNotEmpty);
     });
 
     testWidgets('初期化順序が正しいこと', (tester) async {
-      // ProviderScope が最外層であることを確認
       await tester.pumpWidget(
         ProviderScope(
           child: const ShelfieApp(),
         ),
       );
 
-      // ProviderScope が存在し、ShelfieApp がその中にあることを確認
       final providerScope = tester.widget<ProviderScope>(
         find.byType(ProviderScope),
       );

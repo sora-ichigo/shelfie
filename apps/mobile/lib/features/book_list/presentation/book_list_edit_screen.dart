@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -357,8 +358,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     await result.fold(
       (failure) async {
         setState(() => _isSaving = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.userMessage)),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (bookList) async {
@@ -414,8 +417,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     result.fold(
       (failure) {
         setState(() => _isSaving = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.userMessage)),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {

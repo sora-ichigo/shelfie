@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -210,8 +211,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(failure.userMessage)),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
@@ -240,8 +243,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         result.fold(
           (failure) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(failure.userMessage)),
+              AdaptiveSnackBar.show(
+                context,
+                message: failure.userMessage,
+                type: AdaptiveSnackBarType.error,
               );
             }
           },
@@ -261,8 +266,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         result.fold(
           (failure) {
             if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(failure.userMessage)),
+              AdaptiveSnackBar.show(
+                context,
+                message: failure.userMessage,
+                type: AdaptiveSnackBarType.error,
               );
             }
           },

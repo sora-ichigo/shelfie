@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -272,11 +273,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {
@@ -295,10 +295,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             );
           }
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${addResult.status.displayName}」で登録しました'),
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: '「${addResult.status.displayName}」で登録しました',
+          type: AdaptiveSnackBarType.success,
         );
       },
     );
@@ -323,11 +323,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(failure.userMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
         );
       },
       (_) {},
@@ -411,16 +410,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
         result.fold(
           (failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(failure.userMessage),
-                backgroundColor: Theme.of(context).colorScheme.error,
-              ),
+            AdaptiveSnackBar.show(
+              context,
+              message: failure.userMessage,
+              type: AdaptiveSnackBarType.error,
             );
           },
           (_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('リストに追加しました')),
+            AdaptiveSnackBar.show(
+              context,
+              message: 'リストに追加しました',
+              type: AdaptiveSnackBarType.success,
             );
           },
         );
