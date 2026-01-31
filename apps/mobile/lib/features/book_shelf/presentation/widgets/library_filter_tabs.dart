@@ -4,7 +4,6 @@ import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 enum LibraryFilterTab {
-  all,
   books,
   lists,
 }
@@ -12,7 +11,6 @@ enum LibraryFilterTab {
 extension LibraryFilterTabX on LibraryFilterTab {
   String get label {
     return switch (this) {
-      LibraryFilterTab.all => 'すべて',
       LibraryFilterTab.books => '本',
       LibraryFilterTab.lists => 'リスト',
     };

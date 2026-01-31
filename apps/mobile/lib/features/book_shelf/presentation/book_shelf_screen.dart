@@ -12,7 +12,6 @@ import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/library_all_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
@@ -26,7 +25,7 @@ class BookShelfScreen extends ConsumerStatefulWidget {
 }
 
 class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
-  LibraryFilterTab _selectedTab = LibraryFilterTab.all;
+  LibraryFilterTab _selectedTab = LibraryFilterTab.books;
 
   @override
   void initState() {
@@ -125,41 +124,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         .any((book) => shelfState.containsKey(book.externalId));
 
     return switch (_selectedTab) {
-      LibraryFilterTab.all => _buildAllTab(bookShelfState, lists),
       LibraryFilterTab.books => _buildBooksTab(bookShelfState),
       LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
     };
-  }
-
-  Widget _buildAllTab(
-      BookShelfLoaded bookShelfState, List<BookListSummary> lists) {
-    final shelfState = ref.watch(shelfStateProvider);
-    final filteredBooks = bookShelfState.books
-        .where((book) => shelfState.containsKey(book.externalId))
-        .toList();
-    final recentBooks = filteredBooks.take(10).toList();
-
-    return LibraryAllTab(
-      lists: lists,
-      recentBooks: recentBooks,
-      totalBookCount: filteredBooks.length,
-      onListTap: _onListTap,
-      onBookTap: _onBookTap,
-      onBookLongPress: _onBookLongPress,
-      onSeeAllBooksTap: () {
-        setState(() {
-          _selectedTab = LibraryFilterTab.books;
-        });
-      },
-      onSeeAllListsTap: () {
-        setState(() {
-          _selectedTab = LibraryFilterTab.lists;
-        });
-      },
-      onCreateListTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
-    );
   }
 
   Widget _buildBooksTab(BookShelfLoaded bookShelfState) {
