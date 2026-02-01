@@ -5,6 +5,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
+import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -52,6 +53,7 @@ class _BookSelectorModalContentState
   final _searchController = TextEditingController();
   String _searchQuery = '';
   late final Set<int> _selectedUserBookIds;
+  BookShelfLoaded? _lastLoadedState;
 
   @override
   void initState() {
@@ -131,58 +133,85 @@ class _BookSelectorModalContentState
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return shelfState.when(
-      initial: () => const Center(child: CircularProgressIndicator()),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      loaded: (books, _, __, ___, ____) {
-        final filteredBooks = _filterBooks(books);
+    if (shelfState is BookShelfLoaded) {
+      _lastLoadedState = shelfState;
+    }
 
-        if (filteredBooks.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.search_off,
-                  size: 48,
-                  color: appColors.foregroundMuted,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  '本が見つかりません',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: appColors.foregroundMuted,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: filteredBooks.length,
-          itemBuilder: (context, index) {
-            final book = filteredBooks[index];
-            final isSelected = _isSelected(book);
-            return _BookListItem(
-              book: book,
-              isSelected: isSelected,
-              onTap: isSelected
-                  ? () => _onBookRemove(book)
-                  : () => _onBookTap(book),
-              onRemove: isSelected ? () => _onBookRemove(book) : null,
-            );
-          },
-        );
-      },
-      error: (_) => Center(
+    if (shelfState is BookShelfError) {
+      return Center(
         child: Text(
           'エラーが発生しました',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: appColors.error,
           ),
         ),
+      );
+    }
+
+    final loaded = _lastLoadedState;
+    if (loaded == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final filteredBooks = _filterBooks(loaded.books);
+
+    if (filteredBooks.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 48,
+              color: appColors.foregroundMuted,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '本が見つかりません',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: appColors.foregroundMuted,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (!loaded.hasMore || loaded.isLoadingMore) return false;
+        if (notification is! ScrollUpdateNotification) return false;
+
+        final maxScroll = notification.metrics.maxScrollExtent;
+        final currentScroll = notification.metrics.pixels;
+        final threshold = maxScroll * 0.8;
+
+        if (currentScroll >= threshold) {
+          ref.read(bookShelfNotifierProvider.notifier).loadMore();
+        }
+        return false;
+      },
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: filteredBooks.length + (loaded.isLoadingMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index == filteredBooks.length) {
+            return const Padding(
+              padding: EdgeInsets.all(AppSpacing.md),
+              child: LoadingIndicator(),
+            );
+          }
+          final book = filteredBooks[index];
+          final isSelected = _isSelected(book);
+          return _BookListItem(
+            book: book,
+            isSelected: isSelected,
+            onTap: isSelected
+                ? () => _onBookRemove(book)
+                : () => _onBookTap(book),
+            onRemove: isSelected ? () => _onBookRemove(book) : null,
+          );
+        },
       ),
     );
   }

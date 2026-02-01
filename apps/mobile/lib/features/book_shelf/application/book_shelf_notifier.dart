@@ -14,7 +14,7 @@ part 'book_shelf_notifier.g.dart';
 /// サーバーサイドでのソート・ページネーションを担当する。
 @riverpod
 class BookShelfNotifier extends _$BookShelfNotifier {
-  static const int _pageSize = 20;
+  static const int _pageSize = 10;
 
   late SortOption _sortOption;
   int _currentOffset = 0;
