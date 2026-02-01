@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
-
-import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/library_books_tab.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
 
 void main() {
@@ -28,75 +24,6 @@ void main() {
     );
   }
 
-  ShelfBookItem createBook({
-    int userBookId = 1,
-    String title = 'Test Book',
-    String externalId = 'ext-1',
-  }) {
-    return ShelfBookItem(
-      userBookId: userBookId,
-      externalId: externalId,
-      title: title,
-      authors: ['Author'],
-      coverImageUrl: 'https://example.com/cover.jpg',
-      addedAt: now,
-    );
-  }
-
-  group('LibraryBooksTab', () {
-    testWidgets('displays empty state when books is empty', (tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryBooksTab(
-                books: [],
-
-                hasMore: false,
-                isLoadingMore: false,
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onLoadMore: () {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('本を追加してみましょう'), findsOneWidget);
-    });
-
-    testWidgets('displays books in grid', (tester) async {
-      final books = [
-        createBook(userBookId: 1, title: 'Book 1', externalId: 'ext-1'),
-        createBook(userBookId: 2, title: 'Book 2', externalId: 'ext-2'),
-      ];
-
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: Scaffold(
-              body: LibraryBooksTab(
-                books: books,
-
-                hasMore: false,
-                isLoadingMore: false,
-                onBookTap: (_) {},
-                onBookLongPress: (_) {},
-                onLoadMore: () {},
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Book 1'), findsOneWidget);
-      expect(find.text('Book 2'), findsOneWidget);
-    });
-  });
-
   group('LibraryListsTab', () {
     testWidgets('displays vertical list of book lists with horizontal layout',
         (tester) async {
@@ -111,7 +38,7 @@ void main() {
           home: Scaffold(
             body: LibraryListsTab(
               lists: lists,
-              hasBooks: true,
+
               onListTap: (_) {},
               onCreateTap: () {},
             ),
@@ -131,7 +58,7 @@ void main() {
           home: Scaffold(
             body: LibraryListsTab(
               lists: [],
-              hasBooks: true,
+
               onListTap: (_) {},
               onCreateTap: () {},
             ),
@@ -153,7 +80,7 @@ void main() {
           home: Scaffold(
             body: LibraryListsTab(
               lists: [],
-              hasBooks: true,
+
               onListTap: (_) {},
               onCreateTap: () => tapped = true,
             ),
@@ -178,7 +105,7 @@ void main() {
           home: Scaffold(
             body: LibraryListsTab(
               lists: lists,
-              hasBooks: true,
+
               onListTap: (_) {},
               onCreateTap: () {},
             ),

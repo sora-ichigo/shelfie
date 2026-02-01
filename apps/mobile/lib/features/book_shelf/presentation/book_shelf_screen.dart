@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
@@ -163,25 +164,35 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final shelfState = ref.watch(shelfStateProvider);
     final hasBooks = shelfState.isNotEmpty;
 
+    if (!hasBooks) {
+      return CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: EmptyState(
+              icon: Icons.auto_stories_outlined,
+              message: '本を追加してみましょう',
+              onAction: _showAddBookSheet,
+              actionText: '本を追加',
+            ),
+          ),
+        ],
+      );
+    }
+
     return switch (_selectedTab) {
       LibraryFilterTab.books => StatusSectionList(
           onBookTap: _onBookTap,
           onBookLongPress: _onBookLongPress,
-          onAddBookPressed: _showAddBookSheet,
         ),
-      LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
+      LibraryFilterTab.lists => LibraryListsTab(
+          lists: lists,
+          onListTap: _onListTap,
+          onCreateTap: () {
+            context.push(AppRoutes.bookListCreate);
+          },
+        ),
     };
-  }
-
-  Widget _buildListsTab(List<BookListSummary> lists, bool hasBooks) {
-    return LibraryListsTab(
-      lists: lists,
-      hasBooks: hasBooks,
-      onListTap: _onListTap,
-      onCreateTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
-    );
   }
 
   void _showAddBookSheet() {
