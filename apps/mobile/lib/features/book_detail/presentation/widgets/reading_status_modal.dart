@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:async';
 
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
