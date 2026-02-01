@@ -1,10 +1,10 @@
 environment           = "prod"
 project_id            = "shelfie-production-485714"
 region                = "asia-northeast1"
-min_instances         = 1
+min_instances         = 0
 max_instances         = 10
-cpu_limit             = "2"
-memory_limit          = "1Gi"
+cpu_limit             = "1"
+memory_limit          = "512Mi"
 allow_unauthenticated = true
 
 # GitHub Actions CD

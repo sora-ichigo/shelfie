@@ -80,6 +80,7 @@ resource "google_cloud_run_v2_service" "api" {
           cpu    = var.cpu_limit
           memory = var.memory_limit
         }
+        cpu_idle = true
       }
 
       dynamic "env" {
