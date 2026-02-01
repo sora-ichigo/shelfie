@@ -13,7 +13,7 @@ export const readingStatusEnum = pgEnum("reading_status", [
   "backlog",
   "reading",
   "completed",
-  "dropped",
+  "interested",
 ]);
 
 export const bookSourceEnum = pgEnum("book_source", ["rakuten", "google"]);

@@ -107,7 +107,7 @@ void main() {
       final statuses = [
         ReadingStatus.backlog,
         ReadingStatus.reading,
-        ReadingStatus.dropped,
+        ReadingStatus.interested,
       ];
 
       for (final status in statuses) {

@@ -17,6 +17,7 @@ export type ReadingStatusValue =
   | "backlog"
   | "reading"
   | "completed"
+  | "interested"
   | "dropped";
 
 type BookSourceValue = "rakuten" | "google";
@@ -65,9 +66,13 @@ function createReadingStatusEnumRef(builder: Builder) {
         value: "completed" as ReadingStatusValue,
         description: "Finished reading",
       },
-      DROPPED: {
+      INTERESTED: {
+        value: "interested" as ReadingStatusValue,
+        description: "Interested in reading",
+      },
+      DROP: {
         value: "dropped" as ReadingStatusValue,
-        description: "Dropped/Not reading",
+        deprecationReason: "Use INTERESTED instead. DROP is ignored.",
       },
     } as const,
   });
@@ -728,6 +733,10 @@ export function registerBooksQueries(
         }
 
         const input = args.input ?? {};
+        const readingStatus =
+          input.readingStatus && input.readingStatus !== "dropped"
+            ? input.readingStatus
+            : undefined;
         const userBooksResult = await shelfService.getUserBooksWithPagination(
           userResult.data.id,
           {
@@ -736,7 +745,7 @@ export function registerBooksQueries(
             sortOrder: input.sortOrder ?? undefined,
             limit: input.limit ?? undefined,
             offset: input.offset ?? undefined,
-            readingStatus: input.readingStatus ?? undefined,
+            readingStatus,
           },
         );
 

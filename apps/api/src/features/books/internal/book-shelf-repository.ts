@@ -12,7 +12,7 @@ export type ReadingStatusValue =
   | "backlog"
   | "reading"
   | "completed"
-  | "dropped";
+  | "interested";
 
 export interface UpdateUserBookInput {
   readingStatus?: ReadingStatusValue;

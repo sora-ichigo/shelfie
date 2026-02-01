@@ -302,7 +302,7 @@ describe("books schema", () => {
           "backlog",
           "reading",
           "completed",
-          "dropped",
+          "interested",
         ] as const;
 
         for (const [index, status] of statuses.entries()) {

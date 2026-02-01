@@ -7,6 +7,11 @@ import type {
   ReadingStatusValue,
 } from "./book-shelf-repository.js";
 
+export type { ReadingStatusValue } from "./book-shelf-repository.js";
+
+/** Includes deprecated "dropped" for backward compatibility with GraphQL input */
+export type ReadingStatusInputValue = ReadingStatusValue | "dropped";
+
 export type BookShelfErrors =
   | { code: "DUPLICATE_BOOK"; message: string }
   | { code: "BOOK_NOT_FOUND"; message: string }
@@ -24,7 +29,7 @@ export interface AddBookInput {
   isbn: string | null;
   coverImageUrl: string | null;
   source?: BookSourceValue;
-  readingStatus?: ReadingStatusValue;
+  readingStatus?: ReadingStatusInputValue;
 }
 
 export interface AddBookToShelfInput {
@@ -35,7 +40,7 @@ export interface AddBookToShelfInput {
 export interface UpdateReadingStatusInput {
   userBookId: number;
   userId: number;
-  status: ReadingStatusValue;
+  status: ReadingStatusInputValue;
 }
 
 export interface UpdateReadingNoteInput {
@@ -129,7 +134,10 @@ export function createBookShelfService(
           });
         }
 
-        const readingStatus = bookInput.readingStatus ?? "backlog";
+        const readingStatus =
+          bookInput.readingStatus === "dropped"
+            ? "backlog"
+            : (bookInput.readingStatus ?? "backlog");
         const completedAt = resolveCompletedAt(readingStatus);
         const userBook = await repository.createUserBook({
           userId,
@@ -295,6 +303,10 @@ export function createBookShelfService(
             code: "FORBIDDEN",
             message: "You are not allowed to update this book",
           });
+        }
+
+        if (status === "dropped") {
+          return ok(userBook);
         }
 
         const updatedBook = await repository.updateUserBook(userBookId, {

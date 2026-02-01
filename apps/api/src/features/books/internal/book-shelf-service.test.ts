@@ -385,6 +385,58 @@ describe("BookShelfService", () => {
       }
     });
 
+    it("should treat dropped reading status as backlog", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookByExternalId.mockResolvedValue(null);
+
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const input: AddBookToShelfInput = {
+        userId: 100,
+        bookInput: {
+          externalId: "google-book-123",
+          title: "Test Book",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          readingStatus: "dropped",
+        },
+      };
+
+      const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(true);
+      expect(mockRepository.mockCreateUserBook).toHaveBeenCalledWith(
+        expect.objectContaining({
+          readingStatus: "backlog",
+        }),
+      );
+    });
+
     it("should return DATABASE_ERROR when checking for existing book fails", async () => {
       const mockRepository = createMockRepository();
       const mockLogger = createMockLogger();
@@ -984,6 +1036,45 @@ describe("BookShelfService", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.code).toBe("FORBIDDEN");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should ignore dropped status and return current book unchanged", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const existingUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateReadingStatus({
+        userBookId: 1,
+        userId: 100,
+        status: "dropped",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.readingStatus).toBe("backlog");
       }
       expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
     });

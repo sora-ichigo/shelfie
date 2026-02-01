@@ -684,7 +684,7 @@ void main() {
         expect(data.userBook!.readingStatus, equals(ReadingStatus.completed));
       });
 
-      test('GReadingStatus.DROPPED -> ReadingStatus.dropped', () async {
+      test('GReadingStatus.INTERESTED -> ReadingStatus.interested', () async {
         final addedAt = DateTime(2024, 6, 15);
         final mockData = GBookDetailData(
           (b) => b
@@ -700,7 +700,7 @@ void main() {
                     ..title = 'Test'
                     ..authors = ListBuilder(['Author'])
                     ..addedAt = addedAt
-                    ..readingStatus = GReadingStatus.DROPPED,
+                    ..readingStatus = GReadingStatus.INTERESTED,
                 ).toBuilder(),
             ).toBuilder(),
         );
@@ -718,7 +718,7 @@ void main() {
         final result = await repository.getBookDetail(bookId: 'book-1');
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
-        expect(data.userBook!.readingStatus, equals(ReadingStatus.dropped));
+        expect(data.userBook!.readingStatus, equals(ReadingStatus.interested));
       });
     });
   });

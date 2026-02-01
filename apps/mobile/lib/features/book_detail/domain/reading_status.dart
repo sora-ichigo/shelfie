@@ -11,19 +11,19 @@ enum ReadingStatus {
   /// 読了
   completed,
 
-  /// 読まない
-  dropped;
+  /// 気になる
+  interested;
 
   /// グループ表示時のソート順（小さいほど先に表示）
   int get displayOrder {
     switch (this) {
       case ReadingStatus.reading:
         return 0;
-      case ReadingStatus.backlog:
+      case ReadingStatus.interested:
         return 1;
-      case ReadingStatus.completed:
+      case ReadingStatus.backlog:
         return 2;
-      case ReadingStatus.dropped:
+      case ReadingStatus.completed:
         return 3;
     }
   }
@@ -37,8 +37,8 @@ enum ReadingStatus {
         return '読書中';
       case ReadingStatus.completed:
         return '読了';
-      case ReadingStatus.dropped:
-        return '読まない';
+      case ReadingStatus.interested:
+        return '気になる';
     }
   }
 

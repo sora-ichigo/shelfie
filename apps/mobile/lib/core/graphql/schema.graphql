@@ -531,8 +531,10 @@ enum ReadingStatus {
   """Finished reading"""
   COMPLETED
 
-  """Dropped/Not reading"""
-  DROPPED
+  DROP @deprecated(reason: "Use INTERESTED instead. DROP is ignored.")
+
+  """Interested in reading"""
+  INTERESTED
 
   """Currently reading"""
   READING
