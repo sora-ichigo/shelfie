@@ -215,7 +215,7 @@ describe("BooksGraphQL Types", () => {
       expect(valueNames).toContain("BACKLOG");
       expect(valueNames).toContain("READING");
       expect(valueNames).toContain("COMPLETED");
-      expect(valueNames).toContain("DROPPED");
+      expect(valueNames).toContain("INTERESTED");
       expect(values).toHaveLength(4);
     });
 
@@ -233,8 +233,8 @@ describe("BooksGraphQL Types", () => {
       const completedValue = readingStatusEnum.getValue("COMPLETED");
       expect(completedValue?.value).toBe("completed");
 
-      const droppedValue = readingStatusEnum.getValue("DROPPED");
-      expect(droppedValue?.value).toBe("dropped");
+      const interestedValue = readingStatusEnum.getValue("INTERESTED");
+      expect(interestedValue?.value).toBe("interested");
     });
   });
 });

@@ -531,8 +531,8 @@ enum ReadingStatus {
   """Finished reading"""
   COMPLETED
 
-  """Dropped/Not reading"""
-  DROPPED
+  """Interested in reading"""
+  INTERESTED
 
   """Currently reading"""
   READING

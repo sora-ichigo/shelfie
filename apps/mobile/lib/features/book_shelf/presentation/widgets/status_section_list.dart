@@ -8,7 +8,7 @@ import 'package:shelfie/features/book_shelf/presentation/widgets/status_section.
 
 /// 読書状態ごとのセクションを固定順で表示するリスト
 ///
-/// 表示順: 読書中 → 積読 → 読了 → 読まない
+/// 表示順: 読書中 → 気になる → 積読 → 読了
 /// 空のセクションは非表示にする
 class StatusSectionList extends ConsumerWidget {
   const StatusSectionList({
@@ -23,9 +23,9 @@ class StatusSectionList extends ConsumerWidget {
   /// セクションの表示順（固定）
   static const _sectionOrder = [
     ReadingStatus.reading,
+    ReadingStatus.interested,
     ReadingStatus.backlog,
     ReadingStatus.completed,
-    ReadingStatus.dropped,
   ];
 
   @override

@@ -157,7 +157,7 @@ class _ReadingStatusModalContentState
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.dropped),
+              child: _buildStatusButton(theme, ReadingStatus.interested),
             ),
           ],
         ),
@@ -260,7 +260,7 @@ class _ReadingStatusModalContentState
       ReadingStatus.backlog => const Color(0xFFFFB74D),
       ReadingStatus.reading => const Color(0xFF64B5F6),
       ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.dropped => const Color(0xFF90A4AE),
+      ReadingStatus.interested => const Color(0xFFE091D6),
     };
   }
 
