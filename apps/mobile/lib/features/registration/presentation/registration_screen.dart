@@ -1,8 +1,8 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/registration/application/registration_notifier.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_background.dart';
@@ -75,17 +75,17 @@ class RegistrationScreen extends ConsumerWidget {
   ) {
     switch (state) {
       case RegistrationStateSuccess(:final user):
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: 'アカウントを作成しました: ${user.email}',
-          type: AdaptiveSnackBarType.success,
+          type: SnackBarType.success,
         );
         // TODO(shelfie): ホーム画面への遷移
       case RegistrationStateError(:final message):
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: message,
-          type: AdaptiveSnackBarType.error,
+          type: SnackBarType.error,
         );
       case RegistrationStateInitial():
       case RegistrationStateLoading():

@@ -1,7 +1,7 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
@@ -75,10 +75,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             widget.onSaveSuccess();
           },
           error: (message, field) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: message,
-              type: AdaptiveSnackBarType.error,
+              type: SnackBarType.error,
             );
           },
         );

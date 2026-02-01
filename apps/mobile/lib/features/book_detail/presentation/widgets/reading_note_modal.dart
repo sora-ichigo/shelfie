@@ -1,6 +1,6 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -219,10 +219,10 @@ class _ReadingNoteModalContentState
       },
       (_) {
         if (mounted) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: 'メモを保存しました',
-            type: AdaptiveSnackBarType.success,
+            type: SnackBarType.success,
           );
           Navigator.pop(context);
         }

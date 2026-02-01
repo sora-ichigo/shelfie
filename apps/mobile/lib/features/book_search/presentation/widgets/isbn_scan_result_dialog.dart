@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
@@ -132,10 +132,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         setState(() {
           _isAddingToShelf = false;
         });
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: SnackBarType.error,
         );
       },
       (_) {
@@ -147,10 +147,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${_selectedStatus.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: SnackBarType.success,
         );
         Navigator.of(context).pop(true);
       },

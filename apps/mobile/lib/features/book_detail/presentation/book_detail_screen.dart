@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
@@ -273,10 +273,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: SnackBarType.error,
         );
       },
       (_) {
@@ -295,10 +295,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             );
           }
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: SnackBarType.success,
         );
       },
     );
@@ -323,10 +323,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: SnackBarType.error,
         );
       },
       (_) {},
@@ -410,17 +410,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
         result.fold(
           (failure) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: failure.userMessage,
-              type: AdaptiveSnackBarType.error,
+              type: SnackBarType.error,
             );
           },
           (_) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: 'リストに追加しました',
-              type: AdaptiveSnackBarType.success,
+              type: SnackBarType.success,
             );
           },
         );
