@@ -278,9 +278,6 @@ class _BookQuickActionsModalContentState
       ref
           .read(statusSectionNotifierProvider(previousStatus).notifier)
           .removeBook(widget.book.externalId);
-      unawaited(ref
-          .read(statusSectionNotifierProvider(status).notifier)
-          .refresh());
     }
 
     if (mounted) {
