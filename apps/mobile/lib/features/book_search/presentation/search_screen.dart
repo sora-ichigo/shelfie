@@ -48,7 +48,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   void deactivate() {
-    ref.read(navBarHiddenProvider.notifier).state = false;
+    final notifier = ref.read(navBarHiddenProvider.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifier.state = false;
+    });
     super.deactivate();
   }
 
