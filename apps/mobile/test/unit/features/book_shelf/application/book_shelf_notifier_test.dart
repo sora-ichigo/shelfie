@@ -115,7 +115,7 @@ void main() {
 
   group('BookShelfNotifier', () {
     group('build (initialization)', () {
-      test('should start with initial state', () {
+      test('should start with loading state', () {
         when(
           () => mockRepository.getMyShelf(
             sortBy: any(named: 'sortBy'),
@@ -127,7 +127,7 @@ void main() {
 
         final notifier = container.read(bookShelfNotifierProvider.notifier);
 
-        expect(notifier.state, isA<BookShelfInitial>());
+        expect(notifier.state, isA<BookShelfLoading>());
       });
 
       test('should fetch initial data when initialize is called', () async {
@@ -754,7 +754,7 @@ void main() {
     });
 
     group('settings persistence', () {
-      test('should load saved sort option on initialize', () async {
+      test('should load saved sort option on build', () async {
         when(() => mockSettingsRepository.getSortOption())
             .thenReturn(SortOption.titleAsc);
         when(
@@ -766,8 +766,11 @@ void main() {
           ),
         ).thenAnswer((_) async => right(createMyShelfResult()));
 
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
+        BookShelfState? lastState;
+        container.listen(bookShelfNotifierProvider, (_, state) {
+          lastState = state;
+        });
+        await Future<void>(() {});
 
         verify(
           () => mockRepository.getMyShelf(
@@ -778,7 +781,7 @@ void main() {
           ),
         ).called(1);
 
-        final loaded = notifier.state as BookShelfLoaded;
+        final loaded = lastState! as BookShelfLoaded;
         expect(loaded.sortOption, SortOption.titleAsc);
       });
 
