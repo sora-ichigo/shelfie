@@ -7,7 +7,7 @@ import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -223,11 +223,9 @@ class _MockBookShelfNotifier extends BookShelfNotifier {
     return BookShelfState.loaded(
       books: _books,
       sortOption: SortOption.defaultOption,
-      groupOption: GroupOption.defaultOption,
       totalCount: _books.length,
       hasMore: false,
       isLoadingMore: false,
-      groupedBooks: const {},
     );
   }
 

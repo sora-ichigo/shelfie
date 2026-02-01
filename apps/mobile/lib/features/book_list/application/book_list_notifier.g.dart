@@ -23,7 +23,7 @@ final bookListNotifierProvider =
 
 typedef _$BookListNotifier = AutoDisposeNotifier<BookListState>;
 String _$bookListDetailNotifierHash() =>
-    r'ac9843ebef862a119063a47ebdc01a993f2b3077';
+    r'e7a3ee3c599eb4e213734ba37dd4ba8f8b5ce383';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -174,8 +174,6 @@ class BookListDetailNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
 mixin BookListDetailNotifierRef
     on AutoDisposeNotifierProviderRef<BookListDetailState> {
   /// The parameter `listId` of this provider.
@@ -191,4 +189,4 @@ class _BookListDetailNotifierProviderElement
   int get listId => (origin as BookListDetailNotifierProvider).listId;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

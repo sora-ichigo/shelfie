@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -47,8 +47,6 @@ void main() {
         final state = BookShelfState.loaded(
           books: books,
           sortOption: SortOption.addedAtDesc,
-          groupOption: GroupOption.none,
-          groupedBooks: const {},
           hasMore: true,
           isLoadingMore: false,
           totalCount: 1,
@@ -58,14 +56,12 @@ void main() {
         final loaded = state as BookShelfLoaded;
         expect(loaded.books, books);
         expect(loaded.sortOption, SortOption.addedAtDesc);
-        expect(loaded.groupOption, GroupOption.none);
-        expect(loaded.groupedBooks, isEmpty);
         expect(loaded.hasMore, isTrue);
         expect(loaded.isLoadingMore, isFalse);
         expect(loaded.totalCount, 1);
       });
 
-      test('should create loaded state with grouped books', () {
+      test('should create loaded state with multiple books', () {
         final book1 = createBook(
           userBookId: 1,
           externalId: 'id1',
@@ -80,19 +76,13 @@ void main() {
         final state = BookShelfState.loaded(
           books: [book1, book2],
           sortOption: SortOption.addedAtDesc,
-          groupOption: GroupOption.byAuthor,
-          groupedBooks: {
-            'Author A': [book1],
-            'Author B': [book2],
-          },
           hasMore: false,
           isLoadingMore: false,
           totalCount: 2,
         );
 
         final loaded = state as BookShelfLoaded;
-        expect(loaded.groupedBooks['Author A'], [book1]);
-        expect(loaded.groupedBooks['Author B'], [book2]);
+        expect(loaded.books.length, 2);
       });
     });
 
@@ -114,8 +104,6 @@ void main() {
           const state = BookShelfLoaded(
             books: [],
             sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: {},
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -128,8 +116,6 @@ void main() {
           final state = BookShelfLoaded(
             books: [createBook()],
             sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
             hasMore: false,
             isLoadingMore: false,
             totalCount: 1,
@@ -139,43 +125,12 @@ void main() {
         });
       });
 
-      group('isGrouped', () {
-        test('should return true when groupOption is not none', () {
-          final state = BookShelfLoaded(
-            books: [createBook()],
-            sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.byStatus,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 1,
-          );
-
-          expect(state.isGrouped, isTrue);
-        });
-
-        test('should return false when groupOption is none', () {
-          final state = BookShelfLoaded(
-            books: [createBook()],
-            sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 1,
-          );
-
-          expect(state.isGrouped, isFalse);
-        });
-      });
-
       group('canLoadMore', () {
         test('should return true when hasMore is true and isLoadingMore is false', () {
           final state = BookShelfLoaded(
             books: [createBook()],
             sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
+
             hasMore: true,
             isLoadingMore: false,
             totalCount: 100,
@@ -188,8 +143,7 @@ void main() {
           final state = BookShelfLoaded(
             books: [createBook()],
             sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 1,
@@ -202,8 +156,7 @@ void main() {
           final state = BookShelfLoaded(
             books: [createBook()],
             sortOption: SortOption.addedAtDesc,
-            groupOption: GroupOption.none,
-            groupedBooks: const {},
+
             hasMore: true,
             isLoadingMore: true,
             totalCount: 100,
@@ -243,8 +196,6 @@ void main() {
         final state = BookShelfState.loaded(
           books: [createBook()],
           sortOption: SortOption.addedAtDesc,
-          groupOption: GroupOption.none,
-          groupedBooks: const {},
           hasMore: false,
           isLoadingMore: false,
           totalCount: 1,

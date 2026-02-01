@@ -7,20 +7,20 @@ part of 'change_password.data.gql.dart';
 // **************************************************************************
 
 Serializer<GChangePasswordData> _$gChangePasswordDataSerializer =
-    _$GChangePasswordDataSerializer();
+    new _$GChangePasswordDataSerializer();
 Serializer<GChangePasswordData_changePassword__base>
     _$gChangePasswordDataChangePasswordBaseSerializer =
-    _$GChangePasswordData_changePassword__baseSerializer();
+    new _$GChangePasswordData_changePassword__baseSerializer();
 Serializer<GChangePasswordData_changePassword__asMutationChangePasswordSuccess>
     _$gChangePasswordDataChangePasswordAsMutationChangePasswordSuccessSerializer =
-    _$GChangePasswordData_changePassword__asMutationChangePasswordSuccessSerializer();
+    new _$GChangePasswordData_changePassword__asMutationChangePasswordSuccessSerializer();
 Serializer<
         GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data>
     _$gChangePasswordDataChangePasswordAsMutationChangePasswordSuccessDataSerializer =
-    _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataSerializer();
+    new _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataSerializer();
 Serializer<GChangePasswordData_changePassword__asAuthError>
     _$gChangePasswordDataChangePasswordAsAuthErrorSerializer =
-    _$GChangePasswordData_changePassword__asAuthErrorSerializer();
+    new _$GChangePasswordData_changePassword__asAuthErrorSerializer();
 
 class _$GChangePasswordDataSerializer
     implements StructuredSerializer<GChangePasswordData> {
@@ -56,7 +56,7 @@ class _$GChangePasswordDataSerializer
   GChangePasswordData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordDataBuilder();
+    final result = new GChangePasswordDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -108,7 +108,7 @@ class _$GChangePasswordData_changePassword__baseSerializer
   GChangePasswordData_changePassword__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordData_changePassword__baseBuilder();
+    final result = new GChangePasswordData_changePassword__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -164,7 +164,7 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccessSeria
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder();
+        new GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -228,7 +228,7 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder();
+        new GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -311,7 +311,7 @@ class _$GChangePasswordData_changePassword__asAuthErrorSerializer
   GChangePasswordData_changePassword__asAuthError deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordData_changePassword__asAuthErrorBuilder();
+    final result = new GChangePasswordData_changePassword__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -355,10 +355,14 @@ class _$GChangePasswordData extends GChangePasswordData {
 
   factory _$GChangePasswordData(
           [void Function(GChangePasswordDataBuilder)? updates]) =>
-      (GChangePasswordDataBuilder()..update(updates))._build();
+      (new GChangePasswordDataBuilder()..update(updates))._build();
 
   _$GChangePasswordData._({required this.G__typename, this.changePassword})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GChangePasswordData', 'G__typename');
+  }
+
   @override
   GChangePasswordData rebuild(
           void Function(GChangePasswordDataBuilder) updates) =>
@@ -366,7 +370,7 @@ class _$GChangePasswordData extends GChangePasswordData {
 
   @override
   GChangePasswordDataBuilder toBuilder() =>
-      GChangePasswordDataBuilder()..replace(this);
+      new GChangePasswordDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -424,6 +428,7 @@ class GChangePasswordDataBuilder
 
   @override
   void replace(GChangePasswordData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordData;
   }
 
@@ -437,11 +442,10 @@ class GChangePasswordDataBuilder
 
   _$GChangePasswordData _build() {
     final _$result = _$v ??
-        _$GChangePasswordData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GChangePasswordData', 'G__typename'),
-          changePassword: changePassword,
-        );
+        new _$GChangePasswordData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GChangePasswordData', 'G__typename'),
+            changePassword: changePassword);
     replace(_$result);
     return _$result;
   }
@@ -455,11 +459,15 @@ class _$GChangePasswordData_changePassword__base
   factory _$GChangePasswordData_changePassword__base(
           [void Function(GChangePasswordData_changePassword__baseBuilder)?
               updates]) =>
-      (GChangePasswordData_changePassword__baseBuilder()..update(updates))
+      (new GChangePasswordData_changePassword__baseBuilder()..update(updates))
           ._build();
 
   _$GChangePasswordData_changePassword__base._({required this.G__typename})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GChangePasswordData_changePassword__base', 'G__typename');
+  }
+
   @override
   GChangePasswordData_changePassword__base rebuild(
           void Function(GChangePasswordData_changePassword__baseBuilder)
@@ -468,7 +476,7 @@ class _$GChangePasswordData_changePassword__base
 
   @override
   GChangePasswordData_changePassword__baseBuilder toBuilder() =>
-      GChangePasswordData_changePassword__baseBuilder()..replace(this);
+      new GChangePasswordData_changePassword__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -519,6 +527,7 @@ class GChangePasswordData_changePassword__baseBuilder
 
   @override
   void replace(GChangePasswordData_changePassword__base other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordData_changePassword__base;
   }
 
@@ -533,10 +542,9 @@ class GChangePasswordData_changePassword__baseBuilder
 
   _$GChangePasswordData_changePassword__base _build() {
     final _$result = _$v ??
-        _$GChangePasswordData_changePassword__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-              r'GChangePasswordData_changePassword__base', 'G__typename'),
-        );
+        new _$GChangePasswordData_changePassword__base._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GChangePasswordData_changePassword__base', 'G__typename'));
     replace(_$result);
     return _$result;
   }
@@ -554,13 +562,23 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess
           [void Function(
                   GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder)?
               updates]) =>
-      (GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder()
+      (new GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess._(
       {required this.G__typename, required this.data})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        data,
+        r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess',
+        'data');
+  }
+
   @override
   GChangePasswordData_changePassword__asMutationChangePasswordSuccess rebuild(
           void Function(
@@ -571,7 +589,7 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess
   @override
   GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder
       toBuilder() =>
-          GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder()
+          new GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder()
             ..replace(this);
 
   @override
@@ -617,7 +635,7 @@ class GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder
       _data;
   GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder
       get data => _$this._data ??=
-          GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder();
+          new GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder();
   set data(
           GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder?
               data) =>
@@ -643,6 +661,7 @@ class GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder
   void replace(
       GChangePasswordData_changePassword__asMutationChangePasswordSuccess
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess;
   }
@@ -665,21 +684,20 @@ class GChangePasswordData_changePassword__asMutationChangePasswordSuccessBuilder
         _$result;
     try {
       _$result = _$v ??
-          _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess
+          new _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess
               ._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess',
-                'G__typename'),
-            data: data.build(),
-          );
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename,
+                  r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess',
+                  'G__typename'),
+              data: data.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess',
             _$failedField,
             e.toString());
@@ -704,7 +722,7 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
           [void Function(
                   GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder)?
               updates]) =>
-      (GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder()
+      (new GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
@@ -712,7 +730,21 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
       {required this.G__typename,
       required this.idToken,
       required this.refreshToken})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        idToken,
+        r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+        'idToken');
+    BuiltValueNullFieldError.checkNotNull(
+        refreshToken,
+        r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+        'refreshToken');
+  }
+
   @override
   GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data rebuild(
           void Function(
@@ -723,7 +755,7 @@ class _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
   @override
   GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder
       toBuilder() =>
-          GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder()
+          new GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -798,6 +830,7 @@ class GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBu
   void replace(
       GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data;
   }
@@ -817,21 +850,20 @@ class GChangePasswordData_changePassword__asMutationChangePasswordSuccess_dataBu
   _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
       _build() {
     final _$result = _$v ??
-        _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
+        new _$GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data
             ._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
-              'G__typename'),
-          idToken: BuiltValueNullFieldError.checkNotNull(
-              idToken,
-              r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
-              'idToken'),
-          refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken,
-              r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
-              'refreshToken'),
-        );
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+                'G__typename'),
+            idToken: BuiltValueNullFieldError.checkNotNull(
+                idToken,
+                r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+                'idToken'),
+            refreshToken: BuiltValueNullFieldError.checkNotNull(
+                refreshToken,
+                r'GChangePasswordData_changePassword__asMutationChangePasswordSuccess_data',
+                'refreshToken'));
     replace(_$result);
     return _$result;
   }
@@ -854,7 +886,7 @@ class _$GChangePasswordData_changePassword__asAuthError
           [void Function(
                   GChangePasswordData_changePassword__asAuthErrorBuilder)?
               updates]) =>
-      (GChangePasswordData_changePassword__asAuthErrorBuilder()
+      (new GChangePasswordData_changePassword__asAuthErrorBuilder()
             ..update(updates))
           ._build();
 
@@ -864,7 +896,11 @@ class _$GChangePasswordData_changePassword__asAuthError
       this.message,
       this.field,
       this.retryable})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GChangePasswordData_changePassword__asAuthError', 'G__typename');
+  }
+
   @override
   GChangePasswordData_changePassword__asAuthError rebuild(
           void Function(GChangePasswordData_changePassword__asAuthErrorBuilder)
@@ -873,7 +909,8 @@ class _$GChangePasswordData_changePassword__asAuthError
 
   @override
   GChangePasswordData_changePassword__asAuthErrorBuilder toBuilder() =>
-      GChangePasswordData_changePassword__asAuthErrorBuilder()..replace(this);
+      new GChangePasswordData_changePassword__asAuthErrorBuilder()
+        ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -956,6 +993,7 @@ class GChangePasswordData_changePassword__asAuthErrorBuilder
 
   @override
   void replace(GChangePasswordData_changePassword__asAuthError other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordData_changePassword__asAuthError;
   }
 
@@ -971,16 +1009,15 @@ class GChangePasswordData_changePassword__asAuthErrorBuilder
 
   _$GChangePasswordData_changePassword__asAuthError _build() {
     final _$result = _$v ??
-        _$GChangePasswordData_changePassword__asAuthError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GChangePasswordData_changePassword__asAuthError',
-              'G__typename'),
-          code: code,
-          message: message,
-          field: field,
-          retryable: retryable,
-        );
+        new _$GChangePasswordData_changePassword__asAuthError._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GChangePasswordData_changePassword__asAuthError',
+                'G__typename'),
+            code: code,
+            message: message,
+            field: field,
+            retryable: retryable);
     replace(_$result);
     return _$result;
   }

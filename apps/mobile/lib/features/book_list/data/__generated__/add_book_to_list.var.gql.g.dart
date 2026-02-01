@@ -7,7 +7,7 @@ part of 'add_book_to_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GAddBookToListVars> _$gAddBookToListVarsSerializer =
-    _$GAddBookToListVarsSerializer();
+    new _$GAddBookToListVarsSerializer();
 
 class _$GAddBookToListVarsSerializer
     implements StructuredSerializer<GAddBookToListVars> {
@@ -35,7 +35,7 @@ class _$GAddBookToListVarsSerializer
   GAddBookToListVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GAddBookToListVarsBuilder();
+    final result = new GAddBookToListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -66,10 +66,16 @@ class _$GAddBookToListVars extends GAddBookToListVars {
 
   factory _$GAddBookToListVars(
           [void Function(GAddBookToListVarsBuilder)? updates]) =>
-      (GAddBookToListVarsBuilder()..update(updates))._build();
+      (new GAddBookToListVarsBuilder()..update(updates))._build();
 
   _$GAddBookToListVars._({required this.listId, required this.userBookId})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listId, r'GAddBookToListVars', 'listId');
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GAddBookToListVars', 'userBookId');
+  }
+
   @override
   GAddBookToListVars rebuild(
           void Function(GAddBookToListVarsBuilder) updates) =>
@@ -77,7 +83,7 @@ class _$GAddBookToListVars extends GAddBookToListVars {
 
   @override
   GAddBookToListVarsBuilder toBuilder() =>
-      GAddBookToListVarsBuilder()..replace(this);
+      new GAddBookToListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -131,6 +137,7 @@ class GAddBookToListVarsBuilder
 
   @override
   void replace(GAddBookToListVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToListVars;
   }
 
@@ -144,12 +151,11 @@ class GAddBookToListVarsBuilder
 
   _$GAddBookToListVars _build() {
     final _$result = _$v ??
-        _$GAddBookToListVars._(
-          listId: BuiltValueNullFieldError.checkNotNull(
-              listId, r'GAddBookToListVars', 'listId'),
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GAddBookToListVars', 'userBookId'),
-        );
+        new _$GAddBookToListVars._(
+            listId: BuiltValueNullFieldError.checkNotNull(
+                listId, r'GAddBookToListVars', 'listId'),
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GAddBookToListVars', 'userBookId'));
     replace(_$result);
     return _$result;
   }

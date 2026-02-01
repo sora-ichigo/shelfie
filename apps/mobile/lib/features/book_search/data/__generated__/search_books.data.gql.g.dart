@@ -7,13 +7,13 @@ part of 'search_books.data.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBooksData> _$gSearchBooksDataSerializer =
-    _$GSearchBooksDataSerializer();
+    new _$GSearchBooksDataSerializer();
 Serializer<GSearchBooksData_searchBooks>
     _$gSearchBooksDataSearchBooksSerializer =
-    _$GSearchBooksData_searchBooksSerializer();
+    new _$GSearchBooksData_searchBooksSerializer();
 Serializer<GSearchBooksData_searchBooks_items>
     _$gSearchBooksDataSearchBooksItemsSerializer =
-    _$GSearchBooksData_searchBooks_itemsSerializer();
+    new _$GSearchBooksData_searchBooks_itemsSerializer();
 
 class _$GSearchBooksDataSerializer
     implements StructuredSerializer<GSearchBooksData> {
@@ -41,7 +41,7 @@ class _$GSearchBooksDataSerializer
   GSearchBooksData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSearchBooksDataBuilder();
+    final result = new GSearchBooksDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -102,7 +102,7 @@ class _$GSearchBooksData_searchBooksSerializer
   GSearchBooksData_searchBooks deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSearchBooksData_searchBooksBuilder();
+    final result = new GSearchBooksData_searchBooksBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -202,7 +202,7 @@ class _$GSearchBooksData_searchBooks_itemsSerializer
   GSearchBooksData_searchBooks_items deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSearchBooksData_searchBooks_itemsBuilder();
+    final result = new GSearchBooksData_searchBooks_itemsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -264,17 +264,23 @@ class _$GSearchBooksData extends GSearchBooksData {
 
   factory _$GSearchBooksData(
           [void Function(GSearchBooksDataBuilder)? updates]) =>
-      (GSearchBooksDataBuilder()..update(updates))._build();
+      (new GSearchBooksDataBuilder()..update(updates))._build();
 
   _$GSearchBooksData._({required this.G__typename, required this.searchBooks})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GSearchBooksData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        searchBooks, r'GSearchBooksData', 'searchBooks');
+  }
+
   @override
   GSearchBooksData rebuild(void Function(GSearchBooksDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GSearchBooksDataBuilder toBuilder() =>
-      GSearchBooksDataBuilder()..replace(this);
+      new GSearchBooksDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -312,7 +318,7 @@ class GSearchBooksDataBuilder
 
   GSearchBooksData_searchBooksBuilder? _searchBooks;
   GSearchBooksData_searchBooksBuilder get searchBooks =>
-      _$this._searchBooks ??= GSearchBooksData_searchBooksBuilder();
+      _$this._searchBooks ??= new GSearchBooksData_searchBooksBuilder();
   set searchBooks(GSearchBooksData_searchBooksBuilder? searchBooks) =>
       _$this._searchBooks = searchBooks;
 
@@ -332,6 +338,7 @@ class GSearchBooksDataBuilder
 
   @override
   void replace(GSearchBooksData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksData;
   }
 
@@ -347,18 +354,17 @@ class GSearchBooksDataBuilder
     _$GSearchBooksData _$result;
     try {
       _$result = _$v ??
-          _$GSearchBooksData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GSearchBooksData', 'G__typename'),
-            searchBooks: searchBooks.build(),
-          );
+          new _$GSearchBooksData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GSearchBooksData', 'G__typename'),
+              searchBooks: searchBooks.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'searchBooks';
         searchBooks.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSearchBooksData', _$failedField, e.toString());
       }
       rethrow;
@@ -380,14 +386,24 @@ class _$GSearchBooksData_searchBooks extends GSearchBooksData_searchBooks {
 
   factory _$GSearchBooksData_searchBooks(
           [void Function(GSearchBooksData_searchBooksBuilder)? updates]) =>
-      (GSearchBooksData_searchBooksBuilder()..update(updates))._build();
+      (new GSearchBooksData_searchBooksBuilder()..update(updates))._build();
 
   _$GSearchBooksData_searchBooks._(
       {required this.G__typename,
       required this.items,
       required this.totalCount,
       required this.hasMore})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GSearchBooksData_searchBooks', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        items, r'GSearchBooksData_searchBooks', 'items');
+    BuiltValueNullFieldError.checkNotNull(
+        totalCount, r'GSearchBooksData_searchBooks', 'totalCount');
+    BuiltValueNullFieldError.checkNotNull(
+        hasMore, r'GSearchBooksData_searchBooks', 'hasMore');
+  }
+
   @override
   GSearchBooksData_searchBooks rebuild(
           void Function(GSearchBooksData_searchBooksBuilder) updates) =>
@@ -395,7 +411,7 @@ class _$GSearchBooksData_searchBooks extends GSearchBooksData_searchBooks {
 
   @override
   GSearchBooksData_searchBooksBuilder toBuilder() =>
-      GSearchBooksData_searchBooksBuilder()..replace(this);
+      new GSearchBooksData_searchBooksBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -441,7 +457,7 @@ class GSearchBooksData_searchBooksBuilder
 
   ListBuilder<GSearchBooksData_searchBooks_items>? _items;
   ListBuilder<GSearchBooksData_searchBooks_items> get items =>
-      _$this._items ??= ListBuilder<GSearchBooksData_searchBooks_items>();
+      _$this._items ??= new ListBuilder<GSearchBooksData_searchBooks_items>();
   set items(ListBuilder<GSearchBooksData_searchBooks_items>? items) =>
       _$this._items = items;
 
@@ -471,6 +487,7 @@ class GSearchBooksData_searchBooksBuilder
 
   @override
   void replace(GSearchBooksData_searchBooks other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksData_searchBooks;
   }
 
@@ -486,22 +503,21 @@ class GSearchBooksData_searchBooksBuilder
     _$GSearchBooksData_searchBooks _$result;
     try {
       _$result = _$v ??
-          _$GSearchBooksData_searchBooks._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GSearchBooksData_searchBooks', 'G__typename'),
-            items: items.build(),
-            totalCount: BuiltValueNullFieldError.checkNotNull(
-                totalCount, r'GSearchBooksData_searchBooks', 'totalCount'),
-            hasMore: BuiltValueNullFieldError.checkNotNull(
-                hasMore, r'GSearchBooksData_searchBooks', 'hasMore'),
-          );
+          new _$GSearchBooksData_searchBooks._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GSearchBooksData_searchBooks', 'G__typename'),
+              items: items.build(),
+              totalCount: BuiltValueNullFieldError.checkNotNull(
+                  totalCount, r'GSearchBooksData_searchBooks', 'totalCount'),
+              hasMore: BuiltValueNullFieldError.checkNotNull(
+                  hasMore, r'GSearchBooksData_searchBooks', 'hasMore'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'items';
         items.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSearchBooksData_searchBooks', _$failedField, e.toString());
       }
       rethrow;
@@ -535,7 +551,8 @@ class _$GSearchBooksData_searchBooks_items
   factory _$GSearchBooksData_searchBooks_items(
           [void Function(GSearchBooksData_searchBooks_itemsBuilder)?
               updates]) =>
-      (GSearchBooksData_searchBooks_itemsBuilder()..update(updates))._build();
+      (new GSearchBooksData_searchBooks_itemsBuilder()..update(updates))
+          ._build();
 
   _$GSearchBooksData_searchBooks_items._(
       {required this.G__typename,
@@ -547,7 +564,19 @@ class _$GSearchBooksData_searchBooks_items
       this.isbn,
       this.coverImageUrl,
       required this.source})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GSearchBooksData_searchBooks_items', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'GSearchBooksData_searchBooks_items', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GSearchBooksData_searchBooks_items', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        authors, r'GSearchBooksData_searchBooks_items', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        source, r'GSearchBooksData_searchBooks_items', 'source');
+  }
+
   @override
   GSearchBooksData_searchBooks_items rebuild(
           void Function(GSearchBooksData_searchBooks_itemsBuilder) updates) =>
@@ -555,7 +584,7 @@ class _$GSearchBooksData_searchBooks_items
 
   @override
   GSearchBooksData_searchBooks_itemsBuilder toBuilder() =>
-      GSearchBooksData_searchBooks_itemsBuilder()..replace(this);
+      new GSearchBooksData_searchBooks_itemsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -623,7 +652,8 @@ class GSearchBooksData_searchBooks_itemsBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
+  ListBuilder<String> get authors =>
+      _$this._authors ??= new ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -671,6 +701,7 @@ class GSearchBooksData_searchBooks_itemsBuilder
 
   @override
   void replace(GSearchBooksData_searchBooks_items other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksData_searchBooks_items;
   }
 
@@ -687,28 +718,27 @@ class GSearchBooksData_searchBooks_itemsBuilder
     _$GSearchBooksData_searchBooks_items _$result;
     try {
       _$result = _$v ??
-          _$GSearchBooksData_searchBooks_items._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GSearchBooksData_searchBooks_items', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GSearchBooksData_searchBooks_items', 'id'),
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GSearchBooksData_searchBooks_items', 'title'),
-            authors: authors.build(),
-            publisher: publisher,
-            publishedDate: publishedDate,
-            isbn: isbn,
-            coverImageUrl: coverImageUrl,
-            source: BuiltValueNullFieldError.checkNotNull(
-                source, r'GSearchBooksData_searchBooks_items', 'source'),
-          );
+          new _$GSearchBooksData_searchBooks_items._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                  r'GSearchBooksData_searchBooks_items', 'G__typename'),
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'GSearchBooksData_searchBooks_items', 'id'),
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GSearchBooksData_searchBooks_items', 'title'),
+              authors: authors.build(),
+              publisher: publisher,
+              publishedDate: publishedDate,
+              isbn: isbn,
+              coverImageUrl: coverImageUrl,
+              source: BuiltValueNullFieldError.checkNotNull(
+                  source, r'GSearchBooksData_searchBooks_items', 'source'));
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSearchBooksData_searchBooks_items', _$failedField, e.toString());
       }
       rethrow;

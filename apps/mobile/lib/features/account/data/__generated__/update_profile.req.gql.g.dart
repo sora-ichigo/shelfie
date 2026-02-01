@@ -7,7 +7,7 @@ part of 'update_profile.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateProfileReq> _$gUpdateProfileReqSerializer =
-    _$GUpdateProfileReqSerializer();
+    new _$GUpdateProfileReqSerializer();
 
 class _$GUpdateProfileReqSerializer
     implements StructuredSerializer<GUpdateProfileReq> {
@@ -74,7 +74,7 @@ class _$GUpdateProfileReqSerializer
   GUpdateProfileReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateProfileReqBuilder();
+    final result = new GUpdateProfileReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -152,7 +152,7 @@ class _$GUpdateProfileReq extends GUpdateProfileReq {
 
   factory _$GUpdateProfileReq(
           [void Function(GUpdateProfileReqBuilder)? updates]) =>
-      (GUpdateProfileReqBuilder()..update(updates))._build();
+      (new GUpdateProfileReqBuilder()..update(updates))._build();
 
   _$GUpdateProfileReq._(
       {required this.vars,
@@ -165,14 +165,21 @@ class _$GUpdateProfileReq extends GUpdateProfileReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GUpdateProfileReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GUpdateProfileReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GUpdateProfileReq', 'executeOnListen');
+  }
+
   @override
   GUpdateProfileReq rebuild(void Function(GUpdateProfileReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GUpdateProfileReqBuilder toBuilder() =>
-      GUpdateProfileReqBuilder()..replace(this);
+      new GUpdateProfileReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -231,7 +238,7 @@ class GUpdateProfileReqBuilder
 
   _i3.GUpdateProfileVarsBuilder? _vars;
   _i3.GUpdateProfileVarsBuilder get vars =>
-      _$this._vars ??= _i3.GUpdateProfileVarsBuilder();
+      _$this._vars ??= new _i3.GUpdateProfileVarsBuilder();
   set vars(_i3.GUpdateProfileVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -255,7 +262,7 @@ class GUpdateProfileReqBuilder
 
   _i2.GUpdateProfileDataBuilder? _optimisticResponse;
   _i2.GUpdateProfileDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GUpdateProfileDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GUpdateProfileDataBuilder();
   set optimisticResponse(_i2.GUpdateProfileDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -309,6 +316,7 @@ class GUpdateProfileReqBuilder
 
   @override
   void replace(GUpdateProfileReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileReq;
   }
 
@@ -324,20 +332,19 @@ class GUpdateProfileReqBuilder
     _$GUpdateProfileReq _$result;
     try {
       _$result = _$v ??
-          _$GUpdateProfileReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GUpdateProfileReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GUpdateProfileReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GUpdateProfileReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GUpdateProfileReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GUpdateProfileReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -347,7 +354,7 @@ class GUpdateProfileReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateProfileReq', _$failedField, e.toString());
       }
       rethrow;

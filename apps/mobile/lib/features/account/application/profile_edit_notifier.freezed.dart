@@ -90,9 +90,6 @@ class _$ProfileEditStateCopyWithImpl<$Res, $Val extends ProfileEditState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -111,9 +108,6 @@ class __$$ProfileEditStateInitialImplCopyWithImpl<$Res>
       _$ProfileEditStateInitialImpl _value,
       $Res Function(_$ProfileEditStateInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -237,9 +231,6 @@ class __$$ProfileEditStateLoadingImplCopyWithImpl<$Res>
       _$ProfileEditStateLoadingImpl _value,
       $Res Function(_$ProfileEditStateLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -367,8 +358,6 @@ class __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>
       $Res Function(_$ProfileEditStateUploadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -408,9 +397,7 @@ class _$ProfileEditStateUploadingImpl implements ProfileEditStateUploading {
   @override
   int get hashCode => Object.hash(runtimeType, progress);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
@@ -503,10 +490,7 @@ abstract class ProfileEditStateUploading implements ProfileEditState {
       _$ProfileEditStateUploadingImpl;
 
   double get progress;
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -532,8 +516,6 @@ class __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>
       $Res Function(_$ProfileEditStateSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -547,8 +529,6 @@ class __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserProfileCopyWith<$Res> get profile {
@@ -582,9 +562,7 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, profile);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateSuccessImplCopyWith<_$ProfileEditStateSuccessImpl>
@@ -677,10 +655,7 @@ abstract class ProfileEditStateSuccess implements ProfileEditState {
       _$ProfileEditStateSuccessImpl;
 
   UserProfile get profile;
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProfileEditStateSuccessImplCopyWith<_$ProfileEditStateSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -703,8 +678,6 @@ class __$$ProfileEditStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$ProfileEditStateErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -751,9 +724,7 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   @override
   int get hashCode => Object.hash(runtimeType, message, field);
 
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateErrorImplCopyWith<_$ProfileEditStateErrorImpl>
@@ -848,10 +819,7 @@ abstract class ProfileEditStateError implements ProfileEditState {
 
   String get message;
   String? get field;
-
-  /// Create a copy of ProfileEditState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ProfileEditStateErrorImplCopyWith<_$ProfileEditStateErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

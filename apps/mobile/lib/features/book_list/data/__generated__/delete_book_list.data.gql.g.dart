@@ -7,7 +7,7 @@ part of 'delete_book_list.data.gql.dart';
 // **************************************************************************
 
 Serializer<GDeleteBookListData> _$gDeleteBookListDataSerializer =
-    _$GDeleteBookListDataSerializer();
+    new _$GDeleteBookListDataSerializer();
 
 class _$GDeleteBookListDataSerializer
     implements StructuredSerializer<GDeleteBookListData> {
@@ -39,7 +39,7 @@ class _$GDeleteBookListDataSerializer
   GDeleteBookListData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GDeleteBookListDataBuilder();
+    final result = new GDeleteBookListDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -70,11 +70,17 @@ class _$GDeleteBookListData extends GDeleteBookListData {
 
   factory _$GDeleteBookListData(
           [void Function(GDeleteBookListDataBuilder)? updates]) =>
-      (GDeleteBookListDataBuilder()..update(updates))._build();
+      (new GDeleteBookListDataBuilder()..update(updates))._build();
 
   _$GDeleteBookListData._(
       {required this.G__typename, required this.deleteBookList})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GDeleteBookListData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        deleteBookList, r'GDeleteBookListData', 'deleteBookList');
+  }
+
   @override
   GDeleteBookListData rebuild(
           void Function(GDeleteBookListDataBuilder) updates) =>
@@ -82,7 +88,7 @@ class _$GDeleteBookListData extends GDeleteBookListData {
 
   @override
   GDeleteBookListDataBuilder toBuilder() =>
-      GDeleteBookListDataBuilder()..replace(this);
+      new GDeleteBookListDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -139,6 +145,7 @@ class GDeleteBookListDataBuilder
 
   @override
   void replace(GDeleteBookListData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GDeleteBookListData;
   }
 
@@ -152,12 +159,11 @@ class GDeleteBookListDataBuilder
 
   _$GDeleteBookListData _build() {
     final _$result = _$v ??
-        _$GDeleteBookListData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GDeleteBookListData', 'G__typename'),
-          deleteBookList: BuiltValueNullFieldError.checkNotNull(
-              deleteBookList, r'GDeleteBookListData', 'deleteBookList'),
-        );
+        new _$GDeleteBookListData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GDeleteBookListData', 'G__typename'),
+            deleteBookList: BuiltValueNullFieldError.checkNotNull(
+                deleteBookList, r'GDeleteBookListData', 'deleteBookList'));
     replace(_$result);
     return _$result;
   }

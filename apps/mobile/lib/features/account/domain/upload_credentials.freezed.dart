@@ -22,9 +22,7 @@ mixin _$UploadCredentials {
   String get publicKey => throw _privateConstructorUsedError;
   String get uploadEndpoint => throw _privateConstructorUsedError;
 
-  /// Create a copy of UploadCredentials
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $UploadCredentialsCopyWith<UploadCredentials> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +51,6 @@ class _$UploadCredentialsCopyWithImpl<$Res, $Val extends UploadCredentials>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UploadCredentials
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,8 +109,6 @@ class __$$UploadCredentialsImplCopyWithImpl<$Res>
       $Res Function(_$UploadCredentialsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UploadCredentials
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,9 +188,7 @@ class _$UploadCredentialsImpl implements _UploadCredentials {
   int get hashCode => Object.hash(
       runtimeType, token, signature, expire, publicKey, uploadEndpoint);
 
-  /// Create a copy of UploadCredentials
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UploadCredentialsImplCopyWith<_$UploadCredentialsImpl> get copyWith =>
@@ -222,11 +214,8 @@ abstract class _UploadCredentials implements UploadCredentials {
   String get publicKey;
   @override
   String get uploadEndpoint;
-
-  /// Create a copy of UploadCredentials
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UploadCredentialsImplCopyWith<_$UploadCredentialsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

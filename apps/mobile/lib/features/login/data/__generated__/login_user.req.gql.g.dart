@@ -7,7 +7,7 @@ part of 'login_user.req.gql.dart';
 // **************************************************************************
 
 Serializer<GLoginUserReq> _$gLoginUserReqSerializer =
-    _$GLoginUserReqSerializer();
+    new _$GLoginUserReqSerializer();
 
 class _$GLoginUserReqSerializer implements StructuredSerializer<GLoginUserReq> {
   @override
@@ -73,7 +73,7 @@ class _$GLoginUserReqSerializer implements StructuredSerializer<GLoginUserReq> {
   GLoginUserReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GLoginUserReqBuilder();
+    final result = new GLoginUserReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -150,7 +150,7 @@ class _$GLoginUserReq extends GLoginUserReq {
   final _i4.Context? context;
 
   factory _$GLoginUserReq([void Function(GLoginUserReqBuilder)? updates]) =>
-      (GLoginUserReqBuilder()..update(updates))._build();
+      (new GLoginUserReqBuilder()..update(updates))._build();
 
   _$GLoginUserReq._(
       {required this.vars,
@@ -163,13 +163,20 @@ class _$GLoginUserReq extends GLoginUserReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GLoginUserReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GLoginUserReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GLoginUserReq', 'executeOnListen');
+  }
+
   @override
   GLoginUserReq rebuild(void Function(GLoginUserReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserReqBuilder toBuilder() => GLoginUserReqBuilder()..replace(this);
+  GLoginUserReqBuilder toBuilder() => new GLoginUserReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -228,7 +235,7 @@ class GLoginUserReqBuilder
 
   _i3.GLoginUserVarsBuilder? _vars;
   _i3.GLoginUserVarsBuilder get vars =>
-      _$this._vars ??= _i3.GLoginUserVarsBuilder();
+      _$this._vars ??= new _i3.GLoginUserVarsBuilder();
   set vars(_i3.GLoginUserVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -251,7 +258,7 @@ class GLoginUserReqBuilder
 
   _i2.GLoginUserDataBuilder? _optimisticResponse;
   _i2.GLoginUserDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GLoginUserDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GLoginUserDataBuilder();
   set optimisticResponse(_i2.GLoginUserDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -305,6 +312,7 @@ class GLoginUserReqBuilder
 
   @override
   void replace(GLoginUserReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserReq;
   }
 
@@ -320,20 +328,19 @@ class GLoginUserReqBuilder
     _$GLoginUserReq _$result;
     try {
       _$result = _$v ??
-          _$GLoginUserReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GLoginUserReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GLoginUserReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GLoginUserReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GLoginUserReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GLoginUserReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -343,7 +350,7 @@ class GLoginUserReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GLoginUserReq', _$failedField, e.toString());
       }
       rethrow;

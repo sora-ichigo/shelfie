@@ -7,7 +7,7 @@ part of 'update_rating.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateBookRatingVars> _$gUpdateBookRatingVarsSerializer =
-    _$GUpdateBookRatingVarsSerializer();
+    new _$GUpdateBookRatingVarsSerializer();
 
 class _$GUpdateBookRatingVarsSerializer
     implements StructuredSerializer<GUpdateBookRatingVars> {
@@ -38,7 +38,7 @@ class _$GUpdateBookRatingVarsSerializer
   GUpdateBookRatingVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateBookRatingVarsBuilder();
+    final result = new GUpdateBookRatingVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -69,10 +69,16 @@ class _$GUpdateBookRatingVars extends GUpdateBookRatingVars {
 
   factory _$GUpdateBookRatingVars(
           [void Function(GUpdateBookRatingVarsBuilder)? updates]) =>
-      (GUpdateBookRatingVarsBuilder()..update(updates))._build();
+      (new GUpdateBookRatingVarsBuilder()..update(updates))._build();
 
   _$GUpdateBookRatingVars._({required this.userBookId, required this.rating})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GUpdateBookRatingVars', 'userBookId');
+    BuiltValueNullFieldError.checkNotNull(
+        rating, r'GUpdateBookRatingVars', 'rating');
+  }
+
   @override
   GUpdateBookRatingVars rebuild(
           void Function(GUpdateBookRatingVarsBuilder) updates) =>
@@ -80,7 +86,7 @@ class _$GUpdateBookRatingVars extends GUpdateBookRatingVars {
 
   @override
   GUpdateBookRatingVarsBuilder toBuilder() =>
-      GUpdateBookRatingVarsBuilder()..replace(this);
+      new GUpdateBookRatingVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -134,6 +140,7 @@ class GUpdateBookRatingVarsBuilder
 
   @override
   void replace(GUpdateBookRatingVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookRatingVars;
   }
 
@@ -147,12 +154,11 @@ class GUpdateBookRatingVarsBuilder
 
   _$GUpdateBookRatingVars _build() {
     final _$result = _$v ??
-        _$GUpdateBookRatingVars._(
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GUpdateBookRatingVars', 'userBookId'),
-          rating: BuiltValueNullFieldError.checkNotNull(
-              rating, r'GUpdateBookRatingVars', 'rating'),
-        );
+        new _$GUpdateBookRatingVars._(
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GUpdateBookRatingVars', 'userBookId'),
+            rating: BuiltValueNullFieldError.checkNotNull(
+                rating, r'GUpdateBookRatingVars', 'rating'));
     replace(_$result);
     return _$result;
   }

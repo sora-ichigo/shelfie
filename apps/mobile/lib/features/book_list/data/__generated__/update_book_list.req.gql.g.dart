@@ -7,7 +7,7 @@ part of 'update_book_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateBookListReq> _$gUpdateBookListReqSerializer =
-    _$GUpdateBookListReqSerializer();
+    new _$GUpdateBookListReqSerializer();
 
 class _$GUpdateBookListReqSerializer
     implements StructuredSerializer<GUpdateBookListReq> {
@@ -75,7 +75,7 @@ class _$GUpdateBookListReqSerializer
   GUpdateBookListReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateBookListReqBuilder();
+    final result = new GUpdateBookListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -153,7 +153,7 @@ class _$GUpdateBookListReq extends GUpdateBookListReq {
 
   factory _$GUpdateBookListReq(
           [void Function(GUpdateBookListReqBuilder)? updates]) =>
-      (GUpdateBookListReqBuilder()..update(updates))._build();
+      (new GUpdateBookListReqBuilder()..update(updates))._build();
 
   _$GUpdateBookListReq._(
       {required this.vars,
@@ -166,7 +166,14 @@ class _$GUpdateBookListReq extends GUpdateBookListReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GUpdateBookListReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GUpdateBookListReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GUpdateBookListReq', 'executeOnListen');
+  }
+
   @override
   GUpdateBookListReq rebuild(
           void Function(GUpdateBookListReqBuilder) updates) =>
@@ -174,7 +181,7 @@ class _$GUpdateBookListReq extends GUpdateBookListReq {
 
   @override
   GUpdateBookListReqBuilder toBuilder() =>
-      GUpdateBookListReqBuilder()..replace(this);
+      new GUpdateBookListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -233,7 +240,7 @@ class GUpdateBookListReqBuilder
 
   _i3.GUpdateBookListVarsBuilder? _vars;
   _i3.GUpdateBookListVarsBuilder get vars =>
-      _$this._vars ??= _i3.GUpdateBookListVarsBuilder();
+      _$this._vars ??= new _i3.GUpdateBookListVarsBuilder();
   set vars(_i3.GUpdateBookListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -257,7 +264,7 @@ class GUpdateBookListReqBuilder
 
   _i2.GUpdateBookListDataBuilder? _optimisticResponse;
   _i2.GUpdateBookListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GUpdateBookListDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GUpdateBookListDataBuilder();
   set optimisticResponse(_i2.GUpdateBookListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -311,6 +318,7 @@ class GUpdateBookListReqBuilder
 
   @override
   void replace(GUpdateBookListReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookListReq;
   }
 
@@ -326,20 +334,19 @@ class GUpdateBookListReqBuilder
     _$GUpdateBookListReq _$result;
     try {
       _$result = _$v ??
-          _$GUpdateBookListReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GUpdateBookListReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GUpdateBookListReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GUpdateBookListReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GUpdateBookListReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GUpdateBookListReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -349,7 +356,7 @@ class GUpdateBookListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateBookListReq', _$failedField, e.toString());
       }
       rethrow;

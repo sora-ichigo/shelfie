@@ -7,7 +7,7 @@ part of 'search_book_by_isbn.var.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBookByISBNVars> _$gSearchBookByISBNVarsSerializer =
-    _$GSearchBookByISBNVarsSerializer();
+    new _$GSearchBookByISBNVarsSerializer();
 
 class _$GSearchBookByISBNVarsSerializer
     implements StructuredSerializer<GSearchBookByISBNVars> {
@@ -35,7 +35,7 @@ class _$GSearchBookByISBNVarsSerializer
   GSearchBookByISBNVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSearchBookByISBNVarsBuilder();
+    final result = new GSearchBookByISBNVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -60,9 +60,13 @@ class _$GSearchBookByISBNVars extends GSearchBookByISBNVars {
 
   factory _$GSearchBookByISBNVars(
           [void Function(GSearchBookByISBNVarsBuilder)? updates]) =>
-      (GSearchBookByISBNVarsBuilder()..update(updates))._build();
+      (new GSearchBookByISBNVarsBuilder()..update(updates))._build();
 
-  _$GSearchBookByISBNVars._({required this.isbn}) : super._();
+  _$GSearchBookByISBNVars._({required this.isbn}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        isbn, r'GSearchBookByISBNVars', 'isbn');
+  }
+
   @override
   GSearchBookByISBNVars rebuild(
           void Function(GSearchBookByISBNVarsBuilder) updates) =>
@@ -70,7 +74,7 @@ class _$GSearchBookByISBNVars extends GSearchBookByISBNVars {
 
   @override
   GSearchBookByISBNVarsBuilder toBuilder() =>
-      GSearchBookByISBNVarsBuilder()..replace(this);
+      new GSearchBookByISBNVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -115,6 +119,7 @@ class GSearchBookByISBNVarsBuilder
 
   @override
   void replace(GSearchBookByISBNVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBookByISBNVars;
   }
 
@@ -128,10 +133,9 @@ class GSearchBookByISBNVarsBuilder
 
   _$GSearchBookByISBNVars _build() {
     final _$result = _$v ??
-        _$GSearchBookByISBNVars._(
-          isbn: BuiltValueNullFieldError.checkNotNull(
-              isbn, r'GSearchBookByISBNVars', 'isbn'),
-        );
+        new _$GSearchBookByISBNVars._(
+            isbn: BuiltValueNullFieldError.checkNotNull(
+                isbn, r'GSearchBookByISBNVars', 'isbn'));
     replace(_$result);
     return _$result;
   }

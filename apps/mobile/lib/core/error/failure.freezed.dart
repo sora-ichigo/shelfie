@@ -97,9 +97,7 @@ mixin _$Failure {
   }) =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $FailureCopyWith<Failure> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -121,8 +119,6 @@ class _$FailureCopyWithImpl<$Res, $Val extends Failure>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -156,8 +152,6 @@ class __$$NetworkFailureImplCopyWithImpl<$Res>
       _$NetworkFailureImpl _value, $Res Function(_$NetworkFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -196,9 +190,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$NetworkFailureImplCopyWith<_$NetworkFailureImpl> get copyWith =>
@@ -316,11 +308,8 @@ abstract class NetworkFailure extends Failure {
 
   @override
   String get message;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$NetworkFailureImplCopyWith<_$NetworkFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -344,8 +333,6 @@ class __$$ServerFailureImplCopyWithImpl<$Res>
       _$ServerFailureImpl _value, $Res Function(_$ServerFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -403,9 +390,7 @@ class _$ServerFailureImpl extends ServerFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message, code, statusCode);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ServerFailureImplCopyWith<_$ServerFailureImpl> get copyWith =>
@@ -526,11 +511,8 @@ abstract class ServerFailure extends Failure {
   String get message;
   String get code;
   int? get statusCode;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ServerFailureImplCopyWith<_$ServerFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -554,8 +536,6 @@ class __$$AuthFailureImplCopyWithImpl<$Res>
       _$AuthFailureImpl _value, $Res Function(_$AuthFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -594,9 +574,7 @@ class _$AuthFailureImpl extends AuthFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthFailureImplCopyWith<_$AuthFailureImpl> get copyWith =>
@@ -713,11 +691,8 @@ abstract class AuthFailure extends Failure {
 
   @override
   String get message;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AuthFailureImplCopyWith<_$AuthFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -741,8 +716,6 @@ class __$$ValidationFailureImplCopyWithImpl<$Res>
       $Res Function(_$ValidationFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -801,9 +774,7 @@ class _$ValidationFailureImpl extends ValidationFailure {
   int get hashCode => Object.hash(
       runtimeType, message, const DeepCollectionEquality().hash(_fieldErrors));
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ValidationFailureImplCopyWith<_$ValidationFailureImpl> get copyWith =>
@@ -923,11 +894,8 @@ abstract class ValidationFailure extends Failure {
   @override
   String get message;
   Map<String, String>? get fieldErrors;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ValidationFailureImplCopyWith<_$ValidationFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -951,8 +919,6 @@ class __$$UnexpectedFailureImplCopyWithImpl<$Res>
       $Res Function(_$UnexpectedFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1001,9 +967,7 @@ class _$UnexpectedFailureImpl extends UnexpectedFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message, stackTrace);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UnexpectedFailureImplCopyWith<_$UnexpectedFailureImpl> get copyWith =>
@@ -1123,11 +1087,8 @@ abstract class UnexpectedFailure extends Failure {
   @override
   String get message;
   StackTrace? get stackTrace;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UnexpectedFailureImplCopyWith<_$UnexpectedFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1151,8 +1112,6 @@ class __$$NotFoundFailureImplCopyWithImpl<$Res>
       _$NotFoundFailureImpl _value, $Res Function(_$NotFoundFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1191,9 +1150,7 @@ class _$NotFoundFailureImpl extends NotFoundFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$NotFoundFailureImplCopyWith<_$NotFoundFailureImpl> get copyWith =>
@@ -1311,11 +1268,8 @@ abstract class NotFoundFailure extends Failure {
 
   @override
   String get message;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$NotFoundFailureImplCopyWith<_$NotFoundFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1339,8 +1293,6 @@ class __$$ForbiddenFailureImplCopyWithImpl<$Res>
       $Res Function(_$ForbiddenFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1379,9 +1331,7 @@ class _$ForbiddenFailureImpl extends ForbiddenFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ForbiddenFailureImplCopyWith<_$ForbiddenFailureImpl> get copyWith =>
@@ -1499,11 +1449,8 @@ abstract class ForbiddenFailure extends Failure {
 
   @override
   String get message;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ForbiddenFailureImplCopyWith<_$ForbiddenFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1527,8 +1474,6 @@ class __$$DuplicateBookFailureImplCopyWithImpl<$Res>
       $Res Function(_$DuplicateBookFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1567,9 +1512,7 @@ class _$DuplicateBookFailureImpl extends DuplicateBookFailure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$DuplicateBookFailureImplCopyWith<_$DuplicateBookFailureImpl>
@@ -1688,11 +1631,8 @@ abstract class DuplicateBookFailure extends Failure {
 
   @override
   String get message;
-
-  /// Create a copy of Failure
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$DuplicateBookFailureImplCopyWith<_$DuplicateBookFailureImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

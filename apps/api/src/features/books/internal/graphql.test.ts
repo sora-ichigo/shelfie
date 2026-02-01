@@ -569,7 +569,7 @@ describe("MyShelf enhanced query types", () => {
   });
 
   describe("MyShelfInput type", () => {
-    it("should define MyShelfInput input type with query, sortBy, sortOrder, limit, offset fields", () => {
+    it("should define MyShelfInput input type with query, sortBy, sortOrder, limit, offset, readingStatus fields", () => {
       const inputType = schema.getType(
         "MyShelfInput",
       ) as GraphQLInputObjectType;
@@ -591,6 +591,9 @@ describe("MyShelf enhanced query types", () => {
 
       expect(fields.offset).toBeDefined();
       expect(fields.offset.type.toString()).toBe("Int");
+
+      expect(fields.readingStatus).toBeDefined();
+      expect(fields.readingStatus.type.toString()).toBe("ReadingStatus");
     });
   });
 
@@ -2102,6 +2105,150 @@ describe("BooksGraphQL Resolver Behavior", () => {
         },
       );
       expect(result).toEqual(mockResult);
+    });
+
+    it("should pass readingStatus filter to shelfService", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockResult = {
+        items: [],
+        totalCount: 0,
+        hasMore: false,
+      };
+
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+        ok(mockResult),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          name: null,
+          avatarUrl: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      await myShelfField?.resolve?.(
+        {},
+        {
+          input: {
+            readingStatus: "reading",
+            limit: 20,
+            offset: 0,
+          },
+        },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+        100,
+        {
+          readingStatus: "reading",
+          limit: 20,
+          offset: 0,
+        },
+      );
+    });
+
+    it("should pass readingStatus combined with sortBy/limit/offset to shelfService", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockResult = {
+        items: [],
+        totalCount: 0,
+        hasMore: false,
+      };
+
+      vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+        ok(mockResult),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          name: null,
+          avatarUrl: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const myShelfField = queryType?.getFields().myShelf;
+
+      await myShelfField?.resolve?.(
+        {},
+        {
+          input: {
+            readingStatus: "completed",
+            sortBy: "TITLE",
+            sortOrder: "DESC",
+            limit: 10,
+            offset: 5,
+          },
+        },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      );
+
+      expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+        100,
+        {
+          readingStatus: "completed",
+          sortBy: "TITLE",
+          sortOrder: "DESC",
+          limit: 10,
+          offset: 5,
+        },
+      );
     });
 
     it("should use default values when input is not provided", async () => {

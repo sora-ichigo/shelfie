@@ -61,11 +61,11 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _neutral850 = Color(0xFF101828);
   static const Color _neutral800 = Color(0xFF1A1A1A);
   static const Color _neutral500 = Color(0xFFA0A0A0);
-  static const Color _white = Color(0xFFFFFFFF);
   static const Color _blackOverlay = Color(0x4D000000);
   static const Color _white5 = Color(0x0DFFFFFF);
   static const Color _mauve1 = Color(0xFF121113);
   static const Color _mauveAlpha4 = Color(0x1DEEE5F8);
+  static const Color _white = Color(0xFFFFFFFF);
   static const Color _mauveAlpha12 = Color(0xEFFDFDFF);
 
   // ===========================================================================

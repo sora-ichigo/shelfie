@@ -7,7 +7,7 @@ part of 'delete_book_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GDeleteBookListReq> _$gDeleteBookListReqSerializer =
-    _$GDeleteBookListReqSerializer();
+    new _$GDeleteBookListReqSerializer();
 
 class _$GDeleteBookListReqSerializer
     implements StructuredSerializer<GDeleteBookListReq> {
@@ -75,7 +75,7 @@ class _$GDeleteBookListReqSerializer
   GDeleteBookListReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GDeleteBookListReqBuilder();
+    final result = new GDeleteBookListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -153,7 +153,7 @@ class _$GDeleteBookListReq extends GDeleteBookListReq {
 
   factory _$GDeleteBookListReq(
           [void Function(GDeleteBookListReqBuilder)? updates]) =>
-      (GDeleteBookListReqBuilder()..update(updates))._build();
+      (new GDeleteBookListReqBuilder()..update(updates))._build();
 
   _$GDeleteBookListReq._(
       {required this.vars,
@@ -166,7 +166,14 @@ class _$GDeleteBookListReq extends GDeleteBookListReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GDeleteBookListReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GDeleteBookListReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GDeleteBookListReq', 'executeOnListen');
+  }
+
   @override
   GDeleteBookListReq rebuild(
           void Function(GDeleteBookListReqBuilder) updates) =>
@@ -174,7 +181,7 @@ class _$GDeleteBookListReq extends GDeleteBookListReq {
 
   @override
   GDeleteBookListReqBuilder toBuilder() =>
-      GDeleteBookListReqBuilder()..replace(this);
+      new GDeleteBookListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -233,7 +240,7 @@ class GDeleteBookListReqBuilder
 
   _i3.GDeleteBookListVarsBuilder? _vars;
   _i3.GDeleteBookListVarsBuilder get vars =>
-      _$this._vars ??= _i3.GDeleteBookListVarsBuilder();
+      _$this._vars ??= new _i3.GDeleteBookListVarsBuilder();
   set vars(_i3.GDeleteBookListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -257,7 +264,7 @@ class GDeleteBookListReqBuilder
 
   _i2.GDeleteBookListDataBuilder? _optimisticResponse;
   _i2.GDeleteBookListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GDeleteBookListDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GDeleteBookListDataBuilder();
   set optimisticResponse(_i2.GDeleteBookListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -311,6 +318,7 @@ class GDeleteBookListReqBuilder
 
   @override
   void replace(GDeleteBookListReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GDeleteBookListReq;
   }
 
@@ -326,20 +334,19 @@ class GDeleteBookListReqBuilder
     _$GDeleteBookListReq _$result;
     try {
       _$result = _$v ??
-          _$GDeleteBookListReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GDeleteBookListReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GDeleteBookListReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GDeleteBookListReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GDeleteBookListReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GDeleteBookListReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -349,7 +356,7 @@ class GDeleteBookListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GDeleteBookListReq', _$failedField, e.toString());
       }
       rethrow;

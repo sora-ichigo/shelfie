@@ -37,9 +37,7 @@ mixin _$ShelfBookItem {
   /// 表紙画像のURL
   String? get coverImageUrl => throw _privateConstructorUsedError;
 
-  /// Create a copy of ShelfBookItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ShelfBookItemCopyWith<ShelfBookItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,8 +68,6 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ShelfBookItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,8 +138,6 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
       _$ShelfBookItemImpl _value, $Res Function(_$ShelfBookItemImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ShelfBookItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -271,9 +265,7 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
       addedAt,
       coverImageUrl);
 
-  /// Create a copy of ShelfBookItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ShelfBookItemImplCopyWith<_$ShelfBookItemImpl> get copyWith =>
@@ -291,38 +283,36 @@ abstract class _ShelfBookItem extends ShelfBookItem {
       final String? coverImageUrl}) = _$ShelfBookItemImpl;
   const _ShelfBookItem._() : super._();
 
-  /// ユーザーの本棚エントリID
   @override
+
+  /// ユーザーの本棚エントリID
   int get userBookId;
+  @override
 
   /// 外部ID（楽天ブックスID など）
-  @override
   String get externalId;
+  @override
 
   /// 書籍タイトル
-  @override
   String get title;
+  @override
 
   /// 著者リスト
-  @override
   List<String> get authors;
+  @override
 
   /// 書籍のソース（rakuten or google）
-  @override
   BookSource get source;
+  @override
 
   /// 本棚への追加日時
-  @override
   DateTime get addedAt;
+  @override
 
   /// 表紙画像のURL
-  @override
   String? get coverImageUrl;
-
-  /// Create a copy of ShelfBookItem
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ShelfBookItemImplCopyWith<_$ShelfBookItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

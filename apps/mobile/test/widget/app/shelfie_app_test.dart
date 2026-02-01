@@ -12,7 +12,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -22,9 +22,6 @@ class MockBookShelfSettingsRepository extends Mock
     implements BookShelfSettingsRepository {
   @override
   SortOption getSortOption() => SortOption.defaultOption;
-
-  @override
-  GroupOption getGroupOption() => GroupOption.defaultOption;
 }
 
 void main() {

@@ -7,7 +7,7 @@ part of 'delete_book_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GDeleteBookListVars> _$gDeleteBookListVarsSerializer =
-    _$GDeleteBookListVarsSerializer();
+    new _$GDeleteBookListVarsSerializer();
 
 class _$GDeleteBookListVarsSerializer
     implements StructuredSerializer<GDeleteBookListVars> {
@@ -35,7 +35,7 @@ class _$GDeleteBookListVarsSerializer
   GDeleteBookListVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GDeleteBookListVarsBuilder();
+    final result = new GDeleteBookListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -60,9 +60,13 @@ class _$GDeleteBookListVars extends GDeleteBookListVars {
 
   factory _$GDeleteBookListVars(
           [void Function(GDeleteBookListVarsBuilder)? updates]) =>
-      (GDeleteBookListVarsBuilder()..update(updates))._build();
+      (new GDeleteBookListVarsBuilder()..update(updates))._build();
 
-  _$GDeleteBookListVars._({required this.listId}) : super._();
+  _$GDeleteBookListVars._({required this.listId}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listId, r'GDeleteBookListVars', 'listId');
+  }
+
   @override
   GDeleteBookListVars rebuild(
           void Function(GDeleteBookListVarsBuilder) updates) =>
@@ -70,7 +74,7 @@ class _$GDeleteBookListVars extends GDeleteBookListVars {
 
   @override
   GDeleteBookListVarsBuilder toBuilder() =>
-      GDeleteBookListVarsBuilder()..replace(this);
+      new GDeleteBookListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -115,6 +119,7 @@ class GDeleteBookListVarsBuilder
 
   @override
   void replace(GDeleteBookListVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GDeleteBookListVars;
   }
 
@@ -128,10 +133,9 @@ class GDeleteBookListVarsBuilder
 
   _$GDeleteBookListVars _build() {
     final _$result = _$v ??
-        _$GDeleteBookListVars._(
-          listId: BuiltValueNullFieldError.checkNotNull(
-              listId, r'GDeleteBookListVars', 'listId'),
-        );
+        new _$GDeleteBookListVars._(
+            listId: BuiltValueNullFieldError.checkNotNull(
+                listId, r'GDeleteBookListVars', 'listId'));
     replace(_$result);
     return _$result;
   }

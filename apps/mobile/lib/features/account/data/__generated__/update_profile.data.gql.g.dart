@@ -7,20 +7,20 @@ part of 'update_profile.data.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateProfileData> _$gUpdateProfileDataSerializer =
-    _$GUpdateProfileDataSerializer();
+    new _$GUpdateProfileDataSerializer();
 Serializer<GUpdateProfileData_updateProfile__base>
     _$gUpdateProfileDataUpdateProfileBaseSerializer =
-    _$GUpdateProfileData_updateProfile__baseSerializer();
+    new _$GUpdateProfileData_updateProfile__baseSerializer();
 Serializer<GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess>
     _$gUpdateProfileDataUpdateProfileAsMutationUpdateProfileSuccessSerializer =
-    _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessSerializer();
+    new _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessSerializer();
 Serializer<
         GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data>
     _$gUpdateProfileDataUpdateProfileAsMutationUpdateProfileSuccessDataSerializer =
-    _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSerializer();
+    new _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSerializer();
 Serializer<GUpdateProfileData_updateProfile__asValidationError>
     _$gUpdateProfileDataUpdateProfileAsValidationErrorSerializer =
-    _$GUpdateProfileData_updateProfile__asValidationErrorSerializer();
+    new _$GUpdateProfileData_updateProfile__asValidationErrorSerializer();
 
 class _$GUpdateProfileDataSerializer
     implements StructuredSerializer<GUpdateProfileData> {
@@ -53,7 +53,7 @@ class _$GUpdateProfileDataSerializer
   GUpdateProfileData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateProfileDataBuilder();
+    final result = new GUpdateProfileDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -105,7 +105,7 @@ class _$GUpdateProfileData_updateProfile__baseSerializer
   GUpdateProfileData_updateProfile__base deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateProfileData_updateProfile__baseBuilder();
+    final result = new GUpdateProfileData_updateProfile__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -159,7 +159,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessSerializ
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder();
+        new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -254,7 +254,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder();
+        new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -347,7 +347,8 @@ class _$GUpdateProfileData_updateProfile__asValidationErrorSerializer
   GUpdateProfileData_updateProfile__asValidationError deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateProfileData_updateProfile__asValidationErrorBuilder();
+    final result =
+        new GUpdateProfileData_updateProfile__asValidationErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -386,10 +387,14 @@ class _$GUpdateProfileData extends GUpdateProfileData {
 
   factory _$GUpdateProfileData(
           [void Function(GUpdateProfileDataBuilder)? updates]) =>
-      (GUpdateProfileDataBuilder()..update(updates))._build();
+      (new GUpdateProfileDataBuilder()..update(updates))._build();
 
   _$GUpdateProfileData._({required this.G__typename, this.updateProfile})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GUpdateProfileData', 'G__typename');
+  }
+
   @override
   GUpdateProfileData rebuild(
           void Function(GUpdateProfileDataBuilder) updates) =>
@@ -397,7 +402,7 @@ class _$GUpdateProfileData extends GUpdateProfileData {
 
   @override
   GUpdateProfileDataBuilder toBuilder() =>
-      GUpdateProfileDataBuilder()..replace(this);
+      new GUpdateProfileDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -454,6 +459,7 @@ class GUpdateProfileDataBuilder
 
   @override
   void replace(GUpdateProfileData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileData;
   }
 
@@ -467,11 +473,10 @@ class GUpdateProfileDataBuilder
 
   _$GUpdateProfileData _build() {
     final _$result = _$v ??
-        _$GUpdateProfileData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GUpdateProfileData', 'G__typename'),
-          updateProfile: updateProfile,
-        );
+        new _$GUpdateProfileData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GUpdateProfileData', 'G__typename'),
+            updateProfile: updateProfile);
     replace(_$result);
     return _$result;
   }
@@ -485,11 +490,15 @@ class _$GUpdateProfileData_updateProfile__base
   factory _$GUpdateProfileData_updateProfile__base(
           [void Function(GUpdateProfileData_updateProfile__baseBuilder)?
               updates]) =>
-      (GUpdateProfileData_updateProfile__baseBuilder()..update(updates))
+      (new GUpdateProfileData_updateProfile__baseBuilder()..update(updates))
           ._build();
 
   _$GUpdateProfileData_updateProfile__base._({required this.G__typename})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GUpdateProfileData_updateProfile__base', 'G__typename');
+  }
+
   @override
   GUpdateProfileData_updateProfile__base rebuild(
           void Function(GUpdateProfileData_updateProfile__baseBuilder)
@@ -498,7 +507,7 @@ class _$GUpdateProfileData_updateProfile__base
 
   @override
   GUpdateProfileData_updateProfile__baseBuilder toBuilder() =>
-      GUpdateProfileData_updateProfile__baseBuilder()..replace(this);
+      new GUpdateProfileData_updateProfile__baseBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -549,6 +558,7 @@ class GUpdateProfileData_updateProfile__baseBuilder
 
   @override
   void replace(GUpdateProfileData_updateProfile__base other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileData_updateProfile__base;
   }
 
@@ -563,10 +573,9 @@ class GUpdateProfileData_updateProfile__baseBuilder
 
   _$GUpdateProfileData_updateProfile__base _build() {
     final _$result = _$v ??
-        _$GUpdateProfileData_updateProfile__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-              r'GUpdateProfileData_updateProfile__base', 'G__typename'),
-        );
+        new _$GUpdateProfileData_updateProfile__base._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GUpdateProfileData_updateProfile__base', 'G__typename'));
     replace(_$result);
     return _$result;
   }
@@ -584,13 +593,23 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess
           [void Function(
                   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder)?
               updates]) =>
-      (GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder()
+      (new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess._(
       {required this.G__typename, required this.data})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        data,
+        r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess',
+        'data');
+  }
+
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess rebuild(
           void Function(
@@ -601,7 +620,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder
       toBuilder() =>
-          GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder()
+          new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder()
             ..replace(this);
 
   @override
@@ -647,7 +666,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder
       _data;
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder
       get data => _$this._data ??=
-          GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder();
+          new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder();
   set data(
           GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder?
               data) =>
@@ -672,6 +691,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder
   @override
   void replace(
       GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess;
   }
@@ -692,20 +712,20 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccessBuilder
     _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess _$result;
     try {
       _$result = _$v ??
-          _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess',
-                'G__typename'),
-            data: data.build(),
-          );
+          new _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess
+              ._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename,
+                  r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess',
+                  'G__typename'),
+              data: data.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess',
             _$failedField,
             e.toString());
@@ -738,7 +758,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           [void Function(
                   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder)?
               updates]) =>
-      (GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder()
+      (new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
@@ -750,7 +770,17 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       this.avatarUrl,
       this.createdAt,
       required this.bookCount})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        bookCount,
+        r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+        'bookCount');
+  }
+
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data rebuild(
           void Function(
@@ -761,7 +791,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder
       toBuilder() =>
-          GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder()
+          new GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -867,6 +897,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   void replace(
       GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data;
   }
@@ -886,22 +917,21 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       _build() {
     final _$result = _$v ??
-        _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
+        new _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
             ._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
-              'G__typename'),
-          id: id,
-          email: email,
-          name: name,
-          avatarUrl: avatarUrl,
-          createdAt: createdAt,
-          bookCount: BuiltValueNullFieldError.checkNotNull(
-              bookCount,
-              r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
-              'bookCount'),
-        );
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+                'G__typename'),
+            id: id,
+            email: email,
+            name: name,
+            avatarUrl: avatarUrl,
+            createdAt: createdAt,
+            bookCount: BuiltValueNullFieldError.checkNotNull(
+                bookCount,
+                r'GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data',
+                'bookCount'));
     replace(_$result);
     return _$result;
   }
@@ -922,13 +952,17 @@ class _$GUpdateProfileData_updateProfile__asValidationError
           [void Function(
                   GUpdateProfileData_updateProfile__asValidationErrorBuilder)?
               updates]) =>
-      (GUpdateProfileData_updateProfile__asValidationErrorBuilder()
+      (new GUpdateProfileData_updateProfile__asValidationErrorBuilder()
             ..update(updates))
           ._build();
 
   _$GUpdateProfileData_updateProfile__asValidationError._(
       {required this.G__typename, this.code, this.message, this.field})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(G__typename,
+        r'GUpdateProfileData_updateProfile__asValidationError', 'G__typename');
+  }
+
   @override
   GUpdateProfileData_updateProfile__asValidationError rebuild(
           void Function(
@@ -938,7 +972,7 @@ class _$GUpdateProfileData_updateProfile__asValidationError
 
   @override
   GUpdateProfileData_updateProfile__asValidationErrorBuilder toBuilder() =>
-      GUpdateProfileData_updateProfile__asValidationErrorBuilder()
+      new GUpdateProfileData_updateProfile__asValidationErrorBuilder()
         ..replace(this);
 
   @override
@@ -1015,6 +1049,7 @@ class GUpdateProfileData_updateProfile__asValidationErrorBuilder
 
   @override
   void replace(GUpdateProfileData_updateProfile__asValidationError other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileData_updateProfile__asValidationError;
   }
 
@@ -1030,15 +1065,14 @@ class GUpdateProfileData_updateProfile__asValidationErrorBuilder
 
   _$GUpdateProfileData_updateProfile__asValidationError _build() {
     final _$result = _$v ??
-        _$GUpdateProfileData_updateProfile__asValidationError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GUpdateProfileData_updateProfile__asValidationError',
-              'G__typename'),
-          code: code,
-          message: message,
-          field: field,
-        );
+        new _$GUpdateProfileData_updateProfile__asValidationError._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GUpdateProfileData_updateProfile__asValidationError',
+                'G__typename'),
+            code: code,
+            message: message,
+            field: field);
     replace(_$result);
     return _$result;
   }

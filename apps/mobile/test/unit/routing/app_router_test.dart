@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -307,6 +308,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -350,6 +352,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -399,6 +402,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),

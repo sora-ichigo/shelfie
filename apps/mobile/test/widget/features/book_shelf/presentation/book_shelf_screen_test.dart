@@ -18,7 +18,7 @@ import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
@@ -37,7 +37,6 @@ class MockBookShelfNotifier extends AutoDisposeNotifier<BookShelfState>
   bool initializeCalled = false;
   bool refreshCalled = false;
   SortOption? lastSortOption;
-  GroupOption? lastGroupOption;
 
   @override
   BookShelfState build() => _state;
@@ -55,11 +54,6 @@ class MockBookShelfNotifier extends AutoDisposeNotifier<BookShelfState>
   @override
   Future<void> setSortOption(SortOption option) async {
     lastSortOption = option;
-  }
-
-  @override
-  void setGroupOption(GroupOption option) {
-    lastGroupOption = option;
   }
 
   @override
@@ -94,7 +88,6 @@ void main() {
     registerFallbackValue(const BookShelfState.initial());
     registerFallbackValue(FakeRoute());
     registerFallbackValue(SortOption.defaultOption);
-    registerFallbackValue(GroupOption.defaultOption);
   });
 
   setUp(() {
@@ -151,8 +144,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -169,8 +161,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -190,8 +181,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -212,8 +202,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -248,8 +237,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -283,8 +271,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: testBooks,
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 2,
@@ -344,8 +331,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: testBooks,
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 1,
@@ -385,8 +371,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: testBooks,
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 1,
@@ -420,8 +405,7 @@ void main() {
           initialState: BookShelfState.loaded(
             books: const [],
             sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
+
             hasMore: false,
             isLoadingMore: false,
             totalCount: 0,
@@ -440,30 +424,6 @@ void main() {
         expect(mockNotifier.lastSortOption, equals(SortOption.titleAsc));
       });
 
-      testWidgets('グループ化変更時に setGroupOption が呼ばれる', (tester) async {
-        await tester.pumpWidget(buildTestApp(
-          initialState: BookShelfState.loaded(
-            books: const [],
-            sortOption: SortOption.defaultOption,
-            groupOption: GroupOption.defaultOption,
-            groupedBooks: const {},
-            hasMore: false,
-            isLoadingMore: false,
-            totalCount: 0,
-          ),
-        ));
-        await tester.pumpAndSettle();
-
-        final groupButton = find.byIcon(Icons.grid_view);
-        await tester.tap(groupButton);
-        await tester.pumpAndSettle();
-
-        final statusOption = find.text('ステータス別');
-        await tester.tap(statusOption);
-        await tester.pumpAndSettle();
-
-        expect(mockNotifier.lastGroupOption, equals(GroupOption.byStatus));
-      });
-    });
+});
   });
 }

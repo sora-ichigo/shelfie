@@ -108,9 +108,6 @@ class _$BookSearchStateCopyWithImpl<$Res, $Val extends BookSearchState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -127,9 +124,6 @@ class __$$BookSearchInitialImplCopyWithImpl<$Res>
   __$$BookSearchInitialImplCopyWithImpl(_$BookSearchInitialImpl _value,
       $Res Function(_$BookSearchInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -268,9 +262,6 @@ class __$$BookSearchLoadingImplCopyWithImpl<$Res>
   __$$BookSearchLoadingImplCopyWithImpl(_$BookSearchLoadingImpl _value,
       $Res Function(_$BookSearchLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -417,8 +408,6 @@ class __$$BookSearchSuccessImplCopyWithImpl<$Res>
       $Res Function(_$BookSearchSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -510,9 +499,7 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
       currentQuery,
       currentOffset);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookSearchSuccessImplCopyWith<_$BookSearchSuccessImpl> get copyWith =>
@@ -632,10 +619,7 @@ abstract class BookSearchSuccess implements BookSearchState {
   bool get hasMore;
   String get currentQuery;
   int get currentOffset;
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookSearchSuccessImplCopyWith<_$BookSearchSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -657,8 +641,6 @@ class __$$BookSearchEmptyImplCopyWithImpl<$Res>
       _$BookSearchEmptyImpl _value, $Res Function(_$BookSearchEmptyImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -697,9 +679,7 @@ class _$BookSearchEmptyImpl implements BookSearchEmpty {
   @override
   int get hashCode => Object.hash(runtimeType, query);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookSearchEmptyImplCopyWith<_$BookSearchEmptyImpl> get copyWith =>
@@ -810,10 +790,7 @@ abstract class BookSearchEmpty implements BookSearchState {
       _$BookSearchEmptyImpl;
 
   String get query;
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookSearchEmptyImplCopyWith<_$BookSearchEmptyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -837,8 +814,6 @@ class __$$BookSearchErrorImplCopyWithImpl<$Res>
       _$BookSearchErrorImpl _value, $Res Function(_$BookSearchErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -852,8 +827,6 @@ class __$$BookSearchErrorImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -887,9 +860,7 @@ class _$BookSearchErrorImpl implements BookSearchError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookSearchErrorImplCopyWith<_$BookSearchErrorImpl> get copyWith =>
@@ -1000,10 +971,7 @@ abstract class BookSearchError implements BookSearchState {
       _$BookSearchErrorImpl;
 
   Failure get failure;
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookSearchErrorImplCopyWith<_$BookSearchErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1030,8 +998,6 @@ class __$$BookSearchLoadingMoreImplCopyWithImpl<$Res>
       $Res Function(_$BookSearchLoadingMoreImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1113,9 +1079,7 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
       currentQuery,
       currentOffset);
 
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookSearchLoadingMoreImplCopyWith<_$BookSearchLoadingMoreImpl>
@@ -1232,10 +1196,7 @@ abstract class BookSearchLoadingMore implements BookSearchState {
   int get totalCount;
   String get currentQuery;
   int get currentOffset;
-
-  /// Create a copy of BookSearchState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookSearchLoadingMoreImplCopyWith<_$BookSearchLoadingMoreImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

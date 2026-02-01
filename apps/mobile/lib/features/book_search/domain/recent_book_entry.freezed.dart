@@ -38,12 +38,8 @@ mixin _$RecentBookEntry {
   /// 書籍データの取得元（rakuten または google）
   String? get source => throw _privateConstructorUsedError;
 
-  /// Serializes this RecentBookEntry to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of RecentBookEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $RecentBookEntryCopyWith<RecentBookEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,8 +69,6 @@ class _$RecentBookEntryCopyWithImpl<$Res, $Val extends RecentBookEntry>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of RecentBookEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -139,8 +133,6 @@ class __$$RecentBookEntryImplCopyWithImpl<$Res>
       _$RecentBookEntryImpl _value, $Res Function(_$RecentBookEntryImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of RecentBookEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -246,7 +238,7 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
             (identical(other.source, source) || other.source == source));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -257,9 +249,7 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
       viewedAt,
       source);
 
-  /// Create a copy of RecentBookEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$RecentBookEntryImplCopyWith<_$RecentBookEntryImpl> get copyWith =>
@@ -286,34 +276,32 @@ abstract class _RecentBookEntry implements RecentBookEntry {
   factory _RecentBookEntry.fromJson(Map<String, dynamic> json) =
       _$RecentBookEntryImpl.fromJson;
 
-  /// 書籍 ID（外部 API の識別子）
   @override
+
+  /// 書籍 ID（外部 API の識別子）
   String get bookId;
+  @override
 
   /// 書籍タイトル
-  @override
   String get title;
+  @override
 
   /// 著者リスト
-  @override
   List<String> get authors;
+  @override
 
   /// カバー画像 URL（取得できない場合は null）
-  @override
   String? get coverImageUrl;
+  @override
 
   /// 閲覧した日時
-  @override
   DateTime get viewedAt;
+  @override
 
   /// 書籍データの取得元（rakuten または google）
-  @override
   String? get source;
-
-  /// Create a copy of RecentBookEntry
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$RecentBookEntryImplCopyWith<_$RecentBookEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

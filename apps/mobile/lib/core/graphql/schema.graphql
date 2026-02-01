@@ -460,6 +460,9 @@ input MyShelfInput {
   """Search query to filter books by title or author"""
   query: String
 
+  """Filter books by reading status"""
+  readingStatus: ReadingStatus
+
   """Field to sort by"""
   sortBy: ShelfSortField
 

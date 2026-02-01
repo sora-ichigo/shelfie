@@ -31,6 +31,11 @@ import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
 
+/// ナビゲーションバーの非表示状態を管理する Provider
+///
+/// 検索画面でフォーカスが当たっている間は true に設定される。
+final navBarHiddenProvider = StateProvider<bool>((ref) => false);
+
 /// ルートパス定義
 ///
 /// 全てのルートパスを一元管理し、型安全なナビゲーションを実現する。
@@ -453,7 +458,7 @@ List<RouteBase> _buildRoutes() {
 /// ShellRoute のビルダーとして使用され、プラットフォーム適応型ナビゲーションを提供する。
 /// AdaptiveScaffold + AdaptiveBottomNavigationBar を使用し、
 /// プラットフォーム判定は adaptive_platform_ui に完全委譲する。
-class _MainShell extends StatelessWidget {
+class _MainShell extends ConsumerWidget {
   const _MainShell({required this.child});
 
   final Widget child;
@@ -467,8 +472,9 @@ class _MainShell extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = _calculateSelectedIndex(context);
+    final isNavBarHidden = ref.watch(navBarHiddenProvider);
 
     void onTap(int index) {
       switch (index) {
@@ -479,46 +485,48 @@ class _MainShell extends StatelessWidget {
       }
     }
 
+    final navBar = AdaptiveBottomNavigationBar(
+      selectedIndex: selectedIndex,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      cupertinoTabBar: CupertinoTabBar(
+        currentIndex: selectedIndex,
+        onTap: onTap,
+        activeColor: Colors.white,
+        inactiveColor: Colors.white70,
+        backgroundColor: AppColors.dark.background,
+        border: const Border(),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.book),
+            label: 'ライブラリ',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.search),
+            label: '検索',
+          ),
+        ],
+      ),
+      onTap: onTap,
+      items: const [
+        AdaptiveNavigationDestination(
+          icon: 'book.fill',
+          label: 'ライブラリ',
+        ),
+        AdaptiveNavigationDestination(
+          icon: 'magnifyingglass',
+          label: '検索',
+        ),
+      ],
+    );
+
     return AdaptiveScaffold(
       minimizeBehavior: TabBarMinimizeBehavior.never,
       body: Material(
         type: MaterialType.transparency,
         child: child,
       ),
-      bottomNavigationBar: AdaptiveBottomNavigationBar(
-        selectedIndex: selectedIndex,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        cupertinoTabBar: CupertinoTabBar(
-          currentIndex: selectedIndex,
-          onTap: onTap,
-          activeColor: Colors.white,
-          inactiveColor: Colors.white70,
-          backgroundColor: AppColors.dark.background,
-          border: const Border(),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.book),
-              label: 'ライブラリ',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.search),
-              label: '検索',
-            ),
-          ],
-        ),
-        onTap: onTap,
-        items: const [
-          AdaptiveNavigationDestination(
-            icon: 'book.fill',
-            label: 'ライブラリ',
-          ),
-          AdaptiveNavigationDestination(
-            icon: 'magnifyingglass',
-            label: '検索',
-          ),
-        ],
-      ),
+      bottomNavigationBar: isNavBarHidden ? null : navBar,
     );
   }
 }

@@ -6,7 +6,7 @@ part of 'shelf_state_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shelfStateHash() => r'f3454bdf3b85bddd1a38cd0c3ae5084c7ffc81f2';
+String _$shelfStateHash() => r'694d2f4878f2c37c2fe0d583a086c364353f7c43';
 
 /// ユーザーの本棚にある本の状態を管理する（SSOT）
 ///
@@ -27,4 +27,4 @@ final shelfStateProvider =
 
 typedef _$ShelfState = Notifier<Map<String, ShelfEntry>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

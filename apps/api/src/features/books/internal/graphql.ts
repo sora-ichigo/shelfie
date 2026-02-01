@@ -154,6 +154,7 @@ interface MyShelfInputData {
   sortOrder?: SortOrderValue | null;
   limit?: number | null;
   offset?: number | null;
+  readingStatus?: ReadingStatusValue | null;
 }
 
 function createMyShelfInputRef(builder: Builder) {
@@ -412,6 +413,11 @@ export function registerBooksTypes(builder: Builder): void {
       offset: t.int({
         required: false,
         description: "Number of items to skip (default: 0)",
+      }),
+      readingStatus: t.field({
+        type: ReadingStatusRef,
+        required: false,
+        description: "Filter books by reading status",
       }),
     }),
   });
@@ -730,6 +736,7 @@ export function registerBooksQueries(
             sortOrder: input.sortOrder ?? undefined,
             limit: input.limit ?? undefined,
             offset: input.offset ?? undefined,
+            readingStatus: input.readingStatus ?? undefined,
           },
         );
 

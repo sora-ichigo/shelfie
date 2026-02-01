@@ -14,7 +14,8 @@ import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
+import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -58,6 +59,9 @@ ProviderContainer createTestContainer({
       secureStorageServiceProvider.overrideWithValue(mockStorage),
       sessionValidatorProvider.overrideWithValue(mockSessionValidator),
       bookShelfNotifierProvider.overrideWith(() => MockBookShelfNotifier()),
+      bookShelfSettingsRepositoryProvider.overrideWithValue(
+        FakeBookShelfSettingsRepository(),
+      ),
       ...overrides,
     ],
     parent: parent,
@@ -221,11 +225,9 @@ class MockBookShelfNotifier extends BookShelfNotifier {
     return BookShelfState.loaded(
       books: const [],
       sortOption: SortOption.defaultOption,
-      groupOption: GroupOption.defaultOption,
       totalCount: 0,
       hasMore: false,
       isLoadingMore: false,
-      groupedBooks: const {},
     );
   }
 
@@ -236,13 +238,24 @@ class MockBookShelfNotifier extends BookShelfNotifier {
   Future<void> setSortOption(SortOption option) async {}
 
   @override
-  void setGroupOption(GroupOption option) {}
-
-  @override
   Future<void> loadMore() async {}
 
   @override
   Future<void> refresh() async {}
+}
+
+/// BookShelfSettingsRepository フェイク
+class FakeBookShelfSettingsRepository
+    implements BookShelfSettingsRepository {
+  SortOption _current = SortOption.defaultOption;
+
+  @override
+  SortOption getSortOption() => _current;
+
+  @override
+  Future<void> setSortOption(SortOption option) async {
+    _current = option;
+  }
 }
 
 /// OperationRequest フェイク

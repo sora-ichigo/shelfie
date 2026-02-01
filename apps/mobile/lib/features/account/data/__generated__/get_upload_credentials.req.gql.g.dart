@@ -7,7 +7,7 @@ part of 'get_upload_credentials.req.gql.dart';
 // **************************************************************************
 
 Serializer<GGetUploadCredentialsReq> _$gGetUploadCredentialsReqSerializer =
-    _$GGetUploadCredentialsReqSerializer();
+    new _$GGetUploadCredentialsReqSerializer();
 
 class _$GGetUploadCredentialsReqSerializer
     implements StructuredSerializer<GGetUploadCredentialsReq> {
@@ -78,7 +78,7 @@ class _$GGetUploadCredentialsReqSerializer
   GGetUploadCredentialsReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetUploadCredentialsReqBuilder();
+    final result = new GGetUploadCredentialsReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -157,7 +157,7 @@ class _$GGetUploadCredentialsReq extends GGetUploadCredentialsReq {
 
   factory _$GGetUploadCredentialsReq(
           [void Function(GGetUploadCredentialsReqBuilder)? updates]) =>
-      (GGetUploadCredentialsReqBuilder()..update(updates))._build();
+      (new GGetUploadCredentialsReqBuilder()..update(updates))._build();
 
   _$GGetUploadCredentialsReq._(
       {required this.vars,
@@ -170,7 +170,15 @@ class _$GGetUploadCredentialsReq extends GGetUploadCredentialsReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        vars, r'GGetUploadCredentialsReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GGetUploadCredentialsReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GGetUploadCredentialsReq', 'executeOnListen');
+  }
+
   @override
   GGetUploadCredentialsReq rebuild(
           void Function(GGetUploadCredentialsReqBuilder) updates) =>
@@ -178,7 +186,7 @@ class _$GGetUploadCredentialsReq extends GGetUploadCredentialsReq {
 
   @override
   GGetUploadCredentialsReqBuilder toBuilder() =>
-      GGetUploadCredentialsReqBuilder()..replace(this);
+      new GGetUploadCredentialsReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -238,7 +246,7 @@ class GGetUploadCredentialsReqBuilder
 
   _i3.GGetUploadCredentialsVarsBuilder? _vars;
   _i3.GGetUploadCredentialsVarsBuilder get vars =>
-      _$this._vars ??= _i3.GGetUploadCredentialsVarsBuilder();
+      _$this._vars ??= new _i3.GGetUploadCredentialsVarsBuilder();
   set vars(_i3.GGetUploadCredentialsVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -264,7 +272,7 @@ class GGetUploadCredentialsReqBuilder
 
   _i2.GGetUploadCredentialsDataBuilder? _optimisticResponse;
   _i2.GGetUploadCredentialsDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GGetUploadCredentialsDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GGetUploadCredentialsDataBuilder();
   set optimisticResponse(
           _i2.GGetUploadCredentialsDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -319,6 +327,7 @@ class GGetUploadCredentialsReqBuilder
 
   @override
   void replace(GGetUploadCredentialsReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetUploadCredentialsReq;
   }
 
@@ -334,22 +343,21 @@ class GGetUploadCredentialsReqBuilder
     _$GGetUploadCredentialsReq _$result;
     try {
       _$result = _$v ??
-          _$GGetUploadCredentialsReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GGetUploadCredentialsReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen,
-                r'GGetUploadCredentialsReq',
-                'executeOnListen'),
-            context: context,
-          );
+          new _$GGetUploadCredentialsReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GGetUploadCredentialsReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen,
+                  r'GGetUploadCredentialsReq',
+                  'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -359,7 +367,7 @@ class GGetUploadCredentialsReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GGetUploadCredentialsReq', _$failedField, e.toString());
       }
       rethrow;

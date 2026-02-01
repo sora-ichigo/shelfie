@@ -20,14 +20,8 @@ mixin _$BookShelfState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)
+    required TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)
         loaded,
     required TResult Function(Failure failure) error,
   }) =>
@@ -36,14 +30,8 @@ mixin _$BookShelfState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult? Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult? Function(Failure failure)? error,
   }) =>
@@ -52,14 +40,8 @@ mixin _$BookShelfState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
@@ -108,9 +90,6 @@ class _$BookShelfStateCopyWithImpl<$Res, $Val extends BookShelfState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -127,9 +106,6 @@ class __$$BookShelfInitialImplCopyWithImpl<$Res>
   __$$BookShelfInitialImplCopyWithImpl(_$BookShelfInitialImpl _value,
       $Res Function(_$BookShelfInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -156,14 +132,8 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)
+    required TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)
         loaded,
     required TResult Function(Failure failure) error,
   }) {
@@ -175,14 +145,8 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult? Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult? Function(Failure failure)? error,
   }) {
@@ -194,14 +158,8 @@ class _$BookShelfInitialImpl implements BookShelfInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
@@ -268,9 +226,6 @@ class __$$BookShelfLoadingImplCopyWithImpl<$Res>
   __$$BookShelfLoadingImplCopyWithImpl(_$BookShelfLoadingImpl _value,
       $Res Function(_$BookShelfLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -297,14 +252,8 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)
+    required TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)
         loaded,
     required TResult Function(Failure failure) error,
   }) {
@@ -316,14 +265,8 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult? Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult? Function(Failure failure)? error,
   }) {
@@ -335,14 +278,8 @@ class _$BookShelfLoadingImpl implements BookShelfLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
@@ -404,8 +341,6 @@ abstract class _$$BookShelfLoadedImplCopyWith<$Res> {
   $Res call(
       {List<ShelfBookItem> books,
       SortOption sortOption,
-      GroupOption groupOption,
-      Map<String, List<ShelfBookItem>> groupedBooks,
       bool hasMore,
       bool isLoadingMore,
       int totalCount});
@@ -419,15 +354,11 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
       _$BookShelfLoadedImpl _value, $Res Function(_$BookShelfLoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? books = null,
     Object? sortOption = null,
-    Object? groupOption = null,
-    Object? groupedBooks = null,
     Object? hasMore = null,
     Object? isLoadingMore = null,
     Object? totalCount = null,
@@ -441,14 +372,6 @@ class __$$BookShelfLoadedImplCopyWithImpl<$Res>
           ? _value.sortOption
           : sortOption // ignore: cast_nullable_to_non_nullable
               as SortOption,
-      groupOption: null == groupOption
-          ? _value.groupOption
-          : groupOption // ignore: cast_nullable_to_non_nullable
-              as GroupOption,
-      groupedBooks: null == groupedBooks
-          ? _value._groupedBooks
-          : groupedBooks // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<ShelfBookItem>>,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -471,13 +394,10 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   const _$BookShelfLoadedImpl(
       {required final List<ShelfBookItem> books,
       required this.sortOption,
-      required this.groupOption,
-      required final Map<String, List<ShelfBookItem>> groupedBooks,
       required this.hasMore,
       required this.isLoadingMore,
       required this.totalCount})
-      : _books = books,
-        _groupedBooks = groupedBooks;
+      : _books = books;
 
   /// 書籍リスト
   final List<ShelfBookItem> _books;
@@ -494,21 +414,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   @override
   final SortOption sortOption;
 
-  /// 現在のグループ化オプション
-  @override
-  final GroupOption groupOption;
-
-  /// グループ化された書籍マップ（グループ名 → 書籍リスト）
-  final Map<String, List<ShelfBookItem>> _groupedBooks;
-
-  /// グループ化された書籍マップ（グループ名 → 書籍リスト）
-  @override
-  Map<String, List<ShelfBookItem>> get groupedBooks {
-    if (_groupedBooks is EqualUnmodifiableMapView) return _groupedBooks;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_groupedBooks);
-  }
-
   /// 次のページがあるかどうか
   @override
   final bool hasMore;
@@ -523,7 +428,7 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
 
   @override
   String toString() {
-    return 'BookShelfState.loaded(books: $books, sortOption: $sortOption, groupOption: $groupOption, groupedBooks: $groupedBooks, hasMore: $hasMore, isLoadingMore: $isLoadingMore, totalCount: $totalCount)';
+    return 'BookShelfState.loaded(books: $books, sortOption: $sortOption, hasMore: $hasMore, isLoadingMore: $isLoadingMore, totalCount: $totalCount)';
   }
 
   @override
@@ -534,10 +439,6 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
             const DeepCollectionEquality().equals(other._books, _books) &&
             (identical(other.sortOption, sortOption) ||
                 other.sortOption == sortOption) &&
-            (identical(other.groupOption, groupOption) ||
-                other.groupOption == groupOption) &&
-            const DeepCollectionEquality()
-                .equals(other._groupedBooks, _groupedBooks) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.isLoadingMore, isLoadingMore) ||
                 other.isLoadingMore == isLoadingMore) &&
@@ -550,15 +451,11 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
       runtimeType,
       const DeepCollectionEquality().hash(_books),
       sortOption,
-      groupOption,
-      const DeepCollectionEquality().hash(_groupedBooks),
       hasMore,
       isLoadingMore,
       totalCount);
 
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookShelfLoadedImplCopyWith<_$BookShelfLoadedImpl> get copyWith =>
@@ -570,19 +467,12 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)
+    required TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)
         loaded,
     required TResult Function(Failure failure) error,
   }) {
-    return loaded(books, sortOption, groupOption, groupedBooks, hasMore,
-        isLoadingMore, totalCount);
+    return loaded(books, sortOption, hasMore, isLoadingMore, totalCount);
   }
 
   @override
@@ -590,19 +480,12 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult? Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult? Function(Failure failure)? error,
   }) {
-    return loaded?.call(books, sortOption, groupOption, groupedBooks, hasMore,
-        isLoadingMore, totalCount);
+    return loaded?.call(books, sortOption, hasMore, isLoadingMore, totalCount);
   }
 
   @override
@@ -610,21 +493,14 @@ class _$BookShelfLoadedImpl implements BookShelfLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(books, sortOption, groupOption, groupedBooks, hasMore,
-          isLoadingMore, totalCount);
+      return loaded(books, sortOption, hasMore, isLoadingMore, totalCount);
     }
     return orElse();
   }
@@ -671,8 +547,6 @@ abstract class BookShelfLoaded implements BookShelfState {
   const factory BookShelfLoaded(
       {required final List<ShelfBookItem> books,
       required final SortOption sortOption,
-      required final GroupOption groupOption,
-      required final Map<String, List<ShelfBookItem>> groupedBooks,
       required final bool hasMore,
       required final bool isLoadingMore,
       required final int totalCount}) = _$BookShelfLoadedImpl;
@@ -683,12 +557,6 @@ abstract class BookShelfLoaded implements BookShelfState {
   /// 現在のソートオプション
   SortOption get sortOption;
 
-  /// 現在のグループ化オプション
-  GroupOption get groupOption;
-
-  /// グループ化された書籍マップ（グループ名 → 書籍リスト）
-  Map<String, List<ShelfBookItem>> get groupedBooks;
-
   /// 次のページがあるかどうか
   bool get hasMore;
 
@@ -697,10 +565,7 @@ abstract class BookShelfLoaded implements BookShelfState {
 
   /// 総件数
   int get totalCount;
-
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookShelfLoadedImplCopyWith<_$BookShelfLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -724,8 +589,6 @@ class __$$BookShelfErrorImplCopyWithImpl<$Res>
       _$BookShelfErrorImpl _value, $Res Function(_$BookShelfErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -739,8 +602,6 @@ class __$$BookShelfErrorImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -775,9 +636,7 @@ class _$BookShelfErrorImpl implements BookShelfError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BookShelfErrorImplCopyWith<_$BookShelfErrorImpl> get copyWith =>
@@ -789,14 +648,8 @@ class _$BookShelfErrorImpl implements BookShelfError {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)
+    required TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)
         loaded,
     required TResult Function(Failure failure) error,
   }) {
@@ -808,14 +661,8 @@ class _$BookShelfErrorImpl implements BookShelfError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult? Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult? Function(Failure failure)? error,
   }) {
@@ -827,14 +674,8 @@ class _$BookShelfErrorImpl implements BookShelfError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<ShelfBookItem> books,
-            SortOption sortOption,
-            GroupOption groupOption,
-            Map<String, List<ShelfBookItem>> groupedBooks,
-            bool hasMore,
-            bool isLoadingMore,
-            int totalCount)?
+    TResult Function(List<ShelfBookItem> books, SortOption sortOption,
+            bool hasMore, bool isLoadingMore, int totalCount)?
         loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
@@ -889,10 +730,7 @@ abstract class BookShelfError implements BookShelfState {
 
   /// エラー情報
   Failure get failure;
-
-  /// Create a copy of BookShelfState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BookShelfErrorImplCopyWith<_$BookShelfErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

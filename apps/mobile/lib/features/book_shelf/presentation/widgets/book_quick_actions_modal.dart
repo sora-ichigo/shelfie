@@ -18,6 +18,7 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
+import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -264,10 +265,23 @@ class _BookQuickActionsModalContentState
     setState(() => _isUpdating = true);
     unawaited(HapticFeedback.selectionClick());
 
+    final currentEntry =
+        ref.read(shelfStateProvider)[widget.book.externalId];
+    final previousStatus = currentEntry?.readingStatus;
+
     await ref.read(shelfStateProvider.notifier).updateReadingStatusWithApi(
           externalId: widget.book.externalId,
           status: status,
         );
+
+    if (previousStatus != null && previousStatus != status) {
+      ref
+          .read(statusSectionNotifierProvider(previousStatus).notifier)
+          .removeBook(widget.book.externalId);
+      unawaited(ref
+          .read(statusSectionNotifierProvider(status).notifier)
+          .refresh());
+    }
 
     if (mounted) {
       setState(() => _isUpdating = false);
@@ -458,6 +472,9 @@ class _BookQuickActionsModalContentState
     setState(() => _isUpdating = true);
     unawaited(HapticFeedback.mediumImpact());
 
+    final currentEntry =
+        ref.read(shelfStateProvider)[widget.book.externalId];
+
     final result =
         await ref.read(shelfStateProvider.notifier).removeFromShelf(
               externalId: widget.book.externalId,
@@ -476,6 +493,13 @@ class _BookQuickActionsModalContentState
         }
       },
       (_) {
+        if (currentEntry != null) {
+          ref
+              .read(statusSectionNotifierProvider(
+                      currentEntry.readingStatus)
+                  .notifier)
+              .removeBook(widget.book.externalId);
+        }
         if (mounted) {
           AdaptiveSnackBar.show(
             context,

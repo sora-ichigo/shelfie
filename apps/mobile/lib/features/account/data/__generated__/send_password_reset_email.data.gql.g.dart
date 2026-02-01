@@ -8,21 +8,21 @@ part of 'send_password_reset_email.data.gql.dart';
 
 Serializer<GSendPasswordResetEmailData>
     _$gSendPasswordResetEmailDataSerializer =
-    _$GSendPasswordResetEmailDataSerializer();
+    new _$GSendPasswordResetEmailDataSerializer();
 Serializer<GSendPasswordResetEmailData_sendPasswordResetEmail__base>
     _$gSendPasswordResetEmailDataSendPasswordResetEmailBaseSerializer =
-    _$GSendPasswordResetEmailData_sendPasswordResetEmail__baseSerializer();
+    new _$GSendPasswordResetEmailData_sendPasswordResetEmail__baseSerializer();
 Serializer<
         GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess>
     _$gSendPasswordResetEmailDataSendPasswordResetEmailAsMutationSendPasswordResetEmailSuccessSerializer =
-    _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessSerializer();
+    new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessSerializer();
 Serializer<
         GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data>
     _$gSendPasswordResetEmailDataSendPasswordResetEmailAsMutationSendPasswordResetEmailSuccessDataSerializer =
-    _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataSerializer();
+    new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataSerializer();
 Serializer<GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError>
     _$gSendPasswordResetEmailDataSendPasswordResetEmailAsAuthErrorSerializer =
-    _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorSerializer();
+    new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorSerializer();
 
 class _$GSendPasswordResetEmailDataSerializer
     implements StructuredSerializer<GSendPasswordResetEmailData> {
@@ -59,7 +59,7 @@ class _$GSendPasswordResetEmailDataSerializer
   GSendPasswordResetEmailData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GSendPasswordResetEmailDataBuilder();
+    final result = new GSendPasswordResetEmailDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -115,7 +115,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__baseSerializer
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder();
+        new GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -171,7 +171,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder();
+        new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -236,7 +236,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
       deserialize(Serializers serializers, Iterable<Object?> serialized,
           {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder();
+        new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -318,7 +318,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorSerialize
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result =
-        GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder();
+        new GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -363,11 +363,15 @@ class _$GSendPasswordResetEmailData extends GSendPasswordResetEmailData {
 
   factory _$GSendPasswordResetEmailData(
           [void Function(GSendPasswordResetEmailDataBuilder)? updates]) =>
-      (GSendPasswordResetEmailDataBuilder()..update(updates))._build();
+      (new GSendPasswordResetEmailDataBuilder()..update(updates))._build();
 
   _$GSendPasswordResetEmailData._(
       {required this.G__typename, this.sendPasswordResetEmail})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GSendPasswordResetEmailData', 'G__typename');
+  }
+
   @override
   GSendPasswordResetEmailData rebuild(
           void Function(GSendPasswordResetEmailDataBuilder) updates) =>
@@ -375,7 +379,7 @@ class _$GSendPasswordResetEmailData extends GSendPasswordResetEmailData {
 
   @override
   GSendPasswordResetEmailDataBuilder toBuilder() =>
-      GSendPasswordResetEmailDataBuilder()..replace(this);
+      new GSendPasswordResetEmailDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -437,6 +441,7 @@ class GSendPasswordResetEmailDataBuilder
 
   @override
   void replace(GSendPasswordResetEmailData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailData;
   }
 
@@ -450,11 +455,10 @@ class GSendPasswordResetEmailDataBuilder
 
   _$GSendPasswordResetEmailData _build() {
     final _$result = _$v ??
-        _$GSendPasswordResetEmailData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GSendPasswordResetEmailData', 'G__typename'),
-          sendPasswordResetEmail: sendPasswordResetEmail,
-        );
+        new _$GSendPasswordResetEmailData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GSendPasswordResetEmailData', 'G__typename'),
+            sendPasswordResetEmail: sendPasswordResetEmail);
     replace(_$result);
     return _$result;
   }
@@ -469,13 +473,19 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__base
           [void Function(
                   GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder)?
               updates]) =>
-      (GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder()
+      (new GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder()
             ..update(updates))
           ._build();
 
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__base._(
       {required this.G__typename})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GSendPasswordResetEmailData_sendPasswordResetEmail__base',
+        'G__typename');
+  }
+
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__base rebuild(
           void Function(
@@ -485,7 +495,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__base
 
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder toBuilder() =>
-      GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder()
+      new GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder()
         ..replace(this);
 
   @override
@@ -538,6 +548,7 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder
 
   @override
   void replace(GSendPasswordResetEmailData_sendPasswordResetEmail__base other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailData_sendPasswordResetEmail__base;
   }
 
@@ -554,12 +565,11 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__baseBuilder
 
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__base _build() {
     final _$result = _$v ??
-        _$GSendPasswordResetEmailData_sendPasswordResetEmail__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSendPasswordResetEmailData_sendPasswordResetEmail__base',
-              'G__typename'),
-        );
+        new _$GSendPasswordResetEmailData_sendPasswordResetEmail__base._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GSendPasswordResetEmailData_sendPasswordResetEmail__base',
+                'G__typename'));
     replace(_$result);
     return _$result;
   }
@@ -577,13 +587,23 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
           [void Function(
                   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder)?
               updates]) =>
-      (GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder()
+      (new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder()
             ..update(updates))
           ._build();
 
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess._(
       {required this.G__typename, required this.data})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess',
+        'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        data,
+        r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess',
+        'data');
+  }
+
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess
       rebuild(
@@ -595,7 +615,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder
       toBuilder() =>
-          GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder()
+          new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccessBuilder()
             ..replace(this);
 
   @override
@@ -642,7 +662,7 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPassword
       _data;
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder
       get data => _$this._data ??=
-          GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder();
+          new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder();
   set data(
           GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder?
               data) =>
@@ -668,6 +688,7 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPassword
   void replace(
       GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess;
   }
@@ -690,21 +711,20 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPassword
         _$result;
     try {
       _$result = _$v ??
-          _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess
+          new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess
               ._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename,
-                r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess',
-                'G__typename'),
-            data: data.build(),
-          );
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename,
+                  r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess',
+                  'G__typename'),
+              data: data.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess',
             _$failedField,
             e.toString());
@@ -727,13 +747,19 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
           [void Function(
                   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder)?
               updates]) =>
-      (GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder()
+      (new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data._(
       {required this.G__typename, this.success})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data',
+        'G__typename');
+  }
+
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
       rebuild(
@@ -745,7 +771,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswo
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder
       toBuilder() =>
-          GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder()
+          new GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_dataBuilder()
             ..replace(this);
 
   @override
@@ -812,6 +838,7 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPassword
   void replace(
       GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
           other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data;
   }
@@ -831,14 +858,13 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPassword
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
       _build() {
     final _$result = _$v ??
-        _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
+        new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data
             ._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data',
-              'G__typename'),
-          success: success,
-        );
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess_data',
+                'G__typename'),
+            success: success);
     replace(_$result);
     return _$result;
   }
@@ -861,7 +887,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError
           [void Function(
                   GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder)?
               updates]) =>
-      (GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder()
+      (new GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder()
             ..update(updates))
           ._build();
 
@@ -871,7 +897,13 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError
       this.message,
       this.field,
       this.retryable})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename,
+        r'GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError',
+        'G__typename');
+  }
+
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError rebuild(
           void Function(
@@ -882,7 +914,7 @@ class _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError
   @override
   GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder
       toBuilder() =>
-          GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder()
+          new GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder()
             ..replace(this);
 
   @override
@@ -970,6 +1002,7 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder
   @override
   void replace(
       GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other
         as _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError;
   }
@@ -988,16 +1021,15 @@ class GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthErrorBuilder
 
   _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError _build() {
     final _$result = _$v ??
-        _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError',
-              'G__typename'),
-          code: code,
-          message: message,
-          field: field,
-          retryable: retryable,
-        );
+        new _$GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename,
+                r'GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError',
+                'G__typename'),
+            code: code,
+            message: message,
+            field: field,
+            retryable: retryable);
     replace(_$result);
     return _$result;
   }

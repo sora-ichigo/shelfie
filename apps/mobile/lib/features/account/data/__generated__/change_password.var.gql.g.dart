@@ -7,7 +7,7 @@ part of 'change_password.var.gql.dart';
 // **************************************************************************
 
 Serializer<GChangePasswordVars> _$gChangePasswordVarsSerializer =
-    _$GChangePasswordVarsSerializer();
+    new _$GChangePasswordVarsSerializer();
 
 class _$GChangePasswordVarsSerializer
     implements StructuredSerializer<GChangePasswordVars> {
@@ -36,7 +36,7 @@ class _$GChangePasswordVarsSerializer
   GChangePasswordVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GChangePasswordVarsBuilder();
+    final result = new GChangePasswordVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -62,9 +62,13 @@ class _$GChangePasswordVars extends GChangePasswordVars {
 
   factory _$GChangePasswordVars(
           [void Function(GChangePasswordVarsBuilder)? updates]) =>
-      (GChangePasswordVarsBuilder()..update(updates))._build();
+      (new GChangePasswordVarsBuilder()..update(updates))._build();
 
-  _$GChangePasswordVars._({required this.input}) : super._();
+  _$GChangePasswordVars._({required this.input}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        input, r'GChangePasswordVars', 'input');
+  }
+
   @override
   GChangePasswordVars rebuild(
           void Function(GChangePasswordVarsBuilder) updates) =>
@@ -72,7 +76,7 @@ class _$GChangePasswordVars extends GChangePasswordVars {
 
   @override
   GChangePasswordVarsBuilder toBuilder() =>
-      GChangePasswordVarsBuilder()..replace(this);
+      new GChangePasswordVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -102,7 +106,7 @@ class GChangePasswordVarsBuilder
 
   _i1.GChangePasswordInputBuilder? _input;
   _i1.GChangePasswordInputBuilder get input =>
-      _$this._input ??= _i1.GChangePasswordInputBuilder();
+      _$this._input ??= new _i1.GChangePasswordInputBuilder();
   set input(_i1.GChangePasswordInputBuilder? input) => _$this._input = input;
 
   GChangePasswordVarsBuilder();
@@ -118,6 +122,7 @@ class GChangePasswordVarsBuilder
 
   @override
   void replace(GChangePasswordVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordVars;
   }
 
@@ -132,17 +137,14 @@ class GChangePasswordVarsBuilder
   _$GChangePasswordVars _build() {
     _$GChangePasswordVars _$result;
     try {
-      _$result = _$v ??
-          _$GChangePasswordVars._(
-            input: input.build(),
-          );
+      _$result = _$v ?? new _$GChangePasswordVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GChangePasswordVars', _$failedField, e.toString());
       }
       rethrow;

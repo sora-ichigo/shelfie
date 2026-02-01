@@ -7,10 +7,10 @@ part of 'create_book_list.data.gql.dart';
 // **************************************************************************
 
 Serializer<GCreateBookListData> _$gCreateBookListDataSerializer =
-    _$GCreateBookListDataSerializer();
+    new _$GCreateBookListDataSerializer();
 Serializer<GCreateBookListData_createBookList>
     _$gCreateBookListDataCreateBookListSerializer =
-    _$GCreateBookListData_createBookListSerializer();
+    new _$GCreateBookListData_createBookListSerializer();
 
 class _$GCreateBookListDataSerializer
     implements StructuredSerializer<GCreateBookListData> {
@@ -42,7 +42,7 @@ class _$GCreateBookListDataSerializer
   GCreateBookListData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GCreateBookListDataBuilder();
+    final result = new GCreateBookListDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -112,7 +112,7 @@ class _$GCreateBookListData_createBookListSerializer
   GCreateBookListData_createBookList deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GCreateBookListData_createBookListBuilder();
+    final result = new GCreateBookListData_createBookListBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -159,11 +159,17 @@ class _$GCreateBookListData extends GCreateBookListData {
 
   factory _$GCreateBookListData(
           [void Function(GCreateBookListDataBuilder)? updates]) =>
-      (GCreateBookListDataBuilder()..update(updates))._build();
+      (new GCreateBookListDataBuilder()..update(updates))._build();
 
   _$GCreateBookListData._(
       {required this.G__typename, required this.createBookList})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GCreateBookListData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        createBookList, r'GCreateBookListData', 'createBookList');
+  }
+
   @override
   GCreateBookListData rebuild(
           void Function(GCreateBookListDataBuilder) updates) =>
@@ -171,7 +177,7 @@ class _$GCreateBookListData extends GCreateBookListData {
 
   @override
   GCreateBookListDataBuilder toBuilder() =>
-      GCreateBookListDataBuilder()..replace(this);
+      new GCreateBookListDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -209,7 +215,8 @@ class GCreateBookListDataBuilder
 
   GCreateBookListData_createBookListBuilder? _createBookList;
   GCreateBookListData_createBookListBuilder get createBookList =>
-      _$this._createBookList ??= GCreateBookListData_createBookListBuilder();
+      _$this._createBookList ??=
+          new GCreateBookListData_createBookListBuilder();
   set createBookList(
           GCreateBookListData_createBookListBuilder? createBookList) =>
       _$this._createBookList = createBookList;
@@ -230,6 +237,7 @@ class GCreateBookListDataBuilder
 
   @override
   void replace(GCreateBookListData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListData;
   }
 
@@ -245,18 +253,17 @@ class GCreateBookListDataBuilder
     _$GCreateBookListData _$result;
     try {
       _$result = _$v ??
-          _$GCreateBookListData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GCreateBookListData', 'G__typename'),
-            createBookList: createBookList.build(),
-          );
+          new _$GCreateBookListData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GCreateBookListData', 'G__typename'),
+              createBookList: createBookList.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'createBookList';
         createBookList.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GCreateBookListData', _$failedField, e.toString());
       }
       rethrow;
@@ -284,7 +291,8 @@ class _$GCreateBookListData_createBookList
   factory _$GCreateBookListData_createBookList(
           [void Function(GCreateBookListData_createBookListBuilder)?
               updates]) =>
-      (GCreateBookListData_createBookListBuilder()..update(updates))._build();
+      (new GCreateBookListData_createBookListBuilder()..update(updates))
+          ._build();
 
   _$GCreateBookListData_createBookList._(
       {required this.G__typename,
@@ -293,7 +301,19 @@ class _$GCreateBookListData_createBookList
       this.description,
       required this.createdAt,
       required this.updatedAt})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GCreateBookListData_createBookList', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'GCreateBookListData_createBookList', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GCreateBookListData_createBookList', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        createdAt, r'GCreateBookListData_createBookList', 'createdAt');
+    BuiltValueNullFieldError.checkNotNull(
+        updatedAt, r'GCreateBookListData_createBookList', 'updatedAt');
+  }
+
   @override
   GCreateBookListData_createBookList rebuild(
           void Function(GCreateBookListData_createBookListBuilder) updates) =>
@@ -301,7 +321,7 @@ class _$GCreateBookListData_createBookList
 
   @override
   GCreateBookListData_createBookListBuilder toBuilder() =>
-      GCreateBookListData_createBookListBuilder()..replace(this);
+      new GCreateBookListData_createBookListBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -391,6 +411,7 @@ class GCreateBookListData_createBookListBuilder
 
   @override
   void replace(GCreateBookListData_createBookList other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListData_createBookList;
   }
 
@@ -405,19 +426,18 @@ class GCreateBookListData_createBookListBuilder
 
   _$GCreateBookListData_createBookList _build() {
     final _$result = _$v ??
-        _$GCreateBookListData_createBookList._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-              r'GCreateBookListData_createBookList', 'G__typename'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id, r'GCreateBookListData_createBookList', 'id'),
-          title: BuiltValueNullFieldError.checkNotNull(
-              title, r'GCreateBookListData_createBookList', 'title'),
-          description: description,
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt, r'GCreateBookListData_createBookList', 'createdAt'),
-          updatedAt: BuiltValueNullFieldError.checkNotNull(
-              updatedAt, r'GCreateBookListData_createBookList', 'updatedAt'),
-        );
+        new _$GCreateBookListData_createBookList._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GCreateBookListData_createBookList', 'G__typename'),
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'GCreateBookListData_createBookList', 'id'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GCreateBookListData_createBookList', 'title'),
+            description: description,
+            createdAt: BuiltValueNullFieldError.checkNotNull(
+                createdAt, r'GCreateBookListData_createBookList', 'createdAt'),
+            updatedAt: BuiltValueNullFieldError.checkNotNull(
+                updatedAt, r'GCreateBookListData_createBookList', 'updatedAt'));
     replace(_$result);
     return _$result;
   }

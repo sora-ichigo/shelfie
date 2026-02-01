@@ -7,7 +7,7 @@ part of 'reorder_book_in_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GReorderBookInListVars> _$gReorderBookInListVarsSerializer =
-    _$GReorderBookInListVarsSerializer();
+    new _$GReorderBookInListVarsSerializer();
 
 class _$GReorderBookInListVarsSerializer
     implements StructuredSerializer<GReorderBookInListVars> {
@@ -40,7 +40,7 @@ class _$GReorderBookInListVarsSerializer
   GReorderBookInListVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GReorderBookInListVarsBuilder();
+    final result = new GReorderBookInListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -77,11 +77,19 @@ class _$GReorderBookInListVars extends GReorderBookInListVars {
 
   factory _$GReorderBookInListVars(
           [void Function(GReorderBookInListVarsBuilder)? updates]) =>
-      (GReorderBookInListVarsBuilder()..update(updates))._build();
+      (new GReorderBookInListVarsBuilder()..update(updates))._build();
 
   _$GReorderBookInListVars._(
       {required this.listId, required this.itemId, required this.newPosition})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listId, r'GReorderBookInListVars', 'listId');
+    BuiltValueNullFieldError.checkNotNull(
+        itemId, r'GReorderBookInListVars', 'itemId');
+    BuiltValueNullFieldError.checkNotNull(
+        newPosition, r'GReorderBookInListVars', 'newPosition');
+  }
+
   @override
   GReorderBookInListVars rebuild(
           void Function(GReorderBookInListVarsBuilder) updates) =>
@@ -89,7 +97,7 @@ class _$GReorderBookInListVars extends GReorderBookInListVars {
 
   @override
   GReorderBookInListVarsBuilder toBuilder() =>
-      GReorderBookInListVarsBuilder()..replace(this);
+      new GReorderBookInListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -151,6 +159,7 @@ class GReorderBookInListVarsBuilder
 
   @override
   void replace(GReorderBookInListVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GReorderBookInListVars;
   }
 
@@ -164,14 +173,13 @@ class GReorderBookInListVarsBuilder
 
   _$GReorderBookInListVars _build() {
     final _$result = _$v ??
-        _$GReorderBookInListVars._(
-          listId: BuiltValueNullFieldError.checkNotNull(
-              listId, r'GReorderBookInListVars', 'listId'),
-          itemId: BuiltValueNullFieldError.checkNotNull(
-              itemId, r'GReorderBookInListVars', 'itemId'),
-          newPosition: BuiltValueNullFieldError.checkNotNull(
-              newPosition, r'GReorderBookInListVars', 'newPosition'),
-        );
+        new _$GReorderBookInListVars._(
+            listId: BuiltValueNullFieldError.checkNotNull(
+                listId, r'GReorderBookInListVars', 'listId'),
+            itemId: BuiltValueNullFieldError.checkNotNull(
+                itemId, r'GReorderBookInListVars', 'itemId'),
+            newPosition: BuiltValueNullFieldError.checkNotNull(
+                newPosition, r'GReorderBookInListVars', 'newPosition'));
     replace(_$result);
     return _$result;
   }

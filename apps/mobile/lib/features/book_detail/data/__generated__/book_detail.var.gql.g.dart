@@ -7,7 +7,7 @@ part of 'book_detail.var.gql.dart';
 // **************************************************************************
 
 Serializer<GBookDetailVars> _$gBookDetailVarsSerializer =
-    _$GBookDetailVarsSerializer();
+    new _$GBookDetailVarsSerializer();
 
 class _$GBookDetailVarsSerializer
     implements StructuredSerializer<GBookDetailVars> {
@@ -39,7 +39,7 @@ class _$GBookDetailVarsSerializer
   GBookDetailVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GBookDetailVarsBuilder();
+    final result = new GBookDetailVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -70,15 +70,19 @@ class _$GBookDetailVars extends GBookDetailVars {
   final _i1.GBookSource? source;
 
   factory _$GBookDetailVars([void Function(GBookDetailVarsBuilder)? updates]) =>
-      (GBookDetailVarsBuilder()..update(updates))._build();
+      (new GBookDetailVarsBuilder()..update(updates))._build();
 
-  _$GBookDetailVars._({required this.bookId, this.source}) : super._();
+  _$GBookDetailVars._({required this.bookId, this.source}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(bookId, r'GBookDetailVars', 'bookId');
+  }
+
   @override
   GBookDetailVars rebuild(void Function(GBookDetailVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GBookDetailVarsBuilder toBuilder() => GBookDetailVarsBuilder()..replace(this);
+  GBookDetailVarsBuilder toBuilder() =>
+      new GBookDetailVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -132,6 +136,7 @@ class GBookDetailVarsBuilder
 
   @override
   void replace(GBookDetailVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GBookDetailVars;
   }
 
@@ -145,11 +150,10 @@ class GBookDetailVarsBuilder
 
   _$GBookDetailVars _build() {
     final _$result = _$v ??
-        _$GBookDetailVars._(
-          bookId: BuiltValueNullFieldError.checkNotNull(
-              bookId, r'GBookDetailVars', 'bookId'),
-          source: source,
-        );
+        new _$GBookDetailVars._(
+            bookId: BuiltValueNullFieldError.checkNotNull(
+                bookId, r'GBookDetailVars', 'bookId'),
+            source: source);
     replace(_$result);
     return _$result;
   }

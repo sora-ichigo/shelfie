@@ -7,7 +7,7 @@ part of 'update_reading_status.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingStatusVars> _$gUpdateReadingStatusVarsSerializer =
-    _$GUpdateReadingStatusVarsSerializer();
+    new _$GUpdateReadingStatusVarsSerializer();
 
 class _$GUpdateReadingStatusVarsSerializer
     implements StructuredSerializer<GUpdateReadingStatusVars> {
@@ -39,7 +39,7 @@ class _$GUpdateReadingStatusVarsSerializer
   GUpdateReadingStatusVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingStatusVarsBuilder();
+    final result = new GUpdateReadingStatusVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -71,10 +71,16 @@ class _$GUpdateReadingStatusVars extends GUpdateReadingStatusVars {
 
   factory _$GUpdateReadingStatusVars(
           [void Function(GUpdateReadingStatusVarsBuilder)? updates]) =>
-      (GUpdateReadingStatusVarsBuilder()..update(updates))._build();
+      (new GUpdateReadingStatusVarsBuilder()..update(updates))._build();
 
   _$GUpdateReadingStatusVars._({required this.userBookId, required this.status})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GUpdateReadingStatusVars', 'userBookId');
+    BuiltValueNullFieldError.checkNotNull(
+        status, r'GUpdateReadingStatusVars', 'status');
+  }
+
   @override
   GUpdateReadingStatusVars rebuild(
           void Function(GUpdateReadingStatusVarsBuilder) updates) =>
@@ -82,7 +88,7 @@ class _$GUpdateReadingStatusVars extends GUpdateReadingStatusVars {
 
   @override
   GUpdateReadingStatusVarsBuilder toBuilder() =>
-      GUpdateReadingStatusVarsBuilder()..replace(this);
+      new GUpdateReadingStatusVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -137,6 +143,7 @@ class GUpdateReadingStatusVarsBuilder
 
   @override
   void replace(GUpdateReadingStatusVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingStatusVars;
   }
 
@@ -150,12 +157,11 @@ class GUpdateReadingStatusVarsBuilder
 
   _$GUpdateReadingStatusVars _build() {
     final _$result = _$v ??
-        _$GUpdateReadingStatusVars._(
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GUpdateReadingStatusVars', 'userBookId'),
-          status: BuiltValueNullFieldError.checkNotNull(
-              status, r'GUpdateReadingStatusVars', 'status'),
-        );
+        new _$GUpdateReadingStatusVars._(
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GUpdateReadingStatusVars', 'userBookId'),
+            status: BuiltValueNullFieldError.checkNotNull(
+                status, r'GUpdateReadingStatusVars', 'status'));
     replace(_$result);
     return _$result;
   }

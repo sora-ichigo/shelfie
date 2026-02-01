@@ -7,7 +7,7 @@ part of 'create_book_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GCreateBookListVars> _$gCreateBookListVarsSerializer =
-    _$GCreateBookListVarsSerializer();
+    new _$GCreateBookListVarsSerializer();
 
 class _$GCreateBookListVarsSerializer
     implements StructuredSerializer<GCreateBookListVars> {
@@ -36,7 +36,7 @@ class _$GCreateBookListVarsSerializer
   GCreateBookListVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GCreateBookListVarsBuilder();
+    final result = new GCreateBookListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -62,9 +62,13 @@ class _$GCreateBookListVars extends GCreateBookListVars {
 
   factory _$GCreateBookListVars(
           [void Function(GCreateBookListVarsBuilder)? updates]) =>
-      (GCreateBookListVarsBuilder()..update(updates))._build();
+      (new GCreateBookListVarsBuilder()..update(updates))._build();
 
-  _$GCreateBookListVars._({required this.input}) : super._();
+  _$GCreateBookListVars._({required this.input}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        input, r'GCreateBookListVars', 'input');
+  }
+
   @override
   GCreateBookListVars rebuild(
           void Function(GCreateBookListVarsBuilder) updates) =>
@@ -72,7 +76,7 @@ class _$GCreateBookListVars extends GCreateBookListVars {
 
   @override
   GCreateBookListVarsBuilder toBuilder() =>
-      GCreateBookListVarsBuilder()..replace(this);
+      new GCreateBookListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -102,7 +106,7 @@ class GCreateBookListVarsBuilder
 
   _i1.GCreateBookListInputBuilder? _input;
   _i1.GCreateBookListInputBuilder get input =>
-      _$this._input ??= _i1.GCreateBookListInputBuilder();
+      _$this._input ??= new _i1.GCreateBookListInputBuilder();
   set input(_i1.GCreateBookListInputBuilder? input) => _$this._input = input;
 
   GCreateBookListVarsBuilder();
@@ -118,6 +122,7 @@ class GCreateBookListVarsBuilder
 
   @override
   void replace(GCreateBookListVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListVars;
   }
 
@@ -132,17 +137,14 @@ class GCreateBookListVarsBuilder
   _$GCreateBookListVars _build() {
     _$GCreateBookListVars _$result;
     try {
-      _$result = _$v ??
-          _$GCreateBookListVars._(
-            input: input.build(),
-          );
+      _$result = _$v ?? new _$GCreateBookListVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GCreateBookListVars', _$failedField, e.toString());
       }
       rethrow;

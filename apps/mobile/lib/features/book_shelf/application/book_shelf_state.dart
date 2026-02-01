@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -26,12 +25,6 @@ sealed class BookShelfState with _$BookShelfState {
     /// 現在のソートオプション
     required SortOption sortOption,
 
-    /// 現在のグループ化オプション
-    required GroupOption groupOption,
-
-    /// グループ化された書籍マップ（グループ名 → 書籍リスト）
-    required Map<String, List<ShelfBookItem>> groupedBooks,
-
     /// 次のページがあるかどうか
     required bool hasMore,
 
@@ -53,9 +46,6 @@ sealed class BookShelfState with _$BookShelfState {
 extension BookShelfLoadedX on BookShelfLoaded {
   /// 書籍リストが空かどうか
   bool get isEmpty => books.isEmpty;
-
-  /// グループ化が有効かどうか
-  bool get isGrouped => groupOption != GroupOption.none;
 
   /// 追加読み込みが可能かどうか
   bool get canLoadMore => hasMore && !isLoadingMore;

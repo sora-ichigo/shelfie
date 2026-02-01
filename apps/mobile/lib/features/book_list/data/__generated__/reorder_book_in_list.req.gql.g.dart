@@ -7,7 +7,7 @@ part of 'reorder_book_in_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GReorderBookInListReq> _$gReorderBookInListReqSerializer =
-    _$GReorderBookInListReqSerializer();
+    new _$GReorderBookInListReqSerializer();
 
 class _$GReorderBookInListReqSerializer
     implements StructuredSerializer<GReorderBookInListReq> {
@@ -78,7 +78,7 @@ class _$GReorderBookInListReqSerializer
   GReorderBookInListReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GReorderBookInListReqBuilder();
+    final result = new GReorderBookInListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -156,7 +156,7 @@ class _$GReorderBookInListReq extends GReorderBookInListReq {
 
   factory _$GReorderBookInListReq(
           [void Function(GReorderBookInListReqBuilder)? updates]) =>
-      (GReorderBookInListReqBuilder()..update(updates))._build();
+      (new GReorderBookInListReqBuilder()..update(updates))._build();
 
   _$GReorderBookInListReq._(
       {required this.vars,
@@ -169,7 +169,15 @@ class _$GReorderBookInListReq extends GReorderBookInListReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        vars, r'GReorderBookInListReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(
+        operation, r'GReorderBookInListReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GReorderBookInListReq', 'executeOnListen');
+  }
+
   @override
   GReorderBookInListReq rebuild(
           void Function(GReorderBookInListReqBuilder) updates) =>
@@ -177,7 +185,7 @@ class _$GReorderBookInListReq extends GReorderBookInListReq {
 
   @override
   GReorderBookInListReqBuilder toBuilder() =>
-      GReorderBookInListReqBuilder()..replace(this);
+      new GReorderBookInListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -236,7 +244,7 @@ class GReorderBookInListReqBuilder
 
   _i3.GReorderBookInListVarsBuilder? _vars;
   _i3.GReorderBookInListVarsBuilder get vars =>
-      _$this._vars ??= _i3.GReorderBookInListVarsBuilder();
+      _$this._vars ??= new _i3.GReorderBookInListVarsBuilder();
   set vars(_i3.GReorderBookInListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -260,7 +268,7 @@ class GReorderBookInListReqBuilder
 
   _i2.GReorderBookInListDataBuilder? _optimisticResponse;
   _i2.GReorderBookInListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GReorderBookInListDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GReorderBookInListDataBuilder();
   set optimisticResponse(
           _i2.GReorderBookInListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
@@ -315,6 +323,7 @@ class GReorderBookInListReqBuilder
 
   @override
   void replace(GReorderBookInListReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GReorderBookInListReq;
   }
 
@@ -330,20 +339,19 @@ class GReorderBookInListReqBuilder
     _$GReorderBookInListReq _$result;
     try {
       _$result = _$v ??
-          _$GReorderBookInListReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GReorderBookInListReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GReorderBookInListReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GReorderBookInListReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GReorderBookInListReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GReorderBookInListReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -353,7 +361,7 @@ class GReorderBookInListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GReorderBookInListReq', _$failedField, e.toString());
       }
       rethrow;

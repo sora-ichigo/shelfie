@@ -20,9 +20,7 @@ mixin _$LoginFormData {
   String get password => throw _privateConstructorUsedError;
   bool get isPasswordObscured => throw _privateConstructorUsedError;
 
-  /// Create a copy of LoginFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $LoginFormDataCopyWith<LoginFormData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,8 +44,6 @@ class _$LoginFormDataCopyWithImpl<$Res, $Val extends LoginFormData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LoginFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -91,8 +87,6 @@ class __$$LoginFormDataImplCopyWithImpl<$Res>
       _$LoginFormDataImpl _value, $Res Function(_$LoginFormDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LoginFormData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,9 +148,7 @@ class _$LoginFormDataImpl implements _LoginFormData {
   int get hashCode =>
       Object.hash(runtimeType, email, password, isPasswordObscured);
 
-  /// Create a copy of LoginFormData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$LoginFormDataImplCopyWith<_$LoginFormDataImpl> get copyWith =>
@@ -175,11 +167,8 @@ abstract class _LoginFormData implements LoginFormData {
   String get password;
   @override
   bool get isPasswordObscured;
-
-  /// Create a copy of LoginFormData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$LoginFormDataImplCopyWith<_$LoginFormDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

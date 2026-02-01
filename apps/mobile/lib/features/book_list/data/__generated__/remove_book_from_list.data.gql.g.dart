@@ -7,7 +7,7 @@ part of 'remove_book_from_list.data.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveBookFromListData> _$gRemoveBookFromListDataSerializer =
-    _$GRemoveBookFromListDataSerializer();
+    new _$GRemoveBookFromListDataSerializer();
 
 class _$GRemoveBookFromListDataSerializer
     implements StructuredSerializer<GRemoveBookFromListData> {
@@ -39,7 +39,7 @@ class _$GRemoveBookFromListDataSerializer
   GRemoveBookFromListData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRemoveBookFromListDataBuilder();
+    final result = new GRemoveBookFromListDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -70,11 +70,17 @@ class _$GRemoveBookFromListData extends GRemoveBookFromListData {
 
   factory _$GRemoveBookFromListData(
           [void Function(GRemoveBookFromListDataBuilder)? updates]) =>
-      (GRemoveBookFromListDataBuilder()..update(updates))._build();
+      (new GRemoveBookFromListDataBuilder()..update(updates))._build();
 
   _$GRemoveBookFromListData._(
       {required this.G__typename, required this.removeBookFromList})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GRemoveBookFromListData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        removeBookFromList, r'GRemoveBookFromListData', 'removeBookFromList');
+  }
+
   @override
   GRemoveBookFromListData rebuild(
           void Function(GRemoveBookFromListDataBuilder) updates) =>
@@ -82,7 +88,7 @@ class _$GRemoveBookFromListData extends GRemoveBookFromListData {
 
   @override
   GRemoveBookFromListDataBuilder toBuilder() =>
-      GRemoveBookFromListDataBuilder()..replace(this);
+      new GRemoveBookFromListDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -140,6 +146,7 @@ class GRemoveBookFromListDataBuilder
 
   @override
   void replace(GRemoveBookFromListData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveBookFromListData;
   }
 
@@ -153,14 +160,13 @@ class GRemoveBookFromListDataBuilder
 
   _$GRemoveBookFromListData _build() {
     final _$result = _$v ??
-        _$GRemoveBookFromListData._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename, r'GRemoveBookFromListData', 'G__typename'),
-          removeBookFromList: BuiltValueNullFieldError.checkNotNull(
-              removeBookFromList,
-              r'GRemoveBookFromListData',
-              'removeBookFromList'),
-        );
+        new _$GRemoveBookFromListData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, r'GRemoveBookFromListData', 'G__typename'),
+            removeBookFromList: BuiltValueNullFieldError.checkNotNull(
+                removeBookFromList,
+                r'GRemoveBookFromListData',
+                'removeBookFromList'));
     replace(_$result);
     return _$result;
   }

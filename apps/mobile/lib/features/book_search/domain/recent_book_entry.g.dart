@@ -19,12 +19,21 @@ _$RecentBookEntryImpl _$$RecentBookEntryImplFromJson(
     );
 
 Map<String, dynamic> _$$RecentBookEntryImplToJson(
-        _$RecentBookEntryImpl instance) =>
-    <String, dynamic>{
-      'bookId': instance.bookId,
-      'title': instance.title,
-      'authors': instance.authors,
-      if (instance.coverImageUrl case final value?) 'coverImageUrl': value,
-      'viewedAt': instance.viewedAt.toIso8601String(),
-      if (instance.source case final value?) 'source': value,
-    };
+    _$RecentBookEntryImpl instance) {
+  final val = <String, dynamic>{
+    'bookId': instance.bookId,
+    'title': instance.title,
+    'authors': instance.authors,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('coverImageUrl', instance.coverImageUrl);
+  val['viewedAt'] = instance.viewedAt.toIso8601String();
+  writeNotNull('source', instance.source);
+  return val;
+}

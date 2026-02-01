@@ -48,64 +48,9 @@ void main() {
     };
   }
 
-  Map<String, List<ShelfBookItem>> createGroupedBooks() {
-    return {
-      '積読': [
-        ShelfBookItem(
-          userBookId: 1,
-          externalId: 'ext-1',
-          title: 'テスト本 1',
-          authors: ['著者A'],
-          addedAt: DateTime(2024, 1, 1),
-        ),
-        ShelfBookItem(
-          userBookId: 2,
-          externalId: 'ext-2',
-          title: 'テスト本 2',
-          authors: ['著者B'],
-          addedAt: DateTime(2024, 1, 2),
-        ),
-      ],
-      '読書中': [
-        ShelfBookItem(
-          userBookId: 3,
-          externalId: 'ext-3',
-          title: 'テスト本 3',
-          authors: ['著者C'],
-          addedAt: DateTime(2024, 1, 3),
-        ),
-      ],
-    };
-  }
-
-  Map<String, ShelfEntry> createGroupedShelfState() {
-    return {
-      'ext-1': ShelfEntry(
-        userBookId: 1,
-        externalId: 'ext-1',
-        readingStatus: ReadingStatus.backlog,
-        addedAt: DateTime(2024, 1, 1),
-      ),
-      'ext-2': ShelfEntry(
-        userBookId: 2,
-        externalId: 'ext-2',
-        readingStatus: ReadingStatus.backlog,
-        addedAt: DateTime(2024, 1, 2),
-      ),
-      'ext-3': ShelfEntry(
-        userBookId: 3,
-        externalId: 'ext-3',
-        readingStatus: ReadingStatus.reading,
-        addedAt: DateTime(2024, 1, 3),
-      ),
-    };
-  }
-
   Widget buildBookGrid({
     List<ShelfBookItem> books = const [],
-    Map<String, List<ShelfBookItem>>? groupedBooks,
     Map<String, ShelfEntry>? shelfState,
-    bool isGrouped = false,
     bool hasMore = false,
     bool isLoadingMore = false,
     void Function(ShelfBookItem)? onBookTap,
@@ -123,8 +68,6 @@ void main() {
         home: Scaffold(
           body: BookGrid(
             books: books,
-            groupedBooks: groupedBooks ?? {},
-            isGrouped: isGrouped,
             hasMore: hasMore,
             isLoadingMore: isLoadingMore,
             onBookTap: onBookTap ?? (_) {},
@@ -161,40 +104,6 @@ void main() {
         );
 
         expect(find.byType(SliverGrid), findsOneWidget);
-      });
-    });
-
-    group('グループ化表示', () {
-      testWidgets('グループ化表示時はセクションヘッダーが挿入される', (tester) async {
-        await tester.pumpWidget(
-          buildBookGrid(
-            groupedBooks: createGroupedBooks(),
-            shelfState: createGroupedShelfState(),
-            isGrouped: true,
-          ),
-        );
-
-        expect(find.text('積読'), findsOneWidget);
-
-        await tester.drag(
-          find.byType(CustomScrollView),
-          const Offset(0, -500),
-        );
-        await tester.pumpAndSettle();
-
-        expect(find.text('読書中'), findsOneWidget);
-      });
-
-      testWidgets('グループ化無効時はセクションヘッダーが表示されない', (tester) async {
-        await tester.pumpWidget(
-          buildBookGrid(
-            books: createTestBooks(6),
-            isGrouped: false,
-          ),
-        );
-
-        expect(find.text('積読'), findsNothing);
-        expect(find.text('読書中'), findsNothing);
       });
     });
 

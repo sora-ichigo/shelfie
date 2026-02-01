@@ -6,7 +6,7 @@ part of 'me.req.gql.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GGetMeReq> _$gGetMeReqSerializer = _$GGetMeReqSerializer();
+Serializer<GGetMeReq> _$gGetMeReqSerializer = new _$GGetMeReqSerializer();
 
 class _$GGetMeReqSerializer implements StructuredSerializer<GGetMeReq> {
   @override
@@ -71,7 +71,7 @@ class _$GGetMeReqSerializer implements StructuredSerializer<GGetMeReq> {
   @override
   GGetMeReq deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GGetMeReqBuilder();
+    final result = new GGetMeReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -148,7 +148,7 @@ class _$GGetMeReq extends GGetMeReq {
   final _i4.Context? context;
 
   factory _$GGetMeReq([void Function(GGetMeReqBuilder)? updates]) =>
-      (GGetMeReqBuilder()..update(updates))._build();
+      (new GGetMeReqBuilder()..update(updates))._build();
 
   _$GGetMeReq._(
       {required this.vars,
@@ -161,13 +161,19 @@ class _$GGetMeReq extends GGetMeReq {
       this.fetchPolicy,
       required this.executeOnListen,
       this.context})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(vars, r'GGetMeReq', 'vars');
+    BuiltValueNullFieldError.checkNotNull(operation, r'GGetMeReq', 'operation');
+    BuiltValueNullFieldError.checkNotNull(
+        executeOnListen, r'GGetMeReq', 'executeOnListen');
+  }
+
   @override
   GGetMeReq rebuild(void Function(GGetMeReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GGetMeReqBuilder toBuilder() => GGetMeReqBuilder()..replace(this);
+  GGetMeReqBuilder toBuilder() => new GGetMeReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -224,7 +230,8 @@ class GGetMeReqBuilder implements Builder<GGetMeReq, GGetMeReqBuilder> {
   _$GGetMeReq? _$v;
 
   _i3.GGetMeVarsBuilder? _vars;
-  _i3.GGetMeVarsBuilder get vars => _$this._vars ??= _i3.GGetMeVarsBuilder();
+  _i3.GGetMeVarsBuilder get vars =>
+      _$this._vars ??= new _i3.GGetMeVarsBuilder();
   set vars(_i3.GGetMeVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -245,7 +252,7 @@ class GGetMeReqBuilder implements Builder<GGetMeReq, GGetMeReqBuilder> {
 
   _i2.GGetMeDataBuilder? _optimisticResponse;
   _i2.GGetMeDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GGetMeDataBuilder();
+      _$this._optimisticResponse ??= new _i2.GGetMeDataBuilder();
   set optimisticResponse(_i2.GGetMeDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -299,6 +306,7 @@ class GGetMeReqBuilder implements Builder<GGetMeReq, GGetMeReqBuilder> {
 
   @override
   void replace(GGetMeReq other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMeReq;
   }
 
@@ -314,20 +322,19 @@ class GGetMeReqBuilder implements Builder<GGetMeReq, GGetMeReqBuilder> {
     _$GGetMeReq _$result;
     try {
       _$result = _$v ??
-          _$GGetMeReq._(
-            vars: vars.build(),
-            operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GGetMeReq', 'operation'),
-            requestId: requestId,
-            updateResult: updateResult,
-            optimisticResponse: _optimisticResponse?.build(),
-            updateCacheHandlerKey: updateCacheHandlerKey,
-            updateCacheHandlerContext: updateCacheHandlerContext,
-            fetchPolicy: fetchPolicy,
-            executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                executeOnListen, r'GGetMeReq', 'executeOnListen'),
-            context: context,
-          );
+          new _$GGetMeReq._(
+              vars: vars.build(),
+              operation: BuiltValueNullFieldError.checkNotNull(
+                  operation, r'GGetMeReq', 'operation'),
+              requestId: requestId,
+              updateResult: updateResult,
+              optimisticResponse: _optimisticResponse?.build(),
+              updateCacheHandlerKey: updateCacheHandlerKey,
+              updateCacheHandlerContext: updateCacheHandlerContext,
+              fetchPolicy: fetchPolicy,
+              executeOnListen: BuiltValueNullFieldError.checkNotNull(
+                  executeOnListen, r'GGetMeReq', 'executeOnListen'),
+              context: context);
     } catch (_) {
       late String _$failedField;
       try {
@@ -337,7 +344,7 @@ class GGetMeReqBuilder implements Builder<GGetMeReq, GGetMeReqBuilder> {
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GGetMeReq', _$failedField, e.toString());
       }
       rethrow;

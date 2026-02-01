@@ -47,6 +47,7 @@ abstract class BookShelfRepository {
     GSortOrder? sortOrder,
     int? limit,
     int? offset,
+    GReadingStatus? readingStatus,
   });
 }
 
@@ -65,6 +66,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
     GSortOrder? sortOrder,
     int? limit,
     int? offset,
+    GReadingStatus? readingStatus,
   }) async {
     final request = GMyShelfPaginatedReq(
       (b) => b
@@ -75,7 +77,8 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
             ..sortBy = sortBy
             ..sortOrder = sortOrder
             ..limit = limit ?? defaultPageSize
-            ..offset = offset ?? 0,
+            ..offset = offset ?? 0
+            ..readingStatus = readingStatus,
         ).toBuilder(),
     );
 

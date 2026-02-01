@@ -6,12 +6,11 @@ part of 'book_shelf_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookShelfNotifierHash() => r'1f247afc43bf9572d452bf0a0c5b9c1cfe9de2ca';
+String _$bookShelfNotifierHash() => r'd3cd69d48cf05791b7b280f0a0bbf050e1bf7dc2';
 
 /// 本棚画面の状態管理 Notifier
 ///
-/// サーバーサイドでのソート・ページネーション、
-/// クライアント側でのグループ化を担当する。
+/// サーバーサイドでのソート・ページネーションを担当する。
 ///
 /// Copied from [BookShelfNotifier].
 @ProviderFor(BookShelfNotifier)
@@ -28,4 +27,4 @@ final bookShelfNotifierProvider =
 
 typedef _$BookShelfNotifier = AutoDisposeNotifier<BookShelfState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

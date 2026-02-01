@@ -7,7 +7,7 @@ part of 'remove_book_from_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveBookFromListVars> _$gRemoveBookFromListVarsSerializer =
-    _$GRemoveBookFromListVarsSerializer();
+    new _$GRemoveBookFromListVarsSerializer();
 
 class _$GRemoveBookFromListVarsSerializer
     implements StructuredSerializer<GRemoveBookFromListVars> {
@@ -38,7 +38,7 @@ class _$GRemoveBookFromListVarsSerializer
   GRemoveBookFromListVars deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GRemoveBookFromListVarsBuilder();
+    final result = new GRemoveBookFromListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -69,10 +69,16 @@ class _$GRemoveBookFromListVars extends GRemoveBookFromListVars {
 
   factory _$GRemoveBookFromListVars(
           [void Function(GRemoveBookFromListVarsBuilder)? updates]) =>
-      (GRemoveBookFromListVarsBuilder()..update(updates))._build();
+      (new GRemoveBookFromListVarsBuilder()..update(updates))._build();
 
   _$GRemoveBookFromListVars._({required this.listId, required this.userBookId})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        listId, r'GRemoveBookFromListVars', 'listId');
+    BuiltValueNullFieldError.checkNotNull(
+        userBookId, r'GRemoveBookFromListVars', 'userBookId');
+  }
+
   @override
   GRemoveBookFromListVars rebuild(
           void Function(GRemoveBookFromListVarsBuilder) updates) =>
@@ -80,7 +86,7 @@ class _$GRemoveBookFromListVars extends GRemoveBookFromListVars {
 
   @override
   GRemoveBookFromListVarsBuilder toBuilder() =>
-      GRemoveBookFromListVarsBuilder()..replace(this);
+      new GRemoveBookFromListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -135,6 +141,7 @@ class GRemoveBookFromListVarsBuilder
 
   @override
   void replace(GRemoveBookFromListVars other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveBookFromListVars;
   }
 
@@ -148,12 +155,11 @@ class GRemoveBookFromListVarsBuilder
 
   _$GRemoveBookFromListVars _build() {
     final _$result = _$v ??
-        _$GRemoveBookFromListVars._(
-          listId: BuiltValueNullFieldError.checkNotNull(
-              listId, r'GRemoveBookFromListVars', 'listId'),
-          userBookId: BuiltValueNullFieldError.checkNotNull(
-              userBookId, r'GRemoveBookFromListVars', 'userBookId'),
-        );
+        new _$GRemoveBookFromListVars._(
+            listId: BuiltValueNullFieldError.checkNotNull(
+                listId, r'GRemoveBookFromListVars', 'listId'),
+            userBookId: BuiltValueNullFieldError.checkNotNull(
+                userBookId, r'GRemoveBookFromListVars', 'userBookId'));
     replace(_$result);
     return _$result;
   }

@@ -7,10 +7,10 @@ part of 'update_rating.data.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateBookRatingData> _$gUpdateBookRatingDataSerializer =
-    _$GUpdateBookRatingDataSerializer();
+    new _$GUpdateBookRatingDataSerializer();
 Serializer<GUpdateBookRatingData_updateBookRating>
     _$gUpdateBookRatingDataUpdateBookRatingSerializer =
-    _$GUpdateBookRatingData_updateBookRatingSerializer();
+    new _$GUpdateBookRatingData_updateBookRatingSerializer();
 
 class _$GUpdateBookRatingDataSerializer
     implements StructuredSerializer<GUpdateBookRatingData> {
@@ -43,7 +43,7 @@ class _$GUpdateBookRatingDataSerializer
   GUpdateBookRatingData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateBookRatingDataBuilder();
+    final result = new GUpdateBookRatingDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -168,7 +168,7 @@ class _$GUpdateBookRatingData_updateBookRatingSerializer
   GUpdateBookRatingData_updateBookRating deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateBookRatingData_updateBookRatingBuilder();
+    final result = new GUpdateBookRatingData_updateBookRatingBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -254,11 +254,17 @@ class _$GUpdateBookRatingData extends GUpdateBookRatingData {
 
   factory _$GUpdateBookRatingData(
           [void Function(GUpdateBookRatingDataBuilder)? updates]) =>
-      (GUpdateBookRatingDataBuilder()..update(updates))._build();
+      (new GUpdateBookRatingDataBuilder()..update(updates))._build();
 
   _$GUpdateBookRatingData._(
       {required this.G__typename, required this.updateBookRating})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GUpdateBookRatingData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        updateBookRating, r'GUpdateBookRatingData', 'updateBookRating');
+  }
+
   @override
   GUpdateBookRatingData rebuild(
           void Function(GUpdateBookRatingDataBuilder) updates) =>
@@ -266,7 +272,7 @@ class _$GUpdateBookRatingData extends GUpdateBookRatingData {
 
   @override
   GUpdateBookRatingDataBuilder toBuilder() =>
-      GUpdateBookRatingDataBuilder()..replace(this);
+      new GUpdateBookRatingDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -305,7 +311,7 @@ class GUpdateBookRatingDataBuilder
   GUpdateBookRatingData_updateBookRatingBuilder? _updateBookRating;
   GUpdateBookRatingData_updateBookRatingBuilder get updateBookRating =>
       _$this._updateBookRating ??=
-          GUpdateBookRatingData_updateBookRatingBuilder();
+          new GUpdateBookRatingData_updateBookRatingBuilder();
   set updateBookRating(
           GUpdateBookRatingData_updateBookRatingBuilder? updateBookRating) =>
       _$this._updateBookRating = updateBookRating;
@@ -326,6 +332,7 @@ class GUpdateBookRatingDataBuilder
 
   @override
   void replace(GUpdateBookRatingData other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookRatingData;
   }
 
@@ -341,18 +348,17 @@ class GUpdateBookRatingDataBuilder
     _$GUpdateBookRatingData _$result;
     try {
       _$result = _$v ??
-          _$GUpdateBookRatingData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GUpdateBookRatingData', 'G__typename'),
-            updateBookRating: updateBookRating.build(),
-          );
+          new _$GUpdateBookRatingData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, r'GUpdateBookRatingData', 'G__typename'),
+              updateBookRating: updateBookRating.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'updateBookRating';
         updateBookRating.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateBookRatingData', _$failedField, e.toString());
       }
       rethrow;
@@ -398,7 +404,7 @@ class _$GUpdateBookRatingData_updateBookRating
   factory _$GUpdateBookRatingData_updateBookRating(
           [void Function(GUpdateBookRatingData_updateBookRatingBuilder)?
               updates]) =>
-      (GUpdateBookRatingData_updateBookRatingBuilder()..update(updates))
+      (new GUpdateBookRatingData_updateBookRatingBuilder()..update(updates))
           ._build();
 
   _$GUpdateBookRatingData_updateBookRating._(
@@ -417,7 +423,23 @@ class _$GUpdateBookRatingData_updateBookRating
       this.note,
       this.noteUpdatedAt,
       this.rating})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, r'GUpdateBookRatingData_updateBookRating', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        id, r'GUpdateBookRatingData_updateBookRating', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        externalId, r'GUpdateBookRatingData_updateBookRating', 'externalId');
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GUpdateBookRatingData_updateBookRating', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        authors, r'GUpdateBookRatingData_updateBookRating', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        addedAt, r'GUpdateBookRatingData_updateBookRating', 'addedAt');
+    BuiltValueNullFieldError.checkNotNull(readingStatus,
+        r'GUpdateBookRatingData_updateBookRating', 'readingStatus');
+  }
+
   @override
   GUpdateBookRatingData_updateBookRating rebuild(
           void Function(GUpdateBookRatingData_updateBookRatingBuilder)
@@ -426,7 +448,7 @@ class _$GUpdateBookRatingData_updateBookRating
 
   @override
   GUpdateBookRatingData_updateBookRatingBuilder toBuilder() =>
-      GUpdateBookRatingData_updateBookRatingBuilder()..replace(this);
+      new GUpdateBookRatingData_updateBookRatingBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -517,7 +539,8 @@ class GUpdateBookRatingData_updateBookRatingBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
+  ListBuilder<String> get authors =>
+      _$this._authors ??= new ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -593,6 +616,7 @@ class GUpdateBookRatingData_updateBookRatingBuilder
 
   @override
   void replace(GUpdateBookRatingData_updateBookRating other) {
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookRatingData_updateBookRating;
   }
 
@@ -609,36 +633,37 @@ class GUpdateBookRatingData_updateBookRatingBuilder
     _$GUpdateBookRatingData_updateBookRating _$result;
     try {
       _$result = _$v ??
-          _$GUpdateBookRatingData_updateBookRating._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GUpdateBookRatingData_updateBookRating', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GUpdateBookRatingData_updateBookRating', 'id'),
-            externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                r'GUpdateBookRatingData_updateBookRating', 'externalId'),
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GUpdateBookRatingData_updateBookRating', 'title'),
-            authors: authors.build(),
-            publisher: publisher,
-            publishedDate: publishedDate,
-            isbn: isbn,
-            coverImageUrl: coverImageUrl,
-            addedAt: BuiltValueNullFieldError.checkNotNull(
-                addedAt, r'GUpdateBookRatingData_updateBookRating', 'addedAt'),
-            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
-                r'GUpdateBookRatingData_updateBookRating', 'readingStatus'),
-            completedAt: completedAt,
-            note: note,
-            noteUpdatedAt: noteUpdatedAt,
-            rating: rating,
-          );
+          new _$GUpdateBookRatingData_updateBookRating._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                  r'GUpdateBookRatingData_updateBookRating', 'G__typename'),
+              id: BuiltValueNullFieldError.checkNotNull(
+                  id, r'GUpdateBookRatingData_updateBookRating', 'id'),
+              externalId: BuiltValueNullFieldError.checkNotNull(
+                  externalId, r'GUpdateBookRatingData_updateBookRating', 'externalId'),
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'GUpdateBookRatingData_updateBookRating', 'title'),
+              authors: authors.build(),
+              publisher: publisher,
+              publishedDate: publishedDate,
+              isbn: isbn,
+              coverImageUrl: coverImageUrl,
+              addedAt: BuiltValueNullFieldError.checkNotNull(
+                  addedAt, r'GUpdateBookRatingData_updateBookRating', 'addedAt'),
+              readingStatus: BuiltValueNullFieldError.checkNotNull(
+                  readingStatus,
+                  r'GUpdateBookRatingData_updateBookRating',
+                  'readingStatus'),
+              completedAt: completedAt,
+              note: note,
+              noteUpdatedAt: noteUpdatedAt,
+              rating: rating);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw BuiltValueNestedFieldError(
+        throw new BuiltValueNestedFieldError(
             r'GUpdateBookRatingData_updateBookRating',
             _$failedField,
             e.toString());

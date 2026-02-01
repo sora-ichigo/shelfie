@@ -11,7 +11,7 @@ import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
-import 'package:shelfie/features/book_shelf/domain/group_option.dart';
+
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
@@ -88,7 +88,6 @@ void main() {
     registerFallbackValue(FakeGShelfSortField());
     registerFallbackValue(FakeGSortOrder());
     registerFallbackValue(SortOption.defaultOption);
-    registerFallbackValue(GroupOption.defaultOption);
   });
 
   setUp(() {
@@ -97,11 +96,7 @@ void main() {
 
     when(() => mockSettingsRepository.getSortOption())
         .thenReturn(SortOption.defaultOption);
-    when(() => mockSettingsRepository.getGroupOption())
-        .thenReturn(GroupOption.defaultOption);
     when(() => mockSettingsRepository.setSortOption(any()))
-        .thenAnswer((_) async {});
-    when(() => mockSettingsRepository.setGroupOption(any()))
         .thenAnswer((_) async {});
 
     container = ProviderContainer(
@@ -281,149 +276,6 @@ void main() {
         expect(notifier.state, isA<BookShelfLoaded>());
         final loaded = notifier.state as BookShelfLoaded;
         expect(loaded.sortOption, SortOption.titleAsc);
-      });
-    });
-
-    group('setGroupOption', () {
-      test('should update groupOption without refetching', () async {
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer((_) async => right(createMyShelfResult()));
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-
-        clearInteractions(mockRepository);
-
-        notifier.setGroupOption(GroupOption.byStatus);
-
-        verifyNever(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        );
-      });
-
-      test('should update state with new group option', () async {
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer((_) async => right(createMyShelfResult()));
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-        notifier.setGroupOption(GroupOption.byStatus);
-
-        expect(notifier.state, isA<BookShelfLoaded>());
-        final loaded = notifier.state as BookShelfLoaded;
-        expect(loaded.groupOption, GroupOption.byStatus);
-      });
-
-      test('should group books by status', () async {
-        final books = [
-          createBook(userBookId: 1, externalId: 'id1'),
-          createBook(userBookId: 2, externalId: 'id2'),
-          createBook(userBookId: 3, externalId: 'id3'),
-        ];
-        final entries = {
-          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
-          'id2': createEntry(userBookId: 2, externalId: 'id2', readingStatus: ReadingStatus.completed),
-          'id3': createEntry(userBookId: 3, externalId: 'id3', readingStatus: ReadingStatus.reading),
-        };
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            createMyShelfResult(items: books, entries: entries, totalCount: 3),
-          ),
-        );
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-        notifier.setGroupOption(GroupOption.byStatus);
-
-        final loaded = notifier.state as BookShelfLoaded;
-        expect(loaded.groupedBooks.containsKey('読書中'), isTrue);
-        expect(loaded.groupedBooks.containsKey('読了'), isTrue);
-        expect(loaded.groupedBooks['読書中']?.length, 2);
-        expect(loaded.groupedBooks['読了']?.length, 1);
-      });
-
-      test('should group books by author', () async {
-        final books = [
-          createBook(userBookId: 1, externalId: 'id1', authors: ['Author A']),
-          createBook(userBookId: 2, externalId: 'id2', authors: ['Author B']),
-          createBook(userBookId: 3, externalId: 'id3', authors: ['Author A']),
-        ];
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            createMyShelfResult(items: books, totalCount: 3),
-          ),
-        );
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-        notifier.setGroupOption(GroupOption.byAuthor);
-
-        final loaded = notifier.state as BookShelfLoaded;
-        expect(loaded.groupedBooks.containsKey('Author A'), isTrue);
-        expect(loaded.groupedBooks.containsKey('Author B'), isTrue);
-        expect(loaded.groupedBooks['Author A']?.length, 2);
-        expect(loaded.groupedBooks['Author B']?.length, 1);
-      });
-
-      test('should clear grouped books when set to none', () async {
-        final books = [
-          createBook(userBookId: 1, externalId: 'id1'),
-        ];
-        final entries = {
-          'id1': createEntry(userBookId: 1, externalId: 'id1', readingStatus: ReadingStatus.reading),
-        };
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            createMyShelfResult(items: books, entries: entries, totalCount: 1),
-          ),
-        );
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-        notifier.setGroupOption(GroupOption.byStatus);
-        notifier.setGroupOption(GroupOption.none);
-
-        final loaded = notifier.state as BookShelfLoaded;
-        expect(loaded.groupedBooks, isEmpty);
-        expect(loaded.groupOption, GroupOption.none);
       });
     });
 
@@ -708,40 +560,6 @@ void main() {
         expect(loaded.sortOption, SortOption.titleAsc);
       });
 
-      test('should load saved group option on initialize', () async {
-        when(() => mockSettingsRepository.getGroupOption())
-            .thenReturn(GroupOption.byStatus);
-        final books = [
-          createBook(userBookId: 1, externalId: 'id1'),
-        ];
-        final entries = {
-          'id1': createEntry(
-            userBookId: 1,
-            externalId: 'id1',
-            readingStatus: ReadingStatus.reading,
-          ),
-        };
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            createMyShelfResult(items: books, entries: entries, totalCount: 1),
-          ),
-        );
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-
-        final loaded = notifier.state as BookShelfLoaded;
-        expect(loaded.groupOption, GroupOption.byStatus);
-        expect(loaded.groupedBooks.isNotEmpty, isTrue);
-      });
-
       test('should persist sort option when setSortOption is called', () async {
         when(
           () => mockRepository.getMyShelf(
@@ -763,28 +581,6 @@ void main() {
             .called(1);
       });
 
-      test('should persist group option when setGroupOption is called',
-          () async {
-        when(
-          () => mockRepository.getMyShelf(
-            sortBy: any(named: 'sortBy'),
-            sortOrder: any(named: 'sortOrder'),
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer((_) async => right(createMyShelfResult()));
-
-        final notifier = container.read(bookShelfNotifierProvider.notifier);
-        await notifier.initialize();
-
-        clearInteractions(mockSettingsRepository);
-
-        notifier.setGroupOption(GroupOption.byAuthor);
-
-        verify(
-          () => mockSettingsRepository.setGroupOption(GroupOption.byAuthor),
-        ).called(1);
-      });
-    });
+});
   });
 }
