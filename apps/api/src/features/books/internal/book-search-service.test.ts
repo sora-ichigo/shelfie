@@ -1105,7 +1105,6 @@ describe("BookSearchService", () => {
         );
         expect(mockGoogleRepository.searchByQuery).not.toHaveBeenCalled();
       });
-
     });
   });
 });
