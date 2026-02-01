@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
@@ -14,11 +15,13 @@ class StatusSectionList extends ConsumerWidget {
   const StatusSectionList({
     required this.onBookTap,
     required this.onBookLongPress,
+    this.onAddBookPressed,
     super.key,
   });
 
   final void Function(ShelfBookItem) onBookTap;
   final void Function(ShelfBookItem) onBookLongPress;
+  final VoidCallback? onAddBookPressed;
 
   /// セクションの表示順（固定）
   static const _sectionOrder = [
@@ -34,6 +37,22 @@ class StatusSectionList extends ConsumerWidget {
       final state = ref.watch(statusSectionNotifierProvider(status));
       return _isSectionVisible(state);
     }).toList();
+
+    if (visibleSections.isEmpty) {
+      return CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: EmptyState(
+              icon: Icons.auto_stories_outlined,
+              message: '本を追加してみましょう',
+              onAction: onAddBookPressed,
+              actionText: '本を追加',
+            ),
+          ),
+        ],
+      );
+    }
 
     final bottomInset = MediaQuery.of(context).padding.bottom +
         kBottomNavigationBarHeight;

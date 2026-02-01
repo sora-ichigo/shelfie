@@ -44,6 +44,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChange);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ref.read(searchAutoFocusProvider)) {
+        ref.read(searchAutoFocusProvider.notifier).state = false;
+        _focusNode.requestFocus();
+      }
+    });
   }
 
   @override

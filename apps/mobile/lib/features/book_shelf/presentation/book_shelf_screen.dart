@@ -9,10 +9,12 @@ import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
@@ -156,6 +158,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       LibraryFilterTab.books => StatusSectionList(
           onBookTap: _onBookTap,
           onBookLongPress: _onBookLongPress,
+          onAddBookPressed: _showAddBookSheet,
         ),
       LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
     };
@@ -170,6 +173,26 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         context.push(AppRoutes.bookListCreate);
       },
     );
+  }
+
+  void _showAddBookSheet() {
+    showAddBookBottomSheet(
+      context: context,
+      onKeywordSearch: _onKeywordSearch,
+      onBarcodeScan: _onBarcodeScan,
+    );
+  }
+
+  void _onKeywordSearch() {
+    ref.read(searchAutoFocusProvider.notifier).state = true;
+    context.go(AppRoutes.searchTab);
+  }
+
+  Future<void> _onBarcodeScan() async {
+    final isbn = await context.push<String>(AppRoutes.isbnScan);
+    if (isbn != null && mounted) {
+      await ISBNScanResultDialog.show(context, isbn);
+    }
   }
 
   void _onBookTap(ShelfBookItem book) {

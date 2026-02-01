@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
@@ -69,6 +70,7 @@ Widget _buildTestWidget({
   required Map<ReadingStatus, StatusSectionState> states,
   void Function(ShelfBookItem)? onBookTap,
   void Function(ShelfBookItem)? onBookLongPress,
+  VoidCallback? onAddBookPressed,
 }) {
   final overrides = <Override>[];
 
@@ -86,6 +88,7 @@ Widget _buildTestWidget({
     child: StatusSectionList(
       onBookTap: onBookTap ?? (_) {},
       onBookLongPress: onBookLongPress ?? (_) {},
+      onAddBookPressed: onAddBookPressed,
     ),
   );
 }
@@ -276,6 +279,89 @@ void main() {
 
         expect(find.text('再試行'), findsOneWidget);
         expect(find.text('ネットワーク接続を確認してください'), findsOneWidget);
+      });
+    });
+
+    group('空状態表示', () {
+      testWidgets('全セクションが空の場合 EmptyState が表示される', (tester) async {
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: _emptyLoaded,
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+              ReadingStatus.dropped: _emptyLoaded,
+            },
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EmptyState), findsOneWidget);
+        expect(find.byIcon(Icons.auto_stories_outlined), findsOneWidget);
+        expect(find.text('本を追加してみましょう'), findsOneWidget);
+      });
+
+      testWidgets('全セクションが空の場合「本を追加」ボタンが表示される',
+          (tester) async {
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: _emptyLoaded,
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+              ReadingStatus.dropped: _emptyLoaded,
+            },
+            onAddBookPressed: () {},
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          find.widgetWithText(ElevatedButton, '本を追加'),
+          findsOneWidget,
+        );
+      });
+
+      testWidgets('「本を追加」ボタンをタップすると onAddBookPressed が呼ばれる',
+          (tester) async {
+        var called = false;
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: _emptyLoaded,
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+              ReadingStatus.dropped: _emptyLoaded,
+            },
+            onAddBookPressed: () {
+              called = true;
+            },
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.widgetWithText(ElevatedButton, '本を追加'));
+        await tester.pumpAndSettle();
+
+        expect(called, isTrue);
+      });
+
+      testWidgets('一部セクションにデータがある場合は EmptyState を表示しない',
+          (tester) async {
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: _loadedState(count: 1, totalCount: 1),
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+              ReadingStatus.dropped: _emptyLoaded,
+            },
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EmptyState), findsNothing);
+        expect(find.byType(StatusSection), findsOneWidget);
       });
     });
 

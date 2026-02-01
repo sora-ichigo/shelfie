@@ -36,6 +36,12 @@ part 'app_router.g.dart';
 /// 検索画面でフォーカスが当たっている間は true に設定される。
 final navBarHiddenProvider = StateProvider<bool>((ref) => false);
 
+/// 検索画面の自動フォーカスを要求する Provider
+///
+/// true の場合、検索画面の初期化時に検索窓にフォーカスが当たる。
+/// 消費後に自動的に false にリセットされる。
+final searchAutoFocusProvider = StateProvider<bool>((ref) => false);
+
 /// ルートパス定義
 ///
 /// 全てのルートパスを一元管理し、型安全なナビゲーションを実現する。
