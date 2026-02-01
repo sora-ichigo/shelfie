@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
+import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -51,17 +54,23 @@ class _BookSelectorModalContentState
     extends ConsumerState<_BookSelectorModalContent> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  Timer? _debounceTimer;
   late final Set<int> _selectedUserBookIds;
+  late final BookShelfNotifier _shelfNotifier;
+  BookShelfLoaded? _lastLoadedState;
 
   @override
   void initState() {
     super.initState();
     _selectedUserBookIds = {...widget.initialSelectedUserBookIds};
+    _shelfNotifier = ref.read(bookShelfNotifierProvider.notifier);
   }
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
+    Future.microtask(() => _shelfNotifier.clearSearchQuery());
     super.dispose();
   }
 
@@ -98,7 +107,7 @@ class _BookSelectorModalContentState
 
     return TextField(
       controller: _searchController,
-      onChanged: (value) => setState(() => _searchQuery = value),
+      onChanged: _onSearchChanged,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration(
         hintText: '本を検索...',
@@ -108,7 +117,7 @@ class _BookSelectorModalContentState
                 icon: const Icon(Icons.clear),
                 onPressed: () {
                   _searchController.clear();
-                  setState(() => _searchQuery = '');
+                  _onSearchChanged('');
                 },
               )
             : null,
@@ -131,76 +140,101 @@ class _BookSelectorModalContentState
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return shelfState.when(
-      initial: () => const Center(child: CircularProgressIndicator()),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      loaded: (books, _, __, ___, ____) {
-        final filteredBooks = _filterBooks(books);
+    if (shelfState is BookShelfLoaded) {
+      _lastLoadedState = shelfState;
+    }
 
-        if (filteredBooks.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.search_off,
-                  size: 48,
-                  color: appColors.foregroundMuted,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                Text(
-                  '本が見つかりません',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: appColors.foregroundMuted,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: filteredBooks.length,
-          itemBuilder: (context, index) {
-            final book = filteredBooks[index];
-            final isSelected = _isSelected(book);
-            return _BookListItem(
-              book: book,
-              isSelected: isSelected,
-              onTap: isSelected
-                  ? () => _onBookRemove(book)
-                  : () => _onBookTap(book),
-              onRemove: isSelected ? () => _onBookRemove(book) : null,
-            );
-          },
-        );
-      },
-      error: (_) => Center(
+    if (shelfState is BookShelfError) {
+      return Center(
         child: Text(
           'エラーが発生しました',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: appColors.error,
           ),
         ),
+      );
+    }
+
+    final loaded = _lastLoadedState;
+    if (loaded == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final filteredBooks = _filterBooks(loaded.books);
+
+    if (filteredBooks.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 48,
+              color: appColors.foregroundMuted,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              '本が見つかりません',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: appColors.foregroundMuted,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (!loaded.hasMore || loaded.isLoadingMore) return false;
+        if (notification is! ScrollUpdateNotification) return false;
+
+        final maxScroll = notification.metrics.maxScrollExtent;
+        final currentScroll = notification.metrics.pixels;
+        final threshold = maxScroll * 0.8;
+
+        if (currentScroll >= threshold) {
+          ref.read(bookShelfNotifierProvider.notifier).loadMore();
+        }
+        return false;
+      },
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: filteredBooks.length + (loaded.isLoadingMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index == filteredBooks.length) {
+            return const Padding(
+              padding: EdgeInsets.all(AppSpacing.md),
+              child: LoadingIndicator(),
+            );
+          }
+          final book = filteredBooks[index];
+          final isSelected = _isSelected(book);
+          return _BookListItem(
+            book: book,
+            isSelected: isSelected,
+            onTap: isSelected
+                ? () => _onBookRemove(book)
+                : () => _onBookTap(book),
+            onRemove: isSelected ? () => _onBookRemove(book) : null,
+          );
+        },
       ),
     );
   }
 
   List<ShelfBookItem> _filterBooks(List<ShelfBookItem> books) {
-    var filtered = books
+    return books
         .where((b) => !widget.existingUserBookIds.contains(b.userBookId))
         .toList();
+  }
 
-    if (_searchQuery.isNotEmpty) {
-      final query = _searchQuery.toLowerCase();
-      filtered = filtered.where((b) {
-        return b.title.toLowerCase().contains(query) ||
-            b.authors.any((a) => a.toLowerCase().contains(query));
-      }).toList();
-    }
-
-    return filtered;
+  void _onSearchChanged(String value) {
+    setState(() => _searchQuery = value);
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      ref.read(bookShelfNotifierProvider.notifier).setSearchQuery(value);
+    });
   }
 
   void _onBookTap(ShelfBookItem book) {

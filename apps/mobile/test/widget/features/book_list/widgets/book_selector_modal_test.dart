@@ -163,6 +163,7 @@ void main() {
         await tester.pumpAndSettle();
 
         await tester.enterText(find.byType(TextField), 'Flutter');
+        await tester.pump(const Duration(milliseconds: 300));
         await tester.pumpAndSettle();
 
         expect(find.text('Flutter Guide'), findsOneWidget);
@@ -217,9 +218,12 @@ class _MockBookShelfNotifier extends BookShelfNotifier {
   _MockBookShelfNotifier(this._books);
 
   final List<ShelfBookItem> _books;
+  List<ShelfBookItem> _filteredBooks = [];
+  String? _lastQuery;
 
   @override
   BookShelfState build() {
+    _filteredBooks = _books;
     return BookShelfState.loaded(
       books: _books,
       sortOption: SortOption.defaultOption,
@@ -231,4 +235,38 @@ class _MockBookShelfNotifier extends BookShelfNotifier {
 
   @override
   Future<void> initialize() async {}
+
+  @override
+  Future<void> setSearchQuery(String query) async {
+    _lastQuery = query.isEmpty ? null : query;
+    if (_lastQuery == null) {
+      _filteredBooks = _books;
+    } else {
+      final q = _lastQuery!.toLowerCase();
+      _filteredBooks = _books.where((b) {
+        return b.title.toLowerCase().contains(q) ||
+            b.authors.any((a) => a.toLowerCase().contains(q));
+      }).toList();
+    }
+    state = BookShelfState.loaded(
+      books: _filteredBooks,
+      sortOption: SortOption.defaultOption,
+      totalCount: _filteredBooks.length,
+      hasMore: false,
+      isLoadingMore: false,
+    );
+  }
+
+  @override
+  Future<void> clearSearchQuery() async {
+    _lastQuery = null;
+    _filteredBooks = _books;
+    state = BookShelfState.loaded(
+      books: _books,
+      sortOption: SortOption.defaultOption,
+      totalCount: _books.length,
+      hasMore: false,
+      isLoadingMore: false,
+    );
+  }
 }

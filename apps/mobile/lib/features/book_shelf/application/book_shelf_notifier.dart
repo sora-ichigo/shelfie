@@ -14,11 +14,12 @@ part 'book_shelf_notifier.g.dart';
 /// サーバーサイドでのソート・ページネーションを担当する。
 @riverpod
 class BookShelfNotifier extends _$BookShelfNotifier {
-  static const int _pageSize = 20;
+  static const int _pageSize = 10;
 
   late SortOption _sortOption;
   int _currentOffset = 0;
   List<ShelfBookItem> _allBooks = [];
+  String? _searchQuery;
 
   @override
   BookShelfState build() {
@@ -62,6 +63,24 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     await _fetchBooks(isLoadMore: true);
   }
 
+  /// 検索クエリを設定して再取得
+  Future<void> setSearchQuery(String query) async {
+    _searchQuery = query.isEmpty ? null : query;
+    _currentOffset = 0;
+    _allBooks = [];
+    state = const BookShelfState.loading();
+    await _fetchBooks();
+  }
+
+  /// 検索クエリをクリアして再取得
+  Future<void> clearSearchQuery() async {
+    _searchQuery = null;
+    _currentOffset = 0;
+    _allBooks = [];
+    state = const BookShelfState.loading();
+    await _fetchBooks();
+  }
+
   /// データを再取得（最初のページから）
   Future<void> refresh() async {
     _currentOffset = 0;
@@ -75,6 +94,7 @@ class BookShelfNotifier extends _$BookShelfNotifier {
     final repository = ref.read(bookShelfRepositoryProvider);
 
     final result = await repository.getMyShelf(
+      query: _searchQuery,
       sortBy: _sortOption.sortField,
       sortOrder: _sortOption.sortOrder,
       limit: _pageSize,
