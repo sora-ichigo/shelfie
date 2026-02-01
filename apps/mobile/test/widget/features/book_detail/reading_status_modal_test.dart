@@ -94,7 +94,7 @@ void main() {
       expect(find.text('積読'), findsOneWidget);
       expect(find.text('読書中'), findsOneWidget);
       expect(find.text('読了'), findsOneWidget);
-      expect(find.text('読まない'), findsOneWidget);
+      expect(find.text('気になる'), findsOneWidget);
     });
 
     testWidgets('現在の状態が初期選択されている', (tester) async {
