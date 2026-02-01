@@ -64,7 +64,7 @@ void main() {
         ),
       );
 
-      expect(find.text('本を追加してみましょう'), findsOneWidget);
+      expect(find.text('「さがす」タブから本を追加してみましょう'), findsOneWidget);
     });
 
     testWidgets('displays books in grid', (tester) async {
