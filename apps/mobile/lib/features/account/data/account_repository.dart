@@ -30,7 +30,9 @@ class AccountRepository {
   final Client client;
 
   Future<Either<Failure, UserProfile>> getMyProfile() async {
-    final request = GGetMyProfileReq();
+    final request = GGetMyProfileReq(
+      (b) => b..fetchPolicy = FetchPolicy.NetworkOnly,
+    );
 
     try {
       final response = await client.request(request).first;
