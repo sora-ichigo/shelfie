@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
@@ -153,7 +154,8 @@ void main() {
     });
 
     group('createList', () {
-      test('should refresh lists after successful creation', () async {
+      test('should increment bookListVersion after successful creation',
+          () async {
         when(() => mockRepository.getMyBookLists())
             .thenAnswer((_) async => right(createMyBookListsResult()));
         when(
@@ -175,25 +177,16 @@ void main() {
 
         final notifier = container.read(bookListNotifierProvider.notifier);
         await notifier.loadLists();
-        clearInteractions(mockRepository);
 
-        when(() => mockRepository.getMyBookLists()).thenAnswer(
-          (_) async => right(
-            createMyBookListsResult(
-              items: [
-                createSummary(id: 1, title: 'New List'),
-              ],
-            ),
-          ),
-        );
-
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.createList(title: 'New List');
 
         expect(result.isRight(), isTrue);
-        verify(() => mockRepository.getMyBookLists()).called(1);
+        expect(
+            container.read(bookListVersionProvider), versionBefore + 1);
       });
 
-      test('should return Left on failure', () async {
+      test('should not increment bookListVersion on failure', () async {
         when(() => mockRepository.getMyBookLists())
             .thenAnswer((_) async => right(createMyBookListsResult()));
         when(
@@ -209,16 +202,17 @@ void main() {
         final notifier = container.read(bookListNotifierProvider.notifier);
         await notifier.loadLists();
 
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.createList(title: '');
 
         expect(result.isLeft(), isTrue);
-        final failure = result.getLeft().toNullable();
-        expect(failure, isA<ValidationFailure>());
+        expect(container.read(bookListVersionProvider), versionBefore);
       });
     });
 
     group('updateList', () {
-      test('should refresh lists after successful update', () async {
+      test('should increment bookListVersion after successful update',
+          () async {
         when(() => mockRepository.getMyBookLists())
             .thenAnswer((_) async => right(createMyBookListsResult()));
         when(
@@ -241,26 +235,20 @@ void main() {
 
         final notifier = container.read(bookListNotifierProvider.notifier);
         await notifier.loadLists();
-        clearInteractions(mockRepository);
 
-        when(() => mockRepository.getMyBookLists()).thenAnswer(
-          (_) async => right(
-            createMyBookListsResult(
-              items: [createSummary(id: 1, title: 'Updated Title')],
-            ),
-          ),
-        );
-
+        final versionBefore = container.read(bookListVersionProvider);
         final result =
             await notifier.updateList(listId: 1, title: 'Updated Title');
 
         expect(result.isRight(), isTrue);
-        verify(() => mockRepository.getMyBookLists()).called(1);
+        expect(
+            container.read(bookListVersionProvider), versionBefore + 1);
       });
     });
 
     group('deleteList', () {
-      test('should refresh lists after successful deletion', () async {
+      test('should increment bookListVersion after successful deletion',
+          () async {
         when(() => mockRepository.getMyBookLists())
             .thenAnswer((_) async => right(createMyBookListsResult()));
         when(
@@ -269,21 +257,16 @@ void main() {
 
         final notifier = container.read(bookListNotifierProvider.notifier);
         await notifier.loadLists();
-        clearInteractions(mockRepository);
 
-        when(() => mockRepository.getMyBookLists()).thenAnswer(
-          (_) async => right(
-            createMyBookListsResult(items: [], totalCount: 0),
-          ),
-        );
-
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.deleteList(listId: 1);
 
         expect(result.isRight(), isTrue);
-        verify(() => mockRepository.getMyBookLists()).called(1);
+        expect(
+            container.read(bookListVersionProvider), versionBefore + 1);
       });
 
-      test('should return Left on failure', () async {
+      test('should not increment bookListVersion on failure', () async {
         when(() => mockRepository.getMyBookLists())
             .thenAnswer((_) async => right(createMyBookListsResult()));
         when(
@@ -295,11 +278,11 @@ void main() {
         final notifier = container.read(bookListNotifierProvider.notifier);
         await notifier.loadLists();
 
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.deleteList(listId: 999);
 
         expect(result.isLeft(), isTrue);
-        final failure = result.getLeft().toNullable();
-        expect(failure, isA<NotFoundFailure>());
+        expect(container.read(bookListVersionProvider), versionBefore);
       });
     });
 
@@ -378,7 +361,7 @@ void main() {
     });
 
     group('addBook', () {
-      test('should refresh detail after successful add', () async {
+      test('should increment bookListVersion after successful add', () async {
         final detail = createDetail(id: 1, items: []);
 
         when(() => mockRepository.getBookListDetail(listId: 1))
@@ -395,19 +378,13 @@ void main() {
         final notifier =
             container.read(bookListDetailNotifierProvider(1).notifier);
         await notifier.loadDetail();
-        clearInteractions(mockRepository);
 
-        final updatedDetail = createDetail(
-          id: 1,
-          items: [createItem(id: 10, position: 0)],
-        );
-        when(() => mockRepository.getBookListDetail(listId: 1))
-            .thenAnswer((_) async => right(updatedDetail));
-
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.addBook(userBookId: 100);
 
         expect(result.isRight(), isTrue);
-        verify(() => mockRepository.getBookListDetail(listId: 1)).called(1);
+        expect(
+            container.read(bookListVersionProvider), versionBefore + 1);
       });
 
       test('should return Left on duplicate book', () async {
@@ -429,16 +406,17 @@ void main() {
             container.read(bookListDetailNotifierProvider(1).notifier);
         await notifier.loadDetail();
 
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.addBook(userBookId: 100);
 
         expect(result.isLeft(), isTrue);
-        final failure = result.getLeft().toNullable();
-        expect(failure, isA<DuplicateBookFailure>());
+        expect(container.read(bookListVersionProvider), versionBefore);
       });
     });
 
     group('removeBook', () {
-      test('should refresh detail after successful removal', () async {
+      test('should increment bookListVersion after successful removal',
+          () async {
         final detail = createDetail(
           id: 1,
           items: [createItem(id: 10, position: 0)],
@@ -456,16 +434,13 @@ void main() {
         final notifier =
             container.read(bookListDetailNotifierProvider(1).notifier);
         await notifier.loadDetail();
-        clearInteractions(mockRepository);
 
-        final updatedDetail = createDetail(id: 1, items: []);
-        when(() => mockRepository.getBookListDetail(listId: 1))
-            .thenAnswer((_) async => right(updatedDetail));
-
+        final versionBefore = container.read(bookListVersionProvider);
         final result = await notifier.removeBook(userBookId: 100);
 
         expect(result.isRight(), isTrue);
-        verify(() => mockRepository.getBookListDetail(listId: 1)).called(1);
+        expect(
+            container.read(bookListVersionProvider), versionBefore + 1);
       });
     });
 

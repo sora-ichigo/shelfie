@@ -2,6 +2,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -374,7 +375,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
           }
         }
         if (mounted) {
-          await ref.read(bookListNotifierProvider.notifier).refresh();
+          ref.read(bookListVersionProvider.notifier).increment();
           if (mounted) {
             Navigator.of(context).pop(bookList);
           }
@@ -424,6 +425,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
         );
       },
       (_) {
+        ref.read(bookListVersionProvider.notifier).increment();
         Navigator.of(context).pop(null);
       },
     );

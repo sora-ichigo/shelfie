@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
@@ -79,6 +80,7 @@ class ShelfState extends _$ShelfState {
       (_) {
         removeEntry(externalId);
         ref.read(shelfVersionProvider.notifier).increment();
+        ref.read(bookListVersionProvider.notifier).increment();
       },
     );
 

@@ -6,7 +6,7 @@ part of 'book_list_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookListNotifierHash() => r'61b22815a79189e1547edb505c3b8497a621c54c';
+String _$bookListNotifierHash() => r'9347f2ba21f8a55b53721cc6f540f049221db520';
 
 /// See also [BookListNotifier].
 @ProviderFor(BookListNotifier)
@@ -23,7 +23,7 @@ final bookListNotifierProvider =
 
 typedef _$BookListNotifier = AutoDisposeNotifier<BookListState>;
 String _$bookListDetailNotifierHash() =>
-    r'e7a3ee3c599eb4e213734ba37dd4ba8f8b5ce383';
+    r'3a554f20fe4407bed54de67f209235067af56357';
 
 /// Copied from Dart SDK
 class _SystemHash {
