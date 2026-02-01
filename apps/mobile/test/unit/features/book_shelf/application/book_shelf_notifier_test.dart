@@ -6,6 +6,7 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
@@ -801,7 +802,56 @@ void main() {
         verify(() => mockSettingsRepository.setSortOption(SortOption.authorAsc))
             .called(1);
       });
+    });
 
-});
+    group('shelfVersion 連動', () {
+      test('shelfVersion が変わったとき refresh が呼ばれる', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        clearInteractions(mockRepository);
+
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(
+              items: [
+                createBook(userBookId: 10, externalId: 'id10'),
+                createBook(userBookId: 11, externalId: 'id11'),
+              ],
+              totalCount: 2,
+            ),
+          ),
+        );
+
+        container.read(shelfVersionProvider.notifier).increment();
+
+        await Future<void>.delayed(Duration.zero);
+
+        verify(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).called(1);
+      });
+    });
   });
 }

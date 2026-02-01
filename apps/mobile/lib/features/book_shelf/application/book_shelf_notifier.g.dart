@@ -6,7 +6,7 @@ part of 'book_shelf_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookShelfNotifierHash() => r'6f403181fccca01384b00adffb03e253e45f0ea9';
+String _$bookShelfNotifierHash() => r'4bf03ffb80fe385b9bf2c210eaf1c6ffb7cf852b';
 
 /// 本棚画面の状態管理 Notifier
 ///

@@ -5,10 +5,15 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
+import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/domain/user_book.dart' as detail;
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 
 class MockBookSearchRepository extends Mock implements BookSearchRepository {}
+
+class MockBookDetailRepository extends Mock implements BookDetailRepository {}
 
 void main() {
   setUpAll(() {
@@ -18,12 +23,16 @@ void main() {
 
   late ProviderContainer container;
   late MockBookSearchRepository mockRepository;
+  late MockBookDetailRepository mockBookDetailRepository;
 
   setUp(() {
     mockRepository = MockBookSearchRepository();
+    mockBookDetailRepository = MockBookDetailRepository();
     container = ProviderContainer(
       overrides: [
         bookSearchRepositoryProvider.overrideWithValue(mockRepository),
+        bookDetailRepositoryProvider
+            .overrideWithValue(mockBookDetailRepository),
       ],
     );
   });
@@ -448,6 +457,253 @@ void main() {
         notifier.clear();
 
         expect(container.read(shelfStateProvider), isEmpty);
+      });
+    });
+
+    group('shelfVersionProvider の更新', () {
+      test('addToShelf 成功時に shelfVersion が increment される', () async {
+        when(
+          () => mockRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            UserBook(
+              id: 1,
+              externalId: 'book-123',
+              title: 'Test Book',
+              authors: ['Author'],
+              addedAt: DateTime.now(),
+            ),
+          ),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        final notifier = container.read(shelfStateProvider.notifier);
+        await notifier.addToShelf(
+          externalId: 'book-123',
+          title: 'Test Book',
+          authors: ['Author'],
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore + 1);
+      });
+
+      test('addToShelf 失敗時は shelfVersion が変わらない', () async {
+        when(
+          () => mockRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+          ),
+        ).thenAnswer(
+          (_) async => left(const NetworkFailure(message: 'Network error')),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        final notifier = container.read(shelfStateProvider.notifier);
+        await notifier.addToShelf(
+          externalId: 'book-123',
+          title: 'Test Book',
+          authors: ['Author'],
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
+      });
+
+      test('removeFromShelf 成功時に shelfVersion が increment される', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.backlog,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(() => mockRepository.removeFromShelf(userBookId: 1))
+            .thenAnswer((_) async => right(true));
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.removeFromShelf(
+          externalId: 'book-123',
+          userBookId: 1,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore + 1);
+      });
+
+      test('removeFromShelf 失敗時は shelfVersion が変わらない', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.backlog,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(() => mockRepository.removeFromShelf(userBookId: 1))
+            .thenAnswer((_) async => left(const NetworkFailure(message: 'Network error')));
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.removeFromShelf(
+          externalId: 'book-123',
+          userBookId: 1,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
+      });
+
+      test('updateReadingStatusWithApi 成功時に shelfVersion が increment される',
+          () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.backlog,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateReadingStatus(
+            userBookId: any(named: 'userBookId'),
+            status: any(named: 'status'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.reading,
+              addedAt: DateTime.now(),
+            ),
+          ),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.updateReadingStatusWithApi(
+          externalId: 'book-123',
+          status: ReadingStatus.reading,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore + 1);
+      });
+
+      test('updateReadingStatusWithApi 失敗時は shelfVersion が変わらない', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.backlog,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateReadingStatus(
+            userBookId: any(named: 'userBookId'),
+            status: any(named: 'status'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              left(const NetworkFailure(message: 'Network error')),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.updateReadingStatusWithApi(
+          externalId: 'book-123',
+          status: ReadingStatus.reading,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
+      });
+
+      test('updateReadingNoteWithApi 成功時は shelfVersion が変わらない', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateReadingNote(
+            userBookId: any(named: 'userBookId'),
+            note: any(named: 'note'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.reading,
+              addedAt: DateTime.now(),
+              note: 'Great book!',
+              noteUpdatedAt: DateTime.now(),
+            ),
+          ),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.updateReadingNoteWithApi(
+          externalId: 'book-123',
+          note: 'Great book!',
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
+      });
+
+      test('updateRatingWithApi 成功時は shelfVersion が変わらない', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateRating(
+            userBookId: any(named: 'userBookId'),
+            rating: any(named: 'rating'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.reading,
+              addedAt: DateTime.now(),
+              rating: 4,
+            ),
+          ),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.updateRatingWithApi(
+          externalId: 'book-123',
+          rating: 4,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
       });
     });
 

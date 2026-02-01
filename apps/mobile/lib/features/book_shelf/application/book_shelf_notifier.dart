@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
@@ -25,6 +26,11 @@ class BookShelfNotifier extends _$BookShelfNotifier {
   BookShelfState build() {
     final settingsRepository = ref.read(bookShelfSettingsRepositoryProvider);
     _sortOption = settingsRepository.getSortOption();
+    ref.listen(shelfVersionProvider, (prev, next) {
+      if (prev != null && prev != next) {
+        refresh();
+      }
+    });
     return const BookShelfState.initial();
   }
 
