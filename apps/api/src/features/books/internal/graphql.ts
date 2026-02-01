@@ -733,6 +733,10 @@ export function registerBooksQueries(
         }
 
         const input = args.input ?? {};
+        const readingStatus =
+          input.readingStatus && input.readingStatus !== "dropped"
+            ? input.readingStatus
+            : undefined;
         const userBooksResult = await shelfService.getUserBooksWithPagination(
           userResult.data.id,
           {
@@ -741,7 +745,7 @@ export function registerBooksQueries(
             sortOrder: input.sortOrder ?? undefined,
             limit: input.limit ?? undefined,
             offset: input.offset ?? undefined,
-            readingStatus: input.readingStatus ?? undefined,
+            readingStatus,
           },
         );
 
