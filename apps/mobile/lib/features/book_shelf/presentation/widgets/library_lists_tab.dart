@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/create_list_card.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 
 class LibraryListsTab extends StatelessWidget {
   const LibraryListsTab({
@@ -24,10 +24,7 @@ class LibraryListsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!hasBooks) {
-      return const EmptyState(
-        icon: Icons.auto_stories_outlined,
-        message: '本を追加してみましょう',
-      );
+      return const NoBooksMessage();
     }
 
     if (lists.isEmpty) {

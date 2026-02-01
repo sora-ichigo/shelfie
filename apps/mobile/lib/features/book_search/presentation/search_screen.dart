@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -20,6 +19,7 @@ import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/no_result_message.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_books_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
@@ -107,7 +107,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 child: isSearchActive
                     ? const SizedBox.shrink()
                     : ScreenHeader(
-                        title: '検索',
+                        title: 'さがす',
                         onProfileTap: () => context.push(AppRoutes.account),
                         avatarUrl: avatarUrl,
                         isAvatarLoading: accountAsync.isLoading,
@@ -162,11 +162,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           hasMore: hasMore,
           isLoadingMore: false,
         ),
-      BookSearchEmpty(:final query) => EmptyState(
-          icon: Icons.search_off,
-          title: '検索結果がありません',
-          message: '「$query」に一致する書籍が見つかりませんでした。',
-        ),
+      BookSearchEmpty(:final query) => NoResultMessage(query: query),
       BookSearchError(:final failure) => ErrorView(
           failure: failure,
           onRetry: _onRetry,

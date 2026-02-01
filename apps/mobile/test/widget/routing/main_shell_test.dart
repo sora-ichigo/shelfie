@@ -110,7 +110,7 @@ void main() {
         resetViewport(tester);
       });
 
-      testWidgets('タブの順序がライブラリ -> 検索であること', (tester) async {
+      testWidgets('タブの順序がライブラリ -> さがすであること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -136,7 +136,7 @@ void main() {
 
         // タブラベルが存在することを確認
         expect(find.text('ライブラリ'), findsWidgets);
-        expect(find.text('検索'), findsWidgets);
+        expect(find.text('さがす'), findsWidgets);
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));

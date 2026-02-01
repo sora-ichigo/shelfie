@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_grid.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 
 class LibraryBooksTab extends StatelessWidget {
   const LibraryBooksTab({
@@ -24,10 +24,7 @@ class LibraryBooksTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (books.isEmpty) {
-      return const EmptyState(
-        icon: Icons.auto_stories_outlined,
-        message: '本を追加してみましょう',
-      );
+      return const NoBooksMessage();
     }
 
     return BookGrid(
