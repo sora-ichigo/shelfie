@@ -56,19 +56,21 @@ class _BookSelectorModalContentState
   String _searchQuery = '';
   Timer? _debounceTimer;
   late final Set<int> _selectedUserBookIds;
+  late final BookShelfNotifier _shelfNotifier;
   BookShelfLoaded? _lastLoadedState;
 
   @override
   void initState() {
     super.initState();
     _selectedUserBookIds = {...widget.initialSelectedUserBookIds};
+    _shelfNotifier = ref.read(bookShelfNotifierProvider.notifier);
   }
 
   @override
   void dispose() {
     _debounceTimer?.cancel();
     _searchController.dispose();
-    ref.read(bookShelfNotifierProvider.notifier).clearSearchQuery();
+    Future.microtask(() => _shelfNotifier.clearSearchQuery());
     super.dispose();
   }
 
