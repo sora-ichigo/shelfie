@@ -26,7 +26,7 @@ void main() {
         buildTestWidget(child: const NoBooksMessage()),
       );
 
-      final text = tester.widget<Text>(find.text('本を追加してみましょう'));
+      final text = tester.widget<Text>(find.text('「さがす」タブから本を追加してみましょう'));
       expect(text.style?.color, AppTheme.theme.colorScheme.onSurfaceVariant);
     });
 
@@ -38,7 +38,7 @@ void main() {
       final iconPos = tester.getCenter(
         find.byIcon(Icons.auto_stories_outlined),
       );
-      final textPos = tester.getCenter(find.text('本を追加してみましょう'));
+      final textPos = tester.getCenter(find.text('「さがす」タブから本を追加してみましょう'));
       expect(iconPos.dy, lessThan(textPos.dy));
     });
 

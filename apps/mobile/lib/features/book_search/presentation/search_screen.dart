@@ -107,7 +107,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 child: isSearchActive
                     ? const SizedBox.shrink()
                     : ScreenHeader(
-                        title: '検索',
+                        title: 'さがす',
                         onProfileTap: () => context.push(AppRoutes.account),
                         avatarUrl: avatarUrl,
                         isAvatarLoading: accountAsync.isLoading,

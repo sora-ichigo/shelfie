@@ -464,7 +464,7 @@ class _MainShell extends ConsumerWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.search),
-            label: '検索',
+            label: 'さがす',
           ),
         ],
       ),
@@ -476,7 +476,7 @@ class _MainShell extends ConsumerWidget {
         ),
         AdaptiveNavigationDestination(
           icon: 'magnifyingglass',
-          label: '検索',
+          label: 'さがす',
         ),
       ],
     );

@@ -22,7 +22,7 @@ class NoBooksMessage extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              '本を追加してみましょう',
+              '「さがす」タブから本を追加してみましょう',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: onSurfaceVariant,
               ),
