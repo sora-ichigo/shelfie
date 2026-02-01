@@ -141,11 +141,11 @@ class _ReadingStatusModalContentState
         Row(
           children: [
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.backlog),
+              child: _buildStatusButton(theme, ReadingStatus.interested),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.reading),
+              child: _buildStatusButton(theme, ReadingStatus.backlog),
             ),
           ],
         ),
@@ -153,11 +153,11 @@ class _ReadingStatusModalContentState
         Row(
           children: [
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.completed),
+              child: _buildStatusButton(theme, ReadingStatus.reading),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.interested),
+              child: _buildStatusButton(theme, ReadingStatus.completed),
             ),
           ],
         ),

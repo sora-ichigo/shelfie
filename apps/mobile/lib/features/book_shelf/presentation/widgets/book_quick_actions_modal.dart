@@ -196,6 +196,10 @@ class _BookQuickActionsModalContentState
         Row(
           children: [
             Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.interested, entry),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
               child: _buildStatusButton(theme, ReadingStatus.backlog, entry),
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -205,10 +209,6 @@ class _BookQuickActionsModalContentState
             const SizedBox(width: AppSpacing.xs),
             Expanded(
               child: _buildStatusButton(theme, ReadingStatus.completed, entry),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.interested, entry),
             ),
           ],
         ),

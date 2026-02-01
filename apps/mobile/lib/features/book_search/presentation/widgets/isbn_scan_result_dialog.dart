@@ -327,6 +327,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Row(
           children: [
             Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.interested),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
               child: _buildStatusButton(theme, ReadingStatus.backlog),
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -336,10 +340,6 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             const SizedBox(width: AppSpacing.xs),
             Expanded(
               child: _buildStatusButton(theme, ReadingStatus.completed),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.interested),
             ),
           ],
         ),
