@@ -31,7 +31,8 @@ class BookShelfNotifier extends _$BookShelfNotifier {
         refresh();
       }
     });
-    return const BookShelfState.initial();
+    Future.microtask(_fetchBooks);
+    return const BookShelfState.loading();
   }
 
   /// 初期化 - 本棚データを取得
