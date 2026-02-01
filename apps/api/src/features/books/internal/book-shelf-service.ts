@@ -129,7 +129,10 @@ export function createBookShelfService(
           });
         }
 
-        const readingStatus = bookInput.readingStatus ?? "backlog";
+        const readingStatus =
+          bookInput.readingStatus === "dropped"
+            ? "backlog"
+            : (bookInput.readingStatus ?? "backlog");
         const completedAt = resolveCompletedAt(readingStatus);
         const userBook = await repository.createUserBook({
           userId,
@@ -295,6 +298,10 @@ export function createBookShelfService(
             code: "FORBIDDEN",
             message: "You are not allowed to update this book",
           });
+        }
+
+        if (status === "dropped") {
+          return ok(userBook);
         }
 
         const updatedBook = await repository.updateUserBook(userBookId, {

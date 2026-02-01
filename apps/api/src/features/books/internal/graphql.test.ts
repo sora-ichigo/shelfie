@@ -216,7 +216,13 @@ describe("BooksGraphQL Types", () => {
       expect(valueNames).toContain("READING");
       expect(valueNames).toContain("COMPLETED");
       expect(valueNames).toContain("INTERESTED");
-      expect(values).toHaveLength(4);
+      expect(valueNames).toContain("DROP");
+      expect(values).toHaveLength(5);
+
+      const dropValue = values.find((v) => v.name === "DROP");
+      expect(dropValue?.deprecationReason).toBe(
+        "Use INTERESTED instead. DROP is ignored.",
+      );
     });
 
     it("should map ReadingStatus enum values to database values", () => {
@@ -235,6 +241,9 @@ describe("BooksGraphQL Types", () => {
 
       const interestedValue = readingStatusEnum.getValue("INTERESTED");
       expect(interestedValue?.value).toBe("interested");
+
+      const dropValue = readingStatusEnum.getValue("DROP");
+      expect(dropValue?.value).toBe("dropped");
     });
   });
 });

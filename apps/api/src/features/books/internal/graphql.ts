@@ -17,7 +17,8 @@ export type ReadingStatusValue =
   | "backlog"
   | "reading"
   | "completed"
-  | "interested";
+  | "interested"
+  | "dropped";
 
 type BookSourceValue = "rakuten" | "google";
 
@@ -68,6 +69,10 @@ function createReadingStatusEnumRef(builder: Builder) {
       INTERESTED: {
         value: "interested" as ReadingStatusValue,
         description: "Interested in reading",
+      },
+      DROP: {
+        value: "dropped" as ReadingStatusValue,
+        deprecationReason: "Use INTERESTED instead. DROP is ignored.",
       },
     } as const,
   });
