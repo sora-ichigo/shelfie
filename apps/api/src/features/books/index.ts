@@ -39,6 +39,7 @@ export type {
   BookShelfErrors,
   BookShelfService,
   MyShelfResult,
+  ReadingStatusInputValue,
   UpdateReadingNoteInput,
   UpdateReadingStatusInput,
 } from "./internal/book-shelf-service.js";
