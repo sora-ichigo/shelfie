@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/no_result_message.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -162,11 +162,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           hasMore: hasMore,
           isLoadingMore: false,
         ),
-      BookSearchEmpty(:final query) => EmptyState(
-          icon: Icons.search_off,
-          title: '検索結果がありません',
-          message: '「$query」に一致する書籍が見つかりませんでした。',
-        ),
+      BookSearchEmpty(:final query) => NoResultMessage(query: query),
       BookSearchError(:final failure) => ErrorView(
           failure: failure,
           onRetry: _onRetry,

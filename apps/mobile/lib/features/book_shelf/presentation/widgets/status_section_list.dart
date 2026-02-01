@@ -4,6 +4,7 @@ import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section.dart';
 
 /// 読書状態ごとのセクションを固定順で表示するリスト
@@ -34,6 +35,10 @@ class StatusSectionList extends ConsumerWidget {
       final state = ref.watch(statusSectionNotifierProvider(status));
       return _isSectionVisible(state);
     }).toList();
+
+    if (visibleSections.isEmpty) {
+      return const NoBooksMessage();
+    }
 
     final bottomInset = MediaQuery.of(context).padding.bottom +
         kBottomNavigationBarHeight;

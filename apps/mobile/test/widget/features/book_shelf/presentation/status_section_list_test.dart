@@ -6,6 +6,7 @@ import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section_list.dart';
 
@@ -318,6 +319,43 @@ void main() {
           find.byType(StatusSection),
         );
         expect(sections.length, 2);
+      });
+    });
+
+    group('空状態', () {
+      testWidgets('全セクションが空の場合に NoBooksMessage が表示される',
+          (tester) async {
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: _emptyLoaded,
+              ReadingStatus.interested: _emptyLoaded,
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+            },
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(NoBooksMessage), findsOneWidget);
+        expect(find.byType(StatusSection), findsNothing);
+      });
+
+      testWidgets('loading 中のセクションがあれば NoBooksMessage は表示されない',
+          (tester) async {
+        await tester.pumpWidget(
+          _buildTestWidget(
+            states: {
+              ReadingStatus.reading: const StatusSectionState.loading(),
+              ReadingStatus.interested: _emptyLoaded,
+              ReadingStatus.backlog: _emptyLoaded,
+              ReadingStatus.completed: _emptyLoaded,
+            },
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(NoBooksMessage), findsNothing);
       });
     });
   });
