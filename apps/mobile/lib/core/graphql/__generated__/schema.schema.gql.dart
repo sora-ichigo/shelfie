@@ -223,6 +223,8 @@ class GReadingStatus extends EnumClass {
 
   static const GReadingStatus COMPLETED = _$gReadingStatusCOMPLETED;
 
+  static const GReadingStatus DROP = _$gReadingStatusDROP;
+
   static const GReadingStatus INTERESTED = _$gReadingStatusINTERESTED;
 
   static const GReadingStatus READING = _$gReadingStatusREADING;

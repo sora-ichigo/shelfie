@@ -6,7 +6,7 @@ part of 'app_router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appRouterHash() => r'dfe93a7b4a3261ab51005d0efcba4c4c1b362a38';
+String _$appRouterHash() => r'09baf9aafcc77439e22b6eac36664f2e3a4f32c0';
 
 /// AppRouter Provider
 ///
@@ -14,7 +14,7 @@ String _$appRouterHash() => r'dfe93a7b4a3261ab51005d0efcba4c4c1b362a38';
 /// - 初期ルート: /
 /// - デバッグモードでログ出力有効
 /// - onException でエラーハンドリング
-/// - redirect で認証ガード（me クエリでセッション検証）
+/// - redirect で認証ガード
 /// - ShellRoute でタブナビゲーション
 ///
 /// Copied from [appRouter].

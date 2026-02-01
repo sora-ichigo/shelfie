@@ -1980,6 +1980,23 @@ const ReadingStatus = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'DROP'),
+      directives: [
+        _i1.DirectiveNode(
+          name: _i1.NameNode(value: 'deprecated'),
+          arguments: [
+            _i1.ArgumentNode(
+              name: _i1.NameNode(value: 'reason'),
+              value: _i1.StringValueNode(
+                value: 'Use INTERESTED instead. DROP is ignored.',
+                isBlock: false,
+              ),
+            )
+          ],
+        )
+      ],
+    ),
+    _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'INTERESTED'),
       directives: [],
     ),
