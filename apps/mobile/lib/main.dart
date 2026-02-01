@@ -10,6 +10,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shelfie/app/app.dart';
 import 'package:shelfie/app/providers.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/data/search_history_repository.dart';
@@ -105,7 +106,21 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
       setState(() {
         _initialized = true;
       });
+      _validateSessionInBackground();
     }
+  }
+
+  void _validateSessionInBackground() {
+    final authState = ref.read(authStateProvider);
+    if (!authState.isAuthenticated) return;
+
+    final sessionValidator = ref.read(sessionValidatorProvider);
+    sessionValidator.validate().then((result) {
+      if (!mounted) return;
+      if (result is SessionInvalid) {
+        ref.read(authStateProvider.notifier).logout();
+      }
+    });
   }
 
   @override
