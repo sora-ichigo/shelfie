@@ -1980,7 +1980,7 @@ const ReadingStatus = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'DROPPED'),
+      name: _i1.NameNode(value: 'INTERESTED'),
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(

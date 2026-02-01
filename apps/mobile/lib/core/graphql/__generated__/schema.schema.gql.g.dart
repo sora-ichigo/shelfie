@@ -97,8 +97,8 @@ const GReadingStatus _$gReadingStatusBACKLOG =
     const GReadingStatus._('BACKLOG');
 const GReadingStatus _$gReadingStatusCOMPLETED =
     const GReadingStatus._('COMPLETED');
-const GReadingStatus _$gReadingStatusDROPPED =
-    const GReadingStatus._('DROPPED');
+const GReadingStatus _$gReadingStatusINTERESTED =
+    const GReadingStatus._('INTERESTED');
 const GReadingStatus _$gReadingStatusREADING =
     const GReadingStatus._('READING');
 
@@ -108,8 +108,8 @@ GReadingStatus _$gReadingStatusValueOf(String name) {
       return _$gReadingStatusBACKLOG;
     case 'COMPLETED':
       return _$gReadingStatusCOMPLETED;
-    case 'DROPPED':
-      return _$gReadingStatusDROPPED;
+    case 'INTERESTED':
+      return _$gReadingStatusINTERESTED;
     case 'READING':
       return _$gReadingStatusREADING;
     default:
@@ -121,7 +121,7 @@ final BuiltSet<GReadingStatus> _$gReadingStatusValues =
     new BuiltSet<GReadingStatus>(const <GReadingStatus>[
   _$gReadingStatusBACKLOG,
   _$gReadingStatusCOMPLETED,
-  _$gReadingStatusDROPPED,
+  _$gReadingStatusINTERESTED,
   _$gReadingStatusREADING,
 ]);
 

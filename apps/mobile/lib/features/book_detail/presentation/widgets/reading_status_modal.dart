@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 
 /// 読書状態選択モーダルのモード
 enum ReadingStatusModalMode {
@@ -141,11 +146,11 @@ class _ReadingStatusModalContentState
         Row(
           children: [
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.backlog),
+              child: _buildStatusButton(theme, ReadingStatus.interested),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.reading),
+              child: _buildStatusButton(theme, ReadingStatus.backlog),
             ),
           ],
         ),
@@ -153,11 +158,11 @@ class _ReadingStatusModalContentState
         Row(
           children: [
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.completed),
+              child: _buildStatusButton(theme, ReadingStatus.reading),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.dropped),
+              child: _buildStatusButton(theme, ReadingStatus.completed),
             ),
           ],
         ),
@@ -260,7 +265,7 @@ class _ReadingStatusModalContentState
       ReadingStatus.backlog => const Color(0xFFFFB74D),
       ReadingStatus.reading => const Color(0xFF64B5F6),
       ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.dropped => const Color(0xFF90A4AE),
+      ReadingStatus.interested => const Color(0xFFE091D6),
     };
   }
 
@@ -347,6 +352,10 @@ class _ReadingStatusModalContentState
       _error = null;
     });
 
+    final previousStatus = ref
+        .read(shelfStateProvider)[widget.externalId!]
+        ?.readingStatus;
+
     final notifier =
         ref.read(bookDetailNotifierProvider(widget.externalId!).notifier);
     final result = await notifier.updateReadingStatus(
@@ -368,6 +377,15 @@ class _ReadingStatusModalContentState
     );
 
     if (failed) return;
+
+    if (previousStatus != null && previousStatus != _selectedStatus) {
+      ref
+          .read(statusSectionNotifierProvider(previousStatus).notifier)
+          .removeBook(widget.externalId!);
+      unawaited(ref
+          .read(statusSectionNotifierProvider(_selectedStatus).notifier)
+          .refresh());
+    }
 
     if (_selectedStatus == ReadingStatus.completed && _selectedRating != null) {
       await notifier.updateRating(

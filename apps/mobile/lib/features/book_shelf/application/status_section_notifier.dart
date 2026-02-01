@@ -14,7 +14,7 @@ GReadingStatus _toGReadingStatus(ReadingStatus status) {
     ReadingStatus.reading => GReadingStatus.READING,
     ReadingStatus.backlog => GReadingStatus.BACKLOG,
     ReadingStatus.completed => GReadingStatus.COMPLETED,
-    ReadingStatus.dropped => GReadingStatus.DROPPED,
+    ReadingStatus.interested => GReadingStatus.INTERESTED,
   };
 }
 

@@ -135,6 +135,15 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     setState(() {
       _selectedTab = tab;
     });
+    if (tab == LibraryFilterTab.books) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (final status in ReadingStatus.values) {
+          ref
+              .read(statusSectionNotifierProvider(status).notifier)
+              .initialize();
+        }
+      });
+    }
   }
 
   Future<void> _onSortChanged(SortOption option) async {

@@ -170,7 +170,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
       'BACKLOG' => ReadingStatus.backlog,
       'READING' => ReadingStatus.reading,
       'COMPLETED' => ReadingStatus.completed,
-      'DROPPED' => ReadingStatus.dropped,
+      'INTERESTED' => ReadingStatus.interested,
       _ => ReadingStatus.backlog,
     };
   }
