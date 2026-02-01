@@ -196,6 +196,10 @@ class _BookQuickActionsModalContentState
         Row(
           children: [
             Expanded(
+              child: _buildStatusButton(theme, ReadingStatus.interested, entry),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
               child: _buildStatusButton(theme, ReadingStatus.backlog, entry),
             ),
             const SizedBox(width: AppSpacing.xs),
@@ -205,10 +209,6 @@ class _BookQuickActionsModalContentState
             const SizedBox(width: AppSpacing.xs),
             Expanded(
               child: _buildStatusButton(theme, ReadingStatus.completed, entry),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: _buildStatusButton(theme, ReadingStatus.dropped, entry),
             ),
           ],
         ),
@@ -257,7 +257,7 @@ class _BookQuickActionsModalContentState
       ReadingStatus.backlog => const Color(0xFFFFB74D),
       ReadingStatus.reading => const Color(0xFF64B5F6),
       ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.dropped => const Color(0xFF90A4AE),
+      ReadingStatus.interested => const Color(0xFFE091D6),
     };
   }
 

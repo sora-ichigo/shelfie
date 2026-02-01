@@ -9,7 +9,7 @@ void main() {
         expect(ReadingStatus.values, contains(ReadingStatus.backlog));
         expect(ReadingStatus.values, contains(ReadingStatus.reading));
         expect(ReadingStatus.values, contains(ReadingStatus.completed));
-        expect(ReadingStatus.values, contains(ReadingStatus.dropped));
+        expect(ReadingStatus.values, contains(ReadingStatus.interested));
       });
     });
 
@@ -26,8 +26,8 @@ void main() {
         expect(ReadingStatus.completed.displayName, equals('読了'));
       });
 
-      test('should return Japanese display name for dropped', () {
-        expect(ReadingStatus.dropped.displayName, equals('読まない'));
+      test('should return Japanese display name for interested', () {
+        expect(ReadingStatus.interested.displayName, equals('気になる'));
       });
     });
 
@@ -44,8 +44,8 @@ void main() {
         expect(ReadingStatus.completed.name, equals('completed'));
       });
 
-      test('dropped should have correct name', () {
-        expect(ReadingStatus.dropped.name, equals('dropped'));
+      test('interested should have correct name', () {
+        expect(ReadingStatus.interested.name, equals('interested'));
       });
     });
 
@@ -65,9 +65,9 @@ void main() {
         expect(ReadingStatus.fromString('COMPLETED'), equals(ReadingStatus.completed));
       });
 
-      test('should convert dropped string', () {
-        expect(ReadingStatus.fromString('dropped'), equals(ReadingStatus.dropped));
-        expect(ReadingStatus.fromString('DROPPED'), equals(ReadingStatus.dropped));
+      test('should convert interested string', () {
+        expect(ReadingStatus.fromString('interested'), equals(ReadingStatus.interested));
+        expect(ReadingStatus.fromString('INTERESTED'), equals(ReadingStatus.interested));
       });
 
       test('should throw for invalid string', () {

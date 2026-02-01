@@ -54,7 +54,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   void deactivate() {
-    ref.read(navBarHiddenProvider.notifier).state = false;
+    final notifier = ref.read(navBarHiddenProvider.notifier);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifier.state = false;
+    });
     super.deactivate();
   }
 
@@ -394,8 +397,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _onHistorySelected(String query) {
     _searchController.text = query;
-    _focusNode.unfocus();
     ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
+    ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+    _focusNode.unfocus();
   }
 
   void _onHistoryDeleted(String query) {

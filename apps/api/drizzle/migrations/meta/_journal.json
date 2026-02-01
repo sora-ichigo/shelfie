@@ -50,6 +50,13 @@
       "when": 1769517953889,
       "tag": "0006_lying_meteorite",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1769908248571,
+      "tag": "0007_minor_junta",
+      "breakpoints": true
     }
   ]
 }

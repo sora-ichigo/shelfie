@@ -379,7 +379,7 @@ class BookDetailRepository {
       GReadingStatus.BACKLOG => ReadingStatus.backlog,
       GReadingStatus.READING => ReadingStatus.reading,
       GReadingStatus.COMPLETED => ReadingStatus.completed,
-      GReadingStatus.DROPPED => ReadingStatus.dropped,
+      GReadingStatus.INTERESTED => ReadingStatus.interested,
       _ => ReadingStatus.backlog,
     };
   }
@@ -389,7 +389,7 @@ class BookDetailRepository {
       ReadingStatus.backlog => GReadingStatus.BACKLOG,
       ReadingStatus.reading => GReadingStatus.READING,
       ReadingStatus.completed => GReadingStatus.COMPLETED,
-      ReadingStatus.dropped => GReadingStatus.DROPPED,
+      ReadingStatus.interested => GReadingStatus.INTERESTED,
     };
   }
 

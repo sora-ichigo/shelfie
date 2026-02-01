@@ -411,14 +411,15 @@ List<RouteBase> _buildRoutes() {
             child: SearchScreen(),
           ),
         ),
-        // リスト作成画面
-        GoRoute(
-          path: AppRoutes.bookListCreate,
-          pageBuilder: (context, state) => const CupertinoPage(
-            child: BookListEditScreen(),
-          ),
-        ),
       ],
+    ),
+
+    // リスト作成画面（タブバーなし）
+    GoRoute(
+      path: AppRoutes.bookListCreate,
+      pageBuilder: (context, state) => const CupertinoPage(
+        child: BookListEditScreen(),
+      ),
     ),
 
     // ISBN スキャン画面（タブバーなし）

@@ -405,7 +405,7 @@ class BookSearchRepository {
       ReadingStatus.backlog => GReadingStatus.BACKLOG,
       ReadingStatus.reading => GReadingStatus.READING,
       ReadingStatus.completed => GReadingStatus.COMPLETED,
-      ReadingStatus.dropped => GReadingStatus.DROPPED,
+      ReadingStatus.interested => GReadingStatus.INTERESTED,
     };
   }
 }

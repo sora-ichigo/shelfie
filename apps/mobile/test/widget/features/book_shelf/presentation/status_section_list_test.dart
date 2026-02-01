@@ -96,14 +96,14 @@ Widget _buildTestWidget({
 void main() {
   group('StatusSectionList', () {
     group('表示順', () {
-      testWidgets('先頭2セクションが読書中→積読の順で表示される', (tester) async {
+      testWidgets('先頭2セクションが読書中→気になるの順で表示される', (tester) async {
         await tester.pumpWidget(
           _buildTestWidget(
             states: {
               ReadingStatus.reading: _loadedState(count: 1, totalCount: 1),
               ReadingStatus.backlog: _loadedState(count: 1, totalCount: 1),
               ReadingStatus.completed: _loadedState(count: 1, totalCount: 1),
-              ReadingStatus.dropped: _loadedState(count: 1, totalCount: 1),
+              ReadingStatus.interested: _loadedState(count: 1, totalCount: 1),
             },
           ),
         );
@@ -111,12 +111,12 @@ void main() {
 
         // viewport内で確認可能な先頭セクションの順序を検証
         expect(find.text('読書中'), findsOneWidget);
-        expect(find.text('積読'), findsOneWidget);
+        expect(find.text('気になる'), findsOneWidget);
 
-        // 読書中が積読より上に表示されることを確認
+        // 読書中が気になるより上に表示されることを確認
         final readingOffset = tester.getTopLeft(find.text('読書中'));
-        final backlogOffset = tester.getTopLeft(find.text('積読'));
-        expect(readingOffset.dy, lessThan(backlogOffset.dy));
+        final interestedOffset = tester.getTopLeft(find.text('気になる'));
+        expect(readingOffset.dy, lessThan(interestedOffset.dy));
       });
 
       testWidgets('一部のセクションのみ存在する場合も順序が保持される', (tester) async {
