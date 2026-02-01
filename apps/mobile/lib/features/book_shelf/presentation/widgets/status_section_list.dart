@@ -38,19 +38,21 @@ class StatusSectionList extends ConsumerWidget {
     final bottomInset = MediaQuery.of(context).padding.bottom +
         kBottomNavigationBarHeight;
 
-    return CustomScrollView(
-      slivers: [
-        for (final status in visibleSections)
-          StatusSection(
-            key: ValueKey(status),
-            status: status,
-            onBookTap: onBookTap,
-            onBookLongPress: onBookLongPress,
+    return Scrollbar(
+      child: CustomScrollView(
+        slivers: [
+          for (final status in visibleSections)
+            StatusSection(
+              key: ValueKey(status),
+              status: status,
+              onBookTap: onBookTap,
+              onBookLongPress: onBookLongPress,
+            ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: bottomInset),
           ),
-        SliverToBoxAdapter(
-          child: SizedBox(height: bottomInset),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

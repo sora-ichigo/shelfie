@@ -39,32 +39,34 @@ class LibraryListsTab extends StatelessWidget {
     final bottomInset =
         MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
 
-    return ListView.builder(
-      padding: EdgeInsets.only(
-        left: AppSpacing.md,
-        right: AppSpacing.md,
-        top: AppSpacing.md,
-        bottom: bottomInset,
-      ),
-      itemCount: lists.length + 1,
-      itemBuilder: (context, index) {
-        if (index == 0) {
+    return Scrollbar(
+      child: ListView.builder(
+        padding: EdgeInsets.only(
+          left: AppSpacing.md,
+          right: AppSpacing.md,
+          top: AppSpacing.md,
+          bottom: bottomInset,
+        ),
+        itemCount: lists.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+              child: _CreateListButton(onTap: onCreateTap),
+            );
+          }
+          final list = lists[index - 1];
           return Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: _CreateListButton(onTap: onCreateTap),
+            padding: EdgeInsets.only(
+              top: index == 1 ? 0 : AppSpacing.sm,
+            ),
+            child: BookListCard(
+              summary: list,
+              onTap: () => onListTap(list),
+            ),
           );
-        }
-        final list = lists[index - 1];
-        return Padding(
-          padding: EdgeInsets.only(
-            top: index == 1 ? 0 : AppSpacing.sm,
-          ),
-          child: BookListCard(
-            summary: list,
-            onTap: () => onListTap(list),
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 }
