@@ -9,7 +9,6 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
@@ -17,6 +16,7 @@ import 'package:shelfie/features/book_search/application/book_search_state.dart'
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/no_result_message.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
 
 class MockBookSearchRepository extends Mock implements BookSearchRepository {}
@@ -209,7 +209,7 @@ void main() {
           ),
         );
 
-        expect(find.byType(EmptyState), findsOneWidget);
+        expect(find.byType(NoResultMessage), findsOneWidget);
         expect(find.text('検索結果がありません'), findsOneWidget);
       });
     });

@@ -10,7 +10,6 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/core/widgets/empty_state.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -18,12 +17,12 @@ import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_card.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_grid.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -245,7 +244,7 @@ void main() {
         ));
         await tester.pumpAndSettle();
 
-        expect(find.byType(EmptyState), findsOneWidget);
+        expect(find.byType(NoBooksMessage), findsOneWidget);
         expect(find.byIcon(Icons.auto_stories_outlined), findsOneWidget);
       });
 
