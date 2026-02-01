@@ -251,11 +251,9 @@ class _MockBookShelfNotifier extends BookShelfNotifier {
     state = BookShelfState.loaded(
       books: _filteredBooks,
       sortOption: SortOption.defaultOption,
-      groupOption: GroupOption.defaultOption,
       totalCount: _filteredBooks.length,
       hasMore: false,
       isLoadingMore: false,
-      groupedBooks: const {},
     );
   }
 
@@ -266,11 +264,9 @@ class _MockBookShelfNotifier extends BookShelfNotifier {
     state = BookShelfState.loaded(
       books: _books,
       sortOption: SortOption.defaultOption,
-      groupOption: GroupOption.defaultOption,
       totalCount: _books.length,
       hasMore: false,
       isLoadingMore: false,
-      groupedBooks: const {},
     );
   }
 }
