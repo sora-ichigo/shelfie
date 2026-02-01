@@ -597,6 +597,77 @@ void main() {
             ));
       });
 
+      test('loadMore で既存リストと ISBN が重複するアイテムを除外する', () async {
+        when(() => mockRepository.searchBooks(
+              query: 'flutter',
+              limit: 10,
+              offset: 0,
+            )).thenAnswer(
+          (_) async => right(
+            SearchBooksResult(
+              items: List.generate(
+                10,
+                (i) => Book(
+                  id: 'book-$i',
+                  title: 'Book $i',
+                  authors: ['Author'],
+                  isbn: '978412345000$i',
+                ),
+              ),
+              totalCount: 25,
+              hasMore: true,
+            ),
+          ),
+        );
+
+        when(() => mockRepository.searchBooks(
+              query: 'flutter',
+              limit: 10,
+              offset: 10,
+            )).thenAnswer(
+          (_) async => right(
+            SearchBooksResult(
+              items: [
+                const Book(
+                  id: 'book-dup',
+                  title: 'Duplicate Book',
+                  authors: ['Author'],
+                  isbn: '9784123450000',
+                  source: BookSource.google,
+                ),
+                const Book(
+                  id: 'book-new',
+                  title: 'New Book',
+                  authors: ['Author'],
+                  isbn: '9784999999999',
+                ),
+              ],
+              totalCount: 25,
+              hasMore: false,
+            ),
+          ),
+        );
+
+        final notifier = container.read(bookSearchNotifierProvider.notifier);
+
+        await notifier.searchBooks('flutter');
+        final state1 = container.read(bookSearchNotifierProvider);
+        expect((state1 as BookSearchSuccess).books.length, equals(10));
+
+        await notifier.loadMore();
+        final state2 = container.read(bookSearchNotifierProvider);
+        final success = state2 as BookSearchSuccess;
+        expect(success.books.length, equals(11));
+        expect(
+          success.books.where((b) => b.isbn == '9784123450000').length,
+          equals(1),
+        );
+        expect(
+          success.books.where((b) => b.isbn == '9784123450000').first.source,
+          equals(BookSource.rakuten),
+        );
+      });
+
       test('loadMore 中は loadingMore 状態になる', () async {
         when(() => mockRepository.searchBooks(
               query: 'flutter',

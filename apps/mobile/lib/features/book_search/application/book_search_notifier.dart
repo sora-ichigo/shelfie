@@ -164,8 +164,15 @@ class BookSearchNotifier extends _$BookSearchNotifier {
         );
         state = BookSearchState.error(failure: value);
       case Right(:final value):
+        final existingIsbns = <String>{
+          for (final b in currentState.books)
+            if (b.isbn != null) b.isbn!,
+        };
+        final newItems = value.items.where(
+          (b) => b.isbn == null || !existingIsbns.contains(b.isbn),
+        );
         state = BookSearchState.success(
-          books: [...currentState.books, ...value.items],
+          books: [...currentState.books, ...newItems],
           totalCount: value.totalCount,
           hasMore: value.hasMore,
           currentQuery: currentState.currentQuery,
