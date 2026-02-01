@@ -206,8 +206,13 @@ void main() {
       ]));
       await tester.pump();
 
-      final gridView = find.byType(GridView);
-      expect(gridView, findsOneWidget);
+      expect(find.byType(GridView), findsNothing);
+
+      final columns = find.byType(Column);
+      expect(columns, findsOneWidget);
+
+      final rows = find.byType(Row);
+      expect(rows, findsNWidgets(2));
     });
 
     testWidgets('does not add empty cells for missing images', (tester) async {

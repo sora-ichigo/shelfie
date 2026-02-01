@@ -190,12 +190,28 @@ class _FourImagesLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 2,
-      crossAxisSpacing: 2,
-      physics: const NeverScrollableScrollPhysics(),
-      children: imageUrls.map((url) => _CoverImage(imageUrl: url)).toList(),
+    return Column(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(child: _CoverImage(imageUrl: imageUrls[0])),
+              const SizedBox(width: 2),
+              Expanded(child: _CoverImage(imageUrl: imageUrls[1])),
+            ],
+          ),
+        ),
+        const SizedBox(height: 2),
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(child: _CoverImage(imageUrl: imageUrls[2])),
+              const SizedBox(width: 2),
+              Expanded(child: _CoverImage(imageUrl: imageUrls[3])),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
