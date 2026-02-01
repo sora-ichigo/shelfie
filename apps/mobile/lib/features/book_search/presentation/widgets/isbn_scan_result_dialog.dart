@@ -428,7 +428,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
               child: Padding(
                 padding: const EdgeInsets.only(right: AppSpacing.xs),
                 child: Icon(
-                  isSelected ? Icons.star : Icons.star_border,
+                  isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
                       ? appColors.accentSecondary

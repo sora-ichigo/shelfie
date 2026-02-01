@@ -119,7 +119,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
                 child: Icon(
-                  isSelected ? Icons.star : Icons.star_border,
+                  isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: AppIconSize.xxl,
                   color: isSelected
                       ? appColors.accentSecondary

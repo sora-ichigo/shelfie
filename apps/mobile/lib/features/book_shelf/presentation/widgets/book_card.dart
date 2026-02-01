@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
@@ -51,7 +50,7 @@ class BookCard extends ConsumerWidget {
               child: _buildCoverImage(appColors),
             ),
           ),
-          const SizedBox(height: AppSpacing.xs),
+          const SizedBox(height: AppSpacing.xxs),
           if (hasRating) ...[
             _buildRating(appColors, rating),
             const SizedBox(height: AppSpacing.xxs),
@@ -81,11 +80,7 @@ class BookCard extends ConsumerWidget {
     return ColoredBox(
       color: appColors.overlay,
       child: Center(
-        child: Icon(
-          Icons.book,
-          size: 40,
-          color: appColors.foregroundMuted,
-        ),
+        child: Icon(Icons.book, size: 40, color: appColors.foregroundMuted),
       ),
     );
   }
@@ -99,9 +94,11 @@ class BookCard extends ConsumerWidget {
           children: List.generate(5, (index) {
             final isFilled = index < rating;
             return Icon(
-              isFilled ? Icons.star : Icons.star_border,
-              size: AppIconSize.xs,
-              color: appColors.accentSecondary,
+              Icons.star_rounded,
+              size: 14,
+              color: isFilled
+                  ? appColors.accentSecondary
+                  : appColors.accentSecondary.withValues(alpha: 0.25),
             );
           }),
         ),
@@ -114,9 +111,7 @@ class BookCard extends ConsumerWidget {
       book.title,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: theme.textTheme.bodySmall?.copyWith(
-        fontWeight: FontWeight.w700,
-      ),
+      style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
     );
   }
 
