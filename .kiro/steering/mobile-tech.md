@@ -152,6 +152,66 @@ Shelfie モバイルアプリケーションの技術的な決定事項とアー
 | xl | 32.0 | 特大間隔 |
 | xxl | 48.0 | 最大間隔 |
 
+## 状態設計方針
+
+### SSOT（Single Source of Truth）
+
+本棚の状態は `ShelfState`（`Map<String, ShelfEntry>`）が唯一の真実の源。各画面の Notifier は ShelfState を参照し、独自に本棚データのコピーを持たない。
+
+### ShelfVersion による状態伝播パターン
+
+`ShelfVersion`（`keepAlive: true` な int カウンター）を中央のイベントバスとして使い、本棚の構造変更を関連 Notifier に自動伝播する。
+
+```
+ShelfState（操作実行）
+  ↓ 成功時に increment
+ShelfVersion（カウンター）
+  ↓ watch / listen
+AccountNotifier / BookShelfNotifier / StatusSectionNotifier
+```
+
+#### increment するタイミング（ShelfState 内で実行）
+
+| 操作 | increment する | 理由 |
+|------|:---:|------|
+| addToShelf 成功 | Yes | 本棚の構成が変わる |
+| removeFromShelf 成功 | Yes | 本棚の構成が変わる |
+| updateReadingStatusWithApi 成功 | Yes | 本のカテゴリ（ステータスセクション）が移動する |
+| updateReadingNoteWithApi 成功 | No | 本棚の構成・表示に影響しない |
+| updateRatingWithApi 成功 | No | 本棚の構成・表示に影響しない |
+| 各操作の失敗時 | No | 状態が変わっていないため |
+
+#### 購読パターンの使い分け
+
+| Notifier | 方式 | 理由 |
+|----------|------|------|
+| AccountNotifier | `ref.watch` | Async Provider なので watch で自動 rebuild |
+| BookShelfNotifier | `ref.listen` | Sync Provider で build 時の副作用を避けるため |
+| StatusSectionNotifier | `ref.listen` | 同上 |
+
+#### 新しい Notifier を追加するとき
+
+本棚の変更に連動すべき Notifier を追加する場合：
+1. `build()` 内で `ref.watch(shelfVersionProvider)` または `ref.listen(shelfVersionProvider, ...)` を追加
+2. Async Provider → `ref.watch`、Sync Provider → `ref.listen` + `refresh()` を選択
+3. テストでは `shelfVersionProvider.notifier.increment()` を呼んで連動を検証
+
+### この設計で不要になったこと
+
+- ShelfState から個別の Notifier を `ref.invalidate` で直接無効化する必要がなくなった
+- UI 側で本棚操作後にどの Provider を refresh すべきか判断する必要がなくなった
+- 新しい画面を追加する際、既存の ShelfState のコードを変更する必要がなくなった
+
+### この設計でも手動対応が必要なケース
+
+- 新しい Notifier を追加する場合は `shelfVersionProvider` を watch/listen する判断が必要
+- `StatusSectionNotifier.removeBook()` のようなローカルUI操作は ShelfVersion を経由しない（即時反映のため）
+- 将来 `updateReadingNote` や `updateRating` にも連動させたい Notifier がある場合は、別の Version Provider を導入するか、increment 対象を拡大する判断が必要
+
+### ログアウト時のクリーンアップ
+
+`AuthState.logout()` で `ShelfState.clear()` を呼び出し、本棚データを確実にクリアする。keepAlive な Provider はログアウトだけでは自動破棄されないため、明示的なクリアが必要。
+
 ## エラーハンドリング戦略
 
 ### Failure 型階層
@@ -218,6 +278,13 @@ dart run build_runner watch --delete-conflicting-outputs
 - Riverpod + freezed + go_router + Ferry + fpdart の技術スタックを選定
 - ダークモードのみをサポート（ライトモード対応は後日検討）
 - ThemeModeNotifier はスキップ（ダークモード固定のため）
+
+### 2026-02-01: ShelfVersion Provider による状態伝播の自動化
+
+- ShelfState から AccountNotifier への `ref.invalidate` 直接依存を削除
+- ShelfVersion カウンター Provider を導入し、疎結合な状態伝播に移行
+- AccountNotifier / BookShelfNotifier / StatusSectionNotifier が ShelfVersion 経由で自動再取得
+- AuthState.logout() に ShelfState.clear() を追加
 
 ### 今後の検討事項
 
