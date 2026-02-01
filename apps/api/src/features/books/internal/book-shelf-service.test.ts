@@ -3,7 +3,6 @@ import type { UserBook } from "../../../db/schema/books.js";
 import type { BookShelfRepository } from "./book-shelf-repository.js";
 import {
   type AddBookToShelfInput,
-  type UpdateRatingInput,
   createBookShelfService,
 } from "./book-shelf-service.js";
 
