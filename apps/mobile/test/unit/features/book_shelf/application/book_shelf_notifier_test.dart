@@ -306,7 +306,7 @@ void main() {
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
-            offset: 20,
+            offset: 10,
           ),
         ).thenAnswer(
           (_) async => right(
@@ -325,7 +325,7 @@ void main() {
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
-            offset: 20,
+            offset: 10,
           ),
         ).called(1);
       });
@@ -356,7 +356,7 @@ void main() {
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
-            offset: 20,
+            offset: 10,
           ),
         ).thenAnswer(
           (_) async => right(
@@ -431,7 +431,7 @@ void main() {
             sortBy: any(named: 'sortBy'),
             sortOrder: any(named: 'sortOrder'),
             limit: any(named: 'limit'),
-            offset: 20,
+            offset: 10,
           ),
         ).thenAnswer((_) async {
           final currentState = notifier.state as BookShelfLoaded;
@@ -528,6 +528,227 @@ void main() {
             offset: 0,
           ),
         ).called(1);
+      });
+    });
+
+    group('setSearchQuery', () {
+      test('should refetch data with search query', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        clearInteractions(mockRepository);
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: 'テスト',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(
+              items: [createBook(userBookId: 10, externalId: 'id10', title: 'テスト本')],
+              totalCount: 1,
+            ),
+          ),
+        );
+
+        await notifier.setSearchQuery('テスト');
+
+        verify(
+          () => mockRepository.getMyShelf(
+            query: 'テスト',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).called(1);
+
+        final loaded = notifier.state as BookShelfLoaded;
+        expect(loaded.books.length, 1);
+        expect(loaded.books[0].title, 'テスト本');
+      });
+
+      test('should reset offset when search query changes', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(hasMore: true, totalCount: 40),
+          ),
+        );
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 10,
+          ),
+        ).thenAnswer(
+          (_) async => right(createMyShelfResult(hasMore: true, totalCount: 40)),
+        );
+
+        await notifier.loadMore();
+
+        clearInteractions(mockRepository);
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: '検索',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        await notifier.setSearchQuery('検索');
+
+        verify(
+          () => mockRepository.getMyShelf(
+            query: '検索',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).called(1);
+      });
+
+      test('should pass null query when search query is empty', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: '検索',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        await notifier.setSearchQuery('検索');
+
+        clearInteractions(mockRepository);
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: null,
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        await notifier.setSearchQuery('');
+
+        verify(
+          () => mockRepository.getMyShelf(
+            query: null,
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).called(1);
+      });
+    });
+
+    group('clearSearchQuery', () {
+      test('should clear query and refetch all books', () async {
+        when(
+          () => mockRepository.getMyShelf(
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        final notifier = container.read(bookShelfNotifierProvider.notifier);
+        await notifier.initialize();
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: '検索',
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: any(named: 'offset'),
+          ),
+        ).thenAnswer((_) async => right(createMyShelfResult()));
+
+        await notifier.setSearchQuery('検索');
+
+        clearInteractions(mockRepository);
+
+        when(
+          () => mockRepository.getMyShelf(
+            query: null,
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            createMyShelfResult(
+              items: [
+                createBook(userBookId: 1, externalId: 'id1'),
+                createBook(userBookId: 2, externalId: 'id2'),
+              ],
+              totalCount: 2,
+            ),
+          ),
+        );
+
+        await notifier.clearSearchQuery();
+
+        verify(
+          () => mockRepository.getMyShelf(
+            query: null,
+            sortBy: any(named: 'sortBy'),
+            sortOrder: any(named: 'sortOrder'),
+            limit: any(named: 'limit'),
+            offset: 0,
+          ),
+        ).called(1);
+
+        final loaded = notifier.state as BookShelfLoaded;
+        expect(loaded.books.length, 2);
       });
     });
 

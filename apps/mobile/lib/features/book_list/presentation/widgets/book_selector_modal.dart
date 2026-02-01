@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,6 +54,7 @@ class _BookSelectorModalContentState
     extends ConsumerState<_BookSelectorModalContent> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  Timer? _debounceTimer;
   late final Set<int> _selectedUserBookIds;
   BookShelfLoaded? _lastLoadedState;
 
@@ -63,7 +66,9 @@ class _BookSelectorModalContentState
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchController.dispose();
+    ref.read(bookShelfNotifierProvider.notifier).clearSearchQuery();
     super.dispose();
   }
 
@@ -100,7 +105,7 @@ class _BookSelectorModalContentState
 
     return TextField(
       controller: _searchController,
-      onChanged: (value) => setState(() => _searchQuery = value),
+      onChanged: _onSearchChanged,
       textInputAction: TextInputAction.search,
       decoration: InputDecoration(
         hintText: '本を検索...',
@@ -110,7 +115,7 @@ class _BookSelectorModalContentState
                 icon: const Icon(Icons.clear),
                 onPressed: () {
                   _searchController.clear();
-                  setState(() => _searchQuery = '');
+                  _onSearchChanged('');
                 },
               )
             : null,
@@ -217,19 +222,17 @@ class _BookSelectorModalContentState
   }
 
   List<ShelfBookItem> _filterBooks(List<ShelfBookItem> books) {
-    var filtered = books
+    return books
         .where((b) => !widget.existingUserBookIds.contains(b.userBookId))
         .toList();
+  }
 
-    if (_searchQuery.isNotEmpty) {
-      final query = _searchQuery.toLowerCase();
-      filtered = filtered.where((b) {
-        return b.title.toLowerCase().contains(query) ||
-            b.authors.any((a) => a.toLowerCase().contains(query));
-      }).toList();
-    }
-
-    return filtered;
+  void _onSearchChanged(String value) {
+    setState(() => _searchQuery = value);
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      ref.read(bookShelfNotifierProvider.notifier).setSearchQuery(value);
+    });
   }
 
   void _onBookTap(ShelfBookItem book) {
