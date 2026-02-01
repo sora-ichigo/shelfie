@@ -18,7 +18,6 @@ import {
   createBookSearchService,
   createBookShelfRepository,
   createBookShelfService,
-  createCompositeBookRepository,
   createExternalBookRepository,
   createGoogleBooksRepository,
   registerBooksMutations,
@@ -53,15 +52,9 @@ const googleBooksApiKey = config.getOrDefault("GOOGLE_BOOKS_API_KEY", "");
 const externalBookRepository =
   createExternalBookRepository(rakutenApplicationId);
 const googleBooksRepository = createGoogleBooksRepository(googleBooksApiKey);
-const compositeBookRepository = createCompositeBookRepository(
-  externalBookRepository,
-  googleBooksRepository,
-  logger,
-);
 const bookSearchService = createBookSearchService(
   externalBookRepository,
   logger,
-  compositeBookRepository,
   googleBooksRepository,
 );
 const bookShelfRepository = createBookShelfRepository(db);

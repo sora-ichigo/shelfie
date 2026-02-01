@@ -47,7 +47,7 @@ function isValidGoogleBook(book: Book): boolean {
   return isJapaneseBook(book) && !hasUnknownAuthor(book);
 }
 
-function filterValidGoogleBooks(books: Book[]): Book[] {
+export function filterValidGoogleBooks(books: Book[]): Book[] {
   return books.filter(isValidGoogleBook);
 }
 
@@ -67,7 +67,7 @@ function balancedInterleave(rakutenBooks: Book[], googleBooks: Book[]): Book[] {
   return result;
 }
 
-function deduplicateByIsbn(books: Book[]): Book[] {
+export function deduplicateByIsbn(books: Book[]): Book[] {
   const seenIsbns = new Set<string>();
   const result: Book[] = [];
 

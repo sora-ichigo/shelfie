@@ -4,11 +4,15 @@ import {
   type Book,
   type BookDetail,
   type BookSource,
+  mapGoogleBooksVolume,
   mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
 } from "./book-mapper.js";
-import type { CompositeBookRepository } from "./composite-book-repository.js";
+import {
+  deduplicateByIsbn,
+  filterValidGoogleBooks,
+} from "./composite-book-repository.js";
 import type { ExternalBookRepository } from "./external-book-repository.js";
 import type { GoogleBooksRepository } from "./google-books-repository.js";
 
@@ -140,7 +144,6 @@ function mapExternalApiError(externalError: {
 export function createBookSearchService(
   externalRepository: ExternalBookRepository,
   logger: LoggerService,
-  compositeRepository?: CompositeBookRepository,
   googleRepository?: GoogleBooksRepository,
 ): BookSearchService {
   return {
@@ -155,68 +158,132 @@ export function createBookSearchService(
 
       const { query, limit, offset } = validationResult.data;
 
-      if (compositeRepository) {
-        const repositoryResult = await compositeRepository.searchByQuery(
-          query,
-          limit,
-          offset,
-        );
-
-        if (!repositoryResult.success) {
-          logger.warn("Composite API error during book search", {
-            feature: "books",
-            query,
-            error: repositoryResult.error,
-          });
-          return err(mapExternalApiError(repositoryResult.error));
-        }
-
-        const { items, totalItems } = repositoryResult.data;
-        const hasMore = offset + items.length < totalItems;
-
-        logger.info("Book search completed successfully (composite)", {
-          feature: "books",
-          query,
-          resultCount: items.length,
-          totalCount: totalItems,
-        });
-
-        return ok({
-          items,
-          totalCount: totalItems,
-          hasMore,
-        });
-      }
-
-      const repositoryResult = await externalRepository.searchByQuery(
+      const rakutenResult = await externalRepository.searchByQuery(
         query,
         limit,
         offset,
       );
 
-      if (!repositoryResult.success) {
+      if (!rakutenResult.success) {
         logger.warn("External API error during book search", {
           feature: "books",
           query,
-          error: repositoryResult.error,
+          error: rakutenResult.error,
         });
-        return err(mapExternalApiError(repositoryResult.error));
+        return err(mapExternalApiError(rakutenResult.error));
       }
 
-      const { items, totalItems } = repositoryResult.data;
-      const books = items.map(mapRakutenBooksItem);
-      const hasMore = offset + books.length < totalItems;
+      const rakutenTotal = rakutenResult.data.totalItems;
+      const rakutenBooks = rakutenResult.data.items.map(mapRakutenBooksItem);
+
+      // Case 1: Rakuten has enough results and not on boundary
+      if (rakutenBooks.length >= limit && offset + limit < rakutenTotal) {
+        logger.info("Book search completed successfully", {
+          feature: "books",
+          query,
+          resultCount: rakutenBooks.length,
+          totalCount: rakutenTotal,
+        });
+        return ok({
+          items: rakutenBooks,
+          totalCount: rakutenTotal,
+          hasMore: true,
+        });
+      }
+
+      // No Google repository available — return Rakuten only
+      if (!googleRepository) {
+        const hasMore = offset + rakutenBooks.length < rakutenTotal;
+        logger.info("Book search completed successfully", {
+          feature: "books",
+          query,
+          resultCount: rakutenBooks.length,
+          totalCount: rakutenTotal,
+        });
+        return ok({
+          items: rakutenBooks,
+          totalCount: rakutenTotal,
+          hasMore,
+        });
+      }
+
+      // Case 2: Boundary page — Rakuten filled the page but next page would exceed
+      if (rakutenBooks.length >= limit && offset + limit >= rakutenTotal) {
+        const googleProbe = await googleRepository.searchByQuery(query, 1, 0);
+        const googleTotal = googleProbe.success
+          ? googleProbe.data.totalItems
+          : 0;
+        if (!googleProbe.success) {
+          logger.warn("Google Books API error during probe", {
+            feature: "books",
+            query,
+            error: googleProbe.error,
+          });
+        }
+        const totalCount = rakutenTotal + googleTotal;
+        const hasMore = offset + rakutenBooks.length < totalCount;
+
+        logger.info("Book search completed successfully", {
+          feature: "books",
+          query,
+          resultCount: rakutenBooks.length,
+          totalCount,
+        });
+        return ok({
+          items: rakutenBooks,
+          totalCount,
+          hasMore,
+        });
+      }
+
+      // Case 3: Rakuten returned fewer than limit — fill with Google
+      const googleOffset = Math.max(0, offset - rakutenTotal);
+      const googleLimit = limit - rakutenBooks.length;
+
+      const googleResult = await googleRepository.searchByQuery(
+        query,
+        googleLimit,
+        googleOffset,
+      );
+
+      if (!googleResult.success) {
+        logger.warn("Google Books API error during fill", {
+          feature: "books",
+          query,
+          error: googleResult.error,
+        });
+        const hasMore = offset + rakutenBooks.length < rakutenTotal;
+        logger.info("Book search completed successfully", {
+          feature: "books",
+          query,
+          resultCount: rakutenBooks.length,
+          totalCount: rakutenTotal,
+        });
+        return ok({
+          items: rakutenBooks,
+          totalCount: rakutenTotal,
+          hasMore,
+        });
+      }
+
+      const googleBooks = filterValidGoogleBooks(
+        googleResult.data.items.map(mapGoogleBooksVolume),
+      );
+      const googleTotal = googleResult.data.totalItems;
+      const combined = deduplicateByIsbn([...rakutenBooks, ...googleBooks]);
+      const totalCount = rakutenTotal + googleTotal;
+      const hasMore = offset + combined.length < totalCount;
 
       logger.info("Book search completed successfully", {
         feature: "books",
         query,
-        resultCount: books.length,
-        totalCount: totalItems,
+        resultCount: combined.length,
+        totalCount,
       });
 
       return ok({
-        items: books,
-        totalCount: totalItems,
+        items: combined,
+        totalCount,
         hasMore,
       });
     },

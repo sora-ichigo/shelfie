@@ -77,14 +77,15 @@ describe("BookSearchService", () => {
       getBookByISBN: vi.fn(),
     };
     mockGoogleRepository = {
-      searchByQuery: vi.fn(),
+      searchByQuery: vi
+        .fn()
+        .mockResolvedValue(ok({ items: [], totalItems: 0 })),
       getVolumeById: vi.fn(),
     };
     mockLogger = createMockLogger();
     service = createBookSearchService(
       mockRepository,
       mockLogger,
-      undefined,
       mockGoogleRepository,
     );
   });
@@ -332,6 +333,290 @@ describe("BookSearchService", () => {
         await service.searchBooks({ query: "test" });
 
         expect(mockLogger.warn).toHaveBeenCalled();
+      });
+    });
+
+    describe("sequential append", () => {
+      it("should not call Google when Rakuten has enough results", async () => {
+        const rakutenItems = Array.from({ length: 10 }, (_, i) =>
+          createMockRakutenBooksItem({
+            isbn: `978412345${String(i).padStart(4, "0")}`,
+          }),
+        );
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 100 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 0,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(10);
+          expect(result.data.items.every((b) => b.source === "rakuten")).toBe(
+            true,
+          );
+          expect(result.data.hasMore).toBe(true);
+        }
+        expect(mockGoogleRepository.searchByQuery).not.toHaveBeenCalled();
+      });
+
+      it("should probe Google for hasMore on Rakuten boundary page", async () => {
+        const rakutenItems = Array.from({ length: 10 }, (_, i) =>
+          createMockRakutenBooksItem({
+            isbn: `978412345${String(i).padStart(4, "0")}`,
+          }),
+        );
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 100 }),
+        );
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [], totalItems: 50 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 90,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(10);
+          expect(result.data.items.every((b) => b.source === "rakuten")).toBe(
+            true,
+          );
+          expect(result.data.totalCount).toBe(150);
+          expect(result.data.hasMore).toBe(true);
+        }
+        expect(mockGoogleRepository.searchByQuery).toHaveBeenCalledWith(
+          "test",
+          1,
+          0,
+        );
+      });
+
+      it("should fill remaining with Google when Rakuten returns partial page", async () => {
+        const rakutenItems = Array.from({ length: 3 }, (_, i) =>
+          createMockRakutenBooksItem({
+            isbn: `978412345${String(i).padStart(4, "0")}`,
+          }),
+        );
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 13 }),
+        );
+
+        const googleVolumes = Array.from({ length: 7 }, (_, i) =>
+          createMockGoogleBooksVolume({
+            id: `google-${i}`,
+            volumeInfo: {
+              title: `Google本 ${i}`,
+              authors: ["著者"],
+              industryIdentifiers: [
+                {
+                  type: "ISBN_13",
+                  identifier: `978400000${String(i).padStart(4, "0")}`,
+                },
+              ],
+            },
+          }),
+        );
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: googleVolumes, totalItems: 20 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 10,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items.length).toBeLessThanOrEqual(10);
+          expect(
+            result.data.items.filter((b) => b.source === "rakuten"),
+          ).toHaveLength(3);
+          expect(
+            result.data.items.filter((b) => b.source === "google").length,
+          ).toBeGreaterThan(0);
+          expect(result.data.totalCount).toBe(33);
+        }
+        expect(mockGoogleRepository.searchByQuery).toHaveBeenCalledWith(
+          "test",
+          7,
+          0,
+        );
+      });
+
+      it("should return only Google results when offset exceeds Rakuten total", async () => {
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [], totalItems: 5 }),
+        );
+
+        const googleVolumes = Array.from({ length: 10 }, (_, i) =>
+          createMockGoogleBooksVolume({
+            id: `google-${i}`,
+            volumeInfo: {
+              title: `Google本 ${i}`,
+              authors: ["著者"],
+              industryIdentifiers: [
+                {
+                  type: "ISBN_13",
+                  identifier: `978400000${String(i).padStart(4, "0")}`,
+                },
+              ],
+            },
+          }),
+        );
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: googleVolumes, totalItems: 30 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 10,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items.every((b) => b.source === "google")).toBe(
+            true,
+          );
+          expect(result.data.totalCount).toBe(35);
+          expect(result.data.hasMore).toBe(true);
+        }
+        expect(mockGoogleRepository.searchByQuery).toHaveBeenCalledWith(
+          "test",
+          10,
+          5,
+        );
+      });
+
+      it("should fallback to Rakuten only when Google fails", async () => {
+        const rakutenItems = Array.from({ length: 3 }, (_, i) =>
+          createMockRakutenBooksItem({
+            isbn: `978412345${String(i).padStart(4, "0")}`,
+          }),
+        );
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 13 }),
+        );
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          err({ code: "NETWORK_ERROR", message: "Google API down" }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 10,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(3);
+          expect(result.data.items.every((b) => b.source === "rakuten")).toBe(
+            true,
+          );
+          expect(result.data.totalCount).toBe(13);
+          expect(result.data.hasMore).toBe(false);
+        }
+      });
+
+      it("should deduplicate books with same ISBN across sources", async () => {
+        const sharedIsbn = "9784123456789";
+        const rakutenItems = [createMockRakutenBooksItem({ isbn: sharedIsbn })];
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 5 }),
+        );
+
+        const googleVolumes = [
+          createMockGoogleBooksVolume({
+            id: "google-dup",
+            volumeInfo: {
+              title: "同じ本",
+              authors: ["著者"],
+              industryIdentifiers: [
+                { type: "ISBN_13", identifier: sharedIsbn },
+              ],
+            },
+          }),
+        ];
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: googleVolumes, totalItems: 10 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 0,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          const isbnCounts = result.data.items.filter(
+            (b) => b.isbn === sharedIsbn,
+          );
+          expect(isbnCounts).toHaveLength(1);
+          expect(isbnCounts[0].source).toBe("rakuten");
+        }
+      });
+
+      it("should return empty result when both sources are empty", async () => {
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [], totalItems: 0 }),
+        );
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [], totalItems: 0 }),
+        );
+
+        const result = await service.searchBooks({
+          query: "nonexistent",
+          limit: 10,
+          offset: 0,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(0);
+          expect(result.data.totalCount).toBe(0);
+          expect(result.data.hasMore).toBe(false);
+        }
+      });
+
+      it("should return Rakuten only when googleRepository is not provided", async () => {
+        const serviceWithoutGoogle = createBookSearchService(
+          mockRepository,
+          mockLogger,
+        );
+        const rakutenItems = Array.from({ length: 3 }, (_, i) =>
+          createMockRakutenBooksItem({
+            isbn: `978412345${String(i).padStart(4, "0")}`,
+          }),
+        );
+        vi.mocked(mockRepository.searchByQuery).mockResolvedValue(
+          ok({ items: rakutenItems, totalItems: 13 }),
+        );
+
+        const result = await serviceWithoutGoogle.searchBooks({
+          query: "test",
+          limit: 10,
+          offset: 10,
+        });
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.items).toHaveLength(3);
+          expect(result.data.items.every((b) => b.source === "rakuten")).toBe(
+            true,
+          );
+          expect(result.data.totalCount).toBe(13);
+        }
+        expect(mockGoogleRepository.searchByQuery).not.toHaveBeenCalled();
       });
     });
   });
