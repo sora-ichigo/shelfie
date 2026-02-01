@@ -142,7 +142,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
 
   Future<Either<Failure, ShelfEntry>> updateRating({
     required int userBookId,
-    required int rating,
+    required int? rating,
   }) async {
     final shelfEntry = ref.read(shelfStateProvider)[externalId];
     if (shelfEntry == null) {

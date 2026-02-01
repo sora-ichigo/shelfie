@@ -166,7 +166,7 @@ class ShelfState extends _$ShelfState {
   /// 評価を更新する（Optimistic Update + API呼び出し）
   Future<Either<Failure, ShelfEntry>> updateRatingWithApi({
     required String externalId,
-    required int rating,
+    required int? rating,
   }) async {
     final entry = state[externalId];
     if (entry == null) {
@@ -245,7 +245,7 @@ class ShelfState extends _$ShelfState {
 
   void _updateRatingOptimistic({
     required String externalId,
-    required int rating,
+    required int? rating,
   }) {
     final entry = state[externalId];
     if (entry == null) return;

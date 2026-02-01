@@ -202,6 +202,18 @@ type BookListDetailItem {
   userBook: BookListDetailUserBook
 }
 
+"""Statistics for a book list"""
+type BookListDetailStats {
+  """Total number of books in the list"""
+  bookCount: Int!
+
+  """Number of completed books in the list"""
+  completedCount: Int!
+
+  """Cover images of books in the list (up to 4)"""
+  coverImages: [String!]!
+}
+
 """User book information in a book list detail"""
 type BookListDetailUserBook {
   """The authors of the book"""
@@ -224,18 +236,6 @@ type BookListDetailUserBook {
 
   """The title of the book"""
   title: String!
-}
-
-"""Statistics for a book list"""
-type BookListDetailStats {
-  """Total number of books in the list"""
-  bookCount: Int!
-
-  """Number of completed books in the list"""
-  completedCount: Int!
-
-  """Cover images of books in the list (up to 4)"""
-  coverImages: [String!]!
 }
 
 """Summary information about a book list"""
@@ -271,15 +271,6 @@ enum BookSource {
   RAKUTEN
 }
 
-"""Input for creating a new book list"""
-input CreateBookListInput {
-  """The description of the book list"""
-  description: String
-
-  """The title of the book list"""
-  title: String!
-}
-
 """Input for password change"""
 input ChangePasswordInput {
   """Current password"""
@@ -299,6 +290,15 @@ type ChangePasswordResult {
 
   """New refresh token"""
   refreshToken: String!
+}
+
+"""Input for creating a new book list"""
+input CreateBookListInput {
+  """The description of the book list"""
+  description: String
+
+  """The title of the book list"""
+  title: String!
 }
 
 """
@@ -346,14 +346,14 @@ type Mutation {
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
 
+  """Change user password after verifying current password"""
+  changePassword(input: ChangePasswordInput!): MutationChangePasswordResult
+
   """Create a new book list"""
   createBookList(input: CreateBookListInput!): BookList!
 
   """Delete a book list"""
   deleteBookList(listId: Int!): Boolean!
-
-  """Change user password after verifying current password"""
-  changePassword(input: ChangePasswordInput!): MutationChangePasswordResult
 
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
@@ -376,8 +376,11 @@ type Mutation {
   """Send password reset email to the specified address"""
   sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
 
+  """Update an existing book list"""
+  updateBookList(input: UpdateBookListInput!): BookList!
+
   """Update the rating of a book in the user's shelf"""
-  updateBookRating(rating: Int!, userBookId: Int!): UserBook!
+  updateBookRating(rating: Int, userBookId: Int!): UserBook!
 
   """Update the current user's profile"""
   updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
@@ -387,9 +390,6 @@ type Mutation {
 
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
-
-  """Update an existing book list"""
-  updateBookList(input: UpdateBookListInput!): BookList!
 }
 
 union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess

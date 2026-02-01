@@ -17,7 +17,7 @@ abstract class GUpdateBookRatingVars
       _$GUpdateBookRatingVars;
 
   int get userBookId;
-  int get rating;
+  int? get rating;
   static Serializer<GUpdateBookRatingVars> get serializer =>
       _$gUpdateBookRatingVarsSerializer;
 

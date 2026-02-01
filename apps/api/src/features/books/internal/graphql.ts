@@ -916,7 +916,7 @@ export function registerBooksMutations(
       },
       args: {
         userBookId: t.arg.int({ required: true }),
-        rating: t.arg.int({ required: true }),
+        rating: t.arg.int({ required: false }),
       },
       resolve: async (_parent, args, context): Promise<UserBook> => {
         const authenticatedContext = context as AuthenticatedContext;
@@ -927,7 +927,7 @@ export function registerBooksMutations(
           });
         }
 
-        if (args.rating < 1 || args.rating > 5) {
+        if (args.rating != null && (args.rating < 1 || args.rating > 5)) {
           throw new GraphQLError("Rating must be between 1 and 5", {
             extensions: { code: "BAD_USER_INPUT" },
           });
@@ -946,7 +946,7 @@ export function registerBooksMutations(
         const result = await shelfService.updateRating({
           userBookId: args.userBookId,
           userId: userResult.data.id,
-          rating: args.rating,
+          rating: args.rating ?? null,
         });
 
         if (!result.success) {

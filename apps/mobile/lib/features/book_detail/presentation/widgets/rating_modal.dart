@@ -111,7 +111,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                   ? null
                   : () {
                       setState(() {
-                        _selectedRating = starValue;
+                        _selectedRating =
+                            _selectedRating == starValue ? null : starValue;
                         _error = null;
                       });
                     },
@@ -162,7 +163,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
   Widget _buildPrimaryButton() {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final isEnabled = _hasChanges && _selectedRating != null && !_isSaving;
+    final isEnabled = _hasChanges && !_isSaving;
 
     return SizedBox(
       height: 48,
@@ -203,7 +204,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
   }
 
   Future<void> _onSave() async {
-    if (_selectedRating == null) return;
+    if (!_hasChanges) return;
 
     setState(() {
       _isSaving = true;
@@ -214,7 +215,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
         ref.read(bookDetailNotifierProvider(widget.externalId).notifier);
     final result = await notifier.updateRating(
       userBookId: widget.userBookId,
-      rating: _selectedRating!,
+      rating: _selectedRating,
     );
 
     result.fold(

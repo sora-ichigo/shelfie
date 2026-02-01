@@ -176,10 +176,10 @@ Serializer<GAddBookInput> _$gAddBookInputSerializer =
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
     new _$GAuthErrorCodeSerializer();
 Serializer<GBookSource> _$gBookSourceSerializer = new _$GBookSourceSerializer();
-Serializer<GCreateBookListInput> _$gCreateBookListInputSerializer =
-    new _$GCreateBookListInputSerializer();
 Serializer<GChangePasswordInput> _$gChangePasswordInputSerializer =
     new _$GChangePasswordInputSerializer();
+Serializer<GCreateBookListInput> _$gCreateBookListInputSerializer =
+    new _$GCreateBookListInputSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     new _$GLoginUserInputSerializer();
 Serializer<GMyBookListsInput> _$gMyBookListsInputSerializer =
@@ -362,63 +362,6 @@ class _$GBookSourceSerializer implements PrimitiveSerializer<GBookSource> {
       GBookSource.valueOf(serialized as String);
 }
 
-class _$GCreateBookListInputSerializer
-    implements StructuredSerializer<GCreateBookListInput> {
-  @override
-  final Iterable<Type> types = const [
-    GCreateBookListInput,
-    _$GCreateBookListInput
-  ];
-  @override
-  final String wireName = 'GCreateBookListInput';
-
-  @override
-  Iterable<Object?> serialize(
-      Serializers serializers, GCreateBookListInput object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object?>[
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
-    ];
-    Object? value;
-    value = object.description;
-    if (value != null) {
-      result
-        ..add('description')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    return result;
-  }
-
-  @override
-  GCreateBookListInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GCreateBookListInputBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current! as String;
-      iterator.moveNext();
-      final Object? value = iterator.current;
-      switch (key) {
-        case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
 class _$GChangePasswordInputSerializer
     implements StructuredSerializer<GChangePasswordInput> {
   @override
@@ -470,6 +413,63 @@ class _$GChangePasswordInputSerializer
           break;
         case 'newPassword':
           result.newPassword = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GCreateBookListInputSerializer
+    implements StructuredSerializer<GCreateBookListInput> {
+  @override
+  final Iterable<Type> types = const [
+    GCreateBookListInput,
+    _$GCreateBookListInput
+  ];
+  @override
+  final String wireName = 'GCreateBookListInput';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GCreateBookListInput object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+    ];
+    Object? value;
+    value = object.description;
+    if (value != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    return result;
+  }
+
+  @override
+  GCreateBookListInput deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GCreateBookListInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
       }
@@ -1198,106 +1198,6 @@ class GAddBookInputBuilder
   }
 }
 
-class _$GCreateBookListInput extends GCreateBookListInput {
-  @override
-  final String? description;
-  @override
-  final String title;
-
-  factory _$GCreateBookListInput(
-          [void Function(GCreateBookListInputBuilder)? updates]) =>
-      (new GCreateBookListInputBuilder()..update(updates))._build();
-
-  _$GCreateBookListInput._({this.description, required this.title})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GCreateBookListInput', 'title');
-  }
-
-  @override
-  GCreateBookListInput rebuild(
-          void Function(GCreateBookListInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  GCreateBookListInputBuilder toBuilder() =>
-      new GCreateBookListInputBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is GCreateBookListInput &&
-        description == other.description &&
-        title == other.title;
-  }
-
-  @override
-  int get hashCode {
-    var _$hash = 0;
-    _$hash = $jc(_$hash, description.hashCode);
-    _$hash = $jc(_$hash, title.hashCode);
-    _$hash = $jf(_$hash);
-    return _$hash;
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper(r'GCreateBookListInput')
-          ..add('description', description)
-          ..add('title', title))
-        .toString();
-  }
-}
-
-class GCreateBookListInputBuilder
-    implements Builder<GCreateBookListInput, GCreateBookListInputBuilder> {
-  _$GCreateBookListInput? _$v;
-
-  String? _description;
-  String? get description => _$this._description;
-  set description(String? description) => _$this._description = description;
-
-  String? _title;
-  String? get title => _$this._title;
-  set title(String? title) => _$this._title = title;
-
-  GCreateBookListInputBuilder();
-
-  GCreateBookListInputBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _description = $v.description;
-      _title = $v.title;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(GCreateBookListInput other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GCreateBookListInput;
-  }
-
-  @override
-  void update(void Function(GCreateBookListInputBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  GCreateBookListInput build() => _build();
-
-  _$GCreateBookListInput _build() {
-    final _$result = _$v ??
-        new _$GCreateBookListInput._(
-            description: description,
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GCreateBookListInput', 'title'));
-    replace(_$result);
-    return _$result;
-  }
-}
-
 class _$GChangePasswordInput extends GChangePasswordInput {
   @override
   final String currentPassword;
@@ -1414,6 +1314,106 @@ class GChangePasswordInputBuilder
                 email, r'GChangePasswordInput', 'email'),
             newPassword: BuiltValueNullFieldError.checkNotNull(
                 newPassword, r'GChangePasswordInput', 'newPassword'));
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GCreateBookListInput extends GCreateBookListInput {
+  @override
+  final String? description;
+  @override
+  final String title;
+
+  factory _$GCreateBookListInput(
+          [void Function(GCreateBookListInputBuilder)? updates]) =>
+      (new GCreateBookListInputBuilder()..update(updates))._build();
+
+  _$GCreateBookListInput._({this.description, required this.title})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        title, r'GCreateBookListInput', 'title');
+  }
+
+  @override
+  GCreateBookListInput rebuild(
+          void Function(GCreateBookListInputBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GCreateBookListInputBuilder toBuilder() =>
+      new GCreateBookListInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GCreateBookListInput &&
+        description == other.description &&
+        title == other.title;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, description.hashCode);
+    _$hash = $jc(_$hash, title.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GCreateBookListInput')
+          ..add('description', description)
+          ..add('title', title))
+        .toString();
+  }
+}
+
+class GCreateBookListInputBuilder
+    implements Builder<GCreateBookListInput, GCreateBookListInputBuilder> {
+  _$GCreateBookListInput? _$v;
+
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  GCreateBookListInputBuilder();
+
+  GCreateBookListInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _description = $v.description;
+      _title = $v.title;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GCreateBookListInput other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GCreateBookListInput;
+  }
+
+  @override
+  void update(void Function(GCreateBookListInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GCreateBookListInput build() => _build();
+
+  _$GCreateBookListInput _build() {
+    final _$result = _$v ??
+        new _$GCreateBookListInput._(
+            description: description,
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GCreateBookListInput', 'title'));
     replace(_$result);
     return _$result;
   }
