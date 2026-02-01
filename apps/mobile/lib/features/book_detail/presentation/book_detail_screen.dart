@@ -36,12 +36,12 @@ import 'package:url_launcher/url_launcher.dart';
 class BookDetailScreen extends ConsumerStatefulWidget {
   const BookDetailScreen({
     required this.bookId,
-    this.source,
+    required this.source,
     super.key,
   });
 
   final String bookId;
-  final BookSource? source;
+  final BookSource source;
 
   @override
   ConsumerState<BookDetailScreen> createState() => _BookDetailScreenState();
@@ -391,7 +391,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       title: bookDetail.title,
       authors: bookDetail.authors,
       coverImageUrl: bookDetail.thumbnailUrl,
-      source: widget.source?.name,
+      source: widget.source.name,
     );
   }
 

@@ -16,9 +16,10 @@ import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
-
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
@@ -346,7 +347,7 @@ void main() {
 
         verify(
           () =>
-              mockRouter.push(AppRoutes.bookDetail(bookId: 'test-external-id')),
+              mockRouter.push(AppRoutes.bookDetail(bookId: 'test-external-id', source: BookSource.rakuten)),
         ).called(1);
       });
 

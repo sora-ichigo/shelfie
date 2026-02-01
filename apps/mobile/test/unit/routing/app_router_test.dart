@@ -4,6 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -109,8 +111,8 @@ void main() {
       });
 
       test('AppRoutes.bookDetail でパスパラメータが正しく構築される', () {
-        final path = AppRoutes.bookDetail(bookId: 'abc123');
-        expect(path, '/books/abc123');
+        final path = AppRoutes.bookDetail(bookId: 'abc123', source: BookSource.rakuten);
+        expect(path, '/books/abc123?source=rakuten');
       });
 
       test('AppRoutes.search でクエリパラメータが正しく構築される', () {
@@ -120,8 +122,9 @@ void main() {
       });
 
       test('BookDetailParams が型安全なパラメータ取得を提供する', () {
-        const params = BookDetailParams(bookId: 'test-id');
+        const params = BookDetailParams(bookId: 'test-id', source: 'rakuten');
         expect(params.bookId, 'test-id');
+        expect(params.source, 'rakuten');
       });
 
       test('SearchParams がクエリパラメータの型変換を提供する', () {
@@ -382,7 +385,7 @@ void main() {
     group('6.5 ディープリンク対応', () {
       test('ディープリンク用のルートが定義されている', () {
         // カスタム URL スキーム対応のルートが存在することを確認
-        expect(AppRoutes.bookDetail(bookId: '123'), isNotEmpty);
+        expect(AppRoutes.bookDetail(bookId: '123', source: BookSource.rakuten), isNotEmpty);
       });
 
       testWidgets('ディープリンクから正しい画面に遷移する', (tester) async {

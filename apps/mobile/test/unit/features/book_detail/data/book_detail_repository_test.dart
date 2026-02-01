@@ -19,6 +19,8 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_reading_s
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.var.gql.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 class MockClient extends Mock implements Client {}
 
@@ -52,7 +54,11 @@ ProviderContainer createTestContainer({
 void main() {
   setUpAll(() {
     registerFallbackValue(
-      GBookDetailReq((b) => b..vars.bookId = 'test'),
+      GBookDetailReq(
+        (b) => b
+          ..vars.bookId = 'test'
+          ..vars.source = GBookSource.RAKUTEN,
+      ),
     );
     registerFallbackValue(
       GUpdateReadingStatusReq(
@@ -115,13 +121,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
 
         expect(result.isRight(), isTrue);
         final data =
@@ -184,13 +197,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
 
         expect(result.isRight(), isTrue);
         final data =
@@ -210,7 +230,11 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'not-found'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'not-found'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: null,
               graphqlErrors: [
                 const GraphQLError(
@@ -222,7 +246,10 @@ void main() {
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'not-found');
+        final result = await repository.getBookDetail(
+          bookId: 'not-found',
+          source: BookSource.rakuten,
+        );
 
         expect(result.isLeft(), isTrue);
         final failure = result.getLeft().toNullable();
@@ -234,7 +261,11 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: null,
               graphqlErrors: [
                 const GraphQLError(message: 'Internal server error'),
@@ -243,7 +274,10 @@ void main() {
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
 
         expect(result.isLeft(), isTrue);
         final failure = result.getLeft().toNullable();
@@ -254,7 +288,10 @@ void main() {
         when(() => mockClient.request(any<GBookDetailReq>()))
             .thenThrow(Exception('Network error'));
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
 
         expect(result.isLeft(), isTrue);
         final failure = result.getLeft().toNullable();
@@ -598,13 +635,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
         expect(data.userBook!.readingStatus, equals(ReadingStatus.backlog));
@@ -635,13 +679,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
         expect(data.userBook!.readingStatus, equals(ReadingStatus.reading));
@@ -672,13 +723,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
         expect(data.userBook!.readingStatus, equals(ReadingStatus.completed));
@@ -709,13 +767,20 @@ void main() {
           (_) => Stream.value(
             OperationResponse<GBookDetailData, GBookDetailVars>(
               operationRequest:
-                  GBookDetailReq((b) => b..vars.bookId = 'book-1'),
+                  GBookDetailReq(
+                    (b) => b
+                      ..vars.bookId = 'book-1'
+                      ..vars.source = GBookSource.RAKUTEN,
+                  ),
               data: mockData,
             ),
           ),
         );
 
-        final result = await repository.getBookDetail(bookId: 'book-1');
+        final result = await repository.getBookDetail(
+          bookId: 'book-1',
+          source: BookSource.rakuten,
+        );
         final data =
             result.getOrElse((_) => throw Exception('Should be right'));
         expect(data.userBook!.readingStatus, equals(ReadingStatus.interested));

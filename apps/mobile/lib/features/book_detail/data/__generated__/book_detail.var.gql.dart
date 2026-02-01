@@ -18,7 +18,7 @@ abstract class GBookDetailVars
       _$GBookDetailVars;
 
   String get bookId;
-  _i1.GBookSource? get source;
+  _i1.GBookSource get source;
   static Serializer<GBookDetailVars> get serializer =>
       _$gBookDetailVarsSerializer;
 

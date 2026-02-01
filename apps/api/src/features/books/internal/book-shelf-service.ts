@@ -28,7 +28,7 @@ export interface AddBookInput {
   publishedDate: string | null;
   isbn: string | null;
   coverImageUrl: string | null;
-  source?: BookSourceValue;
+  source: BookSourceValue;
   readingStatus?: ReadingStatusInputValue;
 }
 
@@ -148,7 +148,7 @@ export function createBookShelfService(
           publishedDate: bookInput.publishedDate,
           isbn: bookInput.isbn,
           coverImageUrl: bookInput.coverImageUrl,
-          source: bookInput.source ?? "rakuten",
+          source: bookInput.source,
           readingStatus,
           ...(completedAt !== null && { completedAt }),
         });

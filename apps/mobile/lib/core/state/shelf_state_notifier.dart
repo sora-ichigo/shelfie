@@ -30,7 +30,7 @@ class ShelfState extends _$ShelfState {
     String? publishedDate,
     String? isbn,
     String? coverImageUrl,
-    BookSource source = BookSource.rakuten,
+    required BookSource source,
     ReadingStatus readingStatus = ReadingStatus.backlog,
   }) async {
     final repository = ref.read(bookSearchRepositoryProvider);

@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -46,8 +48,8 @@ void main() {
       });
 
       test('書籍詳細ルートが定義されている', () {
-        final path = AppRoutes.bookDetail(bookId: 'test-123');
-        expect(path, '/books/test-123');
+        final path = AppRoutes.bookDetail(bookId: 'test-123', source: BookSource.rakuten);
+        expect(path, '/books/test-123?source=rakuten');
       });
     });
   });

@@ -23,15 +23,11 @@ class _$GBookDetailVarsSerializer
       'bookId',
       serializers.serialize(object.bookId,
           specifiedType: const FullType(String)),
+      'source',
+      serializers.serialize(object.source,
+          specifiedType: const FullType(_i1.GBookSource)),
     ];
-    Object? value;
-    value = object.source;
-    if (value != null) {
-      result
-        ..add('source')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.GBookSource)));
-    }
+
     return result;
   }
 
@@ -53,8 +49,8 @@ class _$GBookDetailVarsSerializer
           break;
         case 'source':
           result.source = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GBookSource))
-              as _i1.GBookSource?;
+                  specifiedType: const FullType(_i1.GBookSource))!
+              as _i1.GBookSource;
           break;
       }
     }
@@ -67,13 +63,15 @@ class _$GBookDetailVars extends GBookDetailVars {
   @override
   final String bookId;
   @override
-  final _i1.GBookSource? source;
+  final _i1.GBookSource source;
 
   factory _$GBookDetailVars([void Function(GBookDetailVarsBuilder)? updates]) =>
       (new GBookDetailVarsBuilder()..update(updates))._build();
 
-  _$GBookDetailVars._({required this.bookId, this.source}) : super._() {
+  _$GBookDetailVars._({required this.bookId, required this.source})
+      : super._() {
     BuiltValueNullFieldError.checkNotNull(bookId, r'GBookDetailVars', 'bookId');
+    BuiltValueNullFieldError.checkNotNull(source, r'GBookDetailVars', 'source');
   }
 
   @override
@@ -153,7 +151,8 @@ class GBookDetailVarsBuilder
         new _$GBookDetailVars._(
             bookId: BuiltValueNullFieldError.checkNotNull(
                 bookId, r'GBookDetailVars', 'bookId'),
-            source: source);
+            source: BuiltValueNullFieldError.checkNotNull(
+                source, r'GBookDetailVars', 'source'));
     replace(_$result);
     return _$result;
   }

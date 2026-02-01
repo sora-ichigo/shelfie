@@ -346,6 +346,7 @@ void main() {
           publishedDate: '2024-01-01',
           isbn: '9781234567890',
           coverImageUrl: 'https://example.com/cover.jpg',
+          source: BookSource.rakuten,
         );
 
         expect(result.isRight(), isTrue);
@@ -381,6 +382,7 @@ void main() {
           externalId: 'book-1',
           title: 'Duplicate Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(result.isLeft(), isTrue);
@@ -417,6 +419,7 @@ void main() {
           externalId: 'book-1',
           title: 'Auth Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(result.isLeft(), isTrue);

@@ -55,6 +55,7 @@ ProviderContainer createTestContainer({
 void main() {
   setUpAll(() {
     registerFallbackValue(FakeSearchHistoryEntry());
+    registerFallbackValue(BookSource.rakuten);
   });
 
   group('BookSearchState', () {
@@ -408,6 +409,7 @@ void main() {
               publishedDate: any(named: 'publishedDate'),
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
+              source: any(named: 'source'),
             )).thenAnswer(
           (_) async => right(
             UserBook(
@@ -444,6 +446,7 @@ void main() {
               publishedDate: any(named: 'publishedDate'),
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
+              source: any(named: 'source'),
             )).thenAnswer(
           (_) async =>
               left(const AuthFailure(message: 'Authentication required')),
@@ -472,6 +475,7 @@ void main() {
               publishedDate: any(named: 'publishedDate'),
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
+              source: any(named: 'source'),
             )).thenAnswer(
           (_) async => left(
             const ServerFailure(

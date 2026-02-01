@@ -204,7 +204,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   bookId: book.bookId,
                   source: book.source != null
                       ? BookSource.values.byName(book.source!)
-                      : null,
+                      : BookSource.rakuten,
                 ),
               ),
               onBookLongPress: _onRecentBookLongPress,

@@ -12,6 +12,8 @@ import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 class MockBookDetailRepository extends Mock implements BookDetailRepository {}
 
@@ -75,6 +77,10 @@ UserBook createMockUserBook({
 }
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(BookSource.rakuten);
+  });
+
   group('BookDetailNotifier', () {
     late MockBookDetailRepository mockRepository;
     late ProviderContainer container;
@@ -101,12 +107,12 @@ void main() {
       test('書籍詳細取得成功時は AsyncValue.data(BookDetail) を返す', () async {
         final bookDetail = createMockBookDetail();
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: null)));
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final state = container.read(bookDetailNotifierProvider('book-1'));
         expect(state.hasValue, isTrue);
@@ -122,12 +128,12 @@ void main() {
           readingStatus: ReadingStatus.reading,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final shelfState = container.read(shelfStateProvider);
         expect(shelfState.containsKey('book-1'), isTrue);
@@ -136,13 +142,13 @@ void main() {
       });
 
       test('取得失敗時は AsyncValue.error を返す', () async {
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => left(
                 const NetworkFailure(message: 'No internet connection')));
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final state = container.read(bookDetailNotifierProvider('book-1'));
         expect(state.hasError, isTrue);
@@ -150,13 +156,13 @@ void main() {
       });
 
       test('書籍が見つからない場合は NotFoundFailure を返す', () async {
-        when(() => mockRepository.getBookDetail(bookId: 'not-found'))
+        when(() => mockRepository.getBookDetail(bookId: 'not-found', source: any(named: 'source')))
             .thenAnswer(
                 (_) async => left(const NotFoundFailure(message: 'Not found')));
 
         final notifier =
             container.read(bookDetailNotifierProvider('not-found').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final state = container.read(bookDetailNotifierProvider('not-found'));
         expect(state.hasError, isTrue);
@@ -172,7 +178,7 @@ void main() {
           readingStatus: ReadingStatus.backlog,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final updatedUserBook = createMockUserBook(
@@ -186,7 +192,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingStatus(
           userBookId: 42,
@@ -205,7 +211,7 @@ void main() {
           readingStatus: ReadingStatus.reading,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final completedAt = DateTime(2024, 6, 20);
@@ -221,7 +227,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingStatus(
           userBookId: 42,
@@ -241,7 +247,7 @@ void main() {
           readingStatus: ReadingStatus.backlog,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final updatedUserBook = createMockUserBook(
@@ -257,7 +263,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         // ignore: unawaited_futures
         notifier.updateReadingStatus(
@@ -280,7 +286,7 @@ void main() {
           readingStatus: ReadingStatus.backlog,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         when(() => mockRepository.updateReadingStatus(
@@ -291,7 +297,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingStatus(
           userBookId: 42,
@@ -307,7 +313,7 @@ void main() {
         final bookDetail = createMockBookDetail();
         final userBook = createMockUserBook(id: 42);
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         when(() => mockRepository.updateReadingStatus(
@@ -318,7 +324,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingStatus(
           userBookId: 42,
@@ -333,7 +339,7 @@ void main() {
         final bookDetail = createMockBookDetail();
         final userBook = createMockUserBook(id: 42);
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         when(() => mockRepository.updateReadingStatus(
@@ -344,7 +350,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingStatus(
           userBookId: 42,
@@ -364,7 +370,7 @@ void main() {
           note: null,
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final noteUpdatedAt = DateTime(2024, 6, 20);
@@ -380,7 +386,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingNote(
           userBookId: 42,
@@ -400,7 +406,7 @@ void main() {
           note: 'Old note',
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final noteUpdatedAt = DateTime(2024, 6, 20);
@@ -416,7 +422,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingNote(
           userBookId: 42,
@@ -435,7 +441,7 @@ void main() {
           note: 'Old note',
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         final noteUpdatedAt = DateTime(2024, 6, 20);
@@ -453,7 +459,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         // ignore: unawaited_futures
         notifier.updateReadingNote(
@@ -476,7 +482,7 @@ void main() {
           note: 'Old note',
         );
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         when(() => mockRepository.updateReadingNote(
@@ -487,7 +493,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingNote(
           userBookId: 42,
@@ -503,7 +509,7 @@ void main() {
         final bookDetail = createMockBookDetail();
         final userBook = createMockUserBook(id: 42);
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
 
         when(() => mockRepository.updateReadingNote(
@@ -514,7 +520,7 @@ void main() {
 
         final notifier =
             container.read(bookDetailNotifierProvider('book-1').notifier);
-        await notifier.loadBookDetail();
+        await notifier.loadBookDetail(source: BookSource.rakuten);
 
         final result = await notifier.updateReadingNote(
           userBookId: 42,
@@ -531,9 +537,9 @@ void main() {
         final bookDetail1 = createMockBookDetail(id: 'book-1', title: 'Book 1');
         final bookDetail2 = createMockBookDetail(id: 'book-2', title: 'Book 2');
 
-        when(() => mockRepository.getBookDetail(bookId: 'book-1'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail1, userBook: null)));
-        when(() => mockRepository.getBookDetail(bookId: 'book-2'))
+        when(() => mockRepository.getBookDetail(bookId: 'book-2', source: any(named: 'source')))
             .thenAnswer((_) async => right((bookDetail: bookDetail2, userBook: null)));
 
         final notifier1 =
@@ -541,8 +547,8 @@ void main() {
         final notifier2 =
             container.read(bookDetailNotifierProvider('book-2').notifier);
 
-        await notifier1.loadBookDetail();
-        await notifier2.loadBookDetail();
+        await notifier1.loadBookDetail(source: BookSource.rakuten);
+        await notifier2.loadBookDetail(source: BookSource.rakuten);
 
         final state1 = container.read(bookDetailNotifierProvider('book-1'));
         final state2 = container.read(bookDetailNotifierProvider('book-2'));

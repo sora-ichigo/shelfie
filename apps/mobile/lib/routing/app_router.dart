@@ -74,12 +74,8 @@ abstract final class AppRoutes {
   static const isbnScan = '/search/isbn-scan';
 
   /// 本詳細画面パスを生成
-  static String bookDetail({required String bookId, BookSource? source}) {
-    final path = '/books/$bookId';
-    if (source != null) {
-      return '$path?source=${source.name}';
-    }
-    return path;
+  static String bookDetail({required String bookId, required BookSource source}) {
+    return '/books/$bookId?source=${source.name}';
   }
 
   /// 検索画面（クエリパラメータ付き）
@@ -98,7 +94,7 @@ abstract final class AppRoutes {
 
 /// 本詳細画面のパラメータ
 class BookDetailParams {
-  const BookDetailParams({required this.bookId, this.source});
+  const BookDetailParams({required this.bookId, required this.source});
 
   /// GoRouterState から BookDetailParams を生成
   factory BookDetailParams.fromState({
@@ -107,12 +103,12 @@ class BookDetailParams {
   }) {
     return BookDetailParams(
       bookId: pathParameters['bookId'] ?? '',
-      source: queryParameters?['source'],
+      source: queryParameters?['source'] ?? 'rakuten',
     );
   }
 
   final String bookId;
-  final String? source;
+  final String source;
 }
 
 /// 検索画面のパラメータ
@@ -332,9 +328,7 @@ List<RouteBase> _buildRoutes() {
         );
         final source = params.source == 'google'
             ? BookSource.google
-            : params.source == 'rakuten'
-                ? BookSource.rakuten
-                : null;
+            : BookSource.rakuten;
         return CupertinoPage(
           child: BookDetailScreen(bookId: params.bookId, source: source),
         );
