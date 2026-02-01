@@ -5,7 +5,6 @@ import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
@@ -82,11 +81,11 @@ MyShelfResult createMockResult({
 
 class FakeBookShelfSettingsRepository
     implements BookShelfSettingsRepository {
-  SortOption _current = SortOption.defaultOption;
-
   FakeBookShelfSettingsRepository([SortOption? initial]) {
     if (initial != null) _current = initial;
   }
+
+  SortOption _current = SortOption.defaultOption;
 
   @override
   SortOption getSortOption() => _current;

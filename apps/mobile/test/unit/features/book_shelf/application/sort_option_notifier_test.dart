@@ -6,13 +6,13 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 
 class FakeBookShelfSettingsRepository
     implements BookShelfSettingsRepository {
-  SortOption _current = SortOption.defaultOption;
-  int setCallCount = 0;
-  SortOption? lastSetOption;
-
   FakeBookShelfSettingsRepository([SortOption? initial]) {
     if (initial != null) _current = initial;
   }
+
+  SortOption _current = SortOption.defaultOption;
+  int setCallCount = 0;
+  SortOption? lastSetOption;
 
   @override
   SortOption getSortOption() => _current;

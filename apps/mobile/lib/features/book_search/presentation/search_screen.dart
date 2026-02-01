@@ -47,8 +47,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
     ref.read(navBarHiddenProvider.notifier).state = false;
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
     _focusNode
       ..removeListener(_onFocusChange)
       ..dispose();

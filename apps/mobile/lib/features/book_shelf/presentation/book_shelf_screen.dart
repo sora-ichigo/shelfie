@@ -10,13 +10,13 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
-import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
-import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section_list.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -140,7 +140,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   Future<void> _onSortChanged(SortOption option) async {
     await ref.read(sortOptionNotifierProvider.notifier).update(option);
     for (final status in ReadingStatus.values) {
-      ref.read(statusSectionNotifierProvider(status).notifier).initialize();
+      await ref.read(statusSectionNotifierProvider(status).notifier).initialize();
     }
   }
 
