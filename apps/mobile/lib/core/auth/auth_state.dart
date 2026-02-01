@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 
 part 'auth_state.g.dart';
@@ -110,6 +111,7 @@ class AuthState extends _$AuthState {
 
     final storage = ref.read(secureStorageServiceProvider);
     await storage.clearAuthData();
+    ref.read(shelfStateProvider.notifier).clear();
   }
 
   Future<bool> restoreSession() async {

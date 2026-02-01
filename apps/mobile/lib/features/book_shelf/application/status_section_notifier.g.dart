@@ -7,7 +7,7 @@ part of 'status_section_notifier.dart';
 // **************************************************************************
 
 String _$statusSectionNotifierHash() =>
-    r'6e2bd0369921355699794be4418e3944933f4e36';
+    r'44ed224ad5f83aa8c13da7632cab9872422525b0';
 
 /// Copied from Dart SDK
 class _SystemHash {

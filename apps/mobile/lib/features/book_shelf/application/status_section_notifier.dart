@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
@@ -24,6 +25,11 @@ class StatusSectionNotifier extends _$StatusSectionNotifier {
 
   @override
   StatusSectionState build(ReadingStatus status) {
+    ref.listen(shelfVersionProvider, (prev, next) {
+      if (prev != null && prev != next) {
+        refresh();
+      }
+    });
     return const StatusSectionState.initial();
   }
 

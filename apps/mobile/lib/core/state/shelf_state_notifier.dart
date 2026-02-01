@@ -1,7 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
@@ -46,15 +48,18 @@ class ShelfState extends _$ShelfState {
 
     result.fold(
       (_) {},
-      (userBook) => registerEntry(
-        ShelfEntry(
-          userBookId: userBook.id,
-          externalId: userBook.externalId,
-          readingStatus: readingStatus,
-          addedAt: userBook.addedAt,
-          completedAt: _resolveCompletedAt(readingStatus),
-        ),
-      ),
+      (userBook) {
+        registerEntry(
+          ShelfEntry(
+            userBookId: userBook.id,
+            externalId: userBook.externalId,
+            readingStatus: readingStatus,
+            addedAt: userBook.addedAt,
+            completedAt: _resolveCompletedAt(readingStatus),
+          ),
+        );
+        ref.read(shelfVersionProvider.notifier).increment();
+      },
     );
 
     return result;
@@ -72,7 +77,11 @@ class ShelfState extends _$ShelfState {
 
     result.fold(
       (_) {},
-      (_) => removeEntry(externalId),
+      (_) {
+        removeEntry(externalId);
+        ref.read(shelfVersionProvider.notifier).increment();
+        ref.read(bookListVersionProvider.notifier).increment();
+      },
     );
 
     return result;
@@ -123,6 +132,7 @@ class ShelfState extends _$ShelfState {
           completedAt: userBook.completedAt,
         );
         state = {...state, externalId: updated};
+        ref.read(shelfVersionProvider.notifier).increment();
         return right(updated);
       },
     );

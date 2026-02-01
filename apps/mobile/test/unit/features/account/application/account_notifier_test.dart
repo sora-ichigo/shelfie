@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
@@ -142,6 +143,37 @@ void main() {
 
         final state = container.read(accountNotifierProvider);
         expect(state, isA<AsyncError<UserProfile>>());
+      });
+    });
+
+    group('shelfVersion 連動', () {
+      test('shelfVersion が変わったときプロフィールが再取得される', () async {
+        final profile = createTestProfile();
+        when(() => mockRepository.getMyProfile()).thenAnswer(
+          (_) async => right(profile),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            accountRepositoryProvider.overrideWithValue(mockRepository),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        await container.read(accountNotifierProvider.future);
+        verify(() => mockRepository.getMyProfile()).called(1);
+
+        final updatedProfile = profile.copyWith(bookCount: 5);
+        when(() => mockRepository.getMyProfile()).thenAnswer(
+          (_) async => right(updatedProfile),
+        );
+
+        container.read(shelfVersionProvider.notifier).increment();
+        await container.read(accountNotifierProvider.future);
+
+        verify(() => mockRepository.getMyProfile()).called(1);
+        final state = container.read(accountNotifierProvider);
+        expect(state.value?.bookCount, 5);
       });
     });
   });

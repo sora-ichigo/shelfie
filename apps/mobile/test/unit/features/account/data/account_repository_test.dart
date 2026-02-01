@@ -105,6 +105,36 @@ void main() {
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ServerFailure>());
       });
+
+      test('uses NetworkOnly fetch policy to bypass cache', () async {
+        final data = GGetMyProfileData.fromJson({
+          'me': {
+            '__typename': 'User',
+            'id': 1,
+            'email': 'test@example.com',
+            'name': 'Test User',
+            'avatarUrl': null,
+            'createdAt': '2024-01-01T00:00:00Z',
+            'bookCount': 5,
+          },
+        });
+
+        final response = OperationResponse<GGetMyProfileData, GGetMyProfileVars>(
+          operationRequest: GGetMyProfileReq(),
+          data: data,
+        );
+
+        when(() => mockClient.request(any<GGetMyProfileReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        await repository.getMyProfile();
+
+        final captured = verify(
+          () => mockClient.request(captureAny<GGetMyProfileReq>()),
+        ).captured;
+        final request = captured.first as GGetMyProfileReq;
+        expect(request.fetchPolicy, FetchPolicy.NetworkOnly);
+      });
     });
 
     group('updateProfile', () {

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -15,7 +16,6 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
-import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
@@ -278,9 +278,6 @@ class _BookQuickActionsModalContentState
       ref
           .read(statusSectionNotifierProvider(previousStatus).notifier)
           .removeBook(widget.book.externalId);
-      unawaited(ref
-          .read(statusSectionNotifierProvider(status).notifier)
-          .refresh());
     }
 
     if (mounted) {
@@ -449,7 +446,7 @@ class _BookQuickActionsModalContentState
             );
           },
           (_) {
-            ref.read(bookListNotifierProvider.notifier).refresh();
+            ref.read(bookListVersionProvider.notifier).increment();
             AdaptiveSnackBar.show(
               context,
               message: 'リストに追加しました',

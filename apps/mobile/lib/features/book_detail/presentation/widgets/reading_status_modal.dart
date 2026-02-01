@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -382,9 +380,6 @@ class _ReadingStatusModalContentState
       ref
           .read(statusSectionNotifierProvider(previousStatus).notifier)
           .removeBook(widget.externalId!);
-      unawaited(ref
-          .read(statusSectionNotifierProvider(_selectedStatus).notifier)
-          .refresh());
     }
 
     if (_selectedStatus == ReadingStatus.completed && _selectedRating != null) {

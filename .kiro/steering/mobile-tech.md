@@ -152,6 +152,137 @@ Shelfie モバイルアプリケーションの技術的な決定事項とアー
 | xl | 32.0 | 特大間隔 |
 | xxl | 48.0 | 最大間隔 |
 
+## 状態設計方針
+
+### SSOT（Single Source of Truth）
+
+本棚の状態は `ShelfState`（`Map<String, ShelfEntry>`）が唯一の真実の源。各画面の Notifier は ShelfState を参照し、独自に本棚データのコピーを持たない。
+
+### ShelfVersion による状態伝播パターン
+
+`ShelfVersion`（`keepAlive: true` な int カウンター）を中央のイベントバスとして使い、本棚の構造変更を関連 Notifier に自動伝播する。
+
+```
+ShelfState（操作実行）
+  ↓ 成功時に increment
+ShelfVersion（カウンター）
+  ↓ watch / listen
+AccountNotifier / BookShelfNotifier / StatusSectionNotifier
+```
+
+#### increment するタイミング（ShelfState 内で実行）
+
+| 操作 | increment する | 理由 |
+|------|:---:|------|
+| addToShelf 成功 | Yes | 本棚の構成が変わる |
+| removeFromShelf 成功 | Yes | 本棚の構成が変わる |
+| updateReadingStatusWithApi 成功 | Yes | 本のカテゴリ（ステータスセクション）が移動する |
+| updateReadingNoteWithApi 成功 | No | 本棚の構成・表示に影響しない |
+| updateRatingWithApi 成功 | No | 本棚の構成・表示に影響しない |
+| 各操作の失敗時 | No | 状態が変わっていないため |
+
+#### 購読パターンの使い分け
+
+| Notifier | 方式 | 理由 |
+|----------|------|------|
+| AccountNotifier | `ref.watch` | Async Provider なので watch で自動 rebuild |
+| BookShelfNotifier | `ref.listen` | Sync Provider で build 時の副作用を避けるため |
+| StatusSectionNotifier | `ref.listen` | 同上 |
+
+#### 新しい Notifier を追加するとき
+
+本棚の変更に連動すべき Notifier を追加する場合：
+1. `build()` 内で `ref.watch(shelfVersionProvider)` または `ref.listen(shelfVersionProvider, ...)` を追加
+2. Async Provider → `ref.watch`、Sync Provider → `ref.listen` + `refresh()` を選択
+3. テストでは `shelfVersionProvider.notifier.increment()` を呼んで連動を検証
+
+### この設計で不要になったこと
+
+- ShelfState から個別の Notifier を `ref.invalidate` で直接無効化する必要がなくなった
+- UI 側で本棚操作後にどの Provider を refresh すべきか判断する必要がなくなった
+- 新しい画面を追加する際、既存の ShelfState のコードを変更する必要がなくなった
+
+### この設計でも手動対応が必要なケース
+
+- 新しい Notifier を追加する場合は `shelfVersionProvider` を watch/listen する判断が必要
+- `StatusSectionNotifier.removeBook()` のようなローカルUI操作は ShelfVersion を経由しない（即時反映のため）
+- 将来 `updateReadingNote` や `updateRating` にも連動させたい Notifier がある場合は、別の Version Provider を導入するか、increment 対象を拡大する判断が必要
+
+### BookListVersion による状態伝播パターン
+
+`BookListVersion`（`keepAlive: true` な int カウンター）を使い、リストの構造変更を関連 Notifier に自動伝播する。ShelfVersion と同パターン。
+
+```
+BookListNotifier / BookListDetailNotifier / ShelfState（操作実行）
+  ↓ 成功時に increment
+BookListVersion（カウンター）
+  ↓ listen
+BookListNotifier / BookListDetailNotifier
+```
+
+#### increment するタイミング
+
+| 操作 | increment する | 理由 |
+|------|:---:|------|
+| BookListNotifier.createList 成功 | Yes | リスト一覧の構成が変わる |
+| BookListNotifier.updateList 成功 | Yes | リストのタイトル等が変わる |
+| BookListNotifier.deleteList 成功 | Yes | リスト一覧の構成が変わる |
+| BookListDetailNotifier.addBook 成功 | Yes | リスト詳細・一覧の構成が変わる |
+| BookListDetailNotifier.removeBook 成功 | Yes | リスト詳細・一覧の構成が変わる |
+| ShelfState.removeFromShelf 成功 | Yes | バックエンドが全リストからも削除するため |
+| 各操作の失敗時 | No | 状態が変わっていないため |
+
+#### 購読パターン
+
+| Notifier | 方式 | 理由 |
+|----------|------|------|
+| BookListNotifier | `ref.listen` | Sync Provider で build 時の副作用を避けるため |
+| BookListDetailNotifier | `ref.listen` | 同上 |
+
+### ログアウト時のクリーンアップ
+
+`AuthState.logout()` で `ShelfState.clear()` を呼び出し、本棚データを確実にクリアする。keepAlive な Provider はログアウトだけでは自動破棄されないため、明示的なクリアが必要。
+
+## Ferry キャッシュポリシー
+
+### クライアントのデフォルト設定
+
+`ferryClientProvider` で操作種別ごとにデフォルトポリシーを設定している。
+
+| 操作種別 | デフォルトポリシー | 動作 |
+|----------|------------------|------|
+| Query | `CacheFirst` | キャッシュがあればそれを返し、なければネットワークに問い合わせる |
+| Mutation | `NetworkOnly` | 常にネットワークに問い合わせる |
+| Subscription | `CacheAndNetwork` | キャッシュを即座に返しつつ、ネットワークからも取得して更新する |
+
+### リクエスト単位でのポリシー指定ガイドライン
+
+ShelfVersion 等による自動再取得が機能するには、Repository の Query が**実際にネットワークから最新データを取得する**必要がある。`CacheFirst` のままだとキャッシュ済みの古いデータが返され、再取得しても画面が更新されない。
+
+**`NetworkOnly` を指定すべきケース:**
+
+- Mutation の結果で値が変わりうる Query（例: `bookCount` を含む `getMyProfile`）
+- 一覧系の Query でページネーションやフィルタの正確さが求められるもの（例: `myShelfPaginated`, `getMyBookLists`）
+
+**`CacheFirst`（デフォルト）のままで良いケース:**
+
+- 変更頻度が低くキャッシュが有効なデータ
+- 検索のような一時的なクエリ
+
+**設定方法:**
+
+```dart
+final request = GSomeQueryReq(
+  (b) => b..fetchPolicy = FetchPolicy.NetworkOnly,
+);
+```
+
+### 新しい Query を追加するとき
+
+1. そのデータが Mutation（addToShelf, removeFromShelf 等）で変更されうるか確認する
+2. 該当する場合は `fetchPolicy = FetchPolicy.NetworkOnly` を明示指定する
+3. ShelfVersion による状態伝播と組み合わせる場合、Repository 側で `NetworkOnly` を指定しないと再取得が空振りになるので注意
+
 ## エラーハンドリング戦略
 
 ### Failure 型階層
@@ -218,6 +349,25 @@ dart run build_runner watch --delete-conflicting-outputs
 - Riverpod + freezed + go_router + Ferry + fpdart の技術スタックを選定
 - ダークモードのみをサポート（ライトモード対応は後日検討）
 - ThemeModeNotifier はスキップ（ダークモード固定のため）
+
+### 2026-02-01: ShelfVersion Provider による状態伝播の自動化
+
+- ShelfState から AccountNotifier への `ref.invalidate` 直接依存を削除
+- ShelfVersion カウンター Provider を導入し、疎結合な状態伝播に移行
+- AccountNotifier / BookShelfNotifier / StatusSectionNotifier が ShelfVersion 経由で自動再取得
+- AuthState.logout() に ShelfState.clear() を追加
+
+### 2026-02-01: Ferry キャッシュポリシーの方針策定
+
+- `getMyProfile` が `CacheFirst`（デフォルト）のままだったため、ShelfVersion 経由の再取得で古い `bookCount` が返される不具合を修正
+- Mutation で変更されうるデータを返す Query には `NetworkOnly` を明示指定する方針を策定
+
+### 2026-02-01: BookListVersion Provider による状態伝播の自動化
+
+- BookListVersion カウンター Provider を導入し、リスト操作後の手動 refresh を廃止
+- BookListNotifier / BookListDetailNotifier が BookListVersion 経由で自動再取得
+- ShelfState.removeFromShelf 成功時にも BookListVersion を increment（バックエンドが全リストから削除するため）
+- UI 側の手動 refresh() 呼び出しを increment() に置換
 
 ### 今後の検討事項
 

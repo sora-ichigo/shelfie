@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
@@ -11,6 +12,9 @@ part 'book_list_notifier.g.dart';
 class BookListNotifier extends _$BookListNotifier {
   @override
   BookListState build() {
+    ref.listen(bookListVersionProvider, (_, __) {
+      refresh();
+    });
     return const BookListState.initial();
   }
 
@@ -53,7 +57,7 @@ class BookListNotifier extends _$BookListNotifier {
     );
 
     if (result.isRight()) {
-      await _fetchLists();
+      ref.read(bookListVersionProvider.notifier).increment();
     }
 
     return result;
@@ -72,7 +76,7 @@ class BookListNotifier extends _$BookListNotifier {
     );
 
     if (result.isRight()) {
-      await _fetchLists();
+      ref.read(bookListVersionProvider.notifier).increment();
     }
 
     return result;
@@ -85,7 +89,7 @@ class BookListNotifier extends _$BookListNotifier {
     final result = await repository.deleteBookList(listId: listId);
 
     if (result.isRight()) {
-      await _fetchLists();
+      ref.read(bookListVersionProvider.notifier).increment();
     }
 
     return result;
@@ -99,6 +103,9 @@ class BookListDetailNotifier extends _$BookListDetailNotifier {
   @override
   BookListDetailState build(int listId) {
     _listId = listId;
+    ref.listen(bookListVersionProvider, (_, __) {
+      refresh();
+    });
     return const BookListDetailState.initial();
   }
 
@@ -136,7 +143,7 @@ class BookListDetailNotifier extends _$BookListDetailNotifier {
     );
 
     if (result.isRight()) {
-      await _fetchDetail();
+      ref.read(bookListVersionProvider.notifier).increment();
     }
 
     return result;
@@ -152,7 +159,7 @@ class BookListDetailNotifier extends _$BookListDetailNotifier {
     );
 
     if (result.isRight()) {
-      await _fetchDetail();
+      ref.read(bookListVersionProvider.notifier).increment();
     }
 
     return result;

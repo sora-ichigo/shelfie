@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
 import '../../../helpers/test_helpers.dart';
 
@@ -111,6 +114,25 @@ void main() {
       container.read(authStateProvider.notifier).logout();
 
       expect(notificationCount, equals(2));
+    });
+
+    test('logout 時に ShelfState がクリアされる', () async {
+      final container = createTestContainer();
+      addTearDown(container.dispose);
+
+      container.read(shelfStateProvider.notifier).registerEntry(
+            ShelfEntry(
+              userBookId: 1,
+              externalId: 'book-123',
+              readingStatus: ReadingStatus.backlog,
+              addedAt: DateTime.now(),
+            ),
+          );
+      expect(container.read(shelfStateProvider), isNotEmpty);
+
+      await container.read(authStateProvider.notifier).logout();
+
+      expect(container.read(shelfStateProvider), isEmpty);
     });
   });
 }

@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
@@ -401,6 +402,35 @@ void main() {
 
           c.dispose();
         }
+      });
+    });
+
+    group('shelfVersion 連動', () {
+      test('shelfVersion が変わったとき refresh が呼ばれる', () async {
+        mockRepository.nextResult = createMockResult(
+          count: 3,
+          totalCount: 3,
+          hasMore: false,
+        );
+
+        final notifier = container.read(
+          statusSectionNotifierProvider(ReadingStatus.reading).notifier,
+        );
+        await notifier.initialize();
+
+        final callCountAfterInit = mockRepository.callCount;
+
+        mockRepository.nextResult = createMockResult(
+          count: 5,
+          totalCount: 5,
+          hasMore: false,
+        );
+
+        container.read(shelfVersionProvider.notifier).increment();
+
+        await Future<void>.delayed(Duration.zero);
+
+        expect(mockRepository.callCount, callCountAfterInit + 1);
       });
     });
 
