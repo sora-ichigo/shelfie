@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
+
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 
 /// 読書状態選択モーダルのモード
 enum ReadingStatusModalMode {
@@ -347,6 +351,10 @@ class _ReadingStatusModalContentState
       _error = null;
     });
 
+    final previousStatus = ref
+        .read(shelfStateProvider)[widget.externalId!]
+        ?.readingStatus;
+
     final notifier =
         ref.read(bookDetailNotifierProvider(widget.externalId!).notifier);
     final result = await notifier.updateReadingStatus(
@@ -368,6 +376,15 @@ class _ReadingStatusModalContentState
     );
 
     if (failed) return;
+
+    if (previousStatus != null && previousStatus != _selectedStatus) {
+      ref
+          .read(statusSectionNotifierProvider(previousStatus).notifier)
+          .removeBook(widget.externalId!);
+      unawaited(ref
+          .read(statusSectionNotifierProvider(_selectedStatus).notifier)
+          .refresh());
+    }
 
     if (_selectedStatus == ReadingStatus.completed && _selectedRating != null) {
       await notifier.updateRating(
