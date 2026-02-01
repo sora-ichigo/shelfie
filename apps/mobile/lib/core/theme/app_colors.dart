@@ -65,6 +65,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _white5 = Color(0x0DFFFFFF);
   static const Color _mauve1 = Color(0xFF121113);
   static const Color _mauveAlpha4 = Color(0x1DEEE5F8);
+  static const Color _white = Color(0xFFFFFFFF);
   static const Color _mauveAlpha12 = Color(0xEFFDFDFF);
 
   // ===========================================================================
@@ -136,7 +137,7 @@ class AppColors extends ThemeExtension<AppColors> {
     surfaceHigh: _teal800,
     surfaceSubtle: _white5,
     overlay: _blackOverlay,
-    foreground: _mauveAlpha12,
+    foreground: _white,
     foregroundMuted: _neutral500,
     accent: _teal400,
     accentSecondary: _gold400,
