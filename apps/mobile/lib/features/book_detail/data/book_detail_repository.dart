@@ -108,7 +108,7 @@ class BookDetailRepository {
 
   Future<Either<Failure, UserBook>> updateRating({
     required int userBookId,
-    required int rating,
+    required int? rating,
   }) async {
     final request = GUpdateBookRatingReq(
       (b) => b

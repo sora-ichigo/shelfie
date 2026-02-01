@@ -290,7 +290,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                   )
                   .updateRating(
                     userBookId: shelfEntry.userBookId,
-                    rating: addResult.rating!,
+                    rating: addResult.rating,
                   ),
             );
           }

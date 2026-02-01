@@ -334,20 +334,25 @@ class _BookQuickActionsModalContentState
     );
   }
 
-  Future<void> _onRatingTap(int rating) async {
+  Future<void> _onRatingTap(int starValue) async {
+    final currentEntry =
+        ref.read(shelfStateProvider)[widget.book.externalId];
+    final newRating =
+        currentEntry?.rating == starValue ? null : starValue;
+
     setState(() => _isUpdating = true);
     unawaited(HapticFeedback.selectionClick());
 
     await ref.read(shelfStateProvider.notifier).updateRatingWithApi(
           externalId: widget.book.externalId,
-          rating: rating,
+          rating: newRating,
         );
 
     if (mounted) {
       setState(() => _isUpdating = false);
       AdaptiveSnackBar.show(
         context,
-        message: '評価を変更しました',
+        message: newRating == null ? '評価を解除しました' : '評価を変更しました',
         type: AdaptiveSnackBarType.success,
       );
     }

@@ -263,7 +263,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           unawaited(
             ref.read(shelfStateProvider.notifier).updateRatingWithApi(
                   externalId: book.bookId,
-                  rating: addResult.rating!,
+                  rating: addResult.rating,
                 ),
           );
         }
@@ -464,7 +464,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           unawaited(
             ref.read(shelfStateProvider.notifier).updateRatingWithApi(
                   externalId: book.id,
-                  rating: addResult.rating!,
+                  rating: addResult.rating,
                 ),
           );
         }

@@ -1292,4 +1292,147 @@ describe("BookShelfService", () => {
       }
     });
   });
+
+  describe("updateRating", () => {
+    const existingUserBook: UserBook = {
+      id: 1,
+      userId: 100,
+      externalId: "google-book-123",
+      title: "Test Book",
+      authors: ["Author One"],
+      publisher: null,
+      publishedDate: null,
+      isbn: null,
+      coverImageUrl: null,
+      source: "rakuten",
+      addedAt: new Date(),
+      readingStatus: "reading",
+      completedAt: null,
+      note: null,
+      noteUpdatedAt: null,
+      rating: 3,
+    };
+
+    it("should update rating successfully", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        rating: 5,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateRating({
+        userBookId: 1,
+        userId: 100,
+        rating: 5,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.rating).toBe(5);
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(1, {
+        rating: 5,
+      });
+    });
+
+    it("should clear rating when null is passed", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        rating: null,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateRating({
+        userBookId: 1,
+        userId: 100,
+        rating: null,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.rating).toBeNull();
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(1, {
+        rating: null,
+      });
+    });
+
+    it("should return BOOK_NOT_FOUND error when user book does not exist", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(null);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateRating({
+        userBookId: 999,
+        userId: 100,
+        rating: 3,
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("BOOK_NOT_FOUND");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return FORBIDDEN error when user does not own the book", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateRating({
+        userBookId: 1,
+        userId: 999,
+        rating: 3,
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("FORBIDDEN");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return DATABASE_ERROR when repository throws", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockRejectedValue(
+        new Error("Database connection failed"),
+      );
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateRating({
+        userBookId: 1,
+        userId: 100,
+        rating: 3,
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("DATABASE_ERROR");
+      }
+    });
+  });
 });

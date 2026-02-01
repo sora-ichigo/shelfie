@@ -390,7 +390,7 @@ class _ReadingStatusModalContentState
     if (_selectedStatus == ReadingStatus.completed && _selectedRating != null) {
       await notifier.updateRating(
         userBookId: widget.userBookId!,
-        rating: _selectedRating!,
+        rating: _selectedRating,
       );
     }
 

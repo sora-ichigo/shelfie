@@ -89,31 +89,6 @@ class GBookSource extends EnumClass {
   static GBookSource valueOf(String name) => _$gBookSourceValueOf(name);
 }
 
-abstract class GCreateBookListInput
-    implements Built<GCreateBookListInput, GCreateBookListInputBuilder> {
-  GCreateBookListInput._();
-
-  factory GCreateBookListInput(
-          [void Function(GCreateBookListInputBuilder b) updates]) =
-      _$GCreateBookListInput;
-
-  String? get description;
-  String get title;
-  static Serializer<GCreateBookListInput> get serializer =>
-      _$gCreateBookListInputSerializer;
-
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GCreateBookListInput.serializer,
-        this,
-      ) as Map<String, dynamic>);
-
-  static GCreateBookListInput? fromJson(Map<String, dynamic> json) =>
-      _i1.serializers.deserializeWith(
-        GCreateBookListInput.serializer,
-        json,
-      );
-}
-
 abstract class GChangePasswordInput
     implements Built<GChangePasswordInput, GChangePasswordInputBuilder> {
   GChangePasswordInput._();
@@ -136,6 +111,31 @@ abstract class GChangePasswordInput
   static GChangePasswordInput? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
         GChangePasswordInput.serializer,
+        json,
+      );
+}
+
+abstract class GCreateBookListInput
+    implements Built<GCreateBookListInput, GCreateBookListInputBuilder> {
+  GCreateBookListInput._();
+
+  factory GCreateBookListInput(
+          [void Function(GCreateBookListInputBuilder b) updates]) =
+      _$GCreateBookListInput;
+
+  String? get description;
+  String get title;
+  static Serializer<GCreateBookListInput> get serializer =>
+      _$gCreateBookListInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GCreateBookListInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GCreateBookListInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GCreateBookListInput.serializer,
         json,
       );
 }

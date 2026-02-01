@@ -143,7 +143,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
           unawaited(
             ref.read(shelfStateProvider.notifier).updateRatingWithApi(
                   externalId: book.id,
-                  rating: _selectedRating!,
+                  rating: _selectedRating,
                 ),
           );
         }

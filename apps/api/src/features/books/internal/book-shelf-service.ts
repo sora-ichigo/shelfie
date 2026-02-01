@@ -52,7 +52,7 @@ export interface UpdateReadingNoteInput {
 export interface UpdateRatingInput {
   userBookId: number;
   userId: number;
-  rating: number;
+  rating: number | null;
 }
 
 export interface RemoveFromShelfInput {

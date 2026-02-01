@@ -21,7 +21,7 @@ const UpdateBookRating = _i1.OperationDefinitionNode(
       variable: _i1.VariableNode(name: _i1.NameNode(value: 'rating')),
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
+        isNonNull: false,
       ),
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],

@@ -27,10 +27,14 @@ class _$GUpdateBookRatingVarsSerializer
       'userBookId',
       serializers.serialize(object.userBookId,
           specifiedType: const FullType(int)),
-      'rating',
-      serializers.serialize(object.rating, specifiedType: const FullType(int)),
     ];
-
+    Object? value;
+    value = object.rating;
+    if (value != null) {
+      result
+        ..add('rating')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -52,7 +56,7 @@ class _$GUpdateBookRatingVarsSerializer
           break;
         case 'rating':
           result.rating = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -65,18 +69,16 @@ class _$GUpdateBookRatingVars extends GUpdateBookRatingVars {
   @override
   final int userBookId;
   @override
-  final int rating;
+  final int? rating;
 
   factory _$GUpdateBookRatingVars(
           [void Function(GUpdateBookRatingVarsBuilder)? updates]) =>
       (new GUpdateBookRatingVarsBuilder()..update(updates))._build();
 
-  _$GUpdateBookRatingVars._({required this.userBookId, required this.rating})
+  _$GUpdateBookRatingVars._({required this.userBookId, this.rating})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         userBookId, r'GUpdateBookRatingVars', 'userBookId');
-    BuiltValueNullFieldError.checkNotNull(
-        rating, r'GUpdateBookRatingVars', 'rating');
   }
 
   @override
@@ -157,8 +159,7 @@ class GUpdateBookRatingVarsBuilder
         new _$GUpdateBookRatingVars._(
             userBookId: BuiltValueNullFieldError.checkNotNull(
                 userBookId, r'GUpdateBookRatingVars', 'userBookId'),
-            rating: BuiltValueNullFieldError.checkNotNull(
-                rating, r'GUpdateBookRatingVars', 'rating'));
+            rating: rating);
     replace(_$result);
     return _$result;
   }
