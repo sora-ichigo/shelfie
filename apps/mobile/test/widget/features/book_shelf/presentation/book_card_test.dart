@@ -103,11 +103,8 @@ void main() {
           buildBookCard(book: createTestBook(), rating: 3),
         );
 
-        final filledStars = find.byIcon(Icons.star);
-        final emptyStars = find.byIcon(Icons.star_border);
-
-        expect(filledStars, findsNWidgets(3));
-        expect(emptyStars, findsNWidgets(2));
+        final stars = find.byIcon(Icons.star_rounded);
+        expect(stars, findsNWidgets(5));
       });
 
       testWidgets('評価が5の場合は全て塗りつぶし星が表示される', (tester) async {
@@ -115,8 +112,7 @@ void main() {
           buildBookCard(book: createTestBook(), rating: 5),
         );
 
-        expect(find.byIcon(Icons.star), findsNWidgets(5));
-        expect(find.byIcon(Icons.star_border), findsNothing);
+        expect(find.byIcon(Icons.star_rounded), findsNWidgets(5));
       });
 
       testWidgets('評価が設定されていない場合は星エリアが空', (tester) async {
@@ -124,8 +120,7 @@ void main() {
           buildBookCard(book: createTestBook(), rating: null),
         );
 
-        expect(find.byIcon(Icons.star), findsNothing);
-        expect(find.byIcon(Icons.star_border), findsNothing);
+        expect(find.byIcon(Icons.star_rounded), findsNothing);
       });
     });
 

@@ -211,7 +211,7 @@ class ReadingRecordSection extends StatelessWidget {
       children: List.generate(5, (index) {
         final isFilled = index < rating;
         return Icon(
-          isFilled ? Icons.star : Icons.star_border,
+          isFilled ? Icons.star_rounded : Icons.star_border_rounded,
           size: 18,
           color: isFilled
               ? appColors.accentSecondary

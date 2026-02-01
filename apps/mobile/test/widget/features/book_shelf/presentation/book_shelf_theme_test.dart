@@ -246,10 +246,11 @@ void main() {
           ),
         );
 
-        final starIcons = tester.widgetList<Icon>(find.byIcon(Icons.star));
-        for (final icon in starIcons) {
-          expect(icon.color, AppColors.dark.accentSecondary);
-        }
+        final starIcons = tester.widgetList<Icon>(find.byIcon(Icons.star_rounded));
+        final filledStars = starIcons.where(
+          (icon) => icon.color == AppColors.dark.accentSecondary,
+        );
+        expect(filledStars.length, 4);
       });
     });
   });
