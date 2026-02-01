@@ -175,7 +175,7 @@ class BookSearchRepository {
     String? publishedDate,
     String? isbn,
     String? coverImageUrl,
-    BookSource source = BookSource.rakuten,
+    required BookSource source,
     ReadingStatus readingStatus = ReadingStatus.backlog,
   }) async {
     final request = GAddBookToShelfReq(

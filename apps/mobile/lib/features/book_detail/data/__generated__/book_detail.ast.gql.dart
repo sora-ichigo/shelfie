@@ -21,7 +21,7 @@ const BookDetail = _i1.OperationDefinitionNode(
       variable: _i1.VariableNode(name: _i1.NameNode(value: 'source')),
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'BookSource'),
-        isNonNull: false,
+        isNonNull: true,
       ),
       defaultValue: _i1.DefaultValueNode(value: null),
       directives: [],

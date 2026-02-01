@@ -14,6 +14,8 @@ import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     as book_search;
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
@@ -84,6 +86,7 @@ void main() {
         viewedAt: DateTime.now(),
       ),
     );
+    registerFallbackValue(BookSource.rakuten);
   });
 
   setUp(() {
@@ -101,8 +104,10 @@ void main() {
     UserBook? userBook,
     List<BookListSummary>? lists,
   }) {
-    when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
-        .thenAnswer((_) async => right((
+    when(() => mockRepository.getBookDetail(
+          bookId: any(named: 'bookId'),
+          source: any(named: 'source'),
+        )).thenAnswer((_) async => right((
               bookDetail: BookDetail(
                 id: bookId,
                 title: 'Test Book',
@@ -128,7 +133,7 @@ void main() {
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
-        home: BookDetailScreen(bookId: bookId),
+        home: BookDetailScreen(bookId: bookId, source: BookSource.rakuten),
       ),
     );
   }

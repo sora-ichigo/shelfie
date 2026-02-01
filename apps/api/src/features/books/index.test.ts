@@ -201,6 +201,7 @@ describe("books Feature public API", () => {
         publishedDate: null,
         isbn: null,
         coverImageUrl: null,
+        source: "rakuten",
       };
       expect(input.externalId).toBe("9784123456789");
     });
@@ -216,6 +217,7 @@ describe("books Feature public API", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
         },
       };
       expect(input.userId).toBe(100);

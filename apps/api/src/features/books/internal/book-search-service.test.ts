@@ -815,7 +815,7 @@ describe("BookSearchService", () => {
 
         vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(mockItem));
 
-        const result = await service.getBookDetail("9784123456789");
+        const result = await service.getBookDetail("9784123456789", "rakuten");
 
         expect(result.success).toBe(true);
         if (result.success) {
@@ -831,7 +831,7 @@ describe("BookSearchService", () => {
       it("should return NOT_FOUND when ISBN is not found", async () => {
         vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(null));
 
-        const result = await service.getBookDetail("0000000000000");
+        const result = await service.getBookDetail("0000000000000", "rakuten");
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -842,7 +842,7 @@ describe("BookSearchService", () => {
 
     describe("validation errors", () => {
       it("should return VALIDATION_ERROR when bookId is empty", async () => {
-        const result = await service.getBookDetail("");
+        const result = await service.getBookDetail("", "rakuten");
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -851,7 +851,7 @@ describe("BookSearchService", () => {
       });
 
       it("should return VALIDATION_ERROR when bookId is only whitespace", async () => {
-        const result = await service.getBookDetail("   ");
+        const result = await service.getBookDetail("   ", "rakuten");
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -866,7 +866,7 @@ describe("BookSearchService", () => {
           err({ code: "NETWORK_ERROR", message: "Network failure" }),
         );
 
-        const result = await service.getBookDetail("9784123456789");
+        const result = await service.getBookDetail("9784123456789", "rakuten");
 
         expect(result.success).toBe(false);
         if (!result.success) {
@@ -881,7 +881,7 @@ describe("BookSearchService", () => {
           ok(createMockRakutenBooksItem()),
         );
 
-        await service.getBookDetail("9784123456789");
+        await service.getBookDetail("9784123456789", "rakuten");
 
         expect(mockLogger.info).toHaveBeenCalledWith(
           expect.stringContaining("detail"),
@@ -892,7 +892,7 @@ describe("BookSearchService", () => {
       it("should log when book not found", async () => {
         vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(null));
 
-        await service.getBookDetail("0000000000000");
+        await service.getBookDetail("0000000000000", "rakuten");
 
         expect(mockLogger.info).toHaveBeenCalledWith(
           expect.stringContaining("not found"),
@@ -1104,20 +1104,6 @@ describe("BookSearchService", () => {
           "google-volume-123",
         );
         expect(mockGoogleRepository.searchByQuery).not.toHaveBeenCalled();
-      });
-
-      it("should default to Rakuten when source is not provided", async () => {
-        const mockItem = createMockRakutenBooksItem({
-          title: "Default Rakuten Book",
-          isbn: "9784123456789",
-        });
-        vi.mocked(mockRepository.getBookByISBN).mockResolvedValue(ok(mockItem));
-
-        const result = await service.getBookDetail("9784123456789");
-
-        expect(result.success).toBe(true);
-        expect(mockRepository.getBookByISBN).toHaveBeenCalled();
-        expect(mockGoogleRepository.getVolumeById).not.toHaveBeenCalled();
       });
     });
   });

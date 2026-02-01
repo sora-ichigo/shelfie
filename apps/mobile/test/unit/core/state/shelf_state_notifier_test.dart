@@ -185,6 +185,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
           ),
         ).thenAnswer(
           (_) async => right(
@@ -203,6 +204,7 @@ void main() {
           externalId: 'book-123',
           title: 'Test Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(result.isRight(), isTrue);
@@ -242,6 +244,7 @@ void main() {
           title: 'Test Book',
           authors: ['Author'],
           readingStatus: ReadingStatus.completed,
+          source: BookSource.rakuten,
         );
 
         expect(result.isRight(), isTrue);
@@ -260,6 +263,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
           ),
         ).thenAnswer(
           (_) async => left(const NetworkFailure(message: 'Network error')),
@@ -270,6 +274,7 @@ void main() {
           externalId: 'book-123',
           title: 'Test Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(result.isLeft(), isTrue);
@@ -472,6 +477,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
           ),
         ).thenAnswer(
           (_) async => right(
@@ -491,6 +497,7 @@ void main() {
           externalId: 'book-123',
           title: 'Test Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(container.read(shelfVersionProvider), versionBefore + 1);
@@ -506,6 +513,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
           ),
         ).thenAnswer(
           (_) async => left(const NetworkFailure(message: 'Network error')),
@@ -517,6 +525,7 @@ void main() {
           externalId: 'book-123',
           title: 'Test Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(container.read(shelfVersionProvider), versionBefore);
@@ -767,6 +776,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
           ),
         ).thenAnswer(
           (_) async => right(
@@ -786,6 +796,7 @@ void main() {
           externalId: 'book-123',
           title: 'Test Book',
           authors: ['Author'],
+          source: BookSource.rakuten,
         );
 
         expect(container.read(bookListVersionProvider), versionBefore);

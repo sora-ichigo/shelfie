@@ -319,6 +319,7 @@ describe("Books Feature Integration Tests", () => {
               publishedDate: "2024-01-01",
               isbn: "9784000000000",
               coverImageUrl: "https://example.com/cover.jpg",
+              source: "RAKUTEN",
             },
           },
           {
@@ -346,6 +347,7 @@ describe("Books Feature Integration Tests", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "RAKUTEN",
         };
 
         const headers = {
@@ -404,6 +406,7 @@ describe("Books Feature Integration Tests", () => {
               publishedDate: null,
               isbn: null,
               coverImageUrl: null,
+              source: "RAKUTEN",
             },
           },
         );
@@ -448,6 +451,7 @@ describe("Books Feature Integration Tests", () => {
           publishedDate: "2024-01-01",
           isbn: "9784000000000",
           coverImageUrl: null,
+          source: "RAKUTEN",
         };
 
         const result1 = await executeQuery<{
@@ -500,6 +504,7 @@ describe("Books Feature Integration Tests", () => {
           publishedDate: "2024-06-15",
           isbn: "9784123456789",
           coverImageUrl: "https://example.com/full-cover.jpg",
+          source: "RAKUTEN",
         };
 
         const result = await executeQuery<{
@@ -576,6 +581,7 @@ describe("Books Feature Integration Tests", () => {
               publishedDate: null,
               isbn: null,
               coverImageUrl: null,
+              source: "RAKUTEN",
             },
           },
           {
@@ -619,6 +625,7 @@ describe("Books Feature Integration Tests", () => {
               publishedDate: null,
               isbn: null,
               coverImageUrl: null,
+              source: "RAKUTEN",
             },
           },
           {

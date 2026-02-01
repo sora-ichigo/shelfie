@@ -200,7 +200,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   bookId: book.bookId,
                   source: book.source != null
                       ? BookSource.values.byName(book.source!)
-                      : null,
+                      : BookSource.rakuten,
                 ),
               ),
               onBookLongPress: _onRecentBookLongPress,
@@ -232,11 +232,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       _addingBooks.add(book.bookId);
     });
 
+    final source = book.source == 'google'
+        ? BookSource.google
+        : BookSource.rakuten;
+
     final result = await ref.read(shelfStateProvider.notifier).addToShelf(
           externalId: book.bookId,
           title: book.title,
           authors: book.authors,
           coverImageUrl: book.coverImageUrl,
+          source: source,
           readingStatus: addResult.status,
         );
 

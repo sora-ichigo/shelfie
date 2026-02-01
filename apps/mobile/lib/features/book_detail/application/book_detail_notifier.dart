@@ -18,7 +18,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     return null;
   }
 
-  Future<void> loadBookDetail({BookSource? source}) async {
+  Future<void> loadBookDetail({required BookSource source}) async {
     state = const AsyncLoading();
 
     final repository = ref.read(bookDetailRepositoryProvider);

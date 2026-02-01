@@ -42,12 +42,12 @@ class BookDetailRepository {
 
   Future<Either<Failure, BookDetailResponse>> getBookDetail({
     required String bookId,
-    BookSource? source,
+    required BookSource source,
   }) async {
     final request = GBookDetailReq(
       (b) => b
         ..vars.bookId = bookId
-        ..vars.source = source != null ? _toGBookSource(source) : null,
+        ..vars.source = _toGBookSource(source),
     );
 
     try {
@@ -149,7 +149,7 @@ class BookDetailRepository {
 
   Either<Failure, BookDetailResponse> _handleBookDetailResponse(
     OperationResponse<GBookDetailData, dynamic> response,
-    BookSource? source,
+    BookSource source,
   ) {
     if (response.hasErrors) {
       final error = response.graphqlErrors?.firstOrNull;
@@ -301,13 +301,13 @@ class BookDetailRepository {
 
   BookDetail _mapToBookDetail(
     GBookDetailData_bookDetail bookDetail,
-    BookSource? source,
+    BookSource source,
   ) {
     return BookDetail(
       id: bookDetail.id,
       title: bookDetail.title,
       authors: bookDetail.authors.toList(),
-      source: source ?? BookSource.rakuten,
+      source: source,
       publisher: bookDetail.publisher,
       publishedDate: bookDetail.publishedDate,
       pageCount: bookDetail.pageCount,

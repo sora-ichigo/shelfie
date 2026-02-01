@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -13,15 +15,17 @@ void main() {
   group('BookDetail Routing', () {
     group('10.1 /books/:bookId ルートの検証', () {
       test('AppRoutes.bookDetail でパスパラメータが正しく構築される', () {
-        final path = AppRoutes.bookDetail(bookId: 'test-book-123');
-        expect(path, '/books/test-book-123');
+        final path = AppRoutes.bookDetail(bookId: 'test-book-123', source: BookSource.rakuten);
+        expect(path, '/books/test-book-123?source=rakuten');
       });
 
       test('BookDetailParams が GoRouterState から正しくパースできる', () {
         final params = BookDetailParams.fromState(
           pathParameters: {'bookId': 'parsed-book-id'},
+          queryParameters: {'source': 'google'},
         );
         expect(params.bookId, 'parsed-book-id');
+        expect(params.source, 'google');
       });
 
       test('空の bookId は空文字列として処理される', () {
@@ -52,7 +56,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: const BookDetailScreen(bookId: testBookId),
+              home: const BookDetailScreen(bookId: testBookId, source: BookSource.rakuten),
             ),
           ),
         );
@@ -75,7 +79,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: const BookDetailScreen(bookId: 'test-id'),
+              home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
         );
@@ -92,7 +96,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: const BookDetailScreen(bookId: 'test-id'),
+              home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
         );
@@ -116,7 +120,7 @@ void main() {
                   onPressed: () async {
                     await Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (context) => const BookDetailScreen(bookId: 'test-id'),
+                        builder: (context) => const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
                       ),
                     );
                     popped = true;

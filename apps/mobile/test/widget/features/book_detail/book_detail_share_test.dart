@@ -4,6 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 
 import '../../../helpers/test_helpers.dart';
 
@@ -33,7 +35,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: const BookDetailScreen(bookId: 'test-id'),
+              home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
         );
@@ -50,7 +52,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
-              home: const BookDetailScreen(bookId: 'test-id'),
+              home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
         );

@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
@@ -137,8 +139,8 @@ void main() {
       });
 
       test('AppRoutes.bookDetail がパスパラメータを正しく構築する', () {
-        final path = AppRoutes.bookDetail(bookId: 'test-book-123');
-        expect(path, '/books/test-book-123');
+        final path = AppRoutes.bookDetail(bookId: 'test-book-123', source: BookSource.rakuten);
+        expect(path, '/books/test-book-123?source=rakuten');
       });
 
       test('AppRoutes.searchWithQuery がクエリパラメータを正しく構築する', () {

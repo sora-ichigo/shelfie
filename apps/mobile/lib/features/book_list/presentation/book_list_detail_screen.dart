@@ -315,8 +315,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
     final source = switch (userBook.source) {
       'google' => BookSource.google,
-      'rakuten' => BookSource.rakuten,
-      _ => null,
+      _ => BookSource.rakuten,
     };
     context.push(
       AppRoutes.bookDetail(bookId: userBook.externalId, source: source),

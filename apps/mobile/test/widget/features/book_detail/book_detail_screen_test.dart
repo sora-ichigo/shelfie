@@ -14,6 +14,8 @@ import 'package:shelfie/features/book_detail/domain/user_book.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     as book_search;
+import 'package:shelfie/features/book_search/data/book_search_repository.dart'
+    show BookSource;
 import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
@@ -39,6 +41,7 @@ void main() {
       ),
     );
     registerFallbackValue(ReadingStatus.backlog);
+    registerFallbackValue(BookSource.rakuten);
   });
 
   setUp(() {
@@ -66,14 +69,17 @@ void main() {
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
-        home: BookDetailScreen(bookId: bookId),
+        home: BookDetailScreen(bookId: bookId, source: BookSource.rakuten),
       ),
     );
   }
 
   group('BookDetailScreen 基本構造', () {
     testWidgets('Scaffold が適用されている', (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -89,7 +95,10 @@ void main() {
     });
 
     testWidgets('AppBar に戻るボタンが表示される', (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -106,7 +115,10 @@ void main() {
     });
 
     testWidgets('AppBar に共有ボタンが表示される', (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -126,7 +138,10 @@ void main() {
   group('BookDetailScreen ローディング状態', () {
     testWidgets('ローディング中はインジケータが表示される', (tester) async {
       final completer = Completer<Either<Failure, BookDetailResponse>>();
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) => completer.future);
 
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
@@ -149,7 +164,10 @@ void main() {
   group('BookDetailScreen エラー状態', () {
     testWidgets('エラー時はエラーメッセージとリトライボタンが表示される',
         (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer(
         (_) async => left(const NetworkFailure(message: 'Network error')),
       );
@@ -163,7 +181,10 @@ void main() {
 
     testWidgets('リトライボタンをタップすると再取得される', (tester) async {
       var callCount = 0;
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async {
         callCount++;
         if (callCount == 1) {
@@ -191,7 +212,10 @@ void main() {
 
   group('BookDetailScreen データ表示', () {
     testWidgets('書籍情報が正しく表示される', (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -216,7 +240,10 @@ void main() {
 
   group('BookDetailScreen マイライブラリ追加状態', () {
     testWidgets('未追加時は「マイライブラリに追加」ボタンが表示される', (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -238,7 +265,10 @@ void main() {
         readingStatus: ReadingStatus.backlog,
         addedAt: DateTime(2024, 1, 1),
       );
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -259,7 +289,10 @@ void main() {
   group('BookDetailScreen マイライブラリ操作ローディング', () {
     testWidgets('マイライブラリ追加中はボタンにローディングインジケーターが表示される',
         (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -278,6 +311,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
             readingStatus: any(named: 'readingStatus'),
           )).thenAnswer((_) => addCompleter.future);
 
@@ -311,7 +345,10 @@ void main() {
         readingStatus: ReadingStatus.backlog,
         addedAt: DateTime(2024, 1, 1),
       );
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -341,7 +378,10 @@ void main() {
 
     testWidgets('マイライブラリ追加完了後はローディングが消えてボタンが更新される',
         (tester) async {
-      when(() => mockRepository.getBookDetail(bookId: any(named: 'bookId')))
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
           .thenAnswer((_) async => right((
                 bookDetail: const BookDetail(
                   id: 'test-id',
@@ -359,6 +399,7 @@ void main() {
             publishedDate: any(named: 'publishedDate'),
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
             readingStatus: any(named: 'readingStatus'),
           )).thenAnswer((_) async => right(book_search.UserBook(
             id: 1,

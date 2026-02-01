@@ -51,7 +51,7 @@ export interface BookSearchService {
 
   getBookDetail(
     bookId: string,
-    source?: BookSource,
+    source: BookSource,
   ): Promise<Result<BookDetail, BookSearchErrors>>;
 }
 
@@ -337,7 +337,7 @@ export function createBookSearchService(
 
     async getBookDetail(
       bookId: string,
-      source?: BookSource,
+      source: BookSource,
     ): Promise<Result<BookDetail, BookSearchErrors>> {
       if (!bookId.trim()) {
         return err({

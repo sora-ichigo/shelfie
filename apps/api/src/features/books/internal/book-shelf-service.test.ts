@@ -95,6 +95,7 @@ describe("BookShelfService", () => {
           publishedDate: "2024-01-01",
           isbn: "9781234567890",
           coverImageUrl: "https://example.com/cover.jpg",
+          source: "rakuten",
         },
       };
 
@@ -168,6 +169,7 @@ describe("BookShelfService", () => {
           publishedDate: "2024-01-01",
           isbn: "9781234567890",
           coverImageUrl: "https://example.com/cover.jpg",
+          source: "rakuten",
         },
       };
 
@@ -210,6 +212,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
         },
       };
 
@@ -269,6 +272,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
           readingStatus: "completed",
         },
       };
@@ -322,6 +326,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
           readingStatus: "reading",
         },
       };
@@ -371,6 +376,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
         },
       };
 
@@ -423,6 +429,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
           readingStatus: "dropped",
         },
       };
@@ -457,6 +464,7 @@ describe("BookShelfService", () => {
           publishedDate: null,
           isbn: null,
           coverImageUrl: null,
+          source: "rakuten",
         },
       };
 

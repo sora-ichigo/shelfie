@@ -30,7 +30,7 @@ interface AddBookInputData {
   publishedDate?: string | null;
   isbn?: string | null;
   coverImageUrl?: string | null;
-  source?: BookSourceValue | null;
+  source: BookSourceValue;
   readingStatus?: ReadingStatusValue | null;
 }
 
@@ -294,7 +294,7 @@ export function registerBooksTypes(builder: Builder): void {
       }),
       source: t.field({
         type: BookSourceRef,
-        required: false,
+        required: true,
         description: "The source of the book data (rakuten or google)",
       }),
       readingStatus: t.field({
@@ -597,7 +597,7 @@ export function registerBooksQueries(
         bookId: t.arg.string({ required: true }),
         source: t.arg({
           type: BookSourceRef,
-          required: false,
+          required: true,
           description: "The source of the book (rakuten or google)",
         }),
       },
@@ -610,7 +610,7 @@ export function registerBooksQueries(
 
         const bookResult = await searchService.getBookDetail(
           args.bookId,
-          args.source ?? undefined,
+          args.source,
         );
 
         if (!bookResult.success) {
@@ -809,7 +809,7 @@ export function registerBooksMutations(
             publishedDate: args.bookInput.publishedDate ?? null,
             isbn: args.bookInput.isbn ?? null,
             coverImageUrl: args.bookInput.coverImageUrl ?? null,
-            source: args.bookInput.source ?? undefined,
+            source: args.bookInput.source,
             readingStatus: args.bookInput.readingStatus ?? undefined,
           },
         });
