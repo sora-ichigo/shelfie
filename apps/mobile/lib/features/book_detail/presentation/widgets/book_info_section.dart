@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/utils/category_translator.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 
@@ -269,10 +268,7 @@ class BookInfoSection extends StatelessWidget {
       items.add(_buildInfoItem(theme, 'ISBN', bookDetail.isbn!));
     }
     if (bookDetail.categories != null && bookDetail.categories!.isNotEmpty) {
-      final translatedCategories = translateCategories(bookDetail.categories!);
-      if (translatedCategories.isNotEmpty) {
-        items.add(_buildCategoriesChips(theme, translatedCategories));
-      }
+      items.add(_buildCategoriesChips(theme, bookDetail.categories!));
     }
 
     if (items.isEmpty) {
@@ -329,7 +325,7 @@ class BookInfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoriesChips(ThemeData theme, List<String> translatedCategories) {
+  Widget _buildCategoriesChips(ThemeData theme, List<String> categories) {
     final appColors = theme.extension<AppColors>()!;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xs),
@@ -349,7 +345,7 @@ class BookInfoSection extends StatelessWidget {
             child: Wrap(
               spacing: AppSpacing.xs,
               runSpacing: AppSpacing.xs,
-              children: translatedCategories
+              children: categories
                   .map(
                     (category) => Container(
                       padding: const EdgeInsets.symmetric(

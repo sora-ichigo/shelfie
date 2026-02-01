@@ -167,7 +167,7 @@ void main() {
           publisher: 'Test Publisher',
           publishedDate: '2024-01-01',
           pageCount: 300,
-          categories: ['Fiction', 'Drama'],
+          categories: ['小説', 'ドラマ'],
           description: 'This is a test description.',
           thumbnailUrl: 'https://example.com/cover.jpg',
         );
@@ -207,13 +207,12 @@ void main() {
           id: 'test-id',
           title: 'Test Book',
           authors: ['Test Author'],
-          categories: ['Fiction', 'Drama'],
+          categories: ['小説', 'ドラマ'],
         );
 
         await tester.pumpWidget(buildTestWidget(bookDetail: bookDetail));
         await tester.pumpAndSettle();
 
-        // カテゴリは翻訳されて表示される
         expect(find.text('小説'), findsOneWidget);
         expect(find.text('ドラマ'), findsOneWidget);
       });

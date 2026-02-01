@@ -5,6 +5,7 @@ import {
   type GoogleBooksVolume,
   isbn13ToIsbn10,
   mapGoogleBooksVolume,
+  mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
   type RakutenBooksItem,
@@ -216,7 +217,7 @@ describe("BookMapper", () => {
         publisher: "テスト出版社",
         publishedDate: "2024-01-15",
         pageCount: null,
-        categories: ["001004008"],
+        categories: ["ライトノベル(男性向け)"],
         description: "これはテスト書籍の説明です。",
         isbn: "9784123456789",
         coverImageUrl: "https://thumbnail.image.rakuten.co.jp/large.jpg",
@@ -234,14 +235,47 @@ describe("BookMapper", () => {
       expect(detail.pageCount).toBeNull();
     });
 
-    it("booksGenreId を categories 配列として返す", () => {
+    it("booksGenreId を日本語ジャンル名に変換して返す", () => {
       const item = createRakutenBooksItem({
         booksGenreId: "001001001",
       });
 
       const detail = mapRakutenBooksItemToDetail(item);
 
-      expect(detail.categories).toEqual(["001001001"]);
+      expect(detail.categories).toEqual(["少年コミック"]);
+    });
+
+    it("複数の booksGenreId をスラッシュ区切りで解決する", () => {
+      const item = createRakutenBooksItem({
+        booksGenreId: "001001001/001004008",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.categories).toEqual([
+        "少年コミック",
+        "ライトノベル(男性向け)",
+      ]);
+    });
+
+    it("未知の booksGenreId は親階層にフォールバックする", () => {
+      const item = createRakutenBooksItem({
+        booksGenreId: "001001099",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.categories).toEqual(["コミック"]);
+    });
+
+    it("完全に未知の booksGenreId は null を返す", () => {
+      const item = createRakutenBooksItem({
+        booksGenreId: "999999999",
+      });
+
+      const detail = mapRakutenBooksItemToDetail(item);
+
+      expect(detail.categories).toBeNull();
     });
 
     it("booksGenreId が空の場合は categories が null を返す", () => {
@@ -483,6 +517,87 @@ describe("BookMapper", () => {
       const book = mapGoogleBooksVolume(volume);
 
       expect(book.coverImageUrl).toBeNull();
+    });
+  });
+
+  describe("mapGoogleBooksVolumeToDetail", () => {
+    const createGoogleBooksVolume = (
+      overrides: Omit<Partial<GoogleBooksVolume>, "volumeInfo"> & {
+        volumeInfo?: Partial<GoogleBooksVolume["volumeInfo"]>;
+      } = {},
+    ): GoogleBooksVolume => {
+      const { volumeInfo: volumeInfoOverrides, ...rest } = overrides;
+      return {
+        kind: "books#volume",
+        id: "test-volume-id",
+        volumeInfo: {
+          title: "Google Books テスト書籍",
+          authors: ["著者1", "著者2"],
+          publisher: "テスト出版社",
+          publishedDate: "2024-01-15",
+          description: "これはテスト書籍の説明です",
+          industryIdentifiers: [
+            { type: "ISBN_13", identifier: "9784123456789" },
+            { type: "ISBN_10", identifier: "4123456789" },
+          ],
+          pageCount: 300,
+          categories: ["Computers", "Programming"],
+          imageLinks: {
+            thumbnail: "https://books.google.com/thumbnail.jpg",
+            smallThumbnail: "https://books.google.com/small.jpg",
+          },
+          ...volumeInfoOverrides,
+        },
+        ...rest,
+      };
+    };
+
+    it("カテゴリを日本語に翻訳して返す", () => {
+      const volume = createGoogleBooksVolume({
+        volumeInfo: {
+          categories: ["Fiction", "Drama"],
+        },
+      });
+
+      const detail = mapGoogleBooksVolumeToDetail(volume);
+
+      expect(detail.categories).toEqual(["小説", "ドラマ"]);
+    });
+
+    it("翻訳不可のカテゴリは除外する", () => {
+      const volume = createGoogleBooksVolume({
+        volumeInfo: {
+          categories: ["Fiction", "Totally Unknown"],
+        },
+      });
+
+      const detail = mapGoogleBooksVolumeToDetail(volume);
+
+      expect(detail.categories).toEqual(["小説"]);
+    });
+
+    it("全て翻訳不可の場合は null を返す", () => {
+      const volume = createGoogleBooksVolume({
+        volumeInfo: {
+          categories: ["Unknown1", "Unknown2"],
+        },
+      });
+
+      const detail = mapGoogleBooksVolumeToDetail(volume);
+
+      expect(detail.categories).toBeNull();
+    });
+
+    it("categories が undefined の場合は null を返す", () => {
+      const volume = createGoogleBooksVolume({
+        volumeInfo: {
+          categories: undefined,
+        },
+      });
+
+      const detail = mapGoogleBooksVolumeToDetail(volume);
+
+      expect(detail.categories).toBeNull();
     });
   });
 });

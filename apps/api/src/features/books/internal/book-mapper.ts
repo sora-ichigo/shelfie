@@ -1,3 +1,8 @@
+import {
+  resolveRakutenGenreNames,
+  translateGoogleCategories,
+} from "./category-translator.js";
+
 export interface GoogleBooksVolumeInfo {
   title: string;
   authors?: string[];
@@ -214,6 +219,10 @@ export function mapGoogleBooksVolume(volume: GoogleBooksVolume): Book {
   };
 }
 
+function toNullableArray(arr: string[]): string[] | null {
+  return arr.length > 0 ? arr : null;
+}
+
 export function mapRakutenBooksItemToDetail(
   item: RakutenBooksItem,
 ): BookDetail {
@@ -226,7 +235,9 @@ export function mapRakutenBooksItemToDetail(
     publisher: item.publisherName ?? null,
     publishedDate: parseSalesDate(item.salesDate),
     pageCount: null,
-    categories: item.booksGenreId ? [item.booksGenreId] : null,
+    categories: item.booksGenreId
+      ? toNullableArray(resolveRakutenGenreNames(item.booksGenreId))
+      : null,
     description: item.itemCaption ?? null,
     isbn,
     coverImageUrl: extractCoverImageUrl(item),
@@ -253,7 +264,9 @@ export function mapGoogleBooksVolumeToDetail(
     publisher: volumeInfo.publisher ?? null,
     publishedDate: volumeInfo.publishedDate ?? null,
     pageCount: volumeInfo.pageCount ?? null,
-    categories: volumeInfo.categories ?? null,
+    categories: volumeInfo.categories
+      ? toNullableArray(translateGoogleCategories(volumeInfo.categories))
+      : null,
     description: volumeInfo.description ?? null,
     isbn,
     coverImageUrl: extractGoogleBooksCoverImageUrl(volumeInfo.imageLinks),
