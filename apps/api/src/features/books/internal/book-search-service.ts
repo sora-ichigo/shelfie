@@ -122,6 +122,10 @@ function validateIsbnInput(
   return ok({ isbn: normalizeIsbn(isbn) });
 }
 
+function looksLikeIsbn(id: string): boolean {
+  return /^\d{10}$/.test(id) || /^\d{13}$/.test(id);
+}
+
 function mapExternalApiError(externalError: {
   code: string;
   message: string;
@@ -343,6 +347,48 @@ export function createBookSearchService(
       }
 
       if (source === "google" && googleRepository) {
+        if (looksLikeIsbn(bookId)) {
+          const searchResult = await googleRepository.searchByQuery(
+            `isbn:${bookId}`,
+            1,
+            0,
+          );
+
+          if (!searchResult.success) {
+            logger.warn("Google Books API error during ISBN search", {
+              feature: "books",
+              bookId,
+              source,
+              error: searchResult.error,
+            });
+            return err(mapExternalApiError(searchResult.error));
+          }
+
+          const items = searchResult.data.items;
+
+          if (items.length === 0) {
+            logger.info("Book not found", {
+              feature: "books",
+              bookId,
+              source,
+            });
+            return err({
+              code: "NOT_FOUND",
+              message: "Book not found",
+            });
+          }
+
+          const bookDetail = mapGoogleBooksVolumeToDetail(items[0]);
+
+          logger.info("Book detail fetch completed successfully", {
+            feature: "books",
+            bookId,
+            source,
+          });
+
+          return ok(bookDetail);
+        }
+
         const repositoryResult = await googleRepository.getVolumeById(bookId);
 
         if (!repositoryResult.success) {

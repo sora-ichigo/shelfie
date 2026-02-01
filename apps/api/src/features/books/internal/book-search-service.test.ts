@@ -989,6 +989,123 @@ describe("BookSearchService", () => {
         }
       });
 
+      it("should search by ISBN when source is 'google' and bookId is an ISBN-13", async () => {
+        const mockVolume = createMockGoogleBooksVolume({
+          id: "actual-google-volume-id",
+          volumeInfo: {
+            title: "ISBN Google Book",
+            authors: ["Author"],
+            publisher: "Publisher",
+            publishedDate: "2024-01-01",
+            description: "Description",
+            industryIdentifiers: [
+              { type: "ISBN_13", identifier: "9784797386479" },
+            ],
+            pageCount: 300,
+            categories: ["Programming"],
+            imageLinks: { thumbnail: "https://example.com/cover.jpg" },
+          },
+        });
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [mockVolume], totalItems: 1 }),
+        );
+
+        const result = await service.getBookDetail("9784797386479", "google");
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.title).toBe("ISBN Google Book");
+          expect(result.data.isbn).toBe("9784797386479");
+        }
+        expect(mockGoogleRepository.searchByQuery).toHaveBeenCalledWith(
+          "isbn:9784797386479",
+          1,
+          0,
+        );
+        expect(mockGoogleRepository.getVolumeById).not.toHaveBeenCalled();
+      });
+
+      it("should search by ISBN when source is 'google' and bookId is an ISBN-10", async () => {
+        const mockVolume = createMockGoogleBooksVolume({
+          id: "actual-google-volume-id",
+          volumeInfo: {
+            title: "ISBN-10 Google Book",
+            authors: ["Author"],
+            publishedDate: "2024-01-01",
+            industryIdentifiers: [
+              { type: "ISBN_10", identifier: "4797386479" },
+            ],
+            imageLinks: { thumbnail: "https://example.com/cover.jpg" },
+          },
+        });
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [mockVolume], totalItems: 1 }),
+        );
+
+        const result = await service.getBookDetail("4797386479", "google");
+
+        expect(result.success).toBe(true);
+        if (result.success) {
+          expect(result.data.title).toBe("ISBN-10 Google Book");
+        }
+        expect(mockGoogleRepository.searchByQuery).toHaveBeenCalledWith(
+          "isbn:4797386479",
+          1,
+          0,
+        );
+        expect(mockGoogleRepository.getVolumeById).not.toHaveBeenCalled();
+      });
+
+      it("should return NOT_FOUND when Google ISBN search returns no results", async () => {
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          ok({ items: [], totalItems: 0 }),
+        );
+
+        const result = await service.getBookDetail("9784797386479", "google");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("NOT_FOUND");
+        }
+      });
+
+      it("should handle Google Books search API errors when searching by ISBN", async () => {
+        vi.mocked(mockGoogleRepository.searchByQuery).mockResolvedValue(
+          err({
+            code: "API_ERROR",
+            message: "Service Unavailable",
+            statusCode: 503,
+          }),
+        );
+
+        const result = await service.getBookDetail("9784797386479", "google");
+
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.code).toBe("EXTERNAL_API_ERROR");
+        }
+      });
+
+      it("should use getVolumeById when source is 'google' and bookId is a volume ID", async () => {
+        const mockVolume = createMockGoogleBooksVolume({
+          id: "google-volume-123",
+        });
+        vi.mocked(mockGoogleRepository.getVolumeById).mockResolvedValue(
+          ok(mockVolume),
+        );
+
+        const result = await service.getBookDetail(
+          "google-volume-123",
+          "google",
+        );
+
+        expect(result.success).toBe(true);
+        expect(mockGoogleRepository.getVolumeById).toHaveBeenCalledWith(
+          "google-volume-123",
+        );
+        expect(mockGoogleRepository.searchByQuery).not.toHaveBeenCalled();
+      });
+
       it("should default to Rakuten when source is not provided", async () => {
         const mockItem = createMockRakutenBooksItem({
           title: "Default Rakuten Book",
