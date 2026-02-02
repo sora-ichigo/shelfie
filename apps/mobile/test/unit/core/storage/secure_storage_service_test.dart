@@ -166,6 +166,62 @@ void main() {
     });
   });
 
+  group('Guest mode storage', () {
+    late MockFlutterSecureStorage mockStorage;
+    late SecureStorageService service;
+
+    setUp(() {
+      mockStorage = MockFlutterSecureStorage();
+      service = SecureStorageService(storage: mockStorage);
+    });
+
+    group('saveGuestMode', () {
+      test('ゲストモードフラグが保存されること', () async {
+        when(() => mockStorage.write(
+              key: any(named: 'key'),
+              value: any(named: 'value'),
+            )).thenAnswer((_) async {});
+
+        await service.saveGuestMode(isGuest: true);
+
+        verify(() =>
+                mockStorage.write(key: 'guest_mode', value: 'true'))
+            .called(1);
+      });
+    });
+
+    group('loadGuestMode', () {
+      test('ゲストモードフラグが保存されている場合は true を返すこと', () async {
+        when(() => mockStorage.read(key: 'guest_mode'))
+            .thenAnswer((_) async => 'true');
+
+        final result = await service.loadGuestMode();
+
+        expect(result, isTrue);
+      });
+
+      test('ゲストモードフラグが保存されていない場合は false を返すこと', () async {
+        when(() => mockStorage.read(key: 'guest_mode'))
+            .thenAnswer((_) async => null);
+
+        final result = await service.loadGuestMode();
+
+        expect(result, isFalse);
+      });
+    });
+
+    group('clearGuestMode', () {
+      test('ゲストモードフラグが削除されること', () async {
+        when(() => mockStorage.delete(key: any(named: 'key')))
+            .thenAnswer((_) async {});
+
+        await service.clearGuestMode();
+
+        verify(() => mockStorage.delete(key: 'guest_mode')).called(1);
+      });
+    });
+  });
+
   group('AuthStorageData', () {
     test('正しく作成されること', () {
       const data = AuthStorageData(

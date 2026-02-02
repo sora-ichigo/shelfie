@@ -78,5 +78,21 @@ void main() {
 
       expect(registerPressed, isTrue);
     });
+
+    testWidgets('ゲストモードボタンは表示されない', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: Scaffold(
+            body: WelcomeButtons(
+              onLoginPressed: () {},
+              onRegisterPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('アカウントなしで利用'), findsNothing);
+    });
   });
 }

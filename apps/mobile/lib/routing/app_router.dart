@@ -203,18 +203,36 @@ String? guardRoute({
   required GoRouterState state,
 }) {
   final isAuthenticated = authState.isAuthenticated;
+  final isGuest = authState.isGuest;
   final currentLocation = state.matchedLocation;
   final isAuthRoute = currentLocation.startsWith('/auth');
   final isWelcomeRoute = currentLocation == AppRoutes.welcome;
 
-  // 未認証かつ認証ルートでもウェルカムでもない → ウェルカム画面へ
-  if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
-    return AppRoutes.welcome;
-  }
-
-  // 認証済みかつ（認証ルート または ウェルカム） → ホームへ
+  // 認証済みかつ（認証ルート または ウェルカム） -> ホームへ
   if (isAuthenticated && (isAuthRoute || isWelcomeRoute)) {
     return AppRoutes.home;
+  }
+
+  // ゲストモード時のルート判定
+  if (isGuest) {
+    final isGuestAllowed = currentLocation == '/' ||
+        currentLocation == AppRoutes.homeTab ||
+        currentLocation == AppRoutes.searchTab ||
+        currentLocation == AppRoutes.isbnScan ||
+        currentLocation.startsWith('/books/') ||
+        currentLocation == AppRoutes.account ||
+        isWelcomeRoute ||
+        isAuthRoute;
+
+    if (!isGuestAllowed) {
+      return AppRoutes.welcome;
+    }
+    return null;
+  }
+
+  // 未認証かつ認証ルートでもウェルカムでもない -> ウェルカム画面へ
+  if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
+    return AppRoutes.welcome;
   }
 
   return null;

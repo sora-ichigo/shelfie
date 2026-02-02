@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -16,6 +17,7 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section_list.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -37,6 +39,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
+      final isGuest = ref.read(authStateProvider).isGuest;
+      if (isGuest) return;
+
       for (final status in ReadingStatus.values) {
         ref
             .read(statusSectionNotifierProvider(status).notifier)
@@ -48,8 +53,10 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bookListState = ref.watch(bookListNotifierProvider);
-    final accountAsync = ref.watch(accountNotifierProvider);
+    final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
+
+    final bookListState = isGuest ? null : ref.watch(bookListNotifierProvider);
+    final accountAsync = isGuest ? null : ref.watch(accountNotifierProvider);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -86,8 +93,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                           onProfileTap: () =>
                               context.push(AppRoutes.account),
                           avatarUrl:
-                              accountAsync.valueOrNull?.avatarUrl,
-                          isAvatarLoading: accountAsync.isLoading,
+                              accountAsync?.valueOrNull?.avatarUrl,
+                          isAvatarLoading:
+                              accountAsync?.isLoading ?? false,
                         ),
                       ),
                     ),
@@ -127,7 +135,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ),
         ];
       },
-      body: _buildContent(bookListState),
+      body: isGuest
+          ? const NoBooksMessage()
+          : _buildContent(bookListState!),
     );
   }
 

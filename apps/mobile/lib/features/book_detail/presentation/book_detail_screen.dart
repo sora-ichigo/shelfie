@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
@@ -160,9 +162,15 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       _addToRecentBooks(bookDetail);
     });
 
-    final shelfEntry = ref.watch(
-      shelfStateProvider.select((s) => s[widget.bookId]),
+    final isGuest = ref.watch(
+      authStateProvider.select((s) => s.isGuest),
     );
+
+    final shelfEntry = isGuest
+        ? null
+        : ref.watch(
+            shelfStateProvider.select((s) => s[widget.bookId]),
+          );
     final isInShelf = shelfEntry != null;
 
     return SingleChildScrollView(
@@ -251,7 +259,13 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     );
   }
 
+  bool get _isGuest => ref.read(authStateProvider).isGuest;
+
   Future<void> _onAddToShelfPressed() async {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     if (_isAddingToShelf) return;
 
     final addResult = await showAddToShelfModal(context: context);
@@ -334,6 +348,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onStatusTap() {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
     if (shelfEntry == null) return;
 
@@ -346,6 +364,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onNoteTap() {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
     if (shelfEntry == null) return;
 
@@ -358,6 +380,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _onRatingTap() {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
     if (shelfEntry == null) return;
 

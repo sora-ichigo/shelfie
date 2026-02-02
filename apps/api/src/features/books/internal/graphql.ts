@@ -538,9 +538,6 @@ export function registerBooksQueries(
       type: SearchBooksResultRef,
       nullable: false,
       description: "Search for books by keyword (matches title, author, etc.)",
-      authScopes: {
-        loggedIn: true,
-      },
       args: {
         query: t.arg.string({ required: true }),
         limit: t.arg.int({ required: false }),
@@ -566,9 +563,6 @@ export function registerBooksQueries(
       type: BookRef,
       nullable: true,
       description: "Search for a book by ISBN",
-      authScopes: {
-        loggedIn: true,
-      },
       args: {
         isbn: t.arg.string({ required: true }),
       },
@@ -590,9 +584,6 @@ export function registerBooksQueries(
       type: BookDetailRef,
       nullable: false,
       description: "Get detailed information about a book by ID",
-      authScopes: {
-        loggedIn: true,
-      },
       args: {
         bookId: t.arg.string({ required: true }),
         source: t.arg({

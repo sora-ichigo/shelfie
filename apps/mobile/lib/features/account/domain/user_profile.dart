@@ -15,4 +15,16 @@ class UserProfile with _$UserProfile {
     required int? readingStartMonth,
     required DateTime createdAt,
   }) = _UserProfile;
+
+  factory UserProfile.guest() => UserProfile(
+    id: 0,
+    email: '@ゲストモード',
+    name: null,
+    avatarUrl: null,
+    username: null,
+    bookCount: 0,
+    readingStartYear: null,
+    readingStartMonth: null,
+    createdAt: DateTime.now(),
+  );
 }

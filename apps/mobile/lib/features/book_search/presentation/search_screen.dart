@@ -4,6 +4,8 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -108,7 +110,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ? const SizedBox.shrink()
                     : ScreenHeader(
                         title: 'さがす',
-                        onProfileTap: () => context.push(AppRoutes.account),
+                        onProfileTap: () =>
+                            context.push(AppRoutes.account),
                         avatarUrl: avatarUrl,
                         isAvatarLoading: accountAsync.isLoading,
                       ),
@@ -223,6 +226,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onRecentBookAddToShelf(RecentBookEntry book) async {
+    if (ref.read(authStateProvider).isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     if (_addingBooks.contains(book.bookId)) return;
 
     final addResult = await showAddToShelfModal(context: context);
@@ -433,6 +440,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onAddToShelf(Book book) async {
+    if (ref.read(authStateProvider).isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     if (_addingBooks.contains(book.id)) return;
 
     final addResult = await showAddToShelfModal(context: context);

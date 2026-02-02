@@ -48,6 +48,10 @@ ProviderContainer createTestContainer({
       )).thenAnswer((_) async {});
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+  when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+      .thenAnswer((_) async {});
+  when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => false);
+  when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
 
   final mockSessionValidator = MockSessionValidator();
   when(() => mockSessionValidator.validate()).thenAnswer(
@@ -98,6 +102,10 @@ Widget buildTestWidget({
       )).thenAnswer((_) async {});
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+  when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+      .thenAnswer((_) async {});
+  when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => false);
+  when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
 
   final mockSessionValidator = MockSessionValidator();
   when(() => mockSessionValidator.validate()).thenAnswer(
@@ -162,6 +170,10 @@ Widget buildTestWidgetWithRouter({
       )).thenAnswer((_) async {});
   when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
   when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+  when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+      .thenAnswer((_) async {});
+  when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => false);
+  when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
 
   final mockSessionValidator = MockSessionValidator();
   when(() => mockSessionValidator.validate()).thenAnswer(
@@ -293,6 +305,9 @@ abstract class TestFailures {
 abstract class TestAuthStates {
   /// 未認証状態
   static const unauthenticated = AuthStateData();
+
+  /// ゲストモード状態
+  static const guest = AuthStateData(isGuest: true);
 
   /// 認証済み状態
   static const authenticated = AuthStateData(

@@ -73,6 +73,10 @@ void main() {
           )).thenAnswer((_) async {});
       when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
       when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+      when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+          .thenAnswer((_) async {});
+      when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => false);
+      when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
 
       container = ProviderContainer(
         overrides: [

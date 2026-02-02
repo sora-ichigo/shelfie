@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
@@ -12,11 +11,9 @@ void main() {
   group('WelcomeScreen', () {
     testWidgets('SafeArea が適用されている', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
@@ -25,11 +22,9 @@ void main() {
 
     testWidgets('背景が表示される', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
@@ -38,11 +33,9 @@ void main() {
 
     testWidgets('ロゴが表示される', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
@@ -51,11 +44,9 @@ void main() {
 
     testWidgets('ボタンが表示される', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
@@ -64,26 +55,45 @@ void main() {
 
     testWidgets('リンクが表示される', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
       expect(find.byType(LegalLinks), findsOneWidget);
     });
 
+    testWidgets('ログインボタンと新規登録ボタンが表示される', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
+        ),
+      );
+
+      expect(find.text('ログイン'), findsOneWidget);
+      expect(find.text('新規登録'), findsOneWidget);
+    });
+
+    testWidgets('ゲストモードボタンは表示されない', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
+        ),
+      );
+
+      expect(find.text('アカウントなしで利用'), findsNothing);
+    });
+
     testWidgets('異なる画面サイズでレイアウトが崩れない', (tester) async {
       await tester.binding.setSurfaceSize(const Size(375, 667));
 
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 
@@ -94,11 +104,9 @@ void main() {
       await tester.binding.setSurfaceSize(const Size(428, 926));
 
       await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const WelcomeScreen(),
-          ),
+        MaterialApp(
+          theme: AppTheme.dark(),
+          home: const WelcomeScreen(),
         ),
       );
 

@@ -86,5 +86,81 @@ void main() {
 
       expect(result, equals(AppRoutes.home));
     });
+
+    group('ゲストモード', () {
+      const guestState = AuthStateData(isGuest: true);
+
+      test('ゲスト + / -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /home -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/home');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /search -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/search');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /books/book-123 -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/books/book-123');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /welcome -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/welcome');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /auth/login -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/auth/login');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /auth/register -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/auth/register');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /account -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/account');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+
+      test('ゲスト + /account/edit -> /welcome へリダイレクト', () {
+        when(() => mockState.matchedLocation).thenReturn('/account/edit');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, equals(AppRoutes.welcome));
+      });
+
+      test('ゲスト + /lists/1 -> /welcome へリダイレクト', () {
+        when(() => mockState.matchedLocation).thenReturn('/lists/1');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, equals(AppRoutes.welcome));
+      });
+
+      test('ゲスト + /lists/new -> /welcome へリダイレクト', () {
+        when(() => mockState.matchedLocation).thenReturn('/lists/new');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, equals(AppRoutes.welcome));
+      });
+
+      test('ゲスト + /search/isbn-scan -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/search/isbn-scan');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+    });
   });
 }

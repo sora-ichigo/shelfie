@@ -9,6 +9,7 @@ part 'auth_state.g.dart';
 class AuthStateData {
   const AuthStateData({
     this.isAuthenticated = false,
+    this.isGuest = false,
     this.userId,
     this.email,
     this.token,
@@ -17,12 +18,14 @@ class AuthStateData {
 
   const AuthStateData.initial()
       : isAuthenticated = false,
+        isGuest = false,
         userId = null,
         email = null,
         token = null,
         refreshToken = null;
 
   final bool isAuthenticated;
+  final bool isGuest;
   final String? userId;
   final String? email;
   final String? token;
@@ -30,6 +33,7 @@ class AuthStateData {
 
   AuthStateData copyWith({
     bool? isAuthenticated,
+    bool? isGuest,
     String? userId,
     String? email,
     String? token,
@@ -37,6 +41,7 @@ class AuthStateData {
   }) {
     return AuthStateData(
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
+      isGuest: isGuest ?? this.isGuest,
       userId: userId ?? this.userId,
       email: email ?? this.email,
       token: token ?? this.token,
@@ -49,6 +54,7 @@ class AuthStateData {
     if (identical(this, other)) return true;
     return other is AuthStateData &&
         other.isAuthenticated == isAuthenticated &&
+        other.isGuest == isGuest &&
         other.userId == userId &&
         other.email == email &&
         other.token == token &&
@@ -57,7 +63,7 @@ class AuthStateData {
 
   @override
   int get hashCode =>
-      Object.hash(isAuthenticated, userId, email, token, refreshToken);
+      Object.hash(isAuthenticated, isGuest, userId, email, token, refreshToken);
 }
 
 @Riverpod(keepAlive: true)
@@ -65,6 +71,13 @@ class AuthState extends _$AuthState {
   @override
   AuthStateData build() {
     return const AuthStateData.initial();
+  }
+
+  Future<void> enterGuestMode() async {
+    state = const AuthStateData(isGuest: true);
+
+    final storage = ref.read(secureStorageServiceProvider);
+    await storage.saveGuestMode(isGuest: true);
   }
 
   Future<void> login({
@@ -82,6 +95,7 @@ class AuthState extends _$AuthState {
     );
 
     final storage = ref.read(secureStorageServiceProvider);
+    await storage.clearGuestMode();
     await storage.saveAuthData(
       userId: userId,
       email: email,
@@ -111,6 +125,7 @@ class AuthState extends _$AuthState {
 
     final storage = ref.read(secureStorageServiceProvider);
     await storage.clearAuthData();
+    await storage.clearGuestMode();
     ref.read(shelfStateProvider.notifier).clear();
   }
 
@@ -118,18 +133,23 @@ class AuthState extends _$AuthState {
     final storage = ref.read(secureStorageServiceProvider);
     final authData = await storage.loadAuthData();
 
-    if (authData == null) {
-      return false;
+    if (authData != null) {
+      state = AuthStateData(
+        isAuthenticated: true,
+        userId: authData.userId,
+        email: authData.email,
+        token: authData.idToken,
+        refreshToken: authData.refreshToken,
+      );
+      return true;
     }
 
-    state = AuthStateData(
-      isAuthenticated: true,
-      userId: authData.userId,
-      email: authData.email,
-      token: authData.idToken,
-      refreshToken: authData.refreshToken,
-    );
+    final isGuest = await storage.loadGuestMode();
+    if (isGuest) {
+      state = const AuthStateData(isGuest: true);
+      return true;
+    }
 
-    return true;
+    return false;
   }
 }

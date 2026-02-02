@@ -5,18 +5,20 @@ import 'package:shelfie/core/widgets/user_avatar.dart';
 class ScreenHeader extends StatelessWidget {
   const ScreenHeader({
     required this.title,
-    required this.onProfileTap,
+    this.onProfileTap,
     this.avatarUrl,
     this.isAvatarLoading = false,
+    this.showAvatar = true,
     super.key,
   });
 
   static const _avatarRadius = 20.0;
 
   final String title;
-  final VoidCallback onProfileTap;
+  final VoidCallback? onProfileTap;
   final String? avatarUrl;
   final bool isAvatarLoading;
+  final bool showAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ScreenHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SizedBox(width: _avatarRadius * 2),
+          SizedBox(width: showAvatar ? _avatarRadius * 2 : 0),
           Expanded(
             child: Center(
               child: Text(
@@ -40,19 +42,22 @@ class ScreenHeader extends StatelessWidget {
               ),
             ),
           ),
-          Semantics(
-            button: true,
-            label: 'プロフィール',
-            child: InkResponse(
-              onTap: onProfileTap,
-              radius: 28,
-              child: UserAvatar(
-                avatarUrl: avatarUrl,
-                radius: _avatarRadius,
-                isLoading: isAvatarLoading,
+          if (showAvatar)
+            Semantics(
+              button: true,
+              label: 'プロフィール',
+              child: InkResponse(
+                onTap: onProfileTap,
+                radius: 28,
+                child: UserAvatar(
+                  avatarUrl: avatarUrl,
+                  radius: _avatarRadius,
+                  isLoading: isAvatarLoading,
+                ),
               ),
-            ),
-          ),
+            )
+          else
+            SizedBox(width: 0),
         ],
       ),
     );

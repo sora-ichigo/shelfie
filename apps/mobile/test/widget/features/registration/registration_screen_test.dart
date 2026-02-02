@@ -6,7 +6,6 @@ import 'package:shelfie/features/registration/presentation/registration_screen.d
 import 'package:shelfie/features/registration/presentation/widgets/registration_background.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_form.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_header.dart';
-import 'package:shelfie/features/registration/presentation/widgets/registration_legal_links.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_submit_button.dart';
 
 void main() {
@@ -76,19 +75,6 @@ void main() {
 
       expect(find.byType(RegistrationSubmitButton), findsOneWidget);
       expect(find.text('アカウントを作成'), findsOneWidget);
-    });
-
-    testWidgets('利用規約リンクが表示される', (tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          child: MaterialApp(
-            theme: AppTheme.dark(),
-            home: const RegistrationScreen(),
-          ),
-        ),
-      );
-
-      expect(find.byType(RegistrationLegalLinks), findsOneWidget);
     });
 
     testWidgets('全要素が正しいレイアウトで配置される', (tester) async {

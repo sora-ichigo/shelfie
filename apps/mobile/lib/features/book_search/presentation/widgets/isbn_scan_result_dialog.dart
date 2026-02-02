@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -114,6 +116,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
   }
 
   Future<void> _addToShelf() async {
+    if (ref.read(authStateProvider).isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     final book = _book;
     if (book == null) return;
 
