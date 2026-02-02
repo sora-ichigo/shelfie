@@ -23,7 +23,7 @@ abstract class GAddBookInput
   String? get publishedDate;
   String? get publisher;
   GReadingStatus? get readingStatus;
-  GBookSource? get source;
+  GBookSource get source;
   String get title;
   static Serializer<GAddBookInput> get serializer => _$gAddBookInputSerializer;
 
@@ -402,6 +402,10 @@ const Map<String, Set<String>> possibleTypesMap = {
   'MutationChangePasswordResult': {
     'AuthError',
     'MutationChangePasswordSuccess',
+  },
+  'MutationDeleteAccountResult': {
+    'AuthError',
+    'MutationDeleteAccountSuccess',
   },
   'MutationLoginUserResult': {
     'AuthError',

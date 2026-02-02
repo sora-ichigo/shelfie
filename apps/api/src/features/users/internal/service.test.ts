@@ -350,4 +350,41 @@ describe("UserService", () => {
       }
     });
   });
+
+  describe("deleteAccount", () => {
+    it("should delete user and return success", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: null,
+        avatarUrl: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.delete).mockResolvedValue(undefined);
+
+      const service = createUserService(mockRepo);
+      const result = await service.deleteAccount({ id: 1 });
+
+      expect(result.success).toBe(true);
+      expect(mockRepo.delete).toHaveBeenCalledWith(1);
+    });
+
+    it("should return error when user not found", async () => {
+      const mockRepo = createMockRepository();
+      vi.mocked(mockRepo.findById).mockResolvedValue(null);
+
+      const service = createUserService(mockRepo);
+      const result = await service.deleteAccount({ id: 999 });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("USER_NOT_FOUND");
+      }
+      expect(mockRepo.delete).not.toHaveBeenCalled();
+    });
+  });
 });

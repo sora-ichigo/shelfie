@@ -67,6 +67,18 @@ import 'package:shelfie/features/account/data/__generated__/change_password.req.
     show GChangePasswordReq;
 import 'package:shelfie/features/account/data/__generated__/change_password.var.gql.dart'
     show GChangePasswordVars;
+import 'package:shelfie/features/account/data/__generated__/delete_account.data.gql.dart'
+    show
+        GDeleteAccountData_deleteAccount,
+        GDeleteAccountData,
+        GDeleteAccountData_deleteAccount__asAuthError,
+        GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess,
+        GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess_data,
+        GDeleteAccountData_deleteAccount__base;
+import 'package:shelfie/features/account/data/__generated__/delete_account.req.gql.dart'
+    show GDeleteAccountReq;
+import 'package:shelfie/features/account/data/__generated__/delete_account.var.gql.dart'
+    show GDeleteAccountVars;
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart'
     show
         GGetMyProfileData_me,
@@ -269,6 +281,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
   ..add(GChangePasswordData_changePassword.serializer)
+  ..add(GDeleteAccountData_deleteAccount.serializer)
   ..add(GGetMeData_me.serializer)
   ..add(GGetMyProfileData_me.serializer)
   ..add(GGetUploadCredentialsData_getUploadCredentials.serializer)
@@ -316,6 +329,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GCreateBookListInput,
   GCreateBookListReq,
   GCreateBookListVars,
+  GDeleteAccountData,
+  GDeleteAccountData_deleteAccount__asAuthError,
+  GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess,
+  GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess_data,
+  GDeleteAccountData_deleteAccount__base,
+  GDeleteAccountReq,
+  GDeleteAccountVars,
   GDeleteBookListData,
   GDeleteBookListReq,
   GDeleteBookListVars,

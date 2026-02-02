@@ -17,6 +17,7 @@ function createMockUserService(): UserService {
     getUserByFirebaseUid: vi.fn(),
     createUserWithFirebase: vi.fn(),
     updateProfile: vi.fn(),
+    deleteAccount: vi.fn(),
   };
 }
 
@@ -133,6 +134,7 @@ function createMockFirebaseAuth(): FirebaseAuth {
     refreshToken: vi.fn(),
     changePassword: vi.fn(),
     sendPasswordResetEmail: vi.fn(),
+    deleteUser: vi.fn(),
   };
 }
 
@@ -1020,6 +1022,136 @@ describe("AuthService.sendPasswordResetEmail", () => {
       "Password reset email sent successfully",
       expect.objectContaining({
         feature: "auth",
+      }),
+    );
+  });
+});
+
+describe("AuthService.deleteAccount", () => {
+  let mockFirebaseAuth: FirebaseAuth;
+  let mockUserService: UserService;
+  let mockLogger: LoggerService;
+  let authService: AuthService;
+
+  beforeEach(() => {
+    mockFirebaseAuth = createMockFirebaseAuth();
+    mockUserService = createMockUserService();
+    mockLogger = createMockLogger();
+    authService = createAuthService({
+      firebaseAuth: mockFirebaseAuth,
+      userService: mockUserService,
+      logger: mockLogger,
+    });
+  });
+
+  it("should delete account successfully", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+    vi.mocked(mockUserService.deleteAccount).mockResolvedValue({
+      success: true,
+      data: undefined,
+    });
+    vi.mocked(mockFirebaseAuth.deleteUser).mockResolvedValue(undefined);
+
+    const result = await authService.deleteAccount("firebase-uid-123");
+
+    expect(result.success).toBe(true);
+    expect(mockUserService.deleteAccount).toHaveBeenCalledWith({ id: 1 });
+    expect(mockFirebaseAuth.deleteUser).toHaveBeenCalledWith(
+      "firebase-uid-123",
+    );
+  });
+
+  it("should return USER_NOT_FOUND when user does not exist", async () => {
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: false,
+      error: {
+        code: "USER_NOT_FOUND",
+        message: "User not found",
+      },
+    });
+
+    const result = await authService.deleteAccount("non-existent-uid");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("USER_NOT_FOUND");
+    }
+    expect(mockUserService.deleteAccount).not.toHaveBeenCalled();
+    expect(mockFirebaseAuth.deleteUser).not.toHaveBeenCalled();
+  });
+
+  it("should return INTERNAL_ERROR when Firebase deleteUser fails", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+    vi.mocked(mockUserService.deleteAccount).mockResolvedValue({
+      success: true,
+      data: undefined,
+    });
+    vi.mocked(mockFirebaseAuth.deleteUser).mockRejectedValue({
+      code: "auth/internal-error",
+    });
+
+    const result = await authService.deleteAccount("firebase-uid-123");
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.code).toBe("INTERNAL_ERROR");
+    }
+  });
+
+  it("should log successful account deletion", async () => {
+    const mockUser: User = {
+      id: 1,
+      email: "test@example.com",
+      firebaseUid: "firebase-uid-123",
+      name: null,
+      avatarUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue({
+      success: true,
+      data: mockUser,
+    });
+    vi.mocked(mockUserService.deleteAccount).mockResolvedValue({
+      success: true,
+      data: undefined,
+    });
+    vi.mocked(mockFirebaseAuth.deleteUser).mockResolvedValue(undefined);
+
+    await authService.deleteAccount("firebase-uid-123");
+
+    expect(mockLogger.info).toHaveBeenCalledWith(
+      "Account deleted successfully",
+      expect.objectContaining({
+        feature: "auth",
+        userId: "1",
       }),
     );
   });

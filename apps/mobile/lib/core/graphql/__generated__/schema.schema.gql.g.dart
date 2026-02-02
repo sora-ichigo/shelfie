@@ -224,6 +224,9 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
       'externalId',
       serializers.serialize(object.externalId,
           specifiedType: const FullType(String)),
+      'source',
+      serializers.serialize(object.source,
+          specifiedType: const FullType(GBookSource)),
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
@@ -263,13 +266,6 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
         ..add('readingStatus')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(GReadingStatus)));
-    }
-    value = object.source;
-    if (value != null) {
-      result
-        ..add('source')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(GBookSource)));
     }
     return result;
   }
@@ -318,7 +314,7 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
           break;
         case 'source':
           result.source = serializers.deserialize(value,
-              specifiedType: const FullType(GBookSource)) as GBookSource?;
+              specifiedType: const FullType(GBookSource))! as GBookSource;
           break;
         case 'title':
           result.title = serializers.deserialize(value,
@@ -1015,7 +1011,7 @@ class _$GAddBookInput extends GAddBookInput {
   @override
   final GReadingStatus? readingStatus;
   @override
-  final GBookSource? source;
+  final GBookSource source;
   @override
   final String title;
 
@@ -1030,12 +1026,13 @@ class _$GAddBookInput extends GAddBookInput {
       this.publishedDate,
       this.publisher,
       this.readingStatus,
-      this.source,
+      required this.source,
       required this.title})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
     BuiltValueNullFieldError.checkNotNull(
         externalId, r'GAddBookInput', 'externalId');
+    BuiltValueNullFieldError.checkNotNull(source, r'GAddBookInput', 'source');
     BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
   }
 
@@ -1183,7 +1180,8 @@ class GAddBookInputBuilder
               publishedDate: publishedDate,
               publisher: publisher,
               readingStatus: readingStatus,
-              source: source,
+              source: BuiltValueNullFieldError.checkNotNull(
+                  source, r'GAddBookInput', 'source'),
               title: BuiltValueNullFieldError.checkNotNull(
                   title, r'GAddBookInput', 'title'));
     } catch (_) {

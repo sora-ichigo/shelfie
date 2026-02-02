@@ -22,6 +22,7 @@ export type {
   AuthServiceError,
   ChangePasswordInput,
   ChangePasswordOutput,
+  DeleteAccountServiceError,
   FirebaseAuth,
   LoginServiceError,
   PasswordChangeServiceError,

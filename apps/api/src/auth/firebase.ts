@@ -82,6 +82,7 @@ export interface FirebaseAuthAdapter {
     newPassword: string,
   ): Promise<{ idToken: string; refreshToken: string }>;
   sendPasswordResetEmail(email: string): Promise<void>;
+  deleteUser(uid: string): Promise<void>;
 }
 
 interface FirebaseSignInResponse {
@@ -335,6 +336,10 @@ export function createFirebaseAuthAdapter(): FirebaseAuthAdapter {
 
       // sendPasswordResetEmail は void を返す
       (await response.json()) as FirebaseSendOobCodeResponse;
+    },
+
+    async deleteUser(uid: string): Promise<void> {
+      await admin.auth().deleteUser(uid);
     },
   };
 }

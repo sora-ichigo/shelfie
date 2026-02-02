@@ -22,7 +22,7 @@ input AddBookInput {
   readingStatus: ReadingStatus
 
   """The source of the book data (rakuten or google)"""
-  source: BookSource
+  source: BookSource!
 
   """The title of the book"""
   title: String!
@@ -306,6 +306,12 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Result of account deletion"""
+type DeleteAccountResult {
+  """Whether the account was deleted successfully"""
+  success: Boolean
+}
+
 """画像アップロードサービスのエラー"""
 type ImageUploadError {
   """エラーコード"""
@@ -352,6 +358,9 @@ type Mutation {
   """Create a new book list"""
   createBookList(input: CreateBookListInput!): BookList!
 
+  """Delete the currently authenticated user's account"""
+  deleteAccount: MutationDeleteAccountResult
+
   """Delete a book list"""
   deleteBookList(listId: Int!): Boolean!
 
@@ -396,6 +405,12 @@ union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
 
 type MutationChangePasswordSuccess {
   data: ChangePasswordResult!
+}
+
+union MutationDeleteAccountResult = AuthError | MutationDeleteAccountSuccess
+
+type MutationDeleteAccountSuccess {
+  data: DeleteAccountResult!
 }
 
 union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
@@ -488,7 +503,7 @@ type Query {
     bookId: String!
 
     """The source of the book (rakuten or google)"""
-    source: BookSource
+    source: BookSource!
   ): BookDetail!
 
   """Get detailed information about a specific book list"""
@@ -530,7 +545,6 @@ enum ReadingStatus {
 
   """Finished reading"""
   COMPLETED
-
   DROP @deprecated(reason: "Use INTERESTED instead. DROP is ignored.")
 
   """Interested in reading"""
