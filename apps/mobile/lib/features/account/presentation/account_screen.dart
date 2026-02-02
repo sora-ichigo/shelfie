@@ -170,30 +170,6 @@ class _LogoutButton extends StatelessWidget {
   }
 }
 
-class _DeleteAccountButton extends StatelessWidget {
-  const _DeleteAccountButton({required this.onDeleteAccount});
-
-  final VoidCallback onDeleteAccount;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48,
-      child: TextButton(
-        onPressed: onDeleteAccount,
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.red.shade300,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: const Text('退会する'),
-      ),
-    );
-  }
-}
-
 class _AppInfoFooter extends StatefulWidget {
   const _AppInfoFooter();
 
