@@ -48,6 +48,16 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCreateBookListInput.serializer)
       ..add(GCreateBookListReq.serializer)
       ..add(GCreateBookListVars.serializer)
+      ..add(GDeleteAccountData.serializer)
+      ..add(GDeleteAccountData_deleteAccount__asAuthError.serializer)
+      ..add(GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess
+          .serializer)
+      ..add(
+          GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess_data
+              .serializer)
+      ..add(GDeleteAccountData_deleteAccount__base.serializer)
+      ..add(GDeleteAccountReq.serializer)
+      ..add(GDeleteAccountVars.serializer)
       ..add(GDeleteBookListData.serializer)
       ..add(GDeleteBookListReq.serializer)
       ..add(GDeleteBookListVars.serializer)

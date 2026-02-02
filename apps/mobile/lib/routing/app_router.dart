@@ -14,6 +14,7 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
+import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
@@ -276,6 +277,36 @@ List<RouteBase> _buildRoutes() {
               );
               if (result == OkCancelResult.ok && context.mounted) {
                 await ref.read(authStateProvider.notifier).logout();
+              }
+            },
+            onDeleteAccount: () async {
+              final result = await showOkCancelAlertDialog(
+                context: context,
+                title: '退会する',
+                message: '退会すると、すべてのデータが完全に削除されます。この操作は取り消せません。',
+                okLabel: '退会する',
+                cancelLabel: 'キャンセル',
+                isDestructiveAction: true,
+              );
+              if (result == OkCancelResult.ok && context.mounted) {
+                final repository = ref.read(accountRepositoryProvider);
+                final deleteResult = await repository.deleteAccount();
+                await deleteResult.fold(
+                  (failure) async {
+                    if (context.mounted) {
+                      await showOkAlertDialog(
+                        context: context,
+                        title: 'エラー',
+                        message: '退会処理に失敗しました。',
+                      );
+                    }
+                  },
+                  (_) async {
+                    if (context.mounted) {
+                      await ref.read(authStateProvider.notifier).logout();
+                    }
+                  },
+                );
               }
             },
           ),

@@ -27,6 +27,10 @@ export interface UpdateProfileInput {
   avatarUrl?: string;
 }
 
+export interface DeleteAccountInput {
+  id: number;
+}
+
 export interface UserService {
   getUserById(input: GetUserInput): Promise<Result<User, UserServiceErrors>>;
   createUser(input: CreateUserInput): Promise<Result<User, UserServiceErrors>>;
@@ -40,6 +44,9 @@ export interface UserService {
   updateProfile(
     input: UpdateProfileInput,
   ): Promise<Result<User, UserServiceErrors>>;
+  deleteAccount(
+    input: DeleteAccountInput,
+  ): Promise<Result<void, UserServiceErrors>>;
 }
 
 export function createUserService(repository: UserRepository): UserService {
@@ -135,6 +142,21 @@ export function createUserService(repository: UserRepository): UserService {
 
       const updatedUser = await repository.update(input.userId, updateData);
       return ok(updatedUser);
+    },
+
+    async deleteAccount(
+      input: DeleteAccountInput,
+    ): Promise<Result<void, UserServiceErrors>> {
+      const user = await repository.findById(input.id);
+      if (!user) {
+        return err({
+          code: "USER_NOT_FOUND",
+          message: `User with id ${input.id} not found`,
+        });
+      }
+
+      await repository.delete(input.id);
+      return ok(undefined);
     },
   };
 }

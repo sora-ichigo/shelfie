@@ -74,6 +74,10 @@ export type SendPasswordResetEmailServiceError =
   | { code: "NETWORK_ERROR"; message: string; retryable: boolean }
   | { code: "INTERNAL_ERROR"; message: string };
 
+export type DeleteAccountServiceError =
+  | { code: "USER_NOT_FOUND"; message: string }
+  | { code: "INTERNAL_ERROR"; message: string };
+
 export interface FirebaseAuth {
   createUser(
     email: string,
@@ -91,6 +95,7 @@ export interface FirebaseAuth {
     newPassword: string,
   ): Promise<{ idToken: string; refreshToken: string }>;
   sendPasswordResetEmail(email: string): Promise<void>;
+  deleteUser(uid: string): Promise<void>;
 }
 
 export interface AuthService {
@@ -110,6 +115,9 @@ export interface AuthService {
   sendPasswordResetEmail(
     input: SendPasswordResetEmailInput,
   ): Promise<Result<void, SendPasswordResetEmailServiceError>>;
+  deleteAccount(
+    firebaseUid: string,
+  ): Promise<Result<void, DeleteAccountServiceError>>;
 }
 
 const MIN_PASSWORD_LENGTH = 8;
@@ -643,6 +651,51 @@ export function createAuthService(deps: AuthServiceDependencies): AuthService {
           message: "パスワードリセットメールの送信中にエラーが発生しました",
         });
       }
+    },
+
+    async deleteAccount(
+      firebaseUid: string,
+    ): Promise<Result<void, DeleteAccountServiceError>> {
+      logger.info("Account deletion attempt", {
+        feature: "auth",
+        firebaseUid,
+      });
+
+      const userResult = await userService.getUserByFirebaseUid(firebaseUid);
+      if (!userResult.success) {
+        logger.warn("User not found for account deletion", {
+          feature: "auth",
+          firebaseUid,
+        });
+        return err({
+          code: "USER_NOT_FOUND",
+          message: "ユーザーが見つかりません",
+        });
+      }
+
+      const user = userResult.data;
+
+      await userService.deleteAccount({ id: user.id });
+
+      try {
+        await firebaseAuth.deleteUser(firebaseUid);
+      } catch (error) {
+        logger.error("Failed to delete Firebase user", error as Error, {
+          feature: "auth",
+          firebaseUid,
+        });
+        return err({
+          code: "INTERNAL_ERROR",
+          message: "アカウント削除中にエラーが発生しました",
+        });
+      }
+
+      logger.info("Account deleted successfully", {
+        feature: "auth",
+        userId: String(user.id),
+      });
+
+      return ok(undefined);
     },
   };
 }

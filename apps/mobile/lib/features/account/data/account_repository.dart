@@ -7,6 +7,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
+import 'package:shelfie/features/account/data/__generated__/delete_account.data.gql.dart';
+import 'package:shelfie/features/account/data/__generated__/delete_account.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.data.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_my_profile.req.gql.dart';
 import 'package:shelfie/features/account/data/__generated__/get_upload_credentials.data.gql.dart';
@@ -68,6 +70,21 @@ class AccountRepository {
     }
   }
 
+  Future<Either<Failure, void>> deleteAccount() async {
+    final request = GDeleteAccountReq();
+
+    try {
+      final response = await client.request(request).first;
+      return _handleDeleteAccountResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<Failure, UploadCredentials>> getUploadCredentials() async {
     final request = GGetUploadCredentialsReq();
 
@@ -81,6 +98,43 @@ class AccountRepository {
     } catch (e) {
       return left(UnexpectedFailure(message: e.toString()));
     }
+  }
+
+  Either<Failure, void> _handleDeleteAccountResponse(
+    OperationResponse<GDeleteAccountData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      final errorMessage = error?.message ?? 'Failed to delete account';
+      return left(ServerFailure(message: errorMessage, code: 'GRAPHQL_ERROR'));
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(message: 'No data received', code: 'NO_DATA'),
+      );
+    }
+
+    final result = data.deleteAccount;
+
+    if (result is GDeleteAccountData_deleteAccount__asAuthError) {
+      return left(
+        AuthFailure(message: result.message ?? 'アカウント削除に失敗しました'),
+      );
+    }
+
+    if (result
+        is GDeleteAccountData_deleteAccount__asMutationDeleteAccountSuccess) {
+      return right(null);
+    }
+
+    return left(
+      const ServerFailure(
+        message: 'Unexpected response type',
+        code: 'UNEXPECTED_TYPE',
+      ),
+    );
   }
 
   Either<Failure, UploadCredentials> _handleGetUploadCredentialsResponse(

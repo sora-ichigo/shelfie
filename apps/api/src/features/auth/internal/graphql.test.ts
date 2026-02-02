@@ -102,6 +102,7 @@ describe("Auth GraphQL Mutations Schema", () => {
     refreshToken: vi.fn(),
     changePassword: vi.fn(),
     sendPasswordResetEmail: vi.fn(),
+    deleteAccount: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {
@@ -344,6 +345,7 @@ describe("Auth GraphQL Mutations - changePassword and sendPasswordResetEmail", (
     refreshToken: vi.fn(),
     changePassword: vi.fn(),
     sendPasswordResetEmail: vi.fn(),
+    deleteAccount: vi.fn(),
   });
 
   const createSchemaWithMutations = (authService: AuthService) => {

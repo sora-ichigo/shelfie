@@ -1,0 +1,13 @@
+mutation DeleteAccount {
+  deleteAccount {
+    ... on MutationDeleteAccountSuccess {
+      data {
+        success
+      }
+    }
+    ... on AuthError {
+      code
+      message
+    }
+  }
+}

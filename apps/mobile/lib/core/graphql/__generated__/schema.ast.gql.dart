@@ -79,7 +79,7 @@ const AddBookInput = _i1.InputObjectTypeDefinitionNode(
       directives: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'BookSource'),
-        isNonNull: false,
+        isNonNull: true,
       ),
       defaultValue: null,
     ),
@@ -915,6 +915,22 @@ const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
 );
+const DeleteAccountResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'DeleteAccountResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'success'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: false,
+      ),
+    )
+  ],
+);
 const ImageUploadError = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'ImageUploadError'),
   directives: [],
@@ -1100,6 +1116,15 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'BookList'),
         isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'deleteAccount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationDeleteAccountResult'),
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -1430,6 +1455,36 @@ const MutationChangePasswordSuccess = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'ChangePasswordResult'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationDeleteAccountResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationDeleteAccountResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'AuthError'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationDeleteAccountSuccess'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationDeleteAccountSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationDeleteAccountSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'DeleteAccountResult'),
         isNonNull: true,
       ),
     )
@@ -1766,7 +1821,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
           directives: [],
           type: _i1.NamedTypeNode(
             name: _i1.NameNode(value: 'BookSource'),
-            isNonNull: false,
+            isNonNull: true,
           ),
           defaultValue: null,
         ),
@@ -2546,6 +2601,7 @@ const document = _i1.DocumentNode(definitions: [
   ChangePasswordResult,
   CreateBookListInput,
   DateTime,
+  DeleteAccountResult,
   ImageUploadError,
   LoginResult,
   LoginUserInput,
@@ -2553,6 +2609,8 @@ const document = _i1.DocumentNode(definitions: [
   Mutation,
   MutationChangePasswordResult,
   MutationChangePasswordSuccess,
+  MutationDeleteAccountResult,
+  MutationDeleteAccountSuccess,
   MutationLoginUserResult,
   MutationLoginUserSuccess,
   MutationRefreshTokenResult,

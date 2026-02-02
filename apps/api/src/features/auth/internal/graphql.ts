@@ -264,6 +264,19 @@ type SendPasswordResetEmailResultObjectRef = ReturnType<
   typeof createSendPasswordResetEmailResultRef
 >;
 
+interface DeleteAccountResultData {
+  success: boolean;
+}
+
+function createDeleteAccountResultRef(builder: Builder) {
+  return builder.objectRef<DeleteAccountResultData>("DeleteAccountResult");
+}
+
+type DeleteAccountResultObjectRef = ReturnType<
+  typeof createDeleteAccountResultRef
+>;
+
+let DeleteAccountResultRef: DeleteAccountResultObjectRef | null = null;
 let AuthErrorCodeEnumRef: ReturnType<Builder["enumType"]> | null = null;
 let RegisterUserInputRef: RegisterUserInputRef | null = null;
 let LoginUserInputRef: LoginUserInputRef | null = null;
@@ -465,6 +478,16 @@ export function registerAuthTypes(builder: Builder): void {
       }),
     }),
   });
+
+  DeleteAccountResultRef = createDeleteAccountResultRef(builder);
+  DeleteAccountResultRef.implement({
+    description: "Result of account deletion",
+    fields: (t) => ({
+      success: t.exposeBoolean("success", {
+        description: "Whether the account was deleted successfully",
+      }),
+    }),
+  });
 }
 
 export { AuthErrorDataRef };
@@ -634,6 +657,40 @@ export function registerAuthMutations(
       }),
     }),
   });
+
+  builder.mutationFields((t) => ({
+    deleteAccount: t.field({
+      // biome-ignore lint/style/noNonNullAssertion: initialized in registerAuthTypes
+      type: DeleteAccountResultRef!,
+      description: "Delete the currently authenticated user's account",
+      errors: {
+        types: [AuthError],
+      },
+      authScopes: {
+        loggedIn: true,
+      },
+      resolve: async (
+        _parent,
+        _args,
+        context,
+      ): Promise<DeleteAccountResultData> => {
+        if (!context.user) {
+          throw new AuthError("UNAUTHENTICATED", "認証が必要です");
+        }
+
+        const result = await authService.deleteAccount(context.user.uid);
+
+        if (!result.success) {
+          throw new AuthError(
+            result.error.code as AuthErrorCode,
+            result.error.message,
+          );
+        }
+
+        return { success: true };
+      },
+    }),
+  }));
 }
 
 let MeResultRef: ReturnType<Builder["unionType"]> | null = null;
