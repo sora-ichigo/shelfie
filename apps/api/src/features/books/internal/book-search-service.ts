@@ -8,6 +8,7 @@ import {
   mapGoogleBooksVolumeToDetail,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
+  validateGoogleBooksCoverImageUrl,
 } from "./book-mapper.js";
 import {
   deduplicateByIsbn,
@@ -270,8 +271,16 @@ export function createBookSearchService(
         });
       }
 
-      const googleBooks = filterValidGoogleBooks(
+      const googleBooksRaw = filterValidGoogleBooks(
         googleResult.data.items.map(mapGoogleBooksVolume),
+      );
+      const googleBooks = await Promise.all(
+        googleBooksRaw.map(async (book) => ({
+          ...book,
+          coverImageUrl: await validateGoogleBooksCoverImageUrl(
+            book.coverImageUrl,
+          ),
+        })),
       );
       const googleTotal = googleResult.data.totalItems;
       const combined = deduplicateByIsbn([...rakutenBooks, ...googleBooks]);
@@ -379,6 +388,9 @@ export function createBookSearchService(
           }
 
           const bookDetail = mapGoogleBooksVolumeToDetail(items[0]);
+          bookDetail.coverImageUrl = await validateGoogleBooksCoverImageUrl(
+            bookDetail.coverImageUrl,
+          );
 
           logger.info("Book detail fetch completed successfully", {
             feature: "books",
@@ -416,6 +428,9 @@ export function createBookSearchService(
         }
 
         const bookDetail = mapGoogleBooksVolumeToDetail(volume);
+        bookDetail.coverImageUrl = await validateGoogleBooksCoverImageUrl(
+          bookDetail.coverImageUrl,
+        );
 
         logger.info("Book detail fetch completed successfully", {
           feature: "books",
