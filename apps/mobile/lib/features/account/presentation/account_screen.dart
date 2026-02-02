@@ -126,6 +126,8 @@ class AccountScreen extends ConsumerWidget {
           if (!isGuest) ...[
             const SizedBox(height: AppSpacing.xl),
             _LogoutButton(onLogout: onLogout),
+            const SizedBox(height: AppSpacing.md),
+            _DeleteAccountButton(onDeleteAccount: onDeleteAccount),
           ],
           const SizedBox(height: AppSpacing.xl),
           const _AppInfoFooter(),
@@ -165,6 +167,30 @@ class _LogoutButton extends StatelessWidget {
         ),
         icon: const Icon(Icons.logout, size: 20, color: Colors.white),
         label: const Text('ログアウト'),
+      ),
+    );
+  }
+}
+
+class _DeleteAccountButton extends StatelessWidget {
+  const _DeleteAccountButton({required this.onDeleteAccount});
+
+  final VoidCallback onDeleteAccount;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: TextButton(
+        onPressed: onDeleteAccount,
+        style: TextButton.styleFrom(
+          foregroundColor: Colors.red.shade300,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: const Text('退会する'),
       ),
     );
   }
