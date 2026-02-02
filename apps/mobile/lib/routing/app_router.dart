@@ -385,29 +385,34 @@ List<RouteBase> _buildRoutes() {
     ),
 
     // メインシェル（タブナビゲーション）
-    ShellRoute(
-      builder: (context, state, child) => _MainShell(child: child),
-      routes: [
-        // ホーム（本棚）
-        GoRoute(
-          path: AppRoutes.home,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: BookShelfScreen(),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) =>
+          _MainShell(navigationShell: navigationShell),
+      branches: [
+        StatefulShellBranch(routes: [
+          // ホーム（本棚）
+          GoRoute(
+            path: AppRoutes.home,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: BookShelfScreen(),
+            ),
           ),
-        ),
-        GoRoute(
-          path: AppRoutes.homeTab,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: BookShelfScreen(),
+          GoRoute(
+            path: AppRoutes.homeTab,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: BookShelfScreen(),
+            ),
           ),
-        ),
-        // 検索
-        GoRoute(
-          path: AppRoutes.searchTab,
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: SearchScreen(),
+        ]),
+        StatefulShellBranch(routes: [
+          // 検索
+          GoRoute(
+            path: AppRoutes.searchTab,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: SearchScreen(),
+            ),
           ),
-        ),
+        ]),
       ],
     ),
 
@@ -463,30 +468,17 @@ List<RouteBase> _buildRoutes() {
 /// AdaptiveScaffold + AdaptiveBottomNavigationBar を使用し、
 /// プラットフォーム判定は adaptive_platform_ui に完全委譲する。
 class _MainShell extends ConsumerWidget {
-  const _MainShell({required this.child});
+  const _MainShell({required this.navigationShell});
 
-  final Widget child;
-
-  int _calculateSelectedIndex(BuildContext context) {
-    final location = GoRouterState.of(context).matchedLocation;
-    if (location.startsWith(AppRoutes.searchTab)) {
-      return 1;
-    }
-    return 0;
-  }
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = _calculateSelectedIndex(context);
+    final selectedIndex = navigationShell.currentIndex;
     final isNavBarHidden = ref.watch(navBarHiddenProvider);
 
     void onTap(int index) {
-      switch (index) {
-        case 0:
-          context.go(AppRoutes.homeTab);
-        case 1:
-          context.go(AppRoutes.searchTab);
-      }
+      navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
     }
 
     final navBar = AdaptiveBottomNavigationBar(
@@ -528,7 +520,7 @@ class _MainShell extends ConsumerWidget {
       minimizeBehavior: TabBarMinimizeBehavior.never,
       body: Material(
         type: MaterialType.transparency,
-        child: child,
+        child: navigationShell,
       ),
       bottomNavigationBar: isNavBarHidden ? null : navBar,
     );

@@ -147,11 +147,10 @@ void main() {
         container.dispose();
       });
 
-      test('ShellRoute を使用したタブバーナビゲーションが設定されている', () {
-        // ShellRoute が存在することを確認
+      test('StatefulShellRoute を使用したタブバーナビゲーションが設定されている', () {
         final routes = router.configuration.routes;
-        final hasShellRoute = routes.any((route) => route is ShellRoute);
-        expect(hasShellRoute, isTrue);
+        final hasStatefulShellRoute = routes.any((route) => route is StatefulShellRoute);
+        expect(hasStatefulShellRoute, isTrue);
       });
 
       test('各タブのルートが定義されている', () {
