@@ -282,9 +282,9 @@ List<RouteBase> _buildRoutes() {
             onDeleteAccount: () async {
               final result = await showOkCancelAlertDialog(
                 context: context,
-                title: 'アカウント削除',
-                message: 'アカウントを削除すると、すべてのデータが完全に削除されます。この操作は取り消せません。',
-                okLabel: '削除する',
+                title: '退会する',
+                message: '退会すると、すべてのデータが完全に削除されます。この操作は取り消せません。',
+                okLabel: '退会する',
                 cancelLabel: 'キャンセル',
                 isDestructiveAction: true,
               );
@@ -297,7 +297,7 @@ List<RouteBase> _buildRoutes() {
                       await showOkAlertDialog(
                         context: context,
                         title: 'エラー',
-                        message: 'アカウントの削除に失敗しました。',
+                        message: '退会処理に失敗しました。',
                       );
                     }
                   },

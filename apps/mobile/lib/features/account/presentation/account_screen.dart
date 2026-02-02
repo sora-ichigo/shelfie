@@ -169,7 +169,7 @@ class _DeleteAccountButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: const Text('アカウントを削除'),
+        child: const Text('退会する'),
       ),
     );
   }
