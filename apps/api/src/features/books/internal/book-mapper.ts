@@ -90,6 +90,22 @@ function parseSalesDate(salesDate: string): string | null {
   return `${year}-${month}`;
 }
 
+export function enhanceRakutenImageUrl(url: string | null): string | null {
+  if (!url) {
+    return null;
+  }
+  try {
+    const urlObj = new URL(url);
+    if (!urlObj.hostname.includes("rakuten")) {
+      return url;
+    }
+    urlObj.searchParams.set("_ex", "800x800");
+    return urlObj.toString();
+  } catch {
+    return url;
+  }
+}
+
 function extractCoverImageUrl(item: RakutenBooksItem): string | null {
   return (
     item.largeImageUrl ?? item.mediumImageUrl ?? item.smallImageUrl ?? null

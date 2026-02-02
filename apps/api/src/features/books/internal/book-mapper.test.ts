@@ -5,6 +5,7 @@ import {
   type BookDetail,
   type GoogleBooksVolume,
   type PlaceholderAction,
+  enhanceRakutenImageUrl,
   isbn13ToIsbn10,
   mapGoogleBooksVolume,
   mapRakutenBooksItem,
@@ -599,6 +600,36 @@ describe("BookMapper", () => {
 
       expect(result).toBe(url);
       expect(fetchSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("enhanceRakutenImageUrl", () => {
+    it("楽天の画像 URL に ?_ex=800x800 を付与する", () => {
+      const url =
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=800x800",
+      );
+    });
+
+    it("既に _ex パラメータがある場合は上書きする", () => {
+      const url =
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=200x200";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=800x800",
+      );
+    });
+
+    it("楽天以外の URL はそのまま返す", () => {
+      const url = "https://books.google.com/thumbnail.jpg?zoom=2";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(url);
+    });
+
+    it("null を渡すと null を返す", () => {
+      expect(enhanceRakutenImageUrl(null)).toBeNull();
     });
   });
 });

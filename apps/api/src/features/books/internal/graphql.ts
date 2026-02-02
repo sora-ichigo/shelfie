@@ -5,7 +5,12 @@ import type {
   Builder,
 } from "../../../graphql/builder.js";
 import type { UserService } from "../../users/index.js";
-import type { Book, BookDetail, BookSource } from "./book-mapper.js";
+import {
+  type Book,
+  type BookDetail,
+  type BookSource,
+  enhanceRakutenImageUrl,
+} from "./book-mapper.js";
 import type { BookSearchService } from "./book-search-service.js";
 import type { BookShelfService } from "./book-shelf-service.js";
 
@@ -226,7 +231,7 @@ export function registerBooksTypes(builder: Builder): void {
       coverImageUrl: t.string({
         nullable: true,
         description: "The cover image URL of the book",
-        resolve: (parent) => parent.coverImageUrl,
+        resolve: (parent) => enhanceRakutenImageUrl(parent.coverImageUrl),
       }),
       source: t.field({
         type: BookSourceRef,
@@ -345,7 +350,7 @@ export function registerBooksTypes(builder: Builder): void {
       coverImageUrl: t.string({
         nullable: true,
         description: "The cover image URL of the book",
-        resolve: (parent) => parent.coverImageUrl,
+        resolve: (parent) => enhanceRakutenImageUrl(parent.coverImageUrl),
       }),
       addedAt: t.expose("addedAt", {
         type: "DateTime",
@@ -497,7 +502,7 @@ export function registerBooksTypes(builder: Builder): void {
       coverImageUrl: t.string({
         nullable: true,
         description: "The cover image URL of the book",
-        resolve: (parent) => parent.coverImageUrl,
+        resolve: (parent) => enhanceRakutenImageUrl(parent.coverImageUrl),
       }),
       amazonUrl: t.string({
         nullable: true,
