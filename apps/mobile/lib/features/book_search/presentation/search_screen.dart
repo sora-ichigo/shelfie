@@ -412,7 +412,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Future<void> _onScanPressed() async {
     if (ref.read(authStateProvider).isGuest) {
-      context.push(AppRoutes.welcome);
+      await context.push(AppRoutes.welcome);
       return;
     }
 

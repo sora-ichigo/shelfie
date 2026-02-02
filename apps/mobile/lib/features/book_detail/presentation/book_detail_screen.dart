@@ -10,7 +10,6 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
-import 'package:shelfie/routing/app_router.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
@@ -31,6 +30,7 @@ import 'package:shelfie/features/book_list/presentation/widgets/list_selector_mo
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
+import 'package:shelfie/routing/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
