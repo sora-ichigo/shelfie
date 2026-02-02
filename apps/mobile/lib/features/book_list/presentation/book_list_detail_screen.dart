@@ -9,7 +9,6 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
-import 'package:shelfie/features/book_detail/presentation/services/share_service.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
@@ -92,7 +91,6 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         _DetailHeader(
           list: list,
           onBack: () => Navigator.of(context).pop(),
-          onShare: () => _onSharePressed(list),
         ),
         SliverToBoxAdapter(
           child: _ActionButtons(
@@ -148,15 +146,6 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
           ),
         ],
       ],
-    );
-  }
-
-  Future<void> _onSharePressed(BookListDetail list) async {
-    final shareService = ref.read(shareServiceProvider);
-    await shareService.shareBookList(
-      title: list.title,
-      description: list.description,
-      bookCount: list.stats.bookCount,
     );
   }
 
@@ -327,12 +316,10 @@ class _DetailHeader extends StatelessWidget {
   const _DetailHeader({
     required this.list,
     required this.onBack,
-    required this.onShare,
   });
 
   final BookListDetail list;
   final VoidCallback onBack;
-  final VoidCallback onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -357,20 +344,13 @@ class _DetailHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                      color: Colors.white,
-                      onPressed: onBack,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.share_outlined),
-                      color: Colors.white,
-                      onPressed: onShare,
-                    ),
-                  ],
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    color: Colors.white,
+                    onPressed: onBack,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.md),
                 Row(
