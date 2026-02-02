@@ -15,19 +15,21 @@ void main() {
         expect(AppRoutes.searchTab, '/search');
       });
 
-      test('検索画面のルートが ShellRoute 内に定義されている', () {
+      test('検索画面のルートが StatefulShellRoute 内に定義されている', () {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を取得
-        final shellRoute =
-            routes.firstWhere((r) => r is ShellRoute) as ShellRoute;
+        // StatefulShellRoute を取得
+        final shellRoute = routes.firstWhere((r) => r is StatefulShellRoute)
+            as StatefulShellRoute;
 
-        // ShellRoute 内に検索ルートが存在することを確認
-        final hasSearchRoute = shellRoute.routes.any(
+        // branches 内の全ルートから検索ルートが存在することを確認
+        final allBranchRoutes =
+            shellRoute.branches.expand((b) => b.routes).toList();
+        final hasSearchRoute = allBranchRoutes.any(
           (r) =>
               r is GoRoute &&
               (r.path == '/search' || r.path == AppRoutes.searchTab),
@@ -42,12 +44,14 @@ void main() {
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を取得
-        final shellRoute =
-            routes.firstWhere((r) => r is ShellRoute) as ShellRoute;
+        // StatefulShellRoute を取得
+        final shellRoute = routes.firstWhere((r) => r is StatefulShellRoute)
+            as StatefulShellRoute;
 
-        // 検索ルートを取得
-        final searchRoute = shellRoute.routes.firstWhere(
+        // branches 内の全ルートから検索ルートを取得
+        final allBranchRoutes =
+            shellRoute.branches.expand((b) => b.routes).toList();
+        final searchRoute = allBranchRoutes.firstWhere(
           (r) => r is GoRoute && r.path == AppRoutes.searchTab,
         ) as GoRoute;
 
@@ -101,26 +105,24 @@ void main() {
 
     group('既存プレースホルダーの置き換え', () {
       test('検索ルートが SearchScreen を使用している', () {
-        // app_router.dart のソースコードで SearchScreen のインポートがあり、
-        // 検索ルートで使用されていることをコードレビューで確認済み。
-        // ここでは、ルート定義が存在することを確認。
         final container = createTestContainer();
         addTearDown(container.dispose);
 
         final router = container.read(appRouterProvider);
         final routes = router.configuration.routes;
 
-        // ShellRoute を取得
-        final shellRoute =
-            routes.firstWhere((r) => r is ShellRoute) as ShellRoute;
+        // StatefulShellRoute を取得
+        final shellRoute = routes.firstWhere((r) => r is StatefulShellRoute)
+            as StatefulShellRoute;
 
-        // 検索ルートが存在することを確認
-        final searchRoute = shellRoute.routes.firstWhere(
+        // branches 内の全ルートから検索ルートを取得
+        final allBranchRoutes =
+            shellRoute.branches.expand((b) => b.routes).toList();
+        final searchRoute = allBranchRoutes.firstWhere(
           (r) => r is GoRoute && r.path == AppRoutes.searchTab,
         ) as GoRoute;
 
         // pageBuilder が定義されていることを確認
-        // プレースホルダー _SearchScreen ではなく SearchScreen が使用されている
         expect(searchRoute.pageBuilder, isNotNull);
       });
     });
