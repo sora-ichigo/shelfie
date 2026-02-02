@@ -226,6 +226,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onRecentBookAddToShelf(RecentBookEntry book) async {
+    if (ref.read(authStateProvider).isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
     if (_addingBooks.contains(book.bookId)) return;
 
     final addResult = await showAddToShelfModal(context: context);
