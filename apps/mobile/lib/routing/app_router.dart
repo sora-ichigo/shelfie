@@ -219,6 +219,7 @@ String? guardRoute({
         currentLocation == AppRoutes.homeTab ||
         currentLocation == AppRoutes.searchTab ||
         currentLocation.startsWith('/books/') ||
+        currentLocation == AppRoutes.account ||
         isWelcomeRoute ||
         isAuthRoute;
 

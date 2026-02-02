@@ -90,14 +90,12 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         height: headerSpace,
                         child: ScreenHeader(
                           title: 'ライブラリ',
-                          onProfileTap: isGuest
-                              ? null
-                              : () => context.push(AppRoutes.account),
+                          onProfileTap: () =>
+                              context.push(AppRoutes.account),
                           avatarUrl:
                               accountAsync?.valueOrNull?.avatarUrl,
                           isAvatarLoading:
                               accountAsync?.isLoading ?? false,
-                          showAvatar: !isGuest,
                         ),
                       ),
                     ),

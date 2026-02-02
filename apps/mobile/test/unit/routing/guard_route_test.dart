@@ -132,10 +132,10 @@ void main() {
         expect(result, isNull);
       });
 
-      test('ゲスト + /account -> /welcome へリダイレクト', () {
+      test('ゲスト + /account -> リダイレクトなし', () {
         when(() => mockState.matchedLocation).thenReturn('/account');
         final result = guardRoute(authState: guestState, state: mockState);
-        expect(result, equals(AppRoutes.welcome));
+        expect(result, isNull);
       });
 
       test('ゲスト + /account/edit -> /welcome へリダイレクト', () {

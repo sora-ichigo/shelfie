@@ -76,7 +76,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
-    final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
     final accountAsync = ref.watch(accountNotifierProvider);
     final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
@@ -110,12 +109,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ? const SizedBox.shrink()
                     : ScreenHeader(
                         title: 'さがす',
-                        onProfileTap: isGuest
-                            ? null
-                            : () => context.push(AppRoutes.account),
+                        onProfileTap: () =>
+                            context.push(AppRoutes.account),
                         avatarUrl: avatarUrl,
                         isAvatarLoading: accountAsync.isLoading,
-                        showAvatar: !isGuest,
                       ),
               ),
               Padding(
