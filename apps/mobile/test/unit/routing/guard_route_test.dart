@@ -156,10 +156,10 @@ void main() {
         expect(result, equals(AppRoutes.welcome));
       });
 
-      test('ゲスト + /search/isbn-scan -> /welcome へリダイレクト', () {
+      test('ゲスト + /search/isbn-scan -> リダイレクトなし', () {
         when(() => mockState.matchedLocation).thenReturn('/search/isbn-scan');
         final result = guardRoute(authState: guestState, state: mockState);
-        expect(result, equals(AppRoutes.welcome));
+        expect(result, isNull);
       });
     });
   });

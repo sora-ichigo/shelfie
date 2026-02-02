@@ -413,11 +413,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onScanPressed() async {
-    if (ref.read(authStateProvider).isGuest) {
-      showGuestLoginSnackBar(context);
-      return;
-    }
-
     final isbn = await context.push<String>(AppRoutes.isbnScan);
 
     if (isbn != null && mounted) {

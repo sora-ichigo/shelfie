@@ -218,6 +218,7 @@ String? guardRoute({
     final isGuestAllowed = currentLocation == '/' ||
         currentLocation == AppRoutes.homeTab ||
         currentLocation == AppRoutes.searchTab ||
+        currentLocation == AppRoutes.isbnScan ||
         currentLocation.startsWith('/books/') ||
         currentLocation == AppRoutes.account ||
         isWelcomeRoute ||
