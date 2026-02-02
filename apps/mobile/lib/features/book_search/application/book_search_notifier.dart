@@ -95,7 +95,7 @@ class BookSearchNotifier extends _$BookSearchNotifier {
 
   Future<Either<Failure, UserBook>> addToShelf(
     Book book, {
-    ReadingStatus readingStatus = ReadingStatus.backlog,
+    ReadingStatus readingStatus = ReadingStatus.interested,
   }) async {
     return ref.read(shelfStateProvider.notifier).addToShelf(
       externalId: book.id,

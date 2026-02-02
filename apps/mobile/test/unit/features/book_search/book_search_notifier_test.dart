@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
@@ -56,6 +57,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(FakeSearchHistoryEntry());
     registerFallbackValue(BookSource.rakuten);
+    registerFallbackValue(ReadingStatus.interested);
   });
 
   group('BookSearchState', () {
@@ -410,6 +412,7 @@ void main() {
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
               source: any(named: 'source'),
+              readingStatus: any(named: 'readingStatus'),
             )).thenAnswer(
           (_) async => right(
             UserBook(
@@ -447,6 +450,7 @@ void main() {
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
               source: any(named: 'source'),
+              readingStatus: any(named: 'readingStatus'),
             )).thenAnswer(
           (_) async =>
               left(const AuthFailure(message: 'Authentication required')),
@@ -476,6 +480,7 @@ void main() {
               isbn: any(named: 'isbn'),
               coverImageUrl: any(named: 'coverImageUrl'),
               source: any(named: 'source'),
+              readingStatus: any(named: 'readingStatus'),
             )).thenAnswer(
           (_) async => left(
             const ServerFailure(

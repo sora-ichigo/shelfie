@@ -186,6 +186,7 @@ void main() {
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
             source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
           ),
         ).thenAnswer(
           (_) async => right(
@@ -264,6 +265,7 @@ void main() {
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
             source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
           ),
         ).thenAnswer(
           (_) async => left(const NetworkFailure(message: 'Network error')),
@@ -478,6 +480,7 @@ void main() {
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
             source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
           ),
         ).thenAnswer(
           (_) async => right(
@@ -514,6 +517,7 @@ void main() {
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
             source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
           ),
         ).thenAnswer(
           (_) async => left(const NetworkFailure(message: 'Network error')),
@@ -777,6 +781,7 @@ void main() {
             isbn: any(named: 'isbn'),
             coverImageUrl: any(named: 'coverImageUrl'),
             source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
           ),
         ).thenAnswer(
           (_) async => right(

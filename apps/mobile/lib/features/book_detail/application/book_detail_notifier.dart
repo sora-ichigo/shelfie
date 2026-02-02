@@ -68,7 +68,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
   }
 
   Future<Either<Failure, void>> addToShelf({
-    ReadingStatus readingStatus = ReadingStatus.backlog,
+    ReadingStatus readingStatus = ReadingStatus.interested,
   }) async {
     final currentState = state;
     if (!currentState.hasValue || currentState.value == null) {
