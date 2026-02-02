@@ -262,13 +262,19 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   bool get _isGuest => ref.read(authStateProvider).isGuest;
 
-  void _redirectGuestToWelcome() {
-    context.push(AppRoutes.welcome);
+  void _showGuestLoginSnackBar() {
+    AdaptiveSnackBar.show(
+      context,
+      message: 'この機能を利用するにはログインが必要です',
+      type: AdaptiveSnackBarType.info,
+      action: 'ログイン',
+      onActionPressed: () => context.push(AppRoutes.welcome),
+    );
   }
 
   Future<void> _onAddToShelfPressed() async {
     if (_isGuest) {
-      _redirectGuestToWelcome();
+      _showGuestLoginSnackBar();
       return;
     }
     if (_isAddingToShelf) return;
@@ -354,7 +360,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onStatusTap() {
     if (_isGuest) {
-      _redirectGuestToWelcome();
+      _showGuestLoginSnackBar();
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
@@ -370,7 +376,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onNoteTap() {
     if (_isGuest) {
-      _redirectGuestToWelcome();
+      _showGuestLoginSnackBar();
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
@@ -386,7 +392,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onRatingTap() {
     if (_isGuest) {
-      _redirectGuestToWelcome();
+      _showGuestLoginSnackBar();
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];

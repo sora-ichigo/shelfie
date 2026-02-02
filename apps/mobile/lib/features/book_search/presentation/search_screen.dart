@@ -410,9 +410,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(searchHistoryNotifierProvider.notifier).clearAll();
   }
 
+  void _showGuestLoginSnackBar() {
+    AdaptiveSnackBar.show(
+      context,
+      message: 'この機能を利用するにはログインが必要です',
+      type: AdaptiveSnackBarType.info,
+      action: 'ログイン',
+      onActionPressed: () => context.push(AppRoutes.welcome),
+    );
+  }
+
   Future<void> _onScanPressed() async {
     if (ref.read(authStateProvider).isGuest) {
-      await context.push(AppRoutes.welcome);
+      _showGuestLoginSnackBar();
       return;
     }
 
@@ -444,7 +454,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Future<void> _onAddToShelf(Book book) async {
     if (ref.read(authStateProvider).isGuest) {
-      await context.push(AppRoutes.welcome);
+      _showGuestLoginSnackBar();
       return;
     }
     if (_addingBooks.contains(book.id)) return;
