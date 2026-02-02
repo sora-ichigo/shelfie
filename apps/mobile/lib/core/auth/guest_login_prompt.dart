@@ -6,9 +6,9 @@ import 'package:shelfie/routing/app_router.dart';
 void showGuestLoginSnackBar(BuildContext context) {
   AdaptiveSnackBar.show(
     context,
-    message: 'この機能を利用するにはログインが必要です',
+    message: 'この機能を利用するにはアカウントが必要です',
     type: AdaptiveSnackBarType.info,
-    action: 'ログイン',
-    onActionPressed: () => context.push(AppRoutes.welcome),
+    action: '登録',
+    onActionPressed: () => context.push(AppRoutes.register),
   );
 }
