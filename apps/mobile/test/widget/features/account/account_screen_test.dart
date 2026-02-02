@@ -27,6 +27,7 @@ void main() {
     VoidCallback? onNavigateToTerms,
     VoidCallback? onNavigateToPrivacy,
     VoidCallback? onLogout,
+    VoidCallback? onDeleteAccount,
     VoidCallback? onClose,
   }) {
     return ProviderScope(
@@ -43,6 +44,7 @@ void main() {
           onNavigateToTerms: onNavigateToTerms ?? () {},
           onNavigateToPrivacy: onNavigateToPrivacy ?? () {},
           onLogout: onLogout ?? () {},
+          onDeleteAccount: onDeleteAccount ?? () {},
           onClose: onClose,
         ),
       ),
@@ -93,6 +95,7 @@ void main() {
                 onNavigateToTerms: () {},
                 onNavigateToPrivacy: () {},
                 onLogout: () {},
+                onDeleteAccount: () {},
               ),
             ),
           ),

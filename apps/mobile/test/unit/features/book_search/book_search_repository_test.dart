@@ -61,7 +61,8 @@ void main() {
         (b) => b
           ..vars.bookInput.externalId = 'test'
           ..vars.bookInput.title = 'test'
-          ..vars.bookInput.authors = ListBuilder(['test']),
+          ..vars.bookInput.authors = ListBuilder(['test'])
+          ..vars.bookInput.source = GBookSource.GOOGLE,
       ),
     );
   });
@@ -331,7 +332,8 @@ void main() {
                 (b) => b
                   ..vars.bookInput.externalId = 'book-1'
                   ..vars.bookInput.title = 'Added Book'
-                  ..vars.bookInput.authors = ListBuilder(['Book Author']),
+                  ..vars.bookInput.authors = ListBuilder(['Book Author'])
+                  ..vars.bookInput.source = GBookSource.RAKUTEN,
               ),
               data: mockData,
             ),
@@ -365,7 +367,8 @@ void main() {
                 (b) => b
                   ..vars.bookInput.externalId = 'book-1'
                   ..vars.bookInput.title = 'Duplicate Book'
-                  ..vars.bookInput.authors = ListBuilder(['Author']),
+                  ..vars.bookInput.authors = ListBuilder(['Author'])
+                  ..vars.bookInput.source = GBookSource.RAKUTEN,
               ),
               data: null,
               graphqlErrors: [
@@ -402,7 +405,8 @@ void main() {
                 (b) => b
                   ..vars.bookInput.externalId = 'book-1'
                   ..vars.bookInput.title = 'Auth Book'
-                  ..vars.bookInput.authors = ListBuilder(['Author']),
+                  ..vars.bookInput.authors = ListBuilder(['Author'])
+                  ..vars.bookInput.source = GBookSource.RAKUTEN,
               ),
               data: null,
               graphqlErrors: [
