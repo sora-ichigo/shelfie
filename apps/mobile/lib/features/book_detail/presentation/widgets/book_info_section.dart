@@ -44,7 +44,7 @@ class BookInfoSection extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
         ],
         _buildBibliographicCard(theme),
-        if (bookDetail.description != null) ...[
+        if (_hasDescription()) ...[
           const SizedBox(height: AppSpacing.lg),
           _buildDescription(theme),
         ],
@@ -436,6 +436,11 @@ class BookInfoSection extends StatelessWidget {
     result = result.replaceAll(RegExp(r'\n{3,}'), '\n\n');
 
     return result.trim();
+  }
+
+  bool _hasDescription() {
+    return bookDetail.description != null &&
+        _stripHtmlTags(bookDetail.description!).isNotEmpty;
   }
 
   bool _hasExternalLinks() {

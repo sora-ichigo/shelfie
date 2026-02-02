@@ -126,6 +126,34 @@ void main() {
         expect(find.text('作品紹介'), findsNothing);
       });
 
+      testWidgets('description が空文字列の場合、作品紹介セクションが非表示になる', (tester) async {
+        const bookDetail = BookDetail(
+          id: 'test-id',
+          title: 'Test Book',
+          authors: ['Test Author'],
+          description: '',
+        );
+
+        await tester.pumpWidget(buildTestWidget(bookDetail: bookDetail));
+        await tester.pumpAndSettle();
+
+        expect(find.text('作品紹介'), findsNothing);
+      });
+
+      testWidgets('description がHTMLタグのみの場合、作品紹介セクションが非表示になる', (tester) async {
+        const bookDetail = BookDetail(
+          id: 'test-id',
+          title: 'Test Book',
+          authors: ['Test Author'],
+          description: '<p><br></p>',
+        );
+
+        await tester.pumpWidget(buildTestWidget(bookDetail: bookDetail));
+        await tester.pumpAndSettle();
+
+        expect(find.text('作品紹介'), findsNothing);
+      });
+
       testWidgets('全ての書誌情報が null の場合、書誌情報セクションが非表示になる', (tester) async {
         const bookDetail = BookDetail(
           id: 'test-id',
