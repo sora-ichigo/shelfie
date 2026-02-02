@@ -79,7 +79,7 @@ void main() {
       expect(registerPressed, isTrue);
     });
 
-    testWidgets('「アカウントなしで利用」リンクが表示される', (tester) async {
+    testWidgets('ゲストモードボタンは表示されない', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.dark(),
@@ -87,60 +87,12 @@ void main() {
             body: WelcomeButtons(
               onLoginPressed: () {},
               onRegisterPressed: () {},
-              onGuestModePressed: () {},
             ),
           ),
         ),
       );
 
-      expect(find.text('アカウントなしで利用'), findsOneWidget);
-    });
-
-    testWidgets('「アカウントなしで利用」タップで onGuestModePressed が呼ばれる',
-        (tester) async {
-      var guestModePressed = false;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: WelcomeButtons(
-              onLoginPressed: () {},
-              onRegisterPressed: () {},
-              onGuestModePressed: () => guestModePressed = true,
-            ),
-          ),
-        ),
-      );
-
-      await tester.tap(find.text('アカウントなしで利用'));
-      await tester.pumpAndSettle();
-
-      expect(guestModePressed, isTrue);
-    });
-
-    testWidgets('「アカウントなしで利用」はボタンよりも控えめなテキストリンクスタイル',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: WelcomeButtons(
-              onLoginPressed: () {},
-              onRegisterPressed: () {},
-              onGuestModePressed: () {},
-            ),
-          ),
-        ),
-      );
-
-      final textButton = tester.widget<TextButton>(
-        find.ancestor(
-          of: find.text('アカウントなしで利用'),
-          matching: find.byType(TextButton),
-        ),
-      );
-      expect(textButton, isNotNull);
+      expect(find.text('アカウントなしで利用'), findsNothing);
     });
   });
 }

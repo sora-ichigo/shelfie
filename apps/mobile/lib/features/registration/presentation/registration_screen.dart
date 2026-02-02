@@ -2,14 +2,15 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shelfie/core/constants/legal_urls.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/registration/application/registration_notifier.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_background.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_form.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_header.dart';
-import 'package:shelfie/features/registration/presentation/widgets/registration_legal_links.dart';
 import 'package:shelfie/features/registration/presentation/widgets/registration_submit_button.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 class RegistrationScreen extends ConsumerWidget {
   const RegistrationScreen({super.key});
@@ -39,6 +40,7 @@ class RegistrationScreen extends ConsumerWidget {
                 children: [
                   RegistrationHeader(
                     onBackPressed: () => _onBackPressed(context),
+                    onLoginPressed: () => _onLoginPressed(context),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                   const RegistrationForm(),
@@ -47,10 +49,9 @@ class RegistrationScreen extends ConsumerWidget {
                     onPressed:
                         isLoading ? null : () => _onSubmitPressed(context, ref),
                   ),
-                  const SizedBox(height: AppSpacing.md),
-                  RegistrationLegalLinks(
-                    onTermsPressed: () => _onTermsPressed(context),
-                    onPrivacyPressed: () => _onPrivacyPressed(context),
+                  const SizedBox(height: AppSpacing.sm),
+                  _GuestModeLink(
+                    onPressed: () => _onGuestModePressed(context, ref),
                   ),
                 ],
               ),
@@ -105,11 +106,41 @@ class RegistrationScreen extends ConsumerWidget {
     ref.read(registrationNotifierProvider.notifier).register();
   }
 
-  void _onTermsPressed(BuildContext context) {
-    LegalUrls.openTermsOfService();
+  Future<void> _onGuestModePressed(BuildContext context, WidgetRef ref) async {
+    final authState = ref.read(authStateProvider);
+    if (authState.isGuest) {
+      if (context.mounted) context.pop();
+      return;
+    }
+    await ref.read(authStateProvider.notifier).enterGuestMode();
+    if (context.mounted) context.go(AppRoutes.searchTab);
   }
 
-  void _onPrivacyPressed(BuildContext context) {
-    LegalUrls.openPrivacyPolicy();
+  void _onLoginPressed(BuildContext context) {
+    context.push(AppRoutes.login);
+  }
+
+}
+
+class _GuestModeLink extends StatelessWidget {
+  const _GuestModeLink({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppColors>();
+    final mutedColor = colors?.foregroundMuted ?? const Color(0xFFA0A0A0);
+
+    return Center(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Text(
+          '登録せずに利用',
+          style: theme.textTheme.bodySmall?.copyWith(color: mutedColor),
+        ),
+      ),
+    );
   }
 }
