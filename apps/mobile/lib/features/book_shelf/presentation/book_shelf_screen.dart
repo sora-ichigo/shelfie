@@ -167,6 +167,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final lists = bookListState is BookListLoaded
         ? bookListState.lists
         : <BookListSummary>[];
+    final isListLoading =
+        bookListState is BookListInitial || bookListState is BookListLoading;
 
     final shelfState = ref.watch(shelfStateProvider);
     final hasBooks = shelfState.isNotEmpty;
@@ -176,14 +178,23 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           onBookTap: _onBookTap,
           onBookLongPress: _onBookLongPress,
         ),
-      LibraryFilterTab.lists => _buildListsTab(lists, hasBooks),
+      LibraryFilterTab.lists => _buildListsTab(
+          lists,
+          hasBooks,
+          isLoading: isListLoading,
+        ),
     };
   }
 
-  Widget _buildListsTab(List<BookListSummary> lists, bool hasBooks) {
+  Widget _buildListsTab(
+    List<BookListSummary> lists,
+    bool hasBooks, {
+    required bool isLoading,
+  }) {
     return LibraryListsTab(
       lists: lists,
       hasBooks: hasBooks,
+      isLoading: isLoading,
       onListTap: _onListTap,
       onCreateTap: () {
         context.push(AppRoutes.bookListCreate);

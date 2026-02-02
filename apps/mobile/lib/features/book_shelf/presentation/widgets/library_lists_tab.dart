@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/create_list_card.dart';
@@ -13,6 +14,7 @@ class LibraryListsTab extends StatelessWidget {
     required this.hasBooks,
     required this.onListTap,
     required this.onCreateTap,
+    this.isLoading = false,
     super.key,
   });
 
@@ -20,11 +22,16 @@ class LibraryListsTab extends StatelessWidget {
   final bool hasBooks;
   final ValueChanged<BookListSummary> onListTap;
   final VoidCallback onCreateTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     if (!hasBooks) {
       return const NoBooksMessage();
+    }
+
+    if (isLoading) {
+      return const Center(child: LoadingIndicator());
     }
 
     if (lists.isEmpty) {
