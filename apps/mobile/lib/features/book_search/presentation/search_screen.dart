@@ -443,6 +443,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onAddToShelf(Book book) async {
+    if (ref.read(authStateProvider).isGuest) {
+      await context.push(AppRoutes.welcome);
+      return;
+    }
     if (_addingBooks.contains(book.id)) return;
 
     final addResult = await showAddToShelfModal(context: context);
