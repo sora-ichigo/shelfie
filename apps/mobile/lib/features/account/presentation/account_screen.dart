@@ -123,11 +123,9 @@ class AccountScreen extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xl),
-          _LogoutButton(onLogout: onLogout),
           if (!isGuest) ...[
-            const SizedBox(height: AppSpacing.md),
-            _DeleteAccountButton(onDeleteAccount: onDeleteAccount),
+            const SizedBox(height: AppSpacing.xl),
+            _LogoutButton(onLogout: onLogout),
           ],
           const SizedBox(height: AppSpacing.xl),
           const _AppInfoFooter(),
