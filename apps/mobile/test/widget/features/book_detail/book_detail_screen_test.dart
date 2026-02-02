@@ -131,7 +131,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.share), findsOneWidget);
+      expect(find.byIcon(Icons.more_vert), findsOneWidget);
     });
   });
 

@@ -48,7 +48,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
   bool _isLoading = true;
   bool _isAddingToShelf = false;
   String? _errorMessage;
-  ReadingStatus _selectedStatus = ReadingStatus.backlog;
+  ReadingStatus _selectedStatus = ReadingStatus.interested;
   int? _selectedRating;
 
   @override

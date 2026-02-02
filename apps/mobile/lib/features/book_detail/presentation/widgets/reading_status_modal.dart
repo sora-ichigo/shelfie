@@ -56,7 +56,7 @@ Future<({ReadingStatus status, int? rating})?> showAddToShelfModal({
     useRootNavigator: true,
     builder: (context) => const _ReadingStatusModalContent(
       mode: ReadingStatusModalMode.addToShelf,
-      currentStatus: ReadingStatus.backlog,
+      currentStatus: ReadingStatus.interested,
     ),
   );
 }

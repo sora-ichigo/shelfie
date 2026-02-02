@@ -31,7 +31,7 @@ class ShelfState extends _$ShelfState {
     String? isbn,
     String? coverImageUrl,
     required BookSource source,
-    ReadingStatus readingStatus = ReadingStatus.backlog,
+    ReadingStatus readingStatus = ReadingStatus.interested,
   }) async {
     final repository = ref.read(bookSearchRepositoryProvider);
     final result = await repository.addBookToShelf(
@@ -283,7 +283,7 @@ class ShelfState extends _$ShelfState {
       ShelfEntry(
         userBookId: userBookId,
         externalId: externalId,
-        readingStatus: ReadingStatus.backlog,
+        readingStatus: ReadingStatus.interested,
         addedAt: DateTime.now(),
       ),
     );

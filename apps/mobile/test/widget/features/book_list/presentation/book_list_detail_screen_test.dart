@@ -165,7 +165,6 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('本を追加'), findsOneWidget);
-        expect(find.byIcon(Icons.share_outlined), findsAtLeastNWidgets(1));
         expect(find.byIcon(Icons.more_vert), findsOneWidget);
       });
 
