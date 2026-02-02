@@ -644,6 +644,164 @@ describe("MyShelf enhanced query types", () => {
   });
 });
 
+describe("Public queries (guest mode - no auth required)", () => {
+  describe("searchBooks resolver with unauthenticated context", () => {
+    it("should succeed when user is null (guest mode)", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockResult = {
+        items: [
+          {
+            id: "book-1",
+            title: "Test Book",
+            authors: ["Author"],
+            publisher: null,
+            publishedDate: null,
+            isbn: null,
+            coverImageUrl: null,
+            source: "rakuten" as const,
+          },
+        ],
+        totalCount: 1,
+        hasMore: false,
+      };
+      vi.mocked(mockSearchService.searchBooks).mockResolvedValue(
+        ok(mockResult),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const searchBooksField = queryType?.getFields().searchBooks;
+
+      const result = await searchBooksField?.resolve?.(
+        {},
+        { query: "test", limit: 10, offset: 0 },
+        {
+          requestId: "test",
+          user: null,
+        },
+        {} as never,
+      );
+
+      expect(mockSearchService.searchBooks).toHaveBeenCalledWith({
+        query: "test",
+        limit: 10,
+        offset: 0,
+      });
+      expect(result).toEqual(mockResult);
+    });
+  });
+
+  describe("searchBookByISBN resolver with unauthenticated context", () => {
+    it("should succeed when user is null (guest mode)", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockBook = {
+        id: "isbn-book",
+        title: "ISBN Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: "9781234567890",
+        coverImageUrl: null,
+        source: "rakuten" as const,
+      };
+      vi.mocked(mockSearchService.searchBookByISBN).mockResolvedValue(
+        ok(mockBook),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const searchByISBNField = queryType?.getFields().searchBookByISBN;
+
+      const result = await searchByISBNField?.resolve?.(
+        {},
+        { isbn: "9781234567890" },
+        {
+          requestId: "test",
+          user: null,
+        },
+        {} as never,
+      );
+
+      expect(mockSearchService.searchBookByISBN).toHaveBeenCalledWith({
+        isbn: "9781234567890",
+      });
+      expect(result).toEqual(mockBook);
+    });
+  });
+
+  describe("bookDetail resolver with unauthenticated context", () => {
+    it("should return book detail with userBook as null when user is null (guest mode)", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const mockBookDetail = {
+        id: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: "Publisher",
+        publishedDate: "2024-01-01",
+        pageCount: 200,
+        categories: ["Fiction"],
+        description: "A test book",
+        isbn: "9781234567890",
+        coverImageUrl: "https://example.com/cover.jpg",
+        amazonUrl: "https://amazon.com/dp/1234567890",
+        googleBooksUrl: null,
+        rakutenBooksUrl: "https://books.rakuten.co.jp/rb/12345678/",
+      };
+
+      vi.mocked(mockSearchService.getBookDetail).mockResolvedValue(
+        ok(mockBookDetail),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+
+      const schema = builder.toSchema();
+      const queryType = schema.getQueryType();
+      const bookDetailField = queryType?.getFields().bookDetail;
+
+      const result = await bookDetailField?.resolve?.(
+        {},
+        { bookId: "book-123", source: "rakuten" },
+        {
+          requestId: "test",
+          user: null,
+        },
+        {} as never,
+      );
+
+      expect(mockSearchService.getBookDetail).toHaveBeenCalledWith(
+        "book-123",
+        "rakuten",
+      );
+      expect(mockShelfService.getUserBookByExternalId).not.toHaveBeenCalled();
+      expect(result).toMatchObject({
+        ...mockBookDetail,
+        userBook: null,
+      });
+    });
+  });
+});
+
 describe("BooksGraphQL Resolver Behavior", () => {
   describe("searchBooks resolver", () => {
     it("should call searchService.searchBooks with correct parameters", async () => {

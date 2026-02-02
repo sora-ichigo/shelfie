@@ -10,6 +10,7 @@ class WelcomeContent extends StatelessWidget {
     required this.onRegisterPressed,
     required this.onTermsPressed,
     required this.onPrivacyPressed,
+    this.onGuestModePressed,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class WelcomeContent extends StatelessWidget {
   final VoidCallback onRegisterPressed;
   final VoidCallback onTermsPressed;
   final VoidCallback onPrivacyPressed;
+  final VoidCallback? onGuestModePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class WelcomeContent extends StatelessWidget {
                         WelcomeButtons(
                           onLoginPressed: onLoginPressed,
                           onRegisterPressed: onRegisterPressed,
+                          onGuestModePressed: onGuestModePressed,
                         ),
                         SizedBox(height: AppSpacing.lg),
                         LegalLinks(

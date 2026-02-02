@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -37,6 +38,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
+      final isGuest = ref.read(authStateProvider).isGuest;
+      if (isGuest) return;
+
       for (final status in ReadingStatus.values) {
         ref
             .read(statusSectionNotifierProvider(status).notifier)
@@ -48,6 +52,11 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
+    if (isGuest) {
+      return _buildGuestView(context);
+    }
+
     final bookListState = ref.watch(bookListNotifierProvider);
     final accountAsync = ref.watch(accountNotifierProvider);
 
@@ -128,6 +137,45 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         ];
       },
       body: _buildContent(bookListState),
+    );
+  }
+
+  Widget _buildGuestView(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+        child: Column(
+          children: [
+            SizedBox(height: AppSpacing.md),
+            ScreenHeader(
+              title: 'ライブラリ',
+              showAvatar: false,
+            ),
+            const Spacer(),
+            Icon(
+              Icons.library_books_outlined,
+              size: 64,
+              color: theme.colorScheme.onSurface.withOpacity(0.3),
+            ),
+            SizedBox(height: AppSpacing.md),
+            Text(
+              'ログインしてライブラリを利用しましょう',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurface.withOpacity(0.7),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: AppSpacing.lg),
+            FilledButton(
+              onPressed: () => context.push(AppRoutes.welcome),
+              child: const Text('ログイン / 新規登録'),
+            ),
+            const Spacer(flex: 2),
+          ],
+        ),
+      ),
     );
   }
 

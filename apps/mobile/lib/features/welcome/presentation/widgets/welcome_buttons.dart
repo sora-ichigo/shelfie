@@ -5,11 +5,13 @@ class WelcomeButtons extends StatelessWidget {
   const WelcomeButtons({
     required this.onLoginPressed,
     required this.onRegisterPressed,
+    this.onGuestModePressed,
     super.key,
   });
 
   final VoidCallback onLoginPressed;
   final VoidCallback onRegisterPressed;
+  final VoidCallback? onGuestModePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,18 @@ class WelcomeButtons extends StatelessWidget {
             ),
           ),
         ),
+        if (onGuestModePressed != null) ...[
+          SizedBox(height: AppSpacing.md),
+          TextButton(
+            onPressed: onGuestModePressed,
+            child: Text(
+              'アカウントなしで利用',
+              style: baseTextStyle?.copyWith(
+                color: Colors.white70,
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

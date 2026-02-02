@@ -4,6 +4,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -75,6 +76,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
+    final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
     final accountAsync = ref.watch(accountNotifierProvider);
     final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
@@ -108,9 +110,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ? const SizedBox.shrink()
                     : ScreenHeader(
                         title: 'さがす',
-                        onProfileTap: () => context.push(AppRoutes.account),
+                        onProfileTap: isGuest
+                            ? null
+                            : () => context.push(AppRoutes.account),
                         avatarUrl: avatarUrl,
                         isAvatarLoading: accountAsync.isLoading,
+                        showAvatar: !isGuest,
                       ),
               ),
               Padding(
@@ -406,6 +411,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Future<void> _onScanPressed() async {
+    if (ref.read(authStateProvider).isGuest) {
+      context.push(AppRoutes.welcome);
+      return;
+    }
+
     final isbn = await context.push<String>(AppRoutes.isbnScan);
 
     if (isbn != null && mounted) {

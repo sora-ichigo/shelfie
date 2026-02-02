@@ -19,6 +19,7 @@ class SecureStorageService {
   static const String _keyEmail = 'auth_email';
   static const String _keyIdToken = 'auth_id_token';
   static const String _keyRefreshToken = 'auth_refresh_token';
+  static const String _keyGuestMode = 'guest_mode';
 
   Future<void> saveAuthData({
     required String userId,
@@ -79,6 +80,19 @@ class SecureStorageService {
       _storage.delete(key: _keyIdToken),
       _storage.delete(key: _keyRefreshToken),
     ]);
+  }
+
+  Future<void> saveGuestMode({required bool isGuest}) async {
+    await _storage.write(key: _keyGuestMode, value: isGuest.toString());
+  }
+
+  Future<bool> loadGuestMode() async {
+    final value = await _storage.read(key: _keyGuestMode);
+    return value == 'true';
+  }
+
+  Future<void> clearGuestMode() async {
+    await _storage.delete(key: _keyGuestMode);
   }
 }
 

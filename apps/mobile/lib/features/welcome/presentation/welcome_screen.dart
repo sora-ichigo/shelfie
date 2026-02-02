@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_background.dart';
 import 'package:shelfie/features/welcome/presentation/widgets/welcome_content.dart';
@@ -19,6 +20,7 @@ class WelcomeScreen extends ConsumerWidget {
             child: WelcomeContent(
               onLoginPressed: () => _onLoginPressed(context),
               onRegisterPressed: () => _onRegisterPressed(context),
+              onGuestModePressed: () => _onGuestModePressed(context, ref),
               onTermsPressed: () => _onTermsPressed(context),
               onPrivacyPressed: () => _onPrivacyPressed(context),
             ),
@@ -38,6 +40,16 @@ class WelcomeScreen extends ConsumerWidget {
 
   void _onTermsPressed(BuildContext context) {
     LegalUrls.openTermsOfService();
+  }
+
+  Future<void> _onGuestModePressed(BuildContext context, WidgetRef ref) async {
+    final authState = ref.read(authStateProvider);
+    if (authState.isGuest) {
+      if (context.mounted) context.pop();
+      return;
+    }
+    await ref.read(authStateProvider.notifier).enterGuestMode();
+    if (context.mounted) context.go(AppRoutes.searchTab);
   }
 
   void _onPrivacyPressed(BuildContext context) {
