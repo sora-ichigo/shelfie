@@ -4,6 +4,7 @@ import {
   type Book,
   mapGoogleBooksVolume,
   mapRakutenBooksItem,
+  validateGoogleBooksCoverImageUrl,
 } from "./book-mapper.js";
 import type {
   ExternalApiErrors,
@@ -123,11 +124,19 @@ export function createCompositeBookRepository(
       const rakutenBooks = rakutenResult.success
         ? rakutenResult.data.items.map(mapRakutenBooksItem)
         : [];
-      const googleBooks = googleResult.success
+      const googleBooksRaw = googleResult.success
         ? filterValidGoogleBooks(
             googleResult.data.items.map(mapGoogleBooksVolume),
           )
         : [];
+      const googleBooks = await Promise.all(
+        googleBooksRaw.map(async (book) => ({
+          ...book,
+          coverImageUrl: await validateGoogleBooksCoverImageUrl(
+            book.coverImageUrl,
+          ),
+        })),
+      );
 
       if (!rakutenResult.success && !googleResult.success) {
         return err(rakutenResult.error);

@@ -90,6 +90,22 @@ function parseSalesDate(salesDate: string): string | null {
   return `${year}-${month}`;
 }
 
+export function enhanceRakutenImageUrl(url: string | null): string | null {
+  if (!url) {
+    return null;
+  }
+  try {
+    const urlObj = new URL(url);
+    if (!urlObj.hostname.includes("rakuten")) {
+      return url;
+    }
+    urlObj.searchParams.set("_ex", "800x800");
+    return urlObj.toString();
+  } catch {
+    return url;
+  }
+}
+
 function extractCoverImageUrl(item: RakutenBooksItem): string | null {
   return (
     item.largeImageUrl ?? item.mediumImageUrl ?? item.smallImageUrl ?? null
@@ -180,6 +196,76 @@ function enhanceGoogleBooksImageUrl(url: string): string {
     urlObj.searchParams.set("zoom", "2");
     urlObj.searchParams.delete("edge");
     return urlObj.toString();
+  } catch {
+    return url;
+  }
+}
+
+export type PlaceholderAction = "fallback" | "no_cover";
+
+const DEFAULT_PLACEHOLDER_HASHES: Map<string, PlaceholderAction> = new Map([
+  // "image not available" テキスト画像 (PNG 300x391 RGB)
+  [
+    "12557f8948b8bdc6af436e3a8b3adddd45f7f7d2b67c5832e799cdf4686f72bb",
+    "fallback",
+  ],
+  // グレー無地プレースホルダー (PNG 575x750 grayscale)
+  [
+    "3efa8c43e5b4348f303a528c81adf435f0111ea752fe9f0f6241478b60987fa6",
+    "no_cover",
+  ],
+]);
+
+const VALIDATION_TIMEOUT_MS = 3000;
+
+export async function validateGoogleBooksCoverImageUrl(
+  url: string | null,
+  placeholderHashes?: Map<string, PlaceholderAction>,
+): Promise<string | null> {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const urlObj = new URL(url);
+    if (!urlObj.hostname.endsWith("books.google.com")) {
+      return url;
+    }
+    if (!urlObj.searchParams.has("zoom")) {
+      return url;
+    }
+
+    const hashes = placeholderHashes ?? DEFAULT_PLACEHOLDER_HASHES;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      VALIDATION_TIMEOUT_MS,
+    );
+
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      const buffer = await response.arrayBuffer();
+      const { createHash } = await import("node:crypto");
+      const hash = createHash("sha256")
+        .update(Buffer.from(buffer))
+        .digest("hex");
+
+      const action = hashes.get(hash);
+      if (action === "fallback") {
+        urlObj.searchParams.set("zoom", "1");
+        return urlObj.toString();
+      }
+      if (action === "no_cover") {
+        return null;
+      }
+
+      return url;
+    } catch {
+      clearTimeout(timeoutId);
+      return url;
+    }
   } catch {
     return url;
   }

@@ -1,13 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   type Book,
   type BookDetail,
+  enhanceRakutenImageUrl,
   type GoogleBooksVolume,
   isbn13ToIsbn10,
   mapGoogleBooksVolume,
   mapRakutenBooksItem,
   mapRakutenBooksItemToDetail,
+  type PlaceholderAction,
   type RakutenBooksItem,
+  validateGoogleBooksCoverImageUrl,
 } from "./book-mapper.js";
 
 const createRakutenBooksItem = (
@@ -483,6 +487,149 @@ describe("BookMapper", () => {
       const book = mapGoogleBooksVolume(volume);
 
       expect(book.coverImageUrl).toBeNull();
+    });
+  });
+
+  describe("validateGoogleBooksCoverImageUrl", () => {
+    const computeHash = (data: string) =>
+      createHash("sha256").update(Buffer.from(data)).digest("hex");
+
+    const testPlaceholders = new Map<string, PlaceholderAction>([
+      [computeHash("placeholder-image"), "fallback"],
+      [computeHash("no-cover-image"), "no_cover"],
+    ]);
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("null を渡すと null を返す", async () => {
+      const result = await validateGoogleBooksCoverImageUrl(null);
+
+      expect(result).toBeNull();
+    });
+
+    it("Google Books 以外の URL はバリデーションせずそのまま返す", async () => {
+      const fetchSpy = vi.spyOn(globalThis, "fetch");
+      const url = "https://example.com/image.jpg";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBe(url);
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
+    it("zoom=2 の画像が有効な場合はそのまま返す", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+        new Response(Buffer.from("valid-cover-image-data")),
+      );
+
+      const url =
+        "https://books.google.com/books/content?id=abc&zoom=2&source=gbs_api";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBe(url);
+    });
+
+    it("zoom=2 の画像がプレースホルダーの場合は zoom=1 にフォールバックする", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+        new Response(Buffer.from("placeholder-image")),
+      );
+
+      const url =
+        "https://books.google.com/books/content?id=AhSItAEACAAJ&printsec=frontcover&img=1&zoom=2&source=gbs_api";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBe(
+        "https://books.google.com/books/content?id=AhSItAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      );
+    });
+
+    it("カバー画像が存在しないプレースホルダーの場合は null を返す", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+        new Response(Buffer.from("no-cover-image")),
+      );
+
+      const url =
+        "https://books.google.com/books/content?id=abc&zoom=2&source=gbs_api";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBeNull();
+    });
+
+    it("fetch がエラーの場合は元の URL を返す", async () => {
+      vi.spyOn(globalThis, "fetch").mockRejectedValueOnce(
+        new Error("Network error"),
+      );
+
+      const url =
+        "https://books.google.com/books/content?id=abc&zoom=2&source=gbs_api";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBe(url);
+    });
+
+    it("zoom パラメータがない URL はバリデーションせずそのまま返す", async () => {
+      const fetchSpy = vi.spyOn(globalThis, "fetch");
+      const url =
+        "https://books.google.com/books/content?id=abc&source=gbs_api";
+
+      const result = await validateGoogleBooksCoverImageUrl(
+        url,
+        testPlaceholders,
+      );
+
+      expect(result).toBe(url);
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("enhanceRakutenImageUrl", () => {
+    it("楽天の画像 URL に ?_ex=800x800 を付与する", () => {
+      const url =
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=800x800",
+      );
+    });
+
+    it("既に _ex パラメータがある場合は上書きする", () => {
+      const url =
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=200x200";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(
+        "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/1234/1234.jpg?_ex=800x800",
+      );
+    });
+
+    it("楽天以外の URL はそのまま返す", () => {
+      const url = "https://books.google.com/thumbnail.jpg?zoom=2";
+
+      expect(enhanceRakutenImageUrl(url)).toBe(url);
+    });
+
+    it("null を渡すと null を返す", () => {
+      expect(enhanceRakutenImageUrl(null)).toBeNull();
     });
   });
 });
