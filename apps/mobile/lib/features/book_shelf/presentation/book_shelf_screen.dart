@@ -17,6 +17,7 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_filter_tabs.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/library_lists_tab.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/no_books_message.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/status_section_list.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -53,12 +54,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   @override
   Widget build(BuildContext context) {
     final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
-    if (isGuest) {
-      return _buildGuestView(context);
-    }
 
-    final bookListState = ref.watch(bookListNotifierProvider);
-    final accountAsync = ref.watch(accountNotifierProvider);
+    final bookListState = isGuest ? null : ref.watch(bookListNotifierProvider);
+    final accountAsync = isGuest ? null : ref.watch(accountNotifierProvider);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -92,11 +90,14 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         height: headerSpace,
                         child: ScreenHeader(
                           title: 'ライブラリ',
-                          onProfileTap: () =>
-                              context.push(AppRoutes.account),
+                          onProfileTap: isGuest
+                              ? null
+                              : () => context.push(AppRoutes.account),
                           avatarUrl:
-                              accountAsync.valueOrNull?.avatarUrl,
-                          isAvatarLoading: accountAsync.isLoading,
+                              accountAsync?.valueOrNull?.avatarUrl,
+                          isAvatarLoading:
+                              accountAsync?.isLoading ?? false,
+                          showAvatar: !isGuest,
                         ),
                       ),
                     ),
@@ -136,46 +137,9 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
           ),
         ];
       },
-      body: _buildContent(bookListState),
-    );
-  }
-
-  Widget _buildGuestView(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
-        child: Column(
-          children: [
-            SizedBox(height: AppSpacing.md),
-            ScreenHeader(
-              title: 'ライブラリ',
-              showAvatar: false,
-            ),
-            const Spacer(),
-            Icon(
-              Icons.library_books_outlined,
-              size: 64,
-              color: theme.colorScheme.onSurface.withOpacity(0.3),
-            ),
-            SizedBox(height: AppSpacing.md),
-            Text(
-              'ログインしてライブラリを利用しましょう',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.7),
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: AppSpacing.lg),
-            FilledButton(
-              onPressed: () => context.push(AppRoutes.welcome),
-              child: const Text('ログイン / 新規登録'),
-            ),
-            const Spacer(flex: 2),
-          ],
-        ),
-      ),
+      body: isGuest
+          ? const NoBooksMessage()
+          : _buildContent(bookListState!),
     );
   }
 
