@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -49,10 +50,10 @@ class AccountScreen extends ConsumerWidget {
         ),
       ),
       body: isGuest
-          ? _buildBody(context, ref, profile: UserProfile.guest())
+          ? _buildBody(context, profile: UserProfile.guest(), isGuest: true)
           : accountState!.when(
               data: (profile) =>
-                  _buildBody(context, ref, profile: profile),
+                  _buildBody(context, profile: profile, isGuest: false),
               loading: () => const LoadingIndicator(fullScreen: true),
               error: (error, stack) => ErrorView(
                 failure: _toFailure(error),
@@ -63,9 +64,9 @@ class AccountScreen extends ConsumerWidget {
   }
 
   Widget _buildBody(
-    BuildContext context,
-    WidgetRef ref, {
+    BuildContext context, {
     required UserProfile profile,
+    required bool isGuest,
   }) {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
@@ -93,14 +94,17 @@ class AccountScreen extends ConsumerWidget {
             items: [
               AccountMenuItem(
                 title: 'プロフィール編集',
-                onTap: onNavigateToProfileEdit,
+                onTap: isGuest
+                    ? () => showGuestLoginSnackBar(context)
+                    : onNavigateToProfileEdit,
                 icon: Icons.person_outline,
               ),
-              AccountMenuItem(
-                title: 'パスワード設定',
-                onTap: onNavigateToPassword,
-                icon: Icons.lock_outline,
-              ),
+              if (!isGuest)
+                AccountMenuItem(
+                  title: 'パスワード設定',
+                  onTap: onNavigateToPassword,
+                  icon: Icons.lock_outline,
+                ),
             ],
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -121,8 +125,10 @@ class AccountScreen extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.xl),
           _LogoutButton(onLogout: onLogout),
-          const SizedBox(height: AppSpacing.md),
-          _DeleteAccountButton(onDeleteAccount: onDeleteAccount),
+          if (!isGuest) ...[
+            const SizedBox(height: AppSpacing.md),
+            _DeleteAccountButton(onDeleteAccount: onDeleteAccount),
+          ],
           const SizedBox(height: AppSpacing.xl),
           const _AppInfoFooter(),
         ],

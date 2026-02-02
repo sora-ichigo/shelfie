@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
@@ -407,19 +408,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     ref.read(searchHistoryNotifierProvider.notifier).clearAll();
   }
 
-  void _showGuestLoginSnackBar() {
-    AdaptiveSnackBar.show(
-      context,
-      message: 'この機能を利用するにはログインが必要です',
-      type: AdaptiveSnackBarType.info,
-      action: 'ログイン',
-      onActionPressed: () => context.push(AppRoutes.welcome),
-    );
-  }
-
   Future<void> _onScanPressed() async {
     if (ref.read(authStateProvider).isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
 
@@ -451,7 +442,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Future<void> _onAddToShelf(Book book) async {
     if (ref.read(authStateProvider).isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
     if (_addingBooks.contains(book.id)) return;

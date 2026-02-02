@@ -4,9 +4,9 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
@@ -30,7 +30,6 @@ import 'package:shelfie/features/book_list/presentation/widgets/list_selector_mo
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
-import 'package:shelfie/routing/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
@@ -262,19 +261,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   bool get _isGuest => ref.read(authStateProvider).isGuest;
 
-  void _showGuestLoginSnackBar() {
-    AdaptiveSnackBar.show(
-      context,
-      message: 'この機能を利用するにはログインが必要です',
-      type: AdaptiveSnackBarType.info,
-      action: 'ログイン',
-      onActionPressed: () => context.push(AppRoutes.welcome),
-    );
-  }
-
   Future<void> _onAddToShelfPressed() async {
     if (_isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
     if (_isAddingToShelf) return;
@@ -360,7 +349,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onStatusTap() {
     if (_isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
@@ -376,7 +365,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onNoteTap() {
     if (_isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
@@ -392,7 +381,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   void _onRatingTap() {
     if (_isGuest) {
-      _showGuestLoginSnackBar();
+      showGuestLoginSnackBar(context);
       return;
     }
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
