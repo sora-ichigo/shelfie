@@ -244,7 +244,7 @@ class ReadingRecordSection extends StatelessWidget {
     );
 
     if (selectedDate != null) {
-      onCompletedAtTap?.call(selectedDate);
+      onCompletedAtTap?.call(selectedDate.toUtc());
     }
   }
 
