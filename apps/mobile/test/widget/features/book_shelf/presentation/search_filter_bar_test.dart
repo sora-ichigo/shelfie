@@ -37,16 +37,16 @@ void main() {
         expect(find.text('並び替え'), findsOneWidget);
       });
 
-      testWidgets('4つのソートオプションがBottomSheetに表示される', (tester) async {
+      testWidgets('visibleValuesのソートオプションがBottomSheetに表示される', (tester) async {
         await tester.pumpWidget(buildSearchFilterBar());
 
         await tester.tap(find.byIcon(Icons.tune));
         await tester.pumpAndSettle();
 
-        expect(find.text('追加日（新しい順）'), findsOneWidget);
-        expect(find.text('追加日（古い順）'), findsOneWidget);
-        expect(find.text('タイトル（A→Z）'), findsOneWidget);
-        expect(find.text('著者名（A→Z）'), findsOneWidget);
+        for (final option in SortOption.visibleValues) {
+          expect(find.text(option.displayName), findsOneWidget);
+        }
+        expect(find.text('タイトル（A→Z）'), findsNothing);
       });
 
       testWidgets('ソートオプション選択時にコールバックが呼ばれる', (tester) async {
@@ -61,10 +61,10 @@ void main() {
         await tester.tap(find.byIcon(Icons.tune));
         await tester.pumpAndSettle();
 
-        await tester.tap(find.text('タイトル（A→Z）'));
+        await tester.tap(find.text('著者名（A→Z）'));
         await tester.pumpAndSettle();
 
-        expect(selectedOption, equals(SortOption.titleAsc));
+        expect(selectedOption, equals(SortOption.authorAsc));
       });
 
       testWidgets('デフォルト以外選択時にインジケーターが表示される', (tester) async {

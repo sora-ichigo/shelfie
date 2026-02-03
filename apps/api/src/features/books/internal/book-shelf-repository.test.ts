@@ -356,6 +356,38 @@ describe("BookShelfRepository", () => {
     });
   });
 
+  describe("ShelfSortField type", () => {
+    it("should accept COMPLETED_AT as a valid sort field", () => {
+      const sortField: import("./book-shelf-repository.js").ShelfSortField =
+        "COMPLETED_AT";
+      expect(sortField).toBe("COMPLETED_AT");
+    });
+
+    it("should accept PUBLISHED_DATE as a valid sort field", () => {
+      const sortField: import("./book-shelf-repository.js").ShelfSortField =
+        "PUBLISHED_DATE";
+      expect(sortField).toBe("PUBLISHED_DATE");
+    });
+
+    it("should accept RATING as a valid sort field", () => {
+      const sortField: import("./book-shelf-repository.js").ShelfSortField =
+        "RATING";
+      expect(sortField).toBe("RATING");
+    });
+
+    it("should accept existing sort fields", () => {
+      const addedAt: import("./book-shelf-repository.js").ShelfSortField =
+        "ADDED_AT";
+      const title: import("./book-shelf-repository.js").ShelfSortField =
+        "TITLE";
+      const author: import("./book-shelf-repository.js").ShelfSortField =
+        "AUTHOR";
+      expect(addedAt).toBe("ADDED_AT");
+      expect(title).toBe("TITLE");
+      expect(author).toBe("AUTHOR");
+    });
+  });
+
   describe("types", () => {
     it("should use NewUserBook type for create input", () => {
       const newUserBook: NewUserBook = {

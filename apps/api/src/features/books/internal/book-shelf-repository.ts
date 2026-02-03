@@ -1,4 +1,14 @@
-import { and, asc, count, desc, eq, ilike, or, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  ilike,
+  or,
+  type SQL,
+  sql,
+} from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type NewUserBook,
@@ -22,7 +32,13 @@ export interface UpdateUserBookInput {
   rating?: number | null;
 }
 
-export type ShelfSortField = "ADDED_AT" | "TITLE" | "AUTHOR";
+export type ShelfSortField =
+  | "ADDED_AT"
+  | "TITLE"
+  | "AUTHOR"
+  | "COMPLETED_AT"
+  | "PUBLISHED_DATE"
+  | "RATING";
 export type SortOrder = "ASC" | "DESC";
 
 export interface GetUserBooksInput {
@@ -148,14 +164,34 @@ export function createBookShelfRepository(
 
       const whereClause = and(...conditions);
 
-      const sortColumn = {
+      const simpleColumnMap = {
         ADDED_AT: userBooks.addedAt,
         TITLE: userBooks.title,
         AUTHOR: sql`${userBooks.authors}[1]`,
-      }[sortBy];
+      } as const;
 
-      const orderByClause =
-        sortOrder === "ASC" ? asc(sortColumn) : desc(sortColumn);
+      let orderByClause: SQL;
+      if (sortBy === "COMPLETED_AT") {
+        orderByClause =
+          sortOrder === "ASC"
+            ? sql`${userBooks.completedAt} ASC NULLS LAST`
+            : sql`${userBooks.completedAt} DESC NULLS LAST`;
+      } else if (sortBy === "PUBLISHED_DATE") {
+        orderByClause =
+          sortOrder === "ASC"
+            ? sql`CASE WHEN ${userBooks.publishedDate} IS NULL OR ${userBooks.publishedDate} = '' THEN 1 ELSE 0 END, ${userBooks.publishedDate} ASC`
+            : sql`CASE WHEN ${userBooks.publishedDate} IS NULL OR ${userBooks.publishedDate} = '' THEN 1 ELSE 0 END, ${userBooks.publishedDate} DESC`;
+      } else if (sortBy === "RATING") {
+        orderByClause =
+          sortOrder === "ASC"
+            ? sql`${userBooks.rating} ASC NULLS LAST`
+            : sql`${userBooks.rating} DESC NULLS LAST`;
+      } else {
+        const sortColumn =
+          simpleColumnMap[sortBy as keyof typeof simpleColumnMap];
+        orderByClause =
+          sortOrder === "ASC" ? asc(sortColumn) : desc(sortColumn);
+      }
 
       const [items, countResult] = await Promise.all([
         db

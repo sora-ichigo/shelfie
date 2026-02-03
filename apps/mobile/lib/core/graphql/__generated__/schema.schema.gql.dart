@@ -319,6 +319,12 @@ class GShelfSortField extends EnumClass {
 
   static const GShelfSortField AUTHOR = _$gShelfSortFieldAUTHOR;
 
+  static const GShelfSortField COMPLETED_AT = _$gShelfSortFieldCOMPLETED_AT;
+
+  static const GShelfSortField PUBLISHED_DATE = _$gShelfSortFieldPUBLISHED_DATE;
+
+  static const GShelfSortField RATING = _$gShelfSortFieldRATING;
+
   static const GShelfSortField TITLE = _$gShelfSortFieldTITLE;
 
   static Serializer<GShelfSortField> get serializer =>
