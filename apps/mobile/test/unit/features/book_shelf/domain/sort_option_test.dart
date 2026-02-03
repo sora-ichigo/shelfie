@@ -27,11 +27,11 @@ void main() {
 
     group('displayName', () {
       test('addedAtDesc should return correct Japanese label', () {
-        expect(SortOption.addedAtDesc.displayName, '追加日（新しい順）');
+        expect(SortOption.addedAtDesc.displayName, '追加日（新しい）');
       });
 
       test('addedAtAsc should return correct Japanese label', () {
-        expect(SortOption.addedAtAsc.displayName, '追加日（古い順）');
+        expect(SortOption.addedAtAsc.displayName, '追加日（古い）');
       });
 
       test('titleAsc should return correct Japanese label', () {
@@ -43,19 +43,19 @@ void main() {
       });
 
       test('completedAtDesc should return correct Japanese label', () {
-        expect(SortOption.completedAtDesc.displayName, '読了日（新しい順）');
+        expect(SortOption.completedAtDesc.displayName, '読了日（新しい）');
       });
 
       test('completedAtAsc should return correct Japanese label', () {
-        expect(SortOption.completedAtAsc.displayName, '読了日（古い順）');
+        expect(SortOption.completedAtAsc.displayName, '読了日（古い）');
       });
 
       test('publishedDateDesc should return correct Japanese label', () {
-        expect(SortOption.publishedDateDesc.displayName, '発売日（新しい順）');
+        expect(SortOption.publishedDateDesc.displayName, '発売日（新しい）');
       });
 
       test('publishedDateAsc should return correct Japanese label', () {
-        expect(SortOption.publishedDateAsc.displayName, '発売日（古い順）');
+        expect(SortOption.publishedDateAsc.displayName, '発売日（古い）');
       });
     });
 
@@ -110,6 +110,28 @@ void main() {
           GShelfSortField.PUBLISHED_DATE,
         );
         expect(SortOption.publishedDateAsc.sortOrder, GSortOrder.ASC);
+      });
+    });
+
+    group('visibleValues', () {
+      test('should have 7 options', () {
+        expect(SortOption.visibleValues.length, 7);
+      });
+
+      test('should not contain titleAsc', () {
+        expect(SortOption.visibleValues, isNot(contains(SortOption.titleAsc)));
+      });
+
+      test('should be ordered as addedAt → completedAt → publishedDate → author', () {
+        expect(SortOption.visibleValues, [
+          SortOption.addedAtDesc,
+          SortOption.addedAtAsc,
+          SortOption.completedAtDesc,
+          SortOption.completedAtAsc,
+          SortOption.publishedDateDesc,
+          SortOption.publishedDateAsc,
+          SortOption.authorAsc,
+        ]);
       });
     });
 

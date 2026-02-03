@@ -108,7 +108,7 @@ class _SortBottomSheet extends StatelessWidget {
       title: '並び替え',
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: SortOption.values.map((option) {
+        children: SortOption.visibleValues.map((option) {
           final isSelected = option == currentOption;
           return _OptionTile(
             label: option.displayName,
