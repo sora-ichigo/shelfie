@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 
 /// 読書記録セクション
@@ -12,12 +15,14 @@ class ReadingRecordSection extends StatelessWidget {
     required this.shelfEntry,
     required this.onStatusTap,
     required this.onRatingTap,
+    this.onCompletedAtTap,
     super.key,
   });
 
   final ShelfEntry shelfEntry;
   final VoidCallback onStatusTap;
   final VoidCallback onRatingTap;
+  final ValueChanged<DateTime>? onCompletedAtTap;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +87,9 @@ class ReadingRecordSection extends StatelessWidget {
               label: '読了日',
               value: _formatDate(shelfEntry.completedAt!),
               position: _RowPosition.last,
+              onTap: onCompletedAtTap != null
+                  ? () => _showCompletedAtPicker(context)
+                  : null,
             ),
         ],
       ),
@@ -230,9 +238,126 @@ class ReadingRecordSection extends StatelessWidget {
     };
   }
 
+  Future<void> _showCompletedAtPicker(BuildContext context) async {
+    final initialDate = shelfEntry.completedAt ?? DateTime.now();
+    final selectedDate = await showModalBottomSheet<DateTime>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => _CompletedAtPickerSheet(
+        initialDate: initialDate,
+        lastDate: DateTime.now(),
+      ),
+    );
+
+    if (selectedDate != null) {
+      onCompletedAtTap?.call(
+        DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day),
+      );
+    }
+  }
+
   String _formatDate(DateTime date) {
     return '${date.year}年${date.month}月${date.day}日';
   }
 }
 
 enum _RowPosition { first, middle, last }
+
+class _CompletedAtPickerSheet extends StatefulWidget {
+  const _CompletedAtPickerSheet({
+    required this.initialDate,
+    required this.lastDate,
+  });
+
+  final DateTime initialDate;
+  final DateTime lastDate;
+
+  @override
+  State<_CompletedAtPickerSheet> createState() =>
+      _CompletedAtPickerSheetState();
+}
+
+class _CompletedAtPickerSheetState extends State<_CompletedAtPickerSheet> {
+  late DateTime _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
+    return BaseBottomSheet(
+      title: '読了日を変更',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 216,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: _selectedDate,
+              minimumDate: DateTime(2000),
+              maximumDate: widget.lastDate,
+              onDateTimeChanged: (date) {
+                _selectedDate = date;
+              },
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white.withOpacity(0.1),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                      ),
+                    ),
+                    child: const Text('キャンセル'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [appColors.success, appColors.accent],
+                      ),
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context, _selectedDate),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.lg),
+                        ),
+                      ),
+                      child: const Text('決定'),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

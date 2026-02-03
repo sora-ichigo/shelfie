@@ -179,6 +179,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateBookRatingData_updateBookRating.serializer)
       ..add(GUpdateBookRatingReq.serializer)
       ..add(GUpdateBookRatingVars.serializer)
+      ..add(GUpdateCompletedAtData.serializer)
+      ..add(GUpdateCompletedAtData_updateCompletedAt.serializer)
+      ..add(GUpdateCompletedAtReq.serializer)
+      ..add(GUpdateCompletedAtVars.serializer)
       ..add(GUpdateProfileData.serializer)
       ..add(GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess
           .serializer)
@@ -218,6 +222,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

@@ -33,6 +33,7 @@ function createMockShelfService(): BookShelfService {
     updateReadingStatus: vi.fn(),
     updateReadingNote: vi.fn(),
     updateRating: vi.fn(),
+    updateCompletedAt: vi.fn(),
     removeFromShelf: vi.fn(),
   };
 }
@@ -520,6 +521,33 @@ describe("BooksGraphQL Mutations Schema", () => {
     );
     expect(args?.find((a) => a.name === "note")?.type.toString()).toBe(
       "String!",
+    );
+  });
+
+  it("should define updateCompletedAt mutation with userBookId and completedAt parameters", () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const schema = createSchemaWithMutations(
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+    );
+    const mutationType = schema.getMutationType();
+
+    expect(mutationType).toBeDefined();
+    const fields = mutationType?.getFields();
+    expect(fields?.updateCompletedAt).toBeDefined();
+
+    const updateCompletedAtField = fields?.updateCompletedAt;
+    expect(updateCompletedAtField?.type.toString()).toContain("UserBook");
+
+    const args = updateCompletedAtField?.args;
+    expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
+      "Int!",
+    );
+    expect(args?.find((a) => a.name === "completedAt")?.type.toString()).toBe(
+      "DateTime!",
     );
   });
 });
@@ -2175,6 +2203,129 @@ describe("BooksGraphQL Resolver Behavior", () => {
           {} as never,
         ),
       ).rejects.toThrow("You are not allowed to update this book");
+    });
+  });
+
+  describe("updateCompletedAt resolver", () => {
+    it("should call shelfService.updateCompletedAt with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const completedAt = new Date("2024-06-20");
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "completed" as const,
+        completedAt,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+        source: "rakuten" as const,
+      };
+      vi.mocked(mockShelfService.updateCompletedAt).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          name: null,
+          avatarUrl: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateCompletedAtField =
+        mutationType?.getFields().updateCompletedAt;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateCompletedAtField?.resolve?.(
+        {},
+        { userBookId: 1, completedAt },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateCompletedAt).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        completedAt,
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateCompletedAtField =
+        mutationType?.getFields().updateCompletedAt;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateCompletedAtField?.resolve?.(
+          {},
+          { userBookId: 1, completedAt: new Date() },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateCompletedAt).not.toHaveBeenCalled();
     });
   });
 

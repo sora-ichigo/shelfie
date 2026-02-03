@@ -192,6 +192,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                     shelfEntry: shelfEntry,
                     onStatusTap: _onStatusTap,
                     onRatingTap: _onRatingTap,
+                    onCompletedAtTap: shelfEntry.isCompleted
+                        ? _onCompletedAtSelected
+                        : null,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   ReadingNoteSection(
@@ -359,6 +362,41 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       currentNote: shelfEntry.note,
       userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
+    );
+  }
+
+  Future<void> _onCompletedAtSelected(DateTime selectedDate) async {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
+
+    final result = await ref
+        .read(bookDetailNotifierProvider(widget.bookId).notifier)
+        .updateCompletedAt(
+          userBookId: shelfEntry.userBookId,
+          completedAt: selectedDate,
+        );
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
+        );
+      },
+      (_) {
+        AdaptiveSnackBar.show(
+          context,
+          message: '読了日を更新しました',
+          type: AdaptiveSnackBarType.success,
+        );
+      },
     );
   }
 

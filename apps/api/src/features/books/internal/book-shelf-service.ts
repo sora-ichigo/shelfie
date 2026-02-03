@@ -55,6 +55,12 @@ export interface UpdateRatingInput {
   rating: number | null;
 }
 
+export interface UpdateCompletedAtInput {
+  userBookId: number;
+  userId: number;
+  completedAt: Date;
+}
+
 export interface RemoveFromShelfInput {
   userBookId: number;
   userId: number;
@@ -95,13 +101,23 @@ export interface BookShelfService {
     input: UpdateRatingInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
 
+  updateCompletedAt(
+    input: UpdateCompletedAtInput,
+  ): Promise<Result<UserBook, BookShelfErrors>>;
+
   removeFromShelf(
     input: RemoveFromShelfInput,
   ): Promise<Result<void, BookShelfErrors>>;
 }
 
-function resolveCompletedAt(status: ReadingStatusValue): Date | null {
-  return status === "completed" ? new Date() : null;
+function resolveCompletedAt(
+  status: ReadingStatusValue,
+  currentCompletedAt: Date | null,
+): Date | null {
+  if (status === "completed") {
+    return currentCompletedAt ?? new Date();
+  }
+  return currentCompletedAt;
 }
 
 export function createBookShelfService(
@@ -138,7 +154,7 @@ export function createBookShelfService(
           bookInput.readingStatus === "dropped"
             ? "backlog"
             : (bookInput.readingStatus ?? "backlog");
-        const completedAt = resolveCompletedAt(readingStatus);
+        const completedAt = resolveCompletedAt(readingStatus, null);
         const userBook = await repository.createUserBook({
           userId,
           externalId: bookInput.externalId,
@@ -311,7 +327,7 @@ export function createBookShelfService(
 
         const updatedBook = await repository.updateUserBook(userBookId, {
           readingStatus: status,
-          completedAt: resolveCompletedAt(status),
+          completedAt: resolveCompletedAt(status, userBook.completedAt),
         });
 
         if (updatedBook === null) {
@@ -477,6 +493,74 @@ export function createBookShelfService(
             userBookId: String(userBookId),
             userId: String(userId),
             rating: String(rating),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async updateCompletedAt(
+      input: UpdateCompletedAtInput,
+    ): Promise<Result<UserBook, BookShelfErrors>> {
+      const { userBookId, userId, completedAt } = input;
+
+      try {
+        const userBook = await repository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "BOOK_NOT_FOUND",
+            message: "Book not found in shelf",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          logger.warn("Unauthorized completed at update attempt", {
+            feature: "books",
+            userBookId: String(userBookId),
+            ownerId: String(userBook.userId),
+            requesterId: String(userId),
+          });
+
+          return err({
+            code: "FORBIDDEN",
+            message: "You are not allowed to update this book",
+          });
+        }
+
+        const updatedBook = await repository.updateUserBook(userBookId, {
+          completedAt,
+        });
+
+        if (updatedBook === null) {
+          return err({
+            code: "DATABASE_ERROR",
+            message: "Failed to update completed at",
+          });
+        }
+
+        logger.info("Completed at updated successfully", {
+          feature: "books",
+          userBookId: String(userBookId),
+          userId: String(userId),
+        });
+
+        return ok(updatedBook);
+      } catch (error) {
+        logger.error(
+          "Database error while updating completed at",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userBookId: String(userBookId),
+            userId: String(userId),
           },
         );
 

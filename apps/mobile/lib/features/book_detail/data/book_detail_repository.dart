@@ -12,6 +12,8 @@ import 'package:shelfie/features/book_detail/data/__generated__/book_detail.data
 import 'package:shelfie/features/book_detail/data/__generated__/book_detail.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart';
@@ -97,6 +99,28 @@ class BookDetailRepository {
     try {
       final response = await client.request(request).first;
       return _handleUpdateReadingNoteResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserBook>> updateCompletedAt({
+    required int userBookId,
+    required DateTime completedAt,
+  }) async {
+    final request = GUpdateCompletedAtReq(
+      (b) => b
+        ..vars.userBookId = userBookId
+        ..vars.completedAt = completedAt,
+    );
+
+    try {
+      final response = await client.request(request).first;
+      return _handleUpdateCompletedAtResponse(response);
     } on SocketException {
       return left(const NetworkFailure(message: 'No internet connection'));
     } on TimeoutException {
@@ -230,6 +254,32 @@ class BookDetailRepository {
     return right(_mapUpdateReadingNoteToUserBook(userBook));
   }
 
+  Either<Failure, UserBook> _handleUpdateCompletedAtResponse(
+    OperationResponse<GUpdateCompletedAtData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      final errorMessage = error?.message ?? 'Failed to update completed at';
+      final extensions = error?.extensions;
+      final code = extensions?['code'] as String?;
+
+      return left(_mapErrorCodeToFailure(code, errorMessage));
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(
+          message: 'No data received',
+          code: 'NO_DATA',
+        ),
+      );
+    }
+
+    final userBook = data.updateCompletedAt;
+    return right(_mapUpdateCompletedAtToUserBook(userBook));
+  }
+
   Either<Failure, UserBook> _handleUpdateRatingResponse(
     OperationResponse<GUpdateBookRatingData, dynamic> response,
   ) {
@@ -348,6 +398,20 @@ class BookDetailRepository {
 
   UserBook _mapUpdateReadingNoteToUserBook(
     GUpdateReadingNoteData_updateReadingNote userBook,
+  ) {
+    return UserBook(
+      id: userBook.id,
+      readingStatus: _fromGReadingStatus(userBook.readingStatus),
+      addedAt: userBook.addedAt,
+      completedAt: userBook.completedAt,
+      note: userBook.note,
+      noteUpdatedAt: userBook.noteUpdatedAt,
+      rating: userBook.rating,
+    );
+  }
+
+  UserBook _mapUpdateCompletedAtToUserBook(
+    GUpdateCompletedAtData_updateCompletedAt userBook,
   ) {
     return UserBook(
       id: userBook.id,
