@@ -250,7 +250,9 @@ class ReadingRecordSection extends StatelessWidget {
     );
 
     if (selectedDate != null) {
-      onCompletedAtTap?.call(selectedDate.toUtc());
+      onCompletedAtTap?.call(
+        DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day),
+      );
     }
   }
 
