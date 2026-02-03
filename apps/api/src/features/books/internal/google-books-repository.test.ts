@@ -73,12 +73,91 @@ describe("GoogleBooksRepository", () => {
         expect(result.data.items[0].volumeInfo.title).toBe("テスト書籍");
       }
 
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=%E3%83%86%E3%82%B9%E3%83%88"),
-        expect.objectContaining({
-          signal: expect.any(AbortSignal),
-        }),
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe("intitle:テスト|inauthor:テスト");
+    });
+
+    it("プレーンキーワードに intitle: プレフィックスが付与される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 0,
+        items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("プログラミング", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe(
+        "intitle:プログラミング|inauthor:プログラミング",
       );
+    });
+
+    it("isbn: プレフィックス付きクエリはそのまま送信される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 0,
+        items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("isbn:9784123456789", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe("isbn:9784123456789");
+    });
+
+    it("intitle: プレフィックス付きクエリはそのまま送信される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 0,
+        items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("intitle:Python", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe("intitle:Python");
+    });
+
+    it("inauthor: プレフィックス付きクエリはそのまま送信される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 0,
+        items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("inauthor:村上春樹", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe("inauthor:村上春樹");
     });
 
     it("ページネーションパラメータが正しく送信される（startIndex）", async () => {
