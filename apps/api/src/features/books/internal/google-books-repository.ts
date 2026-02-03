@@ -49,7 +49,7 @@ function normalizeQuery(query: string): string {
   if (hasFieldPrefix(query)) {
     return query;
   }
-  return `intitle:${query}`;
+  return `intitle:${query}|inauthor:${query}`;
 }
 
 function buildSearchUrl(

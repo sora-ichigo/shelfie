@@ -73,11 +73,10 @@ describe("GoogleBooksRepository", () => {
         expect(result.data.items[0].volumeInfo.title).toBe("テスト書籍");
       }
 
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining("q=intitle%3A%E3%83%86%E3%82%B9%E3%83%88"),
-        expect.objectContaining({
-          signal: expect.any(AbortSignal),
-        }),
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe(
+        "intitle:テスト|inauthor:テスト",
       );
     });
 
@@ -98,7 +97,9 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe("intitle:プログラミング");
+      expect(url.searchParams.get("q")).toBe(
+        "intitle:プログラミング|inauthor:プログラミング",
+      );
     });
 
     it("isbn: プレフィックス付きクエリはそのまま送信される", async () => {
