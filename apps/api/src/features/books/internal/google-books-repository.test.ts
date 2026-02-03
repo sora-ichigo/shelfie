@@ -75,9 +75,7 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe(
-        "intitle:テスト|inauthor:テスト",
-      );
+      expect(url.searchParams.get("q")).toBe("intitle:テスト|inauthor:テスト");
     });
 
     it("プレーンキーワードに intitle: プレフィックスが付与される", async () => {
