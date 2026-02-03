@@ -91,6 +91,7 @@ abstract class GMyShelfData_myShelf_items
   String? get note;
   DateTime? get noteUpdatedAt;
   DateTime get addedAt;
+  DateTime? get startedAt;
   DateTime? get completedAt;
   static Serializer<GMyShelfData_myShelf_items> get serializer =>
       _$gMyShelfDataMyShelfItemsSerializer;

@@ -76,6 +76,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -148,6 +149,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -253,6 +255,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "completed",
+        startedAt: null,
         completedAt: new Date(),
         note: null,
         noteUpdatedAt: null,
@@ -307,6 +310,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "reading",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -357,6 +361,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -410,6 +415,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -475,6 +481,111 @@ describe("BookShelfService", () => {
         expect(result.error.code).toBe("DATABASE_ERROR");
       }
     });
+
+    it("should set startedAt when readingStatus is reading", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookByExternalId.mockResolvedValue(null);
+
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        startedAt: new Date(),
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const input: AddBookToShelfInput = {
+        userId: 100,
+        bookInput: {
+          externalId: "google-book-123",
+          title: "Test Book",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          source: "rakuten",
+          readingStatus: "reading",
+        },
+      };
+
+      const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(true);
+      expect(mockRepository.mockCreateUserBook).toHaveBeenCalledWith(
+        expect.objectContaining({
+          readingStatus: "reading",
+          startedAt: expect.any(Date),
+        }),
+      );
+    });
+
+    it("should not set startedAt when readingStatus is not reading", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookByExternalId.mockResolvedValue(null);
+
+      const createdUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const input: AddBookToShelfInput = {
+        userId: 100,
+        bookInput: {
+          externalId: "google-book-123",
+          title: "Test Book",
+          authors: ["Author One"],
+          publisher: null,
+          publishedDate: null,
+          isbn: null,
+          coverImageUrl: null,
+          source: "rakuten",
+        },
+      };
+
+      const result = await service.addBookToShelf(input);
+
+      expect(result.success).toBe(true);
+      const createCallArgs = mockRepository.mockCreateUserBook.mock.calls[0][0];
+      expect(createCallArgs.startedAt).toBeUndefined();
+    });
   });
 
   describe("getUserBooksWithPagination", () => {
@@ -496,6 +607,7 @@ describe("BookShelfService", () => {
           source: "rakuten",
           addedAt: new Date(),
           readingStatus: "reading",
+          startedAt: null,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
@@ -514,6 +626,7 @@ describe("BookShelfService", () => {
           source: "rakuten",
           addedAt: new Date(),
           readingStatus: "completed",
+          startedAt: null,
           completedAt: new Date(),
           note: null,
           noteUpdatedAt: null,
@@ -559,6 +672,7 @@ describe("BookShelfService", () => {
           source: "rakuten",
           addedAt: new Date(),
           readingStatus: "reading",
+          startedAt: null,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
@@ -859,6 +973,7 @@ describe("BookShelfService", () => {
           source: "rakuten",
           addedAt: new Date(),
           readingStatus: "reading",
+          startedAt: null,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
@@ -877,6 +992,7 @@ describe("BookShelfService", () => {
           source: "rakuten",
           addedAt: new Date(),
           readingStatus: "completed",
+          startedAt: null,
           completedAt: new Date(),
           note: "Great book!",
           noteUpdatedAt: new Date(),
@@ -960,6 +1076,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1010,6 +1127,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "reading",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1065,6 +1183,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "completed",
+        startedAt: null,
         completedAt: existingCompletedAt,
         note: null,
         noteUpdatedAt: null,
@@ -1119,6 +1238,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "reading",
+        startedAt: null,
         completedAt: existingCompletedAt,
         note: null,
         noteUpdatedAt: null,
@@ -1192,6 +1312,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1231,6 +1352,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1274,6 +1396,150 @@ describe("BookShelfService", () => {
         expect(result.error.code).toBe("DATABASE_ERROR");
       }
     });
+
+    it("should set startedAt when status is changed to reading and startedAt is null", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const existingUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "backlog",
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        readingStatus: "reading",
+        startedAt: new Date(),
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateReadingStatus({
+        userBookId: 1,
+        userId: 100,
+        status: "reading",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.startedAt).toBeDefined();
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({
+          readingStatus: "reading",
+          startedAt: expect.any(Date),
+        }),
+      );
+    });
+
+    it("should not overwrite startedAt when status is changed to reading and startedAt already exists", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const existingStartedAt = new Date("2024-01-01");
+      const existingUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "completed",
+        startedAt: existingStartedAt,
+        completedAt: new Date(),
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        readingStatus: "reading",
+        completedAt: null,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateReadingStatus({
+        userBookId: 1,
+        userId: 100,
+        status: "reading",
+      });
+
+      expect(result.success).toBe(true);
+      const updateCallArgs = mockRepository.mockUpdateUserBook.mock.calls[0][1];
+      expect(updateCallArgs.startedAt).toBeUndefined();
+    });
+
+    it("should not clear startedAt when status is changed from reading to another status", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const existingStartedAt = new Date("2024-01-01");
+      const existingUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        startedAt: existingStartedAt,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        readingStatus: "backlog",
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateReadingStatus({
+        userBookId: 1,
+        userId: 100,
+        status: "backlog",
+      });
+
+      expect(result.success).toBe(true);
+      const updateCallArgs = mockRepository.mockUpdateUserBook.mock.calls[0][1];
+      expect(updateCallArgs.startedAt).toBeUndefined();
+    });
   });
 
   describe("updateReadingNote", () => {
@@ -1294,6 +1560,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "reading",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1348,6 +1615,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "reading",
+        startedAt: null,
         completedAt: null,
         note: "Old note",
         noteUpdatedAt: new Date(),
@@ -1422,6 +1690,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1481,6 +1750,7 @@ describe("BookShelfService", () => {
       source: "rakuten",
       addedAt: new Date(),
       readingStatus: "reading",
+      startedAt: null,
       completedAt: null,
       note: null,
       noteUpdatedAt: null,
@@ -1624,6 +1894,7 @@ describe("BookShelfService", () => {
       source: "rakuten",
       addedAt: new Date(),
       readingStatus: "completed",
+      startedAt: null,
       completedAt: new Date("2024-01-15"),
       note: null,
       noteUpdatedAt: null,

@@ -254,6 +254,86 @@ void main() {
         expect(entry?.completedAt, isNotNull);
       });
 
+      test('should set startedAt when readingStatus is reading', () async {
+        final now = DateTime.now();
+        when(
+          () => mockRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            UserBook(
+              id: 1,
+              externalId: 'book-123',
+              title: 'Test Book',
+              authors: ['Author'],
+              addedAt: now,
+            ),
+          ),
+        );
+
+        final notifier = container.read(shelfStateProvider.notifier);
+        final result = await notifier.addToShelf(
+          externalId: 'book-123',
+          title: 'Test Book',
+          authors: ['Author'],
+          readingStatus: ReadingStatus.reading,
+          source: BookSource.rakuten,
+        );
+
+        expect(result.isRight(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.reading);
+        expect(entry?.startedAt, isNotNull);
+      });
+
+      test('should not set startedAt when readingStatus is not reading', () async {
+        final now = DateTime.now();
+        when(
+          () => mockRepository.addBookToShelf(
+            externalId: any(named: 'externalId'),
+            title: any(named: 'title'),
+            authors: any(named: 'authors'),
+            publisher: any(named: 'publisher'),
+            publishedDate: any(named: 'publishedDate'),
+            isbn: any(named: 'isbn'),
+            coverImageUrl: any(named: 'coverImageUrl'),
+            source: any(named: 'source'),
+            readingStatus: any(named: 'readingStatus'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            UserBook(
+              id: 1,
+              externalId: 'book-123',
+              title: 'Test Book',
+              authors: ['Author'],
+              addedAt: now,
+            ),
+          ),
+        );
+
+        final notifier = container.read(shelfStateProvider.notifier);
+        final result = await notifier.addToShelf(
+          externalId: 'book-123',
+          title: 'Test Book',
+          authors: ['Author'],
+          source: BookSource.rakuten,
+        );
+
+        expect(result.isRight(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.startedAt, isNull);
+      });
+
       test('should not update state on failure', () async {
         when(
           () => mockRepository.addBookToShelf(
@@ -428,6 +508,74 @@ void main() {
         );
 
         expect(container.read(shelfStateProvider), isEmpty);
+      });
+
+      test('should set startedAt when status is changed to reading and startedAt is null', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.backlog,
+            addedAt: DateTime.now(),
+          ),
+        );
+
+        notifier.updateReadingStatus(
+          externalId: 'book-123',
+          status: ReadingStatus.reading,
+        );
+
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.reading);
+        expect(entry?.startedAt, isNotNull);
+      });
+
+      test('should not overwrite startedAt when status is changed to reading and startedAt already exists', () async {
+        final existingStartedAt = DateTime(2024, 1, 1);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.completed,
+            addedAt: DateTime.now(),
+            startedAt: existingStartedAt,
+            completedAt: DateTime.now(),
+          ),
+        );
+
+        notifier.updateReadingStatus(
+          externalId: 'book-123',
+          status: ReadingStatus.reading,
+        );
+
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.reading);
+        expect(entry?.startedAt, existingStartedAt);
+      });
+
+      test('should not clear startedAt when status is changed from reading to another status', () async {
+        final existingStartedAt = DateTime(2024, 1, 1);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: DateTime.now(),
+            startedAt: existingStartedAt,
+          ),
+        );
+
+        notifier.updateReadingStatus(
+          externalId: 'book-123',
+          status: ReadingStatus.backlog,
+        );
+
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.backlog);
+        expect(entry?.startedAt, existingStartedAt);
       });
     });
 

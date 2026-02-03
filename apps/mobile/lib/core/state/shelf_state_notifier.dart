@@ -55,6 +55,7 @@ class ShelfState extends _$ShelfState {
             externalId: userBook.externalId,
             readingStatus: readingStatus,
             addedAt: userBook.addedAt,
+            startedAt: _resolveStartedAt(readingStatus, null),
             completedAt: _resolveCompletedAt(readingStatus, null),
           ),
         );
@@ -129,6 +130,7 @@ class ShelfState extends _$ShelfState {
       (userBook) {
         final updated = entry.copyWith(
           readingStatus: userBook.readingStatus,
+          startedAt: userBook.startedAt,
           completedAt: userBook.completedAt,
         );
         state = {...state, externalId: updated};
@@ -265,8 +267,10 @@ class ShelfState extends _$ShelfState {
     final entry = state[externalId];
     if (entry == null) return;
 
+    final startedAt = _resolveStartedAt(status, entry.startedAt);
     final updated = entry.copyWith(
       readingStatus: status,
+      startedAt: startedAt,
       completedAt: _resolveCompletedAt(status, entry.completedAt),
     );
 
@@ -322,6 +326,16 @@ class ShelfState extends _$ShelfState {
         addedAt: DateTime.now(),
       ),
     );
+  }
+
+  static DateTime? _resolveStartedAt(
+    ReadingStatus status,
+    DateTime? currentStartedAt,
+  ) {
+    if (status == ReadingStatus.reading && currentStartedAt == null) {
+      return DateTime.now();
+    }
+    return currentStartedAt;
   }
 
   static DateTime? _resolveCompletedAt(

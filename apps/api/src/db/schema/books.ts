@@ -43,6 +43,7 @@ export const userBooks = pgTable(
     readingStatus: readingStatusEnum("reading_status")
       .notNull()
       .default("backlog"),
+    startedAt: timestamp("started_at", { withTimezone: true }),
     completedAt: timestamp("completed_at", { withTimezone: true }),
     note: text("note"),
     noteUpdatedAt: timestamp("note_updated_at", { withTimezone: true }),

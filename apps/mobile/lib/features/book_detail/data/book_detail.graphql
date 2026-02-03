@@ -23,6 +23,7 @@ query BookDetail($bookId: String!, $source: BookSource!) {
       coverImageUrl
       addedAt
       readingStatus
+      startedAt
       completedAt
       note
       noteUpdatedAt

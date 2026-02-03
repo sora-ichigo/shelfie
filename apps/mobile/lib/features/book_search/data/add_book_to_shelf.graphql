@@ -11,5 +11,6 @@ mutation AddBookToShelf($bookInput: AddBookInput!) {
     source
     addedAt
     readingStatus
+    startedAt
   }
 }

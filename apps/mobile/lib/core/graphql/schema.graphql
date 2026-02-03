@@ -742,6 +742,9 @@ type UserBook {
   """The source of the book data (rakuten or google)"""
   source: BookSource!
 
+  """When the book was started reading"""
+  startedAt: DateTime
+
   """The title of the book"""
   title: String!
 }

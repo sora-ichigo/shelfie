@@ -120,6 +120,10 @@ function resolveCompletedAt(
   return currentCompletedAt;
 }
 
+function resolveStartedAt(status: ReadingStatusValue): Date | undefined {
+  return status === "reading" ? new Date() : undefined;
+}
+
 export function createBookShelfService(
   repository: BookShelfRepository,
   logger: LoggerService,
@@ -155,6 +159,7 @@ export function createBookShelfService(
             ? "backlog"
             : (bookInput.readingStatus ?? "backlog");
         const completedAt = resolveCompletedAt(readingStatus, null);
+        const startedAt = resolveStartedAt(readingStatus);
         const userBook = await repository.createUserBook({
           userId,
           externalId: bookInput.externalId,
@@ -166,6 +171,7 @@ export function createBookShelfService(
           coverImageUrl: bookInput.coverImageUrl,
           source: bookInput.source,
           readingStatus,
+          ...(startedAt !== undefined && { startedAt }),
           ...(completedAt !== null && { completedAt }),
         });
 
@@ -325,9 +331,14 @@ export function createBookShelfService(
           return ok(userBook);
         }
 
+        const startedAt =
+          status === "reading" && userBook.startedAt === null
+            ? new Date()
+            : undefined;
         const updatedBook = await repository.updateUserBook(userBookId, {
           readingStatus: status,
           completedAt: resolveCompletedAt(status, userBook.completedAt),
+          ...(startedAt !== undefined && { startedAt }),
         });
 
         if (updatedBook === null) {

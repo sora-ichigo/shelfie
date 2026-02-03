@@ -381,6 +381,11 @@ export function registerBooksTypes(builder: Builder): void {
         description: "The reading status of the book",
         resolve: (parent) => parent.readingStatus,
       }),
+      startedAt: t.expose("startedAt", {
+        type: "DateTime",
+        description: "When the book was started reading",
+        nullable: true,
+      }),
       completedAt: t.expose("completedAt", {
         type: "DateTime",
         description: "When the book was marked as completed",

@@ -150,6 +150,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
         externalId: item.externalId,
         readingStatus: _mapReadingStatus(item.readingStatus.name),
         addedAt: item.addedAt,
+        startedAt: item.startedAt,
         completedAt: item.completedAt,
         rating: item.rating,
       );

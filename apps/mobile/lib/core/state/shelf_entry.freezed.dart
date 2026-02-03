@@ -28,6 +28,9 @@ mixin _$ShelfEntry {
   /// 本棚に追加した日時
   DateTime get addedAt => throw _privateConstructorUsedError;
 
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  DateTime? get startedAt => throw _privateConstructorUsedError;
+
   /// 読了日（readingStatus が completed の場合のみ設定）
   DateTime? get completedAt => throw _privateConstructorUsedError;
 
@@ -56,6 +59,7 @@ abstract class $ShelfEntryCopyWith<$Res> {
       String externalId,
       ReadingStatus readingStatus,
       DateTime addedAt,
+      DateTime? startedAt,
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
@@ -79,6 +83,7 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
     Object? externalId = null,
     Object? readingStatus = null,
     Object? addedAt = null,
+    Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
@@ -101,6 +106,10 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
@@ -134,6 +143,7 @@ abstract class _$$ShelfEntryImplCopyWith<$Res>
       String externalId,
       ReadingStatus readingStatus,
       DateTime addedAt,
+      DateTime? startedAt,
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
@@ -155,6 +165,7 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
     Object? externalId = null,
     Object? readingStatus = null,
     Object? addedAt = null,
+    Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
@@ -177,6 +188,10 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
@@ -205,6 +220,7 @@ class _$ShelfEntryImpl extends _ShelfEntry {
       required this.externalId,
       required this.readingStatus,
       required this.addedAt,
+      this.startedAt,
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
@@ -227,6 +243,10 @@ class _$ShelfEntryImpl extends _ShelfEntry {
   @override
   final DateTime addedAt;
 
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  @override
+  final DateTime? startedAt;
+
   /// 読了日（readingStatus が completed の場合のみ設定）
   @override
   final DateTime? completedAt;
@@ -245,7 +265,7 @@ class _$ShelfEntryImpl extends _ShelfEntry {
 
   @override
   String toString() {
-    return 'ShelfEntry(userBookId: $userBookId, externalId: $externalId, readingStatus: $readingStatus, addedAt: $addedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
+    return 'ShelfEntry(userBookId: $userBookId, externalId: $externalId, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
   }
 
   @override
@@ -260,6 +280,8 @@ class _$ShelfEntryImpl extends _ShelfEntry {
             (identical(other.readingStatus, readingStatus) ||
                 other.readingStatus == readingStatus) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.note, note) || other.note == note) &&
@@ -269,8 +291,17 @@ class _$ShelfEntryImpl extends _ShelfEntry {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userBookId, externalId,
-      readingStatus, addedAt, completedAt, note, noteUpdatedAt, rating);
+  int get hashCode => Object.hash(
+      runtimeType,
+      userBookId,
+      externalId,
+      readingStatus,
+      addedAt,
+      startedAt,
+      completedAt,
+      note,
+      noteUpdatedAt,
+      rating);
 
   @JsonKey(ignore: true)
   @override
@@ -285,6 +316,7 @@ abstract class _ShelfEntry extends ShelfEntry {
       required final String externalId,
       required final ReadingStatus readingStatus,
       required final DateTime addedAt,
+      final DateTime? startedAt,
       final DateTime? completedAt,
       final String? note,
       final DateTime? noteUpdatedAt,
@@ -307,6 +339,10 @@ abstract class _ShelfEntry extends ShelfEntry {
 
   /// 本棚に追加した日時
   DateTime get addedAt;
+  @override
+
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  DateTime? get startedAt;
   @override
 
   /// 読了日（readingStatus が completed の場合のみ設定）

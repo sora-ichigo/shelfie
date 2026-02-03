@@ -25,6 +25,9 @@ mixin _$UserBook {
   /// 本棚に追加した日時
   DateTime get addedAt => throw _privateConstructorUsedError;
 
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  DateTime? get startedAt => throw _privateConstructorUsedError;
+
   /// 読了日（readingStatus が completed の場合のみ設定）
   DateTime? get completedAt => throw _privateConstructorUsedError;
 
@@ -51,6 +54,7 @@ abstract class $UserBookCopyWith<$Res> {
       {int id,
       ReadingStatus readingStatus,
       DateTime addedAt,
+      DateTime? startedAt,
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
@@ -73,6 +77,7 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
     Object? id = null,
     Object? readingStatus = null,
     Object? addedAt = null,
+    Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
@@ -91,6 +96,10 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
@@ -123,6 +132,7 @@ abstract class _$$UserBookImplCopyWith<$Res>
       {int id,
       ReadingStatus readingStatus,
       DateTime addedAt,
+      DateTime? startedAt,
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
@@ -143,6 +153,7 @@ class __$$UserBookImplCopyWithImpl<$Res>
     Object? id = null,
     Object? readingStatus = null,
     Object? addedAt = null,
+    Object? startedAt = freezed,
     Object? completedAt = freezed,
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
@@ -161,6 +172,10 @@ class __$$UserBookImplCopyWithImpl<$Res>
           ? _value.addedAt
           : addedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
@@ -188,6 +203,7 @@ class _$UserBookImpl extends _UserBook {
       {required this.id,
       required this.readingStatus,
       required this.addedAt,
+      this.startedAt,
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
@@ -205,6 +221,10 @@ class _$UserBookImpl extends _UserBook {
   /// 本棚に追加した日時
   @override
   final DateTime addedAt;
+
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  @override
+  final DateTime? startedAt;
 
   /// 読了日（readingStatus が completed の場合のみ設定）
   @override
@@ -224,7 +244,7 @@ class _$UserBookImpl extends _UserBook {
 
   @override
   String toString() {
-    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
+    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
   }
 
   @override
@@ -236,6 +256,8 @@ class _$UserBookImpl extends _UserBook {
             (identical(other.readingStatus, readingStatus) ||
                 other.readingStatus == readingStatus) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.note, note) || other.note == note) &&
@@ -246,7 +268,7 @@ class _$UserBookImpl extends _UserBook {
 
   @override
   int get hashCode => Object.hash(runtimeType, id, readingStatus, addedAt,
-      completedAt, note, noteUpdatedAt, rating);
+      startedAt, completedAt, note, noteUpdatedAt, rating);
 
   @JsonKey(ignore: true)
   @override
@@ -260,6 +282,7 @@ abstract class _UserBook extends UserBook {
       {required final int id,
       required final ReadingStatus readingStatus,
       required final DateTime addedAt,
+      final DateTime? startedAt,
       final DateTime? completedAt,
       final String? note,
       final DateTime? noteUpdatedAt,
@@ -278,6 +301,10 @@ abstract class _UserBook extends UserBook {
 
   /// 本棚に追加した日時
   DateTime get addedAt;
+  @override
+
+  /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+  DateTime? get startedAt;
   @override
 
   /// 読了日（readingStatus が completed の場合のみ設定）

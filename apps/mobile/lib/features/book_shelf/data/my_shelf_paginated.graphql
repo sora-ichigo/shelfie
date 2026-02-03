@@ -9,6 +9,7 @@ query MyShelfPaginated($input: MyShelfInput) {
       readingStatus
       source
       addedAt
+      startedAt
       completedAt
       rating
     }
