@@ -124,7 +124,8 @@ export type ShelfSortFieldValue =
   | "TITLE"
   | "AUTHOR"
   | "COMPLETED_AT"
-  | "PUBLISHED_DATE";
+  | "PUBLISHED_DATE"
+  | "RATING";
 export type SortOrderValue = "ASC" | "DESC";
 
 function createShelfSortFieldEnumRef(builder: Builder) {
@@ -150,6 +151,10 @@ function createShelfSortFieldEnumRef(builder: Builder) {
       PUBLISHED_DATE: {
         value: "PUBLISHED_DATE" as ShelfSortFieldValue,
         description: "Sort by publication date",
+      },
+      RATING: {
+        value: "RATING" as ShelfSortFieldValue,
+        description: "Sort by rating",
       },
     } as const,
   });

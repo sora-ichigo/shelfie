@@ -47,6 +47,13 @@ enum SortOption {
     sortOrder: GSortOrder.ASC,
   ),
 
+  /// 評価順
+  ratingDesc(
+    displayName: '評価順',
+    sortField: GShelfSortField.RATING,
+    sortOrder: GSortOrder.DESC,
+  ),
+
   /// タイトル（A→Z）
   titleAsc(
     displayName: 'タイトル（A→Z）',

@@ -369,6 +369,12 @@ describe("BookShelfRepository", () => {
       expect(sortField).toBe("PUBLISHED_DATE");
     });
 
+    it("should accept RATING as a valid sort field", () => {
+      const sortField: import("./book-shelf-repository.js").ShelfSortField =
+        "RATING";
+      expect(sortField).toBe("RATING");
+    });
+
     it("should accept existing sort fields", () => {
       const addedAt: import("./book-shelf-repository.js").ShelfSortField =
         "ADDED_AT";

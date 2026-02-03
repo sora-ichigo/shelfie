@@ -137,6 +137,8 @@ const GShelfSortField _$gShelfSortFieldCOMPLETED_AT =
     const GShelfSortField._('COMPLETED_AT');
 const GShelfSortField _$gShelfSortFieldPUBLISHED_DATE =
     const GShelfSortField._('PUBLISHED_DATE');
+const GShelfSortField _$gShelfSortFieldRATING =
+    const GShelfSortField._('RATING');
 const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
 
 GShelfSortField _$gShelfSortFieldValueOf(String name) {
@@ -149,6 +151,8 @@ GShelfSortField _$gShelfSortFieldValueOf(String name) {
       return _$gShelfSortFieldCOMPLETED_AT;
     case 'PUBLISHED_DATE':
       return _$gShelfSortFieldPUBLISHED_DATE;
+    case 'RATING':
+      return _$gShelfSortFieldRATING;
     case 'TITLE':
       return _$gShelfSortFieldTITLE;
     default:
@@ -162,6 +166,7 @@ final BuiltSet<GShelfSortField> _$gShelfSortFieldValues =
   _$gShelfSortFieldAUTHOR,
   _$gShelfSortFieldCOMPLETED_AT,
   _$gShelfSortFieldPUBLISHED_DATE,
+  _$gShelfSortFieldRATING,
   _$gShelfSortFieldTITLE,
 ]);
 

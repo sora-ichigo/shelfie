@@ -37,7 +37,8 @@ export type ShelfSortField =
   | "TITLE"
   | "AUTHOR"
   | "COMPLETED_AT"
-  | "PUBLISHED_DATE";
+  | "PUBLISHED_DATE"
+  | "RATING";
 export type SortOrder = "ASC" | "DESC";
 
 export interface GetUserBooksInput {
@@ -180,6 +181,11 @@ export function createBookShelfRepository(
           sortOrder === "ASC"
             ? sql`CASE WHEN ${userBooks.publishedDate} IS NULL OR ${userBooks.publishedDate} = '' THEN 1 ELSE 0 END, ${userBooks.publishedDate} ASC`
             : sql`CASE WHEN ${userBooks.publishedDate} IS NULL OR ${userBooks.publishedDate} = '' THEN 1 ELSE 0 END, ${userBooks.publishedDate} DESC`;
+      } else if (sortBy === "RATING") {
+        orderByClause =
+          sortOrder === "ASC"
+            ? sql`${userBooks.rating} ASC NULLS LAST`
+            : sql`${userBooks.rating} DESC NULLS LAST`;
       } else {
         const sortColumn =
           simpleColumnMap[sortBy as keyof typeof simpleColumnMap];

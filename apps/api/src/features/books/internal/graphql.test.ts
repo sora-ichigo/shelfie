@@ -561,7 +561,8 @@ describe("MyShelf enhanced query types", () => {
       expect(valueNames).toContain("AUTHOR");
       expect(valueNames).toContain("COMPLETED_AT");
       expect(valueNames).toContain("PUBLISHED_DATE");
-      expect(values).toHaveLength(5);
+      expect(valueNames).toContain("RATING");
+      expect(values).toHaveLength(6);
     });
   });
 

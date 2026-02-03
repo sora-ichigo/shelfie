@@ -5,8 +5,8 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 void main() {
   group('SortOption', () {
     group('values', () {
-      test('should have 8 options', () {
-        expect(SortOption.values.length, 8);
+      test('should have 9 options', () {
+        expect(SortOption.values.length, 9);
       });
 
       test('should have addedAtDesc as first option (default)', () {
@@ -22,6 +22,7 @@ void main() {
         expect(SortOption.values, contains(SortOption.completedAtAsc));
         expect(SortOption.values, contains(SortOption.publishedDateDesc));
         expect(SortOption.values, contains(SortOption.publishedDateAsc));
+        expect(SortOption.values, contains(SortOption.ratingDesc));
       });
     });
 
@@ -56,6 +57,10 @@ void main() {
 
       test('publishedDateAsc should return correct Japanese label', () {
         expect(SortOption.publishedDateAsc.displayName, '発売日（古い）');
+      });
+
+      test('ratingDesc should return correct Japanese label', () {
+        expect(SortOption.ratingDesc.displayName, '評価順');
       });
     });
 
@@ -111,18 +116,23 @@ void main() {
         );
         expect(SortOption.publishedDateAsc.sortOrder, GSortOrder.ASC);
       });
+
+      test('ratingDesc should return RATING and DESC', () {
+        expect(SortOption.ratingDesc.sortField, GShelfSortField.RATING);
+        expect(SortOption.ratingDesc.sortOrder, GSortOrder.DESC);
+      });
     });
 
     group('visibleValues', () {
-      test('should have 7 options', () {
-        expect(SortOption.visibleValues.length, 7);
+      test('should have 8 options', () {
+        expect(SortOption.visibleValues.length, 8);
       });
 
       test('should not contain titleAsc', () {
         expect(SortOption.visibleValues, isNot(contains(SortOption.titleAsc)));
       });
 
-      test('should be ordered as addedAt → completedAt → publishedDate → author', () {
+      test('should be ordered as addedAt → completedAt → publishedDate → rating → author', () {
         expect(SortOption.visibleValues, [
           SortOption.addedAtDesc,
           SortOption.addedAtAsc,
@@ -130,6 +140,7 @@ void main() {
           SortOption.completedAtAsc,
           SortOption.publishedDateDesc,
           SortOption.publishedDateAsc,
+          SortOption.ratingDesc,
           SortOption.authorAsc,
         ]);
       });
