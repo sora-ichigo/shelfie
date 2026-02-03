@@ -32,6 +32,25 @@ export interface GoogleBooksRepository {
 const GOOGLE_BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes";
 const TIMEOUT_MS = 3000;
 const MAX_RESULTS = 40;
+const FIELD_PREFIXES = [
+  "intitle:",
+  "inauthor:",
+  "inpublisher:",
+  "subject:",
+  "isbn:",
+];
+
+function hasFieldPrefix(query: string): boolean {
+  const lower = query.toLowerCase();
+  return FIELD_PREFIXES.some((prefix) => lower.startsWith(prefix));
+}
+
+function normalizeQuery(query: string): string {
+  if (hasFieldPrefix(query)) {
+    return query;
+  }
+  return `intitle:${query}`;
+}
 
 function buildSearchUrl(
   apiKey: string,
@@ -118,7 +137,7 @@ export function createGoogleBooksRepository(
       const maxResults = Math.min(limit, MAX_RESULTS);
 
       const url = buildSearchUrl(apiKey, {
-        q: query,
+        q: normalizeQuery(query),
         maxResults,
         startIndex: offset,
         // orderBy: "newest",
