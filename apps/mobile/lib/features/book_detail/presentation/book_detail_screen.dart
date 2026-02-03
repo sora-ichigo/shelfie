@@ -390,7 +390,13 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           type: AdaptiveSnackBarType.error,
         );
       },
-      (_) {},
+      (_) {
+        AdaptiveSnackBar.show(
+          context,
+          message: '読了日を更新しました',
+          type: AdaptiveSnackBarType.success,
+        );
+      },
     );
   }
 
