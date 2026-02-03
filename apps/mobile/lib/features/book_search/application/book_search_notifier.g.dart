@@ -7,7 +7,7 @@ part of 'book_search_notifier.dart';
 // **************************************************************************
 
 String _$bookSearchNotifierHash() =>
-    r'ea61b8d6fd60f6b36ffe31bcb221d5a67b63ea15';
+    r'123fda1d61665e1bb26f881519cac0c3a1d8eef0';
 
 /// See also [BookSearchNotifier].
 @ProviderFor(BookSearchNotifier)

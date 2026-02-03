@@ -119,7 +119,12 @@ function createBookDetailRef(builder: Builder) {
   return builder.objectRef<BookDetailWithUserBook>("BookDetail");
 }
 
-export type ShelfSortFieldValue = "ADDED_AT" | "TITLE" | "AUTHOR";
+export type ShelfSortFieldValue =
+  | "ADDED_AT"
+  | "TITLE"
+  | "AUTHOR"
+  | "COMPLETED_AT"
+  | "PUBLISHED_DATE";
 export type SortOrderValue = "ASC" | "DESC";
 
 function createShelfSortFieldEnumRef(builder: Builder) {
@@ -137,6 +142,14 @@ function createShelfSortFieldEnumRef(builder: Builder) {
       AUTHOR: {
         value: "AUTHOR" as ShelfSortFieldValue,
         description: "Sort by author name",
+      },
+      COMPLETED_AT: {
+        value: "COMPLETED_AT" as ShelfSortFieldValue,
+        description: "Sort by completion date",
+      },
+      PUBLISHED_DATE: {
+        value: "PUBLISHED_DATE" as ShelfSortFieldValue,
+        description: "Sort by publication date",
       },
     } as const,
   });

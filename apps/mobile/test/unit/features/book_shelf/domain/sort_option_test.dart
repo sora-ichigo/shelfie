@@ -5,8 +5,8 @@ import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 void main() {
   group('SortOption', () {
     group('values', () {
-      test('should have 4 options', () {
-        expect(SortOption.values.length, 4);
+      test('should have 8 options', () {
+        expect(SortOption.values.length, 8);
       });
 
       test('should have addedAtDesc as first option (default)', () {
@@ -18,6 +18,10 @@ void main() {
         expect(SortOption.values, contains(SortOption.addedAtAsc));
         expect(SortOption.values, contains(SortOption.titleAsc));
         expect(SortOption.values, contains(SortOption.authorAsc));
+        expect(SortOption.values, contains(SortOption.completedAtDesc));
+        expect(SortOption.values, contains(SortOption.completedAtAsc));
+        expect(SortOption.values, contains(SortOption.publishedDateDesc));
+        expect(SortOption.values, contains(SortOption.publishedDateAsc));
       });
     });
 
@@ -36,6 +40,22 @@ void main() {
 
       test('authorAsc should return correct Japanese label', () {
         expect(SortOption.authorAsc.displayName, '著者名（A→Z）');
+      });
+
+      test('completedAtDesc should return correct Japanese label', () {
+        expect(SortOption.completedAtDesc.displayName, '読了日（新しい順）');
+      });
+
+      test('completedAtAsc should return correct Japanese label', () {
+        expect(SortOption.completedAtAsc.displayName, '読了日（古い順）');
+      });
+
+      test('publishedDateDesc should return correct Japanese label', () {
+        expect(SortOption.publishedDateDesc.displayName, '発売日（新しい順）');
+      });
+
+      test('publishedDateAsc should return correct Japanese label', () {
+        expect(SortOption.publishedDateAsc.displayName, '発売日（古い順）');
       });
     });
 
@@ -58,6 +78,38 @@ void main() {
       test('authorAsc should return AUTHOR and ASC', () {
         expect(SortOption.authorAsc.sortField, GShelfSortField.AUTHOR);
         expect(SortOption.authorAsc.sortOrder, GSortOrder.ASC);
+      });
+
+      test('completedAtDesc should return COMPLETED_AT and DESC', () {
+        expect(
+          SortOption.completedAtDesc.sortField,
+          GShelfSortField.COMPLETED_AT,
+        );
+        expect(SortOption.completedAtDesc.sortOrder, GSortOrder.DESC);
+      });
+
+      test('completedAtAsc should return COMPLETED_AT and ASC', () {
+        expect(
+          SortOption.completedAtAsc.sortField,
+          GShelfSortField.COMPLETED_AT,
+        );
+        expect(SortOption.completedAtAsc.sortOrder, GSortOrder.ASC);
+      });
+
+      test('publishedDateDesc should return PUBLISHED_DATE and DESC', () {
+        expect(
+          SortOption.publishedDateDesc.sortField,
+          GShelfSortField.PUBLISHED_DATE,
+        );
+        expect(SortOption.publishedDateDesc.sortOrder, GSortOrder.DESC);
+      });
+
+      test('publishedDateAsc should return PUBLISHED_DATE and ASC', () {
+        expect(
+          SortOption.publishedDateAsc.sortField,
+          GShelfSortField.PUBLISHED_DATE,
+        );
+        expect(SortOption.publishedDateAsc.sortOrder, GSortOrder.ASC);
       });
     });
 

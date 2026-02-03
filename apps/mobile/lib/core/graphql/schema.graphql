@@ -610,6 +610,12 @@ enum ShelfSortField {
   """Sort by author name"""
   AUTHOR
 
+  """Sort by completion date"""
+  COMPLETED_AT
+
+  """Sort by publication date"""
+  PUBLISHED_DATE
+
   """Sort by book title"""
   TITLE
 }

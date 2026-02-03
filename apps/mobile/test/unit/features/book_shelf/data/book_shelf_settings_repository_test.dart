@@ -82,5 +82,54 @@ void main() {
         expect(newRepository.getSortOption(), SortOption.titleAsc);
       });
     });
+
+    group('new sort options persistence', () {
+      test('completedAtDesc can be saved and restored', () async {
+        await repository.setSortOption(SortOption.completedAtDesc);
+
+        final result = repository.getSortOption();
+
+        expect(result, SortOption.completedAtDesc);
+      });
+
+      test('completedAtAsc can be saved and restored', () async {
+        await repository.setSortOption(SortOption.completedAtAsc);
+
+        final result = repository.getSortOption();
+
+        expect(result, SortOption.completedAtAsc);
+      });
+
+      test('publishedDateDesc can be saved and restored', () async {
+        await repository.setSortOption(SortOption.publishedDateDesc);
+
+        final result = repository.getSortOption();
+
+        expect(result, SortOption.publishedDateDesc);
+      });
+
+      test('publishedDateAsc can be saved and restored', () async {
+        await repository.setSortOption(SortOption.publishedDateAsc);
+
+        final result = repository.getSortOption();
+
+        expect(result, SortOption.publishedDateAsc);
+      });
+
+      test('existing sort options still restore correctly', () async {
+        for (final option in [
+          SortOption.addedAtDesc,
+          SortOption.addedAtAsc,
+          SortOption.titleAsc,
+          SortOption.authorAsc,
+        ]) {
+          await repository.setSortOption(option);
+
+          final result = repository.getSortOption();
+
+          expect(result, option);
+        }
+      });
+    });
   });
 }

@@ -711,6 +711,118 @@ describe("BookShelfService", () => {
         expect(result.error.code).toBe("DATABASE_ERROR");
       }
     });
+
+    it("should pass COMPLETED_AT sortBy to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        sortBy: "COMPLETED_AT",
+        sortOrder: "DESC",
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        sortBy: "COMPLETED_AT",
+        sortOrder: "DESC",
+        limit: 20,
+        offset: 0,
+      });
+    });
+
+    it("should pass COMPLETED_AT ASC sortBy to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        sortBy: "COMPLETED_AT",
+        sortOrder: "ASC",
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        sortBy: "COMPLETED_AT",
+        sortOrder: "ASC",
+        limit: 20,
+        offset: 0,
+      });
+    });
+
+    it("should pass PUBLISHED_DATE sortBy to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        sortBy: "PUBLISHED_DATE",
+        sortOrder: "DESC",
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        sortBy: "PUBLISHED_DATE",
+        sortOrder: "DESC",
+        limit: 20,
+        offset: 0,
+      });
+    });
+
+    it("should pass PUBLISHED_DATE ASC sortBy to repository", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockGetUserBooksWithPagination.mockResolvedValue({
+        items: [],
+        totalCount: 0,
+      });
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      await service.getUserBooksWithPagination(100, {
+        sortBy: "PUBLISHED_DATE",
+        sortOrder: "ASC",
+        limit: 20,
+        offset: 0,
+      });
+
+      expect(
+        mockRepository.mockGetUserBooksWithPagination,
+      ).toHaveBeenCalledWith(100, {
+        sortBy: "PUBLISHED_DATE",
+        sortOrder: "ASC",
+        limit: 20,
+        offset: 0,
+      });
+    });
   });
 
   describe("interface compliance", () => {

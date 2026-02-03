@@ -31,6 +31,34 @@ enum SortOption {
     displayName: '著者名（A→Z）',
     sortField: GShelfSortField.AUTHOR,
     sortOrder: GSortOrder.ASC,
+  ),
+
+  /// 読了日（新しい順）
+  completedAtDesc(
+    displayName: '読了日（新しい順）',
+    sortField: GShelfSortField.COMPLETED_AT,
+    sortOrder: GSortOrder.DESC,
+  ),
+
+  /// 読了日（古い順）
+  completedAtAsc(
+    displayName: '読了日（古い順）',
+    sortField: GShelfSortField.COMPLETED_AT,
+    sortOrder: GSortOrder.ASC,
+  ),
+
+  /// 発売日（新しい順）
+  publishedDateDesc(
+    displayName: '発売日（新しい順）',
+    sortField: GShelfSortField.PUBLISHED_DATE,
+    sortOrder: GSortOrder.DESC,
+  ),
+
+  /// 発売日（古い順）
+  publishedDateAsc(
+    displayName: '発売日（古い順）',
+    sortField: GShelfSortField.PUBLISHED_DATE,
+    sortOrder: GSortOrder.ASC,
   );
 
   const SortOption({
