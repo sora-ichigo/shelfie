@@ -546,9 +546,9 @@ describe("BooksGraphQL Mutations Schema", () => {
     expect(args?.find((a) => a.name === "userBookId")?.type.toString()).toBe(
       "Int!",
     );
-    expect(
-      args?.find((a) => a.name === "completedAt")?.type.toString(),
-    ).toBe("DateTime!");
+    expect(args?.find((a) => a.name === "completedAt")?.type.toString()).toBe(
+      "DateTime!",
+    );
   });
 });
 
