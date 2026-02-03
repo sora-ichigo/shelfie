@@ -388,6 +388,9 @@ type Mutation {
   """Update an existing book list"""
   updateBookList(input: UpdateBookListInput!): BookList!
 
+  """Update the completed at date of a book in the user's shelf"""
+  updateCompletedAt(completedAt: DateTime!, userBookId: Int!): UserBook!
+
   """Update the rating of a book in the user's shelf"""
   updateBookRating(rating: Int, userBookId: Int!): UserBook!
 

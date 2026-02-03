@@ -374,7 +374,8 @@ void main() {
         expect(entry?.completedAt, isNotNull);
       });
 
-      test('should clear completedAt when status changes from completed', () async {
+      test('should preserve completedAt when status changes from completed', () async {
+        final completedAt = DateTime(2024, 6, 20);
         final notifier = container.read(shelfStateProvider.notifier);
         notifier.registerEntry(
           ShelfEntry(
@@ -382,7 +383,7 @@ void main() {
             externalId: 'book-123',
             readingStatus: ReadingStatus.completed,
             addedAt: DateTime.now(),
-            completedAt: DateTime.now(),
+            completedAt: completedAt,
           ),
         );
 
@@ -393,7 +394,30 @@ void main() {
 
         final entry = notifier.getEntry('book-123');
         expect(entry?.readingStatus, ReadingStatus.reading);
-        expect(entry?.completedAt, isNull);
+        expect(entry?.completedAt, equals(completedAt));
+      });
+
+      test('should preserve existing completedAt when status changes to completed', () async {
+        final existingCompletedAt = DateTime(2024, 5, 15);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: DateTime.now(),
+            completedAt: existingCompletedAt,
+          ),
+        );
+
+        notifier.updateReadingStatus(
+          externalId: 'book-123',
+          status: ReadingStatus.completed,
+        );
+
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.readingStatus, ReadingStatus.completed);
+        expect(entry?.completedAt, equals(existingCompletedAt));
       });
 
       test('should do nothing when entry does not exist', () async {
@@ -805,6 +829,131 @@ void main() {
         );
 
         expect(container.read(bookListVersionProvider), versionBefore);
+      });
+    });
+
+    group('updateCompletedAtWithApi', () {
+      test('成功時は completedAt が更新される', () async {
+        final now = DateTime.now();
+        final newCompletedAt = DateTime(2024, 5, 10);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.completed,
+            addedAt: now,
+            completedAt: now,
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateCompletedAt(
+            userBookId: any(named: 'userBookId'),
+            completedAt: any(named: 'completedAt'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.completed,
+              addedAt: now,
+              completedAt: newCompletedAt,
+            ),
+          ),
+        );
+
+        final result = await notifier.updateCompletedAtWithApi(
+          externalId: 'book-123',
+          completedAt: newCompletedAt,
+        );
+
+        expect(result.isRight(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.completedAt, equals(newCompletedAt));
+      });
+
+      test('失敗時は元の状態にロールバックする', () async {
+        final now = DateTime.now();
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.completed,
+            addedAt: now,
+            completedAt: now,
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateCompletedAt(
+            userBookId: any(named: 'userBookId'),
+            completedAt: any(named: 'completedAt'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              left(const NetworkFailure(message: 'Network error')),
+        );
+
+        final result = await notifier.updateCompletedAtWithApi(
+          externalId: 'book-123',
+          completedAt: DateTime(2024, 5, 10),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.completedAt, equals(now));
+      });
+
+      test('エントリが存在しない場合は Left(UnexpectedFailure) を返す', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+
+        final result = await notifier.updateCompletedAtWithApi(
+          externalId: 'non-existent',
+          completedAt: DateTime(2024, 5, 10),
+        );
+
+        expect(result.isLeft(), isTrue);
+      });
+
+      test('shelfVersion が変わらない', () async {
+        final now = DateTime.now();
+        final newCompletedAt = DateTime(2024, 5, 10);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.completed,
+            addedAt: now,
+            completedAt: now,
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateCompletedAt(
+            userBookId: any(named: 'userBookId'),
+            completedAt: any(named: 'completedAt'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.completed,
+              addedAt: now,
+              completedAt: newCompletedAt,
+            ),
+          ),
+        );
+
+        final versionBefore = container.read(shelfVersionProvider);
+        await notifier.updateCompletedAtWithApi(
+          externalId: 'book-123',
+          completedAt: newCompletedAt,
+        );
+
+        expect(container.read(shelfVersionProvider), versionBefore);
       });
     });
 

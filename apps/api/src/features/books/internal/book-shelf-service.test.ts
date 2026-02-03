@@ -1047,10 +1047,11 @@ describe("BookShelfService", () => {
       );
     });
 
-    it("should clear completedAt when status is changed from completed to another status", async () => {
+    it("should preserve completedAt when status is changed from completed to another status", async () => {
       const mockRepository = createMockRepository();
       const mockLogger = createMockLogger();
 
+      const existingCompletedAt = new Date("2024-06-15");
       const existingUserBook: UserBook = {
         id: 1,
         userId: 100,
@@ -1064,7 +1065,7 @@ describe("BookShelfService", () => {
         source: "rakuten",
         addedAt: new Date(),
         readingStatus: "completed",
-        completedAt: new Date(),
+        completedAt: existingCompletedAt,
         note: null,
         noteUpdatedAt: null,
         rating: null,
@@ -1074,7 +1075,7 @@ describe("BookShelfService", () => {
       const updatedUserBook: UserBook = {
         ...existingUserBook,
         readingStatus: "reading",
-        completedAt: null,
+        completedAt: existingCompletedAt,
       };
       mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
 
@@ -1089,13 +1090,66 @@ describe("BookShelfService", () => {
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.readingStatus).toBe("reading");
-        expect(result.data.completedAt).toBeNull();
+        expect(result.data.completedAt).toEqual(existingCompletedAt);
       }
       expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(
         1,
         expect.objectContaining({
           readingStatus: "reading",
-          completedAt: null,
+          completedAt: existingCompletedAt,
+        }),
+      );
+    });
+
+    it("should preserve existing completedAt when status is changed to completed and completedAt is not null", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      const existingCompletedAt = new Date("2024-03-10");
+      const existingUserBook: UserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "google-book-123",
+        title: "Test Book",
+        authors: ["Author One"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "rakuten",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        completedAt: existingCompletedAt,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+      };
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        readingStatus: "completed",
+        completedAt: existingCompletedAt,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateReadingStatus({
+        userBookId: 1,
+        userId: 100,
+        status: "completed",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.completedAt).toEqual(existingCompletedAt);
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(
+        1,
+        expect.objectContaining({
+          readingStatus: "completed",
+          completedAt: existingCompletedAt,
         }),
       );
     });
@@ -1547,6 +1601,121 @@ describe("BookShelfService", () => {
         userBookId: 1,
         userId: 100,
         rating: 3,
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("DATABASE_ERROR");
+      }
+    });
+  });
+
+  describe("updateCompletedAt", () => {
+    const existingUserBook: UserBook = {
+      id: 1,
+      userId: 100,
+      externalId: "google-book-123",
+      title: "Test Book",
+      authors: ["Author One"],
+      publisher: null,
+      publishedDate: null,
+      isbn: null,
+      coverImageUrl: null,
+      source: "rakuten",
+      addedAt: new Date(),
+      readingStatus: "completed",
+      completedAt: new Date("2024-01-15"),
+      note: null,
+      noteUpdatedAt: null,
+      rating: null,
+    };
+
+    it("should update completedAt successfully", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const newCompletedAt = new Date("2024-06-20");
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        completedAt: newCompletedAt,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateCompletedAt({
+        userBookId: 1,
+        userId: 100,
+        completedAt: newCompletedAt,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.completedAt).toEqual(newCompletedAt);
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(1, {
+        completedAt: newCompletedAt,
+      });
+    });
+
+    it("should return BOOK_NOT_FOUND error when user book does not exist", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(null);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateCompletedAt({
+        userBookId: 999,
+        userId: 100,
+        completedAt: new Date(),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("BOOK_NOT_FOUND");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return FORBIDDEN error when user does not own the book", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateCompletedAt({
+        userBookId: 1,
+        userId: 999,
+        completedAt: new Date(),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("FORBIDDEN");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return DATABASE_ERROR when repository throws", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockRejectedValue(
+        new Error("Database connection failed"),
+      );
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateCompletedAt({
+        userBookId: 1,
+        userId: 100,
+        completedAt: new Date(),
       });
 
       expect(result.success).toBe(false);

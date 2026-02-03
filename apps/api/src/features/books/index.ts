@@ -40,6 +40,7 @@ export type {
   BookShelfService,
   MyShelfResult,
   ReadingStatusInputValue,
+  UpdateCompletedAtInput,
   UpdateReadingNoteInput,
   UpdateReadingStatusInput,
 } from "./internal/book-shelf-service.js";

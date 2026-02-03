@@ -55,7 +55,7 @@ class ShelfState extends _$ShelfState {
             externalId: userBook.externalId,
             readingStatus: readingStatus,
             addedAt: userBook.addedAt,
-            completedAt: _resolveCompletedAt(readingStatus),
+            completedAt: _resolveCompletedAt(readingStatus, null),
           ),
         );
         ref.read(shelfVersionProvider.notifier).increment();
@@ -207,6 +207,41 @@ class ShelfState extends _$ShelfState {
     );
   }
 
+  /// 読了日を更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateCompletedAtWithApi({
+    required String externalId,
+    required DateTime completedAt,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    final optimistic = entry.copyWith(completedAt: completedAt);
+    state = {...state, externalId: optimistic};
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateCompletedAt(
+      userBookId: entry.userBookId,
+      completedAt: completedAt,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          completedAt: userBook.completedAt,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
   /// 読書状態を更新する（Optimistic Update のみ）
   void updateReadingStatus({
     required String externalId,
@@ -232,7 +267,7 @@ class ShelfState extends _$ShelfState {
 
     final updated = entry.copyWith(
       readingStatus: status,
-      completedAt: _resolveCompletedAt(status),
+      completedAt: _resolveCompletedAt(status, entry.completedAt),
     );
 
     state = {...state, externalId: updated};
@@ -289,8 +324,14 @@ class ShelfState extends _$ShelfState {
     );
   }
 
-  static DateTime? _resolveCompletedAt(ReadingStatus status) {
-    return status == ReadingStatus.completed ? DateTime.now() : null;
+  static DateTime? _resolveCompletedAt(
+    ReadingStatus status,
+    DateTime? currentCompletedAt,
+  ) {
+    if (status == ReadingStatus.completed) {
+      return currentCompletedAt ?? DateTime.now();
+    }
+    return currentCompletedAt;
   }
 
   /// 全てのエントリをクリアする

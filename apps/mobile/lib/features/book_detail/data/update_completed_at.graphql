@@ -1,0 +1,18 @@
+mutation UpdateCompletedAt($userBookId: Int!, $completedAt: DateTime!) {
+  updateCompletedAt(userBookId: $userBookId, completedAt: $completedAt) {
+    id
+    externalId
+    title
+    authors
+    publisher
+    publishedDate
+    isbn
+    coverImageUrl
+    addedAt
+    readingStatus
+    completedAt
+    note
+    noteUpdatedAt
+    rating
+  }
+}

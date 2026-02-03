@@ -141,6 +141,12 @@ import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shel
     show GRemoveFromShelfReq;
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.var.gql.dart'
     show GRemoveFromShelfVars;
+import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.data.gql.dart'
+    show GUpdateCompletedAtData, GUpdateCompletedAtData_updateCompletedAt;
+import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.req.gql.dart'
+    show GUpdateCompletedAtReq;
+import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.var.gql.dart'
+    show GUpdateCompletedAtVars;
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.data.gql.dart'
     show GUpdateBookRatingData, GUpdateBookRatingData_updateBookRating;
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.req.gql.dart'
@@ -439,6 +445,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUpdateBookRatingData_updateBookRating,
   GUpdateBookRatingReq,
   GUpdateBookRatingVars,
+  GUpdateCompletedAtData,
+  GUpdateCompletedAtData_updateCompletedAt,
+  GUpdateCompletedAtReq,
+  GUpdateCompletedAtVars,
   GUpdateProfileData,
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess,
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data,

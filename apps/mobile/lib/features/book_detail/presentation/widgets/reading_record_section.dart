@@ -12,12 +12,14 @@ class ReadingRecordSection extends StatelessWidget {
     required this.shelfEntry,
     required this.onStatusTap,
     required this.onRatingTap,
+    this.onCompletedAtTap,
     super.key,
   });
 
   final ShelfEntry shelfEntry;
   final VoidCallback onStatusTap;
   final VoidCallback onRatingTap;
+  final ValueChanged<DateTime>? onCompletedAtTap;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,9 @@ class ReadingRecordSection extends StatelessWidget {
               label: '読了日',
               value: _formatDate(shelfEntry.completedAt!),
               position: _RowPosition.last,
+              onTap: onCompletedAtTap != null
+                  ? () => _showCompletedAtPicker(context)
+                  : null,
             ),
         ],
       ),
@@ -228,6 +233,19 @@ class ReadingRecordSection extends StatelessWidget {
       ReadingStatus.completed => const Color(0xFF81C784),
       ReadingStatus.interested => const Color(0xFFE091D6),
     };
+  }
+
+  Future<void> _showCompletedAtPicker(BuildContext context) async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: shelfEntry.completedAt ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+
+    if (selectedDate != null) {
+      onCompletedAtTap?.call(selectedDate);
+    }
   }
 
   String _formatDate(DateTime date) {

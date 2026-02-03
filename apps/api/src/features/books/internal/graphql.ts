@@ -981,6 +981,54 @@ export function registerBooksMutations(
         return result.data;
       },
     }),
+    updateCompletedAt: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the completion date of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        completedAt: t.arg({
+          type: "DateTime",
+          required: true,
+        }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateCompletedAt({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          completedAt: args.completedAt,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
     removeFromShelf: t.field({
       type: "Boolean",
       nullable: false,
