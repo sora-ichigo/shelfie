@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
@@ -105,7 +106,13 @@ void main() {
       expect(completedRow, findsNothing);
     });
 
-    testWidgets('読了日行をタップするとDatePickerが表示される', (tester) async {
+    testWidgets('読了日行をタップするとボトムシートにカレンダーが表示される',
+        (tester) async {
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       final shelfEntry = ShelfEntry(
         userBookId: 1,
         externalId: 'book-1',
@@ -126,7 +133,8 @@ void main() {
       await tester.tap(completedRow);
       await tester.pumpAndSettle();
 
-      expect(find.byType(DatePickerDialog), findsOneWidget);
+      expect(find.byType(CupertinoDatePicker), findsOneWidget);
+      expect(find.text('読了日を変更'), findsOneWidget);
     });
   });
 }
