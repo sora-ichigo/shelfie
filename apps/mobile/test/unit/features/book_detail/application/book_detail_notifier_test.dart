@@ -62,6 +62,7 @@ UserBook createMockUserBook({
   int id = 1,
   ReadingStatus readingStatus = ReadingStatus.backlog,
   DateTime? addedAt,
+  DateTime? startedAt,
   DateTime? completedAt,
   String? note,
   DateTime? noteUpdatedAt,
@@ -70,6 +71,7 @@ UserBook createMockUserBook({
     id: id,
     readingStatus: readingStatus,
     addedAt: addedAt ?? DateTime(2024, 6, 15),
+    startedAt: startedAt,
     completedAt: completedAt,
     note: note,
     noteUpdatedAt: noteUpdatedAt,
@@ -613,6 +615,90 @@ void main() {
         expect(result.isLeft(), isTrue);
         final shelfState = container.read(shelfStateProvider);
         expect(shelfState['book-1']!.completedAt, equals(completedAt));
+      });
+    });
+
+    group('updateStartedAt', () {
+      test('読書開始日更新成功時は ShelfState を更新する', () async {
+        final bookDetail = createMockBookDetail();
+        final startedAt = DateTime(2024, 3, 15);
+        final newStartedAt = DateTime(2024, 4, 1);
+        final userBook = createMockUserBook(
+          id: 42,
+          readingStatus: ReadingStatus.reading,
+          startedAt: startedAt,
+        );
+
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
+            .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
+
+        final updatedUserBook = createMockUserBook(
+          id: 42,
+          readingStatus: ReadingStatus.reading,
+          startedAt: newStartedAt,
+        );
+        when(() => mockRepository.updateStartedAt(
+              userBookId: 42,
+              startedAt: newStartedAt,
+            )).thenAnswer((_) async => right(updatedUserBook));
+
+        final notifier =
+            container.read(bookDetailNotifierProvider('book-1').notifier);
+        await notifier.loadBookDetail(source: BookSource.rakuten);
+
+        final result = await notifier.updateStartedAt(
+          userBookId: 42,
+          startedAt: newStartedAt,
+        );
+
+        expect(result.isRight(), isTrue);
+        final shelfState = container.read(shelfStateProvider);
+        expect(shelfState['book-1']!.startedAt, equals(newStartedAt));
+      });
+
+      test('本棚に未登録の場合は Left(UnexpectedFailure) を返す', () async {
+        final notifier =
+            container.read(bookDetailNotifierProvider('book-1').notifier);
+
+        final result = await notifier.updateStartedAt(
+          userBookId: 42,
+          startedAt: DateTime(2024, 4, 1),
+        );
+
+        expect(result.isLeft(), isTrue);
+        expect(result.getLeft().toNullable(), isA<UnexpectedFailure>());
+      });
+
+      test('更新失敗時は Optimistic update をロールバックする', () async {
+        final bookDetail = createMockBookDetail();
+        final startedAt = DateTime(2024, 3, 15);
+        final userBook = createMockUserBook(
+          id: 42,
+          readingStatus: ReadingStatus.reading,
+          startedAt: startedAt,
+        );
+
+        when(() => mockRepository.getBookDetail(bookId: 'book-1', source: any(named: 'source')))
+            .thenAnswer((_) async => right((bookDetail: bookDetail, userBook: userBook)));
+
+        when(() => mockRepository.updateStartedAt(
+              userBookId: 42,
+              startedAt: any(named: 'startedAt'),
+            )).thenAnswer((_) async =>
+            left(const ServerFailure(message: 'Server error', code: 'ERROR')));
+
+        final notifier =
+            container.read(bookDetailNotifierProvider('book-1').notifier);
+        await notifier.loadBookDetail(source: BookSource.rakuten);
+
+        final result = await notifier.updateStartedAt(
+          userBookId: 42,
+          startedAt: DateTime(2024, 4, 1),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final shelfState = container.read(shelfStateProvider);
+        expect(shelfState['book-1']!.startedAt, equals(startedAt));
       });
     });
 

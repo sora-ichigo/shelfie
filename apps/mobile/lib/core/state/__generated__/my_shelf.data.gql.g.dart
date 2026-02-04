@@ -184,6 +184,13 @@ class _$GMyShelfData_myShelf_itemsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.startedAt;
+    if (value != null) {
+      result
+        ..add('startedAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.completedAt;
     if (value != null) {
       result
@@ -244,6 +251,10 @@ class _$GMyShelfData_myShelf_itemsSerializer
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
+          break;
+        case 'startedAt':
+          result.startedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'completedAt':
           result.completedAt = serializers.deserialize(value,
@@ -542,6 +553,8 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
   @override
   final DateTime addedAt;
   @override
+  final DateTime? startedAt;
+  @override
   final DateTime? completedAt;
 
   factory _$GMyShelfData_myShelf_items(
@@ -558,6 +571,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
       this.note,
       this.noteUpdatedAt,
       required this.addedAt,
+      this.startedAt,
       this.completedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
@@ -598,6 +612,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
         note == other.note &&
         noteUpdatedAt == other.noteUpdatedAt &&
         addedAt == other.addedAt &&
+        startedAt == other.startedAt &&
         completedAt == other.completedAt;
   }
 
@@ -613,6 +628,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
     _$hash = $jc(_$hash, note.hashCode);
     _$hash = $jc(_$hash, noteUpdatedAt.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
+    _$hash = $jc(_$hash, startedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -630,6 +646,7 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
           ..add('note', note)
           ..add('noteUpdatedAt', noteUpdatedAt)
           ..add('addedAt', addedAt)
+          ..add('startedAt', startedAt)
           ..add('completedAt', completedAt))
         .toString();
   }
@@ -679,6 +696,10 @@ class GMyShelfData_myShelf_itemsBuilder
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
 
+  DateTime? _startedAt;
+  DateTime? get startedAt => _$this._startedAt;
+  set startedAt(DateTime? startedAt) => _$this._startedAt = startedAt;
+
   DateTime? _completedAt;
   DateTime? get completedAt => _$this._completedAt;
   set completedAt(DateTime? completedAt) => _$this._completedAt = completedAt;
@@ -699,6 +720,7 @@ class GMyShelfData_myShelf_itemsBuilder
       _note = $v.note;
       _noteUpdatedAt = $v.noteUpdatedAt;
       _addedAt = $v.addedAt;
+      _startedAt = $v.startedAt;
       _completedAt = $v.completedAt;
       _$v = null;
     }
@@ -741,6 +763,7 @@ class GMyShelfData_myShelf_itemsBuilder
               noteUpdatedAt: noteUpdatedAt,
               addedAt: BuiltValueNullFieldError.checkNotNull(
                   addedAt, r'GMyShelfData_myShelf_items', 'addedAt'),
+              startedAt: startedAt,
               completedAt: completedAt);
     } catch (_) {
       late String _$failedField;

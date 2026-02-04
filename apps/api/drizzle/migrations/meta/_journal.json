@@ -57,6 +57,13 @@
       "when": 1769908248571,
       "tag": "0007_minor_junta",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1770128748334,
+      "tag": "0008_lumpy_meltdown",
+      "breakpoints": true
     }
   ]
 }

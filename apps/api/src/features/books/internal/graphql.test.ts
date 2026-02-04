@@ -33,6 +33,7 @@ function createMockShelfService(): BookShelfService {
     updateReadingStatus: vi.fn(),
     updateReadingNote: vi.fn(),
     updateRating: vi.fn(),
+    updateStartedAt: vi.fn(),
     updateCompletedAt: vi.fn(),
     removeFromShelf: vi.fn(),
   };
@@ -1070,6 +1071,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: "https://example.com/cover.jpg",
         addedAt: new Date(),
         readingStatus: "reading" as const,
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1272,6 +1274,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "backlog" as const,
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1439,6 +1442,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "backlog" as const,
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1698,6 +1702,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "reading" as const,
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
@@ -1922,6 +1927,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "reading" as const,
+        startedAt: null,
         completedAt: null,
         note: "Great book!",
         noteUpdatedAt: new Date(),
@@ -2002,6 +2008,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "reading" as const,
+        startedAt: null,
         completedAt: null,
         note: "",
         noteUpdatedAt: new Date(),
@@ -2206,6 +2213,128 @@ describe("BooksGraphQL Resolver Behavior", () => {
     });
   });
 
+  describe("updateStartedAt resolver", () => {
+    it("should call shelfService.updateStartedAt with correct input when authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+      const startedAt = new Date("2024-06-20");
+      const mockUserBook = {
+        id: 1,
+        userId: 100,
+        externalId: "book-123",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        startedAt,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+        source: "rakuten" as const,
+      };
+      vi.mocked(mockShelfService.updateStartedAt).mockResolvedValue(
+        ok(mockUserBook),
+      );
+      vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          email: "test@example.com",
+          firebaseUid: "firebase-uid",
+          name: null,
+          avatarUrl: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(
+        builder,
+        mockSearchService,
+        mockShelfService,
+        mockUserService,
+      );
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStartedAtField = mutationType?.getFields().updateStartedAt;
+
+      const authenticatedContext = {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      };
+
+      const result = await updateStartedAtField?.resolve?.(
+        {},
+        { userBookId: 1, startedAt },
+        authenticatedContext,
+        {} as never,
+      );
+
+      expect(mockUserService.getUserByFirebaseUid).toHaveBeenCalledWith(
+        "firebase-uid",
+      );
+      expect(mockShelfService.updateStartedAt).toHaveBeenCalledWith({
+        userBookId: 1,
+        userId: 100,
+        startedAt,
+      });
+      expect(result).toEqual(mockUserBook);
+    });
+
+    it("should throw error when user is not authenticated", async () => {
+      const mockSearchService = createMockSearchService();
+      const mockShelfService = createMockShelfService();
+      const mockUserService = createMockUserService();
+
+      const builder = createTestBuilder();
+      registerBooksTypes(builder);
+      builder.queryType({});
+      registerBooksQueries(builder, mockSearchService);
+      builder.mutationType({});
+      registerBooksMutations(builder, mockShelfService, mockUserService);
+
+      const schema = builder.toSchema();
+      const mutationType = schema.getMutationType();
+      const updateStartedAtField = mutationType?.getFields().updateStartedAt;
+
+      const unauthenticatedContext = {
+        requestId: "test",
+        user: null,
+      };
+
+      let error: Error | null = null;
+      try {
+        await updateStartedAtField?.resolve?.(
+          {},
+          { userBookId: 1, startedAt: new Date() },
+          unauthenticatedContext,
+          {} as never,
+        );
+      } catch (e) {
+        error = e as Error;
+      }
+
+      expect(error).toBeDefined();
+      expect(error?.message).toContain("Not authorized");
+      expect(mockShelfService.updateStartedAt).not.toHaveBeenCalled();
+    });
+  });
+
   describe("updateCompletedAt resolver", () => {
     it("should call shelfService.updateCompletedAt with correct input when authenticated", async () => {
       const mockSearchService = createMockSearchService();
@@ -2224,6 +2353,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "completed" as const,
+        startedAt: null,
         completedAt,
         note: null,
         noteUpdatedAt: null,
@@ -2348,6 +2478,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           coverImageUrl: "https://example.com/cover1.jpg",
           addedAt: new Date(),
           readingStatus: "reading" as const,
+          startedAt: null,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
@@ -2652,6 +2783,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
           coverImageUrl: "https://example.com/cover1.jpg",
           addedAt: new Date(),
           readingStatus: "reading" as const,
+          startedAt: null,
           completedAt: null,
           note: null,
           noteUpdatedAt: null,

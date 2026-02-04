@@ -20,6 +20,9 @@ class UserBook with _$UserBook {
     /// 本棚に追加した日時
     required DateTime addedAt,
 
+    /// 読書開始日（readingStatus が reading に変更された初回のみ設定）
+    DateTime? startedAt,
+
     /// 読了日（readingStatus が completed の場合のみ設定）
     DateTime? completedAt,
 

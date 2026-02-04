@@ -40,6 +40,7 @@ class BookDetailNotifier extends _$BookDetailNotifier {
               externalId: value.bookDetail.id,
               readingStatus: userBook.readingStatus,
               addedAt: userBook.addedAt,
+              startedAt: userBook.startedAt,
               completedAt: userBook.completedAt,
               note: userBook.note,
               noteUpdatedAt: userBook.noteUpdatedAt,
@@ -137,6 +138,23 @@ class BookDetailNotifier extends _$BookDetailNotifier {
     return ref.read(shelfStateProvider.notifier).updateReadingNoteWithApi(
       externalId: externalId,
       note: note,
+    );
+  }
+
+  Future<Either<Failure, ShelfEntry>> updateStartedAt({
+    required int userBookId,
+    required DateTime startedAt,
+  }) async {
+    final shelfEntry = ref.read(shelfStateProvider)[externalId];
+    if (shelfEntry == null) {
+      return left(
+        const UnexpectedFailure(message: 'Book is not in shelf'),
+      );
+    }
+
+    return ref.read(shelfStateProvider.notifier).updateStartedAtWithApi(
+      externalId: externalId,
+      startedAt: startedAt,
     );
   }
 

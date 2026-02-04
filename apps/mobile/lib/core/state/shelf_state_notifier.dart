@@ -55,6 +55,7 @@ class ShelfState extends _$ShelfState {
             externalId: userBook.externalId,
             readingStatus: readingStatus,
             addedAt: userBook.addedAt,
+            startedAt: _resolveStartedAt(readingStatus, null),
             completedAt: _resolveCompletedAt(readingStatus, null),
           ),
         );
@@ -129,6 +130,7 @@ class ShelfState extends _$ShelfState {
       (userBook) {
         final updated = entry.copyWith(
           readingStatus: userBook.readingStatus,
+          startedAt: userBook.startedAt,
           completedAt: userBook.completedAt,
         );
         state = {...state, externalId: updated};
@@ -242,6 +244,41 @@ class ShelfState extends _$ShelfState {
     );
   }
 
+  /// 読書開始日を更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateStartedAtWithApi({
+    required String externalId,
+    required DateTime startedAt,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    final optimistic = entry.copyWith(startedAt: startedAt);
+    state = {...state, externalId: optimistic};
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateStartedAt(
+      userBookId: entry.userBookId,
+      startedAt: startedAt,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          startedAt: userBook.startedAt,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
   /// 読書状態を更新する（Optimistic Update のみ）
   void updateReadingStatus({
     required String externalId,
@@ -265,8 +302,10 @@ class ShelfState extends _$ShelfState {
     final entry = state[externalId];
     if (entry == null) return;
 
+    final startedAt = _resolveStartedAt(status, entry.startedAt);
     final updated = entry.copyWith(
       readingStatus: status,
+      startedAt: startedAt,
       completedAt: _resolveCompletedAt(status, entry.completedAt),
     );
 
@@ -322,6 +361,16 @@ class ShelfState extends _$ShelfState {
         addedAt: DateTime.now(),
       ),
     );
+  }
+
+  static DateTime? _resolveStartedAt(
+    ReadingStatus status,
+    DateTime? currentStartedAt,
+  ) {
+    if (status == ReadingStatus.reading && currentStartedAt == null) {
+      return DateTime.now();
+    }
+    return currentStartedAt;
   }
 
   static DateTime? _resolveCompletedAt(

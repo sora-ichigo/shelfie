@@ -55,6 +55,12 @@ export interface UpdateRatingInput {
   rating: number | null;
 }
 
+export interface UpdateStartedAtInput {
+  userBookId: number;
+  userId: number;
+  startedAt: Date;
+}
+
 export interface UpdateCompletedAtInput {
   userBookId: number;
   userId: number;
@@ -101,6 +107,10 @@ export interface BookShelfService {
     input: UpdateRatingInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
 
+  updateStartedAt(
+    input: UpdateStartedAtInput,
+  ): Promise<Result<UserBook, BookShelfErrors>>;
+
   updateCompletedAt(
     input: UpdateCompletedAtInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
@@ -118,6 +128,10 @@ function resolveCompletedAt(
     return currentCompletedAt ?? new Date();
   }
   return currentCompletedAt;
+}
+
+function resolveStartedAt(status: ReadingStatusValue): Date | undefined {
+  return status === "reading" ? new Date() : undefined;
 }
 
 export function createBookShelfService(
@@ -155,6 +169,7 @@ export function createBookShelfService(
             ? "backlog"
             : (bookInput.readingStatus ?? "backlog");
         const completedAt = resolveCompletedAt(readingStatus, null);
+        const startedAt = resolveStartedAt(readingStatus);
         const userBook = await repository.createUserBook({
           userId,
           externalId: bookInput.externalId,
@@ -166,6 +181,7 @@ export function createBookShelfService(
           coverImageUrl: bookInput.coverImageUrl,
           source: bookInput.source,
           readingStatus,
+          ...(startedAt !== undefined && { startedAt }),
           ...(completedAt !== null && { completedAt }),
         });
 
@@ -325,9 +341,14 @@ export function createBookShelfService(
           return ok(userBook);
         }
 
+        const startedAt =
+          status === "reading" && userBook.startedAt === null
+            ? new Date()
+            : undefined;
         const updatedBook = await repository.updateUserBook(userBookId, {
           readingStatus: status,
           completedAt: resolveCompletedAt(status, userBook.completedAt),
+          ...(startedAt !== undefined && { startedAt }),
         });
 
         if (updatedBook === null) {
@@ -493,6 +514,74 @@ export function createBookShelfService(
             userBookId: String(userBookId),
             userId: String(userId),
             rating: String(rating),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async updateStartedAt(
+      input: UpdateStartedAtInput,
+    ): Promise<Result<UserBook, BookShelfErrors>> {
+      const { userBookId, userId, startedAt } = input;
+
+      try {
+        const userBook = await repository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "BOOK_NOT_FOUND",
+            message: "Book not found in shelf",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          logger.warn("Unauthorized started at update attempt", {
+            feature: "books",
+            userBookId: String(userBookId),
+            ownerId: String(userBook.userId),
+            requesterId: String(userId),
+          });
+
+          return err({
+            code: "FORBIDDEN",
+            message: "You are not allowed to update this book",
+          });
+        }
+
+        const updatedBook = await repository.updateUserBook(userBookId, {
+          startedAt,
+        });
+
+        if (updatedBook === null) {
+          return err({
+            code: "DATABASE_ERROR",
+            message: "Failed to update started at",
+          });
+        }
+
+        logger.info("Started at updated successfully", {
+          feature: "books",
+          userBookId: String(userBookId),
+          userId: String(userId),
+        });
+
+        return ok(updatedBook);
+      } catch (error) {
+        logger.error(
+          "Database error while updating started at",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userBookId: String(userBookId),
+            userId: String(userId),
           },
         );
 

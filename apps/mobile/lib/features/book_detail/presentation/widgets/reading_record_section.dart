@@ -16,6 +16,7 @@ class ReadingRecordSection extends StatelessWidget {
     required this.onStatusTap,
     required this.onRatingTap,
     this.onCompletedAtTap,
+    this.onStartedAtTap,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class ReadingRecordSection extends StatelessWidget {
   final VoidCallback onStatusTap;
   final VoidCallback onRatingTap;
   final ValueChanged<DateTime>? onCompletedAtTap;
+  final ValueChanged<DateTime>? onStartedAtTap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +55,11 @@ class ReadingRecordSection extends StatelessWidget {
   }
 
   Widget _buildRecordTable(BuildContext context) {
+    final hasStartedDate = shelfEntry.startedAt != null;
     final hasCompletedDate =
         shelfEntry.isCompleted && shelfEntry.completedAt != null;
+    final isLastRow =
+        !hasStartedDate && !hasCompletedDate;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
@@ -78,9 +83,19 @@ class ReadingRecordSection extends StatelessWidget {
             context,
             label: '追加日',
             value: _formatDate(shelfEntry.addedAt),
-            position:
-                hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+            position: isLastRow ? _RowPosition.last : _RowPosition.middle,
           ),
+          if (hasStartedDate)
+            _buildTableRow(
+              context,
+              label: '読書開始日',
+              value: _formatDate(shelfEntry.startedAt!),
+              position:
+                  hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+              onTap: onStartedAtTap != null
+                  ? () => _showStartedAtPicker(context)
+                  : null,
+            ),
           if (hasCompletedDate)
             _buildTableRow(
               context,
@@ -243,7 +258,8 @@ class ReadingRecordSection extends StatelessWidget {
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => _CompletedAtPickerSheet(
+      builder: (context) => _DatePickerSheet(
+        title: '読了日を変更',
         initialDate: initialDate,
         lastDate: DateTime.now(),
       ),
@@ -256,6 +272,25 @@ class ReadingRecordSection extends StatelessWidget {
     }
   }
 
+  Future<void> _showStartedAtPicker(BuildContext context) async {
+    final initialDate = shelfEntry.startedAt ?? DateTime.now();
+    final selectedDate = await showModalBottomSheet<DateTime>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => _DatePickerSheet(
+        title: '読書開始日を変更',
+        initialDate: initialDate,
+        lastDate: DateTime.now(),
+      ),
+    );
+
+    if (selectedDate != null) {
+      onStartedAtTap?.call(
+        DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day),
+      );
+    }
+  }
+
   String _formatDate(DateTime date) {
     return '${date.year}年${date.month}月${date.day}日';
   }
@@ -263,21 +298,22 @@ class ReadingRecordSection extends StatelessWidget {
 
 enum _RowPosition { first, middle, last }
 
-class _CompletedAtPickerSheet extends StatefulWidget {
-  const _CompletedAtPickerSheet({
+class _DatePickerSheet extends StatefulWidget {
+  const _DatePickerSheet({
+    required this.title,
     required this.initialDate,
     required this.lastDate,
   });
 
+  final String title;
   final DateTime initialDate;
   final DateTime lastDate;
 
   @override
-  State<_CompletedAtPickerSheet> createState() =>
-      _CompletedAtPickerSheetState();
+  State<_DatePickerSheet> createState() => _DatePickerSheetState();
 }
 
-class _CompletedAtPickerSheetState extends State<_CompletedAtPickerSheet> {
+class _DatePickerSheetState extends State<_DatePickerSheet> {
   late DateTime _selectedDate;
 
   @override
@@ -291,7 +327,7 @@ class _CompletedAtPickerSheetState extends State<_CompletedAtPickerSheet> {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     return BaseBottomSheet(
-      title: '読了日を変更',
+      title: widget.title,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

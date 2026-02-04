@@ -187,6 +187,13 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.startedAt;
+    if (value != null) {
+      result
+        ..add('startedAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.completedAt;
     if (value != null) {
       result
@@ -254,6 +261,10 @@ class _$GMyShelfPaginatedData_myShelf_itemsSerializer
         case 'addedAt':
           result.addedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime))! as DateTime;
+          break;
+        case 'startedAt':
+          result.startedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'completedAt':
           result.completedAt = serializers.deserialize(value,
@@ -563,6 +574,8 @@ class _$GMyShelfPaginatedData_myShelf_items
   @override
   final DateTime addedAt;
   @override
+  final DateTime? startedAt;
+  @override
   final DateTime? completedAt;
   @override
   final int? rating;
@@ -583,6 +596,7 @@ class _$GMyShelfPaginatedData_myShelf_items
       required this.readingStatus,
       required this.source,
       required this.addedAt,
+      this.startedAt,
       this.completedAt,
       this.rating})
       : super._() {
@@ -626,6 +640,7 @@ class _$GMyShelfPaginatedData_myShelf_items
         readingStatus == other.readingStatus &&
         source == other.source &&
         addedAt == other.addedAt &&
+        startedAt == other.startedAt &&
         completedAt == other.completedAt &&
         rating == other.rating;
   }
@@ -642,6 +657,7 @@ class _$GMyShelfPaginatedData_myShelf_items
     _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jc(_$hash, source.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
+    _$hash = $jc(_$hash, startedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
     _$hash = $jc(_$hash, rating.hashCode);
     _$hash = $jf(_$hash);
@@ -660,6 +676,7 @@ class _$GMyShelfPaginatedData_myShelf_items
           ..add('readingStatus', readingStatus)
           ..add('source', source)
           ..add('addedAt', addedAt)
+          ..add('startedAt', startedAt)
           ..add('completedAt', completedAt)
           ..add('rating', rating))
         .toString();
@@ -711,6 +728,10 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
 
+  DateTime? _startedAt;
+  DateTime? get startedAt => _$this._startedAt;
+  set startedAt(DateTime? startedAt) => _$this._startedAt = startedAt;
+
   DateTime? _completedAt;
   DateTime? get completedAt => _$this._completedAt;
   set completedAt(DateTime? completedAt) => _$this._completedAt = completedAt;
@@ -735,6 +756,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
       _readingStatus = $v.readingStatus;
       _source = $v.source;
       _addedAt = $v.addedAt;
+      _startedAt = $v.startedAt;
       _completedAt = $v.completedAt;
       _rating = $v.rating;
       _$v = null;
@@ -780,6 +802,7 @@ class GMyShelfPaginatedData_myShelf_itemsBuilder
                   source, r'GMyShelfPaginatedData_myShelf_items', 'source'),
               addedAt: BuiltValueNullFieldError.checkNotNull(
                   addedAt, r'GMyShelfPaginatedData_myShelf_items', 'addedAt'),
+              startedAt: startedAt,
               completedAt: completedAt,
               rating: rating);
     } catch (_) {

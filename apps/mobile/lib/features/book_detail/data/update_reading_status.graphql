@@ -10,6 +10,7 @@ mutation UpdateReadingStatus($userBookId: Int!, $status: ReadingStatus!) {
     coverImageUrl
     addedAt
     readingStatus
+    startedAt
     completedAt
     note
     noteUpdatedAt

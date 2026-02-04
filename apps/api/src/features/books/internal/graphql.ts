@@ -381,6 +381,11 @@ export function registerBooksTypes(builder: Builder): void {
         description: "The reading status of the book",
         resolve: (parent) => parent.readingStatus,
       }),
+      startedAt: t.expose("startedAt", {
+        type: "DateTime",
+        description: "When the book was started reading",
+        nullable: true,
+      }),
       completedAt: t.expose("completedAt", {
         type: "DateTime",
         description: "When the book was marked as completed",
@@ -970,6 +975,54 @@ export function registerBooksMutations(
           userBookId: args.userBookId,
           userId: userResult.data.id,
           rating: args.rating ?? null,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
+    updateStartedAt: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the start date of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        startedAt: t.arg({
+          type: "DateTime",
+          required: true,
+        }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateStartedAt({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          startedAt: args.startedAt,
         });
 
         if (!result.success) {

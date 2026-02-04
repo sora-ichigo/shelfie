@@ -26,6 +26,7 @@ export type ReadingStatusValue =
 
 export interface UpdateUserBookInput {
   readingStatus?: ReadingStatusValue;
+  startedAt?: Date | null;
   completedAt?: Date | null;
   note?: string;
   noteUpdatedAt?: Date;

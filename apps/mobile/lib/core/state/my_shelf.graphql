@@ -9,6 +9,7 @@ query MyShelf {
       note
       noteUpdatedAt
       addedAt
+      startedAt
       completedAt
     }
     totalCount

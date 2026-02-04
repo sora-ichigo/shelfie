@@ -236,6 +236,7 @@ describe("books Feature public API", () => {
         coverImageUrl: null,
         addedAt: new Date(),
         readingStatus: "backlog",
+        startedAt: null,
         completedAt: null,
         note: null,
         noteUpdatedAt: null,

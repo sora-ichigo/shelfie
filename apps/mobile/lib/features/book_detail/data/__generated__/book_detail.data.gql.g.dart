@@ -314,6 +314,13 @@ class _$GBookDetailData_bookDetail_userBookSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.startedAt;
+    if (value != null) {
+      result
+        ..add('startedAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.completedAt;
     if (value != null) {
       result
@@ -402,6 +409,10 @@ class _$GBookDetailData_bookDetail_userBookSerializer
           result.readingStatus = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GReadingStatus))!
               as _i2.GReadingStatus;
+          break;
+        case 'startedAt':
+          result.startedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'completedAt':
           result.completedAt = serializers.deserialize(value,
@@ -852,6 +863,8 @@ class _$GBookDetailData_bookDetail_userBook
   @override
   final _i2.GReadingStatus readingStatus;
   @override
+  final DateTime? startedAt;
+  @override
   final DateTime? completedAt;
   @override
   final String? note;
@@ -878,6 +891,7 @@ class _$GBookDetailData_bookDetail_userBook
       this.coverImageUrl,
       required this.addedAt,
       required this.readingStatus,
+      this.startedAt,
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
@@ -923,6 +937,7 @@ class _$GBookDetailData_bookDetail_userBook
         coverImageUrl == other.coverImageUrl &&
         addedAt == other.addedAt &&
         readingStatus == other.readingStatus &&
+        startedAt == other.startedAt &&
         completedAt == other.completedAt &&
         note == other.note &&
         noteUpdatedAt == other.noteUpdatedAt &&
@@ -943,6 +958,7 @@ class _$GBookDetailData_bookDetail_userBook
     _$hash = $jc(_$hash, coverImageUrl.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
     _$hash = $jc(_$hash, readingStatus.hashCode);
+    _$hash = $jc(_$hash, startedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
     _$hash = $jc(_$hash, note.hashCode);
     _$hash = $jc(_$hash, noteUpdatedAt.hashCode);
@@ -965,6 +981,7 @@ class _$GBookDetailData_bookDetail_userBook
           ..add('coverImageUrl', coverImageUrl)
           ..add('addedAt', addedAt)
           ..add('readingStatus', readingStatus)
+          ..add('startedAt', startedAt)
           ..add('completedAt', completedAt)
           ..add('note', note)
           ..add('noteUpdatedAt', noteUpdatedAt)
@@ -1027,6 +1044,10 @@ class GBookDetailData_bookDetail_userBookBuilder
   set readingStatus(_i2.GReadingStatus? readingStatus) =>
       _$this._readingStatus = readingStatus;
 
+  DateTime? _startedAt;
+  DateTime? get startedAt => _$this._startedAt;
+  set startedAt(DateTime? startedAt) => _$this._startedAt = startedAt;
+
   DateTime? _completedAt;
   DateTime? get completedAt => _$this._completedAt;
   set completedAt(DateTime? completedAt) => _$this._completedAt = completedAt;
@@ -1062,6 +1083,7 @@ class GBookDetailData_bookDetail_userBookBuilder
       _coverImageUrl = $v.coverImageUrl;
       _addedAt = $v.addedAt;
       _readingStatus = $v.readingStatus;
+      _startedAt = $v.startedAt;
       _completedAt = $v.completedAt;
       _note = $v.note;
       _noteUpdatedAt = $v.noteUpdatedAt;
@@ -1110,6 +1132,7 @@ class GBookDetailData_bookDetail_userBookBuilder
                   readingStatus,
                   r'GBookDetailData_bookDetail_userBook',
                   'readingStatus'),
+              startedAt: startedAt,
               completedAt: completedAt,
               note: note,
               noteUpdatedAt: noteUpdatedAt,

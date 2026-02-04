@@ -9,49 +9,49 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
     as _i2;
 import 'package:shelfie/core/graphql/__generated__/serializers.gql.dart' as _i1;
 
-part 'update_rating.data.gql.g.dart';
+part 'update_started_at.data.gql.g.dart';
 
-abstract class GUpdateBookRatingData
-    implements Built<GUpdateBookRatingData, GUpdateBookRatingDataBuilder> {
-  GUpdateBookRatingData._();
+abstract class GUpdateStartedAtData
+    implements Built<GUpdateStartedAtData, GUpdateStartedAtDataBuilder> {
+  GUpdateStartedAtData._();
 
-  factory GUpdateBookRatingData(
-          [void Function(GUpdateBookRatingDataBuilder b) updates]) =
-      _$GUpdateBookRatingData;
+  factory GUpdateStartedAtData(
+          [void Function(GUpdateStartedAtDataBuilder b) updates]) =
+      _$GUpdateStartedAtData;
 
-  static void _initializeBuilder(GUpdateBookRatingDataBuilder b) =>
+  static void _initializeBuilder(GUpdateStartedAtDataBuilder b) =>
       b..G__typename = 'Mutation';
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GUpdateBookRatingData_updateBookRating get updateBookRating;
-  static Serializer<GUpdateBookRatingData> get serializer =>
-      _$gUpdateBookRatingDataSerializer;
+  GUpdateStartedAtData_updateStartedAt get updateStartedAt;
+  static Serializer<GUpdateStartedAtData> get serializer =>
+      _$gUpdateStartedAtDataSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GUpdateBookRatingData.serializer,
+        GUpdateStartedAtData.serializer,
         this,
       ) as Map<String, dynamic>);
 
-  static GUpdateBookRatingData? fromJson(Map<String, dynamic> json) =>
+  static GUpdateStartedAtData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
-        GUpdateBookRatingData.serializer,
+        GUpdateStartedAtData.serializer,
         json,
       );
 }
 
-abstract class GUpdateBookRatingData_updateBookRating
+abstract class GUpdateStartedAtData_updateStartedAt
     implements
-        Built<GUpdateBookRatingData_updateBookRating,
-            GUpdateBookRatingData_updateBookRatingBuilder> {
-  GUpdateBookRatingData_updateBookRating._();
+        Built<GUpdateStartedAtData_updateStartedAt,
+            GUpdateStartedAtData_updateStartedAtBuilder> {
+  GUpdateStartedAtData_updateStartedAt._();
 
-  factory GUpdateBookRatingData_updateBookRating(
-      [void Function(GUpdateBookRatingData_updateBookRatingBuilder b)
-          updates]) = _$GUpdateBookRatingData_updateBookRating;
+  factory GUpdateStartedAtData_updateStartedAt(
+      [void Function(GUpdateStartedAtData_updateStartedAtBuilder b)
+          updates]) = _$GUpdateStartedAtData_updateStartedAt;
 
   static void _initializeBuilder(
-          GUpdateBookRatingData_updateBookRatingBuilder b) =>
+          GUpdateStartedAtData_updateStartedAtBuilder b) =>
       b..G__typename = 'UserBook';
 
   @BuiltValueField(wireName: '__typename')
@@ -71,18 +71,18 @@ abstract class GUpdateBookRatingData_updateBookRating
   String? get note;
   DateTime? get noteUpdatedAt;
   int? get rating;
-  static Serializer<GUpdateBookRatingData_updateBookRating> get serializer =>
-      _$gUpdateBookRatingDataUpdateBookRatingSerializer;
+  static Serializer<GUpdateStartedAtData_updateStartedAt> get serializer =>
+      _$gUpdateStartedAtDataUpdateStartedAtSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GUpdateBookRatingData_updateBookRating.serializer,
+        GUpdateStartedAtData_updateStartedAt.serializer,
         this,
       ) as Map<String, dynamic>);
 
-  static GUpdateBookRatingData_updateBookRating? fromJson(
+  static GUpdateStartedAtData_updateStartedAt? fromJson(
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
-        GUpdateBookRatingData_updateBookRating.serializer,
+        GUpdateStartedAtData_updateStartedAt.serializer,
         json,
       );
 }
