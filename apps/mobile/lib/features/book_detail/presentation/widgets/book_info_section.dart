@@ -57,42 +57,28 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildHeader(ThemeData theme) {
-    const coverHeight = 200.0;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Column(
       children: [
         _buildCoverImage(),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: SizedBox(
-            height: coverHeight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Flexible(
-                  child: Text(
-                    bookDetail.title,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 6,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  bookDetail.authors.join(', '),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
+        const SizedBox(height: AppSpacing.md),
+        Text(
+          bookDetail.title,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
+          maxLines: 6,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          bookDetail.authors.join(', '),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
@@ -191,8 +177,8 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildCoverImage() {
-    const coverWidth = 140.0;
-    const coverHeight = 200.0;
+    const coverWidth = 168.0;
+    const coverHeight = 240.0;
 
     return Container(
       width: coverWidth,
