@@ -42,11 +42,11 @@ class BookInfoSection extends StatelessWidget {
           headerBottomSlot!,
           const SizedBox(height: AppSpacing.lg),
         ],
-        _buildBibliographicCard(theme),
         if (_hasDescription()) ...[
-          const SizedBox(height: AppSpacing.lg),
           _buildDescription(theme),
+          const SizedBox(height: AppSpacing.lg),
         ],
+        _buildBibliographicCard(theme),
         if (_hasExternalLinks()) ...[
           const SizedBox(height: AppSpacing.lg),
           _buildExternalLinksCard(theme),
