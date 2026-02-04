@@ -26,7 +26,7 @@ abstract final class LegalUrls {
   static Future<bool> openInquiryForm() async {
     return launchUrl(
       Uri.parse(inquiryForm),
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppBrowserView,
     );
   }
 }
