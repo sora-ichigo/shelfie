@@ -75,7 +75,7 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe("intitle:テスト|inauthor:テスト");
+      expect(url.searchParams.get("q")).toBe("intitle:テスト");
     });
 
     it("プレーンキーワードに intitle: プレフィックスが付与される", async () => {
@@ -95,8 +95,50 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe("intitle:プログラミング");
+    });
+
+    it("スペースを含むキーワードは各単語に intitle: が付与される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 2,
+        items: [createMockGoogleBooksItem()],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("モチベーション 3.0", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
       expect(url.searchParams.get("q")).toBe(
-        "intitle:プログラミング|inauthor:プログラミング",
+        "intitle:モチベーション intitle:3.0",
+      );
+    });
+
+    it("複数スペースを含むキーワードでも各単語に intitle: が付与される", async () => {
+      const mockResponse = {
+        kind: "books#volumes",
+        totalItems: 0,
+        items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("Clean Code アジャイル", 10, 0);
+
+      const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
+      const url = new URL(calledUrl);
+      expect(url.searchParams.get("q")).toBe(
+        "intitle:Clean intitle:Code intitle:アジャイル",
       );
     });
 
