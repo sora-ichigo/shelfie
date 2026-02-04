@@ -2267,8 +2267,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
 
       const schema = builder.toSchema();
       const mutationType = schema.getMutationType();
-      const updateStartedAtField =
-        mutationType?.getFields().updateStartedAt;
+      const updateStartedAtField = mutationType?.getFields().updateStartedAt;
 
       const authenticatedContext = {
         requestId: "test",
@@ -2311,8 +2310,7 @@ describe("BooksGraphQL Resolver Behavior", () => {
 
       const schema = builder.toSchema();
       const mutationType = schema.getMutationType();
-      const updateStartedAtField =
-        mutationType?.getFields().updateStartedAt;
+      const updateStartedAtField = mutationType?.getFields().updateStartedAt;
 
       const unauthenticatedContext = {
         requestId: "test",
