@@ -32,7 +32,7 @@ class BookInfoSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildHeader(theme),
         const SizedBox(height: AppSpacing.md),
@@ -57,6 +57,7 @@ class BookInfoSection extends StatelessWidget {
 
   Widget _buildHeader(ThemeData theme) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildCoverImage(),
         const SizedBox(height: AppSpacing.md),
