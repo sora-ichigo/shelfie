@@ -80,53 +80,15 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       ),
       body: state.when(
         data: (bookDetail) => _buildContent(bookDetail),
-        loading: () => Stack(
-          children: [
-            _buildBackgroundGradient(),
-            const LoadingIndicator(fullScreen: true),
-          ],
-        ),
-        error: (error, _) => Stack(
-          children: [_buildBackgroundGradient(), _buildErrorView(error)],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBackgroundGradient() {
-    final theme = Theme.of(context);
-    const accentColor = Color(0xFF017BC8);
-    final screenHeight = MediaQuery.of(context).size.height;
-    final coverBottom =
-        MediaQuery.of(context).padding.top +
-        kToolbarHeight +
-        AppSpacing.md +
-        240 + // カバー画像の高さ
-        40; // 見た目上の微調整
-    final stop = (coverBottom / screenHeight).clamp(0.0, 1.0);
-
-    return Positioned.fill(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [accentColor, theme.colorScheme.surface],
-            stops: [0.0, stop],
-          ),
-        ),
+        loading: () => const LoadingIndicator(fullScreen: true),
+        error: (error, _) => _buildErrorView(error),
       ),
     );
   }
 
   Widget _buildContent(BookDetail? bookDetail) {
     if (bookDetail == null) {
-      return Stack(
-        children: [
-          _buildBackgroundGradient(),
-          const LoadingIndicator(fullScreen: true),
-        ],
-      );
+      return const LoadingIndicator(fullScreen: true);
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
