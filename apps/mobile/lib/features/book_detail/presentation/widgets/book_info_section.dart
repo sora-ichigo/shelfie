@@ -265,27 +265,16 @@ class BookInfoSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '書誌情報',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '書誌情報',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          ...items,
-        ],
-      ),
+        const SizedBox(height: AppSpacing.sm),
+        ...items,
+      ],
     );
   }
 
@@ -368,32 +357,21 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildDescription(ThemeData theme) {
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '作品紹介',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '作品紹介',
-            style: theme.textTheme.titleMedium,
+        const SizedBox(height: AppSpacing.sm),
+        Text(
+          _stripHtmlTags(bookDetail.description!),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            _stripHtmlTags(bookDetail.description!),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -434,44 +412,33 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildExternalLinksCard(ThemeData theme) {
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '購入・詳細',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '購入・詳細',
-            style: theme.textTheme.titleMedium,
+        const SizedBox(height: AppSpacing.sm),
+        if (bookDetail.amazonUrl != null)
+          _buildLinkButton(
+            theme,
+            label: 'Amazonで見る',
+            description: '商品ページを開く',
+            url: bookDetail.amazonUrl!,
+            gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
           ),
-          const SizedBox(height: AppSpacing.sm),
+        if (bookDetail.rakutenBooksUrl != null) ...[
           if (bookDetail.amazonUrl != null)
-            _buildLinkButton(
-              theme,
-              label: 'Amazonで見る',
-              description: '商品ページを開く',
-              url: bookDetail.amazonUrl!,
-              gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
-            ),
-          if (bookDetail.rakutenBooksUrl != null) ...[
-            if (bookDetail.amazonUrl != null)
-              const SizedBox(height: AppSpacing.sm),
-            _buildRakutenBooksLinkButton(
-              theme,
-              label: '楽天ブックスで見る',
-              description: '商品ページを開く',
-              url: bookDetail.rakutenBooksUrl!,
-            ),
-          ],
+            const SizedBox(height: AppSpacing.sm),
+          _buildRakutenBooksLinkButton(
+            theme,
+            label: '楽天ブックスで見る',
+            description: '商品ページを開く',
+            url: bookDetail.rakutenBooksUrl!,
+          ),
         ],
-      ),
+      ],
     );
   }
 

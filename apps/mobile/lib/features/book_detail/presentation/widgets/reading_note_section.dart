@@ -19,36 +19,25 @@ class ReadingNoteSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '読書メモ',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '読書メモ',
-            style: theme.textTheme.titleMedium,
-          ),
+        const SizedBox(height: AppSpacing.sm),
+        _buildNoteContent(context),
+        if (shelfEntry.noteUpdatedAt != null) ...[
           const SizedBox(height: AppSpacing.sm),
-          _buildNoteContent(context),
-          if (shelfEntry.noteUpdatedAt != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+          Text(
+            '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
             ),
-          ],
+          ),
         ],
-      ),
+      ],
     );
   }
 
