@@ -53,8 +53,11 @@ class ReadingRecordSection extends StatelessWidget {
   }
 
   Widget _buildRecordTable(BuildContext context) {
+    final hasStartedDate = shelfEntry.startedAt != null;
     final hasCompletedDate =
         shelfEntry.isCompleted && shelfEntry.completedAt != null;
+    final isLastRow =
+        !hasStartedDate && !hasCompletedDate;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
@@ -78,9 +81,16 @@ class ReadingRecordSection extends StatelessWidget {
             context,
             label: '追加日',
             value: _formatDate(shelfEntry.addedAt),
-            position:
-                hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+            position: isLastRow ? _RowPosition.last : _RowPosition.middle,
           ),
+          if (hasStartedDate)
+            _buildTableRow(
+              context,
+              label: '読書開始日',
+              value: _formatDate(shelfEntry.startedAt!),
+              position:
+                  hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+            ),
           if (hasCompletedDate)
             _buildTableRow(
               context,
