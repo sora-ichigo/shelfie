@@ -284,6 +284,7 @@ List<RouteBase> _buildRoutes() {
             onNavigateToPassword: () => context.push(AppRoutes.accountPassword),
             onNavigateToTerms: LegalUrls.openTermsOfService,
             onNavigateToPrivacy: LegalUrls.openPrivacyPolicy,
+            onNavigateToInquiry: LegalUrls.openInquiryForm,
             onLogout: () async {
               final result = await showOkCancelAlertDialog(
                 context: context,
