@@ -14,14 +14,14 @@ import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shel
 import 'package:shelfie/features/book_detail/data/__generated__/remove_from_shelf.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.req.gql.dart';
-import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.data.gql.dart';
-import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_rating.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_status.req.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.req.gql.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
