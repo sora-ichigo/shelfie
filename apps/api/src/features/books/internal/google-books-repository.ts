@@ -49,7 +49,8 @@ function normalizeQuery(query: string): string {
   if (hasFieldPrefix(query)) {
     return query;
   }
-  return `intitle:${query}|inauthor:${query}`;
+  const words = query.split(/\s+/).filter((w) => w.length > 0);
+  return words.map((w) => `intitle:${w}`).join(" ");
 }
 
 function buildSearchUrl(
