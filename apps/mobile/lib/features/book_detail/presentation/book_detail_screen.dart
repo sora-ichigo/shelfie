@@ -87,10 +87,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           ],
         ),
         error: (error, _) => Stack(
-          children: [
-            _buildBackgroundGradient(),
-            _buildErrorView(error),
-          ],
+          children: [_buildBackgroundGradient(), _buildErrorView(error)],
         ),
       ),
     );
@@ -145,7 +142,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     final theme = Theme.of(context);
     const accentColor = Color(0xFF017BC8);
-    final gradientHeight = MediaQuery.of(context).padding.top +
+    final gradientHeight =
+        MediaQuery.of(context).padding.top +
         kToolbarHeight +
         AppSpacing.md +
         240 +
@@ -164,14 +162,16 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [accentColor, theme.colorScheme.surface],
+                  colors: [accentColor, accentColor, theme.colorScheme.surface],
+                  stops: const [0.0, 0.2, 1.0],
                 ),
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top +
+              top:
+                  MediaQuery.of(context).padding.top +
                   kToolbarHeight +
                   AppSpacing.md,
               left: AppSpacing.md,
@@ -179,37 +179,37 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
               bottom: AppSpacing.xxl,
             ),
             child: BookInfoSection(
-        bookDetail: bookDetail,
-        isInShelf: isInShelf,
-        isAddingToShelf: _isAddingToShelf,
-        isRemovingFromShelf: _isRemovingFromShelf,
-        onAddToShelfPressed: _onAddToShelfPressed,
-        onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
-        onLinkTap: _onLinkTap,
-        headerBottomSlot: isInShelf
-            ? Column(
-                children: [
-                  ReadingRecordSection(
-                    shelfEntry: shelfEntry,
-                    onStatusTap: _onStatusTap,
-                    onRatingTap: _onRatingTap,
-                    onCompletedAtTap: shelfEntry.isCompleted
-                        ? _onCompletedAtSelected
-                        : null,
-                    onStartedAtTap: shelfEntry.startedAt != null
-                        ? _onStartedAtSelected
-                        : null,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  ReadingNoteSection(
-                    shelfEntry: shelfEntry,
-                    onNoteTap: _onNoteTap,
-                  ),
-                ],
-              )
-            : null,
+              bookDetail: bookDetail,
+              isInShelf: isInShelf,
+              isAddingToShelf: _isAddingToShelf,
+              isRemovingFromShelf: _isRemovingFromShelf,
+              onAddToShelfPressed: _onAddToShelfPressed,
+              onRemoveFromShelfPressed: _onRemoveFromShelfPressed,
+              onLinkTap: _onLinkTap,
+              headerBottomSlot: isInShelf
+                  ? Column(
+                      children: [
+                        ReadingRecordSection(
+                          shelfEntry: shelfEntry,
+                          onStatusTap: _onStatusTap,
+                          onRatingTap: _onRatingTap,
+                          onCompletedAtTap: shelfEntry.isCompleted
+                              ? _onCompletedAtSelected
+                              : null,
+                          onStartedAtTap: shelfEntry.startedAt != null
+                              ? _onStartedAtSelected
+                              : null,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        ReadingNoteSection(
+                          shelfEntry: shelfEntry,
+                          onNoteTap: _onNoteTap,
+                        ),
+                      ],
+                    )
+                  : null,
+            ),
           ),
-        ),
         ],
       ),
     );
