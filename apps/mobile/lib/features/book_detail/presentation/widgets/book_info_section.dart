@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/category_translator.dart';
@@ -420,24 +419,26 @@ class BookInfoSection extends StatelessWidget {
           style: theme.textTheme.titleMedium,
         ),
         const SizedBox(height: AppSpacing.sm),
-        if (bookDetail.amazonUrl != null)
-          _buildLinkButton(
-            theme,
-            label: 'Amazonで見る',
-            description: '商品ページを開く',
-            url: bookDetail.amazonUrl!,
-            gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
-          ),
-        if (bookDetail.rakutenBooksUrl != null) ...[
-          if (bookDetail.amazonUrl != null)
-            const SizedBox(height: AppSpacing.sm),
-          _buildRakutenBooksLinkButton(
-            theme,
-            label: '楽天ブックスで見る',
-            description: '商品ページを開く',
-            url: bookDetail.rakutenBooksUrl!,
-          ),
-        ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (bookDetail.amazonUrl != null)
+              _buildLinkButton(
+                theme,
+                label: 'Amazon',
+                url: bookDetail.amazonUrl!,
+              ),
+            if (bookDetail.amazonUrl != null &&
+                bookDetail.rakutenBooksUrl != null)
+              const SizedBox(width: 12),
+            if (bookDetail.rakutenBooksUrl != null)
+              _buildLinkButton(
+                theme,
+                label: '楽天ブックス',
+                url: bookDetail.rakutenBooksUrl!,
+              ),
+          ],
+        ),
       ],
     );
   }
@@ -445,137 +446,34 @@ class BookInfoSection extends StatelessWidget {
   Widget _buildLinkButton(
     ThemeData theme, {
     required String label,
-    required String description,
     required String url,
-    required List<Color> gradientColors,
   }) {
     return Material(
       color: theme.colorScheme.surfaceContainerHigh,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: AppSpacing.all(AppSpacing.md),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: gradientColors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.amazon,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.open_in_new,
-                size: 20,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ],
-          ),
+        side: BorderSide(
+          color: theme.colorScheme.outline.withOpacity(0.3),
         ),
       ),
-    );
-  }
-
-  Widget _buildRakutenBooksLinkButton(
-    ThemeData theme, {
-    required String label,
-    required String description,
-    required String url,
-  }) {
-    return Material(
-      color: theme.colorScheme.surfaceContainerHigh,
-      borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: AppSpacing.all(AppSpacing.md),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFBF0000),
-                      Color(0xFF8C0000),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text(
-                    'R',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              Text(
+                label,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(width: AppSpacing.xs),
               Icon(
                 Icons.open_in_new,
-                size: 20,
+                size: 16,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ],
