@@ -263,17 +263,17 @@ void main() {
 
         // 購入・詳細セクションが表示される
         expect(find.text('購入・詳細'), findsOneWidget);
-        expect(find.text('Amazonで見る'), findsOneWidget);
-        expect(find.text('楽天ブックスで見る'), findsOneWidget);
+        expect(find.text('Amazon'), findsOneWidget);
+        expect(find.text('楽天ブックス'), findsOneWidget);
 
         // 外部リンクボタンがMaterialでラップされたInkWellを使用していることを確認
         // （リップルエフェクトが正しく表示されるため）
         final amazonButton = find.ancestor(
-          of: find.text('Amazonで見る'),
+          of: find.text('Amazon'),
           matching: find.byType(Material),
         );
         final rakutenButton = find.ancestor(
-          of: find.text('楽天ブックスで見る'),
+          of: find.text('楽天ブックス'),
           matching: find.byType(Material),
         );
 
