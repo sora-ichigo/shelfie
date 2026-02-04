@@ -4,7 +4,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:palette_generator/palette_generator.dart';
+
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/error/failure.dart';
@@ -51,8 +51,6 @@ class BookDetailScreen extends ConsumerStatefulWidget {
 class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isAddingToShelf = false;
   bool _isRemovingFromShelf = false;
-  Color? _dominantColor;
-  String? _extractedThumbnailUrl;
   bool _hasAddedToRecentBooks = false;
 
   @override
@@ -78,9 +76,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          _buildMoreMenu(),
-        ],
+        actions: [_buildMoreMenu()],
       ),
       body: Stack(
         children: [
@@ -97,54 +93,28 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   Widget _buildBackgroundGradient() {
     final theme = Theme.of(context);
-    final gradientColor = _dominantColor ?? Colors.black;
+    const accentColor = Color(0xFF017BC8);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final coverBottom =
+        MediaQuery.of(context).padding.top +
+        kToolbarHeight +
+        AppSpacing.md +
+        240 + // カバー画像の高さ
+        40; // 見た目上の微調整
+    final stop = (coverBottom / screenHeight).clamp(0.0, 1.0);
 
     return Positioned.fill(
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
+      child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: const Alignment(0.8, -0.3),
-            radius: 1.5,
-            colors: [
-              gradientColor.withOpacity(0.2),
-              theme.colorScheme.surface,
-            ],
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [accentColor, theme.colorScheme.surface],
+            stops: [0.0, stop],
           ),
         ),
       ),
     );
-  }
-
-  Future<void> _extractDominantColor(String? thumbnailUrl) async {
-    if (thumbnailUrl == null || thumbnailUrl == _extractedThumbnailUrl) {
-      return;
-    }
-
-    _extractedThumbnailUrl = thumbnailUrl;
-
-    try {
-      final paletteGenerator = await PaletteGenerator.fromImageProvider(
-        NetworkImage(thumbnailUrl),
-        size: const Size(100, 150),
-        maximumColorCount: 10,
-      );
-
-      if (!mounted) return;
-
-      final color = paletteGenerator.dominantColor?.color ??
-          paletteGenerator.vibrantColor?.color ??
-          paletteGenerator.mutedColor?.color;
-
-      if (color != null) {
-        setState(() {
-          _dominantColor = color;
-        });
-      }
-    } catch (e) {
-      debugPrint('Failed to extract color from $thumbnailUrl: $e');
-    }
   }
 
   Widget _buildContent(BookDetail? bookDetail) {
@@ -153,26 +123,20 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _extractDominantColor(bookDetail.thumbnailUrl);
       _addToRecentBooks(bookDetail);
     });
 
-    final isGuest = ref.watch(
-      authStateProvider.select((s) => s.isGuest),
-    );
+    final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
 
     final shelfEntry = isGuest
         ? null
-        : ref.watch(
-            shelfStateProvider.select((s) => s[widget.bookId]),
-          );
+        : ref.watch(shelfStateProvider.select((s) => s[widget.bookId]));
     final isInShelf = shelfEntry != null;
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top +
-            kToolbarHeight +
-            AppSpacing.md,
+        top:
+            MediaQuery.of(context).padding.top + kToolbarHeight + AppSpacing.md,
         left: AppSpacing.md,
         right: AppSpacing.md,
         bottom: AppSpacing.xxl,
@@ -212,8 +176,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   Widget _buildErrorView(Object error) {
-    final failure =
-        error is Failure ? error : UnexpectedFailure(message: error.toString());
+    final failure = error is Failure
+        ? error
+        : UnexpectedFailure(message: error.toString());
 
     return Center(
       child: Padding(
@@ -288,9 +253,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           if (shelfEntry != null) {
             unawaited(
               ref
-                  .read(
-                    bookDetailNotifierProvider(widget.bookId).notifier,
-                  )
+                  .read(bookDetailNotifierProvider(widget.bookId).notifier)
                   .updateRating(
                     userBookId: shelfEntry.userBookId,
                     rating: addResult.rating,
@@ -324,16 +287,13 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       _isRemovingFromShelf = false;
     });
 
-    result.fold(
-      (failure) {
-        AdaptiveSnackBar.show(
-          context,
-          message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
-        );
-      },
-      (_) {},
-    );
+    result.fold((failure) {
+      AdaptiveSnackBar.show(
+        context,
+        message: failure.userMessage,
+        type: AdaptiveSnackBarType.error,
+      );
+    }, (_) {});
   }
 
   void _onStatusTap() {
@@ -471,13 +431,15 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     if (_hasAddedToRecentBooks) return;
     _hasAddedToRecentBooks = true;
 
-    ref.read(recentBooksNotifierProvider.notifier).addRecentBook(
-      bookId: bookDetail.id,
-      title: bookDetail.title,
-      authors: bookDetail.authors,
-      coverImageUrl: bookDetail.thumbnailUrl,
-      source: widget.source.name,
-    );
+    ref
+        .read(recentBooksNotifierProvider.notifier)
+        .addRecentBook(
+          bookId: bookDetail.id,
+          title: bookDetail.title,
+          authors: bookDetail.authors,
+          coverImageUrl: bookDetail.thumbnailUrl,
+          source: widget.source.name,
+        );
   }
 
   void _onAddToListPressed(ShelfEntry shelfEntry) {
@@ -527,9 +489,7 @@ class _BookDetailMoreSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final shelfEntry = ref.watch(
-      shelfStateProvider.select((s) => s[bookId]),
-    );
+    final shelfEntry = ref.watch(shelfStateProvider.select((s) => s[bookId]));
     final isInShelf = shelfEntry != null;
 
     return SafeArea(
@@ -597,9 +557,7 @@ class _BookDetailMoreSheet extends ConsumerWidget {
             const SizedBox(width: AppSpacing.md),
             Text(
               label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: color,
-              ),
+              style: theme.textTheme.bodyMedium?.copyWith(color: color),
             ),
           ],
         ),
