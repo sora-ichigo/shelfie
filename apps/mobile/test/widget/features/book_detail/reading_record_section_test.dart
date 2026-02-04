@@ -48,7 +48,8 @@ void main() {
       expect(find.text('2024年3月15日'), findsOneWidget);
     });
 
-    testWidgets('startedAt が null の場合、読書開始日行が表示されない', (tester) async {
+    testWidgets('startedAt が null かつ onStartedAtTap も null の場合、読書開始日行が表示されない',
+        (tester) async {
       final shelfEntry = ShelfEntry(
         userBookId: 1,
         externalId: 'book-1',
@@ -61,6 +62,24 @@ void main() {
       ));
 
       expect(find.text('読書開始日'), findsNothing);
+    });
+
+    testWidgets('startedAt が null でも onStartedAtTap が設定されていれば「未設定」で表示される',
+        (tester) async {
+      final shelfEntry = ShelfEntry(
+        userBookId: 1,
+        externalId: 'book-1',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 1),
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        shelfEntry: shelfEntry,
+        onStartedAtTap: (_) {},
+      ));
+
+      expect(find.text('読書開始日'), findsOneWidget);
+      expect(find.text('未設定'), findsOneWidget);
     });
 
     testWidgets('読了状態で startedAt と completedAt の両方がある場合、両方表示される',
@@ -160,6 +179,36 @@ void main() {
 
       expect(find.byType(CupertinoDatePicker), findsOneWidget);
       expect(find.text('読書開始日を変更'), findsOneWidget);
+    });
+
+    testWidgets('startedAt が null の場合、日付ピッカーのタイトルが「読書開始日を設定」になる',
+        (tester) async {
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final shelfEntry = ShelfEntry(
+        userBookId: 1,
+        externalId: 'book-1',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 1),
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        shelfEntry: shelfEntry,
+        onStartedAtTap: (_) {},
+      ));
+
+      final startedRow = find.ancestor(
+        of: find.text('読書開始日'),
+        matching: find.byType(InkWell),
+      );
+      await tester.tap(startedRow);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(CupertinoDatePicker), findsOneWidget);
+      expect(find.text('読書開始日を設定'), findsOneWidget);
     });
   });
 

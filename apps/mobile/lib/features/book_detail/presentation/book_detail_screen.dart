@@ -18,6 +18,7 @@ import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/utils/gradient_color_matcher.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/rating_modal.dart';
@@ -171,7 +172,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                           onCompletedAtTap: shelfEntry.isCompleted
                               ? _onCompletedAtSelected
                               : null,
-                          onStartedAtTap: shelfEntry.startedAt != null
+                          onStartedAtTap:
+                              shelfEntry.readingStatus == ReadingStatus.reading ||
+                                  shelfEntry.isCompleted
                               ? _onStartedAtSelected
                               : null,
                         ),
