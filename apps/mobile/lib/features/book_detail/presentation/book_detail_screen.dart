@@ -78,15 +78,20 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         ),
         actions: [_buildMoreMenu()],
       ),
-      body: Stack(
-        children: [
-          _buildBackgroundGradient(),
-          state.when(
-            data: (bookDetail) => _buildContent(bookDetail),
-            loading: () => const LoadingIndicator(fullScreen: true),
-            error: (error, _) => _buildErrorView(error),
-          ),
-        ],
+      body: state.when(
+        data: (bookDetail) => _buildContent(bookDetail),
+        loading: () => Stack(
+          children: [
+            _buildBackgroundGradient(),
+            const LoadingIndicator(fullScreen: true),
+          ],
+        ),
+        error: (error, _) => Stack(
+          children: [
+            _buildBackgroundGradient(),
+            _buildErrorView(error),
+          ],
+        ),
       ),
     );
   }
@@ -119,7 +124,12 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
   Widget _buildContent(BookDetail? bookDetail) {
     if (bookDetail == null) {
-      return const LoadingIndicator(fullScreen: true);
+      return Stack(
+        children: [
+          _buildBackgroundGradient(),
+          const LoadingIndicator(fullScreen: true),
+        ],
+      );
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -133,15 +143,42 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         : ref.watch(shelfStateProvider.select((s) => s[widget.bookId]));
     final isInShelf = shelfEntry != null;
 
+    final theme = Theme.of(context);
+    const accentColor = Color(0xFF017BC8);
+    final gradientHeight = MediaQuery.of(context).padding.top +
+        kToolbarHeight +
+        AppSpacing.md +
+        240 +
+        40;
+
     return SingleChildScrollView(
-      padding: EdgeInsets.only(
-        top:
-            MediaQuery.of(context).padding.top + kToolbarHeight + AppSpacing.md,
-        left: AppSpacing.md,
-        right: AppSpacing.md,
-        bottom: AppSpacing.xxl,
-      ),
-      child: BookInfoSection(
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: gradientHeight,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [accentColor, theme.colorScheme.surface],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top +
+                  kToolbarHeight +
+                  AppSpacing.md,
+              left: AppSpacing.md,
+              right: AppSpacing.md,
+              bottom: AppSpacing.xxl,
+            ),
+            child: BookInfoSection(
         bookDetail: bookDetail,
         isInShelf: isInShelf,
         isAddingToShelf: _isAddingToShelf,
@@ -171,6 +208,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 ],
               )
             : null,
+          ),
+        ),
+        ],
       ),
     );
   }
