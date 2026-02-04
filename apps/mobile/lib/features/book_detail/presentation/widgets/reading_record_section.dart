@@ -44,11 +44,12 @@ class ReadingRecordSection extends StatelessWidget {
   }
 
   Widget _buildRecordTable(BuildContext context) {
-    final hasStartedDate = shelfEntry.startedAt != null;
+    final showStartedDate =
+        shelfEntry.startedAt != null || onStartedAtTap != null;
     final hasCompletedDate =
         shelfEntry.isCompleted && shelfEntry.completedAt != null;
     final isLastRow =
-        !hasStartedDate && !hasCompletedDate;
+        !showStartedDate && !hasCompletedDate;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
@@ -74,11 +75,13 @@ class ReadingRecordSection extends StatelessWidget {
             value: _formatDate(shelfEntry.addedAt),
             position: isLastRow ? _RowPosition.last : _RowPosition.middle,
           ),
-          if (hasStartedDate)
+          if (showStartedDate)
             _buildTableRow(
               context,
               label: '読書開始日',
-              value: _formatDate(shelfEntry.startedAt!),
+              value: shelfEntry.startedAt != null
+                  ? _formatDate(shelfEntry.startedAt!)
+                  : '未設定',
               position:
                   hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
               onTap: onStartedAtTap != null
@@ -267,7 +270,7 @@ class ReadingRecordSection extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (context) => _DatePickerSheet(
-        title: '読書開始日を変更',
+        title: shelfEntry.startedAt != null ? '読書開始日を変更' : '読書開始日を設定',
         initialDate: initialDate,
         lastDate: DateTime.now(),
       ),
