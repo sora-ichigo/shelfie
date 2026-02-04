@@ -26,6 +26,7 @@ void main() {
     VoidCallback? onNavigateToPassword,
     VoidCallback? onNavigateToTerms,
     VoidCallback? onNavigateToPrivacy,
+    VoidCallback? onNavigateToInquiry,
     VoidCallback? onLogout,
     VoidCallback? onDeleteAccount,
     VoidCallback? onClose,
@@ -43,6 +44,7 @@ void main() {
           onNavigateToPassword: onNavigateToPassword ?? () {},
           onNavigateToTerms: onNavigateToTerms ?? () {},
           onNavigateToPrivacy: onNavigateToPrivacy ?? () {},
+          onNavigateToInquiry: onNavigateToInquiry ?? () {},
           onLogout: onLogout ?? () {},
           onDeleteAccount: onDeleteAccount ?? () {},
           onClose: onClose,
@@ -94,6 +96,7 @@ void main() {
                 onNavigateToPassword: () {},
                 onNavigateToTerms: () {},
                 onNavigateToPrivacy: () {},
+                onNavigateToInquiry: () {},
                 onLogout: () {},
                 onDeleteAccount: () {},
               ),
@@ -190,7 +193,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(4));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
     });
 
     testWidgets('calls onClose when back button is tapped', (tester) async {

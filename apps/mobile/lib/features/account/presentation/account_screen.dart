@@ -19,6 +19,7 @@ class AccountScreen extends ConsumerWidget {
     required this.onNavigateToPassword,
     required this.onNavigateToTerms,
     required this.onNavigateToPrivacy,
+    required this.onNavigateToInquiry,
     required this.onLogout,
     required this.onDeleteAccount,
     this.onClose,
@@ -29,6 +30,7 @@ class AccountScreen extends ConsumerWidget {
   final VoidCallback onNavigateToPassword;
   final VoidCallback onNavigateToTerms;
   final VoidCallback onNavigateToPrivacy;
+  final VoidCallback onNavigateToInquiry;
   final VoidCallback onLogout;
   final VoidCallback onDeleteAccount;
   final VoidCallback? onClose;
@@ -120,6 +122,11 @@ class AccountScreen extends ConsumerWidget {
                 title: 'プライバシーポリシー',
                 onTap: onNavigateToPrivacy,
                 icon: Icons.privacy_tip_outlined,
+              ),
+              AccountMenuItem(
+                title: 'お問い合わせ',
+                onTap: onNavigateToInquiry,
+                icon: Icons.mail_outline,
               ),
             ],
           ),
