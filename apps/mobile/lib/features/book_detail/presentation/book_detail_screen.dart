@@ -18,6 +18,7 @@ import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/gradient_color_matcher.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/book_info_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/rating_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
@@ -52,6 +53,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   bool _isAddingToShelf = false;
   bool _isRemovingFromShelf = false;
   bool _hasAddedToRecentBooks = false;
+  Color? _gradientColor;
 
   @override
   void initState() {
@@ -93,6 +95,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _addToRecentBooks(bookDetail);
+      _extractGradientColor(bookDetail.thumbnailUrl);
     });
 
     final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
@@ -103,7 +106,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final isInShelf = shelfEntry != null;
 
     final theme = Theme.of(context);
-    const accentColor = Color(0xFF017BC8);
+    final accentColor = _gradientColor ?? theme.colorScheme.surface;
     final gradientHeight =
         MediaQuery.of(context).padding.top +
         kToolbarHeight +
@@ -119,7 +122,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             left: 0,
             right: 0,
             height: gradientHeight,
-            child: DecoratedBox(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeInOut,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -442,6 +447,19 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           coverImageUrl: bookDetail.thumbnailUrl,
           source: widget.source.name,
         );
+  }
+
+  bool _hasExtractedColor = false;
+
+  Future<void> _extractGradientColor(String? thumbnailUrl) async {
+    if (_hasExtractedColor) return;
+    _hasExtractedColor = true;
+
+    final color = await extractGradientColor(thumbnailUrl);
+    if (!mounted) return;
+    setState(() {
+      _gradientColor = color;
+    });
   }
 
   void _onAddToListPressed(ShelfEntry shelfEntry) {
