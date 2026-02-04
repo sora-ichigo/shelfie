@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/category_translator.dart';
@@ -33,7 +32,7 @@ class BookInfoSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildHeader(theme),
         const SizedBox(height: AppSpacing.md),
@@ -57,42 +56,29 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildHeader(ThemeData theme) {
-    const coverHeight = 200.0;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildCoverImage(),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: SizedBox(
-            height: coverHeight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Flexible(
-                  child: Text(
-                    bookDetail.title,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 6,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  bookDetail.authors.join(', '),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
+        const SizedBox(height: AppSpacing.md),
+        Text(
+          bookDetail.title,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
           ),
+          textAlign: TextAlign.center,
+          maxLines: 6,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          bookDetail.authors.join(', '),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
@@ -191,8 +177,8 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildCoverImage() {
-    const coverWidth = 140.0;
-    const coverHeight = 200.0;
+    const coverWidth = 168.0;
+    const coverHeight = 240.0;
 
     return Container(
       width: coverWidth,
@@ -279,27 +265,16 @@ class BookInfoSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '書誌情報',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '書誌情報',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          ...items,
-        ],
-      ),
+        const SizedBox(height: AppSpacing.sm),
+        ...items,
+      ],
     );
   }
 
@@ -382,32 +357,21 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildDescription(ThemeData theme) {
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '作品紹介',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '作品紹介',
-            style: theme.textTheme.titleMedium,
+        const SizedBox(height: AppSpacing.sm),
+        Text(
+          _stripHtmlTags(bookDetail.description!),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            _stripHtmlTags(bookDetail.description!),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -448,181 +412,69 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildExternalLinksCard(ThemeData theme) {
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '購入・詳細',
+          style: theme.textTheme.titleMedium,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '購入・詳細',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          if (bookDetail.amazonUrl != null)
-            _buildLinkButton(
-              theme,
-              label: 'Amazonで見る',
-              description: '商品ページを開く',
-              url: bookDetail.amazonUrl!,
-              gradientColors: const [Color(0xFFFF9500), Color(0xFFFF6B00)],
-            ),
-          if (bookDetail.rakutenBooksUrl != null) ...[
+        const SizedBox(height: AppSpacing.sm),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
             if (bookDetail.amazonUrl != null)
-              const SizedBox(height: AppSpacing.sm),
-            _buildRakutenBooksLinkButton(
-              theme,
-              label: '楽天ブックスで見る',
-              description: '商品ページを開く',
-              url: bookDetail.rakutenBooksUrl!,
-            ),
+              _buildLinkButton(
+                theme,
+                label: 'Amazon',
+                url: bookDetail.amazonUrl!,
+              ),
+            if (bookDetail.amazonUrl != null &&
+                bookDetail.rakutenBooksUrl != null)
+              const SizedBox(width: 12),
+            if (bookDetail.rakutenBooksUrl != null)
+              _buildLinkButton(
+                theme,
+                label: '楽天ブックス',
+                url: bookDetail.rakutenBooksUrl!,
+              ),
           ],
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildLinkButton(
     ThemeData theme, {
     required String label,
-    required String description,
     required String url,
-    required List<Color> gradientColors,
   }) {
     return Material(
       color: theme.colorScheme.surfaceContainerHigh,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: AppSpacing.all(AppSpacing.md),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: gradientColors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.amazon,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.open_in_new,
-                size: 20,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ],
-          ),
+        side: BorderSide(
+          color: theme.colorScheme.outline.withOpacity(0.3),
         ),
       ),
-    );
-  }
-
-  Widget _buildRakutenBooksLinkButton(
-    ThemeData theme, {
-    required String label,
-    required String description,
-    required String url,
-  }) {
-    return Material(
-      color: theme.colorScheme.surfaceContainerHigh,
-      borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: AppSpacing.all(AppSpacing.md),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFBF0000),
-                      Color(0xFF8C0000),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text(
-                    'R',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              Text(
+                label,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      description,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(width: AppSpacing.xs),
               Icon(
                 Icons.open_in_new,
-                size: 20,
+                size: 16,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ],
