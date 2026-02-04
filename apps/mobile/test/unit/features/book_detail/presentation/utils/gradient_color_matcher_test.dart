@@ -86,4 +86,63 @@ void main() {
       expect(gradientColorPresets.contains(result), isTrue);
     });
   });
+
+  group('extractGradientColor キャッシュ', () {
+    setUp(() {
+      clearGradientColorCache();
+    });
+
+    test('null URL はデフォルト色を返しキャッシュしない', () async {
+      final result = await extractGradientColor(null);
+      expect(result, defaultGradientColor);
+      expect(gradientColorCacheSize, 0);
+    });
+
+    test('空文字 URL はデフォルト色を返しキャッシュしない', () async {
+      final result = await extractGradientColor('');
+      expect(result, defaultGradientColor);
+      expect(gradientColorCacheSize, 0);
+    });
+
+    test('clearGradientColorCache でキャッシュがクリアされる', () {
+      seedGradientColorCache('https://example.com/img.jpg', const Color(0xFFC62828));
+      expect(gradientColorCacheSize, 1);
+      clearGradientColorCache();
+      expect(gradientColorCacheSize, 0);
+    });
+
+    test('キャッシュにヒットした場合はキャッシュ値を返す', () async {
+      const url = 'https://example.com/cached.jpg';
+      const cachedColor = Color(0xFF2E7D32);
+      seedGradientColorCache(url, cachedColor);
+
+      final result = await extractGradientColor(url);
+      expect(result, cachedColor);
+    });
+  });
+
+  group('getCachedGradientColor', () {
+    setUp(() {
+      clearGradientColorCache();
+    });
+
+    test('null URL は null を返す', () {
+      expect(getCachedGradientColor(null), isNull);
+    });
+
+    test('空文字 URL は null を返す', () {
+      expect(getCachedGradientColor(''), isNull);
+    });
+
+    test('キャッシュにない URL は null を返す', () {
+      expect(getCachedGradientColor('https://example.com/unknown.jpg'), isNull);
+    });
+
+    test('キャッシュにある URL はキャッシュ値を返す', () {
+      const url = 'https://example.com/img.jpg';
+      const color = Color(0xFF2E7D32);
+      seedGradientColorCache(url, color);
+      expect(getCachedGradientColor(url), color);
+    });
+  });
 }

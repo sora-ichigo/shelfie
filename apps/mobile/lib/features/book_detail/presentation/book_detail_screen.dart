@@ -93,6 +93,14 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       return const LoadingIndicator(fullScreen: true);
     }
 
+    if (!_hasExtractedColor) {
+      final cached = getCachedGradientColor(bookDetail.thumbnailUrl);
+      if (cached != null) {
+        _gradientColor = cached;
+        _hasExtractedColor = true;
+      }
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _addToRecentBooks(bookDetail);
       _extractGradientColor(bookDetail.thumbnailUrl);

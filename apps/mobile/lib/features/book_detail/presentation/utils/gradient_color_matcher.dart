@@ -16,6 +16,21 @@ const gradientColorPresets = [
 
 const defaultGradientColor = Color(0xFF017BC8);
 
+final Map<String, Color> _gradientColorCache = {};
+
+void clearGradientColorCache() => _gradientColorCache.clear();
+
+int get gradientColorCacheSize => _gradientColorCache.length;
+
+Color? getCachedGradientColor(String? url) {
+  if (url == null || url.isEmpty) return null;
+  return _gradientColorCache[url];
+}
+
+@visibleForTesting
+void seedGradientColorCache(String url, Color color) =>
+    _gradientColorCache[url] = color;
+
 Color matchGradientColor(Color dominantColor) {
   var bestMatch = gradientColorPresets.first;
   var bestDistance = double.infinity;
@@ -40,6 +55,11 @@ Future<Color> extractGradientColor(String? thumbnailUrl) async {
     return defaultGradientColor;
   }
 
+  final cached = _gradientColorCache[thumbnailUrl];
+  if (cached != null) {
+    return cached;
+  }
+
   try {
     final paletteGenerator = await PaletteGenerator.fromImageProvider(
       NetworkImage(thumbnailUrl),
@@ -51,7 +71,9 @@ Future<Color> extractGradientColor(String? thumbnailUrl) async {
       return defaultGradientColor;
     }
 
-    return matchGradientColor(dominantColor);
+    final result = matchGradientColor(dominantColor);
+    _gradientColorCache[thumbnailUrl] = result;
+    return result;
   } catch (_) {
     return defaultGradientColor;
   }
