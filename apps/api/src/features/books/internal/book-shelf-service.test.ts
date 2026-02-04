@@ -1880,6 +1880,122 @@ describe("BookShelfService", () => {
     });
   });
 
+  describe("updateStartedAt", () => {
+    const existingUserBook: UserBook = {
+      id: 1,
+      userId: 100,
+      externalId: "google-book-123",
+      title: "Test Book",
+      authors: ["Author One"],
+      publisher: null,
+      publishedDate: null,
+      isbn: null,
+      coverImageUrl: null,
+      source: "rakuten",
+      addedAt: new Date(),
+      readingStatus: "reading",
+      startedAt: new Date("2024-01-10"),
+      completedAt: null,
+      note: null,
+      noteUpdatedAt: null,
+      rating: null,
+    };
+
+    it("should update startedAt successfully", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const newStartedAt = new Date("2024-06-20");
+      const updatedUserBook: UserBook = {
+        ...existingUserBook,
+        startedAt: newStartedAt,
+      };
+      mockRepository.mockUpdateUserBook.mockResolvedValue(updatedUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateStartedAt({
+        userBookId: 1,
+        userId: 100,
+        startedAt: newStartedAt,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.startedAt).toEqual(newStartedAt);
+      }
+      expect(mockRepository.mockUpdateUserBook).toHaveBeenCalledWith(1, {
+        startedAt: newStartedAt,
+      });
+    });
+
+    it("should return BOOK_NOT_FOUND error when user book does not exist", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(null);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateStartedAt({
+        userBookId: 999,
+        userId: 100,
+        startedAt: new Date(),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("BOOK_NOT_FOUND");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return FORBIDDEN error when user does not own the book", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateStartedAt({
+        userBookId: 1,
+        userId: 999,
+        startedAt: new Date(),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("FORBIDDEN");
+      }
+      expect(mockRepository.mockUpdateUserBook).not.toHaveBeenCalled();
+    });
+
+    it("should return DATABASE_ERROR when repository throws", async () => {
+      const mockRepository = createMockRepository();
+      const mockLogger = createMockLogger();
+
+      mockRepository.mockFindUserBookById.mockRejectedValue(
+        new Error("Database connection failed"),
+      );
+
+      const service = createBookShelfService(mockRepository, mockLogger);
+
+      const result = await service.updateStartedAt({
+        userBookId: 1,
+        userId: 100,
+        startedAt: new Date(),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("DATABASE_ERROR");
+      }
+    });
+  });
+
   describe("updateCompletedAt", () => {
     const existingUserBook: UserBook = {
       id: 1,

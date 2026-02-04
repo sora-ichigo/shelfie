@@ -980,6 +980,92 @@ void main() {
       });
     });
 
+    group('updateStartedAtWithApi', () {
+      test('成功時は startedAt が更新される', () async {
+        final now = DateTime.now();
+        final newStartedAt = DateTime(2024, 5, 10);
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: now,
+            startedAt: now,
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateStartedAt(
+            userBookId: any(named: 'userBookId'),
+            startedAt: any(named: 'startedAt'),
+          ),
+        ).thenAnswer(
+          (_) async => right(
+            detail.UserBook(
+              id: 1,
+              readingStatus: ReadingStatus.reading,
+              addedAt: now,
+              startedAt: newStartedAt,
+            ),
+          ),
+        );
+
+        final result = await notifier.updateStartedAtWithApi(
+          externalId: 'book-123',
+          startedAt: newStartedAt,
+        );
+
+        expect(result.isRight(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.startedAt, equals(newStartedAt));
+      });
+
+      test('失敗時は元の状態にロールバックする', () async {
+        final now = DateTime.now();
+        final notifier = container.read(shelfStateProvider.notifier);
+        notifier.registerEntry(
+          ShelfEntry(
+            userBookId: 1,
+            externalId: 'book-123',
+            readingStatus: ReadingStatus.reading,
+            addedAt: now,
+            startedAt: now,
+          ),
+        );
+
+        when(
+          () => mockBookDetailRepository.updateStartedAt(
+            userBookId: any(named: 'userBookId'),
+            startedAt: any(named: 'startedAt'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              left(const NetworkFailure(message: 'Network error')),
+        );
+
+        final result = await notifier.updateStartedAtWithApi(
+          externalId: 'book-123',
+          startedAt: DateTime(2024, 5, 10),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final entry = notifier.getEntry('book-123');
+        expect(entry?.startedAt, equals(now));
+      });
+
+      test('エントリが存在しない場合は Left(UnexpectedFailure) を返す', () async {
+        final notifier = container.read(shelfStateProvider.notifier);
+
+        final result = await notifier.updateStartedAtWithApi(
+          externalId: 'non-existent',
+          startedAt: DateTime(2024, 5, 10),
+        );
+
+        expect(result.isLeft(), isTrue);
+      });
+    });
+
     group('updateCompletedAtWithApi', () {
       test('成功時は completedAt が更新される', () async {
         final now = DateTime.now();

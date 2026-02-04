@@ -195,6 +195,9 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                     onCompletedAtTap: shelfEntry.isCompleted
                         ? _onCompletedAtSelected
                         : null,
+                    onStartedAtTap: shelfEntry.startedAt != null
+                        ? _onStartedAtSelected
+                        : null,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   ReadingNoteSection(
@@ -394,6 +397,41 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         AdaptiveSnackBar.show(
           context,
           message: '読了日を更新しました',
+          type: AdaptiveSnackBarType.success,
+        );
+      },
+    );
+  }
+
+  Future<void> _onStartedAtSelected(DateTime selectedDate) async {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
+
+    final result = await ref
+        .read(bookDetailNotifierProvider(widget.bookId).notifier)
+        .updateStartedAt(
+          userBookId: shelfEntry.userBookId,
+          startedAt: selectedDate,
+        );
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        AdaptiveSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AdaptiveSnackBarType.error,
+        );
+      },
+      (_) {
+        AdaptiveSnackBar.show(
+          context,
+          message: '読書開始日を更新しました',
           type: AdaptiveSnackBarType.success,
         );
       },

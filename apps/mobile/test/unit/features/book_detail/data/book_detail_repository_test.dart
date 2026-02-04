@@ -14,6 +14,9 @@ import 'package:shelfie/features/book_detail/data/__generated__/book_detail.var.
 import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_completed_at.var.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.req.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.var.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_reading_note.var.gql.dart';
@@ -82,6 +85,13 @@ void main() {
         (b) => b
           ..vars.userBookId = 1
           ..vars.completedAt = DateTime(2024, 1, 1),
+      ),
+    );
+    registerFallbackValue(
+      GUpdateStartedAtReq(
+        (b) => b
+          ..vars.userBookId = 1
+          ..vars.startedAt = DateTime(2024, 1, 1),
       ),
     );
   });
@@ -730,6 +740,126 @@ void main() {
         final result = await repository.updateCompletedAt(
           userBookId: 42,
           completedAt: DateTime(2024, 7, 1),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final failure = result.getLeft().toNullable();
+        expect(failure, isA<ForbiddenFailure>());
+      });
+    });
+
+    group('updateStartedAt', () {
+      test('読書開始日更新成功時は Right(UserBook) を返す', () async {
+        final addedAt = DateTime(2024, 6, 15, 10, 30);
+        final startedAt = DateTime(2024, 7, 1);
+
+        final mockData = GUpdateStartedAtData(
+          (b) => b
+            ..updateStartedAt = GUpdateStartedAtData_updateStartedAt(
+              (ub) => ub
+                ..id = 42
+                ..externalId = 'book-1'
+                ..title = 'Test Book'
+                ..authors = ListBuilder(['Author 1'])
+                ..publisher = null
+                ..publishedDate = null
+                ..isbn = null
+                ..coverImageUrl = null
+                ..addedAt = addedAt
+                ..readingStatus = GReadingStatus.READING
+                ..startedAt = startedAt
+                ..completedAt = null
+                ..note = null
+                ..noteUpdatedAt = null
+                ..rating = null,
+            ).toBuilder(),
+        );
+
+        when(() => mockClient.request(any<GUpdateStartedAtReq>()))
+            .thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateStartedAtData,
+                GUpdateStartedAtVars>(
+              operationRequest: GUpdateStartedAtReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.startedAt = startedAt,
+              ),
+              data: mockData,
+            ),
+          ),
+        );
+
+        final result = await repository.updateStartedAt(
+          userBookId: 42,
+          startedAt: startedAt,
+        );
+
+        expect(result.isRight(), isTrue);
+        final data =
+            result.getOrElse((_) => throw Exception('Should be right'));
+        expect(data.id, equals(42));
+        expect(data.readingStatus, equals(ReadingStatus.reading));
+        expect(data.startedAt, equals(startedAt));
+      });
+
+      test('認証エラー時は Left(AuthFailure) を返す', () async {
+        when(() => mockClient.request(any<GUpdateStartedAtReq>()))
+            .thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateStartedAtData,
+                GUpdateStartedAtVars>(
+              operationRequest: GUpdateStartedAtReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.startedAt = DateTime(2024, 7, 1),
+              ),
+              data: null,
+              graphqlErrors: [
+                const GraphQLError(
+                  message: 'Authentication required',
+                  extensions: {'code': 'UNAUTHENTICATED'},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final result = await repository.updateStartedAt(
+          userBookId: 42,
+          startedAt: DateTime(2024, 7, 1),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final failure = result.getLeft().toNullable();
+        expect(failure, isA<AuthFailure>());
+      });
+
+      test('権限エラー時は Left(ForbiddenFailure) を返す', () async {
+        when(() => mockClient.request(any<GUpdateStartedAtReq>()))
+            .thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateStartedAtData,
+                GUpdateStartedAtVars>(
+              operationRequest: GUpdateStartedAtReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.startedAt = DateTime(2024, 7, 1),
+              ),
+              data: null,
+              graphqlErrors: [
+                const GraphQLError(
+                  message: 'Not authorized to update this record',
+                  extensions: {'code': 'FORBIDDEN'},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final result = await repository.updateStartedAt(
+          userBookId: 42,
+          startedAt: DateTime(2024, 7, 1),
         );
 
         expect(result.isLeft(), isTrue);

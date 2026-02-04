@@ -1,49 +1,48 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'update_completed_at.data.gql.dart';
+part of 'update_started_at.data.gql.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GUpdateCompletedAtData> _$gUpdateCompletedAtDataSerializer =
-    new _$GUpdateCompletedAtDataSerializer();
-Serializer<GUpdateCompletedAtData_updateCompletedAt>
-    _$gUpdateCompletedAtDataUpdateCompletedAtSerializer =
-    new _$GUpdateCompletedAtData_updateCompletedAtSerializer();
+Serializer<GUpdateStartedAtData> _$gUpdateStartedAtDataSerializer =
+    new _$GUpdateStartedAtDataSerializer();
+Serializer<GUpdateStartedAtData_updateStartedAt>
+    _$gUpdateStartedAtDataUpdateStartedAtSerializer =
+    new _$GUpdateStartedAtData_updateStartedAtSerializer();
 
-class _$GUpdateCompletedAtDataSerializer
-    implements StructuredSerializer<GUpdateCompletedAtData> {
+class _$GUpdateStartedAtDataSerializer
+    implements StructuredSerializer<GUpdateStartedAtData> {
   @override
   final Iterable<Type> types = const [
-    GUpdateCompletedAtData,
-    _$GUpdateCompletedAtData
+    GUpdateStartedAtData,
+    _$GUpdateStartedAtData
   ];
   @override
-  final String wireName = 'GUpdateCompletedAtData';
+  final String wireName = 'GUpdateStartedAtData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateCompletedAtData object,
+      Serializers serializers, GUpdateStartedAtData object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'updateCompletedAt',
-      serializers.serialize(object.updateCompletedAt,
-          specifiedType:
-              const FullType(GUpdateCompletedAtData_updateCompletedAt)),
+      'updateStartedAt',
+      serializers.serialize(object.updateStartedAt,
+          specifiedType: const FullType(GUpdateStartedAtData_updateStartedAt)),
     ];
 
     return result;
   }
 
   @override
-  GUpdateCompletedAtData deserialize(
+  GUpdateStartedAtData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateCompletedAtDataBuilder();
+    final result = new GUpdateStartedAtDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -55,11 +54,11 @@ class _$GUpdateCompletedAtDataSerializer
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'updateCompletedAt':
-          result.updateCompletedAt.replace(serializers.deserialize(value,
+        case 'updateStartedAt':
+          result.updateStartedAt.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(GUpdateCompletedAtData_updateCompletedAt))!
-              as GUpdateCompletedAtData_updateCompletedAt);
+                      const FullType(GUpdateStartedAtData_updateStartedAt))!
+              as GUpdateStartedAtData_updateStartedAt);
           break;
       }
     }
@@ -68,19 +67,19 @@ class _$GUpdateCompletedAtDataSerializer
   }
 }
 
-class _$GUpdateCompletedAtData_updateCompletedAtSerializer
-    implements StructuredSerializer<GUpdateCompletedAtData_updateCompletedAt> {
+class _$GUpdateStartedAtData_updateStartedAtSerializer
+    implements StructuredSerializer<GUpdateStartedAtData_updateStartedAt> {
   @override
   final Iterable<Type> types = const [
-    GUpdateCompletedAtData_updateCompletedAt,
-    _$GUpdateCompletedAtData_updateCompletedAt
+    GUpdateStartedAtData_updateStartedAt,
+    _$GUpdateStartedAtData_updateStartedAt
   ];
   @override
-  final String wireName = 'GUpdateCompletedAtData_updateCompletedAt';
+  final String wireName = 'GUpdateStartedAtData_updateStartedAt';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateCompletedAtData_updateCompletedAt object,
+      Serializers serializers, GUpdateStartedAtData_updateStartedAt object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
@@ -172,10 +171,10 @@ class _$GUpdateCompletedAtData_updateCompletedAtSerializer
   }
 
   @override
-  GUpdateCompletedAtData_updateCompletedAt deserialize(
+  GUpdateStartedAtData_updateStartedAt deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateCompletedAtData_updateCompletedAtBuilder();
+    final result = new GUpdateStartedAtData_updateStartedAtBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -257,120 +256,120 @@ class _$GUpdateCompletedAtData_updateCompletedAtSerializer
   }
 }
 
-class _$GUpdateCompletedAtData extends GUpdateCompletedAtData {
+class _$GUpdateStartedAtData extends GUpdateStartedAtData {
   @override
   final String G__typename;
   @override
-  final GUpdateCompletedAtData_updateCompletedAt updateCompletedAt;
+  final GUpdateStartedAtData_updateStartedAt updateStartedAt;
 
-  factory _$GUpdateCompletedAtData(
-          [void Function(GUpdateCompletedAtDataBuilder)? updates]) =>
-      (new GUpdateCompletedAtDataBuilder()..update(updates))._build();
+  factory _$GUpdateStartedAtData(
+          [void Function(GUpdateStartedAtDataBuilder)? updates]) =>
+      (new GUpdateStartedAtDataBuilder()..update(updates))._build();
 
-  _$GUpdateCompletedAtData._(
-      {required this.G__typename, required this.updateCompletedAt})
+  _$GUpdateStartedAtData._(
+      {required this.G__typename, required this.updateStartedAt})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GUpdateCompletedAtData', 'G__typename');
+        G__typename, r'GUpdateStartedAtData', 'G__typename');
     BuiltValueNullFieldError.checkNotNull(
-        updateCompletedAt, r'GUpdateCompletedAtData', 'updateCompletedAt');
+        updateStartedAt, r'GUpdateStartedAtData', 'updateStartedAt');
   }
 
   @override
-  GUpdateCompletedAtData rebuild(
-          void Function(GUpdateCompletedAtDataBuilder) updates) =>
+  GUpdateStartedAtData rebuild(
+          void Function(GUpdateStartedAtDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateCompletedAtDataBuilder toBuilder() =>
-      new GUpdateCompletedAtDataBuilder()..replace(this);
+  GUpdateStartedAtDataBuilder toBuilder() =>
+      new GUpdateStartedAtDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateCompletedAtData &&
+    return other is GUpdateStartedAtData &&
         G__typename == other.G__typename &&
-        updateCompletedAt == other.updateCompletedAt;
+        updateStartedAt == other.updateStartedAt;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, updateCompletedAt.hashCode);
+    _$hash = $jc(_$hash, updateStartedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GUpdateCompletedAtData')
+    return (newBuiltValueToStringHelper(r'GUpdateStartedAtData')
           ..add('G__typename', G__typename)
-          ..add('updateCompletedAt', updateCompletedAt))
+          ..add('updateStartedAt', updateStartedAt))
         .toString();
   }
 }
 
-class GUpdateCompletedAtDataBuilder
-    implements Builder<GUpdateCompletedAtData, GUpdateCompletedAtDataBuilder> {
-  _$GUpdateCompletedAtData? _$v;
+class GUpdateStartedAtDataBuilder
+    implements Builder<GUpdateStartedAtData, GUpdateStartedAtDataBuilder> {
+  _$GUpdateStartedAtData? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  GUpdateCompletedAtData_updateCompletedAtBuilder? _updateCompletedAt;
-  GUpdateCompletedAtData_updateCompletedAtBuilder get updateCompletedAt =>
-      _$this._updateCompletedAt ??=
-          new GUpdateCompletedAtData_updateCompletedAtBuilder();
-  set updateCompletedAt(
-          GUpdateCompletedAtData_updateCompletedAtBuilder? updateCompletedAt) =>
-      _$this._updateCompletedAt = updateCompletedAt;
+  GUpdateStartedAtData_updateStartedAtBuilder? _updateStartedAt;
+  GUpdateStartedAtData_updateStartedAtBuilder get updateStartedAt =>
+      _$this._updateStartedAt ??=
+          new GUpdateStartedAtData_updateStartedAtBuilder();
+  set updateStartedAt(
+          GUpdateStartedAtData_updateStartedAtBuilder? updateStartedAt) =>
+      _$this._updateStartedAt = updateStartedAt;
 
-  GUpdateCompletedAtDataBuilder() {
-    GUpdateCompletedAtData._initializeBuilder(this);
+  GUpdateStartedAtDataBuilder() {
+    GUpdateStartedAtData._initializeBuilder(this);
   }
 
-  GUpdateCompletedAtDataBuilder get _$this {
+  GUpdateStartedAtDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _updateCompletedAt = $v.updateCompletedAt.toBuilder();
+      _updateStartedAt = $v.updateStartedAt.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(GUpdateCompletedAtData other) {
+  void replace(GUpdateStartedAtData other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GUpdateCompletedAtData;
+    _$v = other as _$GUpdateStartedAtData;
   }
 
   @override
-  void update(void Function(GUpdateCompletedAtDataBuilder)? updates) {
+  void update(void Function(GUpdateStartedAtDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateCompletedAtData build() => _build();
+  GUpdateStartedAtData build() => _build();
 
-  _$GUpdateCompletedAtData _build() {
-    _$GUpdateCompletedAtData _$result;
+  _$GUpdateStartedAtData _build() {
+    _$GUpdateStartedAtData _$result;
     try {
       _$result = _$v ??
-          new _$GUpdateCompletedAtData._(
+          new _$GUpdateStartedAtData._(
               G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GUpdateCompletedAtData', 'G__typename'),
-              updateCompletedAt: updateCompletedAt.build());
+                  G__typename, r'GUpdateStartedAtData', 'G__typename'),
+              updateStartedAt: updateStartedAt.build());
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'updateCompletedAt';
-        updateCompletedAt.build();
+        _$failedField = 'updateStartedAt';
+        updateStartedAt.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'GUpdateCompletedAtData', _$failedField, e.toString());
+            r'GUpdateStartedAtData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -379,8 +378,8 @@ class GUpdateCompletedAtDataBuilder
   }
 }
 
-class _$GUpdateCompletedAtData_updateCompletedAt
-    extends GUpdateCompletedAtData_updateCompletedAt {
+class _$GUpdateStartedAtData_updateStartedAt
+    extends GUpdateStartedAtData_updateStartedAt {
   @override
   final String G__typename;
   @override
@@ -414,13 +413,13 @@ class _$GUpdateCompletedAtData_updateCompletedAt
   @override
   final int? rating;
 
-  factory _$GUpdateCompletedAtData_updateCompletedAt(
-          [void Function(GUpdateCompletedAtData_updateCompletedAtBuilder)?
+  factory _$GUpdateStartedAtData_updateStartedAt(
+          [void Function(GUpdateStartedAtData_updateStartedAtBuilder)?
               updates]) =>
-      (new GUpdateCompletedAtData_updateCompletedAtBuilder()..update(updates))
+      (new GUpdateStartedAtData_updateStartedAtBuilder()..update(updates))
           ._build();
 
-  _$GUpdateCompletedAtData_updateCompletedAt._(
+  _$GUpdateStartedAtData_updateStartedAt._(
       {required this.G__typename,
       required this.id,
       required this.externalId,
@@ -438,36 +437,35 @@ class _$GUpdateCompletedAtData_updateCompletedAt
       this.noteUpdatedAt,
       this.rating})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(G__typename,
-        r'GUpdateCompletedAtData_updateCompletedAt', 'G__typename');
     BuiltValueNullFieldError.checkNotNull(
-        id, r'GUpdateCompletedAtData_updateCompletedAt', 'id');
+        G__typename, r'GUpdateStartedAtData_updateStartedAt', 'G__typename');
     BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GUpdateCompletedAtData_updateCompletedAt', 'externalId');
+        id, r'GUpdateStartedAtData_updateStartedAt', 'id');
     BuiltValueNullFieldError.checkNotNull(
-        title, r'GUpdateCompletedAtData_updateCompletedAt', 'title');
+        externalId, r'GUpdateStartedAtData_updateStartedAt', 'externalId');
     BuiltValueNullFieldError.checkNotNull(
-        authors, r'GUpdateCompletedAtData_updateCompletedAt', 'authors');
+        title, r'GUpdateStartedAtData_updateStartedAt', 'title');
     BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GUpdateCompletedAtData_updateCompletedAt', 'addedAt');
+        authors, r'GUpdateStartedAtData_updateStartedAt', 'authors');
+    BuiltValueNullFieldError.checkNotNull(
+        addedAt, r'GUpdateStartedAtData_updateStartedAt', 'addedAt');
     BuiltValueNullFieldError.checkNotNull(readingStatus,
-        r'GUpdateCompletedAtData_updateCompletedAt', 'readingStatus');
+        r'GUpdateStartedAtData_updateStartedAt', 'readingStatus');
   }
 
   @override
-  GUpdateCompletedAtData_updateCompletedAt rebuild(
-          void Function(GUpdateCompletedAtData_updateCompletedAtBuilder)
-              updates) =>
+  GUpdateStartedAtData_updateStartedAt rebuild(
+          void Function(GUpdateStartedAtData_updateStartedAtBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateCompletedAtData_updateCompletedAtBuilder toBuilder() =>
-      new GUpdateCompletedAtData_updateCompletedAtBuilder()..replace(this);
+  GUpdateStartedAtData_updateStartedAtBuilder toBuilder() =>
+      new GUpdateStartedAtData_updateStartedAtBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateCompletedAtData_updateCompletedAt &&
+    return other is GUpdateStartedAtData_updateStartedAt &&
         G__typename == other.G__typename &&
         id == other.id &&
         externalId == other.externalId &&
@@ -511,8 +509,7 @@ class _$GUpdateCompletedAtData_updateCompletedAt
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-            r'GUpdateCompletedAtData_updateCompletedAt')
+    return (newBuiltValueToStringHelper(r'GUpdateStartedAtData_updateStartedAt')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('externalId', externalId)
@@ -533,11 +530,11 @@ class _$GUpdateCompletedAtData_updateCompletedAt
   }
 }
 
-class GUpdateCompletedAtData_updateCompletedAtBuilder
+class GUpdateStartedAtData_updateStartedAtBuilder
     implements
-        Builder<GUpdateCompletedAtData_updateCompletedAt,
-            GUpdateCompletedAtData_updateCompletedAtBuilder> {
-  _$GUpdateCompletedAtData_updateCompletedAt? _$v;
+        Builder<GUpdateStartedAtData_updateStartedAt,
+            GUpdateStartedAtData_updateStartedAtBuilder> {
+  _$GUpdateStartedAtData_updateStartedAt? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
@@ -608,11 +605,11 @@ class GUpdateCompletedAtData_updateCompletedAtBuilder
   int? get rating => _$this._rating;
   set rating(int? rating) => _$this._rating = rating;
 
-  GUpdateCompletedAtData_updateCompletedAtBuilder() {
-    GUpdateCompletedAtData_updateCompletedAt._initializeBuilder(this);
+  GUpdateStartedAtData_updateStartedAtBuilder() {
+    GUpdateStartedAtData_updateStartedAt._initializeBuilder(this);
   }
 
-  GUpdateCompletedAtData_updateCompletedAtBuilder get _$this {
+  GUpdateStartedAtData_updateStartedAtBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -637,43 +634,43 @@ class GUpdateCompletedAtData_updateCompletedAtBuilder
   }
 
   @override
-  void replace(GUpdateCompletedAtData_updateCompletedAt other) {
+  void replace(GUpdateStartedAtData_updateStartedAt other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GUpdateCompletedAtData_updateCompletedAt;
+    _$v = other as _$GUpdateStartedAtData_updateStartedAt;
   }
 
   @override
   void update(
-      void Function(GUpdateCompletedAtData_updateCompletedAtBuilder)? updates) {
+      void Function(GUpdateStartedAtData_updateStartedAtBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateCompletedAtData_updateCompletedAt build() => _build();
+  GUpdateStartedAtData_updateStartedAt build() => _build();
 
-  _$GUpdateCompletedAtData_updateCompletedAt _build() {
-    _$GUpdateCompletedAtData_updateCompletedAt _$result;
+  _$GUpdateStartedAtData_updateStartedAt _build() {
+    _$GUpdateStartedAtData_updateStartedAt _$result;
     try {
       _$result = _$v ??
-          new _$GUpdateCompletedAtData_updateCompletedAt._(
+          new _$GUpdateStartedAtData_updateStartedAt._(
               G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  r'GUpdateCompletedAtData_updateCompletedAt', 'G__typename'),
+                  r'GUpdateStartedAtData_updateStartedAt', 'G__typename'),
               id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GUpdateCompletedAtData_updateCompletedAt', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GUpdateCompletedAtData_updateCompletedAt', 'externalId'),
+                  id, r'GUpdateStartedAtData_updateStartedAt', 'id'),
+              externalId: BuiltValueNullFieldError.checkNotNull(externalId,
+                  r'GUpdateStartedAtData_updateStartedAt', 'externalId'),
               title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GUpdateCompletedAtData_updateCompletedAt', 'title'),
+                  title, r'GUpdateStartedAtData_updateStartedAt', 'title'),
               authors: authors.build(),
               publisher: publisher,
               publishedDate: publishedDate,
               isbn: isbn,
               coverImageUrl: coverImageUrl,
               addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GUpdateCompletedAtData_updateCompletedAt', 'addedAt'),
+                  addedAt, r'GUpdateStartedAtData_updateStartedAt', 'addedAt'),
               readingStatus: BuiltValueNullFieldError.checkNotNull(
                   readingStatus,
-                  r'GUpdateCompletedAtData_updateCompletedAt',
+                  r'GUpdateStartedAtData_updateStartedAt',
                   'readingStatus'),
               startedAt: startedAt,
               completedAt: completedAt,
@@ -687,7 +684,7 @@ class GUpdateCompletedAtData_updateCompletedAtBuilder
         authors.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'GUpdateCompletedAtData_updateCompletedAt',
+            r'GUpdateStartedAtData_updateStartedAt',
             _$failedField,
             e.toString());
       }

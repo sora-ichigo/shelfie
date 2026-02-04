@@ -1,5 +1,5 @@
-mutation UpdateCompletedAt($userBookId: Int!, $completedAt: DateTime!) {
-  updateCompletedAt(userBookId: $userBookId, completedAt: $completedAt) {
+mutation UpdateStartedAt($userBookId: Int!, $startedAt: DateTime!) {
+  updateStartedAt(userBookId: $userBookId, startedAt: $startedAt) {
     id
     externalId
     title

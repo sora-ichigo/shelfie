@@ -66,6 +66,7 @@ abstract class GUpdateCompletedAtData_updateCompletedAt
   String? get coverImageUrl;
   DateTime get addedAt;
   _i2.GReadingStatus get readingStatus;
+  DateTime? get startedAt;
   DateTime? get completedAt;
   String? get note;
   DateTime? get noteUpdatedAt;

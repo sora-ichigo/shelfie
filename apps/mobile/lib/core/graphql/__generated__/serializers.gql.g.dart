@@ -202,6 +202,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUpdateReadingStatusData_updateReadingStatus.serializer)
       ..add(GUpdateReadingStatusReq.serializer)
       ..add(GUpdateReadingStatusVars.serializer)
+      ..add(GUpdateStartedAtData.serializer)
+      ..add(GUpdateStartedAtData_updateStartedAt.serializer)
+      ..add(GUpdateStartedAtReq.serializer)
+      ..add(GUpdateStartedAtVars.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GBookListDetailData_bookListDetail_items)]),
@@ -222,6 +226,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => new ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())

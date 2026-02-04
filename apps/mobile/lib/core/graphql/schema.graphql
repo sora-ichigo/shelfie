@@ -391,6 +391,9 @@ type Mutation {
   """Update the completed at date of a book in the user's shelf"""
   updateCompletedAt(completedAt: DateTime!, userBookId: Int!): UserBook!
 
+  """Update the start date of a book in the user's shelf"""
+  updateStartedAt(startedAt: DateTime!, userBookId: Int!): UserBook!
+
   """Update the rating of a book in the user's shelf"""
   updateBookRating(rating: Int, userBookId: Int!): UserBook!
 

@@ -12,6 +12,7 @@ void main() {
     VoidCallback? onStatusTap,
     VoidCallback? onRatingTap,
     ValueChanged<DateTime>? onCompletedAtTap,
+    ValueChanged<DateTime>? onStartedAtTap,
   }) {
     return MaterialApp(
       theme: AppTheme.dark(),
@@ -22,6 +23,7 @@ void main() {
             onStatusTap: onStatusTap ?? () {},
             onRatingTap: onRatingTap ?? () {},
             onCompletedAtTap: onCompletedAtTap,
+            onStartedAtTap: onStartedAtTap,
           ),
         ),
       ),
@@ -81,6 +83,83 @@ void main() {
       expect(find.text('2024年3月15日'), findsOneWidget);
       expect(find.text('読了日'), findsOneWidget);
       expect(find.text('2024年6月20日'), findsOneWidget);
+    });
+  });
+
+  group('ReadingRecordSection 読書開始日編集', () {
+    testWidgets('onStartedAtTap が設定されている場合、読書開始日行にシェブロンが表示される',
+        (tester) async {
+      final shelfEntry = ShelfEntry(
+        userBookId: 1,
+        externalId: 'book-1',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 1),
+        startedAt: DateTime(2024, 3, 15),
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        shelfEntry: shelfEntry,
+        onStartedAtTap: (_) {},
+      ));
+
+      final startedRow = find.ancestor(
+        of: find.text('読書開始日'),
+        matching: find.byType(InkWell),
+      );
+      expect(startedRow, findsOneWidget);
+    });
+
+    testWidgets('onStartedAtTap が null の場合、読書開始日行はタップ不可',
+        (tester) async {
+      final shelfEntry = ShelfEntry(
+        userBookId: 1,
+        externalId: 'book-1',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 1),
+        startedAt: DateTime(2024, 3, 15),
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        shelfEntry: shelfEntry,
+        onStartedAtTap: null,
+      ));
+
+      final startedRow = find.ancestor(
+        of: find.text('読書開始日'),
+        matching: find.byType(InkWell),
+      );
+      expect(startedRow, findsNothing);
+    });
+
+    testWidgets('読書開始日行をタップするとボトムシートにカレンダーが表示される',
+        (tester) async {
+      tester.view.physicalSize = const Size(1080, 1920);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final shelfEntry = ShelfEntry(
+        userBookId: 1,
+        externalId: 'book-1',
+        readingStatus: ReadingStatus.reading,
+        addedAt: DateTime(2024, 1, 1),
+        startedAt: DateTime(2024, 3, 15),
+      );
+
+      await tester.pumpWidget(buildTestWidget(
+        shelfEntry: shelfEntry,
+        onStartedAtTap: (_) {},
+      ));
+
+      final startedRow = find.ancestor(
+        of: find.text('読書開始日'),
+        matching: find.byType(InkWell),
+      );
+      await tester.tap(startedRow);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(CupertinoDatePicker), findsOneWidget);
+      expect(find.text('読書開始日を変更'), findsOneWidget);
     });
   });
 

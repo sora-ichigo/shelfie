@@ -4,9 +4,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:gql/ast.dart' as _i1;
 
-const UpdateCompletedAt = _i1.OperationDefinitionNode(
+const UpdateStartedAt = _i1.OperationDefinitionNode(
   type: _i1.OperationType.mutation,
-  name: _i1.NameNode(value: 'UpdateCompletedAt'),
+  name: _i1.NameNode(value: 'UpdateStartedAt'),
   variableDefinitions: [
     _i1.VariableDefinitionNode(
       variable: _i1.VariableNode(name: _i1.NameNode(value: 'userBookId')),
@@ -18,7 +18,7 @@ const UpdateCompletedAt = _i1.OperationDefinitionNode(
       directives: [],
     ),
     _i1.VariableDefinitionNode(
-      variable: _i1.VariableNode(name: _i1.NameNode(value: 'completedAt')),
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'startedAt')),
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'DateTime'),
         isNonNull: true,
@@ -30,7 +30,7 @@ const UpdateCompletedAt = _i1.OperationDefinitionNode(
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
     _i1.FieldNode(
-      name: _i1.NameNode(value: 'updateCompletedAt'),
+      name: _i1.NameNode(value: 'updateStartedAt'),
       alias: null,
       arguments: [
         _i1.ArgumentNode(
@@ -38,8 +38,8 @@ const UpdateCompletedAt = _i1.OperationDefinitionNode(
           value: _i1.VariableNode(name: _i1.NameNode(value: 'userBookId')),
         ),
         _i1.ArgumentNode(
-          name: _i1.NameNode(value: 'completedAt'),
-          value: _i1.VariableNode(name: _i1.NameNode(value: 'completedAt')),
+          name: _i1.NameNode(value: 'startedAt'),
+          value: _i1.VariableNode(name: _i1.NameNode(value: 'startedAt')),
         ),
       ],
       directives: [],
@@ -153,4 +153,4 @@ const UpdateCompletedAt = _i1.OperationDefinitionNode(
     )
   ]),
 );
-const document = _i1.DocumentNode(definitions: [UpdateCompletedAt]);
+const document = _i1.DocumentNode(definitions: [UpdateStartedAt]);
