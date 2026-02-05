@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   adaptive_dialog: ^2.2.0
-  appinio_social_share: ^0.3.2
   adaptive_platform_ui: ^0.1.101
+  appinio_social_share: ^0.3.2
   built_collection: any
   built_value: any
   cached_network_image: ^3.4.1
@@ -22,9 +22,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^2.5.1
-  flutter_svg: ^2.0.0
   flutter_secure_storage: ^9.2.2
   flutter_staggered_animations: ^1.1.1
+  flutter_svg: ^2.0.0
   font_awesome_flutter: 10.6.0
   fpdart: ^1.1.0
   freezed_annotation: ^2.4.4
