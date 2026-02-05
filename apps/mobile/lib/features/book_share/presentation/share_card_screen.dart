@@ -64,8 +64,8 @@ class _ShareCardBottomSheetState
           children: [
             _buildDragHandle(theme),
             const SizedBox(height: AppSpacing.lg),
-            Padding(
-              padding: AppSpacing.horizontal(AppSpacing.md),
+            FractionallySizedBox(
+              widthFactor: 0.75,
               child: FittedBox(
                 child: ShareCardWidget(
                   data: state.cardData,
