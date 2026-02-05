@@ -67,7 +67,7 @@ class ShareImageService {
     try {
       final boundary = boundaryKey.currentContext?.findRenderObject()
           as RenderRepaintBoundary?;
-      if (boundary == null || boundary.debugNeedsPaint) {
+      if (boundary == null) {
         return const Left(
           Failure.unexpected(message: '画像の生成に失敗しました。再度お試しください'),
         );

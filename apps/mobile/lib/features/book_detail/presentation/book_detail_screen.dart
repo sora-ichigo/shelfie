@@ -224,15 +224,16 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     return IconButton(
       icon: const Icon(Icons.share),
-      onPressed: () => _navigateToShare(),
+      onPressed: () => _navigateToShare(shelfEntry.readingStatus),
     );
   }
 
-  void _navigateToShare() {
+  void _navigateToShare(ReadingStatus readingStatus) {
     showShareCardBottomSheet(
       context: context,
       externalId: widget.bookId,
       accentColor: _gradientColor,
+      readingStatus: readingStatus,
     );
   }
 
@@ -365,7 +366,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
         message: '読了おめでとうございます！シェアしませんか？',
         type: AdaptiveSnackBarType.success,
         action: 'シェア',
-        onActionPressed: _navigateToShare,
+        onActionPressed: () => _navigateToShare(ReadingStatus.completed),
       );
     }
   }
