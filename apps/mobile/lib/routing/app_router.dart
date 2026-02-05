@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
-
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
@@ -21,11 +20,11 @@ import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.dart';
-import 'package:shelfie/features/book_share/presentation/share_card_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
+import 'package:shelfie/features/book_share/presentation/share_card_screen.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';

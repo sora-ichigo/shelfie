@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
@@ -64,6 +65,7 @@ class ShareCardNotifier extends _$ShareCardNotifier {
   }
 }
 
+@immutable
 class ShareCardState {
   const ShareCardState({
     required this.currentLevel,
