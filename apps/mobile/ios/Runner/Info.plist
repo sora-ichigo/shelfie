@@ -56,6 +56,7 @@
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>instagram-stories</string>
+			<string>line</string>
 		</array>
 		<key>FacebookAppID</key>
 		<string>1851655515480002</string>

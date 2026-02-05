@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
 import 'package:shelfie/features/book_share/infrastructure/gallery_save_service.dart';
 import 'package:shelfie/features/book_share/infrastructure/instagram_story_service.dart';
+import 'package:shelfie/features/book_share/infrastructure/line_share_service.dart';
 import 'package:shelfie/features/book_share/infrastructure/share_image_service.dart';
 import 'package:shelfie/features/book_share/presentation/widgets/share_card_widget.dart';
 
@@ -44,10 +46,12 @@ class _ShareCardBottomSheet extends ConsumerStatefulWidget {
 class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
   final _boundaryKey = GlobalKey();
   bool _isSharingInstagram = false;
+  bool _isSharingLine = false;
   bool _isSharingOther = false;
   bool _isSaving = false;
 
-  bool get _isProcessing => _isSharingInstagram || _isSharingOther || _isSaving;
+  bool get _isProcessing =>
+      _isSharingInstagram || _isSharingLine || _isSharingOther || _isSaving;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +80,11 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
             const SizedBox(height: AppSpacing.lg),
             _ActionBar(
               isSharingInstagram: _isSharingInstagram,
+              isSharingLine: _isSharingLine,
               isSharingOther: _isSharingOther,
               isSaving: _isSaving,
               onInstagramStory: _isProcessing ? null : _onInstagramStory,
+              onLine: _isProcessing ? null : _onLine,
               onShareOther: _isProcessing ? null : _onShareOther,
               onSave: _isProcessing ? null : _onSave,
               appColors: appColors,
@@ -144,6 +150,40 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
       AdaptiveSnackBar.show(
         context,
         message: 'Instagramアプリが見つかりませんでした',
+        type: AdaptiveSnackBarType.error,
+      );
+    }
+  }
+
+  Future<void> _onLine() async {
+    setState(() => _isSharingLine = true);
+
+    final filePath = await _captureToTempFile();
+
+    if (!mounted) return;
+
+    if (filePath == null) {
+      setState(() => _isSharingLine = false);
+      AdaptiveSnackBar.show(
+        context,
+        message: '画像の生成に失敗しました。再度お試しください',
+        type: AdaptiveSnackBarType.error,
+      );
+      return;
+    }
+
+    final lineService = ref.read(lineShareServiceProvider);
+    final success = await lineService.shareImage(filePath: filePath);
+
+    if (!mounted) return;
+    setState(() => _isSharingLine = false);
+
+    _cleanupTempFile(filePath);
+
+    if (!success) {
+      AdaptiveSnackBar.show(
+        context,
+        message: 'LINEアプリが見つかりませんでした',
         type: AdaptiveSnackBarType.error,
       );
     }
@@ -238,18 +278,22 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
 class _ActionBar extends StatelessWidget {
   const _ActionBar({
     required this.isSharingInstagram,
+    required this.isSharingLine,
     required this.isSharingOther,
     required this.isSaving,
     required this.onInstagramStory,
+    required this.onLine,
     required this.onShareOther,
     required this.onSave,
     required this.appColors,
   });
 
   final bool isSharingInstagram;
+  final bool isSharingLine;
   final bool isSharingOther;
   final bool isSaving;
   final VoidCallback? onInstagramStory;
+  final VoidCallback? onLine;
   final VoidCallback? onShareOther;
   final VoidCallback? onSave;
   final AppColors appColors;
@@ -280,6 +324,23 @@ class _ActionBar extends StatelessWidget {
         ),
         const SizedBox(width: AppSpacing.lg),
         _ActionIcon(
+          iconWidget: SvgPicture.asset(
+            'assets/icons/line_icon.svg',
+            width: 34,
+            height: 34,
+            colorFilter: const ColorFilter.mode(
+              Colors.white,
+              BlendMode.srcIn,
+            ),
+          ),
+          label: 'LINE',
+          isLoading: isSharingLine,
+          onPressed: onLine,
+          backgroundColor: const Color(0xFF06C755),
+          foregroundColor: Colors.white,
+        ),
+        const SizedBox(width: AppSpacing.lg),
+        _ActionIcon(
           icon: Icons.save_alt,
           label: '画像を保存',
           isLoading: isSaving,
@@ -303,17 +364,19 @@ class _ActionBar extends StatelessWidget {
 
 class _ActionIcon extends StatelessWidget {
   const _ActionIcon({
-    required this.icon,
     required this.label,
     required this.isLoading,
     required this.onPressed,
     required this.foregroundColor,
+    this.icon,
+    this.iconWidget,
     this.backgroundColor,
     this.gradient,
     this.iconSize,
   });
 
-  final IconData icon;
+  final IconData? icon;
+  final Widget? iconWidget;
   final String label;
   final bool isLoading;
   final VoidCallback? onPressed;
@@ -354,11 +417,12 @@ class _ActionIcon extends StatelessWidget {
                           color: foregroundColor,
                         ),
                       )
-                    : Icon(
-                        icon,
-                        size: iconSize ?? _defaultIconSize,
-                        color: foregroundColor,
-                      ),
+                    : iconWidget ??
+                        Icon(
+                          icon,
+                          size: iconSize ?? _defaultIconSize,
+                          color: foregroundColor,
+                        ),
               ),
             ),
             const SizedBox(height: AppSpacing.xs),

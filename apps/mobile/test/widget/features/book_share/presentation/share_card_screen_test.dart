@@ -62,7 +62,7 @@ void main() {
       expect(find.text('テスト書籍'), findsOneWidget);
     });
 
-    testWidgets('ストーリーズ・保存・さらに見るの3ボタンが表示される', (tester) async {
+    testWidgets('ストーリーズ・LINE・保存・さらに見るの4ボタンが表示される', (tester) async {
       tester.view.physicalSize = largeScreen;
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
@@ -72,6 +72,7 @@ void main() {
       await openBottomSheet(tester);
 
       expect(find.text('ストーリーズ'), findsOneWidget);
+      expect(find.text('LINE'), findsOneWidget);
       expect(find.text('画像を保存'), findsOneWidget);
       expect(find.text('さらに見る'), findsOneWidget);
     });

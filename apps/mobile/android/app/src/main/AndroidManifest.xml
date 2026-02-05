@@ -60,5 +60,6 @@
             <action android:name="com.instagram.share.ADD_TO_STORY"/>
             <data android:mimeType="image/*"/>
         </intent>
+        <package android:name="jp.naver.line.android"/>
     </queries>
 </manifest>
