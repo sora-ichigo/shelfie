@@ -47,9 +47,18 @@
 		<string>本のバーコードスキャンやプロフィール画像撮影のためにカメラを使用します</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>プロフィール画像を設定するために写真ライブラリにアクセスします</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>読了カード画像をフォトライブラリに保存するために使用します</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>instagram-stories</string>
+			<string>line</string>
+		</array>
+		<key>FacebookAppID</key>
+		<string>1851655515480002</string>
 	</dict>
 </plist>

@@ -31,6 +31,7 @@ import 'package:shelfie/features/book_list/presentation/widgets/list_selector_mo
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
+import 'package:shelfie/features/book_share/presentation/share_card_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 本詳細画面
@@ -79,7 +80,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        actions: [_buildMoreMenu()],
+        actions: [
+          _buildShareButton(),
+          _buildMoreMenu(),
+        ],
       ),
       body: state.when(
         data: (bookDetail) => _buildContent(bookDetail),
@@ -210,6 +214,28 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     );
   }
 
+  Widget _buildShareButton() {
+    final shelfEntry = ref.watch(
+      shelfStateProvider.select((s) => s[widget.bookId]),
+    );
+    if (shelfEntry == null) {
+      return const SizedBox.shrink();
+    }
+
+    return IconButton(
+      icon: const Icon(Icons.share),
+      onPressed: () => _navigateToShare(),
+    );
+  }
+
+  void _navigateToShare() {
+    showShareCardBottomSheet(
+      context: context,
+      externalId: widget.bookId,
+      accentColor: _gradientColor,
+    );
+  }
+
   Widget _buildMoreMenu() {
     return IconButton(
       icon: const Icon(Icons.more_vert),
@@ -314,7 +340,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     }, (_) {});
   }
 
-  void _onStatusTap() {
+  Future<void> _onStatusTap() async {
     if (_isGuest) {
       showGuestLoginSnackBar(context);
       return;
@@ -322,12 +348,26 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
     if (shelfEntry == null) return;
 
-    showReadingStatusModal(
+    final previousStatus = shelfEntry.readingStatus;
+
+    final newStatus = await showReadingStatusModal(
       context: context,
       currentStatus: shelfEntry.readingStatus,
       userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );
+
+    if (!mounted) return;
+    if (newStatus == ReadingStatus.completed &&
+        previousStatus != ReadingStatus.completed) {
+      AdaptiveSnackBar.show(
+        context,
+        message: '読了おめでとうございます！シェアしませんか？',
+        type: AdaptiveSnackBarType.success,
+        action: 'シェア',
+        onActionPressed: _navigateToShare,
+      );
+    }
   }
 
   void _onNoteTap() {

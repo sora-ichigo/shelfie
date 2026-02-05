@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'book_detail_notifier.dart';
+part of 'share_card_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookDetailNotifierHash() =>
-    r'7fe4346f88615518242b67912d774bd5448f7ba2';
+String _$shareCardNotifierHash() => r'0d43484d7fed82a5db635edf96c0f6f5af1a0436';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,36 +29,36 @@ class _SystemHash {
   }
 }
 
-abstract class _$BookDetailNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<BookDetail?> {
+abstract class _$ShareCardNotifier
+    extends BuildlessAutoDisposeNotifier<ShareCardState> {
   late final String externalId;
 
-  FutureOr<BookDetail?> build(
+  ShareCardState build(
     String externalId,
   );
 }
 
-/// See also [BookDetailNotifier].
-@ProviderFor(BookDetailNotifier)
-const bookDetailNotifierProvider = BookDetailNotifierFamily();
+/// See also [ShareCardNotifier].
+@ProviderFor(ShareCardNotifier)
+const shareCardNotifierProvider = ShareCardNotifierFamily();
 
-/// See also [BookDetailNotifier].
-class BookDetailNotifierFamily extends Family<AsyncValue<BookDetail?>> {
-  /// See also [BookDetailNotifier].
-  const BookDetailNotifierFamily();
+/// See also [ShareCardNotifier].
+class ShareCardNotifierFamily extends Family<ShareCardState> {
+  /// See also [ShareCardNotifier].
+  const ShareCardNotifierFamily();
 
-  /// See also [BookDetailNotifier].
-  BookDetailNotifierProvider call(
+  /// See also [ShareCardNotifier].
+  ShareCardNotifierProvider call(
     String externalId,
   ) {
-    return BookDetailNotifierProvider(
+    return ShareCardNotifierProvider(
       externalId,
     );
   }
 
   @override
-  BookDetailNotifierProvider getProviderOverride(
-    covariant BookDetailNotifierProvider provider,
+  ShareCardNotifierProvider getProviderOverride(
+    covariant ShareCardNotifierProvider provider,
   ) {
     return call(
       provider.externalId,
@@ -78,30 +77,30 @@ class BookDetailNotifierFamily extends Family<AsyncValue<BookDetail?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'bookDetailNotifierProvider';
+  String? get name => r'shareCardNotifierProvider';
 }
 
-/// See also [BookDetailNotifier].
-class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    BookDetailNotifier, BookDetail?> {
-  /// See also [BookDetailNotifier].
-  BookDetailNotifierProvider(
+/// See also [ShareCardNotifier].
+class ShareCardNotifierProvider
+    extends AutoDisposeNotifierProviderImpl<ShareCardNotifier, ShareCardState> {
+  /// See also [ShareCardNotifier].
+  ShareCardNotifierProvider(
     String externalId,
   ) : this._internal(
-          () => BookDetailNotifier()..externalId = externalId,
-          from: bookDetailNotifierProvider,
-          name: r'bookDetailNotifierProvider',
+          () => ShareCardNotifier()..externalId = externalId,
+          from: shareCardNotifierProvider,
+          name: r'shareCardNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$bookDetailNotifierHash,
-          dependencies: BookDetailNotifierFamily._dependencies,
+                  : _$shareCardNotifierHash,
+          dependencies: ShareCardNotifierFamily._dependencies,
           allTransitiveDependencies:
-              BookDetailNotifierFamily._allTransitiveDependencies,
+              ShareCardNotifierFamily._allTransitiveDependencies,
           externalId: externalId,
         );
 
-  BookDetailNotifierProvider._internal(
+  ShareCardNotifierProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -114,8 +113,8 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   final String externalId;
 
   @override
-  FutureOr<BookDetail?> runNotifierBuild(
-    covariant BookDetailNotifier notifier,
+  ShareCardState runNotifierBuild(
+    covariant ShareCardNotifier notifier,
   ) {
     return notifier.build(
       externalId,
@@ -123,10 +122,10 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(BookDetailNotifier Function() create) {
+  Override overrideWith(ShareCardNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: BookDetailNotifierProvider._internal(
+      override: ShareCardNotifierProvider._internal(
         () => create()..externalId = externalId,
         from: from,
         name: null,
@@ -139,15 +138,14 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<BookDetailNotifier, BookDetail?>
+  AutoDisposeNotifierProviderElement<ShareCardNotifier, ShareCardState>
       createElement() {
-    return _BookDetailNotifierProviderElement(this);
+    return _ShareCardNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is BookDetailNotifierProvider &&
-        other.externalId == externalId;
+    return other is ShareCardNotifierProvider && other.externalId == externalId;
   }
 
   @override
@@ -159,19 +157,18 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
-mixin BookDetailNotifierRef
-    on AutoDisposeAsyncNotifierProviderRef<BookDetail?> {
+mixin ShareCardNotifierRef on AutoDisposeNotifierProviderRef<ShareCardState> {
   /// The parameter `externalId` of this provider.
   String get externalId;
 }
 
-class _BookDetailNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<BookDetailNotifier,
-        BookDetail?> with BookDetailNotifierRef {
-  _BookDetailNotifierProviderElement(super.provider);
+class _ShareCardNotifierProviderElement
+    extends AutoDisposeNotifierProviderElement<ShareCardNotifier,
+        ShareCardState> with ShareCardNotifierRef {
+  _ShareCardNotifierProviderElement(super.provider);
 
   @override
-  String get externalId => (origin as BookDetailNotifierProvider).externalId;
+  String get externalId => (origin as ShareCardNotifierProvider).externalId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

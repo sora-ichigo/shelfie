@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
-
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';

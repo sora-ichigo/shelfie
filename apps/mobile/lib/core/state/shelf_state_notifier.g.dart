@@ -6,7 +6,7 @@ part of 'shelf_state_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shelfStateHash() => r'8592559d3967f55bdcfa0a04352adb0a0814d554';
+String _$shelfStateHash() => r'acddf8760e8c6e632f6bafaacfad4f3beb405aca';
 
 /// ユーザーの本棚にある本の状態を管理する（SSOT）
 ///
