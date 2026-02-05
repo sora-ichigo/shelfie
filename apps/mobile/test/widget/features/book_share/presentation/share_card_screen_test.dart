@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_share/presentation/share_card_screen.dart';
 
 void main() {
@@ -18,7 +19,10 @@ void main() {
     );
   }
 
-  Widget buildTestWidget({required BookDetail bookDetail}) {
+  Widget buildTestWidget({
+    required BookDetail bookDetail,
+    ReadingStatus readingStatus = ReadingStatus.completed,
+  }) {
     return ProviderScope(
       overrides: [
         bookDetailNotifierProvider(externalId)
@@ -33,6 +37,7 @@ void main() {
                 context: context,
                 externalId: externalId,
                 accentColor: const Color(0xFF017BC8),
+                readingStatus: readingStatus,
               ),
               child: const Text('Open'),
             ),
@@ -60,6 +65,66 @@ void main() {
       await openBottomSheet(tester);
 
       expect(find.text('テスト書籍'), findsOneWidget);
+    });
+
+    testWidgets('読了状態では「読んだ本をシェアしよう」と表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget(
+        bookDetail: createBookDetail(),
+        readingStatus: ReadingStatus.completed,
+      ));
+      await openBottomSheet(tester);
+
+      expect(find.text('読んだ本をシェアしよう'), findsOneWidget);
+    });
+
+    testWidgets('読書中状態では「読んでいる本をシェアしよう」と表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget(
+        bookDetail: createBookDetail(),
+        readingStatus: ReadingStatus.reading,
+      ));
+      await openBottomSheet(tester);
+
+      expect(find.text('読んでいる本をシェアしよう'), findsOneWidget);
+    });
+
+    testWidgets('積読状態では「積読をシェアしよう」と表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget(
+        bookDetail: createBookDetail(),
+        readingStatus: ReadingStatus.backlog,
+      ));
+      await openBottomSheet(tester);
+
+      expect(find.text('積読をシェアしよう'), findsOneWidget);
+    });
+
+    testWidgets('気になる状態では「気になる本をシェアしよう」と表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget(
+        bookDetail: createBookDetail(),
+        readingStatus: ReadingStatus.interested,
+      ));
+      await openBottomSheet(tester);
+
+      expect(find.text('気になる本をシェアしよう'), findsOneWidget);
     });
 
     testWidgets('ストーリーズ・LINE・保存・さらに見るの4ボタンが表示される', (tester) async {

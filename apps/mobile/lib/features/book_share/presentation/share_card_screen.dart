@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
 import 'package:shelfie/features/book_share/infrastructure/gallery_save_service.dart';
 import 'package:shelfie/features/book_share/infrastructure/instagram_story_service.dart';
@@ -17,6 +18,7 @@ import 'package:shelfie/features/book_share/presentation/widgets/share_card_widg
 Future<void> showShareCardBottomSheet({
   required BuildContext context,
   required String externalId,
+  required ReadingStatus readingStatus,
   Color? accentColor,
 }) {
   return showModalBottomSheet<void>(
@@ -27,15 +29,23 @@ Future<void> showShareCardBottomSheet({
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
-    builder: (context) =>
-        _ShareCardBottomSheet(externalId: externalId, accentColor: accentColor),
+    builder: (context) => _ShareCardBottomSheet(
+      externalId: externalId,
+      accentColor: accentColor,
+      readingStatus: readingStatus,
+    ),
   );
 }
 
 class _ShareCardBottomSheet extends ConsumerStatefulWidget {
-  const _ShareCardBottomSheet({required this.externalId, this.accentColor});
+  const _ShareCardBottomSheet({
+    required this.externalId,
+    required this.readingStatus,
+    this.accentColor,
+  });
 
   final String externalId;
+  final ReadingStatus readingStatus;
   final Color? accentColor;
 
   @override
@@ -66,14 +76,34 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildDragHandle(theme),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              _shareTitle(widget.readingStatus),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: AppSpacing.lg),
             FractionallySizedBox(
               widthFactor: 0.75,
-              child: FittedBox(
-                child: ShareCardWidget(
-                  data: state.cardData,
-                  boundaryKey: _boundaryKey,
-                  accentColor: widget.accentColor,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Stack(
+                  children: [
+                    FittedBox(
+                      child: ShareCardWidget(
+                        data: state.cardData,
+                        boundaryKey: _boundaryKey,
+                        accentColor: widget.accentColor,
+                      ),
+                    ),
+                    if (_isProcessing)
+                      Positioned.fill(
+                        child: ColoredBox(
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -93,6 +123,19 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
         ),
       ),
     );
+  }
+
+  String _shareTitle(ReadingStatus status) {
+    switch (status) {
+      case ReadingStatus.completed:
+        return '読んだ本をシェアしよう';
+      case ReadingStatus.reading:
+        return '読んでいる本をシェアしよう';
+      case ReadingStatus.backlog:
+        return '積読をシェアしよう';
+      case ReadingStatus.interested:
+        return '気になる本をシェアしよう';
+    }
   }
 
   Widget _buildDragHandle(ThemeData theme) {
