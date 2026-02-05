@@ -26,13 +26,13 @@ enum ReadingStatusModalMode {
 /// [currentStatus] - 現在の読書状態
 /// [userBookId] - ユーザー本ID
 /// [externalId] - 外部ID（BookDetailNotifier のパラメータ）
-Future<void> showReadingStatusModal({
+Future<ReadingStatus?> showReadingStatusModal({
   required BuildContext context,
   required ReadingStatus currentStatus,
   required int userBookId,
   required String externalId,
 }) async {
-  await showModalBottomSheet<void>(
+  return showModalBottomSheet<ReadingStatus>(
     context: context,
     isScrollControlled: true,
     builder: (context) => _ReadingStatusModalContent(
@@ -390,7 +390,7 @@ class _ReadingStatusModalContentState
     }
 
     if (mounted) {
-      Navigator.pop(context);
+      Navigator.pop(context, _selectedStatus);
     }
   }
 }
