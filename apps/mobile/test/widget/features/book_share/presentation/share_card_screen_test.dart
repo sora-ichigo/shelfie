@@ -48,22 +48,40 @@ void main() {
   }
 
   group('showShareCardBottomSheet', () {
+    const largeScreen = Size(640, 1200);
+
     testWidgets('カードプレビューが表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       await tester.pumpWidget(buildTestWidget(bookDetail: createBookDetail()));
       await openBottomSheet(tester);
 
       expect(find.text('テスト書籍'), findsOneWidget);
     });
 
-    testWidgets('シェアボタンと保存ボタンが表示される', (tester) async {
+    testWidgets('ストーリーズ・その他・保存の3ボタンが表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       await tester.pumpWidget(buildTestWidget(bookDetail: createBookDetail()));
       await openBottomSheet(tester);
 
-      expect(find.text('シェア'), findsOneWidget);
+      expect(find.text('ストーリーズ'), findsOneWidget);
+      expect(find.text('その他'), findsOneWidget);
       expect(find.text('保存'), findsOneWidget);
     });
 
     testWidgets('ドラッグハンドルが表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       await tester.pumpWidget(buildTestWidget(bookDetail: createBookDetail()));
       await openBottomSheet(tester);
 

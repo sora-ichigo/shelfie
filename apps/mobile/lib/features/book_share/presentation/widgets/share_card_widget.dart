@@ -85,7 +85,7 @@ class _CardContent extends StatelessWidget {
                 color: appColors.foreground,
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             Align(
               alignment: Alignment.centerRight,
               child: Row(

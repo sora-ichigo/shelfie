@@ -53,5 +53,11 @@
 		<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>instagram-stories</string>
+		</array>
+		<key>FacebookAppID</key>
+		<string>1851655515480002</string>
 	</dict>
 </plist>
