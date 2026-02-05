@@ -218,7 +218,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[widget.bookId]),
     );
-    if (shelfEntry == null || !shelfEntry.isCompleted) {
+    if (shelfEntry == null) {
       return const SizedBox.shrink();
     }
 
