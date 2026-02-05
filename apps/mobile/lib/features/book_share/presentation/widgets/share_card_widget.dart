@@ -51,7 +51,7 @@ class _CardContent extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: AppSpacing.all(32),
+        padding: AppSpacing.all(48),
         child: Column(
           children: [
             Expanded(
