@@ -6,7 +6,7 @@ part of 'share_card_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$shareCardNotifierHash() => r'7308f63fb3da7f198693563d9ce1fb40373aa23c';
+String _$shareCardNotifierHash() => r'0d43484d7fed82a5db635edf96c0f6f5af1a0436';
 
 /// Copied from Dart SDK
 class _SystemHash {

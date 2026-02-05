@@ -4,24 +4,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
-import 'package:shelfie/features/book_share/domain/share_card_level.dart';
 import 'package:shelfie/features/book_share/infrastructure/gallery_save_service.dart';
 import 'package:shelfie/features/book_share/infrastructure/share_image_service.dart';
 import 'package:shelfie/features/book_share/presentation/widgets/share_card_widget.dart';
 
-class ShareCardScreen extends ConsumerStatefulWidget {
-  const ShareCardScreen({
+Future<void> showShareCardBottomSheet({
+  required BuildContext context,
+  required String externalId,
+  Color? accentColor,
+}) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    useRootNavigator: true,
+    backgroundColor: Theme.of(context).colorScheme.surface,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) => _ShareCardBottomSheet(
+      externalId: externalId,
+      accentColor: accentColor,
+    ),
+  );
+}
+
+class _ShareCardBottomSheet extends ConsumerStatefulWidget {
+  const _ShareCardBottomSheet({
     required this.externalId,
-    super.key,
+    this.accentColor,
   });
 
   final String externalId;
+  final Color? accentColor;
 
   @override
-  ConsumerState<ShareCardScreen> createState() => _ShareCardScreenState();
+  ConsumerState<_ShareCardBottomSheet> createState() =>
+      _ShareCardBottomSheetState();
 }
 
-class _ShareCardScreenState extends ConsumerState<ShareCardScreen> {
+class _ShareCardBottomSheetState
+    extends ConsumerState<_ShareCardBottomSheet> {
   final _boundaryKey = GlobalKey();
   bool _isSharing = false;
   bool _isSaving = false;
@@ -34,42 +56,25 @@ class _ShareCardScreenState extends ConsumerState<ShareCardScreen> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: _isProcessing ? null : () => Navigator.of(context).pop(),
-        ),
-        title: const Text('シェアカード'),
-      ),
-      body: SafeArea(
+    return SafeArea(
+      child: Padding(
+        padding: AppSpacing.all(AppSpacing.lg),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: AppSpacing.horizontal(AppSpacing.xl),
-                  child: FittedBox(
-                    child: ShareCardWidget(
-                      level: state.currentLevel,
-                      data: state.cardData,
-                      boundaryKey: _boundaryKey,
-                    ),
-                  ),
+            _buildDragHandle(theme),
+            const SizedBox(height: AppSpacing.lg),
+            Padding(
+              padding: AppSpacing.horizontal(AppSpacing.md),
+              child: FittedBox(
+                child: ShareCardWidget(
+                  data: state.cardData,
+                  boundaryKey: _boundaryKey,
+                  accentColor: widget.accentColor,
                 ),
               ),
             ),
-            if (state.availableLevels.length > 1) ...[
-              _CardLevelSelector(
-                availableLevels: state.availableLevels,
-                currentLevel: state.currentLevel,
-                onLevelChanged: _isProcessing ? null : _onLevelChanged,
-                appColors: appColors,
-              ),
-              const SizedBox(height: AppSpacing.md),
-            ],
+            const SizedBox(height: AppSpacing.lg),
             _ActionBar(
               isSharing: _isSharing,
               isSaving: _isSaving,
@@ -77,17 +82,21 @@ class _ShareCardScreenState extends ConsumerState<ShareCardScreen> {
               onSave: _isProcessing ? null : _onSave,
               appColors: appColors,
             ),
-            const SizedBox(height: AppSpacing.md),
           ],
         ),
       ),
     );
   }
 
-  void _onLevelChanged(ShareCardLevel level) {
-    ref
-        .read(shareCardNotifierProvider(widget.externalId).notifier)
-        .changeLevel(level);
+  Widget _buildDragHandle(ThemeData theme) {
+    return Container(
+      width: 40,
+      height: 4,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
   }
 
   Future<void> _onShare() async {
@@ -169,55 +178,6 @@ class _ShareCardScreenState extends ConsumerState<ShareCardScreen> {
   }
 }
 
-class _CardLevelSelector extends StatelessWidget {
-  const _CardLevelSelector({
-    required this.availableLevels,
-    required this.currentLevel,
-    required this.onLevelChanged,
-    required this.appColors,
-  });
-
-  final List<ShareCardLevel> availableLevels;
-  final ShareCardLevel currentLevel;
-  final void Function(ShareCardLevel)? onLevelChanged;
-  final AppColors appColors;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: AppSpacing.horizontal(AppSpacing.lg),
-      child: SegmentedButton<ShareCardLevel>(
-        segments: availableLevels
-            .map(
-              (level) => ButtonSegment<ShareCardLevel>(
-                value: level,
-                label: Text(level.displayName),
-              ),
-            )
-            .toList(),
-        selected: {currentLevel},
-        onSelectionChanged: onLevelChanged != null
-            ? (selected) => onLevelChanged!(selected.first)
-            : null,
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return appColors.accent.withValues(alpha: 0.3);
-            }
-            return appColors.surfaceCard;
-          }),
-          foregroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return appColors.foreground;
-            }
-            return appColors.foregroundMuted;
-          }),
-        ),
-      ),
-    );
-  }
-}
-
 class _ActionBar extends StatelessWidget {
   const _ActionBar({
     required this.isSharing,
@@ -235,33 +195,30 @@ class _ActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: AppSpacing.horizontal(AppSpacing.lg),
-      child: Row(
-        children: [
-          Expanded(
-            child: _ActionButton(
-              icon: Icons.share,
-              label: 'シェア',
-              isLoading: isSharing,
-              onPressed: onShare,
-              appColors: appColors,
-              isPrimary: true,
-            ),
+    return Row(
+      children: [
+        Expanded(
+          child: _ActionButton(
+            icon: Icons.share,
+            label: 'シェア',
+            isLoading: isSharing,
+            onPressed: onShare,
+            appColors: appColors,
+            isPrimary: true,
           ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: _ActionButton(
-              icon: Icons.save_alt,
-              label: '保存',
-              isLoading: isSaving,
-              onPressed: onSave,
-              appColors: appColors,
-              isPrimary: false,
-            ),
+        ),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(
+          child: _ActionButton(
+            icon: Icons.save_alt,
+            label: '保存',
+            isLoading: isSaving,
+            onPressed: onSave,
+            appColors: appColors,
+            isPrimary: false,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

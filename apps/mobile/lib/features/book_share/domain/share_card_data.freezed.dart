@@ -25,21 +25,6 @@ mixin _$ShareCardData {
   /// 表紙画像 URL（null の場合はプレースホルダー）
   String? get thumbnailUrl => throw _privateConstructorUsedError;
 
-  /// ユーザー名
-  String? get userName => throw _privateConstructorUsedError;
-
-  /// ユーザーアバター URL
-  String? get avatarUrl => throw _privateConstructorUsedError;
-
-  /// 星評価（1-5、null は未設定）
-  int? get rating => throw _privateConstructorUsedError;
-
-  /// 読了日
-  DateTime? get completedAt => throw _privateConstructorUsedError;
-
-  /// 読書メモ
-  String? get note => throw _privateConstructorUsedError;
-
   @JsonKey(ignore: true)
   $ShareCardDataCopyWith<ShareCardData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -51,15 +36,7 @@ abstract class $ShareCardDataCopyWith<$Res> {
           ShareCardData value, $Res Function(ShareCardData) then) =
       _$ShareCardDataCopyWithImpl<$Res, ShareCardData>;
   @useResult
-  $Res call(
-      {String title,
-      List<String> authors,
-      String? thumbnailUrl,
-      String? userName,
-      String? avatarUrl,
-      int? rating,
-      DateTime? completedAt,
-      String? note});
+  $Res call({String title, List<String> authors, String? thumbnailUrl});
 }
 
 /// @nodoc
@@ -78,11 +55,6 @@ class _$ShareCardDataCopyWithImpl<$Res, $Val extends ShareCardData>
     Object? title = null,
     Object? authors = null,
     Object? thumbnailUrl = freezed,
-    Object? userName = freezed,
-    Object? avatarUrl = freezed,
-    Object? rating = freezed,
-    Object? completedAt = freezed,
-    Object? note = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -97,26 +69,6 @@ class _$ShareCardDataCopyWithImpl<$Res, $Val extends ShareCardData>
           ? _value.thumbnailUrl
           : thumbnailUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      rating: freezed == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
-      completedAt: freezed == completedAt
-          ? _value.completedAt
-          : completedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      note: freezed == note
-          ? _value.note
-          : note // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -129,15 +81,7 @@ abstract class _$$ShareCardDataImplCopyWith<$Res>
       __$$ShareCardDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String title,
-      List<String> authors,
-      String? thumbnailUrl,
-      String? userName,
-      String? avatarUrl,
-      int? rating,
-      DateTime? completedAt,
-      String? note});
+  $Res call({String title, List<String> authors, String? thumbnailUrl});
 }
 
 /// @nodoc
@@ -154,11 +98,6 @@ class __$$ShareCardDataImplCopyWithImpl<$Res>
     Object? title = null,
     Object? authors = null,
     Object? thumbnailUrl = freezed,
-    Object? userName = freezed,
-    Object? avatarUrl = freezed,
-    Object? rating = freezed,
-    Object? completedAt = freezed,
-    Object? note = freezed,
   }) {
     return _then(_$ShareCardDataImpl(
       title: null == title
@@ -173,26 +112,6 @@ class __$$ShareCardDataImplCopyWithImpl<$Res>
           ? _value.thumbnailUrl
           : thumbnailUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      userName: freezed == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      rating: freezed == rating
-          ? _value.rating
-          : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
-      completedAt: freezed == completedAt
-          ? _value.completedAt
-          : completedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      note: freezed == note
-          ? _value.note
-          : note // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -203,12 +122,7 @@ class _$ShareCardDataImpl implements _ShareCardData {
   const _$ShareCardDataImpl(
       {required this.title,
       required final List<String> authors,
-      this.thumbnailUrl,
-      this.userName,
-      this.avatarUrl,
-      this.rating,
-      this.completedAt,
-      this.note})
+      this.thumbnailUrl})
       : _authors = authors;
 
   /// 書籍タイトル
@@ -230,29 +144,9 @@ class _$ShareCardDataImpl implements _ShareCardData {
   @override
   final String? thumbnailUrl;
 
-  /// ユーザー名
-  @override
-  final String? userName;
-
-  /// ユーザーアバター URL
-  @override
-  final String? avatarUrl;
-
-  /// 星評価（1-5、null は未設定）
-  @override
-  final int? rating;
-
-  /// 読了日
-  @override
-  final DateTime? completedAt;
-
-  /// 読書メモ
-  @override
-  final String? note;
-
   @override
   String toString() {
-    return 'ShareCardData(title: $title, authors: $authors, thumbnailUrl: $thumbnailUrl, userName: $userName, avatarUrl: $avatarUrl, rating: $rating, completedAt: $completedAt, note: $note)';
+    return 'ShareCardData(title: $title, authors: $authors, thumbnailUrl: $thumbnailUrl)';
   }
 
   @override
@@ -263,28 +157,12 @@ class _$ShareCardDataImpl implements _ShareCardData {
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
             (identical(other.thumbnailUrl, thumbnailUrl) ||
-                other.thumbnailUrl == thumbnailUrl) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
-            (identical(other.avatarUrl, avatarUrl) ||
-                other.avatarUrl == avatarUrl) &&
-            (identical(other.rating, rating) || other.rating == rating) &&
-            (identical(other.completedAt, completedAt) ||
-                other.completedAt == completedAt) &&
-            (identical(other.note, note) || other.note == note));
+                other.thumbnailUrl == thumbnailUrl));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      title,
-      const DeepCollectionEquality().hash(_authors),
-      thumbnailUrl,
-      userName,
-      avatarUrl,
-      rating,
-      completedAt,
-      note);
+  int get hashCode => Object.hash(runtimeType, title,
+      const DeepCollectionEquality().hash(_authors), thumbnailUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -297,12 +175,7 @@ abstract class _ShareCardData implements ShareCardData {
   const factory _ShareCardData(
       {required final String title,
       required final List<String> authors,
-      final String? thumbnailUrl,
-      final String? userName,
-      final String? avatarUrl,
-      final int? rating,
-      final DateTime? completedAt,
-      final String? note}) = _$ShareCardDataImpl;
+      final String? thumbnailUrl}) = _$ShareCardDataImpl;
 
   @override
 
@@ -316,26 +189,6 @@ abstract class _ShareCardData implements ShareCardData {
 
   /// 表紙画像 URL（null の場合はプレースホルダー）
   String? get thumbnailUrl;
-  @override
-
-  /// ユーザー名
-  String? get userName;
-  @override
-
-  /// ユーザーアバター URL
-  String? get avatarUrl;
-  @override
-
-  /// 星評価（1-5、null は未設定）
-  int? get rating;
-  @override
-
-  /// 読了日
-  DateTime? get completedAt;
-  @override
-
-  /// 読書メモ
-  String? get note;
   @override
   @JsonKey(ignore: true)
   _$$ShareCardDataImplCopyWith<_$ShareCardDataImpl> get copyWith =>

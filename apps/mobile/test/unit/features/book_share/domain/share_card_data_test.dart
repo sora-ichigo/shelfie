@@ -13,34 +13,18 @@ void main() {
         expect(data.title, 'Flutter in Action');
         expect(data.authors, ['Eric Windmill']);
         expect(data.thumbnailUrl, isNull);
-        expect(data.userName, isNull);
-        expect(data.avatarUrl, isNull);
-        expect(data.rating, isNull);
-        expect(data.completedAt, isNull);
-        expect(data.note, isNull);
       });
 
       test('should create with all fields', () {
-        final completedAt = DateTime(2026, 1, 15);
-        final data = ShareCardData(
+        const data = ShareCardData(
           title: 'Flutter in Action',
           authors: ['Eric Windmill'],
           thumbnailUrl: 'https://example.com/cover.jpg',
-          userName: 'testuser',
-          avatarUrl: 'https://example.com/avatar.jpg',
-          rating: 5,
-          completedAt: completedAt,
-          note: 'Great book!',
         );
 
         expect(data.title, 'Flutter in Action');
         expect(data.authors, ['Eric Windmill']);
         expect(data.thumbnailUrl, 'https://example.com/cover.jpg');
-        expect(data.userName, 'testuser');
-        expect(data.avatarUrl, 'https://example.com/avatar.jpg');
-        expect(data.rating, 5);
-        expect(data.completedAt, completedAt);
-        expect(data.note, 'Great book!');
       });
 
       test('should allow empty authors list', () {
@@ -67,12 +51,12 @@ void main() {
         const data1 = ShareCardData(
           title: 'Book',
           authors: ['Author'],
-          rating: 4,
+          thumbnailUrl: 'https://example.com/cover.jpg',
         );
         const data2 = ShareCardData(
           title: 'Book',
           authors: ['Author'],
-          rating: 4,
+          thumbnailUrl: 'https://example.com/cover.jpg',
         );
 
         expect(data1, equals(data2));
@@ -93,28 +77,19 @@ void main() {
     });
 
     group('copyWith', () {
-      test('should copy with new rating', () {
+      test('should copy with new thumbnailUrl', () {
         const original = ShareCardData(
           title: 'Book',
           authors: ['Author'],
         );
 
-        final copied = original.copyWith(rating: 5);
+        final copied = original.copyWith(
+          thumbnailUrl: 'https://example.com/cover.jpg',
+        );
 
         expect(copied.title, 'Book');
         expect(copied.authors, ['Author']);
-        expect(copied.rating, 5);
-      });
-
-      test('should copy with new note', () {
-        const original = ShareCardData(
-          title: 'Book',
-          authors: ['Author'],
-        );
-
-        final copied = original.copyWith(note: 'A note');
-
-        expect(copied.note, 'A note');
+        expect(copied.thumbnailUrl, 'https://example.com/cover.jpg');
       });
     });
   });

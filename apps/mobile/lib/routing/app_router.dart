@@ -24,7 +24,6 @@ import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 import 'package:shelfie/features/book_search/presentation/search_screen.dart';
-import 'package:shelfie/features/book_share/presentation/share_card_screen.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
@@ -82,9 +81,6 @@ abstract final class AppRoutes {
   /// 検索画面（クエリパラメータ付き）
   static String searchWithQuery({required String query}) =>
       '$searchTab?q=${Uri.encodeComponent(query)}';
-
-  /// シェアカード画面パスを生成
-  static String bookShare({required String bookId}) => '/books/$bookId/share';
 
   /// リスト詳細画面パスを生成
   static String bookListDetail({required int listId}) => '/lists/$listId';
@@ -386,17 +382,6 @@ List<RouteBase> _buildRoutes() {
           child: BookDetailScreen(bookId: params.bookId, source: source),
         );
       },
-      routes: [
-        GoRoute(
-          path: 'share',
-          pageBuilder: (context, state) {
-            final bookId = state.pathParameters['bookId'] ?? '';
-            return CupertinoPage(
-              child: ShareCardScreen(externalId: bookId),
-            );
-          },
-        ),
-      ],
     ),
 
     // メインシェル（タブナビゲーション）

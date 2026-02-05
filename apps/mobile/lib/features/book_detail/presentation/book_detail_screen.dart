@@ -229,10 +229,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   }
 
   void _navigateToShare() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => ShareCardScreen(externalId: widget.bookId),
-      ),
+    showShareCardBottomSheet(
+      context: context,
+      externalId: widget.bookId,
+      accentColor: _gradientColor,
     );
   }
 
