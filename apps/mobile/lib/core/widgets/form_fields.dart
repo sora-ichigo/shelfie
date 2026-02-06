@@ -29,7 +29,7 @@ InputDecoration _buildInputDecoration({
       borderSide: BorderSide(
         color: errorText != null
             ? theme.colorScheme.error
-            : (colors?.accent ?? theme.colorScheme.primary),
+            : (colors?.primary ?? theme.colorScheme.primary),
         width: 2,
       ),
     ),
@@ -100,7 +100,7 @@ class LabeledTextField extends StatelessWidget {
           style: enabled
               ? null
               : theme.textTheme.bodyLarge?.copyWith(
-                  color: colors?.foregroundMuted,
+                  color: colors?.textSecondary,
                 ),
           decoration: _buildInputDecoration(
             theme: theme,
@@ -239,7 +239,7 @@ class PasswordField extends StatelessWidget {
             suffixIcon: IconButton(
               icon: Icon(
                 isObscured ? Icons.visibility_off : Icons.visibility,
-                color: colors?.foregroundMuted,
+                color: colors?.textSecondary,
               ),
               onPressed: onToggleVisibility,
             ),

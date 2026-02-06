@@ -98,7 +98,7 @@ class _CreateListButton extends StatelessWidget {
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: appColors.surfaceSubtle,
+          backgroundColor: appColors.surface,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.xl),

@@ -38,7 +38,7 @@ class RegistrationHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: colors?.accent,
+                backgroundColor: colors?.primary,
                 child: Icon(
                   Icons.email_outlined,
                   size: 40,
@@ -56,7 +56,7 @@ class RegistrationHeader extends StatelessWidget {
               Text(
                 'アカウントを作成して始めましょう',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.foregroundMuted,
+                  color: colors?.textSecondary,
                 ),
               ),
               if (onLoginPressed != null) ...[
@@ -64,8 +64,8 @@ class RegistrationHeader extends StatelessWidget {
                 _LoginLink(
                   onTap: onLoginPressed!,
                   textStyle: theme.textTheme.bodyMedium,
-                  mutedColor: colors?.foregroundMuted,
-                  accentColor: colors?.accent,
+                  mutedColor: colors?.textSecondary,
+                  accentColor: colors?.primary,
                 ),
               ],
             ],

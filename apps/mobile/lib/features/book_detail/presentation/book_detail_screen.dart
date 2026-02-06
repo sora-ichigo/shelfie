@@ -613,7 +613,7 @@ class _BookDetailMoreSheet extends ConsumerWidget {
     required bool enabled,
     VoidCallback? onTap,
   }) {
-    final color = enabled ? appColors.foreground : appColors.foregroundMuted;
+    final color = enabled ? appColors.textPrimary : appColors.textSecondary;
 
     return InkWell(
       onTap: onTap,

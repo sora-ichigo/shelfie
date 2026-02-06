@@ -288,10 +288,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
         ),
         TextButton.icon(
           onPressed: _onAddBooksPressed,
-          icon: Icon(Icons.add, color: appColors.accent),
+          icon: Icon(Icons.add, color: appColors.primary),
           label: Text(
             '本を追加',
-            style: TextStyle(color: appColors.accent),
+            style: TextStyle(color: appColors.primary),
           ),
         ),
       ],
@@ -328,7 +328,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       onPressed: _isSaving ? null : _onDelete,
       child: Text(
         'リストを削除',
-        style: TextStyle(color: appColors.error),
+        style: TextStyle(color: appColors.destructive),
       ),
     );
   }
@@ -467,14 +467,14 @@ class _BookSectionEmptyCard extends StatelessWidget {
             child: Icon(
               Icons.add,
               size: 32,
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             'このリストに本を追加しましょう',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -547,7 +547,7 @@ class _SelectedBookListTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -556,7 +556,7 @@ class _SelectedBookListTile extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.close,
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
             onPressed: onRemove,
           ),
@@ -574,12 +574,12 @@ class _CoverPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: appColors.foregroundMuted.withOpacity(0.1),
+      color: appColors.textSecondary.withOpacity(0.1),
       child: Center(
         child: Icon(
           Icons.book,
           size: 20,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );

@@ -99,7 +99,7 @@ class _ReadingNoteModalContentState
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: Theme.of(context).extension<AppColors>()!.accent,
+                  color: Theme.of(context).extension<AppColors>()!.primary,
                 ),
               ),
               filled: true,
@@ -161,11 +161,7 @@ class _ReadingNoteModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [appColors.success, appColors.accent],
-          ),
+          color: appColors.primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(

@@ -51,7 +51,7 @@ class _DefaultAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.accent ?? const Color(0xFF4FD1C5),
+      backgroundColor: colors?.primary ?? const Color(0xFF4FD1C5),
       child: Icon(
         Icons.person,
         size: radius,
@@ -76,7 +76,7 @@ class _LoadingAvatar extends StatelessWidget {
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+        color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
       ),
     );
   }

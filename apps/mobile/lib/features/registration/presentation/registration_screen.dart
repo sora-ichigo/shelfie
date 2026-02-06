@@ -131,7 +131,7 @@ class _GuestModeLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.extension<AppColors>();
-    final mutedColor = colors?.foregroundMuted ?? const Color(0xFFA0A0A0);
+    final mutedColor = colors?.textSecondary ?? const Color(0xFFA0A0A0);
 
     return Center(
       child: GestureDetector(

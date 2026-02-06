@@ -295,7 +295,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.captionSmall.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -308,12 +308,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: Colors.black54,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -326,7 +326,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -412,7 +412,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -437,7 +437,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.accentSecondary
+                      ? appColors.star
                       : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
                 ),
               ),
@@ -495,11 +495,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             height: 48,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [appColors.success, appColors.accent],
-                ),
+                color: appColors.primary,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
               child: ElevatedButton(

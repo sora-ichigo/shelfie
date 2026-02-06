@@ -78,9 +78,9 @@ class BookCard extends ConsumerWidget {
 
   Widget _buildPlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: Colors.black54,
       child: Center(
-        child: Icon(Icons.book, size: 40, color: appColors.foregroundMuted),
+        child: Icon(Icons.book, size: 40, color: appColors.textSecondary),
       ),
     );
   }
@@ -97,8 +97,8 @@ class BookCard extends ConsumerWidget {
               Icons.star_rounded,
               size: 14,
               color: isFilled
-                  ? appColors.accentSecondary
-                  : appColors.accentSecondary.withValues(alpha: 0.25),
+                  ? appColors.star
+                  : appColors.star.withValues(alpha: 0.25),
             );
           }),
         ),
@@ -121,7 +121,7 @@ class BookCard extends ConsumerWidget {
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: AppTypography.captionSmall.copyWith(
-        color: appColors.foregroundMuted,
+        color: appColors.textSecondary,
       ),
     );
   }

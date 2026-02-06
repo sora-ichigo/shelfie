@@ -30,7 +30,7 @@ class WelcomeBackground extends StatelessWidget {
             ),
           ),
           ColoredBox(
-            color: colors?.overlay ?? const Color(0x99000000),
+            color: Colors.black54,
           ),
         ],
       ),

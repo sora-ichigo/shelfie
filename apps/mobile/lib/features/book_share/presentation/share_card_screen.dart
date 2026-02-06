@@ -346,14 +346,14 @@ class _StyleSelector extends StatelessWidget {
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.card,
           onTap: () => onStyleChanged(ShareCardStyle.card),
-          color: accentColor ?? appColors.surfaceCard,
+          color: accentColor ?? appColors.surface,
           hasInnerCircle: true,
         ),
         const SizedBox(width: AppSpacing.sm),
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.simple,
           onTap: () => onStyleChanged(ShareCardStyle.simple),
-          color: accentColor ?? appColors.surfaceCard,
+          color: accentColor ?? appColors.surface,
         ),
       ],
     );
@@ -473,8 +473,8 @@ class _ActionBar extends StatelessWidget {
           label: '画像を保存',
           isLoading: isSaving,
           onPressed: onSave,
-          backgroundColor: appColors.surfaceCard,
-          foregroundColor: appColors.foreground,
+          backgroundColor: appColors.surface,
+          foregroundColor: appColors.textPrimary,
         ),
         const SizedBox(width: AppSpacing.lg),
         _ActionIcon(
@@ -482,8 +482,8 @@ class _ActionBar extends StatelessWidget {
           label: 'さらに見る',
           isLoading: isSharingOther,
           onPressed: onShareOther,
-          backgroundColor: appColors.surfaceCard,
-          foregroundColor: appColors.foreground,
+          backgroundColor: appColors.surface,
+          foregroundColor: appColors.textPrimary,
         ),
       ],
     );

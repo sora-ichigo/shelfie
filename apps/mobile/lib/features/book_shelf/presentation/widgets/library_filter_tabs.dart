@@ -73,8 +73,8 @@ class _FilterTabButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isSelected
-              ? appColors.chipHighlight
-              : appColors.chipUnselected,
+              ? appColors.primary
+              : appColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.full),
         ),
         child: Text(
@@ -82,8 +82,8 @@ class _FilterTabButton extends StatelessWidget {
           style: theme.textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w400,
             color: isSelected
-                ? appColors.onChipHighlight
-                : appColors.chipHighlight,
+                ? appColors.textPrimary
+                : appColors.primary,
           ),
         ),
       ),

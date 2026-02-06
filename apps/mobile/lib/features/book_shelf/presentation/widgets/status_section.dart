@@ -160,14 +160,14 @@ class _StatusSectionState extends ConsumerState<StatusSection> {
         Text(
           widget.status.displayName,
           style: theme.textTheme.titleMedium?.copyWith(
-            color: appColors.foreground,
+            color: appColors.textPrimary,
           ),
         ),
         const SizedBox(width: AppSpacing.xs),
         Text(
           '$count',
           style: theme.textTheme.titleMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
       ],

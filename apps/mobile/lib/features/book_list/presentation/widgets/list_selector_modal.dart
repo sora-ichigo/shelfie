@@ -86,7 +86,7 @@ class _ListSelectorModalContentState
         padding: AppSpacing.all(AppSpacing.md),
         decoration: BoxDecoration(
           border: Border.all(
-            color: appColors.accent,
+            color: appColors.primary,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
@@ -96,13 +96,13 @@ class _ListSelectorModalContentState
           children: [
             Icon(
               Icons.add,
-              color: appColors.accent,
+              color: appColors.primary,
             ),
             const SizedBox(width: AppSpacing.xs),
             Text(
               '新しいリストを作成',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.accent,
+                color: appColors.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -132,7 +132,7 @@ class _ListSelectorModalContentState
           child: Text(
             failure.userMessage,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.error,
+              color: appColors.destructive,
             ),
           ),
         ),
@@ -155,20 +155,20 @@ class _ListSelectorModalContentState
             Icon(
               Icons.playlist_add,
               size: 48,
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'リストがありません',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.foregroundMuted,
+                color: appColors.textSecondary,
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
               '新しいリストを作成してください',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: appColors.foregroundMuted,
+                color: appColors.textSecondary,
               ),
             ),
           ],
@@ -231,7 +231,7 @@ class _ListItem extends StatelessWidget {
             : Center(
                 child: Icon(
                   Icons.collections_bookmark,
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
               ),
       ),
@@ -246,12 +246,12 @@ class _ListItem extends StatelessWidget {
       subtitle: Text(
         '${list.bookCount}冊',
         style: theme.textTheme.bodySmall?.copyWith(
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
       trailing: Icon(
         Icons.add_circle_outline,
-        color: appColors.accent,
+        color: appColors.primary,
       ),
     );
   }
@@ -261,7 +261,7 @@ class _ListItem extends StatelessWidget {
       color: appColors.surface,
       child: Icon(
         Icons.collections_bookmark,
-        color: appColors.foregroundMuted,
+        color: appColors.textSecondary,
       ),
     );
   }

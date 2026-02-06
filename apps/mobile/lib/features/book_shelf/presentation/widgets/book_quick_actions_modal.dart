@@ -83,7 +83,7 @@ class _BookQuickActionsModalContentState
             const SizedBox(height: AppSpacing.lg),
             _buildRatingSection(theme, appColors, entry),
             const SizedBox(height: AppSpacing.md),
-            Divider(color: appColors.foregroundMuted.withOpacity(0.3)),
+            Divider(color: appColors.textSecondary.withOpacity(0.3)),
             const SizedBox(height: AppSpacing.sm),
             _buildActionList(theme, appColors, entry),
           ],
@@ -154,7 +154,7 @@ class _BookQuickActionsModalContentState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.captionSmall.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -167,12 +167,12 @@ class _BookQuickActionsModalContentState
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: Colors.black54,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -189,7 +189,7 @@ class _BookQuickActionsModalContentState
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -301,7 +301,7 @@ class _BookQuickActionsModalContentState
         Text(
           '評価',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -320,7 +320,7 @@ class _BookQuickActionsModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.accentSecondary
+                      ? appColors.star
                       : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
                 ),
               ),
@@ -396,7 +396,7 @@ class _BookQuickActionsModalContentState
     required VoidCallback onTap,
     bool isDestructive = false,
   }) {
-    final color = isDestructive ? appColors.error : appColors.foreground;
+    final color = isDestructive ? appColors.destructive : appColors.textPrimary;
 
     return InkWell(
       onTap: _isUpdating ? null : onTap,

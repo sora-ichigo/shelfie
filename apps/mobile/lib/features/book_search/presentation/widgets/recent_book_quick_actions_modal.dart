@@ -61,7 +61,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
             const SizedBox(height: AppSpacing.md),
             _buildBookInfo(theme, appColors),
             const SizedBox(height: AppSpacing.lg),
-            Divider(color: appColors.foregroundMuted.withOpacity(0.3)),
+            Divider(color: appColors.textSecondary.withOpacity(0.3)),
             const SizedBox(height: AppSpacing.sm),
             if (isInShelf)
               _buildRemoveAction(context, theme, appColors)
@@ -123,7 +123,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTypography.captionSmall.copyWith(
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
               ),
             ],
@@ -135,12 +135,12 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: Colors.black54,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -167,14 +167,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.add_circle_outline,
-              color: appColors.foreground,
+              color: appColors.textPrimary,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリに追加',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.foreground,
+                color: appColors.textPrimary,
               ),
             ),
           ],
@@ -204,14 +204,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.delete_outline,
-              color: appColors.error,
+              color: appColors.destructive,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリから削除',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.error,
+                color: appColors.destructive,
               ),
             ),
           ],

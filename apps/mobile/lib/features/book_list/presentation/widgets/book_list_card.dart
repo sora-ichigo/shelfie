@@ -21,7 +21,7 @@ class BookListCard extends StatelessWidget {
     final appColors = theme.extension<AppColors>()!;
 
     return Material(
-      color: appColors.surfaceCard,
+      color: appColors.surface,
       borderRadius: BorderRadius.circular(AppRadius.xl),
       child: InkWell(
         onTap: onTap,
@@ -76,7 +76,7 @@ class _CardContent extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -84,7 +84,7 @@ class _CardContent extends StatelessWidget {
           ),
           Icon(
             Icons.chevron_right,
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ],
       ),
@@ -105,7 +105,7 @@ class _CoverPlaceholder extends StatelessWidget {
         child: Icon(
           Icons.collections_bookmark,
           size: 32,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -238,7 +238,7 @@ class _CoverImage extends StatelessWidget {
         color: appColors.surface,
         child: Icon(
           Icons.book,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -265,7 +265,7 @@ class SingleCoverImage extends StatelessWidget {
         color: appColors.surface,
         child: Icon(
           Icons.book,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );

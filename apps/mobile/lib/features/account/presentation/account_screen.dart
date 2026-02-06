@@ -239,7 +239,7 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
           Text(
             'Shelfie $_version',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -264,14 +264,14 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
           Text(
             '読書家のための本棚',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             '© ${DateTime.now().year} sora ichigo',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
             ),
           ),
         ],

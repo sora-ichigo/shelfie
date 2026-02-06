@@ -32,11 +32,11 @@ class CreateListCard extends StatelessWidget {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: appColors.accent,
+              color: appColors.primary,
               borderRadius: BorderRadius.circular(AppRadius.lg),
               boxShadow: [
                 BoxShadow(
-                  color: appColors.accent.withValues(alpha: 0.4),
+                  color: appColors.primary.withValues(alpha: 0.4),
                   blurRadius: 16,
                   spreadRadius: 2,
                 ),
@@ -44,7 +44,7 @@ class CreateListCard extends StatelessWidget {
             ),
             child: Icon(
               Icons.add,
-              color: appColors.onAccent,
+              color: Colors.white,
               size: 32,
             ),
           ),
@@ -52,7 +52,7 @@ class CreateListCard extends StatelessWidget {
           Text(
             '最初のリストを作成',
             style: theme.textTheme.titleMedium?.copyWith(
-              color: appColors.foreground,
+              color: appColors.textPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -60,7 +60,7 @@ class CreateListCard extends StatelessWidget {
           Text(
             '本を整理して、\nあなただけのリストを作りましょう',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -68,7 +68,7 @@ class CreateListCard extends StatelessWidget {
           FilledButton(
             onPressed: onCreateTap,
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.foreground,
+              backgroundColor: appColors.textPrimary,
               foregroundColor: appColors.background,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,

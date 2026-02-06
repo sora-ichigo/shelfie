@@ -109,7 +109,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     size: 64,
                     color: Theme.of(context)
                         .extension<AppColors>()!
-                        .foregroundMuted,
+                        .textSecondary,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
@@ -117,7 +117,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context)
                               .extension<AppColors>()!
-                              .foregroundMuted,
+                              .textSecondary,
                         ),
                   ),
                 ],
@@ -682,7 +682,7 @@ class _BookListItemTile extends StatelessWidget {
               child: Text(
                 '$position',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -725,7 +725,7 @@ class _BookListItemTile extends StatelessWidget {
                     Text(
                       userBook.authors.join('、'),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: appColors.foregroundMuted,
+                        color: appColors.textSecondary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -757,7 +757,7 @@ class _BookPlaceholder extends StatelessWidget {
       ),
       child: Icon(
         Icons.book,
-        color: appColors.foregroundMuted,
+        color: appColors.textSecondary,
         size: 24,
       ),
     );
@@ -783,7 +783,7 @@ class _StatsSection extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: appColors.foregroundMuted.withOpacity(0.2),
+            color: appColors.textSecondary.withOpacity(0.2),
           ),
         ),
       ),
@@ -829,7 +829,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
       ],

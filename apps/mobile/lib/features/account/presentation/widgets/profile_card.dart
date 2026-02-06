@@ -49,7 +49,7 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       profile.email,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors?.foregroundMuted,
+                        color: colors?.textSecondary,
                       ),
                     ),
                   ],
@@ -59,7 +59,7 @@ class ProfileCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Divider(
-            color: colors?.foregroundMuted.withOpacity(0.2),
+            color: colors?.textSecondary.withOpacity(0.2),
             height: 1,
           ),
           const SizedBox(height: AppSpacing.md),
@@ -116,7 +116,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.foregroundMuted,
+            color: colors?.textSecondary,
           ),
         ),
       ],

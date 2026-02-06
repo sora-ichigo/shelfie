@@ -42,7 +42,7 @@ class SearchFilterBar extends StatelessWidget {
       semanticLabel: sortOption != SortOption.defaultOption
           ? '並び替え（${sortOption.displayName}）'
           : '並び替え',
-      color: appColors.chipHighlight,
+      color: appColors.primary,
       onTap: () => _showSortBottomSheet(context),
     );
   }
@@ -146,7 +146,7 @@ class _OptionTile extends StatelessWidget {
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
-            ? colors?.accent ?? theme.colorScheme.primary
+            ? colors?.primary ?? theme.colorScheme.primary
             : theme.colorScheme.onSurfaceVariant,
       ),
       title: Text(

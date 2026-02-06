@@ -21,71 +21,85 @@ void main() {
       });
 
       group('Semantic colors', () {
-        test('accent はティール色 (#009689) で定義されている', () {
+        test('primary はティール色 (#2B9E8F) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.accent, equals(const Color(0xFF009689)));
+          expect(colors.primary, equals(const Color(0xFF2B9E8F)));
         });
 
-        test('link は明るいティール色 (#00D5BE) で定義されている', () {
+        test('primaryPressed はティール色 (#238275) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.link, equals(const Color(0xFF00D5BE)));
+          expect(colors.primaryPressed, equals(const Color(0xFF238275)));
         });
 
-        test('accentSecondary はゴールド色 (#F6C94A) で定義されている', () {
+        test('star はゴールド色 (#FFD60A) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.accentSecondary, equals(const Color(0xFFF6C94A)));
+          expect(colors.star, equals(const Color(0xFFFFD60A)));
         });
 
-        test('background はダーク色 (#121113) で定義されている', () {
+        test('background はダーク色 (#121212) で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.background, equals(const Color(0xFF121113)));
+          expect(colors.background, equals(const Color(0xFF121212)));
         });
       });
 
       group('Surface colors', () {
         test('surface は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surface, equals(const Color(0xFF1A1A1A)));
+          expect(colors.surface, equals(const Color(0xFF1E1E1E)));
         });
 
-        test('surfaceHigh は定義されている', () {
+        test('surfaceElevated は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.surfaceHigh, equals(const Color(0xFF1A2E2E)));
+          expect(colors.surfaceElevated, equals(const Color(0xFF2A2A2A)));
+        });
+      });
+
+      group('Utility colors', () {
+        test('border は定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.border, equals(const Color(0xFF333333)));
         });
 
-        test('overlay は30%不透明度で定義されている', () {
+        test('inactive は定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.overlay, equals(const Color(0x4D000000)));
+          expect(colors.inactive, equals(const Color(0xFF666666)));
         });
       });
 
       group('Text colors', () {
-        test('foreground は白色で定義されている', () {
+        test('textPrimary は白色で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.foreground, equals(const Color(0xFFFFFFFF)));
+          expect(colors.textPrimary, equals(const Color(0xFFFFFFFF)));
         });
 
-        test('foregroundMuted はグレー色で定義されている', () {
+        test('textSecondary はグレー色で定義されている', () {
           const colors = AppColors.dark;
-          expect(colors.foregroundMuted, equals(const Color(0xFFA0A0A0)));
+          expect(colors.textSecondary, equals(const Color(0xFFB0B0B0)));
         });
       });
 
-      test('ダークモードの success カラーは緑系', () {
-        const colors = AppColors.dark;
-        expect(colors.success.green, greaterThan(colors.success.red));
-        expect(colors.success.green, greaterThan(colors.success.blue));
-      });
+      group('Feedback colors', () {
+        test('destructive は赤系で定義されている', () {
+          const colors = AppColors.dark;
+          expect(colors.destructive, equals(const Color(0xFFCF4F4A)));
+        });
 
-      test('ダークモードの warning カラーは黄系', () {
-        const colors = AppColors.dark;
-        expect(colors.warning.red, greaterThan(colors.warning.blue));
-      });
+        test('ダークモードの success カラーは緑系', () {
+          const colors = AppColors.dark;
+          expect(colors.success.green, greaterThan(colors.success.red));
+          expect(colors.success.green, greaterThan(colors.success.blue));
+        });
 
-      test('ダークモードの info カラーは青系', () {
-        const colors = AppColors.dark;
-        expect(colors.info.blue, greaterThan(colors.info.red));
-        expect(colors.info.blue, greaterThan(colors.info.green));
+        test('ダークモードの warning カラーは黄系', () {
+          const colors = AppColors.dark;
+          expect(colors.warning.red, greaterThan(colors.warning.blue));
+        });
+
+        test('ダークモードの info カラーは青系', () {
+          const colors = AppColors.dark;
+          expect(colors.info.blue, greaterThan(colors.info.red));
+          expect(colors.info.blue, greaterThan(colors.info.green));
+        });
       });
     });
 

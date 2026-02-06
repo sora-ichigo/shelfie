@@ -229,7 +229,7 @@ class ReadingRecordSection extends StatelessWidget {
           isFilled ? Icons.star_rounded : Icons.star_border_rounded,
           size: 18,
           color: isFilled
-              ? appColors.accentSecondary
+              ? appColors.star
               : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
         );
       }),
@@ -360,11 +360,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   height: 48,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [appColors.success, appColors.accent],
-                      ),
+                      color: appColors.primary,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                     ),
                     child: ElevatedButton(

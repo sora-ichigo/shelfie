@@ -7,7 +7,7 @@ class LoginBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppColors>();
-    final accentColor = colors?.accent ?? const Color(0xFF4FD1C5);
+    final accentColor = colors?.primary ?? const Color(0xFF4FD1C5);
     final backgroundColor = colors?.background ?? const Color(0xFF0A0A0A);
 
     return SizedBox.expand(

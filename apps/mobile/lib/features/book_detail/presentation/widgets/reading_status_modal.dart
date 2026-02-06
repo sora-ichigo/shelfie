@@ -220,7 +220,7 @@ class _ReadingStatusModalContentState
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -247,7 +247,7 @@ class _ReadingStatusModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.accentSecondary
+                      ? appColors.star
                       : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
                 ),
               ),
@@ -302,11 +302,7 @@ class _ReadingStatusModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [appColors.success, appColors.accent],
-          ),
+          color: appColors.primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(

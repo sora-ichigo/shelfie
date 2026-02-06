@@ -149,7 +149,7 @@ class _BookSelectorModalContentState
         child: Text(
           'エラーが発生しました',
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: appColors.error,
+            color: appColors.destructive,
           ),
         ),
       );
@@ -170,13 +170,13 @@ class _BookSelectorModalContentState
             Icon(
               Icons.search_off,
               size: 48,
-              color: appColors.foregroundMuted,
+              color: appColors.textSecondary,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               '本が見つかりません',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.foregroundMuted,
+                color: appColors.textSecondary,
               ),
             ),
           ],
