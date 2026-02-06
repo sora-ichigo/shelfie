@@ -72,26 +72,32 @@ class _SimpleContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 36),
-            Text(
-              data.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: AppTypography.titleLarge.copyWith(
-                fontSize: 64,
-                fontWeight: FontWeight.w600,
-                color: appColors.foreground,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
+              child: Text(
+                data.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.titleLarge.copyWith(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w600,
+                  color: appColors.foreground,
+                ),
               ),
             ),
             const SizedBox(height: AppSpacing.xxs),
-            Text(
-              data.authors.join(', '),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: AppTypography.bodyMedium.copyWith(
-                fontSize: 52,
-                color: appColors.foreground,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Text(
+                data.authors.join(', '),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.bodyMedium.copyWith(
+                  fontSize: 52,
+                  color: appColors.foreground,
+                ),
               ),
             ),
             const SizedBox(height: 16),
