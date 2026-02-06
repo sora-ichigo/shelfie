@@ -74,16 +74,43 @@ void main() {
       expect(matchGradientColor(tealish), const Color(0xFF00897B));
     });
 
-    test('白を渡してもクラッシュしない', () {
+    test('白（低彩度）はデフォルト色を返す', () {
       const white = Color(0xFFFFFFFF);
-      final result = matchGradientColor(white);
-      expect(gradientColorPresets.contains(result), isTrue);
+      expect(matchGradientColor(white), defaultGradientColor);
     });
 
-    test('黒を渡してもクラッシュしない', () {
+    test('黒（低彩度）はデフォルト色を返す', () {
       const black = Color(0xFF000000);
-      final result = matchGradientColor(black);
-      expect(gradientColorPresets.contains(result), isTrue);
+      expect(matchGradientColor(black), defaultGradientColor);
+    });
+
+    test('グレー（低彩度）はデフォルト色を返す', () {
+      const gray = Color(0xFF808080);
+      expect(matchGradientColor(gray), defaultGradientColor);
+    });
+
+    test('薄いグレー（低彩度）はデフォルト色を返す', () {
+      const lightGray = Color(0xFFD3D3D3);
+      expect(matchGradientColor(lightGray), defaultGradientColor);
+    });
+
+    test('茶色系は Orange または Red にマッチする', () {
+      const brown = Color(0xFF8B4513);
+      final result = matchGradientColor(brown);
+      expect(
+        result == const Color(0xFFE65100) || result == const Color(0xFFC62828),
+        isTrue,
+      );
+    });
+
+    test('シアン系は Teal にマッチする', () {
+      const cyan = Color(0xFF00FFFF);
+      expect(matchGradientColor(cyan), const Color(0xFF00897B));
+    });
+
+    test('黄色系は Orange にマッチする', () {
+      const yellow = Color(0xFFFFFF00);
+      expect(matchGradientColor(yellow), const Color(0xFFE65100));
     });
   });
 

@@ -6,17 +6,21 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_share/domain/share_card_data.dart';
 
+enum ShareCardStyle { simple, card }
+
 class ShareCardWidget extends StatelessWidget {
   const ShareCardWidget({
     required this.data,
     required this.boundaryKey,
     this.accentColor,
+    this.style = ShareCardStyle.card,
     super.key,
   });
 
   final ShareCardData data;
   final GlobalKey boundaryKey;
   final Color? accentColor;
+  final ShareCardStyle style;
 
   static const double cardWidth = 1080;
   static const double cardHeight = 1350;
@@ -28,14 +32,23 @@ class ShareCardWidget extends StatelessWidget {
       child: SizedBox(
         width: cardWidth,
         height: cardHeight,
-        child: _CardContent(data: data, accentColor: accentColor),
+        child: switch (style) {
+          ShareCardStyle.simple => _SimpleContent(
+            data: data,
+            accentColor: accentColor,
+          ),
+          ShareCardStyle.card => _CardContent(
+            data: data,
+            accentColor: accentColor,
+          ),
+        },
       ),
     );
   }
 }
 
-class _CardContent extends StatelessWidget {
-  const _CardContent({required this.data, this.accentColor});
+class _SimpleContent extends StatelessWidget {
+  const _SimpleContent({required this.data, this.accentColor});
 
   final ShareCardData data;
   final Color? accentColor;
@@ -45,9 +58,7 @@ class _CardContent extends StatelessWidget {
     final appColors = AppColors.dark;
 
     return Container(
-      decoration: BoxDecoration(
-        color: accentColor ?? appColors.surfaceCard,
-      ),
+      decoration: BoxDecoration(color: accentColor ?? appColors.surfaceCard),
       child: Padding(
         padding: AppSpacing.all(48),
         child: Column(
@@ -61,26 +72,32 @@ class _CardContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 36),
-            Text(
-              data.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: AppTypography.titleLarge.copyWith(
-                fontSize: 64,
-                fontWeight: FontWeight.w600,
-                color: appColors.foreground,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
+              child: Text(
+                data.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.titleLarge.copyWith(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w600,
+                  color: appColors.foreground,
+                ),
               ),
             ),
             const SizedBox(height: AppSpacing.xxs),
-            Text(
-              data.authors.join(', '),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: AppTypography.bodyMedium.copyWith(
-                fontSize: 52,
-                color: appColors.foreground,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Text(
+                data.authors.join(', '),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTypography.bodyMedium.copyWith(
+                  fontSize: 52,
+                  color: appColors.foreground,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -104,15 +121,105 @@ class _CardContent extends StatelessWidget {
                   Text(
                     'Shelfie',
                     style: AppTypography.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
                       color: appColors.foreground,
                       fontSize: 52,
-                      height: 1.0,
                     ),
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CardContent extends StatelessWidget {
+  const _CardContent({required this.data, this.accentColor});
+
+  final ShareCardData data;
+  final Color? accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = AppColors.dark;
+
+    return ColoredBox(
+      color: accentColor ?? appColors.surfaceCard,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 190, vertical: 48),
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: const Color(0x66000000),
+            borderRadius: AppRadius.circular(32),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Flexible(
+                child: Center(
+                  child: _CoverImage(
+                    thumbnailUrl: data.thumbnailUrl,
+                    colors: appColors,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 36),
+              Text(
+                data.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: AppTypography.titleLarge.copyWith(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w600,
+                  color: appColors.foreground,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xxs),
+              Text(
+                data.authors.join(', '),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: AppTypography.bodyMedium.copyWith(
+                  fontSize: 48,
+                  fontWeight: FontWeight.w600,
+                  color: appColors.foregroundMuted,
+                ),
+              ),
+              const SizedBox(height: 48),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ClipRRect(
+                      borderRadius: AppRadius.circular(AppRadius.sm),
+                      child: Image.asset(
+                        'assets/icons/app_icon.png',
+                        width: 52,
+                        height: 52,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Shelfie',
+                      style: AppTypography.bodySmall.copyWith(
+                        color: appColors.foreground,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 52,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -18,13 +18,19 @@ void main() {
     );
   }
 
-  Widget buildTestWidget({required ShareCardData data}) {
+  Widget buildTestWidget({
+    required ShareCardData data,
+    ShareCardStyle style = ShareCardStyle.simple,
+    Color? accentColor,
+  }) {
     return MaterialApp(
       theme: AppTheme.dark(),
       home: Scaffold(
         body: ShareCardWidget(
           data: data,
           boundaryKey: boundaryKey,
+          style: style,
+          accentColor: accentColor,
         ),
       ),
     );
@@ -74,15 +80,9 @@ void main() {
     testWidgets('accentColor を渡すと背景色がアクセントカラーになる', (tester) async {
       const testColor = Color(0xFF017BC8);
       await tester.pumpWidget(
-        MaterialApp(
-          theme: AppTheme.dark(),
-          home: Scaffold(
-            body: ShareCardWidget(
-              data: createCardData(),
-              boundaryKey: boundaryKey,
-              accentColor: testColor,
-            ),
-          ),
+        buildTestWidget(
+          data: createCardData(),
+          accentColor: testColor,
         ),
       );
 
