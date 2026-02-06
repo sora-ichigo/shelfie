@@ -47,9 +47,7 @@ class _CardContent extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: accentColor ?? appColors.surfaceCard,
-        borderRadius: AppRadius.circular(64),
       ),
-      clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: AppSpacing.all(48),
         child: Column(
