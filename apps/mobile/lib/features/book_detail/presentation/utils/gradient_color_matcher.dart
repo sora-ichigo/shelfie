@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 
@@ -15,6 +13,8 @@ const gradientColorPresets = [
 ];
 
 const defaultGradientColor = Color(0xFF017BC8);
+
+const _saturationThreshold = 0.15;
 
 final Map<String, Color> _gradientColorCache = {};
 
@@ -32,17 +32,23 @@ void seedGradientColorCache(String url, Color color) =>
     _gradientColorCache[url] = color;
 
 Color matchGradientColor(Color dominantColor) {
+  final hsl = HSLColor.fromColor(dominantColor);
+
+  if (hsl.saturation < _saturationThreshold) {
+    return defaultGradientColor;
+  }
+
   var bestMatch = gradientColorPresets.first;
   var bestDistance = double.infinity;
 
   for (final preset in gradientColorPresets) {
-    final dr = dominantColor.red - preset.red;
-    final dg = dominantColor.green - preset.green;
-    final db = dominantColor.blue - preset.blue;
-    final distance = sqrt(dr * dr + dg * dg + db * db);
+    final presetHsl = HSLColor.fromColor(preset);
 
-    if (distance < bestDistance) {
-      bestDistance = distance;
+    var hueDiff = (hsl.hue - presetHsl.hue).abs();
+    if (hueDiff > 180) hueDiff = 360 - hueDiff;
+
+    if (hueDiff < bestDistance) {
+      bestDistance = hueDiff;
       bestMatch = preset;
     }
   }
@@ -63,15 +69,16 @@ Future<Color> extractGradientColor(String? thumbnailUrl) async {
   try {
     final paletteGenerator = await PaletteGenerator.fromImageProvider(
       NetworkImage(thumbnailUrl),
-      maximumColorCount: 4,
+      maximumColorCount: 16,
     );
 
-    final dominantColor = paletteGenerator.dominantColor?.color;
-    if (dominantColor == null) {
+    final targetColor = paletteGenerator.vibrantColor?.color ??
+        paletteGenerator.dominantColor?.color;
+    if (targetColor == null) {
       return defaultGradientColor;
     }
 
-    final result = matchGradientColor(dominantColor);
+    final result = matchGradientColor(targetColor);
     _gradientColorCache[thumbnailUrl] = result;
     return result;
   } catch (_) {
