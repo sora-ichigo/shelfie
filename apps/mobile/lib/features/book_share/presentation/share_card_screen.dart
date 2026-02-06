@@ -59,6 +59,7 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
   bool _isSharingLine = false;
   bool _isSharingOther = false;
   bool _isSaving = false;
+  ShareCardStyle _selectedStyle = ShareCardStyle.card;
 
   bool get _isProcessing =>
       _isSharingInstagram || _isSharingLine || _isSharingOther || _isSaving;
@@ -95,19 +96,24 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
                         data: state.cardData,
                         boundaryKey: _boundaryKey,
                         accentColor: widget.accentColor,
+                        style: _selectedStyle,
                       ),
                     ),
                     if (_isProcessing)
                       Positioned.fill(
-                        child: ColoredBox(
-                          color: Colors.black.withOpacity(0.3),
-                        ),
+                        child: ColoredBox(color: Colors.black.withOpacity(0.3)),
                       ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
+            _StyleSelector(
+              selectedStyle: _selectedStyle,
+              accentColor: widget.accentColor,
+              onStyleChanged: (style) => setState(() => _selectedStyle = style),
+            ),
+            const SizedBox(height: AppSpacing.md),
             _ActionBar(
               isSharingInstagram: _isSharingInstagram,
               isSharingLine: _isSharingLine,
@@ -318,6 +324,88 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
   }
 }
 
+class _StyleSelector extends StatelessWidget {
+  const _StyleSelector({
+    required this.selectedStyle,
+    required this.accentColor,
+    required this.onStyleChanged,
+  });
+
+  final ShareCardStyle selectedStyle;
+  final Color? accentColor;
+  final ValueChanged<ShareCardStyle> onStyleChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _StyleButton(
+          isSelected: selectedStyle == ShareCardStyle.simple,
+          onTap: () => onStyleChanged(ShareCardStyle.simple),
+          color: accentColor ?? appColors.surfaceCard,
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        _StyleButton(
+          isSelected: selectedStyle == ShareCardStyle.card,
+          onTap: () => onStyleChanged(ShareCardStyle.card),
+          color: accentColor ?? appColors.surfaceCard,
+          hasInnerCircle: true,
+        ),
+      ],
+    );
+  }
+}
+
+class _StyleButton extends StatelessWidget {
+  const _StyleButton({
+    required this.isSelected,
+    required this.onTap,
+    required this.color,
+    this.hasInnerCircle = false,
+  });
+
+  final bool isSelected;
+  final VoidCallback onTap;
+  final Color color;
+  final bool hasInnerCircle;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: isSelected
+              ? Border.all(color: Colors.white, width: 2.5)
+              : null,
+        ),
+        child: Container(
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+          child: hasInnerCircle
+              ? Center(
+                  child: Container(
+                    width: 16,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  ),
+                )
+              : null,
+        ),
+      ),
+    );
+  }
+}
+
 class _ActionBar extends StatelessWidget {
   const _ActionBar({
     required this.isSharingInstagram,
@@ -371,10 +459,7 @@ class _ActionBar extends StatelessWidget {
             'assets/icons/line_icon.svg',
             width: 34,
             height: 34,
-            colorFilter: const ColorFilter.mode(
-              Colors.white,
-              BlendMode.srcIn,
-            ),
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),
           label: 'LINE',
           isLoading: isSharingLine,
@@ -461,11 +546,11 @@ class _ActionIcon extends StatelessWidget {
                         ),
                       )
                     : iconWidget ??
-                        Icon(
-                          icon,
-                          size: iconSize ?? _defaultIconSize,
-                          color: foregroundColor,
-                        ),
+                          Icon(
+                            icon,
+                            size: iconSize ?? _defaultIconSize,
+                            color: foregroundColor,
+                          ),
               ),
             ),
             const SizedBox(height: AppSpacing.xs),

@@ -6,17 +6,21 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_share/domain/share_card_data.dart';
 
+enum ShareCardStyle { simple, card }
+
 class ShareCardWidget extends StatelessWidget {
   const ShareCardWidget({
     required this.data,
     required this.boundaryKey,
     this.accentColor,
+    this.style = ShareCardStyle.card,
     super.key,
   });
 
   final ShareCardData data;
   final GlobalKey boundaryKey;
   final Color? accentColor;
+  final ShareCardStyle style;
 
   static const double cardWidth = 1080;
   static const double cardHeight = 1350;
@@ -28,7 +32,99 @@ class ShareCardWidget extends StatelessWidget {
       child: SizedBox(
         width: cardWidth,
         height: cardHeight,
-        child: _CardContent(data: data, accentColor: accentColor),
+        child: switch (style) {
+          ShareCardStyle.simple => _SimpleContent(
+            data: data,
+            accentColor: accentColor,
+          ),
+          ShareCardStyle.card => _CardContent(
+            data: data,
+            accentColor: accentColor,
+          ),
+        },
+      ),
+    );
+  }
+}
+
+class _SimpleContent extends StatelessWidget {
+  const _SimpleContent({required this.data, this.accentColor});
+
+  final ShareCardData data;
+  final Color? accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = AppColors.dark;
+
+    return Container(
+      decoration: BoxDecoration(color: accentColor ?? appColors.surfaceCard),
+      child: Padding(
+        padding: AppSpacing.all(48),
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: _CoverImage(
+                  thumbnailUrl: data.thumbnailUrl,
+                  colors: appColors,
+                ),
+              ),
+            ),
+            const SizedBox(height: 36),
+            Text(
+              data.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: AppTypography.titleLarge.copyWith(
+                fontSize: 64,
+                fontWeight: FontWeight.w600,
+                color: appColors.foreground,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xxs),
+            Text(
+              data.authors.join(', '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: AppTypography.bodyMedium.copyWith(
+                fontSize: 52,
+                color: appColors.foreground,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: ClipRRect(
+                      borderRadius: AppRadius.circular(AppRadius.sm),
+                      child: Image.asset(
+                        'assets/icons/app_icon.png',
+                        width: 52,
+                        height: 52,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Shelfie',
+                    style: AppTypography.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: appColors.foreground,
+                      fontSize: 52,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -48,7 +144,7 @@ class _CardContent extends StatelessWidget {
       color: accentColor ?? appColors.surfaceCard,
       child: Center(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 200, vertical: 48),
+          margin: const EdgeInsets.symmetric(horizontal: 190, vertical: 48),
           padding: const EdgeInsets.all(40),
           decoration: BoxDecoration(
             color: const Color(0x66000000),
