@@ -344,16 +344,16 @@ class _StyleSelector extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _StyleButton(
-          isSelected: selectedStyle == ShareCardStyle.simple,
-          onTap: () => onStyleChanged(ShareCardStyle.simple),
-          color: accentColor ?? appColors.surfaceCard,
-        ),
-        const SizedBox(width: AppSpacing.sm),
-        _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.card,
           onTap: () => onStyleChanged(ShareCardStyle.card),
           color: accentColor ?? appColors.surfaceCard,
           hasInnerCircle: true,
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        _StyleButton(
+          isSelected: selectedStyle == ShareCardStyle.simple,
+          onTap: () => onStyleChanged(ShareCardStyle.simple),
+          color: accentColor ?? appColors.surfaceCard,
         ),
       ],
     );
