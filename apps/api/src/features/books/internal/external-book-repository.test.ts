@@ -344,8 +344,8 @@ describe("ExternalBookRepository", () => {
         const isbns = result.data.items.map((item) => item.isbn);
         expect(isbns).toEqual([
           "9784000000001",
-          "9784000000002",
           "9784000000003",
+          "9784000000002",
         ]);
       }
     });

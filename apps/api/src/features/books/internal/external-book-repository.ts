@@ -194,13 +194,13 @@ export function createExternalBookRepository(
       const seenIsbns = new Set<string>();
       const mergedItems: RakutenBooksItem[] = [];
 
-      for (const item of titleItems) {
+      for (const item of authorItems) {
         if (!seenIsbns.has(item.isbn)) {
           seenIsbns.add(item.isbn);
           mergedItems.push(item);
         }
       }
-      for (const item of authorItems) {
+      for (const item of titleItems) {
         if (!seenIsbns.has(item.isbn)) {
           seenIsbns.add(item.isbn);
           mergedItems.push(item);
