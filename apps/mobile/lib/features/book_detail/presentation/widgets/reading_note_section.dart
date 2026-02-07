@@ -34,7 +34,7 @@ class ReadingNoteSection extends StatelessWidget {
           Text(
             '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
             style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.extension<AppColors>()!.textSecondary,
             ),
           ),
         ],
@@ -67,14 +67,14 @@ class ReadingNoteSection extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: shelfEntry.hasNote
                       ? null
-                      : theme.colorScheme.onSurfaceVariant,
+                      : appColors.textSecondary,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Icon(
               Icons.chevron_right,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ],
         ),

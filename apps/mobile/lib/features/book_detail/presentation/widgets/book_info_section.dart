@@ -287,7 +287,7 @@ class BookInfoSection extends StatelessWidget {
             child: Text(
               label,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.extension<AppColors>()!.textSecondary,
               ),
             ),
           ),
@@ -366,7 +366,7 @@ class BookInfoSection extends StatelessWidget {
         Text(
           _stripHtmlTags(bookDetail.description!),
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+            color: theme.extension<AppColors>()!.textSecondary,
           ),
         ),
       ],
