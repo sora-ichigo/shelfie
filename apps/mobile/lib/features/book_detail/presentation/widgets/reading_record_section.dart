@@ -148,7 +148,7 @@ class ReadingRecordSection extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ),
           Row(
@@ -166,7 +166,7 @@ class ReadingRecordSection extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Icon(
                   Icons.chevron_right,
-                  color: theme.colorScheme.onSurfaceVariant,
+                  color: appColors.textSecondary,
                 ),
               ],
             ],
@@ -232,7 +232,7 @@ class ReadingRecordSection extends StatelessWidget {
           size: 18,
           color: isFilled
               ? appColors.star
-              : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
+              : appColors.inactive,
         );
       }),
     );
