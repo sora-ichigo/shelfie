@@ -74,7 +74,7 @@ class BookInfoSection extends StatelessWidget {
         Text(
           bookDetail.authors.join(', '),
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+            color: theme.extension<AppColors>()!.textSecondary,
           ),
           textAlign: TextAlign.center,
           maxLines: 2,
@@ -148,21 +148,23 @@ class BookInfoSection extends StatelessWidget {
   }
 
   Widget _buildRemoveFromShelfButton(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return SizedBox(
       width: double.infinity,
       height: 44,
       child: ElevatedButton.icon(
         onPressed: onRemoveFromShelfPressed,
-        icon: const Icon(Icons.remove, color: Colors.white, size: 20),
+        icon: Icon(Icons.remove, color: appColors.destructive, size: 20),
         label: Text(
           'マイライブラリから削除',
           style: theme.textTheme.labelLarge?.copyWith(
-            color: Colors.white,
+            color: appColors.destructive,
             fontWeight: FontWeight.w600,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: theme.colorScheme.surfaceContainerHighest,
+          backgroundColor: appColors.surface,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
