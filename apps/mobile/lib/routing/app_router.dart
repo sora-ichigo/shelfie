@@ -496,6 +496,7 @@ class _MainShell extends ConsumerWidget {
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.book),
+                    activeIcon: Icon(CupertinoIcons.book_fill),
                     label: 'ライブラリ',
                   ),
                   BottomNavigationBarItem(
