@@ -14,6 +14,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
@@ -171,48 +172,30 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            if (_isLoading)
-              _buildLoadingState()
-            else if (_errorMessage != null)
-              _buildErrorState(theme)
-            else if (_book != null) ...[
-              _buildBookInfo(theme, appColors),
-              const SizedBox(height: AppSpacing.lg),
-              _buildReadingStatusSection(theme, appColors),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-                alignment: Alignment.topCenter,
-                child: _selectedStatus == ReadingStatus.completed
-                    ? _buildRatingSection(theme, appColors)
-                    : const SizedBox.shrink(),
-              ),
-            ],
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_isLoading)
+            _buildLoadingState()
+          else if (_errorMessage != null)
+            _buildErrorState(theme)
+          else if (_book != null) ...[
+            _buildBookInfo(theme, appColors),
             const SizedBox(height: AppSpacing.lg),
-            _buildActions(theme, appColors),
+            _buildReadingStatusSection(theme, appColors),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              alignment: Alignment.topCenter,
+              child: _selectedStatus == ReadingStatus.completed
+                  ? _buildRatingSection(theme, appColors)
+                  : const SizedBox.shrink(),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    final appColors = theme.extension<AppColors>()!;
-
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: appColors.inactive,
-        borderRadius: BorderRadius.circular(2),
+          const SizedBox(height: AppSpacing.lg),
+          _buildActions(theme, appColors),
+        ],
       ),
     );
   }

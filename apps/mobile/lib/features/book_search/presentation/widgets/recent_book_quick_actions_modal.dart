@@ -10,6 +10,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
 Future<void> showRecentBookQuickActionsModal({
@@ -54,37 +55,19 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
       shelfStateProvider.select((s) => s.containsKey(book.bookId)),
     );
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            _buildBookInfo(theme, appColors),
-            const SizedBox(height: AppSpacing.lg),
-            Divider(color: appColors.textSecondary.withOpacity(0.3)),
-            const SizedBox(height: AppSpacing.sm),
-            if (isInShelf)
-              _buildRemoveAction(context, theme, appColors)
-            else
-              _buildAddAction(context, theme, appColors),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    final appColors = theme.extension<AppColors>()!;
-
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: appColors.inactive,
-        borderRadius: BorderRadius.circular(2),
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBookInfo(theme, appColors),
+          const SizedBox(height: AppSpacing.lg),
+          Divider(color: appColors.textSecondary.withOpacity(0.3)),
+          const SizedBox(height: AppSpacing.sm),
+          if (isInShelf)
+            _buildRemoveAction(context, theme, appColors)
+          else
+            _buildAddAction(context, theme, appColors),
+        ],
       ),
     );
   }

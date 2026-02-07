@@ -14,6 +14,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
@@ -72,38 +73,20 @@ class _BookQuickActionsModalContentState
     );
     final entry = currentEntry ?? widget.shelfEntry;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            _buildBookInfo(theme, appColors),
-            const SizedBox(height: AppSpacing.lg),
-            _buildReadingStatusSection(theme, appColors, entry),
-            const SizedBox(height: AppSpacing.lg),
-            _buildRatingSection(theme, appColors, entry),
-            const SizedBox(height: AppSpacing.md),
-            Divider(color: appColors.textSecondary.withOpacity(0.3)),
-            const SizedBox(height: AppSpacing.sm),
-            _buildActionList(theme, appColors, entry),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    final appColors = theme.extension<AppColors>()!;
-
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: appColors.inactive,
-        borderRadius: BorderRadius.circular(2),
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBookInfo(theme, appColors),
+          const SizedBox(height: AppSpacing.lg),
+          _buildReadingStatusSection(theme, appColors, entry),
+          const SizedBox(height: AppSpacing.lg),
+          _buildRatingSection(theme, appColors, entry),
+          const SizedBox(height: AppSpacing.md),
+          Divider(color: appColors.textSecondary.withOpacity(0.3)),
+          const SizedBox(height: AppSpacing.sm),
+          _buildActionList(theme, appColors, entry),
+        ],
       ),
     );
   }

@@ -14,6 +14,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
@@ -567,42 +568,21 @@ class _BookDetailMoreSheet extends ConsumerWidget {
     final shelfEntry = ref.watch(shelfStateProvider.select((s) => s[bookId]));
     final isInShelf = shelfEntry != null;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            _buildActionItem(
-              context: context,
-              theme: theme,
-              appColors: appColors,
-              icon: Icons.playlist_add,
-              label: 'リストに追加',
-              enabled: isInShelf,
-              onTap: isInShelf
-                  ? () {
-                      unawaited(HapticFeedback.selectionClick());
-                      Navigator.pop(context);
-                      onAddToListPressed(shelfEntry);
-                    }
-                  : null,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
+    return BaseBottomSheet(
+      child: _buildActionItem(
+        context: context,
+        theme: theme,
+        appColors: appColors,
+        icon: Icons.playlist_add,
+        label: 'リストに追加',
+        enabled: isInShelf,
+        onTap: isInShelf
+            ? () {
+                unawaited(HapticFeedback.selectionClick());
+                Navigator.pop(context);
+                onAddToListPressed(shelfEntry);
+              }
+            : null,
       ),
     );
   }
