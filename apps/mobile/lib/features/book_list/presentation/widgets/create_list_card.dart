@@ -44,7 +44,7 @@ class CreateListCard extends StatelessWidget {
             ),
             child: Icon(
               Icons.add,
-              color: Colors.white,
+              color: appColors.textPrimary,
               size: 32,
             ),
           ),

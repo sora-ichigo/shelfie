@@ -59,7 +59,7 @@ class BookInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildCoverImage(),
+        _buildCoverImage(theme),
         const SizedBox(height: AppSpacing.md),
         Text(
           bookDetail.title,
@@ -133,7 +133,7 @@ class BookInfoSection extends StatelessWidget {
       height: 44,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest,
+          color: theme.extension<AppColors>()!.surfaceElevated,
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Center(
@@ -174,9 +174,10 @@ class BookInfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCoverImage() {
+  Widget _buildCoverImage(ThemeData theme) {
     const coverWidth = 168.0;
     const coverHeight = 240.0;
+    final appColors = theme.extension<AppColors>()!;
 
     return Container(
       width: coverWidth,
@@ -184,22 +185,19 @@ class BookInfoSection extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
-          // 大きな影（浮遊感）
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
+            color: appColors.overlay.withOpacity(0.5),
             blurRadius: 30,
             spreadRadius: 2,
             offset: const Offset(12, 16),
           ),
-          // 中間の影
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: appColors.overlay.withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(6, 8),
           ),
-          // 近い影（エッジ）
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: appColors.overlay.withOpacity(0.15),
             blurRadius: 4,
             offset: const Offset(2, 3),
           ),
@@ -314,7 +312,7 @@ class BookInfoSection extends StatelessWidget {
             child: Text(
               'ジャンル',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: appColors.textSecondary,
               ),
             ),
           ),

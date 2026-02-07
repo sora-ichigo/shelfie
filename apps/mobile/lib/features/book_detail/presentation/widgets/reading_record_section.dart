@@ -6,6 +6,7 @@ import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 
 /// 読書記録セクション
 ///
@@ -218,7 +219,7 @@ class ReadingRecordSection extends StatelessWidget {
       return Text(
         '未評価',
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
+          color: appColors.textSecondary.withOpacity(0.6),
         ),
       );
     }
@@ -341,8 +342,8 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.1),
-                      foregroundColor: Colors.white,
+                      backgroundColor: appColors.textPrimary.withOpacity(0.1),
+                      foregroundColor: appColors.textPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AppRadius.lg),
                       ),
@@ -365,7 +366,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        foregroundColor: Colors.white,
+                        foregroundColor: appColors.textPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.lg),
                         ),

@@ -476,6 +476,7 @@ class _MainShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = navigationShell.currentIndex;
     final isNavBarHidden = ref.watch(navBarHiddenProvider);
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     void onTap(int index) {
       navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
@@ -483,13 +484,13 @@ class _MainShell extends ConsumerWidget {
 
     final navBar = AdaptiveBottomNavigationBar(
       selectedIndex: selectedIndex,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white70,
+      selectedItemColor: appColors.textPrimary,
+      unselectedItemColor: appColors.textPrimary.withOpacity(0.7),
       cupertinoTabBar: CupertinoTabBar(
         currentIndex: selectedIndex,
         onTap: onTap,
-        activeColor: Colors.white,
-        inactiveColor: Colors.white70,
+        activeColor: appColors.textPrimary,
+        inactiveColor: appColors.textPrimary.withOpacity(0.7),
         backgroundColor: AppColors.dark.background,
         border: const Border(),
         items: const [

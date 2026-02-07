@@ -153,7 +153,7 @@ class _CardContent extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 190, vertical: 48),
           padding: const EdgeInsets.all(40),
           decoration: BoxDecoration(
-            color: const Color(0x66000000),
+            color: appColors.overlay.withOpacity(0.4),
             borderRadius: AppRadius.circular(32),
           ),
           child: Column(
@@ -237,11 +237,11 @@ class _CoverImage extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: AppRadius.circular(20),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x40000000),
+            color: colors.overlay.withOpacity(0.25),
             blurRadius: 24,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),

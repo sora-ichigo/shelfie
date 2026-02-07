@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_search/domain/isbn_extractor.dart';
 
@@ -57,13 +58,14 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     if (_cameraPermissionDenied) {
-      return _buildPermissionDeniedView(theme);
+      return _buildPermissionDeniedView(theme, appColors);
     }
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: appColors.overlay,
       body: Stack(
         children: [
           if (_controller case final controller?)
@@ -91,30 +93,30 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
                   child: Text(
                     'カメラの初期化に失敗しました',
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      color: Colors.white,
+                      color: appColors.textPrimary,
                     ),
                   ),
                 );
               },
             ),
           if (!_cameraError) ...[
-            _buildScanOverlay(theme),
-            _buildInstructionText(theme),
+            _buildScanOverlay(theme, appColors),
+            _buildInstructionText(theme, appColors),
           ],
-          _buildTopBar(theme),
+          _buildTopBar(theme, appColors),
           if (_cameraError && kDebugMode) _buildDebugISBNInput(theme),
         ],
       ),
     );
   }
 
-  Widget _buildPermissionDeniedView(ThemeData theme) {
+  Widget _buildPermissionDeniedView(ThemeData theme, AppColors appColors) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: appColors.overlay,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.white),
+          icon: Icon(Icons.close, color: appColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -124,16 +126,16 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.camera_alt_outlined,
                 size: 64,
-                color: Colors.white54,
+                color: appColors.textPrimary.withOpacity(0.54),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 'カメラへのアクセスが拒否されています',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
+                  color: appColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -141,7 +143,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
               Text(
                 '本のバーコードをスキャンするには、設定からカメラへのアクセスを許可してください。',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.white70,
+                  color: appColors.textPrimary.withOpacity(0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -158,7 +160,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
     );
   }
 
-  Widget _buildTopBar(ThemeData theme) {
+  Widget _buildTopBar(ThemeData theme, AppColors appColors) {
     return SafeArea(
       child: Padding(
         padding: AppSpacing.all(AppSpacing.md),
@@ -166,14 +168,14 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: const Icon(Icons.close, color: Colors.white),
+              icon: Icon(Icons.close, color: appColors.textPrimary),
               onPressed: () => Navigator.of(context).pop(),
             ),
             if (_controller != null)
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.flash_off,
-                  color: Colors.white,
+                  color: appColors.textPrimary,
                 ),
                 onPressed: () => _controller?.toggleTorch(),
               ),
@@ -183,19 +185,20 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
     );
   }
 
-  Widget _buildScanOverlay(ThemeData theme) {
+  Widget _buildScanOverlay(ThemeData theme, AppColors appColors) {
     return Container(
       key: const Key('scan_overlay'),
       child: CustomPaint(
         painter: _ScanOverlayPainter(
-          borderColor: theme.colorScheme.primary,
+          borderColor: appColors.primary,
+          overlayColor: appColors.overlay,
         ),
         child: const SizedBox.expand(),
       ),
     );
   }
 
-  Widget _buildInstructionText(ThemeData theme) {
+  Widget _buildInstructionText(ThemeData theme, AppColors appColors) {
     return Positioned(
       bottom: 100,
       left: 0,
@@ -203,7 +206,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
       child: Text(
         'バーコードを枠内に合わせてください',
         style: theme.textTheme.bodyLarge?.copyWith(
-          color: Colors.white,
+          color: appColors.textPrimary,
         ),
         textAlign: TextAlign.center,
       ),
@@ -284,9 +287,10 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
 
 /// スキャンオーバーレイのカスタムペインター
 class _ScanOverlayPainter extends CustomPainter {
-  _ScanOverlayPainter({required this.borderColor});
+  _ScanOverlayPainter({required this.borderColor, required this.overlayColor});
 
   final Color borderColor;
+  final Color overlayColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -300,9 +304,8 @@ class _ScanOverlayPainter extends CustomPainter {
       height: scanAreaHeight,
     );
 
-    // 半透明の黒いオーバーレイ
     final backgroundPaint = Paint()
-      ..color = Colors.black.withOpacity(0.6);
+      ..color = overlayColor.withOpacity(0.6);
 
     // スキャン領域以外を塗りつぶす
     final path = Path()

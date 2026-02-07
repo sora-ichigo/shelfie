@@ -92,7 +92,7 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
                   ),
                   if (_isProcessing)
                     Positioned.fill(
-                      child: ColoredBox(color: Colors.black.withOpacity(0.3)),
+                      child: ColoredBox(color: appColors.overlay.withOpacity(0.3)),
                     ),
                 ],
               ),
@@ -363,7 +363,7 @@ class _StyleButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: isSelected
-              ? Border.all(color: Colors.white, width: 2.5)
+              ? Border.all(color: Theme.of(context).extension<AppColors>()!.textPrimary, width: 2.5)
               : null,
         ),
         child: Container(
@@ -375,7 +375,7 @@ class _StyleButton extends StatelessWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
-                      color: Colors.black.withOpacity(0.4),
+                      color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.4),
                     ),
                   ),
                 )
@@ -420,17 +420,23 @@ class _ActionBar extends StatelessWidget {
           isLoading: isSharingInstagram,
           onPressed: onInstagramStory,
           iconSize: 44,
+          // ignore: avoid_direct_colors
           gradient: const RadialGradient(
             center: Alignment(-0.4, 1.14),
             radius: 1.4,
             colors: [
+              // ignore: avoid_direct_colors
               Color(0xFFFDF497),
+              // ignore: avoid_direct_colors
               Color(0xFFFD5949),
+              // ignore: avoid_direct_colors
               Color(0xFFD6249F),
+              // ignore: avoid_direct_colors
               Color(0xFF285AEB),
             ],
             stops: [0.0, 0.35, 0.55, 0.9],
           ),
+          // ignore: avoid_direct_colors
           foregroundColor: Colors.white,
         ),
         const SizedBox(width: AppSpacing.lg),
@@ -439,12 +445,15 @@ class _ActionBar extends StatelessWidget {
             'assets/icons/line_icon.svg',
             width: 34,
             height: 34,
+            // ignore: avoid_direct_colors
             colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),
           label: 'LINE',
           isLoading: isSharingLine,
           onPressed: onLine,
+          // ignore: avoid_direct_colors
           backgroundColor: const Color(0xFF06C755),
+          // ignore: avoid_direct_colors
           foregroundColor: Colors.white,
         ),
         const SizedBox(width: AppSpacing.lg),

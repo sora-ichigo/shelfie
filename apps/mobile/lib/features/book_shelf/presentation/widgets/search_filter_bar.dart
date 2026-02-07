@@ -105,7 +105,7 @@ class _SortBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     return BaseBottomSheet(
       title: '並び替え',
@@ -117,7 +117,7 @@ class _SortBottomSheet extends StatelessWidget {
             label: option.displayName,
             isSelected: isSelected,
             onTap: () => Navigator.of(context).pop(option),
-            colors: colors,
+            appColors: appColors,
             theme: theme,
           );
         }).toList(),
@@ -131,14 +131,14 @@ class _OptionTile extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
-    required this.colors,
+    required this.appColors,
     required this.theme,
   });
 
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-  final AppColors? colors;
+  final AppColors appColors;
   final ThemeData theme;
 
   @override
@@ -149,8 +149,8 @@ class _OptionTile extends StatelessWidget {
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
-            ? colors?.primary ?? theme.colorScheme.primary
-            : colors?.textSecondary ?? theme.colorScheme.onSurfaceVariant,
+            ? appColors.primary
+            : appColors.textSecondary,
       ),
       title: Text(
         label,

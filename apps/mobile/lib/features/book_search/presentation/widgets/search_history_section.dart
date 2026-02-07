@@ -80,10 +80,10 @@ class SearchHistorySection extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: AppSpacing.md),
-                  color: Theme.of(context).colorScheme.error,
+                  color: appColors.destructive,
                   child: Icon(
                     Icons.delete_outline,
-                    color: Theme.of(context).colorScheme.onError,
+                    color: appColors.textPrimary,
                   ),
                 ),
                 onDismissed: (_) => onHistoryDeleted(entry.query),

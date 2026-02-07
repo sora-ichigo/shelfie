@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class WelcomeButtons extends StatelessWidget {
@@ -14,6 +15,7 @@ class WelcomeButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final baseTextStyle = Theme.of(context).textTheme.labelLarge;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -24,7 +26,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onLoginPressed,
             child: Text(
               'ログイン',
-              style: baseTextStyle?.copyWith(color: Colors.black),
+              style: baseTextStyle?.copyWith(color: appColors.overlay),
             ),
           ),
         ),
@@ -35,7 +37,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onRegisterPressed,
             child: Text(
               '新規登録',
-              style: baseTextStyle?.copyWith(color: Colors.white),
+              style: baseTextStyle?.copyWith(color: appColors.textPrimary),
             ),
           ),
         ),

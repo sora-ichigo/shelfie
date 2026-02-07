@@ -125,7 +125,7 @@ class _BookSelectorModalContentState
               )
             : null,
         filled: true,
-        fillColor: theme.colorScheme.surfaceContainerHighest,
+        fillColor: theme.extension<AppColors>()!.surfaceElevated,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.sm),
           borderSide: BorderSide.none,
@@ -294,7 +294,7 @@ class _BookListItem extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
+          color: theme.extension<AppColors>()!.textSecondary,
         ),
       ),
       trailing: _buildTrailingWidget(theme),
@@ -308,7 +308,7 @@ class _BookListItem extends StatelessWidget {
         children: [
           Icon(
             Icons.check_circle,
-            color: theme.colorScheme.primary,
+            color: theme.extension<AppColors>()!.primary,
           ),
           const SizedBox(width: 4),
           IconButton(
@@ -316,7 +316,7 @@ class _BookListItem extends StatelessWidget {
             icon: Icon(
               Icons.close,
               size: 20,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.extension<AppColors>()!.textSecondary,
             ),
             visualDensity: VisualDensity.compact,
           ),
@@ -345,16 +345,17 @@ class _BookListItem extends StatelessWidget {
   }
 
   Widget _buildPlaceholder(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
     return Container(
       width: _imageWidth,
       height: _imageHeight,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: appColors.surfaceElevated,
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,
-        color: theme.colorScheme.onSurfaceVariant,
+        color: appColors.textSecondary,
       ),
     );
   }

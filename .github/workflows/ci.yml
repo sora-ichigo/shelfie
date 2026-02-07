@@ -35,6 +35,7 @@ jobs:
               - 'apps/web/**'
             mobile:
               - 'apps/mobile/**'
+              - 'packages/shelfie_lints/**'
 
   api:
     needs: changes
@@ -112,6 +113,7 @@ jobs:
           restore-keys: flutter-${{ runner.os }}-
       - run: flutter pub get
       - run: flutter analyze
+      - run: dart run custom_lint
 
   mobile-test:
     needs: changes

@@ -16,7 +16,7 @@ class RegistrationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,11 +38,11 @@ class RegistrationHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: colors?.primary,
+                backgroundColor: appColors.primary,
                 child: Icon(
                   Icons.email_outlined,
                   size: 40,
-                  color: colors?.background,
+                  color: appColors.background,
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -56,7 +56,7 @@ class RegistrationHeader extends StatelessWidget {
               Text(
                 'アカウントを作成して始めましょう',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textSecondary,
+                  color: appColors.textSecondary,
                 ),
               ),
               if (onLoginPressed != null) ...[
@@ -64,8 +64,8 @@ class RegistrationHeader extends StatelessWidget {
                 _LoginLink(
                   onTap: onLoginPressed!,
                   textStyle: theme.textTheme.bodyMedium,
-                  mutedColor: colors?.textSecondary,
-                  accentColor: colors?.primary,
+                  mutedColor: appColors.textSecondary,
+                  accentColor: appColors.primary,
                 ),
               ],
             ],
@@ -110,11 +110,12 @@ class _LoginLinkState extends State<_LoginLink> {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final baseStyle = widget.textStyle?.copyWith(
-      color: widget.mutedColor ?? const Color(0xFFA0A0A0),
+      color: widget.mutedColor ?? appColors.textSecondary,
     );
     final linkStyle = widget.textStyle?.copyWith(
-      color: widget.accentColor ?? const Color(0xFF4FD1C5),
+      color: widget.accentColor ?? appColors.primary,
     );
 
     return RichText(

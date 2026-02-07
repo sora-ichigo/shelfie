@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/registration/application/registration_form_state.dart';
 
@@ -16,6 +17,7 @@ class RegistrationSubmitButton extends ConsumerWidget {
     ref.watch(registrationFormStateProvider);
     final isValid = ref.read(registrationFormStateProvider.notifier).isValid;
     final isEnabled = isValid && onPressed != null;
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return SizedBox(
       width: double.infinity,
@@ -23,10 +25,10 @@ class RegistrationSubmitButton extends ConsumerWidget {
       child: FilledButton(
         onPressed: isEnabled ? onPressed : null,
         style: FilledButton.styleFrom(
-          backgroundColor: Colors.white,
-          disabledBackgroundColor: Colors.white.withOpacity(0.5),
-          foregroundColor: Colors.black,
-          disabledForegroundColor: Colors.black.withOpacity(0.5),
+          backgroundColor: appColors.textPrimary,
+          disabledBackgroundColor: appColors.textPrimary.withOpacity(0.5),
+          foregroundColor: appColors.overlay,
+          disabledForegroundColor: appColors.overlay.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.xl),
           ),
@@ -34,7 +36,7 @@ class RegistrationSubmitButton extends ConsumerWidget {
         child: Text(
           'アカウントを作成',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: isEnabled ? Colors.black : Colors.black.withOpacity(0.5),
+                color: isEnabled ? appColors.overlay : appColors.overlay.withOpacity(0.5),
               ),
         ),
       ),

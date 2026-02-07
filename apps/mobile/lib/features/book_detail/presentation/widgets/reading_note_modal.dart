@@ -116,7 +116,7 @@ class _ReadingNoteModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+                  color: appColors.destructive,
                 ),
               ),
             ),
@@ -178,12 +178,12 @@ class _ReadingNoteModalContentState
             ),
           ),
           child: _isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: appColors.textPrimary,
                   ),
                 )
               : const Text('保存'),

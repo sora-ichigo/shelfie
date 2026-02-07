@@ -11,7 +11,7 @@ class WelcomeBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return SizedBox.expand(
       child: Stack(
@@ -24,13 +24,13 @@ class WelcomeBackground extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return ColoredBox(
-                  color: colors?.background ?? const Color(0xFF0A0A0A),
+                  color: appColors.background,
                 );
               },
             ),
           ),
           ColoredBox(
-            color: Colors.black54,
+            color: appColors.overlay.withOpacity(0.54),
           ),
         ],
       ),

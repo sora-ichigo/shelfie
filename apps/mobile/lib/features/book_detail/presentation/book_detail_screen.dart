@@ -120,7 +120,8 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final isInShelf = shelfEntry != null;
 
     final theme = Theme.of(context);
-    final accentColor = _gradientColor ?? theme.colorScheme.surface;
+    final appColors = theme.extension<AppColors>()!;
+    final accentColor = _gradientColor ?? appColors.surface;
     final gradientHeight =
         MediaQuery.of(context).padding.top +
         kToolbarHeight +
@@ -143,7 +144,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [accentColor, accentColor, theme.colorScheme.surface],
+                  colors: [accentColor, accentColor, appColors.background],
                   stops: const [0.0, 0.2, 1.0],
                 ),
               ),

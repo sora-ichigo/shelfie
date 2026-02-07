@@ -13,6 +13,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
@@ -417,7 +418,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   size: 32.0,
                   color: isSelected
                       ? appColors.star
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      : appColors.textSecondary.withOpacity(0.4),
                 ),
               ),
             );
@@ -490,12 +491,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   ),
                 ),
                 child: _isAddingToShelf
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          color: appColors.textPrimary,
                         ),
                       )
                     : const Text('登録'),

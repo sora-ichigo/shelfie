@@ -9,6 +9,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 
 /// 読書状態選択モーダルのモード
@@ -132,7 +133,7 @@ class _ReadingStatusModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+                  color: theme.extension<AppColors>()!.destructive,
                 ),
               ),
             ),
@@ -254,7 +255,7 @@ class _ReadingStatusModalContentState
                   size: AppIconSize.xxl,
                   color: isSelected
                       ? appColors.star
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      : appColors.textSecondary.withOpacity(0.4),
                 ),
               ),
             );
@@ -315,12 +316,12 @@ class _ReadingStatusModalContentState
             ),
           ),
           child: _isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: appColors.textPrimary,
                   ),
                 )
               : Text(_primaryButtonLabel),

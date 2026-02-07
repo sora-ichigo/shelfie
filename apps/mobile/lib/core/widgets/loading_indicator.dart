@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// 再利用可能なローディングインジケータウィジェット
@@ -37,6 +38,7 @@ class LoadingIndicator extends StatelessWidget {
 
   Widget _buildIndicator(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     if (message == null) {
       return const CircularProgressIndicator();
@@ -50,7 +52,7 @@ class LoadingIndicator extends StatelessWidget {
         Text(
           message!,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+            color: appColors.textSecondary,
           ),
           textAlign: TextAlign.center,
         ),

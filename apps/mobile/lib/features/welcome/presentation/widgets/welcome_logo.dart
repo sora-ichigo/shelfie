@@ -13,7 +13,7 @@ class WelcomeLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -30,14 +30,14 @@ class WelcomeLogo extends StatelessWidget {
             fontWeight: FontWeight.w600,
             letterSpacing: 0.0,
             height: 1.2,
-            color: colors?.textPrimary ?? Colors.white,
+            color: appColors.textPrimary,
           ),
         ),
         SizedBox(height: AppSpacing.xs),
         Text(
           '読書家のための本棚',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: colors?.textSecondary ?? const Color(0xFFA0A0A0),
+                color: appColors.textSecondary,
               ),
         ),
       ],

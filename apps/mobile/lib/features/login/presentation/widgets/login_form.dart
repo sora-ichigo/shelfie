@@ -48,7 +48,7 @@ class _ForgotPasswordLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     return Align(
       alignment: Alignment.centerRight,
@@ -57,7 +57,7 @@ class _ForgotPasswordLink extends StatelessWidget {
         child: Text(
           'パスワードを忘れた方',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.primary ?? const Color(0xFF4FD1C5),
+            color: appColors.primary,
           ),
         ),
       ),

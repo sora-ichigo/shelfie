@@ -3,8 +3,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 InputDecoration _buildInputDecoration({
-  required ThemeData theme,
-  required AppColors? colors,
+  required AppColors colors,
   String? hintText,
   String? errorText,
   Widget? suffixIcon,
@@ -13,7 +12,7 @@ InputDecoration _buildInputDecoration({
     hintText: hintText,
     suffixIcon: suffixIcon,
     filled: true,
-    fillColor: colors?.surface,
+    fillColor: colors.surface,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: BorderSide.none,
@@ -21,15 +20,13 @@ InputDecoration _buildInputDecoration({
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: errorText != null
-          ? BorderSide(color: theme.colorScheme.error, width: 1)
+          ? BorderSide(color: colors.destructive, width: 1)
           : BorderSide.none,
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: BorderSide(
-        color: errorText != null
-            ? theme.colorScheme.error
-            : (colors?.primary ?? theme.colorScheme.primary),
+        color: errorText != null ? colors.destructive : colors.primary,
         width: 2,
       ),
     ),
@@ -76,7 +73,7 @@ class LabeledTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final colors = theme.extension<AppColors>()!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,10 +97,9 @@ class LabeledTextField extends StatelessWidget {
           style: enabled
               ? null
               : theme.textTheme.bodyLarge?.copyWith(
-                  color: colors?.textSecondary,
+                  color: colors.textSecondary,
                 ),
           decoration: _buildInputDecoration(
-            theme: theme,
             colors: colors,
             hintText: hintText,
             errorText: errorText,
@@ -115,7 +111,7 @@ class LabeledTextField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.error,
+              color: colors.destructive,
             ),
           ),
         ],
@@ -145,7 +141,7 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final colors = theme.extension<AppColors>()!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +159,6 @@ class EmailField extends StatelessWidget {
           autocorrect: false,
           onChanged: onChanged,
           decoration: _buildInputDecoration(
-            theme: theme,
             colors: colors,
             hintText: hintText,
             errorText: errorText,
@@ -174,7 +169,7 @@ class EmailField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.error,
+              color: colors.destructive,
             ),
           ),
         ],
@@ -212,7 +207,7 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final colors = theme.extension<AppColors>()!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,14 +227,13 @@ class PasswordField extends StatelessWidget {
           onChanged: onChanged,
           textInputAction: textInputAction,
           decoration: _buildInputDecoration(
-            theme: theme,
             colors: colors,
             hintText: hintText,
             errorText: errorText,
             suffixIcon: IconButton(
               icon: Icon(
                 isObscured ? Icons.visibility_off : Icons.visibility,
-                color: colors?.textSecondary,
+                color: colors.textSecondary,
               ),
               onPressed: onToggleVisibility,
             ),
@@ -250,7 +244,7 @@ class PasswordField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.error,
+              color: colors.destructive,
             ),
           ),
         ],
