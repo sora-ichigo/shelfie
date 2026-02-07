@@ -70,7 +70,7 @@ describe("ExternalBookRepository", () => {
       );
     });
 
-    it("ページネーションパラメータが正しく送信される（offset を page に変換）", async () => {
+    it("2ページ目以降は title のみで検索する", async () => {
       const mockResponse = {
         count: 100,
         page: 3,
@@ -87,6 +87,11 @@ describe("ExternalBookRepository", () => {
 
       await repository.searchByQuery("test", 10, 20);
 
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("title="),
+        expect.any(Object),
+      );
       expect(fetch).toHaveBeenCalledWith(
         expect.stringMatching(/page=3/),
         expect.any(Object),
@@ -236,6 +241,29 @@ describe("ExternalBookRepository", () => {
       if (!result.success && result.error.code === "API_ERROR") {
         expect(result.error.statusCode).toBe(400);
       }
+    });
+
+    it("1ページ目は取得サイズを拡大する（最低20件）", async () => {
+      const mockResponse = {
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("テスト", 10, 0);
+
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringMatching(/hits=20/),
+        expect.any(Object),
+      );
     });
 
     it("title と author の両方のパラメータでAPIを呼び出す", async () => {

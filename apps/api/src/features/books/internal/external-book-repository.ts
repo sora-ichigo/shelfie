@@ -37,6 +37,7 @@ const RAKUTEN_BOOKS_API_URL =
   "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404";
 const TIMEOUT_MS = 3000;
 const MAX_HITS = 30;
+const FIRST_PAGE_MIN_HITS = 20;
 
 function offsetToPage(offset: number, limit: number): number {
   return Math.floor(offset / limit) + 1;
@@ -150,7 +151,10 @@ export function createExternalBookRepository(
         ExternalApiErrors
       >
     > {
-      const hits = Math.min(limit, MAX_HITS);
+      const isFirstPage = offset === 0;
+      const hits = isFirstPage
+        ? Math.min(Math.max(limit, FIRST_PAGE_MIN_HITS), MAX_HITS)
+        : Math.min(limit, MAX_HITS);
       const page = offsetToPage(offset, hits);
 
       const titleUrl = buildSearchUrl(applicationId, {
@@ -159,6 +163,10 @@ export function createExternalBookRepository(
         page,
         sort: "reviewCount",
       });
+
+      if (!isFirstPage) {
+        return fetchAndParse(titleUrl);
+      }
 
       const authorUrl = buildSearchUrl(applicationId, {
         author: query,
