@@ -1,0 +1,11 @@
+name: shelfie_lints
+description: Custom lint rules for Shelfie app
+publish_to: "none"
+
+environment:
+  sdk: ">=3.9.2 <4.0.0"
+
+dependencies:
+  analyzer: ">=6.6.0 <8.0.0"
+  analyzer_plugin: ">=0.11.0 <0.14.0"
+  custom_lint_builder: ">=0.7.0 <0.9.0"
