@@ -17,6 +17,11 @@ output "android_app_id" {
   value       = var.android_package_name != null ? google_firebase_android_app.default[0].app_id : null
 }
 
+output "android_dev_app_id" {
+  description = "Firebase Android Dev App ID (for App Distribution)"
+  value       = var.android_dev_package_name != null ? google_firebase_android_app.dev[0].app_id : null
+}
+
 output "ios_app_id" {
   description = "Firebase iOS App ID"
   value       = var.ios_bundle_id != null ? google_firebase_apple_app.default[0].app_id : null
@@ -39,6 +44,12 @@ output "web_app_id" {
 output "android_config_json" {
   description = "google-services.json content for Android"
   value       = var.android_package_name != null ? data.google_firebase_android_app_config.default[0].config_file_contents : null
+  sensitive   = true
+}
+
+output "android_dev_config_json" {
+  description = "google-services.json content for Android dev (for App Distribution)"
+  value       = var.android_dev_package_name != null ? data.google_firebase_android_app_config.dev[0].config_file_contents : null
   sensitive   = true
 }
 
