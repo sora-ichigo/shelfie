@@ -483,23 +483,27 @@ class _MainShell extends ConsumerWidget {
       body: navigationShell,
       bottomNavigationBar: isNavBarHidden
           ? null
-          : CupertinoTabBar(
-              currentIndex: selectedIndex,
-              onTap: onTap,
-              activeColor: appColors.textPrimary,
-              inactiveColor: appColors.textPrimary.withOpacity(0.7),
-              backgroundColor: AppColors.dark.background,
-              border: const Border(),
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.book),
-                  label: 'ライブラリ',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.search),
-                  label: 'さがす',
-                ),
-              ],
+          : Container(
+              color: appColors.surface,
+              padding: const EdgeInsets.only(top: 8),
+              child: CupertinoTabBar(
+                currentIndex: selectedIndex,
+                onTap: onTap,
+                activeColor: appColors.textPrimary,
+                inactiveColor: appColors.textPrimary.withOpacity(0.7),
+                backgroundColor: appColors.surface,
+                border: const Border(),
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.book),
+                    label: 'ライブラリ',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.search),
+                    label: 'さがす',
+                  ),
+                ],
+              ),
             ),
     );
   }
