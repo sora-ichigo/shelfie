@@ -18,10 +18,13 @@ class SearchFilterBar extends StatelessWidget {
   final void Function(SortOption) onSortChanged;
 
   Future<void> _showSortBottomSheet(BuildContext context) async {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     final result = await showModalBottomSheet<SortOption>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
+      backgroundColor: appColors.surface,
       builder: (context) => _SortBottomSheet(
         currentOption: sortOption,
       ),
@@ -42,7 +45,7 @@ class SearchFilterBar extends StatelessWidget {
       semanticLabel: sortOption != SortOption.defaultOption
           ? '並び替え（${sortOption.displayName}）'
           : '並び替え',
-      color: appColors.chipHighlight,
+      color: appColors.textSecondary,
       onTap: () => _showSortBottomSheet(context),
     );
   }
@@ -102,7 +105,7 @@ class _SortBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     return BaseBottomSheet(
       title: '並び替え',
@@ -114,7 +117,7 @@ class _SortBottomSheet extends StatelessWidget {
             label: option.displayName,
             isSelected: isSelected,
             onTap: () => Navigator.of(context).pop(option),
-            colors: colors,
+            appColors: appColors,
             theme: theme,
           );
         }).toList(),
@@ -128,14 +131,14 @@ class _OptionTile extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
-    required this.colors,
+    required this.appColors,
     required this.theme,
   });
 
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
-  final AppColors? colors;
+  final AppColors appColors;
   final ThemeData theme;
 
   @override
@@ -146,8 +149,8 @@ class _OptionTile extends StatelessWidget {
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
-            ? colors?.accent ?? theme.colorScheme.primary
-            : theme.colorScheme.onSurfaceVariant,
+            ? appColors.primary
+            : appColors.textSecondary,
       ),
       title: Text(
         label,

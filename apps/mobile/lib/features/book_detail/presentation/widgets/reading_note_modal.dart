@@ -19,9 +19,12 @@ Future<void> showReadingNoteModal({
   required int userBookId,
   required String externalId,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    backgroundColor: appColors.surface,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -72,6 +75,7 @@ class _ReadingNoteModalContentState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     return BaseBottomSheet(
       title: '読書メモを編集',
@@ -82,28 +86,25 @@ class _ReadingNoteModalContentState
             controller: _controller,
             maxLines: 6,
             minLines: 3,
+            style: TextStyle(color: appColors.textPrimary),
+            cursorColor: appColors.primary,
             decoration: InputDecoration(
               hintText: 'この本の感想を書く...',
+              hintStyle: TextStyle(color: appColors.inactive),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.outline.withOpacity(0.3),
-                ),
+                borderSide: BorderSide(color: appColors.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.outline.withOpacity(0.3),
-                ),
+                borderSide: BorderSide(color: appColors.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: Theme.of(context).extension<AppColors>()!.accent,
-                ),
+                borderSide: BorderSide(color: appColors.primary),
               ),
               filled: true,
-              fillColor: theme.colorScheme.surfaceContainerHighest,
+              fillColor: appColors.surfaceElevated,
               contentPadding: AppSpacing.all(AppSpacing.md),
             ),
             enabled: !_isSaving,
@@ -115,7 +116,7 @@ class _ReadingNoteModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+                  color: appColors.destructive,
                 ),
               ),
             ),
@@ -136,8 +137,8 @@ class _ReadingNoteModalContentState
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -161,11 +162,7 @@ class _ReadingNoteModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [appColors.success, appColors.accent],
-          ),
+          color: appColors.primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(
@@ -174,19 +171,19 @@ class _ReadingNoteModalContentState
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            foregroundColor: appColors.textPrimary,
+            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
           child: _isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: appColors.textPrimary,
                   ),
                 )
               : const Text('保存'),

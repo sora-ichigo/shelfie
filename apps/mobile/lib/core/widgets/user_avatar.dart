@@ -47,15 +47,15 @@ class _DefaultAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final colors = Theme.of(context).extension<AppColors>()!;
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.accent ?? const Color(0xFF4FD1C5),
+      backgroundColor: colors.primary,
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors?.background ?? const Color(0xFF0A0A0A),
+        color: colors.background,
       ),
     );
   }
@@ -68,15 +68,15 @@ class _LoadingAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final colors = Theme.of(context).extension<AppColors>()!;
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.surface ?? const Color(0xFF1A1A1A),
+      backgroundColor: colors.surface,
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+        color: colors.textSecondary,
       ),
     );
   }
@@ -110,11 +110,11 @@ class _ImageAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>();
+    final colors = Theme.of(context).extension<AppColors>()!;
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors?.surface ?? const Color(0xFF1A1A1A),
+      backgroundColor: colors.surface,
       backgroundImage: imageProvider,
     );
   }

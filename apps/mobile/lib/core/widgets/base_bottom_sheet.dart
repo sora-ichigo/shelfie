@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// 共通のボトムシート基本レイアウト
@@ -7,13 +8,13 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 /// アプリ内の全てのボトムシートで使用することで、一貫したUIを提供する。
 class BaseBottomSheet extends StatelessWidget {
   const BaseBottomSheet({
-    required this.title,
     required this.child,
+    this.title,
     super.key,
   });
 
-  /// ボトムシートのタイトル
-  final String title;
+  /// ボトムシートのタイトル（省略可）
+  final String? title;
 
   /// ボトムシートのコンテンツ
   final Widget child;
@@ -21,6 +22,8 @@ class BaseBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final appColors = theme.extension<AppColors>()!;
 
     return SafeArea(
       child: Padding(
@@ -30,13 +33,16 @@ class BaseBottomSheet extends StatelessWidget {
           children: [
             _buildDragHandle(theme),
             const SizedBox(height: AppSpacing.md),
-            Text(
-              title,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
+            if (title != null) ...[
+              Text(
+                title!,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: appColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.lg),
+            ],
             child,
           ],
         ),
@@ -45,11 +51,13 @@ class BaseBottomSheet extends StatelessWidget {
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );

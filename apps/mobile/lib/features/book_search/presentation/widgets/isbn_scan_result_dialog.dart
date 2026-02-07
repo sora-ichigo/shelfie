@@ -14,7 +14,9 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -30,10 +32,13 @@ class ISBNScanResultDialog extends ConsumerStatefulWidget {
   final String isbn;
 
   static Future<bool?> show(BuildContext context, String isbn) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
+      backgroundColor: appColors.surface,
       builder: (context) => ISBNScanResultDialog(isbn: isbn),
     );
   }
@@ -168,46 +173,30 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            if (_isLoading)
-              _buildLoadingState()
-            else if (_errorMessage != null)
-              _buildErrorState(theme)
-            else if (_book != null) ...[
-              _buildBookInfo(theme, appColors),
-              const SizedBox(height: AppSpacing.lg),
-              _buildReadingStatusSection(theme, appColors),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-                alignment: Alignment.topCenter,
-                child: _selectedStatus == ReadingStatus.completed
-                    ? _buildRatingSection(theme, appColors)
-                    : const SizedBox.shrink(),
-              ),
-            ],
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_isLoading)
+            _buildLoadingState()
+          else if (_errorMessage != null)
+            _buildErrorState(theme)
+          else if (_book != null) ...[
+            _buildBookInfo(theme, appColors),
             const SizedBox(height: AppSpacing.lg),
-            _buildActions(theme, appColors),
+            _buildReadingStatusSection(theme, appColors),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              alignment: Alignment.topCenter,
+              child: _selectedStatus == ReadingStatus.completed
+                  ? _buildRatingSection(theme, appColors)
+                  : const SizedBox.shrink(),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
+          const SizedBox(height: AppSpacing.lg),
+          _buildActions(theme, appColors),
+        ],
       ),
     );
   }
@@ -231,7 +220,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             Icon(
               Icons.search_off,
               size: 48,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.extension<AppColors>()!.textSecondary,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
@@ -295,7 +284,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.captionSmall.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -308,12 +297,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -326,7 +315,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -354,8 +343,9 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
   }
 
   Widget _buildStatusButton(ThemeData theme, ReadingStatus status) {
+    final appColors = theme.extension<AppColors>()!;
     final isSelected = _selectedStatus == status;
-    final statusColor = _getStatusColor(status);
+    final statusColor = status.color;
 
     return InkWell(
       onTap: _isAddingToShelf
@@ -374,12 +364,11 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? statusColor.withOpacity(0.3)
-              : theme.colorScheme.surfaceContainerHighest,
+              ? statusColor.withOpacity(0.15)
+              : appColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
+            color: isSelected ? statusColor : appColors.border,
           ),
         ),
         child: Center(
@@ -387,21 +376,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : appColors.textSecondary,
             ),
           ),
         ),
       ),
     );
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
   }
 
   Widget _buildRatingSection(ThemeData theme, AppColors appColors) {
@@ -412,7 +392,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -437,8 +417,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.accentSecondary
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ? appColors.star
+                      : appColors.textSecondary.withOpacity(0.4),
                 ),
               ),
             );
@@ -479,8 +459,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
               onPressed:
                   _isAddingToShelf ? null : () => Navigator.pop(context, false),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
@@ -495,11 +475,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             height: 48,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [appColors.success, appColors.accent],
-                ),
+                color: appColors.primary,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
               child: ElevatedButton(
@@ -508,19 +484,19 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   disabledBackgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  disabledForegroundColor: Colors.white.withOpacity(0.5),
+                  foregroundColor: appColors.textPrimary,
+                  disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
                 ),
                 child: _isAddingToShelf
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Colors.white,
+                          color: appColors.textPrimary,
                         ),
                       )
                     : const Text('登録'),

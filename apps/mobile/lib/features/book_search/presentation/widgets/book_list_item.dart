@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
@@ -25,6 +26,7 @@ class BookListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     final listTile = ListTile(
       onTap: onTap,
@@ -44,7 +46,7 @@ class BookListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ),
           if (_hasPublisherInfo())
@@ -53,7 +55,7 @@ class BookListItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: appColors.textSecondary,
               ),
             ),
         ],
@@ -86,16 +88,17 @@ class BookListItem extends StatelessWidget {
   }
 
   Widget _buildPlaceholder(ThemeData theme, double width, double height) {
+    final appColors = theme.extension<AppColors>()!;
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: appColors.surfaceElevated,
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,
-        color: theme.colorScheme.onSurfaceVariant,
+        color: appColors.textSecondary,
       ),
     );
   }
@@ -116,12 +119,13 @@ class BookListItem extends StatelessWidget {
     }
 
     if (book.isInShelf) {
+      final appColors = theme.extension<AppColors>()!;
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.check_circle,
-            color: theme.colorScheme.primary,
+            color: appColors.primary,
           ),
           const SizedBox(width: 4),
           IconButton(
@@ -129,7 +133,7 @@ class BookListItem extends StatelessWidget {
             icon: Icon(
               Icons.close,
               size: 20,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
             tooltip: 'マイライブラリから削除',
             visualDensity: VisualDensity.compact,

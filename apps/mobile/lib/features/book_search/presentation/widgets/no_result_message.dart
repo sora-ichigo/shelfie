@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class NoResultMessage extends StatelessWidget {
@@ -9,7 +10,7 @@ class NoResultMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final onSurfaceVariant = theme.colorScheme.onSurfaceVariant;
+    final appColors = theme.extension<AppColors>()!;
 
     return Center(
       child: Padding(
@@ -20,13 +21,13 @@ class NoResultMessage extends StatelessWidget {
             Icon(
               Icons.search_off,
               size: 64,
-              color: onSurfaceVariant,
+              color: appColors.inactive,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               '検索結果がありません',
               style: theme.textTheme.titleLarge?.copyWith(
-                color: theme.colorScheme.onSurface,
+                color: appColors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -34,7 +35,7 @@ class NoResultMessage extends StatelessWidget {
             Text(
               '「$query」に一致する書籍が見つかりませんでした。',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: onSurfaceVariant,
+                color: appColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),

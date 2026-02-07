@@ -2,6 +2,7 @@ import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/login/application/login_notifier.dart';
 import 'package:shelfie/features/login/presentation/widgets/login_background.dart';
@@ -53,9 +54,9 @@ class LoginScreen extends ConsumerWidget {
             ),
           ),
           if (isLoading)
-            const ColoredBox(
-              color: Colors.black26,
-              child: Center(
+            ColoredBox(
+              color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.26),
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

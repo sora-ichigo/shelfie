@@ -6,6 +6,7 @@ import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 
 /// 読書記録セクション
 ///
@@ -122,21 +123,23 @@ class ReadingRecordSection extends StatelessWidget {
         const BorderRadius.vertical(bottom: Radius.circular(8)),
     };
 
+    final appColors = theme.extension<AppColors>()!;
+
     final border = switch (position) {
       _RowPosition.first || _RowPosition.middle => Border(
-          left: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-          right: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-          top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+          left: BorderSide(color: appColors.border),
+          right: BorderSide(color: appColors.border),
+          top: BorderSide(color: appColors.border),
         ),
       _RowPosition.last => Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.3),
+          color: appColors.border,
         ),
     };
 
     final content = Container(
       padding: AppSpacing.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.4),
+        color: appColors.surface,
         borderRadius: borderRadius,
         border: border,
       ),
@@ -146,7 +149,7 @@ class ReadingRecordSection extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ),
           Row(
@@ -164,7 +167,7 @@ class ReadingRecordSection extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 Icon(
                   Icons.chevron_right,
-                  color: theme.colorScheme.onSurfaceVariant,
+                  color: appColors.textSecondary,
                 ),
               ],
             ],
@@ -184,7 +187,7 @@ class ReadingRecordSection extends StatelessWidget {
   }
 
   Widget _buildStatusTag(BuildContext context, ReadingStatus status) {
-    final color = _getStatusColor(status);
+    final color = status.color;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -216,7 +219,7 @@ class ReadingRecordSection extends StatelessWidget {
       return Text(
         '未評価',
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant.withOpacity(0.6),
+          color: appColors.textSecondary.withOpacity(0.6),
         ),
       );
     }
@@ -229,27 +232,20 @@ class ReadingRecordSection extends StatelessWidget {
           isFilled ? Icons.star_rounded : Icons.star_border_rounded,
           size: 18,
           color: isFilled
-              ? appColors.accentSecondary
-              : theme.colorScheme.onSurfaceVariant.withOpacity(0.3),
+              ? appColors.star
+              : appColors.inactive,
         );
       }),
     );
   }
 
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
-  }
-
   Future<void> _showCompletedAtPicker(BuildContext context) async {
     final initialDate = shelfEntry.completedAt ?? DateTime.now();
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: appColors.surface,
       builder: (context) => _DatePickerSheet(
         title: '読了日を変更',
         initialDate: initialDate,
@@ -266,9 +262,11 @@ class ReadingRecordSection extends StatelessWidget {
 
   Future<void> _showStartedAtPicker(BuildContext context) async {
     final initialDate = shelfEntry.startedAt ?? DateTime.now();
+    final appColorsForPicker = Theme.of(context).extension<AppColors>()!;
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: appColorsForPicker.surface,
       builder: (context) => _DatePickerSheet(
         title: shelfEntry.startedAt != null ? '読書開始日を変更' : '読書開始日を設定',
         initialDate: initialDate,
@@ -344,8 +342,8 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.1),
-                      foregroundColor: Colors.white,
+                      backgroundColor: appColors.textPrimary.withOpacity(0.1),
+                      foregroundColor: appColors.textPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AppRadius.lg),
                       ),
@@ -360,11 +358,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   height: 48,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [appColors.success, appColors.accent],
-                      ),
+                      color: appColors.primary,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                     ),
                     child: ElevatedButton(
@@ -372,7 +366,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        foregroundColor: Colors.white,
+                        foregroundColor: appColors.textPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.lg),
                         ),

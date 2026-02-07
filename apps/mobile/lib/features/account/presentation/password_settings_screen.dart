@@ -1,6 +1,7 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -20,6 +21,7 @@ class PasswordSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final settingsState = ref.watch(passwordSettingsNotifierProvider);
     final formState = ref.watch(passwordFormStateProvider);
 
@@ -85,7 +87,7 @@ class PasswordSettingsScreen extends ConsumerWidget {
             ),
             if (isLoading)
               ColoredBox(
-                color: Colors.black.withOpacity(0.3),
+                color: appColors.overlay.withOpacity(0.3),
                 child: const LoadingIndicator(fullScreen: true),
               ),
           ],

@@ -21,7 +21,7 @@ class AvatarEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     ImageProvider? imageProvider;
     if (pendingImage != null) {
@@ -43,10 +43,10 @@ class AvatarEditor extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.xs),
               decoration: BoxDecoration(
-                color: colors?.surface ?? const Color(0xFF1A1A1A),
+                color: appColors.surface,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: colors?.background ?? const Color(0xFF0A0A0A),
+                  color: appColors.background,
                   width: 2,
                 ),
               ),

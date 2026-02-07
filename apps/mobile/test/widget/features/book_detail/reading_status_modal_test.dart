@@ -14,6 +14,7 @@ import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/domain/user_book.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 
 class MockBookDetailRepository extends Mock implements BookDetailRepository {}
@@ -114,7 +115,7 @@ void main() {
         ).first,
       );
       final decoration = readingButton.decoration as BoxDecoration?;
-      expect(decoration?.border?.top.width, 2);
+      expect(decoration?.border?.top.color, ReadingStatus.reading.color);
     });
 
     testWidgets('保存ボタンとキャンセルボタンが表示される', (tester) async {
@@ -153,7 +154,7 @@ void main() {
         ).first,
       );
       final decoration = completedButton.decoration as BoxDecoration?;
-      expect(decoration?.border?.top.width, 2);
+      expect(decoration?.border?.top.color, ReadingStatus.completed.color);
     });
 
     testWidgets('変更がない場合は保存ボタンが無効化される', (tester) async {

@@ -15,15 +15,15 @@ class PasswordResetSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final colors = theme.extension<AppColors>()!;
 
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: colors?.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppSpacing.md),
         border: Border.all(
-          color: colors?.overlay ?? Colors.transparent,
+          color: colors.border,
         ),
       ),
       child: Column(
@@ -34,7 +34,7 @@ class PasswordResetSection extends StatelessWidget {
               Icon(
                 Icons.mail_outline,
                 size: 20,
-                color: colors?.foregroundMuted,
+                color: colors.textSecondary,
               ),
               const SizedBox(width: AppSpacing.xs),
               Text(
@@ -49,7 +49,7 @@ class PasswordResetSection extends StatelessWidget {
           Text(
             '登録されているメールアドレスにパスワードリセット用のリンクを送信します。',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted,
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -60,7 +60,7 @@ class PasswordResetSection extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 side: BorderSide(
-                  color: colors?.accent ?? Colors.blue,
+                  color: colors.primary,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSpacing.sm),
@@ -72,12 +72,12 @@ class PasswordResetSection extends StatelessWidget {
                       width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: colors?.accent,
+                        color: colors.primary,
                       ),
                     )
                   : Text(
                       'リセットメールを送信',
-                      style: TextStyle(color: colors?.accent),
+                      style: TextStyle(color: colors.primary),
                     ),
             ),
           ),

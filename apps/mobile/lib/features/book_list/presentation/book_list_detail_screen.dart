@@ -109,7 +109,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     size: 64,
                     color: Theme.of(context)
                         .extension<AppColors>()!
-                        .foregroundMuted,
+                        .textSecondary,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
@@ -117,7 +117,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context)
                               .extension<AppColors>()!
-                              .foregroundMuted,
+                              .textSecondary,
                         ),
                   ),
                 ],
@@ -150,17 +150,20 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onMorePressed(BookListDetail list) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     showModalBottomSheet<void>(
       context: context,
+      backgroundColor: appColors.surface,
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.delete_outline, color: Colors.red),
-              title: const Text(
+              leading: Icon(Icons.delete_outline, color: appColors.destructive),
+              title: Text(
                 'リストを削除',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: appColors.destructive),
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -186,7 +189,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
+            child: Text('削除', style: TextStyle(color: Theme.of(context).extension<AppColors>()!.destructive)),
           ),
         ],
       ),
@@ -332,7 +335,9 @@ class _DetailHeader extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
+              // ignore: avoid_direct_colors
               Color(0xFF1A4B8C),
+              // ignore: avoid_direct_colors
               Color(0xFF0A1929),
             ],
           ),
@@ -348,6 +353,7 @@ class _DetailHeader extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new),
+                    // ignore: avoid_direct_colors
                     color: Colors.white,
                     onPressed: onBack,
                   ),
@@ -365,6 +371,7 @@ class _DetailHeader extends StatelessWidget {
                           Text(
                             list.title,
                             style: theme.textTheme.titleLarge?.copyWith(
+                              // ignore: avoid_direct_colors
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -373,6 +380,7 @@ class _DetailHeader extends StatelessWidget {
                           Text(
                             '${list.stats.bookCount}冊',
                             style: theme.textTheme.bodyMedium?.copyWith(
+                              // ignore: avoid_direct_colors
                               color: Colors.white70,
                             ),
                           ),
@@ -381,6 +389,7 @@ class _DetailHeader extends StatelessWidget {
                             Text(
                               list.description!,
                               style: theme.textTheme.bodySmall?.copyWith(
+                                // ignore: avoid_direct_colors
                                 color: Colors.white60,
                               ),
                               maxLines: 2,
@@ -418,11 +427,13 @@ class _CoverCollage extends StatelessWidget {
         width: _size,
         height: _size,
         decoration: BoxDecoration(
+          // ignore: avoid_direct_colors
           color: Colors.white12,
           borderRadius: BorderRadius.circular(_radius),
         ),
         child: const Icon(
           Icons.menu_book_outlined,
+          // ignore: avoid_direct_colors
           color: Colors.white38,
           size: 32,
         ),
@@ -561,11 +572,13 @@ class _CoverCollage extends StatelessWidget {
       placeholder: (context, url) => Container(
         width: width,
         height: height,
+        // ignore: avoid_direct_colors
         color: Colors.white12,
       ),
       errorWidget: (context, url, error) => Container(
         width: width,
         height: height,
+        // ignore: avoid_direct_colors
         color: Colors.white12,
       ),
     );
@@ -598,9 +611,9 @@ class _ActionButtons extends StatelessWidget {
               icon: const Icon(Icons.add, size: 20),
               label: const Text('本を追加'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black87,
-                iconColor: Colors.black87,
+                backgroundColor: appColors.textPrimary,
+                foregroundColor: appColors.overlay.withOpacity(0.87),
+                iconColor: appColors.overlay.withOpacity(0.87),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -682,7 +695,7 @@ class _BookListItemTile extends StatelessWidget {
               child: Text(
                 '$position',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -725,7 +738,7 @@ class _BookListItemTile extends StatelessWidget {
                     Text(
                       userBook.authors.join('、'),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: appColors.foregroundMuted,
+                        color: appColors.textSecondary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -757,7 +770,7 @@ class _BookPlaceholder extends StatelessWidget {
       ),
       child: Icon(
         Icons.book,
-        color: appColors.foregroundMuted,
+        color: appColors.textSecondary,
         size: 24,
       ),
     );
@@ -783,7 +796,7 @@ class _StatsSection extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: appColors.foregroundMuted.withOpacity(0.2),
+            color: appColors.textSecondary.withOpacity(0.2),
           ),
         ),
       ),
@@ -829,7 +842,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
       ],

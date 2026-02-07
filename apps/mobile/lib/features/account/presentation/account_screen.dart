@@ -160,19 +160,21 @@ class _LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: ElevatedButton.icon(
         onPressed: onLogout,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white.withOpacity(0.1),
-          foregroundColor: Colors.white,
+          backgroundColor: appColors.textPrimary.withOpacity(0.1),
+          foregroundColor: appColors.textPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.logout, size: 20, color: Colors.white),
+        icon: Icon(Icons.logout, size: 20, color: appColors.textPrimary),
         label: const Text('ログアウト'),
       ),
     );
@@ -186,13 +188,15 @@ class _DeleteAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return SizedBox(
       width: double.infinity,
       height: 48,
       child: TextButton(
         onPressed: onDeleteAccount,
         style: TextButton.styleFrom(
-          foregroundColor: Colors.red.shade300,
+          foregroundColor: appColors.destructive,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -231,7 +235,7 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.extension<AppColors>();
+    final appColors = theme.extension<AppColors>()!;
 
     return Center(
       child: Column(
@@ -239,39 +243,29 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
           Text(
             'Shelfie $_version',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: appColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(
-              colors: [
-                Color(0xFF00D492),
-                Color(0xFF00D5BE),
-                Color(0xFF00D3F2),
-              ],
-              stops: [0.0, 0.5, 1.0],
-            ).createShader(bounds),
-            child: Text(
-              'Shelfie',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+          Text(
+            'Shelfie',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              color: appColors.primary,
+              fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
             '読書家のための本棚',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: appColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             '© ${DateTime.now().year} sora ichigo',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.foregroundMuted ?? const Color(0xFFA0A0A0),
+              color: appColors.textSecondary,
             ),
           ),
         ],

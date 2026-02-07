@@ -8,9 +8,12 @@ Future<void> showImageSourceBottomSheet({
   required VoidCallback onCameraSelected,
   required VoidCallback onGallerySelected,
 }) {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _ImageSourceBottomSheetContent(
       onCameraSelected: () {
         Navigator.pop(context);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class SearchBarWidget extends StatelessWidget {
@@ -26,6 +27,8 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+    final borderRadius = BorderRadius.circular(AppSpacing.sm);
 
     return Container(
       padding: AppSpacing.horizontal(AppSpacing.md),
@@ -41,12 +44,15 @@ class SearchBarWidget extends StatelessWidget {
                   onChanged: onChanged,
                   onSubmitted: onSubmitted,
                   textInputAction: TextInputAction.search,
+                  cursorColor: appColors.primary,
+                  style: TextStyle(color: appColors.textPrimary),
                   decoration: InputDecoration(
                     hintText: hintText,
-                    prefixIcon: const Icon(Icons.search),
+                    hintStyle: TextStyle(color: appColors.inactive),
+                    prefixIcon: Icon(Icons.search, color: appColors.inactive),
                     suffixIcon: value.text.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(Icons.clear),
+                            icon: Icon(Icons.clear, color: appColors.inactive),
                             onPressed: () {
                               controller?.clear();
                               onChanged('');
@@ -54,10 +60,18 @@ class SearchBarWidget extends StatelessWidget {
                           )
                         : null,
                     filled: true,
-                    fillColor: theme.colorScheme.surfaceContainerHighest,
+                    fillColor: appColors.surface,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppSpacing.sm),
+                      borderRadius: borderRadius,
                       borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: borderRadius,
+                      borderSide: BorderSide(color: appColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: borderRadius,
+                      borderSide: BorderSide(color: appColors.primary),
                     ),
                     contentPadding: AppSpacing.vertical(AppSpacing.sm),
                   ),
@@ -77,9 +91,7 @@ class SearchBarWidget extends StatelessWidget {
                         onPressed: onCancelPressed,
                         child: Text(
                           'キャンセル',
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                          style: TextStyle(color: appColors.textSecondary),
                         ),
                       ),
                     ],
@@ -92,7 +104,7 @@ class SearchBarWidget extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: onScanPressed,
-                          borderRadius: BorderRadius.circular(AppSpacing.sm),
+                          borderRadius: borderRadius,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: AppSpacing.sm,
@@ -101,11 +113,11 @@ class SearchBarWidget extends StatelessWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(Icons.camera_alt_outlined),
+                                Icon(Icons.camera_alt_outlined, color: appColors.textPrimary),
                                 Text(
                                   'バーコード',
                                   style: theme.textTheme.labelSmall?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
+                                    color: appColors.textSecondary,
                                   ),
                                 ),
                               ],

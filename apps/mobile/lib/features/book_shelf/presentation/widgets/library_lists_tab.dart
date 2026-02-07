@@ -90,15 +90,15 @@ class _CreateListButton extends StatelessWidget {
       height: 56,
       child: ElevatedButton.icon(
         onPressed: onTap,
-        icon: const Icon(Icons.add, color: Colors.white, size: 20),
+        icon: Icon(Icons.add, color: appColors.textPrimary, size: 20),
         label: Text(
           '新しいリスト',
           style: theme.textTheme.labelLarge?.copyWith(
-            color: Colors.white,
+            color: appColors.textPrimary,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: appColors.surfaceSubtle,
+          backgroundColor: appColors.surface,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.xl),

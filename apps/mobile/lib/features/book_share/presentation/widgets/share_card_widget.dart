@@ -58,7 +58,7 @@ class _SimpleContent extends StatelessWidget {
     final appColors = AppColors.dark;
 
     return Container(
-      decoration: BoxDecoration(color: accentColor ?? appColors.surfaceCard),
+      decoration: BoxDecoration(color: accentColor ?? appColors.surface),
       child: Padding(
         padding: AppSpacing.all(48),
         child: Column(
@@ -82,7 +82,7 @@ class _SimpleContent extends StatelessWidget {
                 style: AppTypography.titleLarge.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
-                  color: appColors.foreground,
+                  color: appColors.textPrimary,
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class _SimpleContent extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: AppTypography.bodyMedium.copyWith(
                   fontSize: 52,
-                  color: appColors.foreground,
+                  color: appColors.textPrimary,
                 ),
               ),
             ),
@@ -122,7 +122,7 @@ class _SimpleContent extends StatelessWidget {
                     'Shelfie',
                     style: AppTypography.bodySmall.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: appColors.foreground,
+                      color: appColors.textPrimary,
                       fontSize: 52,
                     ),
                   ),
@@ -147,13 +147,13 @@ class _CardContent extends StatelessWidget {
     final appColors = AppColors.dark;
 
     return ColoredBox(
-      color: accentColor ?? appColors.surfaceCard,
+      color: accentColor ?? appColors.surface,
       child: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 190, vertical: 48),
           padding: const EdgeInsets.all(40),
           decoration: BoxDecoration(
-            color: const Color(0x66000000),
+            color: appColors.overlay.withOpacity(0.4),
             borderRadius: AppRadius.circular(32),
           ),
           child: Column(
@@ -177,7 +177,7 @@ class _CardContent extends StatelessWidget {
                 style: AppTypography.titleLarge.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
-                  color: appColors.foreground,
+                  color: appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: AppSpacing.xxs),
@@ -189,7 +189,7 @@ class _CardContent extends StatelessWidget {
                 style: AppTypography.bodyMedium.copyWith(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
               ),
               const SizedBox(height: 48),
@@ -210,7 +210,7 @@ class _CardContent extends StatelessWidget {
                     Text(
                       'Shelfie',
                       style: AppTypography.bodySmall.copyWith(
-                        color: appColors.foreground,
+                        color: appColors.textPrimary,
                         fontWeight: FontWeight.w600,
                         fontSize: 52,
                       ),
@@ -237,11 +237,11 @@ class _CoverImage extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: AppRadius.circular(20),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x40000000),
+            color: colors.overlay.withOpacity(0.25),
             blurRadius: 24,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -264,9 +264,9 @@ class _CoverImage extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return ColoredBox(
-      color: colors.overlay,
+      color: colors.surfaceElevated,
       child: Center(
-        child: Icon(Icons.book, size: 32, color: colors.foregroundMuted),
+        child: Icon(Icons.book, size: 32, color: colors.textSecondary),
       ),
     );
   }

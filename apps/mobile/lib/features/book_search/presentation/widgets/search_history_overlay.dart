@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_search/domain/search_history_entry.dart';
 
@@ -27,6 +28,8 @@ class SearchHistoryOverlay extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -42,7 +45,7 @@ class SearchHistoryOverlay extends StatelessWidget {
               Text(
                 '検索履歴',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      color: appColors.textSecondary,
                     ),
               ),
               TextButton(
@@ -50,7 +53,7 @@ class SearchHistoryOverlay extends StatelessWidget {
                 child: Text(
                   'すべて削除',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
+                    color: appColors.destructive,
                     fontSize: 12,
                   ),
                 ),
@@ -70,10 +73,10 @@ class SearchHistoryOverlay extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: AppSpacing.md),
-                  color: Theme.of(context).colorScheme.error,
+                  color: appColors.destructive,
                   child: Icon(
                     Icons.delete_outline,
-                    color: Theme.of(context).colorScheme.onError,
+                    color: appColors.textPrimary,
                   ),
                 ),
                 onDismissed: (_) => onHistoryDeleted(entry.query),
@@ -101,12 +104,14 @@ class _SearchHistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return ListTile(
       dense: true,
       leading: Icon(
         Icons.history,
         size: 20,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
+        color: appColors.textSecondary,
       ),
       title: Text(
         entry.query,

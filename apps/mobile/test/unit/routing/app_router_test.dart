@@ -166,6 +166,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -192,6 +193,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -276,6 +278,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),
@@ -437,6 +440,7 @@ void main() {
           ProviderScope(
             parent: container,
             child: MaterialApp.router(
+              theme: AppTheme.theme,
               routerConfig: container.read(appRouterProvider),
             ),
           ),

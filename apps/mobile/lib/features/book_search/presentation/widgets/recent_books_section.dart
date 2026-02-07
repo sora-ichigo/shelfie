@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
@@ -130,13 +131,14 @@ class _RecentBookCard extends StatelessWidget {
   }
 
   Widget _buildPlaceholder(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return ColoredBox(
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,
           size: 40,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: appColors.textSecondary,
         ),
       ),
     );

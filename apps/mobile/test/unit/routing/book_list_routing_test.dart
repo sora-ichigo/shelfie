@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.dart';
@@ -39,6 +40,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
+              theme: AppTheme.theme,
               home: const BookListDetailScreen(listId: testListId),
             ),
           ),

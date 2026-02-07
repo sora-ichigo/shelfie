@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// 読書メモセクション
@@ -33,7 +34,7 @@ class ReadingNoteSection extends StatelessWidget {
           Text(
             '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
             style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.extension<AppColors>()!.textSecondary,
             ),
           ),
         ],
@@ -43,6 +44,7 @@ class ReadingNoteSection extends StatelessWidget {
 
   Widget _buildNoteContent(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     return InkWell(
       onTap: onNoteTap,
@@ -51,10 +53,10 @@ class ReadingNoteSection extends StatelessWidget {
         width: double.infinity,
         padding: AppSpacing.all(AppSpacing.sm),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withOpacity(0.4),
+          color: appColors.surface,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: theme.colorScheme.outline.withOpacity(0.3),
+            color: appColors.border,
           ),
         ),
         child: Row(
@@ -65,14 +67,14 @@ class ReadingNoteSection extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: shelfEntry.hasNote
                       ? null
-                      : theme.colorScheme.onSurfaceVariant,
+                      : appColors.textSecondary,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
             Icon(
               Icons.chevron_right,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ],
         ),

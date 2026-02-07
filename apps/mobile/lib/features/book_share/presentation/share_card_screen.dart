@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
 import 'package:shelfie/features/book_share/infrastructure/gallery_save_service.dart';
@@ -25,7 +26,7 @@ Future<void> showShareCardBottomSheet({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: Theme.of(context).colorScheme.surface,
+    backgroundColor: Theme.of(context).extension<AppColors>()!.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -70,63 +71,52 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.lg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              _shareTitle(widget.readingStatus),
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            FractionallySizedBox(
-              widthFactor: 0.75,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Stack(
-                  children: [
-                    FittedBox(
-                      child: ShareCardWidget(
-                        data: state.cardData,
-                        boundaryKey: _boundaryKey,
-                        accentColor: widget.accentColor,
-                        style: _selectedStyle,
-                      ),
+    return BaseBottomSheet(
+      title: _shareTitle(widget.readingStatus),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FractionallySizedBox(
+            widthFactor: 0.75,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                children: [
+                  FittedBox(
+                    child: ShareCardWidget(
+                      data: state.cardData,
+                      boundaryKey: _boundaryKey,
+                      accentColor: widget.accentColor,
+                      style: _selectedStyle,
                     ),
-                    if (_isProcessing)
-                      Positioned.fill(
-                        child: ColoredBox(color: Colors.black.withOpacity(0.3)),
-                      ),
-                  ],
-                ),
+                  ),
+                  if (_isProcessing)
+                    Positioned.fill(
+                      child: ColoredBox(color: appColors.overlay.withOpacity(0.3)),
+                    ),
+                ],
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            _StyleSelector(
-              selectedStyle: _selectedStyle,
-              accentColor: widget.accentColor,
-              onStyleChanged: (style) => setState(() => _selectedStyle = style),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            _ActionBar(
-              isSharingInstagram: _isSharingInstagram,
-              isSharingLine: _isSharingLine,
-              isSharingOther: _isSharingOther,
-              isSaving: _isSaving,
-              onInstagramStory: _isProcessing ? null : _onInstagramStory,
-              onLine: _isProcessing ? null : _onLine,
-              onShareOther: _isProcessing ? null : _onShareOther,
-              onSave: _isProcessing ? null : _onSave,
-              appColors: appColors,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _StyleSelector(
+            selectedStyle: _selectedStyle,
+            accentColor: widget.accentColor,
+            onStyleChanged: (style) => setState(() => _selectedStyle = style),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _ActionBar(
+            isSharingInstagram: _isSharingInstagram,
+            isSharingLine: _isSharingLine,
+            isSharingOther: _isSharingOther,
+            isSaving: _isSaving,
+            onInstagramStory: _isProcessing ? null : _onInstagramStory,
+            onLine: _isProcessing ? null : _onLine,
+            onShareOther: _isProcessing ? null : _onShareOther,
+            onSave: _isProcessing ? null : _onSave,
+            appColors: appColors,
+          ),
+        ],
       ),
     );
   }
@@ -144,16 +134,6 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     }
   }
 
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
-      ),
-    );
-  }
 
   Future<String?> _captureToTempFile() async {
     final imageService = ref.read(shareImageServiceProvider);
@@ -346,14 +326,14 @@ class _StyleSelector extends StatelessWidget {
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.card,
           onTap: () => onStyleChanged(ShareCardStyle.card),
-          color: accentColor ?? appColors.surfaceCard,
+          color: accentColor ?? appColors.surface,
           hasInnerCircle: true,
         ),
         const SizedBox(width: AppSpacing.sm),
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.simple,
           onTap: () => onStyleChanged(ShareCardStyle.simple),
-          color: accentColor ?? appColors.surfaceCard,
+          color: accentColor ?? appColors.surface,
         ),
       ],
     );
@@ -383,7 +363,7 @@ class _StyleButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: isSelected
-              ? Border.all(color: Colors.white, width: 2.5)
+              ? Border.all(color: Theme.of(context).extension<AppColors>()!.textPrimary, width: 2.5)
               : null,
         ),
         child: Container(
@@ -395,7 +375,7 @@ class _StyleButton extends StatelessWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
-                      color: Colors.black.withOpacity(0.4),
+                      color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.4),
                     ),
                   ),
                 )
@@ -440,17 +420,23 @@ class _ActionBar extends StatelessWidget {
           isLoading: isSharingInstagram,
           onPressed: onInstagramStory,
           iconSize: 44,
+          // ignore: avoid_direct_colors
           gradient: const RadialGradient(
             center: Alignment(-0.4, 1.14),
             radius: 1.4,
             colors: [
+              // ignore: avoid_direct_colors
               Color(0xFFFDF497),
+              // ignore: avoid_direct_colors
               Color(0xFFFD5949),
+              // ignore: avoid_direct_colors
               Color(0xFFD6249F),
+              // ignore: avoid_direct_colors
               Color(0xFF285AEB),
             ],
             stops: [0.0, 0.35, 0.55, 0.9],
           ),
+          // ignore: avoid_direct_colors
           foregroundColor: Colors.white,
         ),
         const SizedBox(width: AppSpacing.lg),
@@ -459,12 +445,15 @@ class _ActionBar extends StatelessWidget {
             'assets/icons/line_icon.svg',
             width: 34,
             height: 34,
+            // ignore: avoid_direct_colors
             colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
           ),
           label: 'LINE',
           isLoading: isSharingLine,
           onPressed: onLine,
+          // ignore: avoid_direct_colors
           backgroundColor: const Color(0xFF06C755),
+          // ignore: avoid_direct_colors
           foregroundColor: Colors.white,
         ),
         const SizedBox(width: AppSpacing.lg),
@@ -473,8 +462,8 @@ class _ActionBar extends StatelessWidget {
           label: '画像を保存',
           isLoading: isSaving,
           onPressed: onSave,
-          backgroundColor: appColors.surfaceCard,
-          foregroundColor: appColors.foreground,
+          backgroundColor: appColors.surfaceElevated,
+          foregroundColor: appColors.textPrimary,
         ),
         const SizedBox(width: AppSpacing.lg),
         _ActionIcon(
@@ -482,8 +471,8 @@ class _ActionBar extends StatelessWidget {
           label: 'さらに見る',
           isLoading: isSharingOther,
           onPressed: onShareOther,
-          backgroundColor: appColors.surfaceCard,
-          foregroundColor: appColors.foreground,
+          backgroundColor: appColors.surfaceElevated,
+          foregroundColor: appColors.textPrimary,
         ),
       ],
     );
@@ -557,7 +546,7 @@ class _ActionIcon extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.extension<AppColors>()!.textSecondary,
                 fontSize: 11,
               ),
             ),

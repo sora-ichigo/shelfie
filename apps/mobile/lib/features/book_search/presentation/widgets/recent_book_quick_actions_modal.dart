@@ -10,6 +10,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
 
 Future<void> showRecentBookQuickActionsModal({
@@ -20,10 +21,13 @@ Future<void> showRecentBookQuickActionsModal({
 }) async {
   unawaited(HapticFeedback.mediumImpact());
 
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _RecentBookQuickActionsModalContent(
       book: book,
       onAddToShelf: onAddToShelf,
@@ -51,35 +55,19 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
       shelfStateProvider.select((s) => s.containsKey(book.bookId)),
     );
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            _buildBookInfo(theme, appColors),
-            const SizedBox(height: AppSpacing.lg),
-            Divider(color: appColors.foregroundMuted.withOpacity(0.3)),
-            const SizedBox(height: AppSpacing.sm),
-            if (isInShelf)
-              _buildRemoveAction(context, theme, appColors)
-            else
-              _buildAddAction(context, theme, appColors),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBookInfo(theme, appColors),
+          const SizedBox(height: AppSpacing.lg),
+          Divider(color: appColors.border),
+          const SizedBox(height: AppSpacing.sm),
+          if (isInShelf)
+            _buildRemoveAction(context, theme, appColors)
+          else
+            _buildAddAction(context, theme, appColors),
+        ],
       ),
     );
   }
@@ -123,7 +111,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTypography.captionSmall.copyWith(
-                  color: appColors.foregroundMuted,
+                  color: appColors.textSecondary,
                 ),
               ),
             ],
@@ -135,12 +123,12 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -167,14 +155,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.add_circle_outline,
-              color: appColors.foreground,
+              color: appColors.textPrimary,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリに追加',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.foreground,
+                color: appColors.textPrimary,
               ),
             ),
           ],
@@ -204,14 +192,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.delete_outline,
-              color: appColors.error,
+              color: appColors.destructive,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリから削除',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.error,
+                color: appColors.destructive,
               ),
             ),
           ],

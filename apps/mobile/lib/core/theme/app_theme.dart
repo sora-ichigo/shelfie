@@ -24,7 +24,11 @@ abstract final class AppTheme {
       onSurface: Colors.white,
     );
 
-    final textTheme = AppTypography.textTheme.apply(fontFamily: 'NotoSansJP');
+    final textTheme = AppTypography.textTheme.apply(
+      fontFamily: 'NotoSansJP',
+      bodyColor: AppColors.dark.textPrimary,
+      displayColor: AppColors.dark.textPrimary,
+    );
 
     return ThemeData(
       useMaterial3: true,
@@ -61,21 +65,21 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
-          color: AppColors.dark.foregroundMuted,
+          color: AppColors.dark.textSecondary,
         ),
-        prefixIconColor: AppColors.dark.foregroundMuted,
-        suffixIconColor: AppColors.dark.foregroundMuted,
+        prefixIconColor: AppColors.dark.textSecondary,
+        suffixIconColor: AppColors.dark.textSecondary,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.foregroundMuted),
+          borderSide: BorderSide(color: AppColors.dark.textSecondary),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.foregroundMuted),
+          borderSide: BorderSide(color: AppColors.dark.textSecondary),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.accent),
+          borderSide: BorderSide(color: AppColors.dark.primary),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

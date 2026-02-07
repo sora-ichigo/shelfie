@@ -1,6 +1,7 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -59,6 +60,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final editState = ref.watch(profileEditNotifierProvider);
     final formState = ref.watch(profileFormStateProvider);
     final formNotifier = ref.read(profileFormStateProvider.notifier);
@@ -127,7 +129,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             ),
             if (isLoading)
               ColoredBox(
-                color: Colors.black.withOpacity(0.3),
+                color: appColors.overlay.withOpacity(0.3),
                 child: const LoadingIndicator(fullScreen: true),
               ),
           ],

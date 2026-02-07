@@ -14,7 +14,9 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
@@ -30,10 +32,13 @@ Future<void> showBookQuickActionsModal({
 }) async {
   unawaited(HapticFeedback.mediumImpact());
 
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _BookQuickActionsModalContent(
       book: book,
       shelfEntry: shelfEntry,
@@ -69,36 +74,20 @@ class _BookQuickActionsModalContentState
     );
     final entry = currentEntry ?? widget.shelfEntry;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.md),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            _buildBookInfo(theme, appColors),
-            const SizedBox(height: AppSpacing.lg),
-            _buildReadingStatusSection(theme, appColors, entry),
-            const SizedBox(height: AppSpacing.lg),
-            _buildRatingSection(theme, appColors, entry),
-            const SizedBox(height: AppSpacing.md),
-            Divider(color: appColors.foregroundMuted.withOpacity(0.3)),
-            const SizedBox(height: AppSpacing.sm),
-            _buildActionList(theme, appColors, entry),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDragHandle(ThemeData theme) {
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(2),
+    return BaseBottomSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildBookInfo(theme, appColors),
+          const SizedBox(height: AppSpacing.lg),
+          _buildReadingStatusSection(theme, appColors, entry),
+          const SizedBox(height: AppSpacing.lg),
+          _buildRatingSection(theme, appColors, entry),
+          const SizedBox(height: AppSpacing.md),
+          Divider(color: appColors.border),
+          const SizedBox(height: AppSpacing.sm),
+          _buildActionList(theme, appColors, entry),
+        ],
       ),
     );
   }
@@ -154,7 +143,7 @@ class _BookQuickActionsModalContentState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTypography.captionSmall.copyWith(
-                    color: appColors.foregroundMuted,
+                    color: appColors.textSecondary,
                   ),
                 ),
               ],
@@ -167,12 +156,12 @@ class _BookQuickActionsModalContentState
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.overlay,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.foregroundMuted,
+          color: appColors.textSecondary,
         ),
       ),
     );
@@ -189,7 +178,7 @@ class _BookQuickActionsModalContentState
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -221,8 +210,9 @@ class _BookQuickActionsModalContentState
     ReadingStatus status,
     ShelfEntry entry,
   ) {
+    final appColors = theme.extension<AppColors>()!;
     final isSelected = entry.readingStatus == status;
-    final statusColor = _getStatusColor(status);
+    final statusColor = status.color;
 
     return InkWell(
       onTap: _isUpdating || isSelected ? null : () => _onStatusTap(status),
@@ -231,12 +221,11 @@ class _BookQuickActionsModalContentState
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? statusColor.withOpacity(0.3)
-              : theme.colorScheme.surfaceContainerHighest,
+              ? statusColor.withOpacity(0.15)
+              : appColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
+            color: isSelected ? statusColor : appColors.border,
           ),
         ),
         child: Center(
@@ -244,21 +233,12 @@ class _BookQuickActionsModalContentState
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : appColors.textSecondary,
             ),
           ),
         ),
       ),
     );
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
   }
 
   Future<void> _onStatusTap(ReadingStatus status) async {
@@ -301,7 +281,7 @@ class _BookQuickActionsModalContentState
         Text(
           '評価',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -320,8 +300,8 @@ class _BookQuickActionsModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.accentSecondary
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ? appColors.star
+                      : appColors.inactive,
                 ),
               ),
             );
@@ -396,7 +376,7 @@ class _BookQuickActionsModalContentState
     required VoidCallback onTap,
     bool isDestructive = false,
   }) {
-    final color = isDestructive ? appColors.error : appColors.foreground;
+    final color = isDestructive ? appColors.destructive : appColors.textPrimary;
 
     return InkWell(
       onTap: _isUpdating ? null : onTap,

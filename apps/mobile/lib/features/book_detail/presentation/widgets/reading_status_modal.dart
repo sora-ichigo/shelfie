@@ -9,6 +9,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 
 /// 読書状態選択モーダルのモード
@@ -32,9 +33,12 @@ Future<ReadingStatus?> showReadingStatusModal({
   required int userBookId,
   required String externalId,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   return showModalBottomSheet<ReadingStatus>(
     context: context,
     isScrollControlled: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _ReadingStatusModalContent(
       mode: ReadingStatusModalMode.update,
       currentStatus: currentStatus,
@@ -50,10 +54,13 @@ Future<ReadingStatus?> showReadingStatusModal({
 Future<({ReadingStatus status, int? rating})?> showAddToShelfModal({
   required BuildContext context,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   return showModalBottomSheet<({ReadingStatus status, int? rating})>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => const _ReadingStatusModalContent(
       mode: ReadingStatusModalMode.addToShelf,
       currentStatus: ReadingStatus.interested,
@@ -126,7 +133,7 @@ class _ReadingStatusModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+                  color: theme.extension<AppColors>()!.destructive,
                 ),
               ),
             ),
@@ -169,8 +176,9 @@ class _ReadingStatusModalContentState
   }
 
   Widget _buildStatusButton(ThemeData theme, ReadingStatus status) {
+    final appColors = theme.extension<AppColors>()!;
     final isSelected = _selectedStatus == status;
-    final statusColor = _getStatusColor(status);
+    final statusColor = status.color;
 
     return InkWell(
       onTap: _isSaving
@@ -189,12 +197,11 @@ class _ReadingStatusModalContentState
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         decoration: BoxDecoration(
           color: isSelected
-              ? statusColor.withOpacity(0.3)
-              : theme.colorScheme.surfaceContainerHighest,
+              ? statusColor.withOpacity(0.15)
+              : appColors.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
+            color: isSelected ? statusColor : appColors.border,
           ),
         ),
         child: Center(
@@ -202,7 +209,7 @@ class _ReadingStatusModalContentState
             status.displayName,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : appColors.textSecondary,
             ),
           ),
         ),
@@ -220,7 +227,7 @@ class _ReadingStatusModalContentState
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.foregroundMuted,
+            color: appColors.textSecondary,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -247,8 +254,8 @@ class _ReadingStatusModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.accentSecondary
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ? appColors.star
+                      : appColors.textSecondary.withOpacity(0.4),
                 ),
               ),
             );
@@ -256,15 +263,6 @@ class _ReadingStatusModalContentState
         ),
       ],
     );
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
   }
 
   Widget _buildActionButtons(ThemeData theme) {
@@ -276,8 +274,8 @@ class _ReadingStatusModalContentState
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -302,11 +300,7 @@ class _ReadingStatusModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [appColors.success, appColors.accent],
-          ),
+          color: appColors.primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(
@@ -315,19 +309,19 @@ class _ReadingStatusModalContentState
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            foregroundColor: appColors.textPrimary,
+            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
           ),
           child: _isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: appColors.textPrimary,
                   ),
                 )
               : Text(_primaryButtonLabel),

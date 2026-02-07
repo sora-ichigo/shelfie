@@ -20,9 +20,12 @@ Future<void> showRatingModal({
   required int userBookId,
   required String externalId,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _RatingModalContent(
       currentRating: currentRating,
       userBookId: userBookId,
@@ -77,7 +80,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
+                  color: theme.extension<AppColors>()!.destructive,
                 ),
               ),
             ),
@@ -122,8 +125,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.accentSecondary
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      ? appColors.star
+                      : appColors.inactive,
                 ),
               ),
             ),
@@ -142,8 +145,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
@@ -169,11 +172,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [appColors.success, appColors.accent],
-          ),
+          color: appColors.primary,
           borderRadius: BorderRadius.circular(AppRadius.lg),
         ),
         child: ElevatedButton(
@@ -182,19 +181,19 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            foregroundColor: appColors.textPrimary,
+            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
           ),
           child: _isSaving
-              ? const SizedBox(
+              ? SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: appColors.textPrimary,
                   ),
                 )
               : const Text('保存'),

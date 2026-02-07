@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/no_result_message.dart';
 
 import '../../../../../helpers/test_helpers.dart';
@@ -16,7 +16,7 @@ void main() {
 
       final icon = tester.widget<Icon>(find.byIcon(Icons.search_off));
       expect(icon.size, 64);
-      expect(icon.color, AppTheme.theme.colorScheme.onSurfaceVariant);
+      expect(icon.color, AppColors.dark.inactive);
     });
 
     testWidgets('タイトルが表示される', (tester) async {
@@ -25,7 +25,7 @@ void main() {
       );
 
       final text = tester.widget<Text>(find.text('検索結果がありません'));
-      expect(text.style?.color, AppTheme.theme.colorScheme.onSurface);
+      expect(text.style?.color, AppColors.dark.textPrimary);
     });
 
     testWidgets('query を埋め込んだメッセージが表示される', (tester) async {
@@ -36,7 +36,7 @@ void main() {
       final text = tester.widget<Text>(
         find.text('「Flutter入門」に一致する書籍が見つかりませんでした。'),
       );
-      expect(text.style?.color, AppTheme.theme.colorScheme.onSurfaceVariant);
+      expect(text.style?.color, AppColors.dark.textSecondary);
     });
 
     testWidgets('アイコン→タイトル→メッセージの順に表示される', (tester) async {

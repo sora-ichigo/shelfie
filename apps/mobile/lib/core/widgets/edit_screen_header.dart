@@ -43,7 +43,7 @@ class EditScreenHeader extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.check,
-              color: isSaveEnabled ? colors?.accent : colors?.foregroundMuted,
+              color: isSaveEnabled ? colors?.primary : colors?.textSecondary,
             ),
             onPressed: isSaveEnabled ? onSave : null,
           ),
