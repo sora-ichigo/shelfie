@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
 
 class MockMobileScannerController extends Mock {}
@@ -11,9 +12,10 @@ void main() {
     testWidgets('displays camera preview when permission is granted',
         (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
+        ProviderScope(
           child: MaterialApp(
-            home: ISBNScanScreen(),
+            theme: AppTheme.theme,
+            home: const ISBNScanScreen(),
           ),
         ),
       );
@@ -23,9 +25,10 @@ void main() {
 
     testWidgets('displays close button', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
+        ProviderScope(
           child: MaterialApp(
-            home: ISBNScanScreen(),
+            theme: AppTheme.theme,
+            home: const ISBNScanScreen(),
           ),
         ),
       );
@@ -35,9 +38,10 @@ void main() {
 
     testWidgets('displays scan overlay', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
+        ProviderScope(
           child: MaterialApp(
-            home: ISBNScanScreen(),
+            theme: AppTheme.theme,
+            home: const ISBNScanScreen(),
           ),
         ),
       );
@@ -47,9 +51,10 @@ void main() {
 
     testWidgets('displays instruction text', (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
+        ProviderScope(
           child: MaterialApp(
-            home: ISBNScanScreen(),
+            theme: AppTheme.theme,
+            home: const ISBNScanScreen(),
           ),
         ),
       );
@@ -60,9 +65,10 @@ void main() {
     testWidgets('displays permission denied message when camera is denied',
         (tester) async {
       await tester.pumpWidget(
-        const ProviderScope(
+        ProviderScope(
           child: MaterialApp(
-            home: ISBNScanScreen(
+            theme: AppTheme.theme,
+            home: const ISBNScanScreen(
               testCameraPermissionDenied: true,
             ),
           ),

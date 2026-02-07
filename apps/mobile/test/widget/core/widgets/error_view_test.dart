@@ -204,9 +204,8 @@ void main() {
           buildTestWidget(child: ErrorView(failure: failure)),
         );
 
-        final theme = AppTheme.theme;
         final icon = tester.widget<Icon>(find.byIcon(Icons.cloud_off));
-        expect(icon.color, equals(theme.colorScheme.error));
+        expect(icon.color, equals(AppColors.dark.destructive));
       });
 
       testWidgets('uses warning color for AuthFailure', (tester) async {
@@ -239,9 +238,8 @@ void main() {
           buildTestWidget(child: ErrorView(failure: failure)),
         );
 
-        final theme = AppTheme.theme;
         final icon = tester.widget<Icon>(find.byIcon(Icons.error_outline));
-        expect(icon.color, equals(theme.colorScheme.error));
+        expect(icon.color, equals(AppColors.dark.destructive));
       });
     });
 

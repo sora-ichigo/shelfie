@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
@@ -56,6 +57,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
+              theme: AppTheme.theme,
               home: const BookDetailScreen(bookId: testBookId, source: BookSource.rakuten),
             ),
           ),
@@ -79,6 +81,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
+              theme: AppTheme.theme,
               home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
@@ -96,6 +99,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
+              theme: AppTheme.theme,
               home: const BookDetailScreen(bookId: 'test-id', source: BookSource.rakuten),
             ),
           ),
@@ -112,6 +116,7 @@ void main() {
         await tester.pumpWidget(
           ProviderScope(
             child: MaterialApp(
+              theme: AppTheme.theme,
               home: Builder(
                 builder: (context) => ElevatedButton(
                   onPressed: () async {
