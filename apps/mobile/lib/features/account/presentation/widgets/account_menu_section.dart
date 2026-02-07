@@ -133,7 +133,7 @@ class _MenuItemTile extends StatelessWidget {
             height: 1,
             indent: item.icon != null ? AppSpacing.md + 24 + AppSpacing.sm : AppSpacing.md,
             endIndent: AppSpacing.md,
-            color: Colors.black54,
+            color: colors?.border,
           ),
       ],
     );

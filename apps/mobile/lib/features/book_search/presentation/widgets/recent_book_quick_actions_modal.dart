@@ -61,7 +61,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
         children: [
           _buildBookInfo(theme, appColors),
           const SizedBox(height: AppSpacing.lg),
-          Divider(color: appColors.textSecondary.withOpacity(0.3)),
+          Divider(color: appColors.border),
           const SizedBox(height: AppSpacing.sm),
           if (isInShelf)
             _buildRemoveAction(context, theme, appColors)
@@ -123,7 +123,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: Colors.black54,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,

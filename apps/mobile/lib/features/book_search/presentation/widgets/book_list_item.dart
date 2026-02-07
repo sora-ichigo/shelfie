@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/date_formatter.dart';
@@ -86,16 +87,17 @@ class BookListItem extends StatelessWidget {
   }
 
   Widget _buildPlaceholder(ThemeData theme, double width, double height) {
+    final appColors = theme.extension<AppColors>()!;
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: appColors.surfaceElevated,
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,
-        color: theme.colorScheme.onSurfaceVariant,
+        color: appColors.textSecondary,
       ),
     );
   }

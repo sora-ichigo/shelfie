@@ -83,7 +83,7 @@ class _BookQuickActionsModalContentState
           const SizedBox(height: AppSpacing.lg),
           _buildRatingSection(theme, appColors, entry),
           const SizedBox(height: AppSpacing.md),
-          Divider(color: appColors.textSecondary.withOpacity(0.3)),
+          Divider(color: appColors.border),
           const SizedBox(height: AppSpacing.sm),
           _buildActionList(theme, appColors, entry),
         ],
@@ -155,7 +155,7 @@ class _BookQuickActionsModalContentState
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: Colors.black54,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,

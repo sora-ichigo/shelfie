@@ -296,7 +296,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: Colors.black54,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(
           Icons.book,

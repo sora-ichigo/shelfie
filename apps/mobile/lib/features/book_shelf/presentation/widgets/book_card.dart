@@ -81,7 +81,7 @@ class BookCard extends ConsumerWidget {
 
   Widget _buildPlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: Colors.black54,
+      color: appColors.surfaceElevated,
       child: Center(
         child: Icon(Icons.book, size: 40, color: appColors.textSecondary),
       ),

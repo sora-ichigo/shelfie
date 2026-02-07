@@ -264,7 +264,7 @@ class _CoverImage extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return ColoredBox(
-      color: Colors.black54,
+      color: colors.surfaceElevated,
       child: Center(
         child: Icon(Icons.book, size: 32, color: colors.textSecondary),
       ),

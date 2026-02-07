@@ -497,18 +497,18 @@ class _CoverPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
+        color: appColors.surfaceElevated,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
         Icons.book,
         size: height * 0.25,
-        color: theme.colorScheme.onSurfaceVariant,
+        color: appColors.textSecondary,
       ),
     );
   }
