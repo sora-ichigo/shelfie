@@ -24,7 +24,11 @@ abstract final class AppTheme {
       onSurface: Colors.white,
     );
 
-    final textTheme = AppTypography.textTheme.apply(fontFamily: 'NotoSansJP');
+    final textTheme = AppTypography.textTheme.apply(
+      fontFamily: 'NotoSansJP',
+      bodyColor: AppColors.dark.textPrimary,
+      displayColor: AppColors.dark.textPrimary,
+    );
 
     return ThemeData(
       useMaterial3: true,
