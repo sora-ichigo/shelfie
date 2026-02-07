@@ -122,21 +122,23 @@ class ReadingRecordSection extends StatelessWidget {
         const BorderRadius.vertical(bottom: Radius.circular(8)),
     };
 
+    final appColors = theme.extension<AppColors>()!;
+
     final border = switch (position) {
       _RowPosition.first || _RowPosition.middle => Border(
-          left: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-          right: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-          top: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+          left: BorderSide(color: appColors.border),
+          right: BorderSide(color: appColors.border),
+          top: BorderSide(color: appColors.border),
         ),
       _RowPosition.last => Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.3),
+          color: appColors.border,
         ),
     };
 
     final content = Container(
       padding: AppSpacing.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.4),
+        color: appColors.surface,
         borderRadius: borderRadius,
         border: border,
       ),

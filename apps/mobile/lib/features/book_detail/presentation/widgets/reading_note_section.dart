@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// 読書メモセクション
@@ -43,6 +44,7 @@ class ReadingNoteSection extends StatelessWidget {
 
   Widget _buildNoteContent(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     return InkWell(
       onTap: onNoteTap,
@@ -51,10 +53,10 @@ class ReadingNoteSection extends StatelessWidget {
         width: double.infinity,
         padding: AppSpacing.all(AppSpacing.sm),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface.withOpacity(0.4),
+          color: appColors.surface,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: theme.colorScheme.outline.withOpacity(0.3),
+            color: appColors.border,
           ),
         ),
         child: Row(
