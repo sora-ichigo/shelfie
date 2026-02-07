@@ -30,10 +30,13 @@ Future<void> showBookQuickActionsModal({
 }) async {
   unawaited(HapticFeedback.mediumImpact());
 
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _BookQuickActionsModalContent(
       book: book,
       shelfEntry: shelfEntry,
@@ -93,11 +96,13 @@ class _BookQuickActionsModalContentState
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -221,8 +226,9 @@ class _BookQuickActionsModalContentState
     ReadingStatus status,
     ShelfEntry entry,
   ) {
+    final appColors = theme.extension<AppColors>()!;
     final isSelected = entry.readingStatus == status;
-    final statusColor = _getStatusColor(status);
+    final statusColor = status.color;
 
     return InkWell(
       onTap: _isUpdating || isSelected ? null : () => _onStatusTap(status),
@@ -231,12 +237,11 @@ class _BookQuickActionsModalContentState
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? statusColor.withOpacity(0.3)
-              : theme.colorScheme.surfaceContainerHighest,
+              ? statusColor.withOpacity(0.15)
+              : appColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
+            color: isSelected ? statusColor : appColors.border,
           ),
         ),
         child: Center(
@@ -244,21 +249,12 @@ class _BookQuickActionsModalContentState
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : appColors.textSecondary,
             ),
           ),
         ),
       ),
     );
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
   }
 
   Future<void> _onStatusTap(ReadingStatus status) async {
@@ -321,7 +317,7 @@ class _BookQuickActionsModalContentState
                   size: 32.0,
                   color: isSelected
                       ? appColors.star
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      : appColors.inactive,
                 ),
               ),
             );

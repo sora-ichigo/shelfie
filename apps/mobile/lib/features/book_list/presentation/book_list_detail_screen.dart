@@ -150,8 +150,11 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   void _onMorePressed(BookListDetail list) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     showModalBottomSheet<void>(
       context: context,
+      backgroundColor: appColors.surface,
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,

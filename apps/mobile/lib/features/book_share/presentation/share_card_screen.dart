@@ -25,7 +25,7 @@ Future<void> showShareCardBottomSheet({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: Theme.of(context).colorScheme.surface,
+    backgroundColor: Theme.of(context).extension<AppColors>()!.surface,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -145,11 +145,13 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -557,7 +559,7 @@ class _ActionIcon extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: theme.extension<AppColors>()!.textSecondary,
                 fontSize: 11,
               ),
             ),

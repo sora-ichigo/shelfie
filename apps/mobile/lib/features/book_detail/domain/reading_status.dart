@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 /// 読書状態を表す enum
 ///
 /// ユーザーが本棚に追加した書籍の読書状態を管理する。
@@ -39,6 +41,19 @@ enum ReadingStatus {
         return '読了';
       case ReadingStatus.interested:
         return '気になる';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case ReadingStatus.backlog:
+        return const Color(0xFFC49A5A);
+      case ReadingStatus.reading:
+        return const Color(0xFF6AABCF);
+      case ReadingStatus.completed:
+        return const Color(0xFF6BBF8A);
+      case ReadingStatus.interested:
+        return const Color(0xFFB896BD);
     }
   }
 

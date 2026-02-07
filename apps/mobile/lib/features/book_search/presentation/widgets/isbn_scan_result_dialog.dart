@@ -30,10 +30,13 @@ class ISBNScanResultDialog extends ConsumerStatefulWidget {
   final String isbn;
 
   static Future<bool?> show(BuildContext context, String isbn) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
+      backgroundColor: appColors.surface,
       builder: (context) => ISBNScanResultDialog(isbn: isbn),
     );
   }
@@ -202,11 +205,13 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );
@@ -231,7 +236,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             Icon(
               Icons.search_off,
               size: 48,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: theme.extension<AppColors>()!.textSecondary,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
@@ -354,8 +359,9 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
   }
 
   Widget _buildStatusButton(ThemeData theme, ReadingStatus status) {
+    final appColors = theme.extension<AppColors>()!;
     final isSelected = _selectedStatus == status;
-    final statusColor = _getStatusColor(status);
+    final statusColor = status.color;
 
     return InkWell(
       onTap: _isAddingToShelf
@@ -374,12 +380,11 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected
-              ? statusColor.withOpacity(0.3)
-              : theme.colorScheme.surfaceContainerHighest,
+              ? statusColor.withOpacity(0.15)
+              : appColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : Colors.white.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
+            color: isSelected ? statusColor : appColors.border,
           ),
         ),
         child: Center(
@@ -387,21 +392,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : const Color(0xFF99A1AF),
+              color: isSelected ? statusColor : appColors.textSecondary,
             ),
           ),
         ),
       ),
     );
-  }
-
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
   }
 
   Widget _buildRatingSection(ThemeData theme, AppColors appColors) {
@@ -479,8 +475,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
               onPressed:
                   _isAddingToShelf ? null : () => Navigator.pop(context, false),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
@@ -504,8 +500,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   disabledBackgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  disabledForegroundColor: Colors.white.withOpacity(0.5),
+                  foregroundColor: appColors.textPrimary,
+                  disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),

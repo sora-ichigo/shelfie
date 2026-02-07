@@ -12,10 +12,13 @@ Future<void> showListSelectorModal({
   required int userBookId,
   required void Function(int listId) onListSelected,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _ListSelectorModalContent(
       userBookId: userBookId,
       onListSelected: onListSelected,

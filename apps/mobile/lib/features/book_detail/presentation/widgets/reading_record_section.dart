@@ -186,7 +186,7 @@ class ReadingRecordSection extends StatelessWidget {
   }
 
   Widget _buildStatusTag(BuildContext context, ReadingStatus status) {
-    final color = _getStatusColor(status);
+    final color = status.color;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -238,20 +238,13 @@ class ReadingRecordSection extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(ReadingStatus status) {
-    return switch (status) {
-      ReadingStatus.backlog => const Color(0xFFFFB74D),
-      ReadingStatus.reading => const Color(0xFF64B5F6),
-      ReadingStatus.completed => const Color(0xFF81C784),
-      ReadingStatus.interested => const Color(0xFFE091D6),
-    };
-  }
-
   Future<void> _showCompletedAtPicker(BuildContext context) async {
     final initialDate = shelfEntry.completedAt ?? DateTime.now();
+    final appColors = Theme.of(context).extension<AppColors>()!;
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: appColors.surface,
       builder: (context) => _DatePickerSheet(
         title: '読了日を変更',
         initialDate: initialDate,
@@ -268,9 +261,11 @@ class ReadingRecordSection extends StatelessWidget {
 
   Future<void> _showStartedAtPicker(BuildContext context) async {
     final initialDate = shelfEntry.startedAt ?? DateTime.now();
+    final appColorsForPicker = Theme.of(context).extension<AppColors>()!;
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: appColorsForPicker.surface,
       builder: (context) => _DatePickerSheet(
         title: shelfEntry.startedAt != null ? '読書開始日を変更' : '読書開始日を設定',
         initialDate: initialDate,

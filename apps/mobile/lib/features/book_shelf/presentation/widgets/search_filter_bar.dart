@@ -18,10 +18,13 @@ class SearchFilterBar extends StatelessWidget {
   final void Function(SortOption) onSortChanged;
 
   Future<void> _showSortBottomSheet(BuildContext context) async {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     final result = await showModalBottomSheet<SortOption>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
+      backgroundColor: appColors.surface,
       builder: (context) => _SortBottomSheet(
         currentOption: sortOption,
       ),
@@ -147,7 +150,7 @@ class _OptionTile extends StatelessWidget {
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
             ? colors?.primary ?? theme.colorScheme.primary
-            : theme.colorScheme.onSurfaceVariant,
+            : colors?.textSecondary ?? theme.colorScheme.onSurfaceVariant,
       ),
       title: Text(
         label,

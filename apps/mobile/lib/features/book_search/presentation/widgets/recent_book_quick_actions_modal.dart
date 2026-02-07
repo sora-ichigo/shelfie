@@ -20,10 +20,13 @@ Future<void> showRecentBookQuickActionsModal({
 }) async {
   unawaited(HapticFeedback.mediumImpact());
 
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _RecentBookQuickActionsModalContent(
       book: book,
       onAddToShelf: onAddToShelf,
@@ -74,11 +77,13 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );

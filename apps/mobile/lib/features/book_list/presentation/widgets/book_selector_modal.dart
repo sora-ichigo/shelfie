@@ -19,10 +19,13 @@ Future<void> showBookSelectorModal({
   void Function(ShelfBookItem book)? onBookRemoved,
   List<int> initialSelectedUserBookIds = const [],
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _BookSelectorModalContent(
       existingUserBookIds: existingUserBookIds,
       onBookSelected: onBookSelected,

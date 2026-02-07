@@ -247,10 +247,13 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
   void _showMoreBottomSheet() {
     unawaited(HapticFeedback.mediumImpact());
 
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
+      backgroundColor: appColors.surface,
       builder: (context) => _BookDetailMoreSheet(
         bookId: widget.bookId,
         onAddToListPressed: _onAddToListPressed,
