@@ -70,7 +70,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     setState(() {
       _isSearchFieldFocused = _focusNode.hasFocus;
     });
-    ref.read(navBarHiddenProvider.notifier).state = _focusNode.hasFocus;
+    final state = ref.read(bookSearchNotifierProvider);
+    ref.read(navBarHiddenProvider.notifier).state =
+        _focusNode.hasFocus || state is! BookSearchInitial;
   }
 
   @override
@@ -392,9 +394,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _onSearchSubmitted(String query) {
     if (query.isEmpty) return;
-    _focusNode.unfocus();
     ref.read(bookSearchNotifierProvider.notifier).searchBooks(query);
     ref.read(searchHistoryNotifierProvider.notifier).addHistory(query);
+    _focusNode.unfocus();
   }
 
   void _onHistorySelected(String query) {
