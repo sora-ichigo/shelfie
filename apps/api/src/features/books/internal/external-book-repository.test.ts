@@ -46,7 +46,7 @@ describe("ExternalBookRepository", () => {
         Items: [{ Item: createMockRakutenItem() }],
       };
 
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         status: 200,
         json: () => Promise.resolve(mockResponse),
@@ -79,7 +79,7 @@ describe("ExternalBookRepository", () => {
         Items: [],
       };
 
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         status: 200,
         json: () => Promise.resolve(mockResponse),
@@ -106,7 +106,7 @@ describe("ExternalBookRepository", () => {
         Items: [],
       };
 
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         status: 200,
         json: () => Promise.resolve(mockResponse),
@@ -129,7 +129,7 @@ describe("ExternalBookRepository", () => {
         Items: [],
       };
 
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         status: 200,
         json: () => Promise.resolve(mockResponse),
@@ -145,7 +145,7 @@ describe("ExternalBookRepository", () => {
     });
 
     it("ネットワークエラー時に NETWORK_ERROR を返す", async () => {
-      global.fetch = vi.fn().mockRejectedValueOnce(new Error("Network error"));
+      global.fetch = vi.fn().mockRejectedValue(new Error("Network error"));
 
       const result = await repository.searchByQuery("test", 10, 0);
 
@@ -156,7 +156,7 @@ describe("ExternalBookRepository", () => {
     });
 
     it("タイムアウト時に TIMEOUT_ERROR を返す", async () => {
-      global.fetch = vi.fn().mockImplementationOnce(
+      global.fetch = vi.fn().mockImplementation(
         () =>
           new Promise((_, reject) => {
             const error = new DOMException("Aborted", "AbortError");
@@ -173,7 +173,7 @@ describe("ExternalBookRepository", () => {
     });
 
     it("レートリミット（429）時に RATE_LIMIT_ERROR を返す", async () => {
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 429,
         statusText: "Too Many Requests",
@@ -188,7 +188,7 @@ describe("ExternalBookRepository", () => {
     });
 
     it("API エラー（5xx）時に API_ERROR を返す", async () => {
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 500,
         statusText: "Internal Server Error",
@@ -203,7 +203,7 @@ describe("ExternalBookRepository", () => {
     });
 
     it("400 エラー時に API_ERROR を返す", async () => {
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 400,
         statusText: "Bad Request",
@@ -223,7 +223,7 @@ describe("ExternalBookRepository", () => {
         error_description: "パラメータが不正です",
       };
 
-      global.fetch = vi.fn().mockResolvedValueOnce({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 400,
         statusText: "Bad Request",
@@ -235,6 +235,166 @@ describe("ExternalBookRepository", () => {
       expect(result.success).toBe(false);
       if (!result.success && result.error.code === "API_ERROR") {
         expect(result.error.statusCode).toBe(400);
+      }
+    });
+
+    it("title と author の両方のパラメータでAPIを呼び出す", async () => {
+      const mockResponse = {
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [{ Item: createMockRakutenItem() }],
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("テスト", 10, 0);
+
+      expect(fetch).toHaveBeenCalledTimes(2);
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("title="),
+        expect.any(Object),
+      );
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining("author="),
+        expect.any(Object),
+      );
+    });
+
+    it("title と author の結果がISBNで重複排除される", async () => {
+      const sharedItem = createMockRakutenItem({
+        isbn: "9784000000001",
+        title: "共通の書籍",
+      });
+      const titleOnlyItem = createMockRakutenItem({
+        isbn: "9784000000002",
+        title: "タイトル検索のみ",
+      });
+      const authorOnlyItem = createMockRakutenItem({
+        isbn: "9784000000003",
+        title: "著者検索のみ",
+      });
+
+      const titleResponse = {
+        count: 2,
+        page: 1,
+        pageCount: 1,
+        hits: 2,
+        Items: [{ Item: sharedItem }, { Item: titleOnlyItem }],
+      };
+      const authorResponse = {
+        count: 2,
+        page: 1,
+        pageCount: 1,
+        hits: 2,
+        Items: [{ Item: sharedItem }, { Item: authorOnlyItem }],
+      };
+
+      global.fetch = vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(titleResponse),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(authorResponse),
+        });
+
+      const result = await repository.searchByQuery("テスト", 10, 0);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.items).toHaveLength(3);
+        const isbns = result.data.items.map((item) => item.isbn);
+        expect(isbns).toEqual([
+          "9784000000001",
+          "9784000000002",
+          "9784000000003",
+        ]);
+      }
+    });
+
+    it("title 検索が失敗しても author 検索の結果を返す", async () => {
+      const authorItem = createMockRakutenItem({
+        isbn: "9784000000010",
+        title: "著者検索の書籍",
+      });
+      const authorResponse = {
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [{ Item: authorItem }],
+      };
+
+      global.fetch = vi
+        .fn()
+        .mockRejectedValueOnce(new Error("Network error"))
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(authorResponse),
+        });
+
+      const result = await repository.searchByQuery("テスト", 10, 0);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.items).toHaveLength(1);
+        expect(result.data.items[0].isbn).toBe("9784000000010");
+      }
+    });
+
+    it("author 検索が失敗しても title 検索の結果を返す", async () => {
+      const titleItem = createMockRakutenItem({
+        isbn: "9784000000020",
+        title: "タイトル検索の書籍",
+      });
+      const titleResponse = {
+        count: 1,
+        page: 1,
+        pageCount: 1,
+        hits: 1,
+        Items: [{ Item: titleItem }],
+      };
+
+      global.fetch = vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(titleResponse),
+        })
+        .mockRejectedValueOnce(new Error("Network error"));
+
+      const result = await repository.searchByQuery("テスト", 10, 0);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.items).toHaveLength(1);
+        expect(result.data.items[0].isbn).toBe("9784000000020");
+      }
+    });
+
+    it("両方失敗した場合はエラーを返す", async () => {
+      global.fetch = vi
+        .fn()
+        .mockRejectedValueOnce(new Error("Network error"))
+        .mockRejectedValueOnce(new Error("Network error"));
+
+      const result = await repository.searchByQuery("テスト", 10, 0);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("NETWORK_ERROR");
       }
     });
   });
