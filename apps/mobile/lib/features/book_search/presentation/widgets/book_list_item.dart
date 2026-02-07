@@ -26,6 +26,7 @@ class BookListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     final listTile = ListTile(
       onTap: onTap,
@@ -45,7 +46,7 @@ class BookListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
           ),
           if (_hasPublisherInfo())
@@ -54,7 +55,7 @@ class BookListItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                color: appColors.textSecondary,
               ),
             ),
         ],
@@ -118,12 +119,13 @@ class BookListItem extends StatelessWidget {
     }
 
     if (book.isInShelf) {
+      final appColors = theme.extension<AppColors>()!;
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.check_circle,
-            color: theme.colorScheme.primary,
+            color: appColors.primary,
           ),
           const SizedBox(width: 4),
           IconButton(
@@ -131,7 +133,7 @@ class BookListItem extends StatelessWidget {
             icon: Icon(
               Icons.close,
               size: 20,
-              color: theme.colorScheme.onSurfaceVariant,
+              color: appColors.textSecondary,
             ),
             tooltip: 'マイライブラリから削除',
             visualDensity: VisualDensity.compact,

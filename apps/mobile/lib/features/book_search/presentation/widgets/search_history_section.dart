@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_search/domain/search_history_entry.dart';
 
@@ -22,6 +23,8 @@ class SearchHistorySection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +43,7 @@ class SearchHistorySection extends StatelessWidget {
                   Icon(
                     Icons.history,
                     size: 20,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: appColors.inactive,
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
@@ -54,7 +57,7 @@ class SearchHistorySection extends StatelessWidget {
                 child: Text(
                   'すべて削除',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.error,
+                    color: appColors.destructive,
                     fontSize: 12,
                   ),
                 ),
@@ -108,6 +111,8 @@ class _SearchHistoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
     return ListTile(
       dense: true,
       contentPadding: const EdgeInsets.symmetric(
@@ -115,7 +120,9 @@ class _SearchHistoryListItem extends StatelessWidget {
       ),
       title: Text(
         entry.query,
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: appColors.textSecondary,
+        ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
