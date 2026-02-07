@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
 import 'package:shelfie/features/book_share/infrastructure/gallery_save_service.dart';
@@ -70,63 +71,52 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return SafeArea(
-      child: Padding(
-        padding: AppSpacing.all(AppSpacing.lg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildDragHandle(theme),
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              _shareTitle(widget.readingStatus),
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            FractionallySizedBox(
-              widthFactor: 0.75,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Stack(
-                  children: [
-                    FittedBox(
-                      child: ShareCardWidget(
-                        data: state.cardData,
-                        boundaryKey: _boundaryKey,
-                        accentColor: widget.accentColor,
-                        style: _selectedStyle,
-                      ),
+    return BaseBottomSheet(
+      title: _shareTitle(widget.readingStatus),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FractionallySizedBox(
+            widthFactor: 0.75,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Stack(
+                children: [
+                  FittedBox(
+                    child: ShareCardWidget(
+                      data: state.cardData,
+                      boundaryKey: _boundaryKey,
+                      accentColor: widget.accentColor,
+                      style: _selectedStyle,
                     ),
-                    if (_isProcessing)
-                      Positioned.fill(
-                        child: ColoredBox(color: Colors.black.withOpacity(0.3)),
-                      ),
-                  ],
-                ),
+                  ),
+                  if (_isProcessing)
+                    Positioned.fill(
+                      child: ColoredBox(color: Colors.black.withOpacity(0.3)),
+                    ),
+                ],
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            _StyleSelector(
-              selectedStyle: _selectedStyle,
-              accentColor: widget.accentColor,
-              onStyleChanged: (style) => setState(() => _selectedStyle = style),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            _ActionBar(
-              isSharingInstagram: _isSharingInstagram,
-              isSharingLine: _isSharingLine,
-              isSharingOther: _isSharingOther,
-              isSaving: _isSaving,
-              onInstagramStory: _isProcessing ? null : _onInstagramStory,
-              onLine: _isProcessing ? null : _onLine,
-              onShareOther: _isProcessing ? null : _onShareOther,
-              onSave: _isProcessing ? null : _onSave,
-              appColors: appColors,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _StyleSelector(
+            selectedStyle: _selectedStyle,
+            accentColor: widget.accentColor,
+            onStyleChanged: (style) => setState(() => _selectedStyle = style),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          _ActionBar(
+            isSharingInstagram: _isSharingInstagram,
+            isSharingLine: _isSharingLine,
+            isSharingOther: _isSharingOther,
+            isSaving: _isSaving,
+            onInstagramStory: _isProcessing ? null : _onInstagramStory,
+            onLine: _isProcessing ? null : _onLine,
+            onShareOther: _isProcessing ? null : _onShareOther,
+            onSave: _isProcessing ? null : _onSave,
+            appColors: appColors,
+          ),
+        ],
       ),
     );
   }
@@ -144,18 +134,6 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     }
   }
 
-  Widget _buildDragHandle(ThemeData theme) {
-    final appColors = theme.extension<AppColors>()!;
-
-    return Container(
-      width: 40,
-      height: 4,
-      decoration: BoxDecoration(
-        color: appColors.inactive,
-        borderRadius: BorderRadius.circular(2),
-      ),
-    );
-  }
 
   Future<String?> _captureToTempFile() async {
     final imageService = ref.read(shareImageServiceProvider);
