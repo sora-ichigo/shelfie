@@ -40,6 +40,7 @@ coverage/
 
 # Flutter
 apps/mobile/.dart_tool/
+packages/shelfie_lints/.dart_tool/
 apps/mobile/.packages
 apps/mobile/build/
 apps/mobile/*.iml
