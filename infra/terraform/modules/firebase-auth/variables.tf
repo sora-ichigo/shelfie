@@ -65,6 +65,12 @@ variable "ios_bundle_id" {
   default     = null
 }
 
+variable "android_dev_package_name" {
+  description = "Android dev app package name for Firebase App Distribution (e.g., com.example.app.dev)"
+  type        = string
+  default     = null
+}
+
 variable "ios_dev_bundle_id" {
   description = "iOS dev app bundle ID for Firebase App Distribution (e.g., com.example.app.dev)"
   type        = string

@@ -109,9 +109,10 @@ module "firebase_auth" {
   environment        = var.environment
   authorized_domains = ["localhost", "${var.project_id}.firebaseapp.com", "${var.project_id}.web.app"]
 
-  android_package_name = "app.shelfie.shelfie"
-  ios_bundle_id        = "app.shelfie.shelfie"
-  ios_dev_bundle_id    = "app.shelfie.shelfie.dev"
+  android_package_name     = "app.shelfie.shelfie"
+  android_dev_package_name = "app.shelfie.shelfie.dev"
+  ios_bundle_id            = "app.shelfie.shelfie"
+  ios_dev_bundle_id        = "app.shelfie.shelfie.dev"
 
   depends_on = [module.api_cloud_run]
 }
@@ -136,6 +137,11 @@ output "ios_config_plist" {
   description = "GoogleService-Info.plist content for iOS (base64 encoded)"
   value       = module.firebase_auth.ios_config_plist
   sensitive   = true
+}
+
+output "android_dev_app_id" {
+  description = "Firebase Android Dev App ID (for App Distribution)"
+  value       = module.firebase_auth.android_dev_app_id
 }
 
 output "ios_dev_app_id" {
