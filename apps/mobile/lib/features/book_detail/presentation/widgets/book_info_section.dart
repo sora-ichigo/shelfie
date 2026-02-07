@@ -447,12 +447,14 @@ class BookInfoSection extends StatelessWidget {
     required String label,
     required String url,
   }) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Material(
-      color: theme.colorScheme.surfaceContainerHigh,
+      color: appColors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: theme.colorScheme.outline.withOpacity(0.3),
+          color: appColors.border,
         ),
       ),
       child: InkWell(
@@ -466,6 +468,7 @@ class BookInfoSection extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.titleSmall?.copyWith(
+                  color: appColors.textPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -473,7 +476,7 @@ class BookInfoSection extends StatelessWidget {
               Icon(
                 Icons.open_in_new,
                 size: 16,
-                color: theme.colorScheme.onSurfaceVariant,
+                color: appColors.textSecondary,
               ),
             ],
           ),
