@@ -107,11 +107,11 @@ class BookInfoSection extends StatelessWidget {
         ),
         child: ElevatedButton.icon(
           onPressed: onAddToShelfPressed,
-          icon: const Icon(Icons.add, color: Colors.white, size: 20),
+          icon: Icon(Icons.add, color: appColors.textPrimary, size: 20),
           label: Text(
             'マイライブラリに追加',
             style: theme.textTheme.labelLarge?.copyWith(
-              color: Colors.white,
+              color: appColors.textPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
