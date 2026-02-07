@@ -83,7 +83,7 @@ class _FilterTabButton extends StatelessWidget {
             fontWeight: FontWeight.w400,
             color: isSelected
                 ? appColors.textPrimary
-                : appColors.primary,
+                : appColors.textSecondary,
           ),
         ),
       ),
