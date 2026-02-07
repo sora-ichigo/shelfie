@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 /// 共通のボトムシート基本レイアウト
@@ -22,6 +23,8 @@ class BaseBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final appColors = theme.extension<AppColors>()!;
+
     return SafeArea(
       child: Padding(
         padding: AppSpacing.all(AppSpacing.md),
@@ -33,6 +36,7 @@ class BaseBottomSheet extends StatelessWidget {
             Text(
               title,
               style: theme.textTheme.titleLarge?.copyWith(
+                color: appColors.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -45,11 +49,13 @@ class BaseBottomSheet extends StatelessWidget {
   }
 
   Widget _buildDragHandle(ThemeData theme) {
+    final appColors = theme.extension<AppColors>()!;
+
     return Container(
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+        color: appColors.inactive,
         borderRadius: BorderRadius.circular(2),
       ),
     );

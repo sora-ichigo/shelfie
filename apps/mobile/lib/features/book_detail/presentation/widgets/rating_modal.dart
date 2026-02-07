@@ -20,9 +20,12 @@ Future<void> showRatingModal({
   required int userBookId,
   required String externalId,
 }) async {
+  final appColors = Theme.of(context).extension<AppColors>()!;
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
+    backgroundColor: appColors.surface,
     builder: (context) => _RatingModalContent(
       currentRating: currentRating,
       userBookId: userBookId,
@@ -123,7 +126,7 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
                   size: AppIconSize.xxl,
                   color: isSelected
                       ? appColors.star
-                      : theme.colorScheme.onSurfaceVariant.withOpacity(0.4),
+                      : appColors.inactive,
                 ),
               ),
             ),
@@ -142,8 +145,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.1),
-                foregroundColor: Colors.white,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
+                foregroundColor: theme.extension<AppColors>()!.textPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
@@ -178,8 +181,8 @@ class _RatingModalContentState extends ConsumerState<_RatingModalContent> {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            disabledForegroundColor: Colors.white.withOpacity(0.5),
+            foregroundColor: appColors.textPrimary,
+            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.lg),
             ),
