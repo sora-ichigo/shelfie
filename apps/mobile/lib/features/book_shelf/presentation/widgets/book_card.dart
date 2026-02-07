@@ -6,6 +6,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 /// 書籍カードコンポーネント
@@ -30,11 +31,13 @@ class BookCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    // shelfStateProvider から最新の rating を取得
-    final rating = ref.watch(
-      shelfStateProvider.select((s) => s[book.externalId]?.rating),
+    final shelfEntry = ref.watch(
+      shelfStateProvider.select((s) => s[book.externalId]),
     );
-    final hasRating = rating != null;
+    final rating = shelfEntry?.rating;
+    final isCompleted =
+        shelfEntry?.readingStatus == ReadingStatus.completed;
+    final showRating = rating != null || isCompleted;
 
     return InkWell(
       onTap: onTap,
@@ -51,8 +54,8 @@ class BookCard extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.xxs),
-          if (hasRating) ...[
-            _buildRating(appColors, rating),
+          if (showRating) ...[
+            _buildRating(appColors, rating ?? 0),
             const SizedBox(height: AppSpacing.xxs),
           ],
           _buildTitle(theme),
@@ -98,7 +101,7 @@ class BookCard extends ConsumerWidget {
               size: 14,
               color: isFilled
                   ? appColors.star
-                  : appColors.star.withValues(alpha: 0.25),
+                  : appColors.inactive,
             );
           }),
         ),
