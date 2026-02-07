@@ -7,14 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'App version (e.g. 1.1.0). Required for manual trigger.'
+        description: 'App version (e.g. 1.1.0+1). Required for manual trigger.'
         required: true
         type: string
-      build_number:
-        description: 'Build number (defaults to github.run_number)'
-        required: false
-        type: string
-        default: ''
       release_notes:
         description: 'Release notes for this build'
         required: false
@@ -31,7 +26,6 @@ env:
 
 jobs:
   build-and-upload:
-    if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.ref_name, '-') }}
     runs-on: macos-15
     permissions:
       contents: read
@@ -99,18 +93,24 @@ jobs:
           REF_TYPE: ${{ github.ref_type }}
           REF_NAME: ${{ github.ref_name }}
           INPUT_VERSION: ${{ inputs.version }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
           if [[ "$REF_TYPE" == "tag" ]]; then
-            VERSION="${REF_NAME#v}"
+            FULL="${REF_NAME#v}"
           else
-            VERSION="$INPUT_VERSION"
+            FULL="$INPUT_VERSION"
           fi
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build-name=${FULL%%+*}" >> "$GITHUB_OUTPUT"
+          if [[ "$FULL" == *"+"* ]]; then
+            echo "build-number=${FULL#*+}" >> "$GITHUB_OUTPUT"
+          else
+            echo "build-number=$RUN_NUMBER" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build IPA
         env:
-          BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
-          BUILD_NAME: ${{ steps.version.outputs.version }}
+          BUILD_NAME: ${{ steps.version.outputs.build-name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build-number }}
           API_BASE_URL: ${{ vars.PROD_API_BASE_URL }}
         run: |
           flutter build ipa \

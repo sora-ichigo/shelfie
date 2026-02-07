@@ -3,23 +3,16 @@ name: Create Release Tag
 on:
   workflow_dispatch:
     inputs:
-      release_type:
-        description: 'Release type'
-        required: true
-        type: choice
-        options:
-          - beta
-          - production
-        default: beta
       bump_type:
-        description: 'Version bump type'
+        description: 'Version bump type (none = same version, build number +1)'
         required: true
         type: choice
         options:
+          - none
           - patch
           - minor
           - major
-        default: patch
+        default: none
 
 permissions:
   contents: write
@@ -32,50 +25,42 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get latest production tag
-        id: latest
-        run: |
-          LATEST=$(git tag -l 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
-          if [[ -z "$LATEST" ]]; then
-            LATEST="v0.0.0"
-          fi
-          echo "tag=$LATEST" >> "$GITHUB_OUTPUT"
-
       - name: Calculate next version
         id: next
         env:
-          LATEST_TAG: ${{ steps.latest.outputs.tag }}
           BUMP_TYPE: ${{ inputs.bump_type }}
-          RELEASE_TYPE: ${{ inputs.release_type }}
         run: |
-          VERSION="${LATEST_TAG#v}"
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          LATEST=$(git tag -l 'v*' --sort=-creatordate | head -n 1)
 
-          case "$BUMP_TYPE" in
-            major)
-              MAJOR=$((MAJOR + 1))
-              MINOR=0
-              PATCH=0
-              ;;
-            minor)
-              MINOR=$((MINOR + 1))
-              PATCH=0
-              ;;
-            patch)
-              PATCH=$((PATCH + 1))
-              ;;
-          esac
-
-          BASE="${MAJOR}.${MINOR}.${PATCH}"
-
-          if [[ "$RELEASE_TYPE" == "beta" ]]; then
-            BETA_COUNT=$(git tag -l "v${BASE}-beta.*" | wc -l | tr -d ' ')
-            BETA_NUM=$((BETA_COUNT + 1))
-            NEW_TAG="v${BASE}-beta.${BETA_NUM}"
+          if [[ -z "$LATEST" ]]; then
+            LATEST_VERSION="0.0.0"
+            LATEST_BUILD=0
           else
-            NEW_TAG="v${BASE}"
+            FULL="${LATEST#v}"
+            LATEST_VERSION="${FULL%%+*}"
+            LATEST_BUILD="${FULL#*+}"
           fi
 
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
+
+          if [[ "$BUMP_TYPE" == "none" ]]; then
+            BUILD_NUM=$(git tag -l "v${LATEST_VERSION}+*" | sed "s/^v${LATEST_VERSION}+//" | sort -n | tail -n 1)
+            if [[ -z "$BUILD_NUM" ]]; then
+              BUILD_NUM=1
+            else
+              BUILD_NUM=$((BUILD_NUM + 1))
+            fi
+            NEW_TAG="v${LATEST_VERSION}+${BUILD_NUM}"
+          else
+            case "$BUMP_TYPE" in
+              major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+              minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+              patch) PATCH=$((PATCH + 1)) ;;
+            esac
+            NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}+1"
+          fi
+
+          echo "previous=$LATEST" >> "$GITHUB_OUTPUT"
           echo "tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Create and push tag
@@ -87,10 +72,10 @@ jobs:
 
       - name: Summary
         env:
-          LATEST_TAG: ${{ steps.latest.outputs.tag }}
+          PREVIOUS: ${{ steps.next.outputs.previous }}
           NEW_TAG: ${{ steps.next.outputs.tag }}
         run: |
           echo "## Release Tag Created" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Previous version**: $LATEST_TAG" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Previous tag**: $PREVIOUS" >> "$GITHUB_STEP_SUMMARY"
           echo "- **New tag**: $NEW_TAG" >> "$GITHUB_STEP_SUMMARY"
