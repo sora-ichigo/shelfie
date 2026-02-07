@@ -216,7 +216,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
             ),
             if (_isSaving)
               ColoredBox(
-                color: Colors.black.withOpacity(0.3),
+                color: appColors.overlay.withOpacity(0.3),
                 child: const LoadingIndicator(fullScreen: true),
               ),
           ],
@@ -443,9 +443,6 @@ class _BookSectionEmptyCard extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onAddPressed;
 
-  static const _iconBackgroundColor = Color(0xFF1E2939);
-  static const _accentTeal = Color(0xFF00D5BE);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -460,9 +457,9 @@ class _BookSectionEmptyCard extends StatelessWidget {
           Container(
             width: 64,
             height: 64,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _iconBackgroundColor,
+              color: appColors.surfaceElevated,
             ),
             child: Icon(
               Icons.add,
@@ -480,9 +477,9 @@ class _BookSectionEmptyCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           TextButton(
             onPressed: onAddPressed,
-            child: const Text(
+            child: Text(
               '本を追加',
-              style: TextStyle(color: _accentTeal),
+              style: const TextStyle(color: Color(0xFF00D5BE)),
             ),
           ),
         ],

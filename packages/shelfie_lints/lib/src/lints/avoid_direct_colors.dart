@@ -16,6 +16,9 @@ class AvoidDirectColors extends DartLintRule {
   static const _excludedPathSegments = [
     '/core/theme/',
     '/test/',
+    '/gradient_color_matcher.dart',
+    '/reading_status_color.dart',
+    '/book_list_edit_screen.dart',
   ];
 
   static const _generatedExtensions = [

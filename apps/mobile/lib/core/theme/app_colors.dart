@@ -37,6 +37,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.success,
     required this.warning,
     required this.info,
+    required this.overlay,
   });
 
   // ===========================================================================
@@ -58,6 +59,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _success = Color(0xFF81C784);
   static const Color _warning = Color(0xFFFFD54F);
   static const Color _info = Color(0xFF64B5F6);
+  static const Color _overlay = Color(0xFF000000);
 
   // ===========================================================================
   // Semantic Colors（意味的カラー）
@@ -105,6 +107,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// 情報を表すカラー
   final Color info;
 
+  /// 半透明オーバーレイの基底色（`.withOpacity()` と組み合わせて使用）
+  final Color overlay;
+
   /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
     primary: _primary,
@@ -121,6 +126,7 @@ class AppColors extends ThemeExtension<AppColors> {
     success: _success,
     warning: _warning,
     info: _info,
+    overlay: _overlay,
   );
 
   @override
@@ -139,6 +145,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? success,
     Color? warning,
     Color? info,
+    Color? overlay,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -155,6 +162,7 @@ class AppColors extends ThemeExtension<AppColors> {
       success: success ?? this.success,
       warning: warning ?? this.warning,
       info: info ?? this.info,
+      overlay: overlay ?? this.overlay,
     );
   }
 
@@ -176,6 +184,7 @@ class AppColors extends ThemeExtension<AppColors> {
       success: Color.lerp(success, other.success, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
       info: Color.lerp(info, other.info, t)!,
+      overlay: Color.lerp(overlay, other.overlay, t)!,
     );
   }
 }
