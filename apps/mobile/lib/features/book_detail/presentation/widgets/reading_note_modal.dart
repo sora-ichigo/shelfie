@@ -75,6 +75,7 @@ class _ReadingNoteModalContentState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     return BaseBottomSheet(
       title: '読書メモを編集',
@@ -85,28 +86,25 @@ class _ReadingNoteModalContentState
             controller: _controller,
             maxLines: 6,
             minLines: 3,
+            style: TextStyle(color: appColors.textPrimary),
+            cursorColor: appColors.primary,
             decoration: InputDecoration(
               hintText: 'この本の感想を書く...',
+              hintStyle: TextStyle(color: appColors.inactive),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.outline.withOpacity(0.3),
-                ),
+                borderSide: BorderSide(color: appColors.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.outline.withOpacity(0.3),
-                ),
+                borderSide: BorderSide(color: appColors.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(
-                  color: Theme.of(context).extension<AppColors>()!.primary,
-                ),
+                borderSide: BorderSide(color: appColors.primary),
               ),
               filled: true,
-              fillColor: theme.colorScheme.surfaceContainerHighest,
+              fillColor: appColors.surfaceElevated,
               contentPadding: AppSpacing.all(AppSpacing.md),
             ),
             enabled: !_isSaving,
