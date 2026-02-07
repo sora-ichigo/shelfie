@@ -1,0 +1,81 @@
+name: Create Release Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type (none = same version, build number +1)'
+        required: true
+        type: choice
+        options:
+          - none
+          - patch
+          - minor
+          - major
+        default: none
+
+permissions:
+  contents: write
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Calculate next version
+        id: next
+        env:
+          BUMP_TYPE: ${{ inputs.bump_type }}
+        run: |
+          LATEST=$(git tag -l 'v*' --sort=-creatordate | head -n 1)
+
+          if [[ -z "$LATEST" ]]; then
+            LATEST_VERSION="0.0.0"
+            LATEST_BUILD=0
+          else
+            FULL="${LATEST#v}"
+            LATEST_VERSION="${FULL%%+*}"
+            LATEST_BUILD="${FULL#*+}"
+          fi
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
+
+          if [[ "$BUMP_TYPE" == "none" ]]; then
+            BUILD_NUM=$(git tag -l "v${LATEST_VERSION}+*" | sed "s/^v${LATEST_VERSION}+//" | sort -n | tail -n 1)
+            if [[ -z "$BUILD_NUM" ]]; then
+              BUILD_NUM=1
+            else
+              BUILD_NUM=$((BUILD_NUM + 1))
+            fi
+            NEW_TAG="v${LATEST_VERSION}+${BUILD_NUM}"
+          else
+            case "$BUMP_TYPE" in
+              major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+              minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+              patch) PATCH=$((PATCH + 1)) ;;
+            esac
+            NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}+1"
+          fi
+
+          echo "previous=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push tag
+        env:
+          NEW_TAG: ${{ steps.next.outputs.tag }}
+        run: |
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
+
+      - name: Summary
+        env:
+          PREVIOUS: ${{ steps.next.outputs.previous }}
+          NEW_TAG: ${{ steps.next.outputs.tag }}
+        run: |
+          echo "## Release Tag Created" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Previous tag**: $PREVIOUS" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **New tag**: $NEW_TAG" >> "$GITHUB_STEP_SUMMARY"
