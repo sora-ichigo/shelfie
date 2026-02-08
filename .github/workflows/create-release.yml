@@ -31,7 +31,7 @@ jobs:
         env:
           BUMP_TYPE: ${{ inputs.bump_type }}
         run: |
-          LATEST=$(git tag -l 'v*' --sort=-creatordate | head -n 1)
+          LATEST=$(git tag -l 'v*' --sort=-version:refname | head -n 1)
 
           if [[ -z "$LATEST" ]]; then
             LATEST_VERSION="0.0.0"
