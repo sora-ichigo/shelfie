@@ -1,20 +1,10 @@
 name: Deploy iOS to App Store Connect
 
 on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'App version (e.g. 1.1.0+1). Required for manual trigger.'
-        required: true
-        type: string
-      release_notes:
-        description: 'Release notes for this build'
-        required: false
-        type: string
-        default: ''
+  workflow_run:
+    workflows: ["Create Release Tag"]
+    types:
+      - completed
 
 concurrency:
   group: deploy-appstore-${{ github.ref }}
@@ -26,6 +16,7 @@ env:
 
 jobs:
   build-and-upload:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: macos-15
     permissions:
       contents: read
@@ -87,19 +78,22 @@ jobs:
           sed -i '' 's/match AdHoc app.shelfie.shelfie/match AppStore app.shelfie.shelfie/g' \
             ios/Runner.xcodeproj/project.pbxproj
 
+      - name: Download tag artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-tag
+          path: ${{ github.workspace }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract version
         id: version
         env:
-          REF_TYPE: ${{ github.ref_type }}
-          REF_NAME: ${{ github.ref_name }}
-          INPUT_VERSION: ${{ inputs.version }}
           RUN_NUMBER: ${{ github.run_number }}
+          WORKSPACE: ${{ github.workspace }}
         run: |
-          if [[ "$REF_TYPE" == "tag" ]]; then
-            FULL="${REF_NAME#v}"
-          else
-            FULL="$INPUT_VERSION"
-          fi
+          TAG=$(cat "$WORKSPACE/tag.txt")
+          FULL="${TAG#v}"
           echo "build-name=${FULL%%+*}" >> "$GITHUB_OUTPUT"
           if [[ "$FULL" == *"+"* ]]; then
             echo "build-number=${FULL#*+}" >> "$GITHUB_OUTPUT"
