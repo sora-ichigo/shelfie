@@ -1,13 +1,18 @@
 name: Deploy Android to Firebase App Distribution
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
-      release_notes:
-        description: 'Release notes for this build'
-        required: false
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
         type: string
-        default: ''
 
 concurrency:
   group: deploy-android-${{ github.ref }}
@@ -78,13 +83,29 @@ jobs:
           storeFile=shelfie-upload.jks
           EOF
 
+      - name: Extract version
+        id: version
+        env:
+          TAG: ${{ inputs.tag }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          FULL="${TAG#v}"
+          echo "build-name=${FULL%%+*}" >> "$GITHUB_OUTPUT"
+          if [[ "$FULL" == *"+"* ]]; then
+            echo "build-number=${FULL#*+}" >> "$GITHUB_OUTPUT"
+          else
+            echo "build-number=$RUN_NUMBER" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build APK
         env:
-          BUILD_NUMBER: ${{ github.run_number }}
+          BUILD_NAME: ${{ steps.version.outputs.build-name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build-number }}
           API_BASE_URL: ${{ vars.STG_API_BASE_URL }}
         run: |
           flutter build apk \
             --release \
+            --build-name="$BUILD_NAME" \
             --build-number="$BUILD_NUMBER" \
             --dart-define=API_BASE_URL="$API_BASE_URL"
 
@@ -98,10 +119,7 @@ jobs:
         run: npm install -g firebase-tools
 
       - name: Distribute to Firebase App Distribution
-        env:
-          RELEASE_NOTES: ${{ inputs.release_notes }}
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app "$FIREBASE_APP_ID" \
-            --groups "$TESTER_GROUPS" \
-            --release-notes "$RELEASE_NOTES"
+            --groups "$TESTER_GROUPS"

@@ -1,18 +1,18 @@
 name: Deploy Android to Google Play Store
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
-      build_number:
-        description: 'Build number (defaults to github.run_number)'
-        required: false
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
         type: string
-        default: ''
-      release_notes:
-        description: 'Release notes for this build'
-        required: false
-        type: string
-        default: ''
       track:
         description: 'Play Store track'
         required: true
@@ -82,20 +82,29 @@ jobs:
           storeFile=shelfie-upload.jks
           EOF
 
-      - name: Write release notes
+      - name: Extract version
+        id: version
         env:
-          RELEASE_NOTES: ${{ inputs.release_notes }}
+          TAG: ${{ inputs.tag }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
-          mkdir -p whatsnew
-          echo "$RELEASE_NOTES" > whatsnew/ja-JP
+          FULL="${TAG#v}"
+          echo "build-name=${FULL%%+*}" >> "$GITHUB_OUTPUT"
+          if [[ "$FULL" == *"+"* ]]; then
+            echo "build-number=${FULL#*+}" >> "$GITHUB_OUTPUT"
+          else
+            echo "build-number=$RUN_NUMBER" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build AAB
         env:
-          BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
+          BUILD_NAME: ${{ steps.version.outputs.build-name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build-number }}
           API_BASE_URL: ${{ vars.PROD_API_BASE_URL }}
         run: |
           flutter build appbundle \
             --release \
+            --build-name="$BUILD_NAME" \
             --build-number="$BUILD_NUMBER" \
             --dart-define=API_BASE_URL="$API_BASE_URL"
 
@@ -111,5 +120,4 @@ jobs:
           serviceAccountJson: /tmp/service-account.json
           packageName: app.shelfie.shelfie
           releaseFiles: apps/mobile/build/app/outputs/bundle/release/app-release.aab
-          track: ${{ inputs.track }}
-          whatsNewDirectory: apps/mobile/whatsnew
+          track: ${{ inputs.track || 'internal' }}
