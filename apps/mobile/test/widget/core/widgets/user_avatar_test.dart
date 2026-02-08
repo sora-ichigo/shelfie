@@ -176,6 +176,32 @@ void main() {
       expect(find.byType(CachedNetworkImage), findsNothing);
     });
 
+    testWidgets('ImageKit URLのサイズにデバイスピクセル比が反映される',
+        (tester) async {
+      const testUrl = 'https://ik.imagekit.io/test/avatar.jpg';
+      const testRadius = 24.0;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.dark(),
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(devicePixelRatio: 3.0),
+            child: child!,
+          ),
+          home: const Scaffold(
+            body: UserAvatar(avatarUrl: testUrl, radius: testRadius),
+          ),
+        ),
+      );
+
+      final cachedImage = tester.widget<CachedNetworkImage>(
+        find.byType(CachedNetworkImage),
+      );
+      // radius(24) * 2 * dpr(3.0) = 144
+      expect(cachedImage.imageUrl, contains('w-144'));
+      expect(cachedImage.imageUrl, contains('h-144'));
+    });
+
     testWidgets('isLoading=trueの場合はavatarUrlがあってもLoadingAvatarが優先される',
         (tester) async {
       const testUrl = 'https://ik.imagekit.io/test/avatar.jpg';
