@@ -42,7 +42,7 @@ jobs:
 
       - name: Configure dev application ID
         run: |
-          sed -i 's/app\.shelfie\.shelfie/app.shelfie.shelfie.dev/g' \
+          sed -i 's/applicationId = "app\.shelfie\.shelfie"/applicationId = "app.shelfie.shelfie.dev"/' \
             android/app/build.gradle
           sed -i 's/<application android:label="shelfie"/<application android:label="Shelfie Dev"/' \
             android/app/src/main/AndroidManifest.xml
