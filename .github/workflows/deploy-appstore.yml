@@ -18,13 +18,12 @@ concurrency:
   group: deploy-appstore-${{ github.ref }}
   cancel-in-progress: false
 
-env:
-  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-  MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-
 jobs:
   build-and-upload:
     runs-on: macos-15
+    env:
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
     permissions:
       contents: read
     defaults:

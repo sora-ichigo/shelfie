@@ -18,15 +18,14 @@ concurrency:
   group: deploy-ios-${{ github.ref }}
   cancel-in-progress: false
 
-env:
-  FIREBASE_APP_ID: ${{ vars.FIREBASE_IOS_APP_ID }}
-  TESTER_GROUPS: ${{ vars.FIREBASE_TESTER_GROUPS }}
-  MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-  MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-
 jobs:
   build-and-distribute:
     runs-on: macos-latest
+    env:
+      FIREBASE_APP_ID: ${{ vars.FIREBASE_IOS_APP_ID }}
+      TESTER_GROUPS: ${{ vars.FIREBASE_TESTER_GROUPS }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
     permissions:
       contents: read
       id-token: write
