@@ -238,6 +238,28 @@ void main() {
     });
   });
 
+  group('BookDetailScreen シェアボタン', () {
+    testWidgets('本棚未追加時でもシェアボタンが表示される', (tester) async {
+      when(() => mockRepository.getBookDetail(
+            bookId: any(named: 'bookId'),
+            source: any(named: 'source'),
+          ))
+          .thenAnswer((_) async => right((
+                bookDetail: const BookDetail(
+                  id: 'test-id',
+                  title: 'Test Book',
+                  authors: ['Test Author'],
+                ),
+                userBook: null,
+              )));
+
+      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.share), findsOneWidget);
+    });
+  });
+
   group('BookDetailScreen マイライブラリ追加状態', () {
     testWidgets('未追加時は「マイライブラリに追加」ボタンが表示される', (tester) async {
       when(() => mockRepository.getBookDetail(

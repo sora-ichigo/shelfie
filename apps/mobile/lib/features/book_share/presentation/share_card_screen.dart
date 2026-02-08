@@ -19,7 +19,7 @@ import 'package:shelfie/features/book_share/presentation/widgets/share_card_widg
 Future<void> showShareCardBottomSheet({
   required BuildContext context,
   required String externalId,
-  required ReadingStatus readingStatus,
+  ReadingStatus? readingStatus,
   Color? accentColor,
 }) {
   return showModalBottomSheet<void>(
@@ -46,7 +46,7 @@ class _ShareCardBottomSheet extends ConsumerStatefulWidget {
   });
 
   final String externalId;
-  final ReadingStatus readingStatus;
+  final ReadingStatus? readingStatus;
   final Color? accentColor;
 
   @override
@@ -121,7 +121,7 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     );
   }
 
-  String _shareTitle(ReadingStatus status) {
+  String _shareTitle(ReadingStatus? status) {
     switch (status) {
       case ReadingStatus.completed:
         return '読んだ本をシェアしよう';
@@ -131,6 +131,8 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
         return '積読をシェアしよう';
       case ReadingStatus.interested:
         return '気になる本をシェアしよう';
+      case null:
+        return 'この本をシェアしよう';
     }
   }
 

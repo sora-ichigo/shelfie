@@ -220,17 +220,14 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[widget.bookId]),
     );
-    if (shelfEntry == null) {
-      return const SizedBox.shrink();
-    }
 
     return IconButton(
       icon: const Icon(Icons.share),
-      onPressed: () => _navigateToShare(shelfEntry.readingStatus),
+      onPressed: () => _navigateToShare(shelfEntry?.readingStatus),
     );
   }
 
-  void _navigateToShare(ReadingStatus readingStatus) {
+  void _navigateToShare(ReadingStatus? readingStatus) {
     showShareCardBottomSheet(
       context: context,
       externalId: widget.bookId,

@@ -21,7 +21,7 @@ void main() {
 
   Widget buildTestWidget({
     required BookDetail bookDetail,
-    ReadingStatus readingStatus = ReadingStatus.completed,
+    ReadingStatus? readingStatus = ReadingStatus.completed,
   }) {
     return ProviderScope(
       overrides: [
@@ -140,6 +140,21 @@ void main() {
       expect(find.text('LINE'), findsOneWidget);
       expect(find.text('画像を保存'), findsOneWidget);
       expect(find.text('さらに見る'), findsOneWidget);
+    });
+
+    testWidgets('readingStatusがnullの場合は「この本をシェアしよう」と表示される', (tester) async {
+      tester.view.physicalSize = largeScreen;
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(buildTestWidget(
+        bookDetail: createBookDetail(),
+        readingStatus: null,
+      ));
+      await openBottomSheet(tester);
+
+      expect(find.text('この本をシェアしよう'), findsOneWidget);
     });
 
     testWidgets('ドラッグハンドルが表示される', (tester) async {
