@@ -33,7 +33,14 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   LibraryFilterTab _selectedTab = LibraryFilterTab.books;
 
   static const _headerHeight = AppSpacing.sm + 40.0 + AppSpacing.sm;
-  static const _filterTabHeight = AppSpacing.xxs * 2 + 40.0;
+  static const _tabBarHeight = 62.0;
+  static const _searchFilterHeight = 40.0;
+
+  double get _filterTabHeight =>
+      _tabBarHeight +
+      (_selectedTab == LibraryFilterTab.books
+          ? AppSpacing.xxs + _searchFilterHeight + AppSpacing.xxs
+          : AppSpacing.xxs);
 
   @override
   void initState() {
@@ -105,30 +112,34 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
             ),
             bottom: PreferredSize(
               preferredSize:
-                  const Size.fromHeight(_filterTabHeight),
+                  Size.fromHeight(_filterTabHeight),
               child: ColoredBox(
                 color:
                     Theme.of(context).scaffoldBackgroundColor,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.xxs,
-                  ),
-                  child: Row(
-                    children: [
-                      LibraryFilterTabs(
-                        selectedTab: _selectedTab,
-                        onTabChanged: _onTabChanged,
-                      ),
-                      if (_selectedTab == LibraryFilterTab.books) ...[
-                        const Spacer(),
-                        SearchFilterBar(
-                          sortOption: ref.watch(sortOptionNotifierProvider),
-                          onSortChanged: _onSortChanged,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LibraryFilterTabs(
+                      selectedTab: _selectedTab,
+                      onTabChanged: _onTabChanged,
+                    ),
+                    if (_selectedTab == LibraryFilterTab.books)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.xxs,
                         ),
-                      ],
-                    ],
-                  ),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SearchFilterBar(
+                            sortOption: ref.watch(sortOptionNotifierProvider),
+                            onSortChanged: _onSortChanged,
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(height: AppSpacing.xxs),
+                  ],
                 ),
               ),
             ),

@@ -28,7 +28,7 @@ void main() {
         ));
         await tester.pump();
 
-        expect(find.text('すべて'), findsOneWidget);
+        expect(find.text('本棚'), findsOneWidget);
         expect(find.text('ブックリスト'), findsOneWidget);
       });
 
@@ -39,11 +39,11 @@ void main() {
         ));
         await tester.pump();
 
-        final booksTabContainer = find.ancestor(
-          of: find.text('すべて'),
-          matching: find.byType(AnimatedContainer),
+        final booksTab = find.ancestor(
+          of: find.text('本棚'),
+          matching: find.byType(GestureDetector),
         );
-        expect(booksTabContainer, findsOneWidget);
+        expect(booksTab, findsOneWidget);
       });
 
       testWidgets('highlights selected tab (lists)', (tester) async {
@@ -53,11 +53,11 @@ void main() {
         ));
         await tester.pump();
 
-        final listsTabContainer = find.ancestor(
+        final listsTab = find.ancestor(
           of: find.text('ブックリスト'),
-          matching: find.byType(AnimatedContainer),
+          matching: find.byType(GestureDetector),
         );
-        expect(listsTabContainer, findsOneWidget);
+        expect(listsTab, findsOneWidget);
       });
     });
 
@@ -72,7 +72,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('すべて'));
+        await tester.tap(find.text('本棚'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.books);
@@ -118,7 +118,7 @@ void main() {
         ));
         await tester.pump();
 
-        await tester.tap(find.text('すべて'));
+        await tester.tap(find.text('本棚'));
         await tester.pumpAndSettle();
 
         expect(selectedTab, LibraryFilterTab.books);
@@ -127,7 +127,7 @@ void main() {
 
     group('LibraryFilterTab extension', () {
       test('returns correct label for books', () {
-        expect(LibraryFilterTab.books.label, 'すべて');
+        expect(LibraryFilterTab.books.label, '本棚');
       });
 
       test('returns correct label for lists', () {

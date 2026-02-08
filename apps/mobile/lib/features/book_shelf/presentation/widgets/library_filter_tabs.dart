@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_radius.dart';
-import 'package:shelfie/core/theme/app_spacing.dart';
 
 enum LibraryFilterTab {
   books,
@@ -11,7 +9,7 @@ enum LibraryFilterTab {
 extension LibraryFilterTabX on LibraryFilterTab {
   String get label {
     return switch (this) {
-      LibraryFilterTab.books => 'すべて',
+      LibraryFilterTab.books => '本棚',
       LibraryFilterTab.lists => 'ブックリスト',
     };
   }
@@ -31,10 +29,7 @@ class LibraryFilterTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: LibraryFilterTab.values.map((tab) {
-        return Padding(
-          padding: EdgeInsets.only(
-            right: tab != LibraryFilterTab.lists ? AppSpacing.xs : 0,
-          ),
+        return Expanded(
           child: _FilterTabButton(
             label: tab.label,
             isSelected: tab == selectedTab,
@@ -62,30 +57,31 @@ class _FilterTabButton extends StatelessWidget {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.full),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xs,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? appColors.primary
-              : appColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.full),
-        ),
-        child: Text(
-          label,
-          style: theme.textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w400,
-            color: isSelected
-                ? appColors.textPrimary
-                : appColors.textSecondary,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected
+                    ? appColors.textPrimary
+                    : appColors.textSecondary,
+              ),
+            ),
           ),
-        ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: 2,
+            color: isSelected ? appColors.primary : Colors.transparent,
+          ),
+        ],
       ),
     );
   }

@@ -24,7 +24,7 @@ void main() {
       testWidgets('displays two tabs', (tester) async {
         await tester.pumpWidget(buildTestWidget());
 
-        expect(find.text('すべて'), findsOneWidget);
+        expect(find.text('本棚'), findsOneWidget);
         expect(find.text('ブックリスト'), findsOneWidget);
       });
 
@@ -34,8 +34,8 @@ void main() {
         ));
 
         final booksTab = find.ancestor(
-          of: find.text('すべて'),
-          matching: find.byType(InkWell),
+          of: find.text('本棚'),
+          matching: find.byType(GestureDetector),
         );
         expect(booksTab, findsOneWidget);
       });
@@ -47,7 +47,7 @@ void main() {
 
         final listsTab = find.ancestor(
           of: find.text('ブックリスト'),
-          matching: find.byType(InkWell),
+          matching: find.byType(GestureDetector),
         );
         expect(listsTab, findsOneWidget);
       });
@@ -63,7 +63,7 @@ void main() {
           onTabChanged: (tab) => changedTab = tab,
         ));
 
-        await tester.tap(find.text('すべて'));
+        await tester.tap(find.text('本棚'));
         await tester.pumpAndSettle();
 
         expect(changedTab, LibraryFilterTab.books);
