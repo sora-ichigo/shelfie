@@ -316,16 +316,12 @@ describe("ExternalBookRepository", () => {
       await repository.searchByQuery("テスト", 10, 0);
 
       const calls = vi.mocked(fetch).mock.calls;
-      const titleCall = calls.find((c) =>
-        (c[0] as string).includes("title="),
-      );
+      const titleCall = calls.find((c) => (c[0] as string).includes("title="));
       const authorCall = calls.find((c) =>
         (c[0] as string).includes("author="),
       );
 
-      expect(titleCall?.[0]).toContain(
-        `applicationId=${mockApplicationId}`,
-      );
+      expect(titleCall?.[0]).toContain(`applicationId=${mockApplicationId}`);
       expect(authorCall?.[0]).toContain(
         `applicationId=${mockSubApplicationId}`,
       );
