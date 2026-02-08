@@ -26,7 +26,8 @@
       "!**/.next",
       "!**/build",
       "!**/coverage",
-      "!**/apps/mobile"
+      "!**/apps/mobile",
+      "!**/.terraform"
     ]
   }
 }

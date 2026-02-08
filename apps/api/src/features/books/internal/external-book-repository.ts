@@ -37,6 +37,7 @@ const RAKUTEN_BOOKS_API_URL =
   "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404";
 const TIMEOUT_MS = 3000;
 const MAX_HITS = 30;
+const FIRST_PAGE_MIN_HITS = 20;
 
 function offsetToPage(offset: number, limit: number): number {
   return Math.floor(offset / limit) + 1;
@@ -111,8 +112,34 @@ function extractItems(response: RakutenBooksResponse): RakutenBooksItem[] {
   return response.Items.map((wrapper) => wrapper.Item);
 }
 
+async function fetchAndParse(
+  url: string,
+): Promise<
+  Result<{ items: RakutenBooksItem[]; totalItems: number }, ExternalApiErrors>
+> {
+  const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
+
+  if (!fetchResult.success) {
+    return fetchResult;
+  }
+
+  const response = fetchResult.data;
+
+  if (!response.ok) {
+    return err(handleHttpError(response));
+  }
+
+  const data = (await response.json()) as RakutenBooksResponse;
+
+  return ok({
+    items: extractItems(data),
+    totalItems: data.count,
+  });
+}
+
 export function createExternalBookRepository(
   applicationId: string,
+  subApplicationId?: string,
 ): ExternalBookRepository {
   return {
     async searchByQuery(
@@ -125,33 +152,65 @@ export function createExternalBookRepository(
         ExternalApiErrors
       >
     > {
-      const hits = Math.min(limit, MAX_HITS);
+      const isFirstPage = offset === 0;
+      const hits = isFirstPage
+        ? Math.min(Math.max(limit, FIRST_PAGE_MIN_HITS), MAX_HITS)
+        : Math.min(limit, MAX_HITS);
       const page = offsetToPage(offset, hits);
 
-      const url = buildSearchUrl(applicationId, {
+      const titleUrl = buildSearchUrl(applicationId, {
         title: query,
         hits,
         page,
         sort: "reviewCount",
       });
 
-      const fetchResult = await fetchWithTimeout(url, TIMEOUT_MS);
-
-      if (!fetchResult.success) {
-        return fetchResult;
+      if (!isFirstPage) {
+        return fetchAndParse(titleUrl);
       }
 
-      const response = fetchResult.data;
+      const authorUrl = buildSearchUrl(subApplicationId ?? applicationId, {
+        author: query,
+        hits,
+        page,
+        sort: "reviewCount",
+      });
 
-      if (!response.ok) {
-        return err(handleHttpError(response));
+      const [titleResult, authorResult] = await Promise.all([
+        fetchAndParse(titleUrl),
+        fetchAndParse(authorUrl),
+      ]);
+
+      if (!titleResult.success && !authorResult.success) {
+        return titleResult;
       }
 
-      const data = (await response.json()) as RakutenBooksResponse;
+      const titleItems = titleResult.success ? titleResult.data.items : [];
+      const titleTotal = titleResult.success ? titleResult.data.totalItems : 0;
+      const authorItems = authorResult.success ? authorResult.data.items : [];
+      const authorTotal = authorResult.success
+        ? authorResult.data.totalItems
+        : 0;
+
+      const seenIsbns = new Set<string>();
+      const mergedItems: RakutenBooksItem[] = [];
+
+      for (const item of authorItems) {
+        if (!seenIsbns.has(item.isbn)) {
+          seenIsbns.add(item.isbn);
+          mergedItems.push(item);
+        }
+      }
+      for (const item of titleItems) {
+        if (!seenIsbns.has(item.isbn)) {
+          seenIsbns.add(item.isbn);
+          mergedItems.push(item);
+        }
+      }
 
       return ok({
-        items: extractItems(data),
-        totalItems: data.count,
+        items: mergedItems,
+        totalItems: Math.max(titleTotal, authorTotal),
       });
     },
 
