@@ -70,6 +70,17 @@ jobs:
           git tag "$NEW_TAG"
           git push origin "$NEW_TAG"
 
+      - name: Save tag for downstream workflows
+        env:
+          NEW_TAG: ${{ steps.next.outputs.tag }}
+        run: echo "$NEW_TAG" > tag.txt
+
+      - name: Upload tag artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-tag
+          path: tag.txt
+
       - name: Summary
         env:
           PREVIOUS: ${{ steps.next.outputs.previous }}
