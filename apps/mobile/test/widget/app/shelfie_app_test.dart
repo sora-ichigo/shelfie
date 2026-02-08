@@ -1,4 +1,3 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +11,6 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
-
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
@@ -26,18 +24,14 @@ class MockBookShelfSettingsRepository extends Mock
 
 void main() {
   group('ShelfieApp', () {
-    group('Task 9.1: ShelfieApp widget integration', () {
-      testWidgets('AdaptiveApp.router を使用していること', (tester) async {
+    group('MaterialApp.router の統合', () {
+      testWidgets('MaterialApp.router を使用していること', (tester) async {
         await tester.pumpWidget(
           ProviderScope(
             child: const ShelfieApp(),
           ),
         );
 
-        // AdaptiveApp が使用されていることを確認
-        expect(find.byType(AdaptiveApp), findsOneWidget);
-
-        // 内部的に MaterialApp.router が構築されていること（テスト環境は非 iOS）
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
@@ -51,13 +45,10 @@ void main() {
           ),
         );
 
-        // テスト環境では AdaptiveApp 内部で MaterialApp が使用される
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
 
-        // ダークモードのテーマが適用されていることを確認
-        // AdaptiveApp は darkTheme に materialDarkTheme を設定する
         expect(materialApp.darkTheme?.brightness, equals(Brightness.dark));
         expect(materialApp.darkTheme?.useMaterial3, isTrue);
         expect(
@@ -77,7 +68,6 @@ void main() {
           find.byType(MaterialApp),
         );
 
-        // GoRouter が設定されていることを確認
         expect(materialApp.routerConfig, isA<GoRouter>());
       });
 
@@ -89,7 +79,6 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // MaterialApp の darkTheme に AppColors 拡張が含まれていることを確認
         final materialApp = tester.widget<MaterialApp>(
           find.byType(MaterialApp),
         );
@@ -106,11 +95,11 @@ void main() {
           ),
         );
 
-        final adaptiveApp = tester.widget<AdaptiveApp>(
-          find.byType(AdaptiveApp),
+        final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp),
         );
 
-        expect(adaptiveApp.title, equals('Shelfie'));
+        expect(materialApp.title, equals('Shelfie'));
       });
 
       testWidgets('ConsumerWidget として実装されていること', (tester) async {
@@ -125,7 +114,7 @@ void main() {
         );
 
         expect(find.byType(ShelfieApp), findsOneWidget);
-        expect(find.byType(AdaptiveApp), findsOneWidget);
+        expect(find.byType(MaterialApp), findsOneWidget);
       });
 
       testWidgets('themeMode が dark に設定されていること', (tester) async {
@@ -135,15 +124,15 @@ void main() {
           ),
         );
 
-        final adaptiveApp = tester.widget<AdaptiveApp>(
-          find.byType(AdaptiveApp),
+        final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp),
         );
 
-        expect(adaptiveApp.themeMode, equals(ThemeMode.dark));
+        expect(materialApp.themeMode, equals(ThemeMode.dark));
       });
     });
 
-    group('Task 9.2: Selective rebuild optimization', () {
+    group('選択的リビルドの最適化', () {
       testWidgets('ShelfieApp は appRouterProvider を watch していること', (tester) async {
         var watchCount = 0;
         final testRouter = GoRouter(
@@ -263,18 +252,12 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      // AdaptiveApp が存在することを確認
-      expect(find.byType(AdaptiveApp), findsOneWidget);
-
-      // 内部の MaterialApp で Router が存在することを確認
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.routerConfig, isNotNull);
 
-      // テーマが正しく適用されていることを確認
       expect(materialApp.darkTheme?.useMaterial3, isTrue);
       expect(materialApp.darkTheme?.brightness, Brightness.dark);
 
-      // AppColors 拡張が存在することを確認
       expect(materialApp.darkTheme?.extensions.values, isNotEmpty);
     });
 

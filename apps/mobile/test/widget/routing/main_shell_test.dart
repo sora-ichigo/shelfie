@@ -1,4 +1,4 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,8 +37,8 @@ void main() {
   }
 
   group('MainShell', () {
-    group('AdaptiveScaffold', () {
-      testWidgets('AdaptiveScaffold を使用していること', (tester) async {
+    group('CupertinoTabBar', () {
+      testWidgets('CupertinoTabBar に 2 タブ表示されること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -62,47 +62,11 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        expect(find.byType(AdaptiveScaffold), findsOneWidget);
-
-        await tester.pumpWidget(const SizedBox.shrink());
-        await tester.pump(const Duration(seconds: 1));
-        container.dispose();
-        resetViewport(tester);
-      });
-    });
-
-    group('AdaptiveBottomNavigationBar', () {
-      testWidgets('ナビゲーションバーに 2 タブ表示されること', (tester) async {
-        setLargeViewport(tester);
-
-        final container = createTestContainer();
-
-        await container.read(authStateProvider.notifier).login(
-              userId: 'user-123',
-              email: 'test@example.com',
-              token: 'test-token',
-              refreshToken: 'test-refresh-token',
-            );
-
-        await tester.pumpWidget(
-          ProviderScope(
-            parent: container,
-            child: MaterialApp.router(
-              theme: AppTheme.theme,
-              routerConfig: container.read(appRouterProvider),
-            ),
-          ),
-        );
-        await tester.pump();
-        tester.takeException();
-
-        // テスト環境(非 iOS)では NavigationBar が内部で使用される
-        final navBar = tester.widget<NavigationBar>(
-          find.byType(NavigationBar),
+        final tabBar = tester.widget<CupertinoTabBar>(
+          find.byType(CupertinoTabBar),
         );
 
-        // 2 タブ (ライブラリ、検索) が表示されること
-        expect(navBar.destinations.length, equals(2));
+        expect(tabBar.items.length, equals(2));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -134,7 +98,6 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        // タブラベルが存在することを確認
         expect(find.text('ライブラリ'), findsWidgets);
         expect(find.text('さがす'), findsWidgets);
 
@@ -168,7 +131,6 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        // 検索タブへ遷移
         container.read(appRouterProvider).go(AppRoutes.searchTab);
         await tester.pump();
         tester.takeException();
@@ -211,12 +173,11 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        final navBar = tester.widget<NavigationBar>(
-          find.byType(NavigationBar),
+        final tabBar = tester.widget<CupertinoTabBar>(
+          find.byType(CupertinoTabBar),
         );
 
-        // ホームタブ (index 0) が選択されていること
-        expect(navBar.selectedIndex, equals(0));
+        expect(tabBar.currentIndex, equals(0));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));

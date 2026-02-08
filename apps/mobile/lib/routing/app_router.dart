@@ -2,7 +2,6 @@
 library;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -464,9 +463,7 @@ List<RouteBase> _buildRoutes() {
 
 /// メインシェル（タブバー）
 ///
-/// ShellRoute のビルダーとして使用され、プラットフォーム適応型ナビゲーションを提供する。
-/// AdaptiveScaffold + AdaptiveBottomNavigationBar を使用し、
-/// プラットフォーム判定は adaptive_platform_ui に完全委譲する。
+/// ShellRoute のビルダーとして使用され、CupertinoTabBar によるナビゲーションを提供する。
 class _MainShell extends ConsumerWidget {
   const _MainShell({required this.navigationShell});
 
@@ -482,48 +479,33 @@ class _MainShell extends ConsumerWidget {
       navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
     }
 
-    final navBar = AdaptiveBottomNavigationBar(
-      selectedIndex: selectedIndex,
-      selectedItemColor: appColors.textPrimary,
-      unselectedItemColor: appColors.textPrimary.withOpacity(0.7),
-      cupertinoTabBar: CupertinoTabBar(
-        currentIndex: selectedIndex,
-        onTap: onTap,
-        activeColor: appColors.textPrimary,
-        inactiveColor: appColors.textPrimary.withOpacity(0.7),
-        backgroundColor: AppColors.dark.background,
-        border: const Border(),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.book),
-            label: 'ライブラリ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search),
-            label: 'さがす',
-          ),
-        ],
-      ),
-      onTap: onTap,
-      items: const [
-        AdaptiveNavigationDestination(
-          icon: 'book.fill',
-          label: 'ライブラリ',
-        ),
-        AdaptiveNavigationDestination(
-          icon: 'magnifyingglass',
-          label: 'さがす',
-        ),
-      ],
-    );
-
-    return AdaptiveScaffold(
-      minimizeBehavior: TabBarMinimizeBehavior.never,
-      body: Material(
-        type: MaterialType.transparency,
-        child: navigationShell,
-      ),
-      bottomNavigationBar: isNavBarHidden ? null : navBar,
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: isNavBarHidden
+          ? null
+          : Container(
+              color: appColors.surface,
+              padding: const EdgeInsets.only(top: 8),
+              child: CupertinoTabBar(
+                currentIndex: selectedIndex,
+                onTap: onTap,
+                activeColor: appColors.textPrimary,
+                inactiveColor: appColors.textPrimary.withOpacity(0.7),
+                backgroundColor: appColors.surface,
+                border: const Border(),
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.book),
+                    activeIcon: Icon(CupertinoIcons.book_fill),
+                    label: 'ライブラリ',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.search),
+                    label: 'さがす',
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
