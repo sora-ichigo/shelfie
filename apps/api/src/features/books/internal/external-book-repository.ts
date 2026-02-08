@@ -139,6 +139,7 @@ async function fetchAndParse(
 
 export function createExternalBookRepository(
   applicationId: string,
+  subApplicationId?: string,
 ): ExternalBookRepository {
   return {
     async searchByQuery(
@@ -168,7 +169,7 @@ export function createExternalBookRepository(
         return fetchAndParse(titleUrl);
       }
 
-      const authorUrl = buildSearchUrl(applicationId, {
+      const authorUrl = buildSearchUrl(subApplicationId ?? applicationId, {
         author: query,
         hits,
         page,

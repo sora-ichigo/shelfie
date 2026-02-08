@@ -7,10 +7,14 @@ import {
 describe("ExternalBookRepository", () => {
   let repository: ExternalBookRepository;
   const mockApplicationId = "test-application-id";
+  const mockSubApplicationId = "test-sub-application-id";
 
   beforeEach(() => {
     vi.useFakeTimers();
-    repository = createExternalBookRepository(mockApplicationId);
+    repository = createExternalBookRepository(
+      mockApplicationId,
+      mockSubApplicationId,
+    );
   });
 
   afterEach(() => {
@@ -291,6 +295,39 @@ describe("ExternalBookRepository", () => {
       expect(fetch).toHaveBeenCalledWith(
         expect.stringContaining("author="),
         expect.any(Object),
+      );
+    });
+
+    it("title 検索はメインID、author 検索はサブIDを使用する", async () => {
+      const mockResponse = {
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("テスト", 10, 0);
+
+      const calls = vi.mocked(fetch).mock.calls;
+      const titleCall = calls.find((c) =>
+        (c[0] as string).includes("title="),
+      );
+      const authorCall = calls.find((c) =>
+        (c[0] as string).includes("author="),
+      );
+
+      expect(titleCall?.[0]).toContain(
+        `applicationId=${mockApplicationId}`,
+      );
+      expect(authorCall?.[0]).toContain(
+        `applicationId=${mockSubApplicationId}`,
       );
     });
 
