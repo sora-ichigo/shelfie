@@ -83,6 +83,9 @@ jobs:
 
   deploy-ios:
     needs: create-tag
+    permissions:
+      contents: read
+      id-token: write
     uses: ./.github/workflows/deploy-ios.yml
     with:
       tag: ${{ needs.create-tag.outputs.tag }}
