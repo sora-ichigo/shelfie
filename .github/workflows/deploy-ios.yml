@@ -1,10 +1,18 @@
 name: Deploy iOS to Firebase App Distribution
 
 on:
-  workflow_run:
-    workflows: ["Create Release Tag"]
-    types:
-      - completed
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0+1)'
+        required: true
+        type: string
 
 concurrency:
   group: deploy-ios-${{ github.ref }}
@@ -18,7 +26,6 @@ env:
 
 jobs:
   build-and-distribute:
-    if: github.event.workflow_run.conclusion == 'success'
     runs-on: macos-latest
     permissions:
       contents: read
@@ -106,21 +113,12 @@ jobs:
         env:
           KEYCHAIN_PASSWORD: ${{ github.run_id }}
 
-      - name: Download tag artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-tag
-          path: ${{ github.workspace }}
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Extract version
         id: version
         env:
+          TAG: ${{ inputs.tag }}
           RUN_NUMBER: ${{ github.run_number }}
-          WORKSPACE: ${{ github.workspace }}
         run: |
-          TAG=$(cat "$WORKSPACE/tag.txt")
           FULL="${TAG#v}"
           echo "build-name=${FULL%%+*}" >> "$GITHUB_OUTPUT"
           if [[ "$FULL" == *"+"* ]]; then
