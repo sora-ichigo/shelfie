@@ -27,9 +27,10 @@ class UserAvatar extends StatelessWidget {
       return _ImageAvatar(imageProvider: imageProvider!, radius: radius);
     }
 
+    final dpr = MediaQuery.devicePixelRatioOf(context);
     final optimizedUrl = ImageKitUrlTransformer.transformUrl(
       avatarUrl,
-      size: (radius * 2).toInt(),
+      size: (radius * 2 * dpr).toInt(),
     );
 
     if (optimizedUrl == null || optimizedUrl.isEmpty) {
