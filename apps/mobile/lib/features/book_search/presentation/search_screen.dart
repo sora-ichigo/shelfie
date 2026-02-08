@@ -133,7 +133,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ),
               Expanded(
                 child: showSearchHistory
-                    ? _buildSearchInputMode(searchHistoryAsync.valueOrNull ?? [])
+                    ? TextFieldTapRegion(
+                        child: _buildSearchInputMode(
+                            searchHistoryAsync.valueOrNull ?? []),
+                      )
                     : _buildBody(state),
               ),
             ],
