@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -205,19 +204,6 @@ void main() {
       });
     });
 
-    group('cupertinoTheme', () {
-      test('CupertinoThemeData を返す', () {
-        final cupertinoTheme = AppTheme.cupertinoTheme;
-
-        expect(cupertinoTheme, isA<CupertinoThemeData>());
-      });
-
-      test('ダークモード (Brightness.dark) が設定されている', () {
-        final cupertinoTheme = AppTheme.cupertinoTheme;
-
-        expect(cupertinoTheme.brightness, equals(Brightness.dark));
-      });
-    });
 
     group('ThemeExtension animation', () {
       test('AppColors.lerp が正しく動作すること', () {
