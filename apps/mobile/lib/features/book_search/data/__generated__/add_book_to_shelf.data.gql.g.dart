@@ -7,32 +7,38 @@ part of 'add_book_to_shelf.data.gql.dart';
 // **************************************************************************
 
 Serializer<GAddBookToShelfData> _$gAddBookToShelfDataSerializer =
-    new _$GAddBookToShelfDataSerializer();
+    _$GAddBookToShelfDataSerializer();
 Serializer<GAddBookToShelfData_addBookToShelf>
-    _$gAddBookToShelfDataAddBookToShelfSerializer =
-    new _$GAddBookToShelfData_addBookToShelfSerializer();
+_$gAddBookToShelfDataAddBookToShelfSerializer =
+    _$GAddBookToShelfData_addBookToShelfSerializer();
 
 class _$GAddBookToShelfDataSerializer
     implements StructuredSerializer<GAddBookToShelfData> {
   @override
   final Iterable<Type> types = const [
     GAddBookToShelfData,
-    _$GAddBookToShelfData
+    _$GAddBookToShelfData,
   ];
   @override
   final String wireName = 'GAddBookToShelfData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GAddBookToShelfData object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GAddBookToShelfData object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'addBookToShelf',
-      serializers.serialize(object.addBookToShelf,
-          specifiedType: const FullType(GAddBookToShelfData_addBookToShelf)),
+      serializers.serialize(
+        object.addBookToShelf,
+        specifiedType: const FullType(GAddBookToShelfData_addBookToShelf),
+      ),
     ];
 
     return result;
@@ -40,9 +46,11 @@ class _$GAddBookToShelfDataSerializer
 
   @override
   GAddBookToShelfData deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfDataBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GAddBookToShelfDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -51,14 +59,23 @@ class _$GAddBookToShelfDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'addBookToShelf':
-          result.addBookToShelf.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(GAddBookToShelfData_addBookToShelf))!
-              as GAddBookToShelfData_addBookToShelf);
+          result.addBookToShelf.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                    GAddBookToShelfData_addBookToShelf,
+                  ),
+                )!
+                as GAddBookToShelfData_addBookToShelf,
+          );
           break;
       }
     }
@@ -72,85 +89,109 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
   @override
   final Iterable<Type> types = const [
     GAddBookToShelfData_addBookToShelf,
-    _$GAddBookToShelfData_addBookToShelf
+    _$GAddBookToShelfData_addBookToShelf,
   ];
   @override
   final String wireName = 'GAddBookToShelfData_addBookToShelf';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GAddBookToShelfData_addBookToShelf object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GAddBookToShelfData_addBookToShelf object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'externalId',
-      serializers.serialize(object.externalId,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.externalId,
+        specifiedType: const FullType(String),
+      ),
       'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.title,
+        specifiedType: const FullType(String),
+      ),
       'authors',
-      serializers.serialize(object.authors,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
+      serializers.serialize(
+        object.authors,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(String),
+        ]),
+      ),
       'source',
-      serializers.serialize(object.source,
-          specifiedType: const FullType(_i2.GBookSource)),
+      serializers.serialize(
+        object.source,
+        specifiedType: const FullType(_i2.GBookSource),
+      ),
       'addedAt',
-      serializers.serialize(object.addedAt,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.addedAt,
+        specifiedType: const FullType(DateTime),
+      ),
       'readingStatus',
-      serializers.serialize(object.readingStatus,
-          specifiedType: const FullType(_i2.GReadingStatus)),
+      serializers.serialize(
+        object.readingStatus,
+        specifiedType: const FullType(_i2.GReadingStatus),
+      ),
     ];
     Object? value;
     value = object.publisher;
     if (value != null) {
       result
         ..add('publisher')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.publishedDate;
     if (value != null) {
       result
         ..add('publishedDate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.isbn;
     if (value != null) {
       result
         ..add('isbn')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.startedAt;
     if (value != null) {
       result
         ..add('startedAt')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(DateTime)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(DateTime)),
+        );
     }
     return result;
   }
 
   @override
   GAddBookToShelfData_addBookToShelf deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfData_addBookToShelfBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GAddBookToShelfData_addBookToShelfBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -159,60 +200,111 @@ class _$GAddBookToShelfData_addBookToShelfSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.id =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'externalId':
-          result.externalId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.externalId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'authors':
-          result.authors.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.authors.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'publisher':
-          result.publisher = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publisher =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'publishedDate':
-          result.publishedDate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publishedDate =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'isbn':
-          result.isbn = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.isbn =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'coverImageUrl':
-          result.coverImageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.coverImageUrl =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'source':
-          result.source = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GBookSource))!
-              as _i2.GBookSource;
+          result.source =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i2.GBookSource),
+                  )!
+                  as _i2.GBookSource;
           break;
         case 'addedAt':
-          result.addedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.addedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
         case 'readingStatus':
-          result.readingStatus = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GReadingStatus))!
-              as _i2.GReadingStatus;
+          result.readingStatus =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i2.GReadingStatus),
+                  )!
+                  as _i2.GReadingStatus;
           break;
         case 'startedAt':
-          result.startedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime?;
+          result.startedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime?;
           break;
       }
     }
@@ -227,27 +319,22 @@ class _$GAddBookToShelfData extends GAddBookToShelfData {
   @override
   final GAddBookToShelfData_addBookToShelf addBookToShelf;
 
-  factory _$GAddBookToShelfData(
-          [void Function(GAddBookToShelfDataBuilder)? updates]) =>
-      (new GAddBookToShelfDataBuilder()..update(updates))._build();
+  factory _$GAddBookToShelfData([
+    void Function(GAddBookToShelfDataBuilder)? updates,
+  ]) => (GAddBookToShelfDataBuilder()..update(updates))._build();
 
-  _$GAddBookToShelfData._(
-      {required this.G__typename, required this.addBookToShelf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GAddBookToShelfData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        addBookToShelf, r'GAddBookToShelfData', 'addBookToShelf');
-  }
-
+  _$GAddBookToShelfData._({
+    required this.G__typename,
+    required this.addBookToShelf,
+  }) : super._();
   @override
   GAddBookToShelfData rebuild(
-          void Function(GAddBookToShelfDataBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GAddBookToShelfDataBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToShelfDataBuilder toBuilder() =>
-      new GAddBookToShelfDataBuilder()..replace(this);
+      GAddBookToShelfDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -285,11 +372,10 @@ class GAddBookToShelfDataBuilder
 
   GAddBookToShelfData_addBookToShelfBuilder? _addBookToShelf;
   GAddBookToShelfData_addBookToShelfBuilder get addBookToShelf =>
-      _$this._addBookToShelf ??=
-          new GAddBookToShelfData_addBookToShelfBuilder();
+      _$this._addBookToShelf ??= GAddBookToShelfData_addBookToShelfBuilder();
   set addBookToShelf(
-          GAddBookToShelfData_addBookToShelfBuilder? addBookToShelf) =>
-      _$this._addBookToShelf = addBookToShelf;
+    GAddBookToShelfData_addBookToShelfBuilder? addBookToShelf,
+  ) => _$this._addBookToShelf = addBookToShelf;
 
   GAddBookToShelfDataBuilder() {
     GAddBookToShelfData._initializeBuilder(this);
@@ -307,7 +393,6 @@ class GAddBookToShelfDataBuilder
 
   @override
   void replace(GAddBookToShelfData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfData;
   }
 
@@ -322,19 +407,27 @@ class GAddBookToShelfDataBuilder
   _$GAddBookToShelfData _build() {
     _$GAddBookToShelfData _$result;
     try {
-      _$result = _$v ??
-          new _$GAddBookToShelfData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GAddBookToShelfData', 'G__typename'),
-              addBookToShelf: addBookToShelf.build());
+      _$result =
+          _$v ??
+          _$GAddBookToShelfData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GAddBookToShelfData',
+              'G__typename',
+            ),
+            addBookToShelf: addBookToShelf.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'addBookToShelf';
         addBookToShelf.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GAddBookToShelfData', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GAddBookToShelfData',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -372,53 +465,33 @@ class _$GAddBookToShelfData_addBookToShelf
   @override
   final DateTime? startedAt;
 
-  factory _$GAddBookToShelfData_addBookToShelf(
-          [void Function(GAddBookToShelfData_addBookToShelfBuilder)?
-              updates]) =>
-      (new GAddBookToShelfData_addBookToShelfBuilder()..update(updates))
-          ._build();
+  factory _$GAddBookToShelfData_addBookToShelf([
+    void Function(GAddBookToShelfData_addBookToShelfBuilder)? updates,
+  ]) => (GAddBookToShelfData_addBookToShelfBuilder()..update(updates))._build();
 
-  _$GAddBookToShelfData_addBookToShelf._(
-      {required this.G__typename,
-      required this.id,
-      required this.externalId,
-      required this.title,
-      required this.authors,
-      this.publisher,
-      this.publishedDate,
-      this.isbn,
-      this.coverImageUrl,
-      required this.source,
-      required this.addedAt,
-      required this.readingStatus,
-      this.startedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GAddBookToShelfData_addBookToShelf', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GAddBookToShelfData_addBookToShelf', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GAddBookToShelfData_addBookToShelf', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GAddBookToShelfData_addBookToShelf', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GAddBookToShelfData_addBookToShelf', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        source, r'GAddBookToShelfData_addBookToShelf', 'source');
-    BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt');
-    BuiltValueNullFieldError.checkNotNull(
-        readingStatus, r'GAddBookToShelfData_addBookToShelf', 'readingStatus');
-  }
-
+  _$GAddBookToShelfData_addBookToShelf._({
+    required this.G__typename,
+    required this.id,
+    required this.externalId,
+    required this.title,
+    required this.authors,
+    this.publisher,
+    this.publishedDate,
+    this.isbn,
+    this.coverImageUrl,
+    required this.source,
+    required this.addedAt,
+    required this.readingStatus,
+    this.startedAt,
+  }) : super._();
   @override
   GAddBookToShelfData_addBookToShelf rebuild(
-          void Function(GAddBookToShelfData_addBookToShelfBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GAddBookToShelfData_addBookToShelfBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToShelfData_addBookToShelfBuilder toBuilder() =>
-      new GAddBookToShelfData_addBookToShelfBuilder()..replace(this);
+      GAddBookToShelfData_addBookToShelfBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -481,8 +554,10 @@ class _$GAddBookToShelfData_addBookToShelf
 
 class GAddBookToShelfData_addBookToShelfBuilder
     implements
-        Builder<GAddBookToShelfData_addBookToShelf,
-            GAddBookToShelfData_addBookToShelfBuilder> {
+        Builder<
+          GAddBookToShelfData_addBookToShelf,
+          GAddBookToShelfData_addBookToShelfBuilder
+        > {
   _$GAddBookToShelfData_addBookToShelf? _$v;
 
   String? _G__typename;
@@ -502,8 +577,7 @@ class GAddBookToShelfData_addBookToShelfBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -568,13 +642,13 @@ class GAddBookToShelfData_addBookToShelfBuilder
 
   @override
   void replace(GAddBookToShelfData_addBookToShelf other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfData_addBookToShelf;
   }
 
   @override
   void update(
-      void Function(GAddBookToShelfData_addBookToShelfBuilder)? updates) {
+    void Function(GAddBookToShelfData_addBookToShelfBuilder)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -584,38 +658,62 @@ class GAddBookToShelfData_addBookToShelfBuilder
   _$GAddBookToShelfData_addBookToShelf _build() {
     _$GAddBookToShelfData_addBookToShelf _$result;
     try {
-      _$result = _$v ??
-          new _$GAddBookToShelfData_addBookToShelf._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GAddBookToShelfData_addBookToShelf', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GAddBookToShelfData_addBookToShelf', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GAddBookToShelfData_addBookToShelf', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GAddBookToShelfData_addBookToShelf', 'title'),
-              authors: authors.build(),
-              publisher: publisher,
-              publishedDate: publishedDate,
-              isbn: isbn,
-              coverImageUrl: coverImageUrl,
-              source: BuiltValueNullFieldError.checkNotNull(
-                  source, r'GAddBookToShelfData_addBookToShelf', 'source'),
-              addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GAddBookToShelfData_addBookToShelf', 'addedAt'),
-              readingStatus: BuiltValueNullFieldError.checkNotNull(
-                  readingStatus,
-                  r'GAddBookToShelfData_addBookToShelf',
-                  'readingStatus'),
-              startedAt: startedAt);
+      _$result =
+          _$v ??
+          _$GAddBookToShelfData_addBookToShelf._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GAddBookToShelfData_addBookToShelf',
+              'G__typename',
+            ),
+            id: BuiltValueNullFieldError.checkNotNull(
+              id,
+              r'GAddBookToShelfData_addBookToShelf',
+              'id',
+            ),
+            externalId: BuiltValueNullFieldError.checkNotNull(
+              externalId,
+              r'GAddBookToShelfData_addBookToShelf',
+              'externalId',
+            ),
+            title: BuiltValueNullFieldError.checkNotNull(
+              title,
+              r'GAddBookToShelfData_addBookToShelf',
+              'title',
+            ),
+            authors: authors.build(),
+            publisher: publisher,
+            publishedDate: publishedDate,
+            isbn: isbn,
+            coverImageUrl: coverImageUrl,
+            source: BuiltValueNullFieldError.checkNotNull(
+              source,
+              r'GAddBookToShelfData_addBookToShelf',
+              'source',
+            ),
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+              addedAt,
+              r'GAddBookToShelfData_addBookToShelf',
+              'addedAt',
+            ),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(
+              readingStatus,
+              r'GAddBookToShelfData_addBookToShelf',
+              'readingStatus',
+            ),
+            startedAt: startedAt,
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GAddBookToShelfData_addBookToShelf', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GAddBookToShelfData_addBookToShelf',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

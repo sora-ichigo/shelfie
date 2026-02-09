@@ -12,7 +12,8 @@ part of 'status_section_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$StatusSectionState {
@@ -20,49 +21,56 @@ mixin _$StatusSectionState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ShelfBookItem> books, int totalCount,
-            bool hasMore, bool isLoadingMore)
-        loaded,
+    required TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult? Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(StatusSectionInitial value) initial,
     required TResult Function(StatusSectionLoading value) loading,
     required TResult Function(StatusSectionLoaded value) loaded,
     required TResult Function(StatusSectionError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(StatusSectionInitial value)? initial,
     TResult? Function(StatusSectionLoading value)? loading,
     TResult? Function(StatusSectionLoaded value)? loaded,
     TResult? Function(StatusSectionError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(StatusSectionInitial value)? initial,
@@ -70,15 +78,15 @@ mixin _$StatusSectionState {
     TResult Function(StatusSectionLoaded value)? loaded,
     TResult Function(StatusSectionError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $StatusSectionStateCopyWith<$Res> {
   factory $StatusSectionStateCopyWith(
-          StatusSectionState value, $Res Function(StatusSectionState) then) =
-      _$StatusSectionStateCopyWithImpl<$Res, StatusSectionState>;
+    StatusSectionState value,
+    $Res Function(StatusSectionState) then,
+  ) = _$StatusSectionStateCopyWithImpl<$Res, StatusSectionState>;
 }
 
 /// @nodoc
@@ -90,22 +98,30 @@ class _$StatusSectionStateCopyWithImpl<$Res, $Val extends StatusSectionState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$StatusSectionInitialImplCopyWith<$Res> {
-  factory _$$StatusSectionInitialImplCopyWith(_$StatusSectionInitialImpl value,
-          $Res Function(_$StatusSectionInitialImpl) then) =
-      __$$StatusSectionInitialImplCopyWithImpl<$Res>;
+  factory _$$StatusSectionInitialImplCopyWith(
+    _$StatusSectionInitialImpl value,
+    $Res Function(_$StatusSectionInitialImpl) then,
+  ) = __$$StatusSectionInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$StatusSectionInitialImplCopyWithImpl<$Res>
     extends _$StatusSectionStateCopyWithImpl<$Res, _$StatusSectionInitialImpl>
     implements _$$StatusSectionInitialImplCopyWith<$Res> {
-  __$$StatusSectionInitialImplCopyWithImpl(_$StatusSectionInitialImpl _value,
-      $Res Function(_$StatusSectionInitialImpl) _then)
-      : super(_value, _then);
+  __$$StatusSectionInitialImplCopyWithImpl(
+    _$StatusSectionInitialImpl _value,
+    $Res Function(_$StatusSectionInitialImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -133,9 +149,13 @@ class _$StatusSectionInitialImpl implements StatusSectionInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ShelfBookItem> books, int totalCount,
-            bool hasMore, bool isLoadingMore)
-        loaded,
+    required TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return initial();
@@ -146,9 +166,13 @@ class _$StatusSectionInitialImpl implements StatusSectionInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult? Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return initial?.call();
@@ -159,9 +183,13 @@ class _$StatusSectionInitialImpl implements StatusSectionInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -215,18 +243,23 @@ abstract class StatusSectionInitial implements StatusSectionState {
 
 /// @nodoc
 abstract class _$$StatusSectionLoadingImplCopyWith<$Res> {
-  factory _$$StatusSectionLoadingImplCopyWith(_$StatusSectionLoadingImpl value,
-          $Res Function(_$StatusSectionLoadingImpl) then) =
-      __$$StatusSectionLoadingImplCopyWithImpl<$Res>;
+  factory _$$StatusSectionLoadingImplCopyWith(
+    _$StatusSectionLoadingImpl value,
+    $Res Function(_$StatusSectionLoadingImpl) then,
+  ) = __$$StatusSectionLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$StatusSectionLoadingImplCopyWithImpl<$Res>
     extends _$StatusSectionStateCopyWithImpl<$Res, _$StatusSectionLoadingImpl>
     implements _$$StatusSectionLoadingImplCopyWith<$Res> {
-  __$$StatusSectionLoadingImplCopyWithImpl(_$StatusSectionLoadingImpl _value,
-      $Res Function(_$StatusSectionLoadingImpl) _then)
-      : super(_value, _then);
+  __$$StatusSectionLoadingImplCopyWithImpl(
+    _$StatusSectionLoadingImpl _value,
+    $Res Function(_$StatusSectionLoadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -254,9 +287,13 @@ class _$StatusSectionLoadingImpl implements StatusSectionLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ShelfBookItem> books, int totalCount,
-            bool hasMore, bool isLoadingMore)
-        loaded,
+    required TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return loading();
@@ -267,9 +304,13 @@ class _$StatusSectionLoadingImpl implements StatusSectionLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult? Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return loading?.call();
@@ -280,9 +321,13 @@ class _$StatusSectionLoadingImpl implements StatusSectionLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -336,25 +381,30 @@ abstract class StatusSectionLoading implements StatusSectionState {
 
 /// @nodoc
 abstract class _$$StatusSectionLoadedImplCopyWith<$Res> {
-  factory _$$StatusSectionLoadedImplCopyWith(_$StatusSectionLoadedImpl value,
-          $Res Function(_$StatusSectionLoadedImpl) then) =
-      __$$StatusSectionLoadedImplCopyWithImpl<$Res>;
+  factory _$$StatusSectionLoadedImplCopyWith(
+    _$StatusSectionLoadedImpl value,
+    $Res Function(_$StatusSectionLoadedImpl) then,
+  ) = __$$StatusSectionLoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {List<ShelfBookItem> books,
-      int totalCount,
-      bool hasMore,
-      bool isLoadingMore});
+  $Res call({
+    List<ShelfBookItem> books,
+    int totalCount,
+    bool hasMore,
+    bool isLoadingMore,
+  });
 }
 
 /// @nodoc
 class __$$StatusSectionLoadedImplCopyWithImpl<$Res>
     extends _$StatusSectionStateCopyWithImpl<$Res, _$StatusSectionLoadedImpl>
     implements _$$StatusSectionLoadedImplCopyWith<$Res> {
-  __$$StatusSectionLoadedImplCopyWithImpl(_$StatusSectionLoadedImpl _value,
-      $Res Function(_$StatusSectionLoadedImpl) _then)
-      : super(_value, _then);
+  __$$StatusSectionLoadedImplCopyWithImpl(
+    _$StatusSectionLoadedImpl _value,
+    $Res Function(_$StatusSectionLoadedImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -363,36 +413,38 @@ class __$$StatusSectionLoadedImplCopyWithImpl<$Res>
     Object? hasMore = null,
     Object? isLoadingMore = null,
   }) {
-    return _then(_$StatusSectionLoadedImpl(
-      books: null == books
-          ? _value._books
-          : books // ignore: cast_nullable_to_non_nullable
-              as List<ShelfBookItem>,
-      totalCount: null == totalCount
-          ? _value.totalCount
-          : totalCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasMore: null == hasMore
-          ? _value.hasMore
-          : hasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoadingMore: null == isLoadingMore
-          ? _value.isLoadingMore
-          : isLoadingMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$StatusSectionLoadedImpl(
+        books: null == books
+            ? _value._books
+            : books // ignore: cast_nullable_to_non_nullable
+                  as List<ShelfBookItem>,
+        totalCount: null == totalCount
+            ? _value.totalCount
+            : totalCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hasMore: null == hasMore
+            ? _value.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isLoadingMore: null == isLoadingMore
+            ? _value.isLoadingMore
+            : isLoadingMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$StatusSectionLoadedImpl implements StatusSectionLoaded {
-  const _$StatusSectionLoadedImpl(
-      {required final List<ShelfBookItem> books,
-      required this.totalCount,
-      required this.hasMore,
-      required this.isLoadingMore})
-      : _books = books;
+  const _$StatusSectionLoadedImpl({
+    required final List<ShelfBookItem> books,
+    required this.totalCount,
+    required this.hasMore,
+    required this.isLoadingMore,
+  }) : _books = books;
 
   final List<ShelfBookItem> _books;
   @override
@@ -429,27 +481,36 @@ class _$StatusSectionLoadedImpl implements StatusSectionLoaded {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_books),
-      totalCount,
-      hasMore,
-      isLoadingMore);
+    runtimeType,
+    const DeepCollectionEquality().hash(_books),
+    totalCount,
+    hasMore,
+    isLoadingMore,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StatusSectionLoadedImplCopyWith<_$StatusSectionLoadedImpl> get copyWith =>
       __$$StatusSectionLoadedImplCopyWithImpl<_$StatusSectionLoadedImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ShelfBookItem> books, int totalCount,
-            bool hasMore, bool isLoadingMore)
-        loaded,
+    required TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return loaded(books, totalCount, hasMore, isLoadingMore);
@@ -460,9 +521,13 @@ class _$StatusSectionLoadedImpl implements StatusSectionLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult? Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return loaded?.call(books, totalCount, hasMore, isLoadingMore);
@@ -473,9 +538,13 @@ class _$StatusSectionLoadedImpl implements StatusSectionLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -524,26 +593,31 @@ class _$StatusSectionLoadedImpl implements StatusSectionLoaded {
 }
 
 abstract class StatusSectionLoaded implements StatusSectionState {
-  const factory StatusSectionLoaded(
-      {required final List<ShelfBookItem> books,
-      required final int totalCount,
-      required final bool hasMore,
-      required final bool isLoadingMore}) = _$StatusSectionLoadedImpl;
+  const factory StatusSectionLoaded({
+    required final List<ShelfBookItem> books,
+    required final int totalCount,
+    required final bool hasMore,
+    required final bool isLoadingMore,
+  }) = _$StatusSectionLoadedImpl;
 
   List<ShelfBookItem> get books;
   int get totalCount;
   bool get hasMore;
   bool get isLoadingMore;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StatusSectionLoadedImplCopyWith<_$StatusSectionLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$StatusSectionErrorImplCopyWith<$Res> {
-  factory _$$StatusSectionErrorImplCopyWith(_$StatusSectionErrorImpl value,
-          $Res Function(_$StatusSectionErrorImpl) then) =
-      __$$StatusSectionErrorImplCopyWithImpl<$Res>;
+  factory _$$StatusSectionErrorImplCopyWith(
+    _$StatusSectionErrorImpl value,
+    $Res Function(_$StatusSectionErrorImpl) then,
+  ) = __$$StatusSectionErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Failure failure});
 
@@ -554,23 +628,28 @@ abstract class _$$StatusSectionErrorImplCopyWith<$Res> {
 class __$$StatusSectionErrorImplCopyWithImpl<$Res>
     extends _$StatusSectionStateCopyWithImpl<$Res, _$StatusSectionErrorImpl>
     implements _$$StatusSectionErrorImplCopyWith<$Res> {
-  __$$StatusSectionErrorImplCopyWithImpl(_$StatusSectionErrorImpl _value,
-      $Res Function(_$StatusSectionErrorImpl) _then)
-      : super(_value, _then);
+  __$$StatusSectionErrorImplCopyWithImpl(
+    _$StatusSectionErrorImpl _value,
+    $Res Function(_$StatusSectionErrorImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$StatusSectionErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
+  $Res call({Object? failure = null}) {
+    return _then(
+      _$StatusSectionErrorImpl(
+        failure: null == failure
+            ? _value.failure
+            : failure // ignore: cast_nullable_to_non_nullable
+                  as Failure,
+      ),
+    );
   }
 
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -604,21 +683,29 @@ class _$StatusSectionErrorImpl implements StatusSectionError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$StatusSectionErrorImplCopyWith<_$StatusSectionErrorImpl> get copyWith =>
       __$$StatusSectionErrorImplCopyWithImpl<_$StatusSectionErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ShelfBookItem> books, int totalCount,
-            bool hasMore, bool isLoadingMore)
-        loaded,
+    required TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return error(failure);
@@ -629,9 +716,13 @@ class _$StatusSectionErrorImpl implements StatusSectionError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult? Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return error?.call(failure);
@@ -642,9 +733,13 @@ class _$StatusSectionErrorImpl implements StatusSectionError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ShelfBookItem> books, int totalCount, bool hasMore,
-            bool isLoadingMore)?
-        loaded,
+    TResult Function(
+      List<ShelfBookItem> books,
+      int totalCount,
+      bool hasMore,
+      bool isLoadingMore,
+    )?
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -697,7 +792,10 @@ abstract class StatusSectionError implements StatusSectionState {
       _$StatusSectionErrorImpl;
 
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of StatusSectionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$StatusSectionErrorImplCopyWith<_$StatusSectionErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

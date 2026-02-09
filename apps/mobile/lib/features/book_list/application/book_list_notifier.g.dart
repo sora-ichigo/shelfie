@@ -12,14 +12,14 @@ String _$bookListNotifierHash() => r'9347f2ba21f8a55b53721cc6f540f049221db520';
 @ProviderFor(BookListNotifier)
 final bookListNotifierProvider =
     AutoDisposeNotifierProvider<BookListNotifier, BookListState>.internal(
-  BookListNotifier.new,
-  name: r'bookListNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$bookListNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      BookListNotifier.new,
+      name: r'bookListNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$bookListNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$BookListNotifier = AutoDisposeNotifier<BookListState>;
 String _$bookListDetailNotifierHash() =>
@@ -50,9 +50,7 @@ abstract class _$BookListDetailNotifier
     extends BuildlessAutoDisposeNotifier<BookListDetailState> {
   late final int listId;
 
-  BookListDetailState build(
-    int listId,
-  );
+  BookListDetailState build(int listId);
 }
 
 /// See also [BookListDetailNotifier].
@@ -65,21 +63,15 @@ class BookListDetailNotifierFamily extends Family<BookListDetailState> {
   const BookListDetailNotifierFamily();
 
   /// See also [BookListDetailNotifier].
-  BookListDetailNotifierProvider call(
-    int listId,
-  ) {
-    return BookListDetailNotifierProvider(
-      listId,
-    );
+  BookListDetailNotifierProvider call(int listId) {
+    return BookListDetailNotifierProvider(listId);
   }
 
   @override
   BookListDetailNotifierProvider getProviderOverride(
     covariant BookListDetailNotifierProvider provider,
   ) {
-    return call(
-      provider.listId,
-    );
+    return call(provider.listId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -98,24 +90,26 @@ class BookListDetailNotifierFamily extends Family<BookListDetailState> {
 }
 
 /// See also [BookListDetailNotifier].
-class BookListDetailNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    BookListDetailNotifier, BookListDetailState> {
+class BookListDetailNotifierProvider
+    extends
+        AutoDisposeNotifierProviderImpl<
+          BookListDetailNotifier,
+          BookListDetailState
+        > {
   /// See also [BookListDetailNotifier].
-  BookListDetailNotifierProvider(
-    int listId,
-  ) : this._internal(
-          () => BookListDetailNotifier()..listId = listId,
-          from: bookListDetailNotifierProvider,
-          name: r'bookListDetailNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$bookListDetailNotifierHash,
-          dependencies: BookListDetailNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              BookListDetailNotifierFamily._allTransitiveDependencies,
-          listId: listId,
-        );
+  BookListDetailNotifierProvider(int listId)
+    : this._internal(
+        () => BookListDetailNotifier()..listId = listId,
+        from: bookListDetailNotifierProvider,
+        name: r'bookListDetailNotifierProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$bookListDetailNotifierHash,
+        dependencies: BookListDetailNotifierFamily._dependencies,
+        allTransitiveDependencies:
+            BookListDetailNotifierFamily._allTransitiveDependencies,
+        listId: listId,
+      );
 
   BookListDetailNotifierProvider._internal(
     super._createNotifier, {
@@ -133,9 +127,7 @@ class BookListDetailNotifierProvider extends AutoDisposeNotifierProviderImpl<
   BookListDetailState runNotifierBuild(
     covariant BookListDetailNotifier notifier,
   ) {
-    return notifier.build(
-      listId,
-    );
+    return notifier.build(listId);
   }
 
   @override
@@ -155,8 +147,11 @@ class BookListDetailNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<BookListDetailNotifier,
-      BookListDetailState> createElement() {
+  AutoDisposeNotifierProviderElement<
+    BookListDetailNotifier,
+    BookListDetailState
+  >
+  createElement() {
     return _BookListDetailNotifierProviderElement(this);
   }
 
@@ -174,6 +169,8 @@ class BookListDetailNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin BookListDetailNotifierRef
     on AutoDisposeNotifierProviderRef<BookListDetailState> {
   /// The parameter `listId` of this provider.
@@ -181,12 +178,17 @@ mixin BookListDetailNotifierRef
 }
 
 class _BookListDetailNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<BookListDetailNotifier,
-        BookListDetailState> with BookListDetailNotifierRef {
+    extends
+        AutoDisposeNotifierProviderElement<
+          BookListDetailNotifier,
+          BookListDetailState
+        >
+    with BookListDetailNotifierRef {
   _BookListDetailNotifierProviderElement(super.provider);
 
   @override
   int get listId => (origin as BookListDetailNotifierProvider).listId;
 }
+
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

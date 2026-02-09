@@ -7,78 +7,104 @@ part of 'update_reading_status.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingStatusReq> _$gUpdateReadingStatusReqSerializer =
-    new _$GUpdateReadingStatusReqSerializer();
+    _$GUpdateReadingStatusReqSerializer();
 
 class _$GUpdateReadingStatusReqSerializer
     implements StructuredSerializer<GUpdateReadingStatusReq> {
   @override
   final Iterable<Type> types = const [
     GUpdateReadingStatusReq,
-    _$GUpdateReadingStatusReq
+    _$GUpdateReadingStatusReq,
   ];
   @override
   final String wireName = 'GUpdateReadingStatusReq';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateReadingStatusReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateReadingStatusReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GUpdateReadingStatusVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GUpdateReadingStatusVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GUpdateReadingStatusData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GUpdateReadingStatusData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GUpdateReadingStatusReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateReadingStatusReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateReadingStatusReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -87,42 +113,73 @@ class _$GUpdateReadingStatusReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GUpdateReadingStatusVars))!
-              as _i3.GUpdateReadingStatusVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GUpdateReadingStatusVars),
+                )!
+                as _i3.GUpdateReadingStatusVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GUpdateReadingStatusData))!
-              as _i2.GUpdateReadingStatusData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GUpdateReadingStatusData),
+                )!
+                as _i2.GUpdateReadingStatusData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -140,8 +197,10 @@ class _$GUpdateReadingStatusReq extends GUpdateReadingStatusReq {
   final String? requestId;
   @override
   final _i2.GUpdateReadingStatusData? Function(
-          _i2.GUpdateReadingStatusData?, _i2.GUpdateReadingStatusData?)?
-      updateResult;
+    _i2.GUpdateReadingStatusData?,
+    _i2.GUpdateReadingStatusData?,
+  )?
+  updateResult;
   @override
   final _i2.GUpdateReadingStatusData? optimisticResponse;
   @override
@@ -155,38 +214,30 @@ class _$GUpdateReadingStatusReq extends GUpdateReadingStatusReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateReadingStatusReq(
-          [void Function(GUpdateReadingStatusReqBuilder)? updates]) =>
-      (new GUpdateReadingStatusReqBuilder()..update(updates))._build();
+  factory _$GUpdateReadingStatusReq([
+    void Function(GUpdateReadingStatusReqBuilder)? updates,
+  ]) => (GUpdateReadingStatusReqBuilder()..update(updates))._build();
 
-  _$GUpdateReadingStatusReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        vars, r'GUpdateReadingStatusReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GUpdateReadingStatusReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GUpdateReadingStatusReq', 'executeOnListen');
-  }
-
+  _$GUpdateReadingStatusReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GUpdateReadingStatusReq rebuild(
-          void Function(GUpdateReadingStatusReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateReadingStatusReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateReadingStatusReqBuilder toBuilder() =>
-      new GUpdateReadingStatusReqBuilder()..replace(this);
+      GUpdateReadingStatusReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -246,7 +297,7 @@ class GUpdateReadingStatusReqBuilder
 
   _i3.GUpdateReadingStatusVarsBuilder? _vars;
   _i3.GUpdateReadingStatusVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GUpdateReadingStatusVarsBuilder();
+      _$this._vars ??= _i3.GUpdateReadingStatusVarsBuilder();
   set vars(_i3.GUpdateReadingStatusVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -258,23 +309,29 @@ class GUpdateReadingStatusReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateReadingStatusData? Function(
-          _i2.GUpdateReadingStatusData?, _i2.GUpdateReadingStatusData?)?
-      _updateResult;
+    _i2.GUpdateReadingStatusData?,
+    _i2.GUpdateReadingStatusData?,
+  )?
+  _updateResult;
   _i2.GUpdateReadingStatusData? Function(
-          _i2.GUpdateReadingStatusData?, _i2.GUpdateReadingStatusData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GUpdateReadingStatusData?,
+    _i2.GUpdateReadingStatusData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GUpdateReadingStatusData? Function(
-                  _i2.GUpdateReadingStatusData?, _i2.GUpdateReadingStatusData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GUpdateReadingStatusData? Function(
+      _i2.GUpdateReadingStatusData?,
+      _i2.GUpdateReadingStatusData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GUpdateReadingStatusDataBuilder? _optimisticResponse;
   _i2.GUpdateReadingStatusDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GUpdateReadingStatusDataBuilder();
+      _$this._optimisticResponse ??= _i2.GUpdateReadingStatusDataBuilder();
   set optimisticResponse(
-          _i2.GUpdateReadingStatusDataBuilder? optimisticResponse) =>
-      _$this._optimisticResponse = optimisticResponse;
+    _i2.GUpdateReadingStatusDataBuilder? optimisticResponse,
+  ) => _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -285,8 +342,8 @@ class GUpdateReadingStatusReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -326,7 +383,6 @@ class GUpdateReadingStatusReqBuilder
 
   @override
   void replace(GUpdateReadingStatusReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingStatusReq;
   }
 
@@ -341,22 +397,28 @@ class GUpdateReadingStatusReqBuilder
   _$GUpdateReadingStatusReq _build() {
     _$GUpdateReadingStatusReq _$result;
     try {
-      _$result = _$v ??
-          new _$GUpdateReadingStatusReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GUpdateReadingStatusReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen,
-                  r'GUpdateReadingStatusReq',
-                  'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GUpdateReadingStatusReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GUpdateReadingStatusReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GUpdateReadingStatusReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -366,8 +428,11 @@ class GUpdateReadingStatusReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateReadingStatusReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateReadingStatusReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

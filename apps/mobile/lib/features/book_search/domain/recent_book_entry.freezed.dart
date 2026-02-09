@@ -12,7 +12,8 @@ part of 'recent_book_entry.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 RecentBookEntry _$RecentBookEntryFromJson(Map<String, dynamic> json) {
   return _RecentBookEntry.fromJson(json);
@@ -38,8 +39,12 @@ mixin _$RecentBookEntry {
   /// 書籍データの取得元（rakuten または google）
   String? get source => throw _privateConstructorUsedError;
 
+  /// Serializes this RecentBookEntry to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RecentBookEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RecentBookEntryCopyWith<RecentBookEntry> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,16 +52,18 @@ mixin _$RecentBookEntry {
 /// @nodoc
 abstract class $RecentBookEntryCopyWith<$Res> {
   factory $RecentBookEntryCopyWith(
-          RecentBookEntry value, $Res Function(RecentBookEntry) then) =
-      _$RecentBookEntryCopyWithImpl<$Res, RecentBookEntry>;
+    RecentBookEntry value,
+    $Res Function(RecentBookEntry) then,
+  ) = _$RecentBookEntryCopyWithImpl<$Res, RecentBookEntry>;
   @useResult
-  $Res call(
-      {String bookId,
-      String title,
-      List<String> authors,
-      String? coverImageUrl,
-      DateTime viewedAt,
-      String? source});
+  $Res call({
+    String bookId,
+    String title,
+    List<String> authors,
+    String? coverImageUrl,
+    DateTime viewedAt,
+    String? source,
+  });
 }
 
 /// @nodoc
@@ -69,6 +76,8 @@ class _$RecentBookEntryCopyWithImpl<$Res, $Val extends RecentBookEntry>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RecentBookEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -79,50 +88,55 @@ class _$RecentBookEntryCopyWithImpl<$Res, $Val extends RecentBookEntry>
     Object? viewedAt = null,
     Object? source = freezed,
   }) {
-    return _then(_value.copyWith(
-      bookId: null == bookId
-          ? _value.bookId
-          : bookId // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      authors: null == authors
-          ? _value.authors
-          : authors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      viewedAt: null == viewedAt
-          ? _value.viewedAt
-          : viewedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      source: freezed == source
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            bookId: null == bookId
+                ? _value.bookId
+                : bookId // ignore: cast_nullable_to_non_nullable
+                      as String,
+            title: null == title
+                ? _value.title
+                : title // ignore: cast_nullable_to_non_nullable
+                      as String,
+            authors: null == authors
+                ? _value.authors
+                : authors // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            coverImageUrl: freezed == coverImageUrl
+                ? _value.coverImageUrl
+                : coverImageUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            viewedAt: null == viewedAt
+                ? _value.viewedAt
+                : viewedAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            source: freezed == source
+                ? _value.source
+                : source // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$RecentBookEntryImplCopyWith<$Res>
     implements $RecentBookEntryCopyWith<$Res> {
-  factory _$$RecentBookEntryImplCopyWith(_$RecentBookEntryImpl value,
-          $Res Function(_$RecentBookEntryImpl) then) =
-      __$$RecentBookEntryImplCopyWithImpl<$Res>;
+  factory _$$RecentBookEntryImplCopyWith(
+    _$RecentBookEntryImpl value,
+    $Res Function(_$RecentBookEntryImpl) then,
+  ) = __$$RecentBookEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String bookId,
-      String title,
-      List<String> authors,
-      String? coverImageUrl,
-      DateTime viewedAt,
-      String? source});
+  $Res call({
+    String bookId,
+    String title,
+    List<String> authors,
+    String? coverImageUrl,
+    DateTime viewedAt,
+    String? source,
+  });
 }
 
 /// @nodoc
@@ -130,9 +144,12 @@ class __$$RecentBookEntryImplCopyWithImpl<$Res>
     extends _$RecentBookEntryCopyWithImpl<$Res, _$RecentBookEntryImpl>
     implements _$$RecentBookEntryImplCopyWith<$Res> {
   __$$RecentBookEntryImplCopyWithImpl(
-      _$RecentBookEntryImpl _value, $Res Function(_$RecentBookEntryImpl) _then)
-      : super(_value, _then);
+    _$RecentBookEntryImpl _value,
+    $Res Function(_$RecentBookEntryImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of RecentBookEntry
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,46 +160,48 @@ class __$$RecentBookEntryImplCopyWithImpl<$Res>
     Object? viewedAt = null,
     Object? source = freezed,
   }) {
-    return _then(_$RecentBookEntryImpl(
-      bookId: null == bookId
-          ? _value.bookId
-          : bookId // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      authors: null == authors
-          ? _value._authors
-          : authors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      viewedAt: null == viewedAt
-          ? _value.viewedAt
-          : viewedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      source: freezed == source
-          ? _value.source
-          : source // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$RecentBookEntryImpl(
+        bookId: null == bookId
+            ? _value.bookId
+            : bookId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        title: null == title
+            ? _value.title
+            : title // ignore: cast_nullable_to_non_nullable
+                  as String,
+        authors: null == authors
+            ? _value._authors
+            : authors // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        coverImageUrl: freezed == coverImageUrl
+            ? _value.coverImageUrl
+            : coverImageUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        viewedAt: null == viewedAt
+            ? _value.viewedAt
+            : viewedAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        source: freezed == source
+            ? _value.source
+            : source // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$RecentBookEntryImpl implements _RecentBookEntry {
-  const _$RecentBookEntryImpl(
-      {required this.bookId,
-      required this.title,
-      required final List<String> authors,
-      this.coverImageUrl,
-      required this.viewedAt,
-      this.source})
-      : _authors = authors;
+  const _$RecentBookEntryImpl({
+    required this.bookId,
+    required this.title,
+    required final List<String> authors,
+    this.coverImageUrl,
+    required this.viewedAt,
+    this.source,
+  }) : _authors = authors;
 
   factory _$RecentBookEntryImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecentBookEntryImplFromJson(json);
@@ -238,70 +257,76 @@ class _$RecentBookEntryImpl implements _RecentBookEntry {
             (identical(other.source, source) || other.source == source));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      bookId,
-      title,
-      const DeepCollectionEquality().hash(_authors),
-      coverImageUrl,
-      viewedAt,
-      source);
+    runtimeType,
+    bookId,
+    title,
+    const DeepCollectionEquality().hash(_authors),
+    coverImageUrl,
+    viewedAt,
+    source,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecentBookEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RecentBookEntryImplCopyWith<_$RecentBookEntryImpl> get copyWith =>
       __$$RecentBookEntryImplCopyWithImpl<_$RecentBookEntryImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RecentBookEntryImplToJson(
-      this,
-    );
+    return _$$RecentBookEntryImplToJson(this);
   }
 }
 
 abstract class _RecentBookEntry implements RecentBookEntry {
-  const factory _RecentBookEntry(
-      {required final String bookId,
-      required final String title,
-      required final List<String> authors,
-      final String? coverImageUrl,
-      required final DateTime viewedAt,
-      final String? source}) = _$RecentBookEntryImpl;
+  const factory _RecentBookEntry({
+    required final String bookId,
+    required final String title,
+    required final List<String> authors,
+    final String? coverImageUrl,
+    required final DateTime viewedAt,
+    final String? source,
+  }) = _$RecentBookEntryImpl;
 
   factory _RecentBookEntry.fromJson(Map<String, dynamic> json) =
       _$RecentBookEntryImpl.fromJson;
 
-  @override
-
   /// 書籍 ID（外部 API の識別子）
-  String get bookId;
   @override
+  String get bookId;
 
   /// 書籍タイトル
-  String get title;
   @override
+  String get title;
 
   /// 著者リスト
-  List<String> get authors;
   @override
+  List<String> get authors;
 
   /// カバー画像 URL（取得できない場合は null）
-  String? get coverImageUrl;
   @override
+  String? get coverImageUrl;
 
   /// 閲覧した日時
-  DateTime get viewedAt;
   @override
+  DateTime get viewedAt;
 
   /// 書籍データの取得元（rakuten または google）
-  String? get source;
   @override
-  @JsonKey(ignore: true)
+  String? get source;
+
+  /// Create a copy of RecentBookEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RecentBookEntryImplCopyWith<_$RecentBookEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

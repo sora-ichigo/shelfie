@@ -7,7 +7,7 @@ part of 'delete_book_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GDeleteBookListReq> _$gDeleteBookListReqSerializer =
-    new _$GDeleteBookListReqSerializer();
+    _$GDeleteBookListReqSerializer();
 
 class _$GDeleteBookListReqSerializer
     implements StructuredSerializer<GDeleteBookListReq> {
@@ -18,64 +18,90 @@ class _$GDeleteBookListReqSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GDeleteBookListReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GDeleteBookListReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GDeleteBookListVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GDeleteBookListVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GDeleteBookListData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GDeleteBookListData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GDeleteBookListReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GDeleteBookListReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GDeleteBookListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -84,42 +110,73 @@ class _$GDeleteBookListReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GDeleteBookListVars))!
-              as _i3.GDeleteBookListVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GDeleteBookListVars),
+                )!
+                as _i3.GDeleteBookListVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GDeleteBookListData))!
-              as _i2.GDeleteBookListData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GDeleteBookListData),
+                )!
+                as _i2.GDeleteBookListData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -137,7 +194,10 @@ class _$GDeleteBookListReq extends GDeleteBookListReq {
   final String? requestId;
   @override
   final _i2.GDeleteBookListData? Function(
-      _i2.GDeleteBookListData?, _i2.GDeleteBookListData?)? updateResult;
+    _i2.GDeleteBookListData?,
+    _i2.GDeleteBookListData?,
+  )?
+  updateResult;
   @override
   final _i2.GDeleteBookListData? optimisticResponse;
   @override
@@ -151,37 +211,30 @@ class _$GDeleteBookListReq extends GDeleteBookListReq {
   @override
   final _i4.Context? context;
 
-  factory _$GDeleteBookListReq(
-          [void Function(GDeleteBookListReqBuilder)? updates]) =>
-      (new GDeleteBookListReqBuilder()..update(updates))._build();
+  factory _$GDeleteBookListReq([
+    void Function(GDeleteBookListReqBuilder)? updates,
+  ]) => (GDeleteBookListReqBuilder()..update(updates))._build();
 
-  _$GDeleteBookListReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GDeleteBookListReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GDeleteBookListReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GDeleteBookListReq', 'executeOnListen');
-  }
-
+  _$GDeleteBookListReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GDeleteBookListReq rebuild(
-          void Function(GDeleteBookListReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GDeleteBookListReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GDeleteBookListReqBuilder toBuilder() =>
-      new GDeleteBookListReqBuilder()..replace(this);
+      GDeleteBookListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -240,7 +293,7 @@ class GDeleteBookListReqBuilder
 
   _i3.GDeleteBookListVarsBuilder? _vars;
   _i3.GDeleteBookListVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GDeleteBookListVarsBuilder();
+      _$this._vars ??= _i3.GDeleteBookListVarsBuilder();
   set vars(_i3.GDeleteBookListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -252,19 +305,26 @@ class GDeleteBookListReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GDeleteBookListData? Function(
-      _i2.GDeleteBookListData?, _i2.GDeleteBookListData?)? _updateResult;
+    _i2.GDeleteBookListData?,
+    _i2.GDeleteBookListData?,
+  )?
+  _updateResult;
   _i2.GDeleteBookListData? Function(
-          _i2.GDeleteBookListData?, _i2.GDeleteBookListData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GDeleteBookListData?,
+    _i2.GDeleteBookListData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GDeleteBookListData? Function(
-                  _i2.GDeleteBookListData?, _i2.GDeleteBookListData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GDeleteBookListData? Function(
+      _i2.GDeleteBookListData?,
+      _i2.GDeleteBookListData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GDeleteBookListDataBuilder? _optimisticResponse;
   _i2.GDeleteBookListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GDeleteBookListDataBuilder();
+      _$this._optimisticResponse ??= _i2.GDeleteBookListDataBuilder();
   set optimisticResponse(_i2.GDeleteBookListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -277,8 +337,8 @@ class GDeleteBookListReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -318,7 +378,6 @@ class GDeleteBookListReqBuilder
 
   @override
   void replace(GDeleteBookListReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GDeleteBookListReq;
   }
 
@@ -333,20 +392,28 @@ class GDeleteBookListReqBuilder
   _$GDeleteBookListReq _build() {
     _$GDeleteBookListReq _$result;
     try {
-      _$result = _$v ??
-          new _$GDeleteBookListReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GDeleteBookListReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GDeleteBookListReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GDeleteBookListReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GDeleteBookListReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GDeleteBookListReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -356,8 +423,11 @@ class GDeleteBookListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GDeleteBookListReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GDeleteBookListReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

@@ -7,29 +7,35 @@ part of 'reorder_book_in_list.data.gql.dart';
 // **************************************************************************
 
 Serializer<GReorderBookInListData> _$gReorderBookInListDataSerializer =
-    new _$GReorderBookInListDataSerializer();
+    _$GReorderBookInListDataSerializer();
 
 class _$GReorderBookInListDataSerializer
     implements StructuredSerializer<GReorderBookInListData> {
   @override
   final Iterable<Type> types = const [
     GReorderBookInListData,
-    _$GReorderBookInListData
+    _$GReorderBookInListData,
   ];
   @override
   final String wireName = 'GReorderBookInListData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GReorderBookInListData object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GReorderBookInListData object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'reorderBookInList',
-      serializers.serialize(object.reorderBookInList,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.reorderBookInList,
+        specifiedType: const FullType(bool),
+      ),
     ];
 
     return result;
@@ -37,9 +43,11 @@ class _$GReorderBookInListDataSerializer
 
   @override
   GReorderBookInListData deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GReorderBookInListDataBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GReorderBookInListDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -48,12 +56,20 @@ class _$GReorderBookInListDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'reorderBookInList':
-          result.reorderBookInList = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.reorderBookInList =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -68,27 +84,22 @@ class _$GReorderBookInListData extends GReorderBookInListData {
   @override
   final bool reorderBookInList;
 
-  factory _$GReorderBookInListData(
-          [void Function(GReorderBookInListDataBuilder)? updates]) =>
-      (new GReorderBookInListDataBuilder()..update(updates))._build();
+  factory _$GReorderBookInListData([
+    void Function(GReorderBookInListDataBuilder)? updates,
+  ]) => (GReorderBookInListDataBuilder()..update(updates))._build();
 
-  _$GReorderBookInListData._(
-      {required this.G__typename, required this.reorderBookInList})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GReorderBookInListData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        reorderBookInList, r'GReorderBookInListData', 'reorderBookInList');
-  }
-
+  _$GReorderBookInListData._({
+    required this.G__typename,
+    required this.reorderBookInList,
+  }) : super._();
   @override
   GReorderBookInListData rebuild(
-          void Function(GReorderBookInListDataBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GReorderBookInListDataBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GReorderBookInListDataBuilder toBuilder() =>
-      new GReorderBookInListDataBuilder()..replace(this);
+      GReorderBookInListDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -145,7 +156,6 @@ class GReorderBookInListDataBuilder
 
   @override
   void replace(GReorderBookInListData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GReorderBookInListData;
   }
 
@@ -158,14 +168,20 @@ class GReorderBookInListDataBuilder
   GReorderBookInListData build() => _build();
 
   _$GReorderBookInListData _build() {
-    final _$result = _$v ??
-        new _$GReorderBookInListData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GReorderBookInListData', 'G__typename'),
-            reorderBookInList: BuiltValueNullFieldError.checkNotNull(
-                reorderBookInList,
-                r'GReorderBookInListData',
-                'reorderBookInList'));
+    final _$result =
+        _$v ??
+        _$GReorderBookInListData._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+            G__typename,
+            r'GReorderBookInListData',
+            'G__typename',
+          ),
+          reorderBookInList: BuiltValueNullFieldError.checkNotNull(
+            reorderBookInList,
+            r'GReorderBookInListData',
+            'reorderBookInList',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

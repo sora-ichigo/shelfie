@@ -7,29 +7,35 @@ part of 'update_completed_at.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateCompletedAtVars> _$gUpdateCompletedAtVarsSerializer =
-    new _$GUpdateCompletedAtVarsSerializer();
+    _$GUpdateCompletedAtVarsSerializer();
 
 class _$GUpdateCompletedAtVarsSerializer
     implements StructuredSerializer<GUpdateCompletedAtVars> {
   @override
   final Iterable<Type> types = const [
     GUpdateCompletedAtVars,
-    _$GUpdateCompletedAtVars
+    _$GUpdateCompletedAtVars,
   ];
   @override
   final String wireName = 'GUpdateCompletedAtVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateCompletedAtVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateCompletedAtVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'userBookId',
-      serializers.serialize(object.userBookId,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.userBookId,
+        specifiedType: const FullType(int),
+      ),
       'completedAt',
-      serializers.serialize(object.completedAt,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.completedAt,
+        specifiedType: const FullType(DateTime),
+      ),
     ];
 
     return result;
@@ -37,9 +43,11 @@ class _$GUpdateCompletedAtVarsSerializer
 
   @override
   GUpdateCompletedAtVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateCompletedAtVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateCompletedAtVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -48,12 +56,20 @@ class _$GUpdateCompletedAtVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'userBookId':
-          result.userBookId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.userBookId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'completedAt':
-          result.completedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.completedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
       }
     }
@@ -68,27 +84,22 @@ class _$GUpdateCompletedAtVars extends GUpdateCompletedAtVars {
   @override
   final DateTime completedAt;
 
-  factory _$GUpdateCompletedAtVars(
-          [void Function(GUpdateCompletedAtVarsBuilder)? updates]) =>
-      (new GUpdateCompletedAtVarsBuilder()..update(updates))._build();
+  factory _$GUpdateCompletedAtVars([
+    void Function(GUpdateCompletedAtVarsBuilder)? updates,
+  ]) => (GUpdateCompletedAtVarsBuilder()..update(updates))._build();
 
-  _$GUpdateCompletedAtVars._(
-      {required this.userBookId, required this.completedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        userBookId, r'GUpdateCompletedAtVars', 'userBookId');
-    BuiltValueNullFieldError.checkNotNull(
-        completedAt, r'GUpdateCompletedAtVars', 'completedAt');
-  }
-
+  _$GUpdateCompletedAtVars._({
+    required this.userBookId,
+    required this.completedAt,
+  }) : super._();
   @override
   GUpdateCompletedAtVars rebuild(
-          void Function(GUpdateCompletedAtVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateCompletedAtVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateCompletedAtVarsBuilder toBuilder() =>
-      new GUpdateCompletedAtVarsBuilder()..replace(this);
+      GUpdateCompletedAtVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -142,7 +153,6 @@ class GUpdateCompletedAtVarsBuilder
 
   @override
   void replace(GUpdateCompletedAtVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateCompletedAtVars;
   }
 
@@ -155,12 +165,20 @@ class GUpdateCompletedAtVarsBuilder
   GUpdateCompletedAtVars build() => _build();
 
   _$GUpdateCompletedAtVars _build() {
-    final _$result = _$v ??
-        new _$GUpdateCompletedAtVars._(
-            userBookId: BuiltValueNullFieldError.checkNotNull(
-                userBookId, r'GUpdateCompletedAtVars', 'userBookId'),
-            completedAt: BuiltValueNullFieldError.checkNotNull(
-                completedAt, r'GUpdateCompletedAtVars', 'completedAt'));
+    final _$result =
+        _$v ??
+        _$GUpdateCompletedAtVars._(
+          userBookId: BuiltValueNullFieldError.checkNotNull(
+            userBookId,
+            r'GUpdateCompletedAtVars',
+            'userBookId',
+          ),
+          completedAt: BuiltValueNullFieldError.checkNotNull(
+            completedAt,
+            r'GUpdateCompletedAtVars',
+            'completedAt',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

@@ -7,32 +7,38 @@ part of 'create_book_list.data.gql.dart';
 // **************************************************************************
 
 Serializer<GCreateBookListData> _$gCreateBookListDataSerializer =
-    new _$GCreateBookListDataSerializer();
+    _$GCreateBookListDataSerializer();
 Serializer<GCreateBookListData_createBookList>
-    _$gCreateBookListDataCreateBookListSerializer =
-    new _$GCreateBookListData_createBookListSerializer();
+_$gCreateBookListDataCreateBookListSerializer =
+    _$GCreateBookListData_createBookListSerializer();
 
 class _$GCreateBookListDataSerializer
     implements StructuredSerializer<GCreateBookListData> {
   @override
   final Iterable<Type> types = const [
     GCreateBookListData,
-    _$GCreateBookListData
+    _$GCreateBookListData,
   ];
   @override
   final String wireName = 'GCreateBookListData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GCreateBookListData object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GCreateBookListData object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'createBookList',
-      serializers.serialize(object.createBookList,
-          specifiedType: const FullType(GCreateBookListData_createBookList)),
+      serializers.serialize(
+        object.createBookList,
+        specifiedType: const FullType(GCreateBookListData_createBookList),
+      ),
     ];
 
     return result;
@@ -40,9 +46,11 @@ class _$GCreateBookListDataSerializer
 
   @override
   GCreateBookListData deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GCreateBookListDataBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GCreateBookListDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -51,14 +59,23 @@ class _$GCreateBookListDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'createBookList':
-          result.createBookList.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(GCreateBookListData_createBookList))!
-              as GCreateBookListData_createBookList);
+          result.createBookList.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                    GCreateBookListData_createBookList,
+                  ),
+                )!
+                as GCreateBookListData_createBookList,
+          );
           break;
       }
     }
@@ -72,47 +89,60 @@ class _$GCreateBookListData_createBookListSerializer
   @override
   final Iterable<Type> types = const [
     GCreateBookListData_createBookList,
-    _$GCreateBookListData_createBookList
+    _$GCreateBookListData_createBookList,
   ];
   @override
   final String wireName = 'GCreateBookListData_createBookList';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GCreateBookListData_createBookList object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GCreateBookListData_createBookList object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.title,
+        specifiedType: const FullType(String),
+      ),
       'createdAt',
-      serializers.serialize(object.createdAt,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.createdAt,
+        specifiedType: const FullType(DateTime),
+      ),
       'updatedAt',
-      serializers.serialize(object.updatedAt,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.updatedAt,
+        specifiedType: const FullType(DateTime),
+      ),
     ];
     Object? value;
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     return result;
   }
 
   @override
   GCreateBookListData_createBookList deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GCreateBookListData_createBookListBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GCreateBookListData_createBookListBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -121,28 +151,52 @@ class _$GCreateBookListData_createBookListSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.id =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.description =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'createdAt':
-          result.createdAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.createdAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
         case 'updatedAt':
-          result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.updatedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
       }
     }
@@ -157,27 +211,22 @@ class _$GCreateBookListData extends GCreateBookListData {
   @override
   final GCreateBookListData_createBookList createBookList;
 
-  factory _$GCreateBookListData(
-          [void Function(GCreateBookListDataBuilder)? updates]) =>
-      (new GCreateBookListDataBuilder()..update(updates))._build();
+  factory _$GCreateBookListData([
+    void Function(GCreateBookListDataBuilder)? updates,
+  ]) => (GCreateBookListDataBuilder()..update(updates))._build();
 
-  _$GCreateBookListData._(
-      {required this.G__typename, required this.createBookList})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GCreateBookListData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        createBookList, r'GCreateBookListData', 'createBookList');
-  }
-
+  _$GCreateBookListData._({
+    required this.G__typename,
+    required this.createBookList,
+  }) : super._();
   @override
   GCreateBookListData rebuild(
-          void Function(GCreateBookListDataBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GCreateBookListDataBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GCreateBookListDataBuilder toBuilder() =>
-      new GCreateBookListDataBuilder()..replace(this);
+      GCreateBookListDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -215,11 +264,10 @@ class GCreateBookListDataBuilder
 
   GCreateBookListData_createBookListBuilder? _createBookList;
   GCreateBookListData_createBookListBuilder get createBookList =>
-      _$this._createBookList ??=
-          new GCreateBookListData_createBookListBuilder();
+      _$this._createBookList ??= GCreateBookListData_createBookListBuilder();
   set createBookList(
-          GCreateBookListData_createBookListBuilder? createBookList) =>
-      _$this._createBookList = createBookList;
+    GCreateBookListData_createBookListBuilder? createBookList,
+  ) => _$this._createBookList = createBookList;
 
   GCreateBookListDataBuilder() {
     GCreateBookListData._initializeBuilder(this);
@@ -237,7 +285,6 @@ class GCreateBookListDataBuilder
 
   @override
   void replace(GCreateBookListData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListData;
   }
 
@@ -252,19 +299,27 @@ class GCreateBookListDataBuilder
   _$GCreateBookListData _build() {
     _$GCreateBookListData _$result;
     try {
-      _$result = _$v ??
-          new _$GCreateBookListData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GCreateBookListData', 'G__typename'),
-              createBookList: createBookList.build());
+      _$result =
+          _$v ??
+          _$GCreateBookListData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GCreateBookListData',
+              'G__typename',
+            ),
+            createBookList: createBookList.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'createBookList';
         createBookList.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GCreateBookListData', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GCreateBookListData',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -288,40 +343,26 @@ class _$GCreateBookListData_createBookList
   @override
   final DateTime updatedAt;
 
-  factory _$GCreateBookListData_createBookList(
-          [void Function(GCreateBookListData_createBookListBuilder)?
-              updates]) =>
-      (new GCreateBookListData_createBookListBuilder()..update(updates))
-          ._build();
+  factory _$GCreateBookListData_createBookList([
+    void Function(GCreateBookListData_createBookListBuilder)? updates,
+  ]) => (GCreateBookListData_createBookListBuilder()..update(updates))._build();
 
-  _$GCreateBookListData_createBookList._(
-      {required this.G__typename,
-      required this.id,
-      required this.title,
-      this.description,
-      required this.createdAt,
-      required this.updatedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GCreateBookListData_createBookList', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GCreateBookListData_createBookList', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GCreateBookListData_createBookList', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        createdAt, r'GCreateBookListData_createBookList', 'createdAt');
-    BuiltValueNullFieldError.checkNotNull(
-        updatedAt, r'GCreateBookListData_createBookList', 'updatedAt');
-  }
-
+  _$GCreateBookListData_createBookList._({
+    required this.G__typename,
+    required this.id,
+    required this.title,
+    this.description,
+    required this.createdAt,
+    required this.updatedAt,
+  }) : super._();
   @override
   GCreateBookListData_createBookList rebuild(
-          void Function(GCreateBookListData_createBookListBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GCreateBookListData_createBookListBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GCreateBookListData_createBookListBuilder toBuilder() =>
-      new GCreateBookListData_createBookListBuilder()..replace(this);
+      GCreateBookListData_createBookListBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -363,8 +404,10 @@ class _$GCreateBookListData_createBookList
 
 class GCreateBookListData_createBookListBuilder
     implements
-        Builder<GCreateBookListData_createBookList,
-            GCreateBookListData_createBookListBuilder> {
+        Builder<
+          GCreateBookListData_createBookList,
+          GCreateBookListData_createBookListBuilder
+        > {
   _$GCreateBookListData_createBookList? _$v;
 
   String? _G__typename;
@@ -411,13 +454,13 @@ class GCreateBookListData_createBookListBuilder
 
   @override
   void replace(GCreateBookListData_createBookList other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListData_createBookList;
   }
 
   @override
   void update(
-      void Function(GCreateBookListData_createBookListBuilder)? updates) {
+    void Function(GCreateBookListData_createBookListBuilder)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -425,19 +468,36 @@ class GCreateBookListData_createBookListBuilder
   GCreateBookListData_createBookList build() => _build();
 
   _$GCreateBookListData_createBookList _build() {
-    final _$result = _$v ??
-        new _$GCreateBookListData_createBookList._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GCreateBookListData_createBookList', 'G__typename'),
-            id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GCreateBookListData_createBookList', 'id'),
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GCreateBookListData_createBookList', 'title'),
-            description: description,
-            createdAt: BuiltValueNullFieldError.checkNotNull(
-                createdAt, r'GCreateBookListData_createBookList', 'createdAt'),
-            updatedAt: BuiltValueNullFieldError.checkNotNull(
-                updatedAt, r'GCreateBookListData_createBookList', 'updatedAt'));
+    final _$result =
+        _$v ??
+        _$GCreateBookListData_createBookList._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+            G__typename,
+            r'GCreateBookListData_createBookList',
+            'G__typename',
+          ),
+          id: BuiltValueNullFieldError.checkNotNull(
+            id,
+            r'GCreateBookListData_createBookList',
+            'id',
+          ),
+          title: BuiltValueNullFieldError.checkNotNull(
+            title,
+            r'GCreateBookListData_createBookList',
+            'title',
+          ),
+          description: description,
+          createdAt: BuiltValueNullFieldError.checkNotNull(
+            createdAt,
+            r'GCreateBookListData_createBookList',
+            'createdAt',
+          ),
+          updatedAt: BuiltValueNullFieldError.checkNotNull(
+            updatedAt,
+            r'GCreateBookListData_createBookList',
+            'updatedAt',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

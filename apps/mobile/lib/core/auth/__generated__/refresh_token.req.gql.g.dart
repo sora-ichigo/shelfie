@@ -7,7 +7,7 @@ part of 'refresh_token.req.gql.dart';
 // **************************************************************************
 
 Serializer<GRefreshTokenReq> _$gRefreshTokenReqSerializer =
-    new _$GRefreshTokenReqSerializer();
+    _$GRefreshTokenReqSerializer();
 
 class _$GRefreshTokenReqSerializer
     implements StructuredSerializer<GRefreshTokenReq> {
@@ -17,64 +17,91 @@ class _$GRefreshTokenReqSerializer
   final String wireName = 'GRefreshTokenReq';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GRefreshTokenReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GRefreshTokenReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GRefreshTokenVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GRefreshTokenVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GRefreshTokenData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GRefreshTokenData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GRefreshTokenReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRefreshTokenReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRefreshTokenReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -83,42 +110,73 @@ class _$GRefreshTokenReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GRefreshTokenVars))!
-              as _i3.GRefreshTokenVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GRefreshTokenVars),
+                )!
+                as _i3.GRefreshTokenVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GRefreshTokenData))!
-              as _i2.GRefreshTokenData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GRefreshTokenData),
+                )!
+                as _i2.GRefreshTokenData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -136,7 +194,10 @@ class _$GRefreshTokenReq extends GRefreshTokenReq {
   final String? requestId;
   @override
   final _i2.GRefreshTokenData? Function(
-      _i2.GRefreshTokenData?, _i2.GRefreshTokenData?)? updateResult;
+    _i2.GRefreshTokenData?,
+    _i2.GRefreshTokenData?,
+  )?
+  updateResult;
   @override
   final _i2.GRefreshTokenData? optimisticResponse;
   @override
@@ -150,36 +211,29 @@ class _$GRefreshTokenReq extends GRefreshTokenReq {
   @override
   final _i4.Context? context;
 
-  factory _$GRefreshTokenReq(
-          [void Function(GRefreshTokenReqBuilder)? updates]) =>
-      (new GRefreshTokenReqBuilder()..update(updates))._build();
+  factory _$GRefreshTokenReq([
+    void Function(GRefreshTokenReqBuilder)? updates,
+  ]) => (GRefreshTokenReqBuilder()..update(updates))._build();
 
-  _$GRefreshTokenReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GRefreshTokenReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GRefreshTokenReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GRefreshTokenReq', 'executeOnListen');
-  }
-
+  _$GRefreshTokenReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GRefreshTokenReq rebuild(void Function(GRefreshTokenReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenReqBuilder toBuilder() =>
-      new GRefreshTokenReqBuilder()..replace(this);
+      GRefreshTokenReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -238,7 +292,7 @@ class GRefreshTokenReqBuilder
 
   _i3.GRefreshTokenVarsBuilder? _vars;
   _i3.GRefreshTokenVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GRefreshTokenVarsBuilder();
+      _$this._vars ??= _i3.GRefreshTokenVarsBuilder();
   set vars(_i3.GRefreshTokenVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -250,19 +304,26 @@ class GRefreshTokenReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GRefreshTokenData? Function(
-      _i2.GRefreshTokenData?, _i2.GRefreshTokenData?)? _updateResult;
+    _i2.GRefreshTokenData?,
+    _i2.GRefreshTokenData?,
+  )?
+  _updateResult;
   _i2.GRefreshTokenData? Function(
-          _i2.GRefreshTokenData?, _i2.GRefreshTokenData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GRefreshTokenData?,
+    _i2.GRefreshTokenData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GRefreshTokenData? Function(
-                  _i2.GRefreshTokenData?, _i2.GRefreshTokenData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GRefreshTokenData? Function(
+      _i2.GRefreshTokenData?,
+      _i2.GRefreshTokenData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GRefreshTokenDataBuilder? _optimisticResponse;
   _i2.GRefreshTokenDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GRefreshTokenDataBuilder();
+      _$this._optimisticResponse ??= _i2.GRefreshTokenDataBuilder();
   set optimisticResponse(_i2.GRefreshTokenDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -275,8 +336,8 @@ class GRefreshTokenReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -316,7 +377,6 @@ class GRefreshTokenReqBuilder
 
   @override
   void replace(GRefreshTokenReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRefreshTokenReq;
   }
 
@@ -331,20 +391,28 @@ class GRefreshTokenReqBuilder
   _$GRefreshTokenReq _build() {
     _$GRefreshTokenReq _$result;
     try {
-      _$result = _$v ??
-          new _$GRefreshTokenReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GRefreshTokenReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GRefreshTokenReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GRefreshTokenReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GRefreshTokenReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GRefreshTokenReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -354,8 +422,11 @@ class GRefreshTokenReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GRefreshTokenReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GRefreshTokenReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

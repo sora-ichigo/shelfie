@@ -7,7 +7,7 @@ part of 'change_password.req.gql.dart';
 // **************************************************************************
 
 Serializer<GChangePasswordReq> _$gChangePasswordReqSerializer =
-    new _$GChangePasswordReqSerializer();
+    _$GChangePasswordReqSerializer();
 
 class _$GChangePasswordReqSerializer
     implements StructuredSerializer<GChangePasswordReq> {
@@ -18,64 +18,90 @@ class _$GChangePasswordReqSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GChangePasswordReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GChangePasswordReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GChangePasswordVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GChangePasswordVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GChangePasswordData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GChangePasswordData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GChangePasswordReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GChangePasswordReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GChangePasswordReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -84,42 +110,73 @@ class _$GChangePasswordReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GChangePasswordVars))!
-              as _i3.GChangePasswordVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GChangePasswordVars),
+                )!
+                as _i3.GChangePasswordVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GChangePasswordData))!
-              as _i2.GChangePasswordData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GChangePasswordData),
+                )!
+                as _i2.GChangePasswordData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -137,7 +194,10 @@ class _$GChangePasswordReq extends GChangePasswordReq {
   final String? requestId;
   @override
   final _i2.GChangePasswordData? Function(
-      _i2.GChangePasswordData?, _i2.GChangePasswordData?)? updateResult;
+    _i2.GChangePasswordData?,
+    _i2.GChangePasswordData?,
+  )?
+  updateResult;
   @override
   final _i2.GChangePasswordData? optimisticResponse;
   @override
@@ -151,37 +211,30 @@ class _$GChangePasswordReq extends GChangePasswordReq {
   @override
   final _i4.Context? context;
 
-  factory _$GChangePasswordReq(
-          [void Function(GChangePasswordReqBuilder)? updates]) =>
-      (new GChangePasswordReqBuilder()..update(updates))._build();
+  factory _$GChangePasswordReq([
+    void Function(GChangePasswordReqBuilder)? updates,
+  ]) => (GChangePasswordReqBuilder()..update(updates))._build();
 
-  _$GChangePasswordReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GChangePasswordReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GChangePasswordReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GChangePasswordReq', 'executeOnListen');
-  }
-
+  _$GChangePasswordReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GChangePasswordReq rebuild(
-          void Function(GChangePasswordReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GChangePasswordReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GChangePasswordReqBuilder toBuilder() =>
-      new GChangePasswordReqBuilder()..replace(this);
+      GChangePasswordReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -240,7 +293,7 @@ class GChangePasswordReqBuilder
 
   _i3.GChangePasswordVarsBuilder? _vars;
   _i3.GChangePasswordVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GChangePasswordVarsBuilder();
+      _$this._vars ??= _i3.GChangePasswordVarsBuilder();
   set vars(_i3.GChangePasswordVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -252,19 +305,26 @@ class GChangePasswordReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GChangePasswordData? Function(
-      _i2.GChangePasswordData?, _i2.GChangePasswordData?)? _updateResult;
+    _i2.GChangePasswordData?,
+    _i2.GChangePasswordData?,
+  )?
+  _updateResult;
   _i2.GChangePasswordData? Function(
-          _i2.GChangePasswordData?, _i2.GChangePasswordData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GChangePasswordData?,
+    _i2.GChangePasswordData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GChangePasswordData? Function(
-                  _i2.GChangePasswordData?, _i2.GChangePasswordData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GChangePasswordData? Function(
+      _i2.GChangePasswordData?,
+      _i2.GChangePasswordData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GChangePasswordDataBuilder? _optimisticResponse;
   _i2.GChangePasswordDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GChangePasswordDataBuilder();
+      _$this._optimisticResponse ??= _i2.GChangePasswordDataBuilder();
   set optimisticResponse(_i2.GChangePasswordDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -277,8 +337,8 @@ class GChangePasswordReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -318,7 +378,6 @@ class GChangePasswordReqBuilder
 
   @override
   void replace(GChangePasswordReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordReq;
   }
 
@@ -333,20 +392,28 @@ class GChangePasswordReqBuilder
   _$GChangePasswordReq _build() {
     _$GChangePasswordReq _$result;
     try {
-      _$result = _$v ??
-          new _$GChangePasswordReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GChangePasswordReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GChangePasswordReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GChangePasswordReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GChangePasswordReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GChangePasswordReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -356,8 +423,11 @@ class GChangePasswordReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GChangePasswordReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GChangePasswordReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

@@ -17,6 +17,7 @@ import 'package:shelfie/features/book_shelf/application/book_shelf_state.dart';
 
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
+import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 /// テスト用 ProviderContainer を作成するヘルパー
@@ -66,6 +67,8 @@ ProviderContainer createTestContainer({
       bookShelfSettingsRepositoryProvider.overrideWithValue(
         FakeBookShelfSettingsRepository(),
       ),
+      deviceTokenNotifierProvider
+          .overrideWith(() => MockDeviceTokenNotifier()),
       ...overrides,
     ],
     parent: parent,
@@ -332,4 +335,16 @@ abstract class TestAuthStates {
 void registerTestFallbackValues() {
   registerFallbackValue(FakeOperationRequest<String, Map<String, dynamic>>());
   registerFallbackValue(const NetworkFailure(message: 'fallback'));
+}
+
+/// DeviceTokenNotifier モック
+class MockDeviceTokenNotifier extends DeviceTokenNotifier {
+  @override
+  DeviceTokenState build() => DeviceTokenState.idle;
+
+  @override
+  Future<void> syncToken() async {}
+
+  @override
+  Future<void> unregisterCurrentToken() async {}
 }

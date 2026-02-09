@@ -7,29 +7,35 @@ part of 'remove_from_shelf.data.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveFromShelfData> _$gRemoveFromShelfDataSerializer =
-    new _$GRemoveFromShelfDataSerializer();
+    _$GRemoveFromShelfDataSerializer();
 
 class _$GRemoveFromShelfDataSerializer
     implements StructuredSerializer<GRemoveFromShelfData> {
   @override
   final Iterable<Type> types = const [
     GRemoveFromShelfData,
-    _$GRemoveFromShelfData
+    _$GRemoveFromShelfData,
   ];
   @override
   final String wireName = 'GRemoveFromShelfData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GRemoveFromShelfData object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GRemoveFromShelfData object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'removeFromShelf',
-      serializers.serialize(object.removeFromShelf,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.removeFromShelf,
+        specifiedType: const FullType(bool),
+      ),
     ];
 
     return result;
@@ -37,9 +43,11 @@ class _$GRemoveFromShelfDataSerializer
 
   @override
   GRemoveFromShelfData deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRemoveFromShelfDataBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRemoveFromShelfDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -48,12 +56,20 @@ class _$GRemoveFromShelfDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'removeFromShelf':
-          result.removeFromShelf = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.removeFromShelf =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -68,27 +84,22 @@ class _$GRemoveFromShelfData extends GRemoveFromShelfData {
   @override
   final bool removeFromShelf;
 
-  factory _$GRemoveFromShelfData(
-          [void Function(GRemoveFromShelfDataBuilder)? updates]) =>
-      (new GRemoveFromShelfDataBuilder()..update(updates))._build();
+  factory _$GRemoveFromShelfData([
+    void Function(GRemoveFromShelfDataBuilder)? updates,
+  ]) => (GRemoveFromShelfDataBuilder()..update(updates))._build();
 
-  _$GRemoveFromShelfData._(
-      {required this.G__typename, required this.removeFromShelf})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GRemoveFromShelfData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        removeFromShelf, r'GRemoveFromShelfData', 'removeFromShelf');
-  }
-
+  _$GRemoveFromShelfData._({
+    required this.G__typename,
+    required this.removeFromShelf,
+  }) : super._();
   @override
   GRemoveFromShelfData rebuild(
-          void Function(GRemoveFromShelfDataBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GRemoveFromShelfDataBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GRemoveFromShelfDataBuilder toBuilder() =>
-      new GRemoveFromShelfDataBuilder()..replace(this);
+      GRemoveFromShelfDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -145,7 +156,6 @@ class GRemoveFromShelfDataBuilder
 
   @override
   void replace(GRemoveFromShelfData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveFromShelfData;
   }
 
@@ -158,12 +168,20 @@ class GRemoveFromShelfDataBuilder
   GRemoveFromShelfData build() => _build();
 
   _$GRemoveFromShelfData _build() {
-    final _$result = _$v ??
-        new _$GRemoveFromShelfData._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GRemoveFromShelfData', 'G__typename'),
-            removeFromShelf: BuiltValueNullFieldError.checkNotNull(
-                removeFromShelf, r'GRemoveFromShelfData', 'removeFromShelf'));
+    final _$result =
+        _$v ??
+        _$GRemoveFromShelfData._(
+          G__typename: BuiltValueNullFieldError.checkNotNull(
+            G__typename,
+            r'GRemoveFromShelfData',
+            'G__typename',
+          ),
+          removeFromShelf: BuiltValueNullFieldError.checkNotNull(
+            removeFromShelf,
+            r'GRemoveFromShelfData',
+            'removeFromShelf',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

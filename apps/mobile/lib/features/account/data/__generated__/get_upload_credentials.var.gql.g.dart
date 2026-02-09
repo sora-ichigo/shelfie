@@ -7,48 +7,51 @@ part of 'get_upload_credentials.var.gql.dart';
 // **************************************************************************
 
 Serializer<GGetUploadCredentialsVars> _$gGetUploadCredentialsVarsSerializer =
-    new _$GGetUploadCredentialsVarsSerializer();
+    _$GGetUploadCredentialsVarsSerializer();
 
 class _$GGetUploadCredentialsVarsSerializer
     implements StructuredSerializer<GGetUploadCredentialsVars> {
   @override
   final Iterable<Type> types = const [
     GGetUploadCredentialsVars,
-    _$GGetUploadCredentialsVars
+    _$GGetUploadCredentialsVars,
   ];
   @override
   final String wireName = 'GGetUploadCredentialsVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GGetUploadCredentialsVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GGetUploadCredentialsVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return <Object?>[];
   }
 
   @override
   GGetUploadCredentialsVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    return new GGetUploadCredentialsVarsBuilder().build();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return GGetUploadCredentialsVarsBuilder().build();
   }
 }
 
 class _$GGetUploadCredentialsVars extends GGetUploadCredentialsVars {
-  factory _$GGetUploadCredentialsVars(
-          [void Function(GGetUploadCredentialsVarsBuilder)? updates]) =>
-      (new GGetUploadCredentialsVarsBuilder()..update(updates))._build();
+  factory _$GGetUploadCredentialsVars([
+    void Function(GGetUploadCredentialsVarsBuilder)? updates,
+  ]) => (GGetUploadCredentialsVarsBuilder()..update(updates))._build();
 
   _$GGetUploadCredentialsVars._() : super._();
-
   @override
   GGetUploadCredentialsVars rebuild(
-          void Function(GGetUploadCredentialsVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GGetUploadCredentialsVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GGetUploadCredentialsVarsBuilder toBuilder() =>
-      new GGetUploadCredentialsVarsBuilder()..replace(this);
+      GGetUploadCredentialsVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -76,7 +79,6 @@ class GGetUploadCredentialsVarsBuilder
 
   @override
   void replace(GGetUploadCredentialsVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetUploadCredentialsVars;
   }
 
@@ -89,7 +91,7 @@ class GGetUploadCredentialsVarsBuilder
   GGetUploadCredentialsVars build() => _build();
 
   _$GGetUploadCredentialsVars _build() {
-    final _$result = _$v ?? new _$GGetUploadCredentialsVars._();
+    final _$result = _$v ?? _$GGetUploadCredentialsVars._();
     replace(_$result);
     return _$result;
   }

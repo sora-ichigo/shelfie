@@ -7,7 +7,7 @@ part of 'search_books.var.gql.dart';
 // **************************************************************************
 
 Serializer<GSearchBooksVars> _$gSearchBooksVarsSerializer =
-    new _$GSearchBooksVarsSerializer();
+    _$GSearchBooksVarsSerializer();
 
 class _$GSearchBooksVarsSerializer
     implements StructuredSerializer<GSearchBooksVars> {
@@ -17,12 +17,17 @@ class _$GSearchBooksVarsSerializer
   final String wireName = 'GSearchBooksVars';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GSearchBooksVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GSearchBooksVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'query',
-      serializers.serialize(object.query,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.query,
+        specifiedType: const FullType(String),
+      ),
     ];
     Object? value;
     value = object.limit;
@@ -42,9 +47,11 @@ class _$GSearchBooksVarsSerializer
 
   @override
   GSearchBooksVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSearchBooksVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GSearchBooksVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -53,16 +60,22 @@ class _$GSearchBooksVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'query':
-          result.query = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.query =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'limit':
-          result.limit = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.limit =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
         case 'offset':
-          result.offset = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.offset =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
       }
     }
@@ -79,22 +92,19 @@ class _$GSearchBooksVars extends GSearchBooksVars {
   @override
   final int? offset;
 
-  factory _$GSearchBooksVars(
-          [void Function(GSearchBooksVarsBuilder)? updates]) =>
-      (new GSearchBooksVarsBuilder()..update(updates))._build();
+  factory _$GSearchBooksVars([
+    void Function(GSearchBooksVarsBuilder)? updates,
+  ]) => (GSearchBooksVarsBuilder()..update(updates))._build();
 
   _$GSearchBooksVars._({required this.query, this.limit, this.offset})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(query, r'GSearchBooksVars', 'query');
-  }
-
+    : super._();
   @override
   GSearchBooksVars rebuild(void Function(GSearchBooksVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GSearchBooksVarsBuilder toBuilder() =>
-      new GSearchBooksVarsBuilder()..replace(this);
+      GSearchBooksVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -156,7 +166,6 @@ class GSearchBooksVarsBuilder
 
   @override
   void replace(GSearchBooksVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSearchBooksVars;
   }
 
@@ -169,12 +178,17 @@ class GSearchBooksVarsBuilder
   GSearchBooksVars build() => _build();
 
   _$GSearchBooksVars _build() {
-    final _$result = _$v ??
-        new _$GSearchBooksVars._(
-            query: BuiltValueNullFieldError.checkNotNull(
-                query, r'GSearchBooksVars', 'query'),
-            limit: limit,
-            offset: offset);
+    final _$result =
+        _$v ??
+        _$GSearchBooksVars._(
+          query: BuiltValueNullFieldError.checkNotNull(
+            query,
+            r'GSearchBooksVars',
+            'query',
+          ),
+          limit: limit,
+          offset: offset,
+        );
     replace(_$result);
     return _$result;
   }

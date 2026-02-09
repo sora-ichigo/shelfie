@@ -5,6 +5,7 @@ export default defineConfig({
     "./src/db/schema/users.ts",
     "./src/db/schema/books.ts",
     "./src/db/schema/book-lists.ts",
+    "./src/db/schema/device-tokens.ts",
   ],
   out: "./drizzle/migrations",
   dialect: "postgresql",

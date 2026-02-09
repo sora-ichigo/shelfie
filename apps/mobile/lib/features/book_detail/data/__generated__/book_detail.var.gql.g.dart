@@ -7,7 +7,7 @@ part of 'book_detail.var.gql.dart';
 // **************************************************************************
 
 Serializer<GBookDetailVars> _$gBookDetailVarsSerializer =
-    new _$GBookDetailVarsSerializer();
+    _$GBookDetailVarsSerializer();
 
 class _$GBookDetailVarsSerializer
     implements StructuredSerializer<GBookDetailVars> {
@@ -17,15 +17,22 @@ class _$GBookDetailVarsSerializer
   final String wireName = 'GBookDetailVars';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GBookDetailVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GBookDetailVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'bookId',
-      serializers.serialize(object.bookId,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.bookId,
+        specifiedType: const FullType(String),
+      ),
       'source',
-      serializers.serialize(object.source,
-          specifiedType: const FullType(_i1.GBookSource)),
+      serializers.serialize(
+        object.source,
+        specifiedType: const FullType(_i1.GBookSource),
+      ),
     ];
 
     return result;
@@ -33,9 +40,11 @@ class _$GBookDetailVarsSerializer
 
   @override
   GBookDetailVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GBookDetailVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GBookDetailVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -44,13 +53,20 @@ class _$GBookDetailVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'bookId':
-          result.bookId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.bookId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'source':
-          result.source = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GBookSource))!
-              as _i1.GBookSource;
+          result.source =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.GBookSource),
+                  )!
+                  as _i1.GBookSource;
           break;
       }
     }
@@ -66,21 +82,15 @@ class _$GBookDetailVars extends GBookDetailVars {
   final _i1.GBookSource source;
 
   factory _$GBookDetailVars([void Function(GBookDetailVarsBuilder)? updates]) =>
-      (new GBookDetailVarsBuilder()..update(updates))._build();
+      (GBookDetailVarsBuilder()..update(updates))._build();
 
-  _$GBookDetailVars._({required this.bookId, required this.source})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(bookId, r'GBookDetailVars', 'bookId');
-    BuiltValueNullFieldError.checkNotNull(source, r'GBookDetailVars', 'source');
-  }
-
+  _$GBookDetailVars._({required this.bookId, required this.source}) : super._();
   @override
   GBookDetailVars rebuild(void Function(GBookDetailVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GBookDetailVarsBuilder toBuilder() =>
-      new GBookDetailVarsBuilder()..replace(this);
+  GBookDetailVarsBuilder toBuilder() => GBookDetailVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -134,7 +144,6 @@ class GBookDetailVarsBuilder
 
   @override
   void replace(GBookDetailVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GBookDetailVars;
   }
 
@@ -147,12 +156,20 @@ class GBookDetailVarsBuilder
   GBookDetailVars build() => _build();
 
   _$GBookDetailVars _build() {
-    final _$result = _$v ??
-        new _$GBookDetailVars._(
-            bookId: BuiltValueNullFieldError.checkNotNull(
-                bookId, r'GBookDetailVars', 'bookId'),
-            source: BuiltValueNullFieldError.checkNotNull(
-                source, r'GBookDetailVars', 'source'));
+    final _$result =
+        _$v ??
+        _$GBookDetailVars._(
+          bookId: BuiltValueNullFieldError.checkNotNull(
+            bookId,
+            r'GBookDetailVars',
+            'bookId',
+          ),
+          source: BuiltValueNullFieldError.checkNotNull(
+            source,
+            r'GBookDetailVars',
+            'source',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

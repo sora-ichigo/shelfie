@@ -13,15 +13,17 @@ String _$avatarUploadServiceHash() =>
 @ProviderFor(avatarUploadService)
 final avatarUploadServiceProvider =
     AutoDisposeProvider<AvatarUploadService>.internal(
-  avatarUploadService,
-  name: r'avatarUploadServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$avatarUploadServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      avatarUploadService,
+      name: r'avatarUploadServiceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$avatarUploadServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AvatarUploadServiceRef = AutoDisposeProviderRef<AvatarUploadService>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

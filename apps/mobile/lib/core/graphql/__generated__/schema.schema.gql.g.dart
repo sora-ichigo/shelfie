@@ -8,26 +8,35 @@ part of 'schema.schema.gql.dart';
 
 const GAuthErrorCode _$gAuthErrorCodeEMAIL_ALREADY_EXISTS =
     const GAuthErrorCode._('EMAIL_ALREADY_EXISTS');
-const GAuthErrorCode _$gAuthErrorCodeINTERNAL_ERROR =
-    const GAuthErrorCode._('INTERNAL_ERROR');
+const GAuthErrorCode _$gAuthErrorCodeINTERNAL_ERROR = const GAuthErrorCode._(
+  'INTERNAL_ERROR',
+);
 const GAuthErrorCode _$gAuthErrorCodeINVALID_CREDENTIALS =
     const GAuthErrorCode._('INVALID_CREDENTIALS');
-const GAuthErrorCode _$gAuthErrorCodeINVALID_EMAIL =
-    const GAuthErrorCode._('INVALID_EMAIL');
-const GAuthErrorCode _$gAuthErrorCodeINVALID_PASSWORD =
-    const GAuthErrorCode._('INVALID_PASSWORD');
-const GAuthErrorCode _$gAuthErrorCodeINVALID_TOKEN =
-    const GAuthErrorCode._('INVALID_TOKEN');
-const GAuthErrorCode _$gAuthErrorCodeNETWORK_ERROR =
-    const GAuthErrorCode._('NETWORK_ERROR');
-const GAuthErrorCode _$gAuthErrorCodeTOKEN_EXPIRED =
-    const GAuthErrorCode._('TOKEN_EXPIRED');
-const GAuthErrorCode _$gAuthErrorCodeUNAUTHENTICATED =
-    const GAuthErrorCode._('UNAUTHENTICATED');
-const GAuthErrorCode _$gAuthErrorCodeUSER_NOT_FOUND =
-    const GAuthErrorCode._('USER_NOT_FOUND');
-const GAuthErrorCode _$gAuthErrorCodeWEAK_PASSWORD =
-    const GAuthErrorCode._('WEAK_PASSWORD');
+const GAuthErrorCode _$gAuthErrorCodeINVALID_EMAIL = const GAuthErrorCode._(
+  'INVALID_EMAIL',
+);
+const GAuthErrorCode _$gAuthErrorCodeINVALID_PASSWORD = const GAuthErrorCode._(
+  'INVALID_PASSWORD',
+);
+const GAuthErrorCode _$gAuthErrorCodeINVALID_TOKEN = const GAuthErrorCode._(
+  'INVALID_TOKEN',
+);
+const GAuthErrorCode _$gAuthErrorCodeNETWORK_ERROR = const GAuthErrorCode._(
+  'NETWORK_ERROR',
+);
+const GAuthErrorCode _$gAuthErrorCodeTOKEN_EXPIRED = const GAuthErrorCode._(
+  'TOKEN_EXPIRED',
+);
+const GAuthErrorCode _$gAuthErrorCodeUNAUTHENTICATED = const GAuthErrorCode._(
+  'UNAUTHENTICATED',
+);
+const GAuthErrorCode _$gAuthErrorCodeUSER_NOT_FOUND = const GAuthErrorCode._(
+  'USER_NOT_FOUND',
+);
+const GAuthErrorCode _$gAuthErrorCodeWEAK_PASSWORD = const GAuthErrorCode._(
+  'WEAK_PASSWORD',
+);
 
 GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
   switch (name) {
@@ -54,24 +63,24 @@ GAuthErrorCode _$gAuthErrorCodeValueOf(String name) {
     case 'WEAK_PASSWORD':
       return _$gAuthErrorCodeWEAK_PASSWORD;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GAuthErrorCode> _$gAuthErrorCodeValues =
-    new BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
-  _$gAuthErrorCodeEMAIL_ALREADY_EXISTS,
-  _$gAuthErrorCodeINTERNAL_ERROR,
-  _$gAuthErrorCodeINVALID_CREDENTIALS,
-  _$gAuthErrorCodeINVALID_EMAIL,
-  _$gAuthErrorCodeINVALID_PASSWORD,
-  _$gAuthErrorCodeINVALID_TOKEN,
-  _$gAuthErrorCodeNETWORK_ERROR,
-  _$gAuthErrorCodeTOKEN_EXPIRED,
-  _$gAuthErrorCodeUNAUTHENTICATED,
-  _$gAuthErrorCodeUSER_NOT_FOUND,
-  _$gAuthErrorCodeWEAK_PASSWORD,
-]);
+    BuiltSet<GAuthErrorCode>(const <GAuthErrorCode>[
+      _$gAuthErrorCodeEMAIL_ALREADY_EXISTS,
+      _$gAuthErrorCodeINTERNAL_ERROR,
+      _$gAuthErrorCodeINVALID_CREDENTIALS,
+      _$gAuthErrorCodeINVALID_EMAIL,
+      _$gAuthErrorCodeINVALID_PASSWORD,
+      _$gAuthErrorCodeINVALID_TOKEN,
+      _$gAuthErrorCodeNETWORK_ERROR,
+      _$gAuthErrorCodeTOKEN_EXPIRED,
+      _$gAuthErrorCodeUNAUTHENTICATED,
+      _$gAuthErrorCodeUSER_NOT_FOUND,
+      _$gAuthErrorCodeWEAK_PASSWORD,
+    ]);
 
 const GBookSource _$gBookSourceGOOGLE = const GBookSource._('GOOGLE');
 const GBookSource _$gBookSourceRAKUTEN = const GBookSource._('RAKUTEN');
@@ -83,25 +92,27 @@ GBookSource _$gBookSourceValueOf(String name) {
     case 'RAKUTEN':
       return _$gBookSourceRAKUTEN;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
-final BuiltSet<GBookSource> _$gBookSourceValues =
-    new BuiltSet<GBookSource>(const <GBookSource>[
-  _$gBookSourceGOOGLE,
-  _$gBookSourceRAKUTEN,
-]);
+final BuiltSet<GBookSource> _$gBookSourceValues = BuiltSet<GBookSource>(
+  const <GBookSource>[_$gBookSourceGOOGLE, _$gBookSourceRAKUTEN],
+);
 
-const GReadingStatus _$gReadingStatusBACKLOG =
-    const GReadingStatus._('BACKLOG');
-const GReadingStatus _$gReadingStatusCOMPLETED =
-    const GReadingStatus._('COMPLETED');
+const GReadingStatus _$gReadingStatusBACKLOG = const GReadingStatus._(
+  'BACKLOG',
+);
+const GReadingStatus _$gReadingStatusCOMPLETED = const GReadingStatus._(
+  'COMPLETED',
+);
 const GReadingStatus _$gReadingStatusDROP = const GReadingStatus._('DROP');
-const GReadingStatus _$gReadingStatusINTERESTED =
-    const GReadingStatus._('INTERESTED');
-const GReadingStatus _$gReadingStatusREADING =
-    const GReadingStatus._('READING');
+const GReadingStatus _$gReadingStatusINTERESTED = const GReadingStatus._(
+  'INTERESTED',
+);
+const GReadingStatus _$gReadingStatusREADING = const GReadingStatus._(
+  'READING',
+);
 
 GReadingStatus _$gReadingStatusValueOf(String name) {
   switch (name) {
@@ -116,29 +127,34 @@ GReadingStatus _$gReadingStatusValueOf(String name) {
     case 'READING':
       return _$gReadingStatusREADING;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GReadingStatus> _$gReadingStatusValues =
-    new BuiltSet<GReadingStatus>(const <GReadingStatus>[
-  _$gReadingStatusBACKLOG,
-  _$gReadingStatusCOMPLETED,
-  _$gReadingStatusDROP,
-  _$gReadingStatusINTERESTED,
-  _$gReadingStatusREADING,
-]);
+    BuiltSet<GReadingStatus>(const <GReadingStatus>[
+      _$gReadingStatusBACKLOG,
+      _$gReadingStatusCOMPLETED,
+      _$gReadingStatusDROP,
+      _$gReadingStatusINTERESTED,
+      _$gReadingStatusREADING,
+    ]);
 
-const GShelfSortField _$gShelfSortFieldADDED_AT =
-    const GShelfSortField._('ADDED_AT');
-const GShelfSortField _$gShelfSortFieldAUTHOR =
-    const GShelfSortField._('AUTHOR');
-const GShelfSortField _$gShelfSortFieldCOMPLETED_AT =
-    const GShelfSortField._('COMPLETED_AT');
-const GShelfSortField _$gShelfSortFieldPUBLISHED_DATE =
-    const GShelfSortField._('PUBLISHED_DATE');
-const GShelfSortField _$gShelfSortFieldRATING =
-    const GShelfSortField._('RATING');
+const GShelfSortField _$gShelfSortFieldADDED_AT = const GShelfSortField._(
+  'ADDED_AT',
+);
+const GShelfSortField _$gShelfSortFieldAUTHOR = const GShelfSortField._(
+  'AUTHOR',
+);
+const GShelfSortField _$gShelfSortFieldCOMPLETED_AT = const GShelfSortField._(
+  'COMPLETED_AT',
+);
+const GShelfSortField _$gShelfSortFieldPUBLISHED_DATE = const GShelfSortField._(
+  'PUBLISHED_DATE',
+);
+const GShelfSortField _$gShelfSortFieldRATING = const GShelfSortField._(
+  'RATING',
+);
 const GShelfSortField _$gShelfSortFieldTITLE = const GShelfSortField._('TITLE');
 
 GShelfSortField _$gShelfSortFieldValueOf(String name) {
@@ -156,19 +172,19 @@ GShelfSortField _$gShelfSortFieldValueOf(String name) {
     case 'TITLE':
       return _$gShelfSortFieldTITLE;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
 final BuiltSet<GShelfSortField> _$gShelfSortFieldValues =
-    new BuiltSet<GShelfSortField>(const <GShelfSortField>[
-  _$gShelfSortFieldADDED_AT,
-  _$gShelfSortFieldAUTHOR,
-  _$gShelfSortFieldCOMPLETED_AT,
-  _$gShelfSortFieldPUBLISHED_DATE,
-  _$gShelfSortFieldRATING,
-  _$gShelfSortFieldTITLE,
-]);
+    BuiltSet<GShelfSortField>(const <GShelfSortField>[
+      _$gShelfSortFieldADDED_AT,
+      _$gShelfSortFieldAUTHOR,
+      _$gShelfSortFieldCOMPLETED_AT,
+      _$gShelfSortFieldPUBLISHED_DATE,
+      _$gShelfSortFieldRATING,
+      _$gShelfSortFieldTITLE,
+    ]);
 
 const GSortOrder _$gSortOrderASC = const GSortOrder._('ASC');
 const GSortOrder _$gSortOrderDESC = const GSortOrder._('DESC');
@@ -180,47 +196,50 @@ GSortOrder _$gSortOrderValueOf(String name) {
     case 'DESC':
       return _$gSortOrderDESC;
     default:
-      throw new ArgumentError(name);
+      throw ArgumentError(name);
   }
 }
 
-final BuiltSet<GSortOrder> _$gSortOrderValues =
-    new BuiltSet<GSortOrder>(const <GSortOrder>[
-  _$gSortOrderASC,
-  _$gSortOrderDESC,
-]);
+final BuiltSet<GSortOrder> _$gSortOrderValues = BuiltSet<GSortOrder>(
+  const <GSortOrder>[_$gSortOrderASC, _$gSortOrderDESC],
+);
 
 Serializer<GAddBookInput> _$gAddBookInputSerializer =
-    new _$GAddBookInputSerializer();
+    _$GAddBookInputSerializer();
 Serializer<GAuthErrorCode> _$gAuthErrorCodeSerializer =
-    new _$GAuthErrorCodeSerializer();
-Serializer<GBookSource> _$gBookSourceSerializer = new _$GBookSourceSerializer();
+    _$GAuthErrorCodeSerializer();
+Serializer<GBookSource> _$gBookSourceSerializer = _$GBookSourceSerializer();
 Serializer<GChangePasswordInput> _$gChangePasswordInputSerializer =
-    new _$GChangePasswordInputSerializer();
+    _$GChangePasswordInputSerializer();
 Serializer<GCreateBookListInput> _$gCreateBookListInputSerializer =
-    new _$GCreateBookListInputSerializer();
+    _$GCreateBookListInputSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
-    new _$GLoginUserInputSerializer();
+    _$GLoginUserInputSerializer();
 Serializer<GMyBookListsInput> _$gMyBookListsInputSerializer =
-    new _$GMyBookListsInputSerializer();
+    _$GMyBookListsInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
-    new _$GMyShelfInputSerializer();
+    _$GMyShelfInputSerializer();
 Serializer<GReadingStatus> _$gReadingStatusSerializer =
-    new _$GReadingStatusSerializer();
+    _$GReadingStatusSerializer();
 Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
-    new _$GRefreshTokenInputSerializer();
+    _$GRefreshTokenInputSerializer();
+Serializer<GRegisterDeviceTokenInput> _$gRegisterDeviceTokenInputSerializer =
+    _$GRegisterDeviceTokenInputSerializer();
 Serializer<GRegisterUserInput> _$gRegisterUserInputSerializer =
-    new _$GRegisterUserInputSerializer();
+    _$GRegisterUserInputSerializer();
 Serializer<GSendPasswordResetEmailInput>
-    _$gSendPasswordResetEmailInputSerializer =
-    new _$GSendPasswordResetEmailInputSerializer();
+_$gSendPasswordResetEmailInputSerializer =
+    _$GSendPasswordResetEmailInputSerializer();
 Serializer<GShelfSortField> _$gShelfSortFieldSerializer =
-    new _$GShelfSortFieldSerializer();
-Serializer<GSortOrder> _$gSortOrderSerializer = new _$GSortOrderSerializer();
+    _$GShelfSortFieldSerializer();
+Serializer<GSortOrder> _$gSortOrderSerializer = _$GSortOrderSerializer();
+Serializer<GUnregisterDeviceTokenInput>
+_$gUnregisterDeviceTokenInputSerializer =
+    _$GUnregisterDeviceTokenInputSerializer();
 Serializer<GUpdateBookListInput> _$gUpdateBookListInputSerializer =
-    new _$GUpdateBookListInputSerializer();
+    _$GUpdateBookListInputSerializer();
 Serializer<GUpdateProfileInput> _$gUpdateProfileInputSerializer =
-    new _$GUpdateProfileInputSerializer();
+    _$GUpdateProfileInputSerializer();
 
 class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   @override
@@ -229,67 +248,89 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
   final String wireName = 'GAddBookInput';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GAddBookInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GAddBookInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'authors',
-      serializers.serialize(object.authors,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
+      serializers.serialize(
+        object.authors,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(String),
+        ]),
+      ),
       'externalId',
-      serializers.serialize(object.externalId,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.externalId,
+        specifiedType: const FullType(String),
+      ),
       'source',
-      serializers.serialize(object.source,
-          specifiedType: const FullType(GBookSource)),
+      serializers.serialize(
+        object.source,
+        specifiedType: const FullType(GBookSource),
+      ),
       'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.title,
+        specifiedType: const FullType(String),
+      ),
     ];
     Object? value;
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.isbn;
     if (value != null) {
       result
         ..add('isbn')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.publishedDate;
     if (value != null) {
       result
         ..add('publishedDate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.publisher;
     if (value != null) {
       result
         ..add('publisher')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.readingStatus;
     if (value != null) {
       result
         ..add('readingStatus')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(GReadingStatus)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(GReadingStatus),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GAddBookInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GAddBookInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -298,42 +339,79 @@ class _$GAddBookInputSerializer implements StructuredSerializer<GAddBookInput> {
       final Object? value = iterator.current;
       switch (key) {
         case 'authors':
-          result.authors.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.authors.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'coverImageUrl':
-          result.coverImageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.coverImageUrl =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'externalId':
-          result.externalId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.externalId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'isbn':
-          result.isbn = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.isbn =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'publishedDate':
-          result.publishedDate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publishedDate =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'publisher':
-          result.publisher = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publisher =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'readingStatus':
-          result.readingStatus = serializers.deserialize(value,
-              specifiedType: const FullType(GReadingStatus)) as GReadingStatus?;
+          result.readingStatus =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(GReadingStatus),
+                  )
+                  as GReadingStatus?;
           break;
         case 'source':
-          result.source = serializers.deserialize(value,
-              specifiedType: const FullType(GBookSource))! as GBookSource;
+          result.source =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(GBookSource),
+                  )!
+                  as GBookSource;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -350,14 +428,18 @@ class _$GAuthErrorCodeSerializer
   final String wireName = 'GAuthErrorCode';
 
   @override
-  Object serialize(Serializers serializers, GAuthErrorCode object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    GAuthErrorCode object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  GAuthErrorCode deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GAuthErrorCode.valueOf(serialized as String);
+  GAuthErrorCode deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => GAuthErrorCode.valueOf(serialized as String);
 }
 
 class _$GBookSourceSerializer implements PrimitiveSerializer<GBookSource> {
@@ -367,14 +449,18 @@ class _$GBookSourceSerializer implements PrimitiveSerializer<GBookSource> {
   final String wireName = 'GBookSource';
 
   @override
-  Object serialize(Serializers serializers, GBookSource object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    GBookSource object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  GBookSource deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GBookSource.valueOf(serialized as String);
+  GBookSource deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => GBookSource.valueOf(serialized as String);
 }
 
 class _$GChangePasswordInputSerializer
@@ -382,25 +468,33 @@ class _$GChangePasswordInputSerializer
   @override
   final Iterable<Type> types = const [
     GChangePasswordInput,
-    _$GChangePasswordInput
+    _$GChangePasswordInput,
   ];
   @override
   final String wireName = 'GChangePasswordInput';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GChangePasswordInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GChangePasswordInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'currentPassword',
-      serializers.serialize(object.currentPassword,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.currentPassword,
+        specifiedType: const FullType(String),
+      ),
       'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      ),
       'newPassword',
-      serializers.serialize(object.newPassword,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.newPassword,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -408,9 +502,11 @@ class _$GChangePasswordInputSerializer
 
   @override
   GChangePasswordInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GChangePasswordInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GChangePasswordInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -419,16 +515,28 @@ class _$GChangePasswordInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'currentPassword':
-          result.currentPassword = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.currentPassword =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'email':
-          result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.email =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'newPassword':
-          result.newPassword = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.newPassword =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -442,36 +550,43 @@ class _$GCreateBookListInputSerializer
   @override
   final Iterable<Type> types = const [
     GCreateBookListInput,
-    _$GCreateBookListInput
+    _$GCreateBookListInput,
   ];
   @override
   final String wireName = 'GCreateBookListInput';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GCreateBookListInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GCreateBookListInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.title,
+        specifiedType: const FullType(String),
+      ),
     ];
     Object? value;
     value = object.description;
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     return result;
   }
 
   @override
   GCreateBookListInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GCreateBookListInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GCreateBookListInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -480,12 +595,20 @@ class _$GCreateBookListInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.description =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -502,15 +625,22 @@ class _$GLoginUserInputSerializer
   final String wireName = 'GLoginUserInput';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GLoginUserInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GLoginUserInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      ),
       'password',
-      serializers.serialize(object.password,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -518,9 +648,11 @@ class _$GLoginUserInputSerializer
 
   @override
   GLoginUserInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GLoginUserInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GLoginUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -529,12 +661,20 @@ class _$GLoginUserInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'email':
-          result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.email =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'password':
-          result.password = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.password =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -551,8 +691,11 @@ class _$GMyBookListsInputSerializer
   final String wireName = 'GMyBookListsInput';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GMyBookListsInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GMyBookListsInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[];
     Object? value;
     value = object.limit;
@@ -572,9 +715,11 @@ class _$GMyBookListsInputSerializer
 
   @override
   GMyBookListsInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyBookListsInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GMyBookListsInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -583,12 +728,14 @@ class _$GMyBookListsInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'limit':
-          result.limit = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.limit =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
         case 'offset':
-          result.offset = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.offset =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
       }
     }
@@ -604,8 +751,11 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
   final String wireName = 'GMyShelfInput';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GMyShelfInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GMyShelfInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[];
     Object? value;
     value = object.limit;
@@ -624,38 +774,53 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
     if (value != null) {
       result
         ..add('query')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.readingStatus;
     if (value != null) {
       result
         ..add('readingStatus')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(GReadingStatus)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(GReadingStatus),
+          ),
+        );
     }
     value = object.sortBy;
     if (value != null) {
       result
         ..add('sortBy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(GShelfSortField)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(GShelfSortField),
+          ),
+        );
     }
     value = object.sortOrder;
     if (value != null) {
       result
         ..add('sortOrder')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(GSortOrder)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(GSortOrder),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GMyShelfInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GMyShelfInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GMyShelfInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -664,29 +829,46 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
       final Object? value = iterator.current;
       switch (key) {
         case 'limit':
-          result.limit = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.limit =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
         case 'offset':
-          result.offset = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.offset =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
         case 'query':
-          result.query = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.query =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'readingStatus':
-          result.readingStatus = serializers.deserialize(value,
-              specifiedType: const FullType(GReadingStatus)) as GReadingStatus?;
+          result.readingStatus =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(GReadingStatus),
+                  )
+                  as GReadingStatus?;
           break;
         case 'sortBy':
-          result.sortBy = serializers.deserialize(value,
-                  specifiedType: const FullType(GShelfSortField))
-              as GShelfSortField?;
+          result.sortBy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(GShelfSortField),
+                  )
+                  as GShelfSortField?;
           break;
         case 'sortOrder':
-          result.sortOrder = serializers.deserialize(value,
-              specifiedType: const FullType(GSortOrder)) as GSortOrder?;
+          result.sortOrder =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(GSortOrder),
+                  )
+                  as GSortOrder?;
           break;
       }
     }
@@ -703,14 +885,18 @@ class _$GReadingStatusSerializer
   final String wireName = 'GReadingStatus';
 
   @override
-  Object serialize(Serializers serializers, GReadingStatus object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    GReadingStatus object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  GReadingStatus deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GReadingStatus.valueOf(serialized as String);
+  GReadingStatus deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => GReadingStatus.valueOf(serialized as String);
 }
 
 class _$GRefreshTokenInputSerializer
@@ -722,12 +908,16 @@ class _$GRefreshTokenInputSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GRefreshTokenInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GRefreshTokenInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'refreshToken',
-      serializers.serialize(object.refreshToken,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.refreshToken,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -735,9 +925,11 @@ class _$GRefreshTokenInputSerializer
 
   @override
   GRefreshTokenInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRefreshTokenInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRefreshTokenInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -746,8 +938,81 @@ class _$GRefreshTokenInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'refreshToken':
-          result.refreshToken = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.refreshToken =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GRegisterDeviceTokenInputSerializer
+    implements StructuredSerializer<GRegisterDeviceTokenInput> {
+  @override
+  final Iterable<Type> types = const [
+    GRegisterDeviceTokenInput,
+    _$GRegisterDeviceTokenInput,
+  ];
+  @override
+  final String wireName = 'GRegisterDeviceTokenInput';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GRegisterDeviceTokenInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'platform',
+      serializers.serialize(
+        object.platform,
+        specifiedType: const FullType(String),
+      ),
+      'token',
+      serializers.serialize(
+        object.token,
+        specifiedType: const FullType(String),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  GRegisterDeviceTokenInput deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRegisterDeviceTokenInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'platform':
+          result.platform =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+        case 'token':
+          result.token =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -765,15 +1030,21 @@ class _$GRegisterUserInputSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GRegisterUserInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GRegisterUserInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      ),
       'password',
-      serializers.serialize(object.password,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.password,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -781,9 +1052,11 @@ class _$GRegisterUserInputSerializer
 
   @override
   GRegisterUserInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRegisterUserInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -792,12 +1065,20 @@ class _$GRegisterUserInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'email':
-          result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.email =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'password':
-          result.password = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.password =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -811,19 +1092,23 @@ class _$GSendPasswordResetEmailInputSerializer
   @override
   final Iterable<Type> types = const [
     GSendPasswordResetEmailInput,
-    _$GSendPasswordResetEmailInput
+    _$GSendPasswordResetEmailInput,
   ];
   @override
   final String wireName = 'GSendPasswordResetEmailInput';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GSendPasswordResetEmailInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GSendPasswordResetEmailInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.email,
+        specifiedType: const FullType(String),
+      ),
     ];
 
     return result;
@@ -831,9 +1116,11 @@ class _$GSendPasswordResetEmailInputSerializer
 
   @override
   GSendPasswordResetEmailInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSendPasswordResetEmailInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GSendPasswordResetEmailInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -842,8 +1129,12 @@ class _$GSendPasswordResetEmailInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'email':
-          result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.email =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -860,14 +1151,18 @@ class _$GShelfSortFieldSerializer
   final String wireName = 'GShelfSortField';
 
   @override
-  Object serialize(Serializers serializers, GShelfSortField object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    GShelfSortField object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  GShelfSortField deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GShelfSortField.valueOf(serialized as String);
+  GShelfSortField deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => GShelfSortField.valueOf(serialized as String);
 }
 
 class _$GSortOrderSerializer implements PrimitiveSerializer<GSortOrder> {
@@ -877,14 +1172,74 @@ class _$GSortOrderSerializer implements PrimitiveSerializer<GSortOrder> {
   final String wireName = 'GSortOrder';
 
   @override
-  Object serialize(Serializers serializers, GSortOrder object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
+  Object serialize(
+    Serializers serializers,
+    GSortOrder object, {
+    FullType specifiedType = FullType.unspecified,
+  }) => object.name;
 
   @override
-  GSortOrder deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GSortOrder.valueOf(serialized as String);
+  GSortOrder deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) => GSortOrder.valueOf(serialized as String);
+}
+
+class _$GUnregisterDeviceTokenInputSerializer
+    implements StructuredSerializer<GUnregisterDeviceTokenInput> {
+  @override
+  final Iterable<Type> types = const [
+    GUnregisterDeviceTokenInput,
+    _$GUnregisterDeviceTokenInput,
+  ];
+  @override
+  final String wireName = 'GUnregisterDeviceTokenInput';
+
+  @override
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GUnregisterDeviceTokenInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = <Object?>[
+      'token',
+      serializers.serialize(
+        object.token,
+        specifiedType: const FullType(String),
+      ),
+    ];
+
+    return result;
+  }
+
+  @override
+  GUnregisterDeviceTokenInput deserialize(
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUnregisterDeviceTokenInputBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current! as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case 'token':
+          result.token =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
 }
 
 class _$GUpdateBookListInputSerializer
@@ -892,15 +1247,17 @@ class _$GUpdateBookListInputSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateBookListInput,
-    _$GUpdateBookListInput
+    _$GUpdateBookListInput,
   ];
   @override
   final String wireName = 'GUpdateBookListInput';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateBookListInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateBookListInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
@@ -910,24 +1267,28 @@ class _$GUpdateBookListInputSerializer
     if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.title;
     if (value != null) {
       result
         ..add('title')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     return result;
   }
 
   @override
   GUpdateBookListInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateBookListInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateBookListInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -936,16 +1297,28 @@ class _$GUpdateBookListInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'description':
-          result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.description =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'listId':
-          result.listId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.listId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
       }
     }
@@ -959,15 +1332,17 @@ class _$GUpdateProfileInputSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateProfileInput,
-    _$GUpdateProfileInput
+    _$GUpdateProfileInput,
   ];
   @override
   final String wireName = 'GUpdateProfileInput';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateProfileInput object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateProfileInput object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
@@ -977,17 +1352,20 @@ class _$GUpdateProfileInputSerializer
     if (value != null) {
       result
         ..add('avatarUrl')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     return result;
   }
 
   @override
   GUpdateProfileInput deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateProfileInputBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateProfileInputBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -996,12 +1374,20 @@ class _$GUpdateProfileInputSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'avatarUrl':
-          result.avatarUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.avatarUrl =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'name':
-          result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.name =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
       }
     }
@@ -1031,32 +1417,25 @@ class _$GAddBookInput extends GAddBookInput {
   final String title;
 
   factory _$GAddBookInput([void Function(GAddBookInputBuilder)? updates]) =>
-      (new GAddBookInputBuilder()..update(updates))._build();
+      (GAddBookInputBuilder()..update(updates))._build();
 
-  _$GAddBookInput._(
-      {required this.authors,
-      this.coverImageUrl,
-      required this.externalId,
-      this.isbn,
-      this.publishedDate,
-      this.publisher,
-      this.readingStatus,
-      required this.source,
-      required this.title})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(authors, r'GAddBookInput', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GAddBookInput', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(source, r'GAddBookInput', 'source');
-    BuiltValueNullFieldError.checkNotNull(title, r'GAddBookInput', 'title');
-  }
-
+  _$GAddBookInput._({
+    required this.authors,
+    this.coverImageUrl,
+    required this.externalId,
+    this.isbn,
+    this.publishedDate,
+    this.publisher,
+    this.readingStatus,
+    required this.source,
+    required this.title,
+  }) : super._();
   @override
   GAddBookInput rebuild(void Function(GAddBookInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GAddBookInputBuilder toBuilder() => new GAddBookInputBuilder()..replace(this);
+  GAddBookInputBuilder toBuilder() => GAddBookInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1110,8 +1489,7 @@ class GAddBookInputBuilder
   _$GAddBookInput? _$v;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _coverImageUrl;
@@ -1170,7 +1548,6 @@ class GAddBookInputBuilder
 
   @override
   void replace(GAddBookInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookInput;
   }
 
@@ -1185,28 +1562,42 @@ class GAddBookInputBuilder
   _$GAddBookInput _build() {
     _$GAddBookInput _$result;
     try {
-      _$result = _$v ??
-          new _$GAddBookInput._(
-              authors: authors.build(),
-              coverImageUrl: coverImageUrl,
-              externalId: BuiltValueNullFieldError.checkNotNull(
-                  externalId, r'GAddBookInput', 'externalId'),
-              isbn: isbn,
-              publishedDate: publishedDate,
-              publisher: publisher,
-              readingStatus: readingStatus,
-              source: BuiltValueNullFieldError.checkNotNull(
-                  source, r'GAddBookInput', 'source'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GAddBookInput', 'title'));
+      _$result =
+          _$v ??
+          _$GAddBookInput._(
+            authors: authors.build(),
+            coverImageUrl: coverImageUrl,
+            externalId: BuiltValueNullFieldError.checkNotNull(
+              externalId,
+              r'GAddBookInput',
+              'externalId',
+            ),
+            isbn: isbn,
+            publishedDate: publishedDate,
+            publisher: publisher,
+            readingStatus: readingStatus,
+            source: BuiltValueNullFieldError.checkNotNull(
+              source,
+              r'GAddBookInput',
+              'source',
+            ),
+            title: BuiltValueNullFieldError.checkNotNull(
+              title,
+              r'GAddBookInput',
+              'title',
+            ),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GAddBookInput', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GAddBookInput',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -1223,31 +1614,23 @@ class _$GChangePasswordInput extends GChangePasswordInput {
   @override
   final String newPassword;
 
-  factory _$GChangePasswordInput(
-          [void Function(GChangePasswordInputBuilder)? updates]) =>
-      (new GChangePasswordInputBuilder()..update(updates))._build();
+  factory _$GChangePasswordInput([
+    void Function(GChangePasswordInputBuilder)? updates,
+  ]) => (GChangePasswordInputBuilder()..update(updates))._build();
 
-  _$GChangePasswordInput._(
-      {required this.currentPassword,
-      required this.email,
-      required this.newPassword})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        currentPassword, r'GChangePasswordInput', 'currentPassword');
-    BuiltValueNullFieldError.checkNotNull(
-        email, r'GChangePasswordInput', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        newPassword, r'GChangePasswordInput', 'newPassword');
-  }
-
+  _$GChangePasswordInput._({
+    required this.currentPassword,
+    required this.email,
+    required this.newPassword,
+  }) : super._();
   @override
   GChangePasswordInput rebuild(
-          void Function(GChangePasswordInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GChangePasswordInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GChangePasswordInputBuilder toBuilder() =>
-      new GChangePasswordInputBuilder()..replace(this);
+      GChangePasswordInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1310,7 +1693,6 @@ class GChangePasswordInputBuilder
 
   @override
   void replace(GChangePasswordInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordInput;
   }
 
@@ -1323,14 +1705,25 @@ class GChangePasswordInputBuilder
   GChangePasswordInput build() => _build();
 
   _$GChangePasswordInput _build() {
-    final _$result = _$v ??
-        new _$GChangePasswordInput._(
-            currentPassword: BuiltValueNullFieldError.checkNotNull(
-                currentPassword, r'GChangePasswordInput', 'currentPassword'),
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GChangePasswordInput', 'email'),
-            newPassword: BuiltValueNullFieldError.checkNotNull(
-                newPassword, r'GChangePasswordInput', 'newPassword'));
+    final _$result =
+        _$v ??
+        _$GChangePasswordInput._(
+          currentPassword: BuiltValueNullFieldError.checkNotNull(
+            currentPassword,
+            r'GChangePasswordInput',
+            'currentPassword',
+          ),
+          email: BuiltValueNullFieldError.checkNotNull(
+            email,
+            r'GChangePasswordInput',
+            'email',
+          ),
+          newPassword: BuiltValueNullFieldError.checkNotNull(
+            newPassword,
+            r'GChangePasswordInput',
+            'newPassword',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1342,24 +1735,19 @@ class _$GCreateBookListInput extends GCreateBookListInput {
   @override
   final String title;
 
-  factory _$GCreateBookListInput(
-          [void Function(GCreateBookListInputBuilder)? updates]) =>
-      (new GCreateBookListInputBuilder()..update(updates))._build();
+  factory _$GCreateBookListInput([
+    void Function(GCreateBookListInputBuilder)? updates,
+  ]) => (GCreateBookListInputBuilder()..update(updates))._build();
 
-  _$GCreateBookListInput._({this.description, required this.title})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GCreateBookListInput', 'title');
-  }
-
+  _$GCreateBookListInput._({this.description, required this.title}) : super._();
   @override
   GCreateBookListInput rebuild(
-          void Function(GCreateBookListInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GCreateBookListInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GCreateBookListInputBuilder toBuilder() =>
-      new GCreateBookListInputBuilder()..replace(this);
+      GCreateBookListInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1413,7 +1801,6 @@ class GCreateBookListInputBuilder
 
   @override
   void replace(GCreateBookListInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GCreateBookListInput;
   }
 
@@ -1426,11 +1813,16 @@ class GCreateBookListInputBuilder
   GCreateBookListInput build() => _build();
 
   _$GCreateBookListInput _build() {
-    final _$result = _$v ??
-        new _$GCreateBookListInput._(
-            description: description,
-            title: BuiltValueNullFieldError.checkNotNull(
-                title, r'GCreateBookListInput', 'title'));
+    final _$result =
+        _$v ??
+        _$GCreateBookListInput._(
+          description: description,
+          title: BuiltValueNullFieldError.checkNotNull(
+            title,
+            r'GCreateBookListInput',
+            'title',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1443,22 +1835,16 @@ class _$GLoginUserInput extends GLoginUserInput {
   final String password;
 
   factory _$GLoginUserInput([void Function(GLoginUserInputBuilder)? updates]) =>
-      (new GLoginUserInputBuilder()..update(updates))._build();
+      (GLoginUserInputBuilder()..update(updates))._build();
 
   _$GLoginUserInput._({required this.email, required this.password})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(email, r'GLoginUserInput', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        password, r'GLoginUserInput', 'password');
-  }
-
+    : super._();
   @override
   GLoginUserInput rebuild(void Function(GLoginUserInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GLoginUserInputBuilder toBuilder() =>
-      new GLoginUserInputBuilder()..replace(this);
+  GLoginUserInputBuilder toBuilder() => GLoginUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1512,7 +1898,6 @@ class GLoginUserInputBuilder
 
   @override
   void replace(GLoginUserInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GLoginUserInput;
   }
 
@@ -1525,12 +1910,20 @@ class GLoginUserInputBuilder
   GLoginUserInput build() => _build();
 
   _$GLoginUserInput _build() {
-    final _$result = _$v ??
-        new _$GLoginUserInput._(
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GLoginUserInput', 'email'),
-            password: BuiltValueNullFieldError.checkNotNull(
-                password, r'GLoginUserInput', 'password'));
+    final _$result =
+        _$v ??
+        _$GLoginUserInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+            email,
+            r'GLoginUserInput',
+            'email',
+          ),
+          password: BuiltValueNullFieldError.checkNotNull(
+            password,
+            r'GLoginUserInput',
+            'password',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1542,19 +1935,18 @@ class _$GMyBookListsInput extends GMyBookListsInput {
   @override
   final int? offset;
 
-  factory _$GMyBookListsInput(
-          [void Function(GMyBookListsInputBuilder)? updates]) =>
-      (new GMyBookListsInputBuilder()..update(updates))._build();
+  factory _$GMyBookListsInput([
+    void Function(GMyBookListsInputBuilder)? updates,
+  ]) => (GMyBookListsInputBuilder()..update(updates))._build();
 
   _$GMyBookListsInput._({this.limit, this.offset}) : super._();
-
   @override
   GMyBookListsInput rebuild(void Function(GMyBookListsInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GMyBookListsInputBuilder toBuilder() =>
-      new GMyBookListsInputBuilder()..replace(this);
+      GMyBookListsInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1608,7 +2000,6 @@ class GMyBookListsInputBuilder
 
   @override
   void replace(GMyBookListsInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyBookListsInput;
   }
 
@@ -1621,8 +2012,7 @@ class GMyBookListsInputBuilder
   GMyBookListsInput build() => _build();
 
   _$GMyBookListsInput _build() {
-    final _$result =
-        _$v ?? new _$GMyBookListsInput._(limit: limit, offset: offset);
+    final _$result = _$v ?? _$GMyBookListsInput._(limit: limit, offset: offset);
     replace(_$result);
     return _$result;
   }
@@ -1643,23 +2033,22 @@ class _$GMyShelfInput extends GMyShelfInput {
   final GSortOrder? sortOrder;
 
   factory _$GMyShelfInput([void Function(GMyShelfInputBuilder)? updates]) =>
-      (new GMyShelfInputBuilder()..update(updates))._build();
+      (GMyShelfInputBuilder()..update(updates))._build();
 
-  _$GMyShelfInput._(
-      {this.limit,
-      this.offset,
-      this.query,
-      this.readingStatus,
-      this.sortBy,
-      this.sortOrder})
-      : super._();
-
+  _$GMyShelfInput._({
+    this.limit,
+    this.offset,
+    this.query,
+    this.readingStatus,
+    this.sortBy,
+    this.sortOrder,
+  }) : super._();
   @override
   GMyShelfInput rebuild(void Function(GMyShelfInputBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMyShelfInputBuilder toBuilder() => new GMyShelfInputBuilder()..replace(this);
+  GMyShelfInputBuilder toBuilder() => GMyShelfInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1746,7 +2135,6 @@ class GMyShelfInputBuilder
 
   @override
   void replace(GMyShelfInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GMyShelfInput;
   }
 
@@ -1759,14 +2147,16 @@ class GMyShelfInputBuilder
   GMyShelfInput build() => _build();
 
   _$GMyShelfInput _build() {
-    final _$result = _$v ??
-        new _$GMyShelfInput._(
-            limit: limit,
-            offset: offset,
-            query: query,
-            readingStatus: readingStatus,
-            sortBy: sortBy,
-            sortOrder: sortOrder);
+    final _$result =
+        _$v ??
+        _$GMyShelfInput._(
+          limit: limit,
+          offset: offset,
+          query: query,
+          readingStatus: readingStatus,
+          sortBy: sortBy,
+          sortOrder: sortOrder,
+        );
     replace(_$result);
     return _$result;
   }
@@ -1776,23 +2166,19 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
   @override
   final String refreshToken;
 
-  factory _$GRefreshTokenInput(
-          [void Function(GRefreshTokenInputBuilder)? updates]) =>
-      (new GRefreshTokenInputBuilder()..update(updates))._build();
+  factory _$GRefreshTokenInput([
+    void Function(GRefreshTokenInputBuilder)? updates,
+  ]) => (GRefreshTokenInputBuilder()..update(updates))._build();
 
-  _$GRefreshTokenInput._({required this.refreshToken}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        refreshToken, r'GRefreshTokenInput', 'refreshToken');
-  }
-
+  _$GRefreshTokenInput._({required this.refreshToken}) : super._();
   @override
   GRefreshTokenInput rebuild(
-          void Function(GRefreshTokenInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GRefreshTokenInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenInputBuilder toBuilder() =>
-      new GRefreshTokenInputBuilder()..replace(this);
+      GRefreshTokenInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1810,9 +2196,9 @@ class _$GRefreshTokenInput extends GRefreshTokenInput {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GRefreshTokenInput')
-          ..add('refreshToken', refreshToken))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GRefreshTokenInput',
+    )..add('refreshToken', refreshToken)).toString();
   }
 }
 
@@ -1837,7 +2223,6 @@ class GRefreshTokenInputBuilder
 
   @override
   void replace(GRefreshTokenInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRefreshTokenInput;
   }
 
@@ -1850,10 +2235,120 @@ class GRefreshTokenInputBuilder
   GRefreshTokenInput build() => _build();
 
   _$GRefreshTokenInput _build() {
-    final _$result = _$v ??
-        new _$GRefreshTokenInput._(
-            refreshToken: BuiltValueNullFieldError.checkNotNull(
-                refreshToken, r'GRefreshTokenInput', 'refreshToken'));
+    final _$result =
+        _$v ??
+        _$GRefreshTokenInput._(
+          refreshToken: BuiltValueNullFieldError.checkNotNull(
+            refreshToken,
+            r'GRefreshTokenInput',
+            'refreshToken',
+          ),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GRegisterDeviceTokenInput extends GRegisterDeviceTokenInput {
+  @override
+  final String platform;
+  @override
+  final String token;
+
+  factory _$GRegisterDeviceTokenInput([
+    void Function(GRegisterDeviceTokenInputBuilder)? updates,
+  ]) => (GRegisterDeviceTokenInputBuilder()..update(updates))._build();
+
+  _$GRegisterDeviceTokenInput._({required this.platform, required this.token})
+    : super._();
+  @override
+  GRegisterDeviceTokenInput rebuild(
+    void Function(GRegisterDeviceTokenInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
+
+  @override
+  GRegisterDeviceTokenInputBuilder toBuilder() =>
+      GRegisterDeviceTokenInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GRegisterDeviceTokenInput &&
+        platform == other.platform &&
+        token == other.token;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, platform.hashCode);
+    _$hash = $jc(_$hash, token.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'GRegisterDeviceTokenInput')
+          ..add('platform', platform)
+          ..add('token', token))
+        .toString();
+  }
+}
+
+class GRegisterDeviceTokenInputBuilder
+    implements
+        Builder<GRegisterDeviceTokenInput, GRegisterDeviceTokenInputBuilder> {
+  _$GRegisterDeviceTokenInput? _$v;
+
+  String? _platform;
+  String? get platform => _$this._platform;
+  set platform(String? platform) => _$this._platform = platform;
+
+  String? _token;
+  String? get token => _$this._token;
+  set token(String? token) => _$this._token = token;
+
+  GRegisterDeviceTokenInputBuilder();
+
+  GRegisterDeviceTokenInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _platform = $v.platform;
+      _token = $v.token;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GRegisterDeviceTokenInput other) {
+    _$v = other as _$GRegisterDeviceTokenInput;
+  }
+
+  @override
+  void update(void Function(GRegisterDeviceTokenInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GRegisterDeviceTokenInput build() => _build();
+
+  _$GRegisterDeviceTokenInput _build() {
+    final _$result =
+        _$v ??
+        _$GRegisterDeviceTokenInput._(
+          platform: BuiltValueNullFieldError.checkNotNull(
+            platform,
+            r'GRegisterDeviceTokenInput',
+            'platform',
+          ),
+          token: BuiltValueNullFieldError.checkNotNull(
+            token,
+            r'GRegisterDeviceTokenInput',
+            'token',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1865,26 +2360,20 @@ class _$GRegisterUserInput extends GRegisterUserInput {
   @override
   final String password;
 
-  factory _$GRegisterUserInput(
-          [void Function(GRegisterUserInputBuilder)? updates]) =>
-      (new GRegisterUserInputBuilder()..update(updates))._build();
+  factory _$GRegisterUserInput([
+    void Function(GRegisterUserInputBuilder)? updates,
+  ]) => (GRegisterUserInputBuilder()..update(updates))._build();
 
   _$GRegisterUserInput._({required this.email, required this.password})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        email, r'GRegisterUserInput', 'email');
-    BuiltValueNullFieldError.checkNotNull(
-        password, r'GRegisterUserInput', 'password');
-  }
-
+    : super._();
   @override
   GRegisterUserInput rebuild(
-          void Function(GRegisterUserInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GRegisterUserInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserInputBuilder toBuilder() =>
-      new GRegisterUserInputBuilder()..replace(this);
+      GRegisterUserInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1938,7 +2427,6 @@ class GRegisterUserInputBuilder
 
   @override
   void replace(GRegisterUserInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserInput;
   }
 
@@ -1951,12 +2439,20 @@ class GRegisterUserInputBuilder
   GRegisterUserInput build() => _build();
 
   _$GRegisterUserInput _build() {
-    final _$result = _$v ??
-        new _$GRegisterUserInput._(
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GRegisterUserInput', 'email'),
-            password: BuiltValueNullFieldError.checkNotNull(
-                password, r'GRegisterUserInput', 'password'));
+    final _$result =
+        _$v ??
+        _$GRegisterUserInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+            email,
+            r'GRegisterUserInput',
+            'email',
+          ),
+          password: BuiltValueNullFieldError.checkNotNull(
+            password,
+            r'GRegisterUserInput',
+            'password',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -1966,23 +2462,19 @@ class _$GSendPasswordResetEmailInput extends GSendPasswordResetEmailInput {
   @override
   final String email;
 
-  factory _$GSendPasswordResetEmailInput(
-          [void Function(GSendPasswordResetEmailInputBuilder)? updates]) =>
-      (new GSendPasswordResetEmailInputBuilder()..update(updates))._build();
+  factory _$GSendPasswordResetEmailInput([
+    void Function(GSendPasswordResetEmailInputBuilder)? updates,
+  ]) => (GSendPasswordResetEmailInputBuilder()..update(updates))._build();
 
-  _$GSendPasswordResetEmailInput._({required this.email}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        email, r'GSendPasswordResetEmailInput', 'email');
-  }
-
+  _$GSendPasswordResetEmailInput._({required this.email}) : super._();
   @override
   GSendPasswordResetEmailInput rebuild(
-          void Function(GSendPasswordResetEmailInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GSendPasswordResetEmailInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GSendPasswordResetEmailInputBuilder toBuilder() =>
-      new GSendPasswordResetEmailInputBuilder()..replace(this);
+      GSendPasswordResetEmailInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2000,16 +2492,18 @@ class _$GSendPasswordResetEmailInput extends GSendPasswordResetEmailInput {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GSendPasswordResetEmailInput')
-          ..add('email', email))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GSendPasswordResetEmailInput',
+    )..add('email', email)).toString();
   }
 }
 
 class GSendPasswordResetEmailInputBuilder
     implements
-        Builder<GSendPasswordResetEmailInput,
-            GSendPasswordResetEmailInputBuilder> {
+        Builder<
+          GSendPasswordResetEmailInput,
+          GSendPasswordResetEmailInputBuilder
+        > {
   _$GSendPasswordResetEmailInput? _$v;
 
   String? _email;
@@ -2029,7 +2523,6 @@ class GSendPasswordResetEmailInputBuilder
 
   @override
   void replace(GSendPasswordResetEmailInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailInput;
   }
 
@@ -2042,10 +2535,106 @@ class GSendPasswordResetEmailInputBuilder
   GSendPasswordResetEmailInput build() => _build();
 
   _$GSendPasswordResetEmailInput _build() {
-    final _$result = _$v ??
-        new _$GSendPasswordResetEmailInput._(
-            email: BuiltValueNullFieldError.checkNotNull(
-                email, r'GSendPasswordResetEmailInput', 'email'));
+    final _$result =
+        _$v ??
+        _$GSendPasswordResetEmailInput._(
+          email: BuiltValueNullFieldError.checkNotNull(
+            email,
+            r'GSendPasswordResetEmailInput',
+            'email',
+          ),
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GUnregisterDeviceTokenInput extends GUnregisterDeviceTokenInput {
+  @override
+  final String token;
+
+  factory _$GUnregisterDeviceTokenInput([
+    void Function(GUnregisterDeviceTokenInputBuilder)? updates,
+  ]) => (GUnregisterDeviceTokenInputBuilder()..update(updates))._build();
+
+  _$GUnregisterDeviceTokenInput._({required this.token}) : super._();
+  @override
+  GUnregisterDeviceTokenInput rebuild(
+    void Function(GUnregisterDeviceTokenInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
+
+  @override
+  GUnregisterDeviceTokenInputBuilder toBuilder() =>
+      GUnregisterDeviceTokenInputBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GUnregisterDeviceTokenInput && token == other.token;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, token.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(
+      r'GUnregisterDeviceTokenInput',
+    )..add('token', token)).toString();
+  }
+}
+
+class GUnregisterDeviceTokenInputBuilder
+    implements
+        Builder<
+          GUnregisterDeviceTokenInput,
+          GUnregisterDeviceTokenInputBuilder
+        > {
+  _$GUnregisterDeviceTokenInput? _$v;
+
+  String? _token;
+  String? get token => _$this._token;
+  set token(String? token) => _$this._token = token;
+
+  GUnregisterDeviceTokenInputBuilder();
+
+  GUnregisterDeviceTokenInputBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _token = $v.token;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GUnregisterDeviceTokenInput other) {
+    _$v = other as _$GUnregisterDeviceTokenInput;
+  }
+
+  @override
+  void update(void Function(GUnregisterDeviceTokenInputBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GUnregisterDeviceTokenInput build() => _build();
+
+  _$GUnregisterDeviceTokenInput _build() {
+    final _$result =
+        _$v ??
+        _$GUnregisterDeviceTokenInput._(
+          token: BuiltValueNullFieldError.checkNotNull(
+            token,
+            r'GUnregisterDeviceTokenInput',
+            'token',
+          ),
+        );
     replace(_$result);
     return _$result;
   }
@@ -2059,24 +2648,20 @@ class _$GUpdateBookListInput extends GUpdateBookListInput {
   @override
   final String? title;
 
-  factory _$GUpdateBookListInput(
-          [void Function(GUpdateBookListInputBuilder)? updates]) =>
-      (new GUpdateBookListInputBuilder()..update(updates))._build();
+  factory _$GUpdateBookListInput([
+    void Function(GUpdateBookListInputBuilder)? updates,
+  ]) => (GUpdateBookListInputBuilder()..update(updates))._build();
 
   _$GUpdateBookListInput._({this.description, required this.listId, this.title})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        listId, r'GUpdateBookListInput', 'listId');
-  }
-
+    : super._();
   @override
   GUpdateBookListInput rebuild(
-          void Function(GUpdateBookListInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateBookListInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateBookListInputBuilder toBuilder() =>
-      new GUpdateBookListInputBuilder()..replace(this);
+      GUpdateBookListInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2138,7 +2723,6 @@ class GUpdateBookListInputBuilder
 
   @override
   void replace(GUpdateBookListInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookListInput;
   }
 
@@ -2151,12 +2735,17 @@ class GUpdateBookListInputBuilder
   GUpdateBookListInput build() => _build();
 
   _$GUpdateBookListInput _build() {
-    final _$result = _$v ??
-        new _$GUpdateBookListInput._(
-            description: description,
-            listId: BuiltValueNullFieldError.checkNotNull(
-                listId, r'GUpdateBookListInput', 'listId'),
-            title: title);
+    final _$result =
+        _$v ??
+        _$GUpdateBookListInput._(
+          description: description,
+          listId: BuiltValueNullFieldError.checkNotNull(
+            listId,
+            r'GUpdateBookListInput',
+            'listId',
+          ),
+          title: title,
+        );
     replace(_$result);
     return _$result;
   }
@@ -2168,22 +2757,19 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
   final String name;
 
-  factory _$GUpdateProfileInput(
-          [void Function(GUpdateProfileInputBuilder)? updates]) =>
-      (new GUpdateProfileInputBuilder()..update(updates))._build();
+  factory _$GUpdateProfileInput([
+    void Function(GUpdateProfileInputBuilder)? updates,
+  ]) => (GUpdateProfileInputBuilder()..update(updates))._build();
 
-  _$GUpdateProfileInput._({this.avatarUrl, required this.name}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, r'GUpdateProfileInput', 'name');
-  }
-
+  _$GUpdateProfileInput._({this.avatarUrl, required this.name}) : super._();
   @override
   GUpdateProfileInput rebuild(
-          void Function(GUpdateProfileInputBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateProfileInputBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateProfileInputBuilder toBuilder() =>
-      new GUpdateProfileInputBuilder()..replace(this);
+      GUpdateProfileInputBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -2237,7 +2823,6 @@ class GUpdateProfileInputBuilder
 
   @override
   void replace(GUpdateProfileInput other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateProfileInput;
   }
 
@@ -2250,11 +2835,16 @@ class GUpdateProfileInputBuilder
   GUpdateProfileInput build() => _build();
 
   _$GUpdateProfileInput _build() {
-    final _$result = _$v ??
-        new _$GUpdateProfileInput._(
-            avatarUrl: avatarUrl,
-            name: BuiltValueNullFieldError.checkNotNull(
-                name, r'GUpdateProfileInput', 'name'));
+    final _$result =
+        _$v ??
+        _$GUpdateProfileInput._(
+          avatarUrl: avatarUrl,
+          name: BuiltValueNullFieldError.checkNotNull(
+            name,
+            r'GUpdateProfileInput',
+            'name',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

@@ -7,7 +7,7 @@ part of 'register_user.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRegisterUserVars> _$gRegisterUserVarsSerializer =
-    new _$GRegisterUserVarsSerializer();
+    _$GRegisterUserVarsSerializer();
 
 class _$GRegisterUserVarsSerializer
     implements StructuredSerializer<GRegisterUserVars> {
@@ -17,12 +17,17 @@ class _$GRegisterUserVarsSerializer
   final String wireName = 'GRegisterUserVars';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GRegisterUserVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GRegisterUserVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'input',
-      serializers.serialize(object.input,
-          specifiedType: const FullType(_i1.GRegisterUserInput)),
+      serializers.serialize(
+        object.input,
+        specifiedType: const FullType(_i1.GRegisterUserInput),
+      ),
     ];
 
     return result;
@@ -30,9 +35,11 @@ class _$GRegisterUserVarsSerializer
 
   @override
   GRegisterUserVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRegisterUserVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRegisterUserVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -41,9 +48,13 @@ class _$GRegisterUserVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GRegisterUserInput))!
-              as _i1.GRegisterUserInput);
+          result.input.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i1.GRegisterUserInput),
+                )!
+                as _i1.GRegisterUserInput,
+          );
           break;
       }
     }
@@ -56,21 +67,18 @@ class _$GRegisterUserVars extends GRegisterUserVars {
   @override
   final _i1.GRegisterUserInput input;
 
-  factory _$GRegisterUserVars(
-          [void Function(GRegisterUserVarsBuilder)? updates]) =>
-      (new GRegisterUserVarsBuilder()..update(updates))._build();
+  factory _$GRegisterUserVars([
+    void Function(GRegisterUserVarsBuilder)? updates,
+  ]) => (GRegisterUserVarsBuilder()..update(updates))._build();
 
-  _$GRegisterUserVars._({required this.input}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(input, r'GRegisterUserVars', 'input');
-  }
-
+  _$GRegisterUserVars._({required this.input}) : super._();
   @override
   GRegisterUserVars rebuild(void Function(GRegisterUserVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserVarsBuilder toBuilder() =>
-      new GRegisterUserVarsBuilder()..replace(this);
+      GRegisterUserVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -88,9 +96,9 @@ class _$GRegisterUserVars extends GRegisterUserVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GRegisterUserVars')
-          ..add('input', input))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GRegisterUserVars',
+    )..add('input', input)).toString();
   }
 }
 
@@ -100,7 +108,7 @@ class GRegisterUserVarsBuilder
 
   _i1.GRegisterUserInputBuilder? _input;
   _i1.GRegisterUserInputBuilder get input =>
-      _$this._input ??= new _i1.GRegisterUserInputBuilder();
+      _$this._input ??= _i1.GRegisterUserInputBuilder();
   set input(_i1.GRegisterUserInputBuilder? input) => _$this._input = input;
 
   GRegisterUserVarsBuilder();
@@ -116,7 +124,6 @@ class GRegisterUserVarsBuilder
 
   @override
   void replace(GRegisterUserVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRegisterUserVars;
   }
 
@@ -131,15 +138,18 @@ class GRegisterUserVarsBuilder
   _$GRegisterUserVars _build() {
     _$GRegisterUserVars _$result;
     try {
-      _$result = _$v ?? new _$GRegisterUserVars._(input: input.build());
+      _$result = _$v ?? _$GRegisterUserVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GRegisterUserVars', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GRegisterUserVars',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

@@ -7,7 +7,7 @@ part of 'update_book_list.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateBookListReq> _$gUpdateBookListReqSerializer =
-    new _$GUpdateBookListReqSerializer();
+    _$GUpdateBookListReqSerializer();
 
 class _$GUpdateBookListReqSerializer
     implements StructuredSerializer<GUpdateBookListReq> {
@@ -18,64 +18,90 @@ class _$GUpdateBookListReqSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateBookListReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateBookListReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GUpdateBookListVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GUpdateBookListVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GUpdateBookListData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GUpdateBookListData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GUpdateBookListReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateBookListReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateBookListReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -84,42 +110,73 @@ class _$GUpdateBookListReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GUpdateBookListVars))!
-              as _i3.GUpdateBookListVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GUpdateBookListVars),
+                )!
+                as _i3.GUpdateBookListVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GUpdateBookListData))!
-              as _i2.GUpdateBookListData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GUpdateBookListData),
+                )!
+                as _i2.GUpdateBookListData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -137,7 +194,10 @@ class _$GUpdateBookListReq extends GUpdateBookListReq {
   final String? requestId;
   @override
   final _i2.GUpdateBookListData? Function(
-      _i2.GUpdateBookListData?, _i2.GUpdateBookListData?)? updateResult;
+    _i2.GUpdateBookListData?,
+    _i2.GUpdateBookListData?,
+  )?
+  updateResult;
   @override
   final _i2.GUpdateBookListData? optimisticResponse;
   @override
@@ -151,37 +211,30 @@ class _$GUpdateBookListReq extends GUpdateBookListReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateBookListReq(
-          [void Function(GUpdateBookListReqBuilder)? updates]) =>
-      (new GUpdateBookListReqBuilder()..update(updates))._build();
+  factory _$GUpdateBookListReq([
+    void Function(GUpdateBookListReqBuilder)? updates,
+  ]) => (GUpdateBookListReqBuilder()..update(updates))._build();
 
-  _$GUpdateBookListReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GUpdateBookListReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GUpdateBookListReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GUpdateBookListReq', 'executeOnListen');
-  }
-
+  _$GUpdateBookListReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GUpdateBookListReq rebuild(
-          void Function(GUpdateBookListReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateBookListReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateBookListReqBuilder toBuilder() =>
-      new GUpdateBookListReqBuilder()..replace(this);
+      GUpdateBookListReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -240,7 +293,7 @@ class GUpdateBookListReqBuilder
 
   _i3.GUpdateBookListVarsBuilder? _vars;
   _i3.GUpdateBookListVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GUpdateBookListVarsBuilder();
+      _$this._vars ??= _i3.GUpdateBookListVarsBuilder();
   set vars(_i3.GUpdateBookListVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -252,19 +305,26 @@ class GUpdateBookListReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateBookListData? Function(
-      _i2.GUpdateBookListData?, _i2.GUpdateBookListData?)? _updateResult;
+    _i2.GUpdateBookListData?,
+    _i2.GUpdateBookListData?,
+  )?
+  _updateResult;
   _i2.GUpdateBookListData? Function(
-          _i2.GUpdateBookListData?, _i2.GUpdateBookListData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GUpdateBookListData?,
+    _i2.GUpdateBookListData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GUpdateBookListData? Function(
-                  _i2.GUpdateBookListData?, _i2.GUpdateBookListData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GUpdateBookListData? Function(
+      _i2.GUpdateBookListData?,
+      _i2.GUpdateBookListData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GUpdateBookListDataBuilder? _optimisticResponse;
   _i2.GUpdateBookListDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GUpdateBookListDataBuilder();
+      _$this._optimisticResponse ??= _i2.GUpdateBookListDataBuilder();
   set optimisticResponse(_i2.GUpdateBookListDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -277,8 +337,8 @@ class GUpdateBookListReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -318,7 +378,6 @@ class GUpdateBookListReqBuilder
 
   @override
   void replace(GUpdateBookListReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookListReq;
   }
 
@@ -333,20 +392,28 @@ class GUpdateBookListReqBuilder
   _$GUpdateBookListReq _build() {
     _$GUpdateBookListReq _$result;
     try {
-      _$result = _$v ??
-          new _$GUpdateBookListReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GUpdateBookListReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GUpdateBookListReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GUpdateBookListReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GUpdateBookListReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GUpdateBookListReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -356,8 +423,11 @@ class GUpdateBookListReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateBookListReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateBookListReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

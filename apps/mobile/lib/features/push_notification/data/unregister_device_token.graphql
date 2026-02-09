@@ -1,0 +1,3 @@
+mutation UnregisterDeviceToken($input: UnregisterDeviceTokenInput!) {
+  unregisterDeviceToken(input: $input)
+}

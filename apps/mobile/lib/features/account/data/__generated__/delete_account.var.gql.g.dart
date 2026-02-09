@@ -7,7 +7,7 @@ part of 'delete_account.var.gql.dart';
 // **************************************************************************
 
 Serializer<GDeleteAccountVars> _$gDeleteAccountVarsSerializer =
-    new _$GDeleteAccountVarsSerializer();
+    _$GDeleteAccountVarsSerializer();
 
 class _$GDeleteAccountVarsSerializer
     implements StructuredSerializer<GDeleteAccountVars> {
@@ -18,34 +18,37 @@ class _$GDeleteAccountVarsSerializer
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GDeleteAccountVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GDeleteAccountVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return <Object?>[];
   }
 
   @override
   GDeleteAccountVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    return new GDeleteAccountVarsBuilder().build();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return GDeleteAccountVarsBuilder().build();
   }
 }
 
 class _$GDeleteAccountVars extends GDeleteAccountVars {
-  factory _$GDeleteAccountVars(
-          [void Function(GDeleteAccountVarsBuilder)? updates]) =>
-      (new GDeleteAccountVarsBuilder()..update(updates))._build();
+  factory _$GDeleteAccountVars([
+    void Function(GDeleteAccountVarsBuilder)? updates,
+  ]) => (GDeleteAccountVarsBuilder()..update(updates))._build();
 
   _$GDeleteAccountVars._() : super._();
-
   @override
   GDeleteAccountVars rebuild(
-          void Function(GDeleteAccountVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GDeleteAccountVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GDeleteAccountVarsBuilder toBuilder() =>
-      new GDeleteAccountVarsBuilder()..replace(this);
+      GDeleteAccountVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -72,7 +75,6 @@ class GDeleteAccountVarsBuilder
 
   @override
   void replace(GDeleteAccountVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GDeleteAccountVars;
   }
 
@@ -85,7 +87,7 @@ class GDeleteAccountVarsBuilder
   GDeleteAccountVars build() => _build();
 
   _$GDeleteAccountVars _build() {
-    final _$result = _$v ?? new _$GDeleteAccountVars._();
+    final _$result = _$v ?? _$GDeleteAccountVars._();
     replace(_$result);
     return _$result;
   }

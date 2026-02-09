@@ -34,9 +34,7 @@ abstract class _$StatusSectionNotifier
     extends BuildlessAutoDisposeNotifier<StatusSectionState> {
   late final ReadingStatus status;
 
-  StatusSectionState build(
-    ReadingStatus status,
-  );
+  StatusSectionState build(ReadingStatus status);
 }
 
 /// See also [StatusSectionNotifier].
@@ -49,21 +47,15 @@ class StatusSectionNotifierFamily extends Family<StatusSectionState> {
   const StatusSectionNotifierFamily();
 
   /// See also [StatusSectionNotifier].
-  StatusSectionNotifierProvider call(
-    ReadingStatus status,
-  ) {
-    return StatusSectionNotifierProvider(
-      status,
-    );
+  StatusSectionNotifierProvider call(ReadingStatus status) {
+    return StatusSectionNotifierProvider(status);
   }
 
   @override
   StatusSectionNotifierProvider getProviderOverride(
     covariant StatusSectionNotifierProvider provider,
   ) {
-    return call(
-      provider.status,
-    );
+    return call(provider.status);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -82,24 +74,26 @@ class StatusSectionNotifierFamily extends Family<StatusSectionState> {
 }
 
 /// See also [StatusSectionNotifier].
-class StatusSectionNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    StatusSectionNotifier, StatusSectionState> {
+class StatusSectionNotifierProvider
+    extends
+        AutoDisposeNotifierProviderImpl<
+          StatusSectionNotifier,
+          StatusSectionState
+        > {
   /// See also [StatusSectionNotifier].
-  StatusSectionNotifierProvider(
-    ReadingStatus status,
-  ) : this._internal(
-          () => StatusSectionNotifier()..status = status,
-          from: statusSectionNotifierProvider,
-          name: r'statusSectionNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$statusSectionNotifierHash,
-          dependencies: StatusSectionNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              StatusSectionNotifierFamily._allTransitiveDependencies,
-          status: status,
-        );
+  StatusSectionNotifierProvider(ReadingStatus status)
+    : this._internal(
+        () => StatusSectionNotifier()..status = status,
+        from: statusSectionNotifierProvider,
+        name: r'statusSectionNotifierProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$statusSectionNotifierHash,
+        dependencies: StatusSectionNotifierFamily._dependencies,
+        allTransitiveDependencies:
+            StatusSectionNotifierFamily._allTransitiveDependencies,
+        status: status,
+      );
 
   StatusSectionNotifierProvider._internal(
     super._createNotifier, {
@@ -117,9 +111,7 @@ class StatusSectionNotifierProvider extends AutoDisposeNotifierProviderImpl<
   StatusSectionState runNotifierBuild(
     covariant StatusSectionNotifier notifier,
   ) {
-    return notifier.build(
-      status,
-    );
+    return notifier.build(status);
   }
 
   @override
@@ -140,7 +132,7 @@ class StatusSectionNotifierProvider extends AutoDisposeNotifierProviderImpl<
 
   @override
   AutoDisposeNotifierProviderElement<StatusSectionNotifier, StatusSectionState>
-      createElement() {
+  createElement() {
     return _StatusSectionNotifierProviderElement(this);
   }
 
@@ -158,6 +150,8 @@ class StatusSectionNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin StatusSectionNotifierRef
     on AutoDisposeNotifierProviderRef<StatusSectionState> {
   /// The parameter `status` of this provider.
@@ -165,12 +159,17 @@ mixin StatusSectionNotifierRef
 }
 
 class _StatusSectionNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<StatusSectionNotifier,
-        StatusSectionState> with StatusSectionNotifierRef {
+    extends
+        AutoDisposeNotifierProviderElement<
+          StatusSectionNotifier,
+          StatusSectionState
+        >
+    with StatusSectionNotifierRef {
   _StatusSectionNotifierProviderElement(super.provider);
 
   @override
   ReadingStatus get status => (origin as StatusSectionNotifierProvider).status;
 }
+
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
