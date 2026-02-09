@@ -52,19 +52,19 @@ void main() {
             home: Scaffold(
               body: LibraryBooksTab(
                 books: [],
-
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
+                onAddBookPressed: () {},
               ),
             ),
           ),
         ),
       );
 
-      expect(find.text('「さがす」タブから本を追加してみましょう'), findsOneWidget);
+      expect(find.text('本を追加してみましょう'), findsOneWidget);
     });
 
     testWidgets('displays books in grid', (tester) async {
@@ -80,12 +80,12 @@ void main() {
             home: Scaffold(
               body: LibraryBooksTab(
                 books: books,
-
                 hasMore: false,
                 isLoadingMore: false,
                 onBookTap: (_) {},
                 onBookLongPress: (_) {},
                 onLoadMore: () {},
+                onAddBookPressed: () {},
               ),
             ),
           ),
@@ -114,6 +114,7 @@ void main() {
               hasBooks: true,
               onListTap: (_) {},
               onCreateTap: () {},
+              onAddBookPressed: () {},
             ),
           ),
         ),
@@ -134,6 +135,7 @@ void main() {
               hasBooks: true,
               onListTap: (_) {},
               onCreateTap: () {},
+              onAddBookPressed: () {},
             ),
           ),
         ),
@@ -156,6 +158,7 @@ void main() {
               hasBooks: true,
               onListTap: (_) {},
               onCreateTap: () => tapped = true,
+              onAddBookPressed: () {},
             ),
           ),
         ),
@@ -181,6 +184,7 @@ void main() {
               hasBooks: true,
               onListTap: (_) {},
               onCreateTap: () {},
+              onAddBookPressed: () {},
             ),
           ),
         ),

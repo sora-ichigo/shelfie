@@ -87,6 +87,7 @@ Widget _buildTestWidget({
     child: StatusSectionList(
       onBookTap: onBookTap ?? (_) {},
       onBookLongPress: onBookLongPress ?? (_) {},
+      onAddBookPressed: () {},
     ),
   );
 }

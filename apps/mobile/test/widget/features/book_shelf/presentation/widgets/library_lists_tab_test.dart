@@ -23,6 +23,7 @@ void main() {
           hasBooks: hasBooks,
           onListTap: onListTap ?? (_) {},
           onCreateTap: onCreateTap ?? () {},
+          onAddBookPressed: () {},
         ),
       ),
     );
@@ -52,7 +53,7 @@ void main() {
           ),
         );
 
-        expect(find.text('「さがす」タブから本を追加してみましょう'), findsOneWidget);
+        expect(find.text('本を追加してみましょう'), findsOneWidget);
         expect(find.byIcon(Icons.auto_stories_outlined), findsOneWidget);
       });
     });

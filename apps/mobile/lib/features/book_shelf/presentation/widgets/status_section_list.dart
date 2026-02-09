@@ -16,11 +16,13 @@ class StatusSectionList extends ConsumerWidget {
   const StatusSectionList({
     required this.onBookTap,
     required this.onBookLongPress,
+    required this.onAddBookPressed,
     super.key,
   });
 
   final void Function(ShelfBookItem) onBookTap;
   final void Function(ShelfBookItem) onBookLongPress;
+  final VoidCallback onAddBookPressed;
 
   /// セクションの表示順（固定）
   static const _sectionOrder = [
@@ -51,7 +53,7 @@ class StatusSectionList extends ConsumerWidget {
         (s) => s is StatusSectionLoaded || s is StatusSectionError,
       );
       if (allResolved) {
-        return const NoBooksMessage();
+        return NoBooksMessage(onAddBookPressed: onAddBookPressed);
       }
       return const Center(child: LoadingIndicator());
     }

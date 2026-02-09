@@ -4,11 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_search/presentation/search_screen.dart'
+    show searchAutoFocusProvider;
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -154,7 +158,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
         ];
       },
       body: isGuest
-          ? const NoBooksMessage()
+          ? NoBooksMessage(onAddBookPressed: _onAddBookPressed)
           : _buildContent(bookListState!),
     );
   }
@@ -196,6 +200,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
           child: StatusSectionList(
             onBookTap: _onBookTap,
             onBookLongPress: _onBookLongPress,
+            onAddBookPressed: _onAddBookPressed,
           ),
         ),
         _KeepAlive(
@@ -207,6 +212,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
             onCreateTap: () {
               context.push(AppRoutes.bookListCreate);
             },
+            onAddBookPressed: _onAddBookPressed,
           ),
         ),
       ],
@@ -232,6 +238,27 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
 
   void _onListTap(BookListSummary list) {
     context.push(AppRoutes.bookListDetail(listId: list.id));
+  }
+
+  Future<void> _onAddBookPressed() async {
+    final option = await showAddBookBottomSheet(context: context);
+    if (!mounted) return;
+    switch (option) {
+      case AddBookOption.search:
+        context.go(AppRoutes.searchTab);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ref.read(searchAutoFocusProvider.notifier).state = true;
+          }
+        });
+      case AddBookOption.camera:
+        final isbn = await context.push<String>(AppRoutes.isbnScan);
+        if (isbn != null && mounted) {
+          await ISBNScanResultDialog.show(context, isbn);
+        }
+      case null:
+        break;
+    }
   }
 }
 

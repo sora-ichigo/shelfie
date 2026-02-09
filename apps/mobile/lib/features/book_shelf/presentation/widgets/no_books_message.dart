@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
 class NoBooksMessage extends StatelessWidget {
-  const NoBooksMessage({super.key});
+  const NoBooksMessage({required this.onAddBookPressed, super.key});
+
+  final VoidCallback onAddBookPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,37 @@ class NoBooksMessage extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              '「さがす」タブから本を追加してみましょう',
-              style: theme.textTheme.bodyMedium?.copyWith(
+              '本を追加してみましょう',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: appColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              '好きな本を検索して、\n本棚に追加しましょう',
+              style: theme.textTheme.bodySmall?.copyWith(
                 color: appColors.textSecondary,
               ),
               textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            FilledButton(
+              onPressed: onAddBookPressed,
+              style: FilledButton.styleFrom(
+                backgroundColor: appColors.textPrimary,
+                foregroundColor: appColors.background,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppRadius.full),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.xl,
+                  vertical: AppSpacing.sm,
+                ),
+              ),
+              child: const Text('本を追加する'),
             ),
           ],
         ),
