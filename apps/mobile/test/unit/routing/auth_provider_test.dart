@@ -68,17 +68,17 @@ void main() {
     });
 
     group('logout', () {
-      test('ログアウト後は未認証状態になること', () {
+      test('ログアウト後は未認証状態になること', () async {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
               refreshToken: 'test-refresh-token',
             );
-        container.read(authStateProvider.notifier).logout();
+        await container.read(authStateProvider.notifier).logout();
 
         final authState = container.read(authStateProvider);
 
@@ -87,13 +87,13 @@ void main() {
         expect(authState.token, isNull);
       });
 
-      test('未認証状態でログアウトしてもエラーにならないこと', () {
+      test('未認証状態でログアウトしてもエラーにならないこと', () async {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
-        expect(
-          () => container.read(authStateProvider.notifier).logout(),
-          returnsNormally,
+        await expectLater(
+          container.read(authStateProvider.notifier).logout(),
+          completes,
         );
       });
     });
@@ -125,7 +125,7 @@ void main() {
     });
 
     group('AuthChangeNotifier', () {
-      test('認証状態変更時に通知が発行されること', () {
+      test('認証状態変更時に通知が発行されること', () async {
         final container = createTestContainer();
         addTearDown(container.dispose);
 
@@ -138,7 +138,7 @@ void main() {
           },
         );
 
-        container.read(authStateProvider.notifier).login(
+        await container.read(authStateProvider.notifier).login(
               userId: 'test-user',
               email: 'test@example.com',
               token: 'test-token',
@@ -147,7 +147,7 @@ void main() {
 
         expect(notificationCount, equals(1));
 
-        container.read(authStateProvider.notifier).logout();
+        await container.read(authStateProvider.notifier).logout();
 
         expect(notificationCount, equals(2));
       });

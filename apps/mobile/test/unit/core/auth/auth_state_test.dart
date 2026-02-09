@@ -118,17 +118,17 @@ void main() {
       expect(state.token, equals('test-token'));
     });
 
-    test('logout で未認証状態に戻る', () {
+    test('logout で未認証状態に戻る', () async {
       final container = createTestContainer();
       addTearDown(container.dispose);
 
-      container.read(authStateProvider.notifier).login(
+      await container.read(authStateProvider.notifier).login(
             userId: 'user-123',
             email: 'test@example.com',
             token: 'test-token',
             refreshToken: 'test-refresh-token',
           );
-      container.read(authStateProvider.notifier).logout();
+      await container.read(authStateProvider.notifier).logout();
 
       final state = container.read(authStateProvider);
       expect(state.isAuthenticated, isFalse);
@@ -137,7 +137,7 @@ void main() {
       expect(state.token, isNull);
     });
 
-    test('状態変更時にリスナーが通知される', () {
+    test('状態変更時にリスナーが通知される', () async {
       final container = createTestContainer();
       addTearDown(container.dispose);
 
@@ -146,7 +146,7 @@ void main() {
         notificationCount++;
       });
 
-      container.read(authStateProvider.notifier).login(
+      await container.read(authStateProvider.notifier).login(
             userId: 'user-123',
             email: 'test@example.com',
             token: 'test-token',
@@ -155,7 +155,7 @@ void main() {
 
       expect(notificationCount, equals(1));
 
-      container.read(authStateProvider.notifier).logout();
+      await container.read(authStateProvider.notifier).logout();
 
       expect(notificationCount, equals(2));
     });

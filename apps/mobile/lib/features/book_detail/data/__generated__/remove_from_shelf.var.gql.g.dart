@@ -7,26 +7,30 @@ part of 'remove_from_shelf.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveFromShelfVars> _$gRemoveFromShelfVarsSerializer =
-    new _$GRemoveFromShelfVarsSerializer();
+    _$GRemoveFromShelfVarsSerializer();
 
 class _$GRemoveFromShelfVarsSerializer
     implements StructuredSerializer<GRemoveFromShelfVars> {
   @override
   final Iterable<Type> types = const [
     GRemoveFromShelfVars,
-    _$GRemoveFromShelfVars
+    _$GRemoveFromShelfVars,
   ];
   @override
   final String wireName = 'GRemoveFromShelfVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GRemoveFromShelfVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GRemoveFromShelfVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'userBookId',
-      serializers.serialize(object.userBookId,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.userBookId,
+        specifiedType: const FullType(int),
+      ),
     ];
 
     return result;
@@ -34,9 +38,11 @@ class _$GRemoveFromShelfVarsSerializer
 
   @override
   GRemoveFromShelfVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRemoveFromShelfVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRemoveFromShelfVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -45,8 +51,12 @@ class _$GRemoveFromShelfVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'userBookId':
-          result.userBookId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.userBookId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -59,23 +69,19 @@ class _$GRemoveFromShelfVars extends GRemoveFromShelfVars {
   @override
   final int userBookId;
 
-  factory _$GRemoveFromShelfVars(
-          [void Function(GRemoveFromShelfVarsBuilder)? updates]) =>
-      (new GRemoveFromShelfVarsBuilder()..update(updates))._build();
+  factory _$GRemoveFromShelfVars([
+    void Function(GRemoveFromShelfVarsBuilder)? updates,
+  ]) => (GRemoveFromShelfVarsBuilder()..update(updates))._build();
 
-  _$GRemoveFromShelfVars._({required this.userBookId}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        userBookId, r'GRemoveFromShelfVars', 'userBookId');
-  }
-
+  _$GRemoveFromShelfVars._({required this.userBookId}) : super._();
   @override
   GRemoveFromShelfVars rebuild(
-          void Function(GRemoveFromShelfVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GRemoveFromShelfVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GRemoveFromShelfVarsBuilder toBuilder() =>
-      new GRemoveFromShelfVarsBuilder()..replace(this);
+      GRemoveFromShelfVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -93,9 +99,9 @@ class _$GRemoveFromShelfVars extends GRemoveFromShelfVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GRemoveFromShelfVars')
-          ..add('userBookId', userBookId))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GRemoveFromShelfVars',
+    )..add('userBookId', userBookId)).toString();
   }
 }
 
@@ -120,7 +126,6 @@ class GRemoveFromShelfVarsBuilder
 
   @override
   void replace(GRemoveFromShelfVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveFromShelfVars;
   }
 
@@ -133,10 +138,15 @@ class GRemoveFromShelfVarsBuilder
   GRemoveFromShelfVars build() => _build();
 
   _$GRemoveFromShelfVars _build() {
-    final _$result = _$v ??
-        new _$GRemoveFromShelfVars._(
-            userBookId: BuiltValueNullFieldError.checkNotNull(
-                userBookId, r'GRemoveFromShelfVars', 'userBookId'));
+    final _$result =
+        _$v ??
+        _$GRemoveFromShelfVars._(
+          userBookId: BuiltValueNullFieldError.checkNotNull(
+            userBookId,
+            r'GRemoveFromShelfVars',
+            'userBookId',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

@@ -7,26 +7,30 @@ part of 'update_book_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateBookListVars> _$gUpdateBookListVarsSerializer =
-    new _$GUpdateBookListVarsSerializer();
+    _$GUpdateBookListVarsSerializer();
 
 class _$GUpdateBookListVarsSerializer
     implements StructuredSerializer<GUpdateBookListVars> {
   @override
   final Iterable<Type> types = const [
     GUpdateBookListVars,
-    _$GUpdateBookListVars
+    _$GUpdateBookListVars,
   ];
   @override
   final String wireName = 'GUpdateBookListVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateBookListVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateBookListVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'input',
-      serializers.serialize(object.input,
-          specifiedType: const FullType(_i1.GUpdateBookListInput)),
+      serializers.serialize(
+        object.input,
+        specifiedType: const FullType(_i1.GUpdateBookListInput),
+      ),
     ];
 
     return result;
@@ -34,9 +38,11 @@ class _$GUpdateBookListVarsSerializer
 
   @override
   GUpdateBookListVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateBookListVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateBookListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -45,9 +51,13 @@ class _$GUpdateBookListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GUpdateBookListInput))!
-              as _i1.GUpdateBookListInput);
+          result.input.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i1.GUpdateBookListInput),
+                )!
+                as _i1.GUpdateBookListInput,
+          );
           break;
       }
     }
@@ -60,23 +70,19 @@ class _$GUpdateBookListVars extends GUpdateBookListVars {
   @override
   final _i1.GUpdateBookListInput input;
 
-  factory _$GUpdateBookListVars(
-          [void Function(GUpdateBookListVarsBuilder)? updates]) =>
-      (new GUpdateBookListVarsBuilder()..update(updates))._build();
+  factory _$GUpdateBookListVars([
+    void Function(GUpdateBookListVarsBuilder)? updates,
+  ]) => (GUpdateBookListVarsBuilder()..update(updates))._build();
 
-  _$GUpdateBookListVars._({required this.input}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        input, r'GUpdateBookListVars', 'input');
-  }
-
+  _$GUpdateBookListVars._({required this.input}) : super._();
   @override
   GUpdateBookListVars rebuild(
-          void Function(GUpdateBookListVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateBookListVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateBookListVarsBuilder toBuilder() =>
-      new GUpdateBookListVarsBuilder()..replace(this);
+      GUpdateBookListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -94,9 +100,9 @@ class _$GUpdateBookListVars extends GUpdateBookListVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GUpdateBookListVars')
-          ..add('input', input))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GUpdateBookListVars',
+    )..add('input', input)).toString();
   }
 }
 
@@ -106,7 +112,7 @@ class GUpdateBookListVarsBuilder
 
   _i1.GUpdateBookListInputBuilder? _input;
   _i1.GUpdateBookListInputBuilder get input =>
-      _$this._input ??= new _i1.GUpdateBookListInputBuilder();
+      _$this._input ??= _i1.GUpdateBookListInputBuilder();
   set input(_i1.GUpdateBookListInputBuilder? input) => _$this._input = input;
 
   GUpdateBookListVarsBuilder();
@@ -122,7 +128,6 @@ class GUpdateBookListVarsBuilder
 
   @override
   void replace(GUpdateBookListVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateBookListVars;
   }
 
@@ -137,15 +142,18 @@ class GUpdateBookListVarsBuilder
   _$GUpdateBookListVars _build() {
     _$GUpdateBookListVars _$result;
     try {
-      _$result = _$v ?? new _$GUpdateBookListVars._(input: input.build());
+      _$result = _$v ?? _$GUpdateBookListVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateBookListVars', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateBookListVars',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

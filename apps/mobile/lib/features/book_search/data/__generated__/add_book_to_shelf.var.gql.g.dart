@@ -7,26 +7,30 @@ part of 'add_book_to_shelf.var.gql.dart';
 // **************************************************************************
 
 Serializer<GAddBookToShelfVars> _$gAddBookToShelfVarsSerializer =
-    new _$GAddBookToShelfVarsSerializer();
+    _$GAddBookToShelfVarsSerializer();
 
 class _$GAddBookToShelfVarsSerializer
     implements StructuredSerializer<GAddBookToShelfVars> {
   @override
   final Iterable<Type> types = const [
     GAddBookToShelfVars,
-    _$GAddBookToShelfVars
+    _$GAddBookToShelfVars,
   ];
   @override
   final String wireName = 'GAddBookToShelfVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GAddBookToShelfVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GAddBookToShelfVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'bookInput',
-      serializers.serialize(object.bookInput,
-          specifiedType: const FullType(_i1.GAddBookInput)),
+      serializers.serialize(
+        object.bookInput,
+        specifiedType: const FullType(_i1.GAddBookInput),
+      ),
     ];
 
     return result;
@@ -34,9 +38,11 @@ class _$GAddBookToShelfVarsSerializer
 
   @override
   GAddBookToShelfVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GAddBookToShelfVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GAddBookToShelfVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -45,9 +51,13 @@ class _$GAddBookToShelfVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'bookInput':
-          result.bookInput.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GAddBookInput))!
-              as _i1.GAddBookInput);
+          result.bookInput.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i1.GAddBookInput),
+                )!
+                as _i1.GAddBookInput,
+          );
           break;
       }
     }
@@ -60,23 +70,19 @@ class _$GAddBookToShelfVars extends GAddBookToShelfVars {
   @override
   final _i1.GAddBookInput bookInput;
 
-  factory _$GAddBookToShelfVars(
-          [void Function(GAddBookToShelfVarsBuilder)? updates]) =>
-      (new GAddBookToShelfVarsBuilder()..update(updates))._build();
+  factory _$GAddBookToShelfVars([
+    void Function(GAddBookToShelfVarsBuilder)? updates,
+  ]) => (GAddBookToShelfVarsBuilder()..update(updates))._build();
 
-  _$GAddBookToShelfVars._({required this.bookInput}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        bookInput, r'GAddBookToShelfVars', 'bookInput');
-  }
-
+  _$GAddBookToShelfVars._({required this.bookInput}) : super._();
   @override
   GAddBookToShelfVars rebuild(
-          void Function(GAddBookToShelfVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GAddBookToShelfVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToShelfVarsBuilder toBuilder() =>
-      new GAddBookToShelfVarsBuilder()..replace(this);
+      GAddBookToShelfVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -94,9 +100,9 @@ class _$GAddBookToShelfVars extends GAddBookToShelfVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GAddBookToShelfVars')
-          ..add('bookInput', bookInput))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GAddBookToShelfVars',
+    )..add('bookInput', bookInput)).toString();
   }
 }
 
@@ -106,7 +112,7 @@ class GAddBookToShelfVarsBuilder
 
   _i1.GAddBookInputBuilder? _bookInput;
   _i1.GAddBookInputBuilder get bookInput =>
-      _$this._bookInput ??= new _i1.GAddBookInputBuilder();
+      _$this._bookInput ??= _i1.GAddBookInputBuilder();
   set bookInput(_i1.GAddBookInputBuilder? bookInput) =>
       _$this._bookInput = bookInput;
 
@@ -123,7 +129,6 @@ class GAddBookToShelfVarsBuilder
 
   @override
   void replace(GAddBookToShelfVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GAddBookToShelfVars;
   }
 
@@ -138,16 +143,18 @@ class GAddBookToShelfVarsBuilder
   _$GAddBookToShelfVars _build() {
     _$GAddBookToShelfVars _$result;
     try {
-      _$result =
-          _$v ?? new _$GAddBookToShelfVars._(bookInput: bookInput.build());
+      _$result = _$v ?? _$GAddBookToShelfVars._(bookInput: bookInput.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'bookInput';
         bookInput.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GAddBookToShelfVars', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GAddBookToShelfVars',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

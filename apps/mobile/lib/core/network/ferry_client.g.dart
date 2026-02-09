@@ -21,12 +21,15 @@ String _$apiEndpointHash() => r'74756f2506ab79a6653a5f793c84821890a25561';
 final apiEndpointProvider = Provider<String>.internal(
   apiEndpoint,
   name: r'apiEndpointProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$apiEndpointHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$apiEndpointHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ApiEndpointRef = ProviderRef<String>;
 String _$authTokenHash() => r'1deb832b3c938ce4bb7b7db726435c3f9c29c9a3';
 
@@ -40,12 +43,15 @@ String _$authTokenHash() => r'1deb832b3c938ce4bb7b7db726435c3f9c29c9a3';
 final authTokenProvider = Provider<String?>.internal(
   authToken,
   name: r'authTokenProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authTokenHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authTokenHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthTokenRef = ProviderRef<String?>;
 String _$ferryCacheBoxHash() => r'37ffb897b3a7ad2a1dadc7d58442c22bd079efe2';
 
@@ -58,15 +64,17 @@ String _$ferryCacheBoxHash() => r'37ffb897b3a7ad2a1dadc7d58442c22bd079efe2';
 @ProviderFor(ferryCacheBox)
 final ferryCacheBoxProvider =
     FutureProvider<Box<Map<dynamic, dynamic>>>.internal(
-  ferryCacheBox,
-  name: r'ferryCacheBoxProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$ferryCacheBoxHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      ferryCacheBox,
+      name: r'ferryCacheBoxProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$ferryCacheBoxHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryCacheBoxRef = FutureProviderRef<Box<Map<dynamic, dynamic>>>;
 String _$ferryCacheHash() => r'cb4965623268ab5712e4e27ccb2bcdd4676a0fcf';
 
@@ -83,12 +91,15 @@ String _$ferryCacheHash() => r'cb4965623268ab5712e4e27ccb2bcdd4676a0fcf';
 final ferryCacheProvider = Provider<Cache>.internal(
   ferryCache,
   name: r'ferryCacheProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$ferryCacheHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$ferryCacheHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryCacheRef = ProviderRef<Cache>;
 String _$ferryHiveCacheHash() => r'9e8272607f7e70ad62e587a4f7005a4bf7bc808a';
 
@@ -109,6 +120,8 @@ final ferryHiveCacheProvider = FutureProvider<Cache>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryHiveCacheRef = FutureProviderRef<Cache>;
 String _$ferryClientHash() => r'8cc9f46ebfc56c5415480452e5df0cbd09fb29bf';
 
@@ -134,12 +147,15 @@ String _$ferryClientHash() => r'8cc9f46ebfc56c5415480452e5df0cbd09fb29bf';
 final ferryClientProvider = Provider<Client>.internal(
   ferryClient,
   name: r'ferryClientProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$ferryClientHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$ferryClientHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FerryClientRef = ProviderRef<Client>;
 String _$ensureValidTokenHash() => r'6a2473fa4c966b7c66ab36ea0cbb4a4afee44283';
 
@@ -160,6 +176,8 @@ final ensureValidTokenProvider = AutoDisposeFutureProvider<bool>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef EnsureValidTokenRef = AutoDisposeFutureProviderRef<bool>;
 String _$authenticatedClientHash() =>
     r'ce33dd1f968554eb59bcb0af98028bff164ce6f5';
@@ -187,6 +205,8 @@ final authenticatedClientProvider = AutoDisposeFutureProvider<Client>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthenticatedClientRef = AutoDisposeFutureProviderRef<Client>;
 String _$clearCacheHash() => r'c8f9c8b204f99b3090b35ea56a6e409ede6f07c2';
 
@@ -241,21 +261,15 @@ class ClearCacheFamily extends Family<void> {
   /// ログアウト時やデータの強制リフレッシュ時に使用する。
   ///
   /// Copied from [clearCache].
-  ClearCacheProvider call(
-    Client client,
-  ) {
-    return ClearCacheProvider(
-      client,
-    );
+  ClearCacheProvider call(Client client) {
+    return ClearCacheProvider(client);
   }
 
   @override
   ClearCacheProvider getProviderOverride(
     covariant ClearCacheProvider provider,
   ) {
-    return call(
-      provider.client,
-    );
+    return call(provider.client);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -286,24 +300,18 @@ class ClearCacheProvider extends AutoDisposeProvider<void> {
   /// ログアウト時やデータの強制リフレッシュ時に使用する。
   ///
   /// Copied from [clearCache].
-  ClearCacheProvider(
-    Client client,
-  ) : this._internal(
-          (ref) => clearCache(
-            ref as ClearCacheRef,
-            client,
-          ),
-          from: clearCacheProvider,
-          name: r'clearCacheProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$clearCacheHash,
-          dependencies: ClearCacheFamily._dependencies,
-          allTransitiveDependencies:
-              ClearCacheFamily._allTransitiveDependencies,
-          client: client,
-        );
+  ClearCacheProvider(Client client)
+    : this._internal(
+        (ref) => clearCache(ref as ClearCacheRef, client),
+        from: clearCacheProvider,
+        name: r'clearCacheProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$clearCacheHash,
+        dependencies: ClearCacheFamily._dependencies,
+        allTransitiveDependencies: ClearCacheFamily._allTransitiveDependencies,
+        client: client,
+      );
 
   ClearCacheProvider._internal(
     super._createNotifier, {
@@ -318,9 +326,7 @@ class ClearCacheProvider extends AutoDisposeProvider<void> {
   final Client client;
 
   @override
-  Override overrideWith(
-    void Function(ClearCacheRef provider) create,
-  ) {
+  Override overrideWith(void Function(ClearCacheRef provider) create) {
     return ProviderOverride(
       origin: this,
       override: ClearCacheProvider._internal(
@@ -354,6 +360,8 @@ class ClearCacheProvider extends AutoDisposeProvider<void> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin ClearCacheRef on AutoDisposeProviderRef<void> {
   /// The parameter `client` of this provider.
   Client get client;
@@ -366,5 +374,6 @@ class _ClearCacheProviderElement extends AutoDisposeProviderElement<void>
   @override
   Client get client => (origin as ClearCacheProvider).client;
 }
+
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

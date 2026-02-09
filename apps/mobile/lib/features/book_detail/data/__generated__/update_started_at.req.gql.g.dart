@@ -7,78 +7,104 @@ part of 'update_started_at.req.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateStartedAtReq> _$gUpdateStartedAtReqSerializer =
-    new _$GUpdateStartedAtReqSerializer();
+    _$GUpdateStartedAtReqSerializer();
 
 class _$GUpdateStartedAtReqSerializer
     implements StructuredSerializer<GUpdateStartedAtReq> {
   @override
   final Iterable<Type> types = const [
     GUpdateStartedAtReq,
-    _$GUpdateStartedAtReq
+    _$GUpdateStartedAtReq,
   ];
   @override
   final String wireName = 'GUpdateStartedAtReq';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateStartedAtReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateStartedAtReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GUpdateStartedAtVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GUpdateStartedAtVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GUpdateStartedAtData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GUpdateStartedAtData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GUpdateStartedAtReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateStartedAtReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateStartedAtReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -87,42 +113,73 @@ class _$GUpdateStartedAtReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GUpdateStartedAtVars))!
-              as _i3.GUpdateStartedAtVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GUpdateStartedAtVars),
+                )!
+                as _i3.GUpdateStartedAtVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GUpdateStartedAtData))!
-              as _i2.GUpdateStartedAtData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GUpdateStartedAtData),
+                )!
+                as _i2.GUpdateStartedAtData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -140,7 +197,10 @@ class _$GUpdateStartedAtReq extends GUpdateStartedAtReq {
   final String? requestId;
   @override
   final _i2.GUpdateStartedAtData? Function(
-      _i2.GUpdateStartedAtData?, _i2.GUpdateStartedAtData?)? updateResult;
+    _i2.GUpdateStartedAtData?,
+    _i2.GUpdateStartedAtData?,
+  )?
+  updateResult;
   @override
   final _i2.GUpdateStartedAtData? optimisticResponse;
   @override
@@ -154,37 +214,30 @@ class _$GUpdateStartedAtReq extends GUpdateStartedAtReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateStartedAtReq(
-          [void Function(GUpdateStartedAtReqBuilder)? updates]) =>
-      (new GUpdateStartedAtReqBuilder()..update(updates))._build();
+  factory _$GUpdateStartedAtReq([
+    void Function(GUpdateStartedAtReqBuilder)? updates,
+  ]) => (GUpdateStartedAtReqBuilder()..update(updates))._build();
 
-  _$GUpdateStartedAtReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GUpdateStartedAtReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GUpdateStartedAtReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GUpdateStartedAtReq', 'executeOnListen');
-  }
-
+  _$GUpdateStartedAtReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GUpdateStartedAtReq rebuild(
-          void Function(GUpdateStartedAtReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateStartedAtReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateStartedAtReqBuilder toBuilder() =>
-      new GUpdateStartedAtReqBuilder()..replace(this);
+      GUpdateStartedAtReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -243,7 +296,7 @@ class GUpdateStartedAtReqBuilder
 
   _i3.GUpdateStartedAtVarsBuilder? _vars;
   _i3.GUpdateStartedAtVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GUpdateStartedAtVarsBuilder();
+      _$this._vars ??= _i3.GUpdateStartedAtVarsBuilder();
   set vars(_i3.GUpdateStartedAtVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -255,19 +308,26 @@ class GUpdateStartedAtReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateStartedAtData? Function(
-      _i2.GUpdateStartedAtData?, _i2.GUpdateStartedAtData?)? _updateResult;
+    _i2.GUpdateStartedAtData?,
+    _i2.GUpdateStartedAtData?,
+  )?
+  _updateResult;
   _i2.GUpdateStartedAtData? Function(
-          _i2.GUpdateStartedAtData?, _i2.GUpdateStartedAtData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GUpdateStartedAtData?,
+    _i2.GUpdateStartedAtData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GUpdateStartedAtData? Function(
-                  _i2.GUpdateStartedAtData?, _i2.GUpdateStartedAtData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GUpdateStartedAtData? Function(
+      _i2.GUpdateStartedAtData?,
+      _i2.GUpdateStartedAtData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GUpdateStartedAtDataBuilder? _optimisticResponse;
   _i2.GUpdateStartedAtDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GUpdateStartedAtDataBuilder();
+      _$this._optimisticResponse ??= _i2.GUpdateStartedAtDataBuilder();
   set optimisticResponse(_i2.GUpdateStartedAtDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -280,8 +340,8 @@ class GUpdateStartedAtReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -321,7 +381,6 @@ class GUpdateStartedAtReqBuilder
 
   @override
   void replace(GUpdateStartedAtReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateStartedAtReq;
   }
 
@@ -336,20 +395,28 @@ class GUpdateStartedAtReqBuilder
   _$GUpdateStartedAtReq _build() {
     _$GUpdateStartedAtReq _$result;
     try {
-      _$result = _$v ??
-          new _$GUpdateStartedAtReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GUpdateStartedAtReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GUpdateStartedAtReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GUpdateStartedAtReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GUpdateStartedAtReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GUpdateStartedAtReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -359,8 +426,11 @@ class GUpdateStartedAtReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateStartedAtReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateStartedAtReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

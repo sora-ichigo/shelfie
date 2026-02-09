@@ -12,7 +12,8 @@ part of 'user_profile.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$UserProfile {
@@ -26,7 +27,9 @@ mixin _$UserProfile {
   int? get readingStartMonth => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserProfile
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserProfileCopyWith<UserProfile> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -34,19 +37,21 @@ mixin _$UserProfile {
 /// @nodoc
 abstract class $UserProfileCopyWith<$Res> {
   factory $UserProfileCopyWith(
-          UserProfile value, $Res Function(UserProfile) then) =
-      _$UserProfileCopyWithImpl<$Res, UserProfile>;
+    UserProfile value,
+    $Res Function(UserProfile) then,
+  ) = _$UserProfileCopyWithImpl<$Res, UserProfile>;
   @useResult
-  $Res call(
-      {int id,
-      String email,
-      String? name,
-      String? avatarUrl,
-      String? username,
-      int bookCount,
-      int? readingStartYear,
-      int? readingStartMonth,
-      DateTime createdAt});
+  $Res call({
+    int id,
+    String email,
+    String? name,
+    String? avatarUrl,
+    String? username,
+    int bookCount,
+    int? readingStartYear,
+    int? readingStartMonth,
+    DateTime createdAt,
+  });
 }
 
 /// @nodoc
@@ -59,6 +64,8 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserProfile
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,44 +79,47 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bookCount: null == bookCount
-          ? _value.bookCount
-          : bookCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      readingStartYear: freezed == readingStartYear
-          ? _value.readingStartYear
-          : readingStartYear // ignore: cast_nullable_to_non_nullable
-              as int?,
-      readingStartMonth: freezed == readingStartMonth
-          ? _value.readingStartMonth
-          : readingStartMonth // ignore: cast_nullable_to_non_nullable
-              as int?,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
+                      as String,
+            name: freezed == name
+                ? _value.name
+                : name // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            avatarUrl: freezed == avatarUrl
+                ? _value.avatarUrl
+                : avatarUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            username: freezed == username
+                ? _value.username
+                : username // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            bookCount: null == bookCount
+                ? _value.bookCount
+                : bookCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            readingStartYear: freezed == readingStartYear
+                ? _value.readingStartYear
+                : readingStartYear // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            readingStartMonth: freezed == readingStartMonth
+                ? _value.readingStartMonth
+                : readingStartMonth // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -117,20 +127,22 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
 abstract class _$$UserProfileImplCopyWith<$Res>
     implements $UserProfileCopyWith<$Res> {
   factory _$$UserProfileImplCopyWith(
-          _$UserProfileImpl value, $Res Function(_$UserProfileImpl) then) =
-      __$$UserProfileImplCopyWithImpl<$Res>;
+    _$UserProfileImpl value,
+    $Res Function(_$UserProfileImpl) then,
+  ) = __$$UserProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String email,
-      String? name,
-      String? avatarUrl,
-      String? username,
-      int bookCount,
-      int? readingStartYear,
-      int? readingStartMonth,
-      DateTime createdAt});
+  $Res call({
+    int id,
+    String email,
+    String? name,
+    String? avatarUrl,
+    String? username,
+    int bookCount,
+    int? readingStartYear,
+    int? readingStartMonth,
+    DateTime createdAt,
+  });
 }
 
 /// @nodoc
@@ -138,9 +150,12 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     extends _$UserProfileCopyWithImpl<$Res, _$UserProfileImpl>
     implements _$$UserProfileImplCopyWith<$Res> {
   __$$UserProfileImplCopyWithImpl(
-      _$UserProfileImpl _value, $Res Function(_$UserProfileImpl) _then)
-      : super(_value, _then);
+    _$UserProfileImpl _value,
+    $Res Function(_$UserProfileImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of UserProfile
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,60 +169,63 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
-    return _then(_$UserProfileImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      avatarUrl: freezed == avatarUrl
-          ? _value.avatarUrl
-          : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
-              as String?,
-      bookCount: null == bookCount
-          ? _value.bookCount
-          : bookCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      readingStartYear: freezed == readingStartYear
-          ? _value.readingStartYear
-          : readingStartYear // ignore: cast_nullable_to_non_nullable
-              as int?,
-      readingStartMonth: freezed == readingStartMonth
-          ? _value.readingStartMonth
-          : readingStartMonth // ignore: cast_nullable_to_non_nullable
-              as int?,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$UserProfileImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        name: freezed == name
+            ? _value.name
+            : name // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        avatarUrl: freezed == avatarUrl
+            ? _value.avatarUrl
+            : avatarUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        username: freezed == username
+            ? _value.username
+            : username // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        bookCount: null == bookCount
+            ? _value.bookCount
+            : bookCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        readingStartYear: freezed == readingStartYear
+            ? _value.readingStartYear
+            : readingStartYear // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        readingStartMonth: freezed == readingStartMonth
+            ? _value.readingStartMonth
+            : readingStartMonth // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$UserProfileImpl implements _UserProfile {
-  const _$UserProfileImpl(
-      {required this.id,
-      required this.email,
-      required this.name,
-      required this.avatarUrl,
-      required this.username,
-      required this.bookCount,
-      required this.readingStartYear,
-      required this.readingStartMonth,
-      required this.createdAt});
+  const _$UserProfileImpl({
+    required this.id,
+    required this.email,
+    required this.name,
+    required this.avatarUrl,
+    required this.username,
+    required this.bookCount,
+    required this.readingStartYear,
+    required this.readingStartMonth,
+    required this.createdAt,
+  });
 
   @override
   final int id;
@@ -256,10 +274,22 @@ class _$UserProfileImpl implements _UserProfile {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, email, name, avatarUrl,
-      username, bookCount, readingStartYear, readingStartMonth, createdAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    email,
+    name,
+    avatarUrl,
+    username,
+    bookCount,
+    readingStartYear,
+    readingStartMonth,
+    createdAt,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserProfile
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserProfileImplCopyWith<_$UserProfileImpl> get copyWith =>
@@ -267,16 +297,17 @@ class _$UserProfileImpl implements _UserProfile {
 }
 
 abstract class _UserProfile implements UserProfile {
-  const factory _UserProfile(
-      {required final int id,
-      required final String email,
-      required final String? name,
-      required final String? avatarUrl,
-      required final String? username,
-      required final int bookCount,
-      required final int? readingStartYear,
-      required final int? readingStartMonth,
-      required final DateTime createdAt}) = _$UserProfileImpl;
+  const factory _UserProfile({
+    required final int id,
+    required final String email,
+    required final String? name,
+    required final String? avatarUrl,
+    required final String? username,
+    required final int bookCount,
+    required final int? readingStartYear,
+    required final int? readingStartMonth,
+    required final DateTime createdAt,
+  }) = _$UserProfileImpl;
 
   @override
   int get id;
@@ -296,8 +327,11 @@ abstract class _UserProfile implements UserProfile {
   int? get readingStartMonth;
   @override
   DateTime get createdAt;
+
+  /// Create a copy of UserProfile
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserProfileImplCopyWith<_$UserProfileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

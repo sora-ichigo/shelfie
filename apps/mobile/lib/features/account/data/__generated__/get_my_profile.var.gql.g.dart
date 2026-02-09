@@ -7,7 +7,7 @@ part of 'get_my_profile.var.gql.dart';
 // **************************************************************************
 
 Serializer<GGetMyProfileVars> _$gGetMyProfileVarsSerializer =
-    new _$GGetMyProfileVarsSerializer();
+    _$GGetMyProfileVarsSerializer();
 
 class _$GGetMyProfileVarsSerializer
     implements StructuredSerializer<GGetMyProfileVars> {
@@ -17,33 +17,37 @@ class _$GGetMyProfileVarsSerializer
   final String wireName = 'GGetMyProfileVars';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GGetMyProfileVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GGetMyProfileVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     return <Object?>[];
   }
 
   @override
   GGetMyProfileVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    return new GGetMyProfileVarsBuilder().build();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return GGetMyProfileVarsBuilder().build();
   }
 }
 
 class _$GGetMyProfileVars extends GGetMyProfileVars {
-  factory _$GGetMyProfileVars(
-          [void Function(GGetMyProfileVarsBuilder)? updates]) =>
-      (new GGetMyProfileVarsBuilder()..update(updates))._build();
+  factory _$GGetMyProfileVars([
+    void Function(GGetMyProfileVarsBuilder)? updates,
+  ]) => (GGetMyProfileVarsBuilder()..update(updates))._build();
 
   _$GGetMyProfileVars._() : super._();
-
   @override
   GGetMyProfileVars rebuild(void Function(GGetMyProfileVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
   GGetMyProfileVarsBuilder toBuilder() =>
-      new GGetMyProfileVarsBuilder()..replace(this);
+      GGetMyProfileVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -70,7 +74,6 @@ class GGetMyProfileVarsBuilder
 
   @override
   void replace(GGetMyProfileVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GGetMyProfileVars;
   }
 
@@ -83,7 +86,7 @@ class GGetMyProfileVarsBuilder
   GGetMyProfileVars build() => _build();
 
   _$GGetMyProfileVars _build() {
-    final _$result = _$v ?? new _$GGetMyProfileVars._();
+    final _$result = _$v ?? _$GGetMyProfileVars._();
     replace(_$result);
     return _$result;
   }

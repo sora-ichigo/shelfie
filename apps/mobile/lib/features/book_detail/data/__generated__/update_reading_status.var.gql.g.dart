@@ -7,29 +7,35 @@ part of 'update_reading_status.var.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateReadingStatusVars> _$gUpdateReadingStatusVarsSerializer =
-    new _$GUpdateReadingStatusVarsSerializer();
+    _$GUpdateReadingStatusVarsSerializer();
 
 class _$GUpdateReadingStatusVarsSerializer
     implements StructuredSerializer<GUpdateReadingStatusVars> {
   @override
   final Iterable<Type> types = const [
     GUpdateReadingStatusVars,
-    _$GUpdateReadingStatusVars
+    _$GUpdateReadingStatusVars,
   ];
   @override
   final String wireName = 'GUpdateReadingStatusVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateReadingStatusVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateReadingStatusVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'userBookId',
-      serializers.serialize(object.userBookId,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.userBookId,
+        specifiedType: const FullType(int),
+      ),
       'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(_i1.GReadingStatus)),
+      serializers.serialize(
+        object.status,
+        specifiedType: const FullType(_i1.GReadingStatus),
+      ),
     ];
 
     return result;
@@ -37,9 +43,11 @@ class _$GUpdateReadingStatusVarsSerializer
 
   @override
   GUpdateReadingStatusVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateReadingStatusVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateReadingStatusVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -48,13 +56,20 @@ class _$GUpdateReadingStatusVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'userBookId':
-          result.userBookId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.userBookId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'status':
-          result.status = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GReadingStatus))!
-              as _i1.GReadingStatus;
+          result.status =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.GReadingStatus),
+                  )!
+                  as _i1.GReadingStatus;
           break;
       }
     }
@@ -69,26 +84,20 @@ class _$GUpdateReadingStatusVars extends GUpdateReadingStatusVars {
   @override
   final _i1.GReadingStatus status;
 
-  factory _$GUpdateReadingStatusVars(
-          [void Function(GUpdateReadingStatusVarsBuilder)? updates]) =>
-      (new GUpdateReadingStatusVarsBuilder()..update(updates))._build();
+  factory _$GUpdateReadingStatusVars([
+    void Function(GUpdateReadingStatusVarsBuilder)? updates,
+  ]) => (GUpdateReadingStatusVarsBuilder()..update(updates))._build();
 
   _$GUpdateReadingStatusVars._({required this.userBookId, required this.status})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        userBookId, r'GUpdateReadingStatusVars', 'userBookId');
-    BuiltValueNullFieldError.checkNotNull(
-        status, r'GUpdateReadingStatusVars', 'status');
-  }
-
+    : super._();
   @override
   GUpdateReadingStatusVars rebuild(
-          void Function(GUpdateReadingStatusVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateReadingStatusVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateReadingStatusVarsBuilder toBuilder() =>
-      new GUpdateReadingStatusVarsBuilder()..replace(this);
+      GUpdateReadingStatusVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -143,7 +152,6 @@ class GUpdateReadingStatusVarsBuilder
 
   @override
   void replace(GUpdateReadingStatusVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateReadingStatusVars;
   }
 
@@ -156,12 +164,20 @@ class GUpdateReadingStatusVarsBuilder
   GUpdateReadingStatusVars build() => _build();
 
   _$GUpdateReadingStatusVars _build() {
-    final _$result = _$v ??
-        new _$GUpdateReadingStatusVars._(
-            userBookId: BuiltValueNullFieldError.checkNotNull(
-                userBookId, r'GUpdateReadingStatusVars', 'userBookId'),
-            status: BuiltValueNullFieldError.checkNotNull(
-                status, r'GUpdateReadingStatusVars', 'status'));
+    final _$result =
+        _$v ??
+        _$GUpdateReadingStatusVars._(
+          userBookId: BuiltValueNullFieldError.checkNotNull(
+            userBookId,
+            r'GUpdateReadingStatusVars',
+            'userBookId',
+          ),
+          status: BuiltValueNullFieldError.checkNotNull(
+            status,
+            r'GUpdateReadingStatusVars',
+            'status',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

@@ -7,32 +7,38 @@ part of 'update_started_at.data.gql.dart';
 // **************************************************************************
 
 Serializer<GUpdateStartedAtData> _$gUpdateStartedAtDataSerializer =
-    new _$GUpdateStartedAtDataSerializer();
+    _$GUpdateStartedAtDataSerializer();
 Serializer<GUpdateStartedAtData_updateStartedAt>
-    _$gUpdateStartedAtDataUpdateStartedAtSerializer =
-    new _$GUpdateStartedAtData_updateStartedAtSerializer();
+_$gUpdateStartedAtDataUpdateStartedAtSerializer =
+    _$GUpdateStartedAtData_updateStartedAtSerializer();
 
 class _$GUpdateStartedAtDataSerializer
     implements StructuredSerializer<GUpdateStartedAtData> {
   @override
   final Iterable<Type> types = const [
     GUpdateStartedAtData,
-    _$GUpdateStartedAtData
+    _$GUpdateStartedAtData,
   ];
   @override
   final String wireName = 'GUpdateStartedAtData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateStartedAtData object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateStartedAtData object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'updateStartedAt',
-      serializers.serialize(object.updateStartedAt,
-          specifiedType: const FullType(GUpdateStartedAtData_updateStartedAt)),
+      serializers.serialize(
+        object.updateStartedAt,
+        specifiedType: const FullType(GUpdateStartedAtData_updateStartedAt),
+      ),
     ];
 
     return result;
@@ -40,9 +46,11 @@ class _$GUpdateStartedAtDataSerializer
 
   @override
   GUpdateStartedAtData deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateStartedAtDataBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateStartedAtDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -51,14 +59,23 @@ class _$GUpdateStartedAtDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'updateStartedAt':
-          result.updateStartedAt.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(GUpdateStartedAtData_updateStartedAt))!
-              as GUpdateStartedAtData_updateStartedAt);
+          result.updateStartedAt.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                    GUpdateStartedAtData_updateStartedAt,
+                  ),
+                )!
+                as GUpdateStartedAtData_updateStartedAt,
+          );
           break;
       }
     }
@@ -72,94 +89,117 @@ class _$GUpdateStartedAtData_updateStartedAtSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateStartedAtData_updateStartedAt,
-    _$GUpdateStartedAtData_updateStartedAt
+    _$GUpdateStartedAtData_updateStartedAt,
   ];
   @override
   final String wireName = 'GUpdateStartedAtData_updateStartedAt';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateStartedAtData_updateStartedAt object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GUpdateStartedAtData_updateStartedAt object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(object.G__typename,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.G__typename,
+        specifiedType: const FullType(String),
+      ),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'externalId',
-      serializers.serialize(object.externalId,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.externalId,
+        specifiedType: const FullType(String),
+      ),
       'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
+      serializers.serialize(
+        object.title,
+        specifiedType: const FullType(String),
+      ),
       'authors',
-      serializers.serialize(object.authors,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(String)])),
+      serializers.serialize(
+        object.authors,
+        specifiedType: const FullType(BuiltList, const [
+          const FullType(String),
+        ]),
+      ),
       'addedAt',
-      serializers.serialize(object.addedAt,
-          specifiedType: const FullType(DateTime)),
+      serializers.serialize(
+        object.addedAt,
+        specifiedType: const FullType(DateTime),
+      ),
       'readingStatus',
-      serializers.serialize(object.readingStatus,
-          specifiedType: const FullType(_i2.GReadingStatus)),
+      serializers.serialize(
+        object.readingStatus,
+        specifiedType: const FullType(_i2.GReadingStatus),
+      ),
     ];
     Object? value;
     value = object.publisher;
     if (value != null) {
       result
         ..add('publisher')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.publishedDate;
     if (value != null) {
       result
         ..add('publishedDate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.isbn;
     if (value != null) {
       result
         ..add('isbn')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.startedAt;
     if (value != null) {
       result
         ..add('startedAt')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(DateTime)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(DateTime)),
+        );
     }
     value = object.completedAt;
     if (value != null) {
       result
         ..add('completedAt')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(DateTime)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(DateTime)),
+        );
     }
     value = object.note;
     if (value != null) {
       result
         ..add('note')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.noteUpdatedAt;
     if (value != null) {
       result
         ..add('noteUpdatedAt')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(DateTime)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(DateTime)),
+        );
     }
     value = object.rating;
     if (value != null) {
@@ -172,9 +212,11 @@ class _$GUpdateStartedAtData_updateStartedAtSerializer
 
   @override
   GUpdateStartedAtData_updateStartedAt deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GUpdateStartedAtData_updateStartedAtBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GUpdateStartedAtData_updateStartedAtBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -183,71 +225,132 @@ class _$GUpdateStartedAtData_updateStartedAtSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.G__typename =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.id =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'externalId':
-          result.externalId = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.externalId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String))! as String;
+          result.title =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )!
+                  as String;
           break;
         case 'authors':
-          result.authors.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      BuiltList, const [const FullType(String)]))!
-              as BuiltList<Object?>);
+          result.authors.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(BuiltList, const [
+                    const FullType(String),
+                  ]),
+                )!
+                as BuiltList<Object?>,
+          );
           break;
         case 'publisher':
-          result.publisher = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publisher =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'publishedDate':
-          result.publishedDate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.publishedDate =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'isbn':
-          result.isbn = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.isbn =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'coverImageUrl':
-          result.coverImageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.coverImageUrl =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'addedAt':
-          result.addedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+          result.addedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )!
+                  as DateTime;
           break;
         case 'readingStatus':
-          result.readingStatus = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GReadingStatus))!
-              as _i2.GReadingStatus;
+          result.readingStatus =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i2.GReadingStatus),
+                  )!
+                  as _i2.GReadingStatus;
           break;
         case 'startedAt':
-          result.startedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime?;
+          result.startedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime?;
           break;
         case 'completedAt':
-          result.completedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime?;
+          result.completedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime?;
           break;
         case 'note':
-          result.note = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.note =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'noteUpdatedAt':
-          result.noteUpdatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime)) as DateTime?;
+          result.noteUpdatedAt =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(DateTime),
+                  )
+                  as DateTime?;
           break;
         case 'rating':
-          result.rating = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+          result.rating =
+              serializers.deserialize(value, specifiedType: const FullType(int))
+                  as int?;
           break;
       }
     }
@@ -262,27 +365,22 @@ class _$GUpdateStartedAtData extends GUpdateStartedAtData {
   @override
   final GUpdateStartedAtData_updateStartedAt updateStartedAt;
 
-  factory _$GUpdateStartedAtData(
-          [void Function(GUpdateStartedAtDataBuilder)? updates]) =>
-      (new GUpdateStartedAtDataBuilder()..update(updates))._build();
+  factory _$GUpdateStartedAtData([
+    void Function(GUpdateStartedAtDataBuilder)? updates,
+  ]) => (GUpdateStartedAtDataBuilder()..update(updates))._build();
 
-  _$GUpdateStartedAtData._(
-      {required this.G__typename, required this.updateStartedAt})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GUpdateStartedAtData', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        updateStartedAt, r'GUpdateStartedAtData', 'updateStartedAt');
-  }
-
+  _$GUpdateStartedAtData._({
+    required this.G__typename,
+    required this.updateStartedAt,
+  }) : super._();
   @override
   GUpdateStartedAtData rebuild(
-          void Function(GUpdateStartedAtDataBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateStartedAtDataBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateStartedAtDataBuilder toBuilder() =>
-      new GUpdateStartedAtDataBuilder()..replace(this);
+      GUpdateStartedAtDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -320,11 +418,10 @@ class GUpdateStartedAtDataBuilder
 
   GUpdateStartedAtData_updateStartedAtBuilder? _updateStartedAt;
   GUpdateStartedAtData_updateStartedAtBuilder get updateStartedAt =>
-      _$this._updateStartedAt ??=
-          new GUpdateStartedAtData_updateStartedAtBuilder();
+      _$this._updateStartedAt ??= GUpdateStartedAtData_updateStartedAtBuilder();
   set updateStartedAt(
-          GUpdateStartedAtData_updateStartedAtBuilder? updateStartedAt) =>
-      _$this._updateStartedAt = updateStartedAt;
+    GUpdateStartedAtData_updateStartedAtBuilder? updateStartedAt,
+  ) => _$this._updateStartedAt = updateStartedAt;
 
   GUpdateStartedAtDataBuilder() {
     GUpdateStartedAtData._initializeBuilder(this);
@@ -342,7 +439,6 @@ class GUpdateStartedAtDataBuilder
 
   @override
   void replace(GUpdateStartedAtData other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateStartedAtData;
   }
 
@@ -357,19 +453,27 @@ class GUpdateStartedAtDataBuilder
   _$GUpdateStartedAtData _build() {
     _$GUpdateStartedAtData _$result;
     try {
-      _$result = _$v ??
-          new _$GUpdateStartedAtData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, r'GUpdateStartedAtData', 'G__typename'),
-              updateStartedAt: updateStartedAt.build());
+      _$result =
+          _$v ??
+          _$GUpdateStartedAtData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GUpdateStartedAtData',
+              'G__typename',
+            ),
+            updateStartedAt: updateStartedAt.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'updateStartedAt';
         updateStartedAt.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateStartedAtData', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateStartedAtData',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }
@@ -413,54 +517,37 @@ class _$GUpdateStartedAtData_updateStartedAt
   @override
   final int? rating;
 
-  factory _$GUpdateStartedAtData_updateStartedAt(
-          [void Function(GUpdateStartedAtData_updateStartedAtBuilder)?
-              updates]) =>
-      (new GUpdateStartedAtData_updateStartedAtBuilder()..update(updates))
-          ._build();
+  factory _$GUpdateStartedAtData_updateStartedAt([
+    void Function(GUpdateStartedAtData_updateStartedAtBuilder)? updates,
+  ]) =>
+      (GUpdateStartedAtData_updateStartedAtBuilder()..update(updates))._build();
 
-  _$GUpdateStartedAtData_updateStartedAt._(
-      {required this.G__typename,
-      required this.id,
-      required this.externalId,
-      required this.title,
-      required this.authors,
-      this.publisher,
-      this.publishedDate,
-      this.isbn,
-      this.coverImageUrl,
-      required this.addedAt,
-      required this.readingStatus,
-      this.startedAt,
-      this.completedAt,
-      this.note,
-      this.noteUpdatedAt,
-      this.rating})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        G__typename, r'GUpdateStartedAtData_updateStartedAt', 'G__typename');
-    BuiltValueNullFieldError.checkNotNull(
-        id, r'GUpdateStartedAtData_updateStartedAt', 'id');
-    BuiltValueNullFieldError.checkNotNull(
-        externalId, r'GUpdateStartedAtData_updateStartedAt', 'externalId');
-    BuiltValueNullFieldError.checkNotNull(
-        title, r'GUpdateStartedAtData_updateStartedAt', 'title');
-    BuiltValueNullFieldError.checkNotNull(
-        authors, r'GUpdateStartedAtData_updateStartedAt', 'authors');
-    BuiltValueNullFieldError.checkNotNull(
-        addedAt, r'GUpdateStartedAtData_updateStartedAt', 'addedAt');
-    BuiltValueNullFieldError.checkNotNull(readingStatus,
-        r'GUpdateStartedAtData_updateStartedAt', 'readingStatus');
-  }
-
+  _$GUpdateStartedAtData_updateStartedAt._({
+    required this.G__typename,
+    required this.id,
+    required this.externalId,
+    required this.title,
+    required this.authors,
+    this.publisher,
+    this.publishedDate,
+    this.isbn,
+    this.coverImageUrl,
+    required this.addedAt,
+    required this.readingStatus,
+    this.startedAt,
+    this.completedAt,
+    this.note,
+    this.noteUpdatedAt,
+    this.rating,
+  }) : super._();
   @override
   GUpdateStartedAtData_updateStartedAt rebuild(
-          void Function(GUpdateStartedAtData_updateStartedAtBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GUpdateStartedAtData_updateStartedAtBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GUpdateStartedAtData_updateStartedAtBuilder toBuilder() =>
-      new GUpdateStartedAtData_updateStartedAtBuilder()..replace(this);
+      GUpdateStartedAtData_updateStartedAtBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -532,8 +619,10 @@ class _$GUpdateStartedAtData_updateStartedAt
 
 class GUpdateStartedAtData_updateStartedAtBuilder
     implements
-        Builder<GUpdateStartedAtData_updateStartedAt,
-            GUpdateStartedAtData_updateStartedAtBuilder> {
+        Builder<
+          GUpdateStartedAtData_updateStartedAt,
+          GUpdateStartedAtData_updateStartedAtBuilder
+        > {
   _$GUpdateStartedAtData_updateStartedAt? _$v;
 
   String? _G__typename;
@@ -553,8 +642,7 @@ class GUpdateStartedAtData_updateStartedAtBuilder
   set title(String? title) => _$this._title = title;
 
   ListBuilder<String>? _authors;
-  ListBuilder<String> get authors =>
-      _$this._authors ??= new ListBuilder<String>();
+  ListBuilder<String> get authors => _$this._authors ??= ListBuilder<String>();
   set authors(ListBuilder<String>? authors) => _$this._authors = authors;
 
   String? _publisher;
@@ -635,13 +723,13 @@ class GUpdateStartedAtData_updateStartedAtBuilder
 
   @override
   void replace(GUpdateStartedAtData_updateStartedAt other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GUpdateStartedAtData_updateStartedAt;
   }
 
   @override
   void update(
-      void Function(GUpdateStartedAtData_updateStartedAtBuilder)? updates) {
+    void Function(GUpdateStartedAtData_updateStartedAtBuilder)? updates,
+  ) {
     if (updates != null) updates(this);
   }
 
@@ -651,42 +739,61 @@ class GUpdateStartedAtData_updateStartedAtBuilder
   _$GUpdateStartedAtData_updateStartedAt _build() {
     _$GUpdateStartedAtData_updateStartedAt _$result;
     try {
-      _$result = _$v ??
-          new _$GUpdateStartedAtData_updateStartedAt._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  r'GUpdateStartedAtData_updateStartedAt', 'G__typename'),
-              id: BuiltValueNullFieldError.checkNotNull(
-                  id, r'GUpdateStartedAtData_updateStartedAt', 'id'),
-              externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                  r'GUpdateStartedAtData_updateStartedAt', 'externalId'),
-              title: BuiltValueNullFieldError.checkNotNull(
-                  title, r'GUpdateStartedAtData_updateStartedAt', 'title'),
-              authors: authors.build(),
-              publisher: publisher,
-              publishedDate: publishedDate,
-              isbn: isbn,
-              coverImageUrl: coverImageUrl,
-              addedAt: BuiltValueNullFieldError.checkNotNull(
-                  addedAt, r'GUpdateStartedAtData_updateStartedAt', 'addedAt'),
-              readingStatus: BuiltValueNullFieldError.checkNotNull(
-                  readingStatus,
-                  r'GUpdateStartedAtData_updateStartedAt',
-                  'readingStatus'),
-              startedAt: startedAt,
-              completedAt: completedAt,
-              note: note,
-              noteUpdatedAt: noteUpdatedAt,
-              rating: rating);
+      _$result =
+          _$v ??
+          _$GUpdateStartedAtData_updateStartedAt._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+              G__typename,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'G__typename',
+            ),
+            id: BuiltValueNullFieldError.checkNotNull(
+              id,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'id',
+            ),
+            externalId: BuiltValueNullFieldError.checkNotNull(
+              externalId,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'externalId',
+            ),
+            title: BuiltValueNullFieldError.checkNotNull(
+              title,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'title',
+            ),
+            authors: authors.build(),
+            publisher: publisher,
+            publishedDate: publishedDate,
+            isbn: isbn,
+            coverImageUrl: coverImageUrl,
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+              addedAt,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'addedAt',
+            ),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(
+              readingStatus,
+              r'GUpdateStartedAtData_updateStartedAt',
+              'readingStatus',
+            ),
+            startedAt: startedAt,
+            completedAt: completedAt,
+            note: note,
+            noteUpdatedAt: noteUpdatedAt,
+            rating: rating,
+          );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'authors';
         authors.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GUpdateStartedAtData_updateStartedAt',
-            _$failedField,
-            e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GUpdateStartedAtData_updateStartedAt',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

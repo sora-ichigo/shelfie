@@ -41,10 +41,12 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GMyShelfInput,
         GReadingStatus,
         GRefreshTokenInput,
+        GRegisterDeviceTokenInput,
         GRegisterUserInput,
         GSendPasswordResetEmailInput,
         GShelfSortField,
         GSortOrder,
+        GUnregisterDeviceTokenInput,
         GUpdateBookListInput,
         GUpdateProfileInput;
 import 'package:shelfie/core/graphql/custom_serializers.dart'
@@ -273,6 +275,18 @@ import 'package:shelfie/features/login/data/__generated__/login_user.req.gql.dar
     show GLoginUserReq;
 import 'package:shelfie/features/login/data/__generated__/login_user.var.gql.dart'
     show GLoginUserVars;
+import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.data.gql.dart'
+    show GRegisterDeviceTokenData, GRegisterDeviceTokenData_registerDeviceToken;
+import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.req.gql.dart'
+    show GRegisterDeviceTokenReq;
+import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.var.gql.dart'
+    show GRegisterDeviceTokenVars;
+import 'package:shelfie/features/push_notification/data/__generated__/unregister_device_token.data.gql.dart'
+    show GUnregisterDeviceTokenData;
+import 'package:shelfie/features/push_notification/data/__generated__/unregister_device_token.req.gql.dart'
+    show GUnregisterDeviceTokenReq;
+import 'package:shelfie/features/push_notification/data/__generated__/unregister_device_token.var.gql.dart'
+    show GUnregisterDeviceTokenVars;
 import 'package:shelfie/features/registration/data/__generated__/register_user.data.gql.dart'
     show
         GRegisterUserData_registerUser,
@@ -405,6 +419,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRefreshTokenInput,
   GRefreshTokenReq,
   GRefreshTokenVars,
+  GRegisterDeviceTokenData,
+  GRegisterDeviceTokenData_registerDeviceToken,
+  GRegisterDeviceTokenInput,
+  GRegisterDeviceTokenReq,
+  GRegisterDeviceTokenVars,
   GRegisterUserData,
   GRegisterUserData_registerUser__asAuthError,
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
@@ -442,6 +461,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSendPasswordResetEmailVars,
   GShelfSortField,
   GSortOrder,
+  GUnregisterDeviceTokenData,
+  GUnregisterDeviceTokenInput,
+  GUnregisterDeviceTokenReq,
+  GUnregisterDeviceTokenVars,
   GUpdateBookListData,
   GUpdateBookListData_updateBookList,
   GUpdateBookListInput,

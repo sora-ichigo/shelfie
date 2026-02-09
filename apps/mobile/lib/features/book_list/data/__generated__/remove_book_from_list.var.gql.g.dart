@@ -7,28 +7,32 @@ part of 'remove_book_from_list.var.gql.dart';
 // **************************************************************************
 
 Serializer<GRemoveBookFromListVars> _$gRemoveBookFromListVarsSerializer =
-    new _$GRemoveBookFromListVarsSerializer();
+    _$GRemoveBookFromListVarsSerializer();
 
 class _$GRemoveBookFromListVarsSerializer
     implements StructuredSerializer<GRemoveBookFromListVars> {
   @override
   final Iterable<Type> types = const [
     GRemoveBookFromListVars,
-    _$GRemoveBookFromListVars
+    _$GRemoveBookFromListVars,
   ];
   @override
   final String wireName = 'GRemoveBookFromListVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GRemoveBookFromListVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GRemoveBookFromListVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
       'userBookId',
-      serializers.serialize(object.userBookId,
-          specifiedType: const FullType(int)),
+      serializers.serialize(
+        object.userBookId,
+        specifiedType: const FullType(int),
+      ),
     ];
 
     return result;
@@ -36,9 +40,11 @@ class _$GRemoveBookFromListVarsSerializer
 
   @override
   GRemoveBookFromListVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GRemoveBookFromListVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GRemoveBookFromListVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -47,12 +53,20 @@ class _$GRemoveBookFromListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'listId':
-          result.listId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.listId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
         case 'userBookId':
-          result.userBookId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.userBookId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -67,26 +81,20 @@ class _$GRemoveBookFromListVars extends GRemoveBookFromListVars {
   @override
   final int userBookId;
 
-  factory _$GRemoveBookFromListVars(
-          [void Function(GRemoveBookFromListVarsBuilder)? updates]) =>
-      (new GRemoveBookFromListVarsBuilder()..update(updates))._build();
+  factory _$GRemoveBookFromListVars([
+    void Function(GRemoveBookFromListVarsBuilder)? updates,
+  ]) => (GRemoveBookFromListVarsBuilder()..update(updates))._build();
 
   _$GRemoveBookFromListVars._({required this.listId, required this.userBookId})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        listId, r'GRemoveBookFromListVars', 'listId');
-    BuiltValueNullFieldError.checkNotNull(
-        userBookId, r'GRemoveBookFromListVars', 'userBookId');
-  }
-
+    : super._();
   @override
   GRemoveBookFromListVars rebuild(
-          void Function(GRemoveBookFromListVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GRemoveBookFromListVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GRemoveBookFromListVarsBuilder toBuilder() =>
-      new GRemoveBookFromListVarsBuilder()..replace(this);
+      GRemoveBookFromListVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -141,7 +149,6 @@ class GRemoveBookFromListVarsBuilder
 
   @override
   void replace(GRemoveBookFromListVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GRemoveBookFromListVars;
   }
 
@@ -154,12 +161,20 @@ class GRemoveBookFromListVarsBuilder
   GRemoveBookFromListVars build() => _build();
 
   _$GRemoveBookFromListVars _build() {
-    final _$result = _$v ??
-        new _$GRemoveBookFromListVars._(
-            listId: BuiltValueNullFieldError.checkNotNull(
-                listId, r'GRemoveBookFromListVars', 'listId'),
-            userBookId: BuiltValueNullFieldError.checkNotNull(
-                userBookId, r'GRemoveBookFromListVars', 'userBookId'));
+    final _$result =
+        _$v ??
+        _$GRemoveBookFromListVars._(
+          listId: BuiltValueNullFieldError.checkNotNull(
+            listId,
+            r'GRemoveBookFromListVars',
+            'listId',
+          ),
+          userBookId: BuiltValueNullFieldError.checkNotNull(
+            userBookId,
+            r'GRemoveBookFromListVars',
+            'userBookId',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

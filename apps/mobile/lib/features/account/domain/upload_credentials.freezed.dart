@@ -12,7 +12,8 @@ part of 'upload_credentials.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$UploadCredentials {
@@ -22,7 +23,9 @@ mixin _$UploadCredentials {
   String get publicKey => throw _privateConstructorUsedError;
   String get uploadEndpoint => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UploadCredentials
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UploadCredentialsCopyWith<UploadCredentials> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -30,15 +33,17 @@ mixin _$UploadCredentials {
 /// @nodoc
 abstract class $UploadCredentialsCopyWith<$Res> {
   factory $UploadCredentialsCopyWith(
-          UploadCredentials value, $Res Function(UploadCredentials) then) =
-      _$UploadCredentialsCopyWithImpl<$Res, UploadCredentials>;
+    UploadCredentials value,
+    $Res Function(UploadCredentials) then,
+  ) = _$UploadCredentialsCopyWithImpl<$Res, UploadCredentials>;
   @useResult
-  $Res call(
-      {String token,
-      String signature,
-      int expire,
-      String publicKey,
-      String uploadEndpoint});
+  $Res call({
+    String token,
+    String signature,
+    int expire,
+    String publicKey,
+    String uploadEndpoint,
+  });
 }
 
 /// @nodoc
@@ -51,6 +56,8 @@ class _$UploadCredentialsCopyWithImpl<$Res, $Val extends UploadCredentials>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UploadCredentials
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -60,55 +67,63 @@ class _$UploadCredentialsCopyWithImpl<$Res, $Val extends UploadCredentials>
     Object? publicKey = null,
     Object? uploadEndpoint = null,
   }) {
-    return _then(_value.copyWith(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-      signature: null == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
-      expire: null == expire
-          ? _value.expire
-          : expire // ignore: cast_nullable_to_non_nullable
-              as int,
-      publicKey: null == publicKey
-          ? _value.publicKey
-          : publicKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      uploadEndpoint: null == uploadEndpoint
-          ? _value.uploadEndpoint
-          : uploadEndpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            token: null == token
+                ? _value.token
+                : token // ignore: cast_nullable_to_non_nullable
+                      as String,
+            signature: null == signature
+                ? _value.signature
+                : signature // ignore: cast_nullable_to_non_nullable
+                      as String,
+            expire: null == expire
+                ? _value.expire
+                : expire // ignore: cast_nullable_to_non_nullable
+                      as int,
+            publicKey: null == publicKey
+                ? _value.publicKey
+                : publicKey // ignore: cast_nullable_to_non_nullable
+                      as String,
+            uploadEndpoint: null == uploadEndpoint
+                ? _value.uploadEndpoint
+                : uploadEndpoint // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
   }
 }
 
 /// @nodoc
 abstract class _$$UploadCredentialsImplCopyWith<$Res>
     implements $UploadCredentialsCopyWith<$Res> {
-  factory _$$UploadCredentialsImplCopyWith(_$UploadCredentialsImpl value,
-          $Res Function(_$UploadCredentialsImpl) then) =
-      __$$UploadCredentialsImplCopyWithImpl<$Res>;
+  factory _$$UploadCredentialsImplCopyWith(
+    _$UploadCredentialsImpl value,
+    $Res Function(_$UploadCredentialsImpl) then,
+  ) = __$$UploadCredentialsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String token,
-      String signature,
-      int expire,
-      String publicKey,
-      String uploadEndpoint});
+  $Res call({
+    String token,
+    String signature,
+    int expire,
+    String publicKey,
+    String uploadEndpoint,
+  });
 }
 
 /// @nodoc
 class __$$UploadCredentialsImplCopyWithImpl<$Res>
     extends _$UploadCredentialsCopyWithImpl<$Res, _$UploadCredentialsImpl>
     implements _$$UploadCredentialsImplCopyWith<$Res> {
-  __$$UploadCredentialsImplCopyWithImpl(_$UploadCredentialsImpl _value,
-      $Res Function(_$UploadCredentialsImpl) _then)
-      : super(_value, _then);
+  __$$UploadCredentialsImplCopyWithImpl(
+    _$UploadCredentialsImpl _value,
+    $Res Function(_$UploadCredentialsImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of UploadCredentials
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,40 +133,43 @@ class __$$UploadCredentialsImplCopyWithImpl<$Res>
     Object? publicKey = null,
     Object? uploadEndpoint = null,
   }) {
-    return _then(_$UploadCredentialsImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-      signature: null == signature
-          ? _value.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
-      expire: null == expire
-          ? _value.expire
-          : expire // ignore: cast_nullable_to_non_nullable
-              as int,
-      publicKey: null == publicKey
-          ? _value.publicKey
-          : publicKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      uploadEndpoint: null == uploadEndpoint
-          ? _value.uploadEndpoint
-          : uploadEndpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$UploadCredentialsImpl(
+        token: null == token
+            ? _value.token
+            : token // ignore: cast_nullable_to_non_nullable
+                  as String,
+        signature: null == signature
+            ? _value.signature
+            : signature // ignore: cast_nullable_to_non_nullable
+                  as String,
+        expire: null == expire
+            ? _value.expire
+            : expire // ignore: cast_nullable_to_non_nullable
+                  as int,
+        publicKey: null == publicKey
+            ? _value.publicKey
+            : publicKey // ignore: cast_nullable_to_non_nullable
+                  as String,
+        uploadEndpoint: null == uploadEndpoint
+            ? _value.uploadEndpoint
+            : uploadEndpoint // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$UploadCredentialsImpl implements _UploadCredentials {
-  const _$UploadCredentialsImpl(
-      {required this.token,
-      required this.signature,
-      required this.expire,
-      required this.publicKey,
-      required this.uploadEndpoint});
+  const _$UploadCredentialsImpl({
+    required this.token,
+    required this.signature,
+    required this.expire,
+    required this.publicKey,
+    required this.uploadEndpoint,
+  });
 
   @override
   final String token;
@@ -186,23 +204,34 @@ class _$UploadCredentialsImpl implements _UploadCredentials {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, token, signature, expire, publicKey, uploadEndpoint);
+    runtimeType,
+    token,
+    signature,
+    expire,
+    publicKey,
+    uploadEndpoint,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UploadCredentials
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UploadCredentialsImplCopyWith<_$UploadCredentialsImpl> get copyWith =>
       __$$UploadCredentialsImplCopyWithImpl<_$UploadCredentialsImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 }
 
 abstract class _UploadCredentials implements UploadCredentials {
-  const factory _UploadCredentials(
-      {required final String token,
-      required final String signature,
-      required final int expire,
-      required final String publicKey,
-      required final String uploadEndpoint}) = _$UploadCredentialsImpl;
+  const factory _UploadCredentials({
+    required final String token,
+    required final String signature,
+    required final int expire,
+    required final String publicKey,
+    required final String uploadEndpoint,
+  }) = _$UploadCredentialsImpl;
 
   @override
   String get token;
@@ -214,8 +243,11 @@ abstract class _UploadCredentials implements UploadCredentials {
   String get publicKey;
   @override
   String get uploadEndpoint;
+
+  /// Create a copy of UploadCredentials
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UploadCredentialsImplCopyWith<_$UploadCredentialsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -312,6 +312,21 @@ type DeleteAccountResult {
   success: Boolean
 }
 
+"""A device token for push notifications"""
+type DeviceToken {
+  """When the device token was registered"""
+  createdAt: DateTime
+
+  """The unique identifier of the device token"""
+  id: Int
+
+  """The platform of the device (ios or android)"""
+  platform: String
+
+  """The user who owns this device token"""
+  userId: Int
+}
+
 """画像アップロードサービスのエラー"""
 type ImageUploadError {
   """エラーコード"""
@@ -370,6 +385,9 @@ type Mutation {
   """Refresh ID token using refresh token"""
   refreshToken(input: RefreshTokenInput!): MutationRefreshTokenResult
 
+  """Register a device token for push notifications"""
+  registerDeviceToken(input: RegisterDeviceTokenInput!): DeviceToken
+
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
 
@@ -385,17 +403,17 @@ type Mutation {
   """Send password reset email to the specified address"""
   sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
 
+  """Unregister a device token"""
+  unregisterDeviceToken(input: UnregisterDeviceTokenInput!): Boolean
+
   """Update an existing book list"""
   updateBookList(input: UpdateBookListInput!): BookList!
 
-  """Update the completed at date of a book in the user's shelf"""
-  updateCompletedAt(completedAt: DateTime!, userBookId: Int!): UserBook!
-
-  """Update the start date of a book in the user's shelf"""
-  updateStartedAt(startedAt: DateTime!, userBookId: Int!): UserBook!
-
   """Update the rating of a book in the user's shelf"""
   updateBookRating(rating: Int, userBookId: Int!): UserBook!
+
+  """Update the completion date of a book in the user's shelf"""
+  updateCompletedAt(completedAt: DateTime!, userBookId: Int!): UserBook!
 
   """Update the current user's profile"""
   updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
@@ -405,6 +423,9 @@ type Mutation {
 
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
+
+  """Update the start date of a book in the user's shelf"""
+  updateStartedAt(startedAt: DateTime!, userBookId: Int!): UserBook!
 }
 
 union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
@@ -575,6 +596,15 @@ type RefreshTokenResult {
   refreshToken: String!
 }
 
+"""Input for registering a device token"""
+input RegisterDeviceTokenInput {
+  """Device platform (ios or android)"""
+  platform: String!
+
+  """FCM device token"""
+  token: String!
+}
+
 """Input for user registration"""
 input RegisterUserInput {
   """Email address"""
@@ -636,6 +666,12 @@ enum SortOrder {
 
   """Descending order"""
   DESC
+}
+
+"""Input for unregistering a device token"""
+input UnregisterDeviceTokenInput {
+  """FCM device token"""
+  token: String!
 }
 
 """Input for updating an existing book list"""

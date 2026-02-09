@@ -7,78 +7,104 @@ part of 'send_password_reset_email.req.gql.dart';
 // **************************************************************************
 
 Serializer<GSendPasswordResetEmailReq> _$gSendPasswordResetEmailReqSerializer =
-    new _$GSendPasswordResetEmailReqSerializer();
+    _$GSendPasswordResetEmailReqSerializer();
 
 class _$GSendPasswordResetEmailReqSerializer
     implements StructuredSerializer<GSendPasswordResetEmailReq> {
   @override
   final Iterable<Type> types = const [
     GSendPasswordResetEmailReq,
-    _$GSendPasswordResetEmailReq
+    _$GSendPasswordResetEmailReq,
   ];
   @override
   final String wireName = 'GSendPasswordResetEmailReq';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GSendPasswordResetEmailReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GSendPasswordResetEmailReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GSendPasswordResetEmailVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GSendPasswordResetEmailVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GSendPasswordResetEmailData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GSendPasswordResetEmailData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GSendPasswordResetEmailReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GSendPasswordResetEmailReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GSendPasswordResetEmailReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -87,44 +113,77 @@ class _$GSendPasswordResetEmailReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(_i3.GSendPasswordResetEmailVars))!
-              as _i3.GSendPasswordResetEmailVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                    _i3.GSendPasswordResetEmailVars,
+                  ),
+                )!
+                as _i3.GSendPasswordResetEmailVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(_i2.GSendPasswordResetEmailData))!
-              as _i2.GSendPasswordResetEmailData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(
+                    _i2.GSendPasswordResetEmailData,
+                  ),
+                )!
+                as _i2.GSendPasswordResetEmailData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -142,8 +201,10 @@ class _$GSendPasswordResetEmailReq extends GSendPasswordResetEmailReq {
   final String? requestId;
   @override
   final _i2.GSendPasswordResetEmailData? Function(
-          _i2.GSendPasswordResetEmailData?, _i2.GSendPasswordResetEmailData?)?
-      updateResult;
+    _i2.GSendPasswordResetEmailData?,
+    _i2.GSendPasswordResetEmailData?,
+  )?
+  updateResult;
   @override
   final _i2.GSendPasswordResetEmailData? optimisticResponse;
   @override
@@ -157,38 +218,30 @@ class _$GSendPasswordResetEmailReq extends GSendPasswordResetEmailReq {
   @override
   final _i4.Context? context;
 
-  factory _$GSendPasswordResetEmailReq(
-          [void Function(GSendPasswordResetEmailReqBuilder)? updates]) =>
-      (new GSendPasswordResetEmailReqBuilder()..update(updates))._build();
+  factory _$GSendPasswordResetEmailReq([
+    void Function(GSendPasswordResetEmailReqBuilder)? updates,
+  ]) => (GSendPasswordResetEmailReqBuilder()..update(updates))._build();
 
-  _$GSendPasswordResetEmailReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        vars, r'GSendPasswordResetEmailReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GSendPasswordResetEmailReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GSendPasswordResetEmailReq', 'executeOnListen');
-  }
-
+  _$GSendPasswordResetEmailReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GSendPasswordResetEmailReq rebuild(
-          void Function(GSendPasswordResetEmailReqBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GSendPasswordResetEmailReqBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GSendPasswordResetEmailReqBuilder toBuilder() =>
-      new GSendPasswordResetEmailReqBuilder()..replace(this);
+      GSendPasswordResetEmailReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -248,7 +301,7 @@ class GSendPasswordResetEmailReqBuilder
 
   _i3.GSendPasswordResetEmailVarsBuilder? _vars;
   _i3.GSendPasswordResetEmailVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GSendPasswordResetEmailVarsBuilder();
+      _$this._vars ??= _i3.GSendPasswordResetEmailVarsBuilder();
   set vars(_i3.GSendPasswordResetEmailVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -260,25 +313,29 @@ class GSendPasswordResetEmailReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GSendPasswordResetEmailData? Function(
-          _i2.GSendPasswordResetEmailData?, _i2.GSendPasswordResetEmailData?)?
-      _updateResult;
+    _i2.GSendPasswordResetEmailData?,
+    _i2.GSendPasswordResetEmailData?,
+  )?
+  _updateResult;
   _i2.GSendPasswordResetEmailData? Function(
-          _i2.GSendPasswordResetEmailData?, _i2.GSendPasswordResetEmailData?)?
-      get updateResult => _$this._updateResult;
+    _i2.GSendPasswordResetEmailData?,
+    _i2.GSendPasswordResetEmailData?,
+  )?
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GSendPasswordResetEmailData? Function(
-                  _i2.GSendPasswordResetEmailData?,
-                  _i2.GSendPasswordResetEmailData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GSendPasswordResetEmailData? Function(
+      _i2.GSendPasswordResetEmailData?,
+      _i2.GSendPasswordResetEmailData?,
+    )?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GSendPasswordResetEmailDataBuilder? _optimisticResponse;
   _i2.GSendPasswordResetEmailDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??=
-          new _i2.GSendPasswordResetEmailDataBuilder();
+      _$this._optimisticResponse ??= _i2.GSendPasswordResetEmailDataBuilder();
   set optimisticResponse(
-          _i2.GSendPasswordResetEmailDataBuilder? optimisticResponse) =>
-      _$this._optimisticResponse = optimisticResponse;
+    _i2.GSendPasswordResetEmailDataBuilder? optimisticResponse,
+  ) => _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -289,8 +346,8 @@ class GSendPasswordResetEmailReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -330,7 +387,6 @@ class GSendPasswordResetEmailReqBuilder
 
   @override
   void replace(GSendPasswordResetEmailReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GSendPasswordResetEmailReq;
   }
 
@@ -345,22 +401,28 @@ class GSendPasswordResetEmailReqBuilder
   _$GSendPasswordResetEmailReq _build() {
     _$GSendPasswordResetEmailReq _$result;
     try {
-      _$result = _$v ??
-          new _$GSendPasswordResetEmailReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GSendPasswordResetEmailReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen,
-                  r'GSendPasswordResetEmailReq',
-                  'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GSendPasswordResetEmailReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GSendPasswordResetEmailReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GSendPasswordResetEmailReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -370,8 +432,11 @@ class GSendPasswordResetEmailReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GSendPasswordResetEmailReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GSendPasswordResetEmailReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

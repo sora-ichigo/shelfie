@@ -7,22 +7,24 @@ part of 'book_list_detail.var.gql.dart';
 // **************************************************************************
 
 Serializer<GBookListDetailVars> _$gBookListDetailVarsSerializer =
-    new _$GBookListDetailVarsSerializer();
+    _$GBookListDetailVarsSerializer();
 
 class _$GBookListDetailVarsSerializer
     implements StructuredSerializer<GBookListDetailVars> {
   @override
   final Iterable<Type> types = const [
     GBookListDetailVars,
-    _$GBookListDetailVars
+    _$GBookListDetailVars,
   ];
   @override
   final String wireName = 'GBookListDetailVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GBookListDetailVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GBookListDetailVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
@@ -33,9 +35,11 @@ class _$GBookListDetailVarsSerializer
 
   @override
   GBookListDetailVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GBookListDetailVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GBookListDetailVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -44,8 +48,12 @@ class _$GBookListDetailVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'listId':
-          result.listId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+          result.listId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(int),
+                  )!
+                  as int;
           break;
       }
     }
@@ -58,23 +66,19 @@ class _$GBookListDetailVars extends GBookListDetailVars {
   @override
   final int listId;
 
-  factory _$GBookListDetailVars(
-          [void Function(GBookListDetailVarsBuilder)? updates]) =>
-      (new GBookListDetailVarsBuilder()..update(updates))._build();
+  factory _$GBookListDetailVars([
+    void Function(GBookListDetailVarsBuilder)? updates,
+  ]) => (GBookListDetailVarsBuilder()..update(updates))._build();
 
-  _$GBookListDetailVars._({required this.listId}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        listId, r'GBookListDetailVars', 'listId');
-  }
-
+  _$GBookListDetailVars._({required this.listId}) : super._();
   @override
   GBookListDetailVars rebuild(
-          void Function(GBookListDetailVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GBookListDetailVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GBookListDetailVarsBuilder toBuilder() =>
-      new GBookListDetailVarsBuilder()..replace(this);
+      GBookListDetailVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -92,9 +96,9 @@ class _$GBookListDetailVars extends GBookListDetailVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GBookListDetailVars')
-          ..add('listId', listId))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GBookListDetailVars',
+    )..add('listId', listId)).toString();
   }
 }
 
@@ -119,7 +123,6 @@ class GBookListDetailVarsBuilder
 
   @override
   void replace(GBookListDetailVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GBookListDetailVars;
   }
 
@@ -132,10 +135,15 @@ class GBookListDetailVarsBuilder
   GBookListDetailVars build() => _build();
 
   _$GBookListDetailVars _build() {
-    final _$result = _$v ??
-        new _$GBookListDetailVars._(
-            listId: BuiltValueNullFieldError.checkNotNull(
-                listId, r'GBookListDetailVars', 'listId'));
+    final _$result =
+        _$v ??
+        _$GBookListDetailVars._(
+          listId: BuiltValueNullFieldError.checkNotNull(
+            listId,
+            r'GBookListDetailVars',
+            'listId',
+          ),
+        );
     replace(_$result);
     return _$result;
   }

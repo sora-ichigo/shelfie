@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
+import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
 
 part 'auth_state.g.dart';
 
@@ -121,6 +122,14 @@ class AuthState extends _$AuthState {
   }
 
   Future<void> logout() async {
+    try {
+      await ref
+          .read(deviceTokenNotifierProvider.notifier)
+          .unregisterCurrentToken();
+    } catch (_) {
+      // ログアウト処理は継続する
+    }
+
     state = const AuthStateData.initial();
 
     final storage = ref.read(secureStorageServiceProvider);

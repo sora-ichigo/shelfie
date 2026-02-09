@@ -12,7 +12,8 @@ part of 'password_settings_notifier.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$PasswordSettingsState {
@@ -22,16 +23,14 @@ mixin _$PasswordSettingsState {
     required TResult Function() loading,
     required TResult Function(String message) success,
     required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String message)? success,
     TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -39,24 +38,21 @@ mixin _$PasswordSettingsState {
     TResult Function(String message)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PasswordSettingsInitial value) initial,
     required TResult Function(PasswordSettingsLoading value) loading,
     required TResult Function(PasswordSettingsSuccess value) success,
     required TResult Function(PasswordSettingsError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(PasswordSettingsInitial value)? initial,
     TResult? Function(PasswordSettingsLoading value)? loading,
     TResult? Function(PasswordSettingsSuccess value)? success,
     TResult? Function(PasswordSettingsError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(PasswordSettingsInitial value)? initial,
@@ -64,20 +60,22 @@ mixin _$PasswordSettingsState {
     TResult Function(PasswordSettingsSuccess value)? success,
     TResult Function(PasswordSettingsError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PasswordSettingsStateCopyWith<$Res> {
-  factory $PasswordSettingsStateCopyWith(PasswordSettingsState value,
-          $Res Function(PasswordSettingsState) then) =
-      _$PasswordSettingsStateCopyWithImpl<$Res, PasswordSettingsState>;
+  factory $PasswordSettingsStateCopyWith(
+    PasswordSettingsState value,
+    $Res Function(PasswordSettingsState) then,
+  ) = _$PasswordSettingsStateCopyWithImpl<$Res, PasswordSettingsState>;
 }
 
 /// @nodoc
-class _$PasswordSettingsStateCopyWithImpl<$Res,
-        $Val extends PasswordSettingsState>
+class _$PasswordSettingsStateCopyWithImpl<
+  $Res,
+  $Val extends PasswordSettingsState
+>
     implements $PasswordSettingsStateCopyWith<$Res> {
   _$PasswordSettingsStateCopyWithImpl(this._value, this._then);
 
@@ -85,25 +83,31 @@ class _$PasswordSettingsStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$PasswordSettingsInitialImplCopyWith<$Res> {
   factory _$$PasswordSettingsInitialImplCopyWith(
-          _$PasswordSettingsInitialImpl value,
-          $Res Function(_$PasswordSettingsInitialImpl) then) =
-      __$$PasswordSettingsInitialImplCopyWithImpl<$Res>;
+    _$PasswordSettingsInitialImpl value,
+    $Res Function(_$PasswordSettingsInitialImpl) then,
+  ) = __$$PasswordSettingsInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$PasswordSettingsInitialImplCopyWithImpl<$Res>
-    extends _$PasswordSettingsStateCopyWithImpl<$Res,
-        _$PasswordSettingsInitialImpl>
+    extends
+        _$PasswordSettingsStateCopyWithImpl<$Res, _$PasswordSettingsInitialImpl>
     implements _$$PasswordSettingsInitialImplCopyWith<$Res> {
   __$$PasswordSettingsInitialImplCopyWithImpl(
-      _$PasswordSettingsInitialImpl _value,
-      $Res Function(_$PasswordSettingsInitialImpl) _then)
-      : super(_value, _then);
+    _$PasswordSettingsInitialImpl _value,
+    $Res Function(_$PasswordSettingsInitialImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -208,20 +212,23 @@ abstract class PasswordSettingsInitial implements PasswordSettingsState {
 /// @nodoc
 abstract class _$$PasswordSettingsLoadingImplCopyWith<$Res> {
   factory _$$PasswordSettingsLoadingImplCopyWith(
-          _$PasswordSettingsLoadingImpl value,
-          $Res Function(_$PasswordSettingsLoadingImpl) then) =
-      __$$PasswordSettingsLoadingImplCopyWithImpl<$Res>;
+    _$PasswordSettingsLoadingImpl value,
+    $Res Function(_$PasswordSettingsLoadingImpl) then,
+  ) = __$$PasswordSettingsLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$PasswordSettingsLoadingImplCopyWithImpl<$Res>
-    extends _$PasswordSettingsStateCopyWithImpl<$Res,
-        _$PasswordSettingsLoadingImpl>
+    extends
+        _$PasswordSettingsStateCopyWithImpl<$Res, _$PasswordSettingsLoadingImpl>
     implements _$$PasswordSettingsLoadingImplCopyWith<$Res> {
   __$$PasswordSettingsLoadingImplCopyWithImpl(
-      _$PasswordSettingsLoadingImpl _value,
-      $Res Function(_$PasswordSettingsLoadingImpl) _then)
-      : super(_value, _then);
+    _$PasswordSettingsLoadingImpl _value,
+    $Res Function(_$PasswordSettingsLoadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -326,34 +333,36 @@ abstract class PasswordSettingsLoading implements PasswordSettingsState {
 /// @nodoc
 abstract class _$$PasswordSettingsSuccessImplCopyWith<$Res> {
   factory _$$PasswordSettingsSuccessImplCopyWith(
-          _$PasswordSettingsSuccessImpl value,
-          $Res Function(_$PasswordSettingsSuccessImpl) then) =
-      __$$PasswordSettingsSuccessImplCopyWithImpl<$Res>;
+    _$PasswordSettingsSuccessImpl value,
+    $Res Function(_$PasswordSettingsSuccessImpl) then,
+  ) = __$$PasswordSettingsSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
 class __$$PasswordSettingsSuccessImplCopyWithImpl<$Res>
-    extends _$PasswordSettingsStateCopyWithImpl<$Res,
-        _$PasswordSettingsSuccessImpl>
+    extends
+        _$PasswordSettingsStateCopyWithImpl<$Res, _$PasswordSettingsSuccessImpl>
     implements _$$PasswordSettingsSuccessImplCopyWith<$Res> {
   __$$PasswordSettingsSuccessImplCopyWithImpl(
-      _$PasswordSettingsSuccessImpl _value,
-      $Res Function(_$PasswordSettingsSuccessImpl) _then)
-      : super(_value, _then);
+    _$PasswordSettingsSuccessImpl _value,
+    $Res Function(_$PasswordSettingsSuccessImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$PasswordSettingsSuccessImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? message = null}) {
+    return _then(
+      _$PasswordSettingsSuccessImpl(
+        message: null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
@@ -381,12 +390,16 @@ class _$PasswordSettingsSuccessImpl implements PasswordSettingsSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordSettingsSuccessImplCopyWith<_$PasswordSettingsSuccessImpl>
-      get copyWith => __$$PasswordSettingsSuccessImplCopyWithImpl<
-          _$PasswordSettingsSuccessImpl>(this, _$identity);
+  get copyWith =>
+      __$$PasswordSettingsSuccessImplCopyWithImpl<
+        _$PasswordSettingsSuccessImpl
+      >(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -468,17 +481,20 @@ abstract class PasswordSettingsSuccess implements PasswordSettingsState {
       _$PasswordSettingsSuccessImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PasswordSettingsSuccessImplCopyWith<_$PasswordSettingsSuccessImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$PasswordSettingsErrorImplCopyWith<$Res> {
   factory _$$PasswordSettingsErrorImplCopyWith(
-          _$PasswordSettingsErrorImpl value,
-          $Res Function(_$PasswordSettingsErrorImpl) then) =
-      __$$PasswordSettingsErrorImplCopyWithImpl<$Res>;
+    _$PasswordSettingsErrorImpl value,
+    $Res Function(_$PasswordSettingsErrorImpl) then,
+  ) = __$$PasswordSettingsErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Failure failure});
 
@@ -487,26 +503,31 @@ abstract class _$$PasswordSettingsErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$PasswordSettingsErrorImplCopyWithImpl<$Res>
-    extends _$PasswordSettingsStateCopyWithImpl<$Res,
-        _$PasswordSettingsErrorImpl>
+    extends
+        _$PasswordSettingsStateCopyWithImpl<$Res, _$PasswordSettingsErrorImpl>
     implements _$$PasswordSettingsErrorImplCopyWith<$Res> {
-  __$$PasswordSettingsErrorImplCopyWithImpl(_$PasswordSettingsErrorImpl _value,
-      $Res Function(_$PasswordSettingsErrorImpl) _then)
-      : super(_value, _then);
+  __$$PasswordSettingsErrorImplCopyWithImpl(
+    _$PasswordSettingsErrorImpl _value,
+    $Res Function(_$PasswordSettingsErrorImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$PasswordSettingsErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
+  $Res call({Object? failure = null}) {
+    return _then(
+      _$PasswordSettingsErrorImpl(
+        failure: null == failure
+            ? _value.failure
+            : failure // ignore: cast_nullable_to_non_nullable
+                  as Failure,
+      ),
+    );
   }
 
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -540,12 +561,17 @@ class _$PasswordSettingsErrorImpl implements PasswordSettingsError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordSettingsErrorImplCopyWith<_$PasswordSettingsErrorImpl>
-      get copyWith => __$$PasswordSettingsErrorImplCopyWithImpl<
-          _$PasswordSettingsErrorImpl>(this, _$identity);
+  get copyWith =>
+      __$$PasswordSettingsErrorImplCopyWithImpl<_$PasswordSettingsErrorImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -627,7 +653,10 @@ abstract class PasswordSettingsError implements PasswordSettingsState {
       _$PasswordSettingsErrorImpl;
 
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PasswordSettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PasswordSettingsErrorImplCopyWith<_$PasswordSettingsErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }

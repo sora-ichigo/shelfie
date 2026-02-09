@@ -34,9 +34,7 @@ abstract class _$BookDetailNotifier
     extends BuildlessAutoDisposeAsyncNotifier<BookDetail?> {
   late final String externalId;
 
-  FutureOr<BookDetail?> build(
-    String externalId,
-  );
+  FutureOr<BookDetail?> build(String externalId);
 }
 
 /// See also [BookDetailNotifier].
@@ -49,21 +47,15 @@ class BookDetailNotifierFamily extends Family<AsyncValue<BookDetail?>> {
   const BookDetailNotifierFamily();
 
   /// See also [BookDetailNotifier].
-  BookDetailNotifierProvider call(
-    String externalId,
-  ) {
-    return BookDetailNotifierProvider(
-      externalId,
-    );
+  BookDetailNotifierProvider call(String externalId) {
+    return BookDetailNotifierProvider(externalId);
   }
 
   @override
   BookDetailNotifierProvider getProviderOverride(
     covariant BookDetailNotifierProvider provider,
   ) {
-    return call(
-      provider.externalId,
-    );
+    return call(provider.externalId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -82,24 +74,23 @@ class BookDetailNotifierFamily extends Family<AsyncValue<BookDetail?>> {
 }
 
 /// See also [BookDetailNotifier].
-class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    BookDetailNotifier, BookDetail?> {
+class BookDetailNotifierProvider
+    extends
+        AutoDisposeAsyncNotifierProviderImpl<BookDetailNotifier, BookDetail?> {
   /// See also [BookDetailNotifier].
-  BookDetailNotifierProvider(
-    String externalId,
-  ) : this._internal(
-          () => BookDetailNotifier()..externalId = externalId,
-          from: bookDetailNotifierProvider,
-          name: r'bookDetailNotifierProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$bookDetailNotifierHash,
-          dependencies: BookDetailNotifierFamily._dependencies,
-          allTransitiveDependencies:
-              BookDetailNotifierFamily._allTransitiveDependencies,
-          externalId: externalId,
-        );
+  BookDetailNotifierProvider(String externalId)
+    : this._internal(
+        () => BookDetailNotifier()..externalId = externalId,
+        from: bookDetailNotifierProvider,
+        name: r'bookDetailNotifierProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$bookDetailNotifierHash,
+        dependencies: BookDetailNotifierFamily._dependencies,
+        allTransitiveDependencies:
+            BookDetailNotifierFamily._allTransitiveDependencies,
+        externalId: externalId,
+      );
 
   BookDetailNotifierProvider._internal(
     super._createNotifier, {
@@ -117,9 +108,7 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   FutureOr<BookDetail?> runNotifierBuild(
     covariant BookDetailNotifier notifier,
   ) {
-    return notifier.build(
-      externalId,
-    );
+    return notifier.build(externalId);
   }
 
   @override
@@ -140,7 +129,7 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
   @override
   AutoDisposeAsyncNotifierProviderElement<BookDetailNotifier, BookDetail?>
-      createElement() {
+  createElement() {
     return _BookDetailNotifierProviderElement(this);
   }
 
@@ -159,6 +148,8 @@ class BookDetailNotifierProvider extends AutoDisposeAsyncNotifierProviderImpl<
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin BookDetailNotifierRef
     on AutoDisposeAsyncNotifierProviderRef<BookDetail?> {
   /// The parameter `externalId` of this provider.
@@ -166,12 +157,14 @@ mixin BookDetailNotifierRef
 }
 
 class _BookDetailNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<BookDetailNotifier,
-        BookDetail?> with BookDetailNotifierRef {
+    extends
+        AutoDisposeAsyncNotifierProviderElement<BookDetailNotifier, BookDetail?>
+    with BookDetailNotifierRef {
   _BookDetailNotifierProviderElement(super.provider);
 
   @override
   String get externalId => (origin as BookDetailNotifierProvider).externalId;
 }
+
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

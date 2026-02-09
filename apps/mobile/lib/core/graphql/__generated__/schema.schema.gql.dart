@@ -261,6 +261,32 @@ abstract class GRefreshTokenInput
       );
 }
 
+abstract class GRegisterDeviceTokenInput
+    implements
+        Built<GRegisterDeviceTokenInput, GRegisterDeviceTokenInputBuilder> {
+  GRegisterDeviceTokenInput._();
+
+  factory GRegisterDeviceTokenInput(
+          [void Function(GRegisterDeviceTokenInputBuilder b) updates]) =
+      _$GRegisterDeviceTokenInput;
+
+  String get platform;
+  String get token;
+  static Serializer<GRegisterDeviceTokenInput> get serializer =>
+      _$gRegisterDeviceTokenInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GRegisterDeviceTokenInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GRegisterDeviceTokenInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GRegisterDeviceTokenInput.serializer,
+        json,
+      );
+}
+
 abstract class GRegisterUserInput
     implements Built<GRegisterUserInput, GRegisterUserInputBuilder> {
   GRegisterUserInput._();
@@ -347,6 +373,31 @@ class GSortOrder extends EnumClass {
   static BuiltSet<GSortOrder> get values => _$gSortOrderValues;
 
   static GSortOrder valueOf(String name) => _$gSortOrderValueOf(name);
+}
+
+abstract class GUnregisterDeviceTokenInput
+    implements
+        Built<GUnregisterDeviceTokenInput, GUnregisterDeviceTokenInputBuilder> {
+  GUnregisterDeviceTokenInput._();
+
+  factory GUnregisterDeviceTokenInput(
+          [void Function(GUnregisterDeviceTokenInputBuilder b) updates]) =
+      _$GUnregisterDeviceTokenInput;
+
+  String get token;
+  static Serializer<GUnregisterDeviceTokenInput> get serializer =>
+      _$gUnregisterDeviceTokenInputSerializer;
+
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+        GUnregisterDeviceTokenInput.serializer,
+        this,
+      ) as Map<String, dynamic>);
+
+  static GUnregisterDeviceTokenInput? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(
+        GUnregisterDeviceTokenInput.serializer,
+        json,
+      );
 }
 
 abstract class GUpdateBookListInput

@@ -7,26 +7,30 @@ part of 'change_password.var.gql.dart';
 // **************************************************************************
 
 Serializer<GChangePasswordVars> _$gChangePasswordVarsSerializer =
-    new _$GChangePasswordVarsSerializer();
+    _$GChangePasswordVarsSerializer();
 
 class _$GChangePasswordVarsSerializer
     implements StructuredSerializer<GChangePasswordVars> {
   @override
   final Iterable<Type> types = const [
     GChangePasswordVars,
-    _$GChangePasswordVars
+    _$GChangePasswordVars,
   ];
   @override
   final String wireName = 'GChangePasswordVars';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GChangePasswordVars object,
-      {FullType specifiedType = FullType.unspecified}) {
+    Serializers serializers,
+    GChangePasswordVars object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'input',
-      serializers.serialize(object.input,
-          specifiedType: const FullType(_i1.GChangePasswordInput)),
+      serializers.serialize(
+        object.input,
+        specifiedType: const FullType(_i1.GChangePasswordInput),
+      ),
     ];
 
     return result;
@@ -34,9 +38,11 @@ class _$GChangePasswordVarsSerializer
 
   @override
   GChangePasswordVars deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GChangePasswordVarsBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GChangePasswordVarsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -45,9 +51,13 @@ class _$GChangePasswordVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.GChangePasswordInput))!
-              as _i1.GChangePasswordInput);
+          result.input.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i1.GChangePasswordInput),
+                )!
+                as _i1.GChangePasswordInput,
+          );
           break;
       }
     }
@@ -60,23 +70,19 @@ class _$GChangePasswordVars extends GChangePasswordVars {
   @override
   final _i1.GChangePasswordInput input;
 
-  factory _$GChangePasswordVars(
-          [void Function(GChangePasswordVarsBuilder)? updates]) =>
-      (new GChangePasswordVarsBuilder()..update(updates))._build();
+  factory _$GChangePasswordVars([
+    void Function(GChangePasswordVarsBuilder)? updates,
+  ]) => (GChangePasswordVarsBuilder()..update(updates))._build();
 
-  _$GChangePasswordVars._({required this.input}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        input, r'GChangePasswordVars', 'input');
-  }
-
+  _$GChangePasswordVars._({required this.input}) : super._();
   @override
   GChangePasswordVars rebuild(
-          void Function(GChangePasswordVarsBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+    void Function(GChangePasswordVarsBuilder) updates,
+  ) => (toBuilder()..update(updates)).build();
 
   @override
   GChangePasswordVarsBuilder toBuilder() =>
-      new GChangePasswordVarsBuilder()..replace(this);
+      GChangePasswordVarsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -94,9 +100,9 @@ class _$GChangePasswordVars extends GChangePasswordVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GChangePasswordVars')
-          ..add('input', input))
-        .toString();
+    return (newBuiltValueToStringHelper(
+      r'GChangePasswordVars',
+    )..add('input', input)).toString();
   }
 }
 
@@ -106,7 +112,7 @@ class GChangePasswordVarsBuilder
 
   _i1.GChangePasswordInputBuilder? _input;
   _i1.GChangePasswordInputBuilder get input =>
-      _$this._input ??= new _i1.GChangePasswordInputBuilder();
+      _$this._input ??= _i1.GChangePasswordInputBuilder();
   set input(_i1.GChangePasswordInputBuilder? input) => _$this._input = input;
 
   GChangePasswordVarsBuilder();
@@ -122,7 +128,6 @@ class GChangePasswordVarsBuilder
 
   @override
   void replace(GChangePasswordVars other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GChangePasswordVars;
   }
 
@@ -137,15 +142,18 @@ class GChangePasswordVarsBuilder
   _$GChangePasswordVars _build() {
     _$GChangePasswordVars _$result;
     try {
-      _$result = _$v ?? new _$GChangePasswordVars._(input: input.build());
+      _$result = _$v ?? _$GChangePasswordVars._(input: input.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'input';
         input.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GChangePasswordVars', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GChangePasswordVars',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

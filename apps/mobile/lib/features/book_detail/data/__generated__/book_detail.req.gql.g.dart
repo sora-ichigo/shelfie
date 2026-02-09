@@ -7,7 +7,7 @@ part of 'book_detail.req.gql.dart';
 // **************************************************************************
 
 Serializer<GBookDetailReq> _$gBookDetailReqSerializer =
-    new _$GBookDetailReqSerializer();
+    _$GBookDetailReqSerializer();
 
 class _$GBookDetailReqSerializer
     implements StructuredSerializer<GBookDetailReq> {
@@ -17,64 +17,91 @@ class _$GBookDetailReqSerializer
   final String wireName = 'GBookDetailReq';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers, GBookDetailReq object,
-      {FullType specifiedType = FullType.unspecified}) {
+  Iterable<Object?> serialize(
+    Serializers serializers,
+    GBookDetailReq object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GBookDetailVars)),
+      serializers.serialize(
+        object.vars,
+        specifiedType: const FullType(_i3.GBookDetailVars),
+      ),
       'operation',
-      serializers.serialize(object.operation,
-          specifiedType: const FullType(_i4.Operation)),
+      serializers.serialize(
+        object.operation,
+        specifiedType: const FullType(_i4.Operation),
+      ),
       'executeOnListen',
-      serializers.serialize(object.executeOnListen,
-          specifiedType: const FullType(bool)),
+      serializers.serialize(
+        object.executeOnListen,
+        specifiedType: const FullType(bool),
+      ),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GBookDetailData)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i2.GBookDetailData),
+          ),
+        );
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
+        ..add(
+          serializers.serialize(value, specifiedType: const FullType(String)),
+        );
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                Map, const [const FullType(String), const FullType(dynamic)])));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(Map, const [
+              const FullType(String),
+              const FullType(dynamic),
+            ]),
+          ),
+        );
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i1.FetchPolicy)));
+        ..add(
+          serializers.serialize(
+            value,
+            specifiedType: const FullType(_i1.FetchPolicy),
+          ),
+        );
     }
     return result;
   }
 
   @override
   GBookDetailReq deserialize(
-      Serializers serializers, Iterable<Object?> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new GBookDetailReqBuilder();
+    Serializers serializers,
+    Iterable<Object?> serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    final result = GBookDetailReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -83,42 +110,73 @@ class _$GBookDetailReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GBookDetailVars))!
-              as _i3.GBookDetailVars);
+          result.vars.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i3.GBookDetailVars),
+                )!
+                as _i3.GBookDetailVars,
+          );
           break;
         case 'operation':
-          result.operation = serializers.deserialize(value,
-              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
+          result.operation =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i4.Operation),
+                  )!
+                  as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.requestId =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GBookDetailData))!
-              as _i2.GBookDetailData);
+          result.optimisticResponse.replace(
+            serializers.deserialize(
+                  value,
+                  specifiedType: const FullType(_i2.GBookDetailData),
+                )!
+                as _i2.GBookDetailData,
+          );
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
+          result.updateCacheHandlerKey =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(String),
+                  )
+                  as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext = serializers.deserialize(value,
-              specifiedType: const FullType(Map, const [
-                const FullType(String),
-                const FullType(dynamic)
-              ])) as Map<String, dynamic>?;
+          result.updateCacheHandlerContext =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(Map, const [
+                      const FullType(String),
+                      const FullType(dynamic),
+                    ]),
+                  )
+                  as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy = serializers.deserialize(value,
-                  specifiedType: const FullType(_i1.FetchPolicy))
-              as _i1.FetchPolicy?;
+          result.fetchPolicy =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(_i1.FetchPolicy),
+                  )
+                  as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+          result.executeOnListen =
+              serializers.deserialize(
+                    value,
+                    specifiedType: const FullType(bool),
+                  )!
+                  as bool;
           break;
       }
     }
@@ -136,7 +194,10 @@ class _$GBookDetailReq extends GBookDetailReq {
   final String? requestId;
   @override
   final _i2.GBookDetailData? Function(
-      _i2.GBookDetailData?, _i2.GBookDetailData?)? updateResult;
+    _i2.GBookDetailData?,
+    _i2.GBookDetailData?,
+  )?
+  updateResult;
   @override
   final _i2.GBookDetailData? optimisticResponse;
   @override
@@ -151,34 +212,26 @@ class _$GBookDetailReq extends GBookDetailReq {
   final _i4.Context? context;
 
   factory _$GBookDetailReq([void Function(GBookDetailReqBuilder)? updates]) =>
-      (new GBookDetailReqBuilder()..update(updates))._build();
+      (GBookDetailReqBuilder()..update(updates))._build();
 
-  _$GBookDetailReq._(
-      {required this.vars,
-      required this.operation,
-      this.requestId,
-      this.updateResult,
-      this.optimisticResponse,
-      this.updateCacheHandlerKey,
-      this.updateCacheHandlerContext,
-      this.fetchPolicy,
-      required this.executeOnListen,
-      this.context})
-      : super._() {
-    BuiltValueNullFieldError.checkNotNull(vars, r'GBookDetailReq', 'vars');
-    BuiltValueNullFieldError.checkNotNull(
-        operation, r'GBookDetailReq', 'operation');
-    BuiltValueNullFieldError.checkNotNull(
-        executeOnListen, r'GBookDetailReq', 'executeOnListen');
-  }
-
+  _$GBookDetailReq._({
+    required this.vars,
+    required this.operation,
+    this.requestId,
+    this.updateResult,
+    this.optimisticResponse,
+    this.updateCacheHandlerKey,
+    this.updateCacheHandlerContext,
+    this.fetchPolicy,
+    required this.executeOnListen,
+    this.context,
+  }) : super._();
   @override
   GBookDetailReq rebuild(void Function(GBookDetailReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GBookDetailReqBuilder toBuilder() =>
-      new GBookDetailReqBuilder()..replace(this);
+  GBookDetailReqBuilder toBuilder() => GBookDetailReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -237,7 +290,7 @@ class GBookDetailReqBuilder
 
   _i3.GBookDetailVarsBuilder? _vars;
   _i3.GBookDetailVarsBuilder get vars =>
-      _$this._vars ??= new _i3.GBookDetailVarsBuilder();
+      _$this._vars ??= _i3.GBookDetailVarsBuilder();
   set vars(_i3.GBookDetailVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
@@ -249,18 +302,17 @@ class GBookDetailReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GBookDetailData? Function(_i2.GBookDetailData?, _i2.GBookDetailData?)?
-      _updateResult;
+  _updateResult;
   _i2.GBookDetailData? Function(_i2.GBookDetailData?, _i2.GBookDetailData?)?
-      get updateResult => _$this._updateResult;
+  get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GBookDetailData? Function(
-                  _i2.GBookDetailData?, _i2.GBookDetailData?)?
-              updateResult) =>
-      _$this._updateResult = updateResult;
+    _i2.GBookDetailData? Function(_i2.GBookDetailData?, _i2.GBookDetailData?)?
+    updateResult,
+  ) => _$this._updateResult = updateResult;
 
   _i2.GBookDetailDataBuilder? _optimisticResponse;
   _i2.GBookDetailDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= new _i2.GBookDetailDataBuilder();
+      _$this._optimisticResponse ??= _i2.GBookDetailDataBuilder();
   set optimisticResponse(_i2.GBookDetailDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
@@ -273,8 +325,8 @@ class GBookDetailReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-          Map<String, dynamic>? updateCacheHandlerContext) =>
-      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+    Map<String, dynamic>? updateCacheHandlerContext,
+  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -314,7 +366,6 @@ class GBookDetailReqBuilder
 
   @override
   void replace(GBookDetailReq other) {
-    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$GBookDetailReq;
   }
 
@@ -329,20 +380,28 @@ class GBookDetailReqBuilder
   _$GBookDetailReq _build() {
     _$GBookDetailReq _$result;
     try {
-      _$result = _$v ??
-          new _$GBookDetailReq._(
-              vars: vars.build(),
-              operation: BuiltValueNullFieldError.checkNotNull(
-                  operation, r'GBookDetailReq', 'operation'),
-              requestId: requestId,
-              updateResult: updateResult,
-              optimisticResponse: _optimisticResponse?.build(),
-              updateCacheHandlerKey: updateCacheHandlerKey,
-              updateCacheHandlerContext: updateCacheHandlerContext,
-              fetchPolicy: fetchPolicy,
-              executeOnListen: BuiltValueNullFieldError.checkNotNull(
-                  executeOnListen, r'GBookDetailReq', 'executeOnListen'),
-              context: context);
+      _$result =
+          _$v ??
+          _$GBookDetailReq._(
+            vars: vars.build(),
+            operation: BuiltValueNullFieldError.checkNotNull(
+              operation,
+              r'GBookDetailReq',
+              'operation',
+            ),
+            requestId: requestId,
+            updateResult: updateResult,
+            optimisticResponse: _optimisticResponse?.build(),
+            updateCacheHandlerKey: updateCacheHandlerKey,
+            updateCacheHandlerContext: updateCacheHandlerContext,
+            fetchPolicy: fetchPolicy,
+            executeOnListen: BuiltValueNullFieldError.checkNotNull(
+              executeOnListen,
+              r'GBookDetailReq',
+              'executeOnListen',
+            ),
+            context: context,
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -352,8 +411,11 @@ class GBookDetailReqBuilder
         _$failedField = 'optimisticResponse';
         _optimisticResponse?.build();
       } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            r'GBookDetailReq', _$failedField, e.toString());
+        throw BuiltValueNestedFieldError(
+          r'GBookDetailReq',
+          _$failedField,
+          e.toString(),
+        );
       }
       rethrow;
     }

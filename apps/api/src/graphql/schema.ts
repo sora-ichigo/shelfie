@@ -25,6 +25,12 @@ import {
   registerBooksTypes,
 } from "../features/books/index.js";
 import {
+  createDeviceTokenRepository,
+  createDeviceTokenService,
+  registerDeviceTokenMutations,
+  registerDeviceTokenTypes,
+} from "../features/device-tokens/index.js";
+import {
   registerImageUploadQueries,
   registerImageUploadTypes,
 } from "../features/image-upload/index.js";
@@ -74,6 +80,7 @@ registerAuthTypes(builder);
 registerBooksTypes(builder);
 registerImageUploadTypes(builder);
 registerBookListsTypes(builder, bookShelfRepository);
+registerDeviceTokenTypes(builder);
 
 builder.queryType({
   fields: (t) => ({
@@ -91,6 +98,10 @@ registerUserMutations(builder, userService);
 registerImageUploadQueries(builder);
 registerBookListsQueries(builder, bookListService, userService);
 registerBookListsMutations(builder, bookListService, userService);
+
+const deviceTokenRepository = createDeviceTokenRepository(db);
+const deviceTokenService = createDeviceTokenService(deviceTokenRepository);
+registerDeviceTokenMutations(builder, deviceTokenService, userService);
 
 export function buildSchema() {
   return builder.toSchema();

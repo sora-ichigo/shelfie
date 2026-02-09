@@ -12,7 +12,8 @@ part of 'book_list_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$BookListState {
@@ -21,47 +22,48 @@ mixin _$BookListState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(BookListInitial value) initial,
     required TResult Function(BookListLoading value) loading,
     required TResult Function(BookListLoaded value) loaded,
     required TResult Function(BookListError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(BookListInitial value)? initial,
     TResult? Function(BookListLoading value)? loading,
     TResult? Function(BookListLoaded value)? loaded,
     TResult? Function(BookListError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(BookListInitial value)? initial,
@@ -69,15 +71,15 @@ mixin _$BookListState {
     TResult Function(BookListLoaded value)? loaded,
     TResult Function(BookListError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $BookListStateCopyWith<$Res> {
   factory $BookListStateCopyWith(
-          BookListState value, $Res Function(BookListState) then) =
-      _$BookListStateCopyWithImpl<$Res, BookListState>;
+    BookListState value,
+    $Res Function(BookListState) then,
+  ) = _$BookListStateCopyWithImpl<$Res, BookListState>;
 }
 
 /// @nodoc
@@ -89,13 +91,17 @@ class _$BookListStateCopyWithImpl<$Res, $Val extends BookListState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$BookListInitialImplCopyWith<$Res> {
-  factory _$$BookListInitialImplCopyWith(_$BookListInitialImpl value,
-          $Res Function(_$BookListInitialImpl) then) =
-      __$$BookListInitialImplCopyWithImpl<$Res>;
+  factory _$$BookListInitialImplCopyWith(
+    _$BookListInitialImpl value,
+    $Res Function(_$BookListInitialImpl) then,
+  ) = __$$BookListInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -103,8 +109,12 @@ class __$$BookListInitialImplCopyWithImpl<$Res>
     extends _$BookListStateCopyWithImpl<$Res, _$BookListInitialImpl>
     implements _$$BookListInitialImplCopyWith<$Res> {
   __$$BookListInitialImplCopyWithImpl(
-      _$BookListInitialImpl _value, $Res Function(_$BookListInitialImpl) _then)
-      : super(_value, _then);
+    _$BookListInitialImpl _value,
+    $Res Function(_$BookListInitialImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -132,8 +142,11 @@ class _$BookListInitialImpl implements BookListInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return initial();
@@ -145,8 +158,11 @@ class _$BookListInitialImpl implements BookListInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return initial?.call();
@@ -158,7 +174,7 @@ class _$BookListInitialImpl implements BookListInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -212,9 +228,10 @@ abstract class BookListInitial implements BookListState {
 
 /// @nodoc
 abstract class _$$BookListLoadingImplCopyWith<$Res> {
-  factory _$$BookListLoadingImplCopyWith(_$BookListLoadingImpl value,
-          $Res Function(_$BookListLoadingImpl) then) =
-      __$$BookListLoadingImplCopyWithImpl<$Res>;
+  factory _$$BookListLoadingImplCopyWith(
+    _$BookListLoadingImpl value,
+    $Res Function(_$BookListLoadingImpl) then,
+  ) = __$$BookListLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -222,8 +239,12 @@ class __$$BookListLoadingImplCopyWithImpl<$Res>
     extends _$BookListStateCopyWithImpl<$Res, _$BookListLoadingImpl>
     implements _$$BookListLoadingImplCopyWith<$Res> {
   __$$BookListLoadingImplCopyWithImpl(
-      _$BookListLoadingImpl _value, $Res Function(_$BookListLoadingImpl) _then)
-      : super(_value, _then);
+    _$BookListLoadingImpl _value,
+    $Res Function(_$BookListLoadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -251,8 +272,11 @@ class _$BookListLoadingImpl implements BookListLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return loading();
@@ -264,8 +288,11 @@ class _$BookListLoadingImpl implements BookListLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return loading?.call();
@@ -277,7 +304,7 @@ class _$BookListLoadingImpl implements BookListLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -331,9 +358,10 @@ abstract class BookListLoading implements BookListState {
 
 /// @nodoc
 abstract class _$$BookListLoadedImplCopyWith<$Res> {
-  factory _$$BookListLoadedImplCopyWith(_$BookListLoadedImpl value,
-          $Res Function(_$BookListLoadedImpl) then) =
-      __$$BookListLoadedImplCopyWithImpl<$Res>;
+  factory _$$BookListLoadedImplCopyWith(
+    _$BookListLoadedImpl value,
+    $Res Function(_$BookListLoadedImpl) then,
+  ) = __$$BookListLoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<BookListSummary> lists, int totalCount, bool hasMore});
 }
@@ -343,9 +371,12 @@ class __$$BookListLoadedImplCopyWithImpl<$Res>
     extends _$BookListStateCopyWithImpl<$Res, _$BookListLoadedImpl>
     implements _$$BookListLoadedImplCopyWith<$Res> {
   __$$BookListLoadedImplCopyWithImpl(
-      _$BookListLoadedImpl _value, $Res Function(_$BookListLoadedImpl) _then)
-      : super(_value, _then);
+    _$BookListLoadedImpl _value,
+    $Res Function(_$BookListLoadedImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -353,31 +384,33 @@ class __$$BookListLoadedImplCopyWithImpl<$Res>
     Object? totalCount = null,
     Object? hasMore = null,
   }) {
-    return _then(_$BookListLoadedImpl(
-      lists: null == lists
-          ? _value._lists
-          : lists // ignore: cast_nullable_to_non_nullable
-              as List<BookListSummary>,
-      totalCount: null == totalCount
-          ? _value.totalCount
-          : totalCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasMore: null == hasMore
-          ? _value.hasMore
-          : hasMore // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return _then(
+      _$BookListLoadedImpl(
+        lists: null == lists
+            ? _value._lists
+            : lists // ignore: cast_nullable_to_non_nullable
+                  as List<BookListSummary>,
+        totalCount: null == totalCount
+            ? _value.totalCount
+            : totalCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hasMore: null == hasMore
+            ? _value.hasMore
+            : hasMore // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$BookListLoadedImpl implements BookListLoaded {
-  const _$BookListLoadedImpl(
-      {required final List<BookListSummary> lists,
-      required this.totalCount,
-      required this.hasMore})
-      : _lists = lists;
+  const _$BookListLoadedImpl({
+    required final List<BookListSummary> lists,
+    required this.totalCount,
+    required this.hasMore,
+  }) : _lists = lists;
 
   final List<BookListSummary> _lists;
   @override
@@ -409,15 +442,23 @@ class _$BookListLoadedImpl implements BookListLoaded {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_lists), totalCount, hasMore);
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_lists),
+    totalCount,
+    hasMore,
+  );
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookListLoadedImplCopyWith<_$BookListLoadedImpl> get copyWith =>
       __$$BookListLoadedImplCopyWithImpl<_$BookListLoadedImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -425,8 +466,11 @@ class _$BookListLoadedImpl implements BookListLoaded {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return loaded(lists, totalCount, hasMore);
@@ -438,8 +482,11 @@ class _$BookListLoadedImpl implements BookListLoaded {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return loaded?.call(lists, totalCount, hasMore);
@@ -451,7 +498,7 @@ class _$BookListLoadedImpl implements BookListLoaded {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -500,15 +547,19 @@ class _$BookListLoadedImpl implements BookListLoaded {
 }
 
 abstract class BookListLoaded implements BookListState {
-  const factory BookListLoaded(
-      {required final List<BookListSummary> lists,
-      required final int totalCount,
-      required final bool hasMore}) = _$BookListLoadedImpl;
+  const factory BookListLoaded({
+    required final List<BookListSummary> lists,
+    required final int totalCount,
+    required final bool hasMore,
+  }) = _$BookListLoadedImpl;
 
   List<BookListSummary> get lists;
   int get totalCount;
   bool get hasMore;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookListLoadedImplCopyWith<_$BookListLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -516,8 +567,9 @@ abstract class BookListLoaded implements BookListState {
 /// @nodoc
 abstract class _$$BookListErrorImplCopyWith<$Res> {
   factory _$$BookListErrorImplCopyWith(
-          _$BookListErrorImpl value, $Res Function(_$BookListErrorImpl) then) =
-      __$$BookListErrorImplCopyWithImpl<$Res>;
+    _$BookListErrorImpl value,
+    $Res Function(_$BookListErrorImpl) then,
+  ) = __$$BookListErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Failure failure});
 
@@ -529,22 +581,27 @@ class __$$BookListErrorImplCopyWithImpl<$Res>
     extends _$BookListStateCopyWithImpl<$Res, _$BookListErrorImpl>
     implements _$$BookListErrorImplCopyWith<$Res> {
   __$$BookListErrorImplCopyWithImpl(
-      _$BookListErrorImpl _value, $Res Function(_$BookListErrorImpl) _then)
-      : super(_value, _then);
+    _$BookListErrorImpl _value,
+    $Res Function(_$BookListErrorImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$BookListErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
+  $Res call({Object? failure = null}) {
+    return _then(
+      _$BookListErrorImpl(
+        failure: null == failure
+            ? _value.failure
+            : failure // ignore: cast_nullable_to_non_nullable
+                  as Failure,
+      ),
+    );
   }
 
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -578,7 +635,9 @@ class _$BookListErrorImpl implements BookListError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookListErrorImplCopyWith<_$BookListErrorImpl> get copyWith =>
@@ -590,8 +649,11 @@ class _$BookListErrorImpl implements BookListError {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )
+    loaded,
     required TResult Function(Failure failure) error,
   }) {
     return error(failure);
@@ -603,8 +665,11 @@ class _$BookListErrorImpl implements BookListError {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+      List<BookListSummary> lists,
+      int totalCount,
+      bool hasMore,
+    )?
+    loaded,
     TResult? Function(Failure failure)? error,
   }) {
     return error?.call(failure);
@@ -616,7 +681,7 @@ class _$BookListErrorImpl implements BookListError {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(List<BookListSummary> lists, int totalCount, bool hasMore)?
-        loaded,
+    loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -669,7 +734,10 @@ abstract class BookListError implements BookListState {
       _$BookListErrorImpl;
 
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookListErrorImplCopyWith<_$BookListErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -682,16 +750,14 @@ mixin _$BookListDetailState {
     required TResult Function() loading,
     required TResult Function(BookListDetail list) loaded,
     required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(BookListDetail list)? loaded,
     TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -699,24 +765,21 @@ mixin _$BookListDetailState {
     TResult Function(BookListDetail list)? loaded,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(BookListDetailInitial value) initial,
     required TResult Function(BookListDetailLoading value) loading,
     required TResult Function(BookListDetailLoaded value) loaded,
     required TResult Function(BookListDetailError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(BookListDetailInitial value)? initial,
     TResult? Function(BookListDetailLoading value)? loading,
     TResult? Function(BookListDetailLoaded value)? loaded,
     TResult? Function(BookListDetailError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(BookListDetailInitial value)? initial,
@@ -724,15 +787,15 @@ mixin _$BookListDetailState {
     TResult Function(BookListDetailLoaded value)? loaded,
     TResult Function(BookListDetailError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $BookListDetailStateCopyWith<$Res> {
   factory $BookListDetailStateCopyWith(
-          BookListDetailState value, $Res Function(BookListDetailState) then) =
-      _$BookListDetailStateCopyWithImpl<$Res, BookListDetailState>;
+    BookListDetailState value,
+    $Res Function(BookListDetailState) then,
+  ) = _$BookListDetailStateCopyWithImpl<$Res, BookListDetailState>;
 }
 
 /// @nodoc
@@ -744,23 +807,30 @@ class _$BookListDetailStateCopyWithImpl<$Res, $Val extends BookListDetailState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$BookListDetailInitialImplCopyWith<$Res> {
   factory _$$BookListDetailInitialImplCopyWith(
-          _$BookListDetailInitialImpl value,
-          $Res Function(_$BookListDetailInitialImpl) then) =
-      __$$BookListDetailInitialImplCopyWithImpl<$Res>;
+    _$BookListDetailInitialImpl value,
+    $Res Function(_$BookListDetailInitialImpl) then,
+  ) = __$$BookListDetailInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$BookListDetailInitialImplCopyWithImpl<$Res>
     extends _$BookListDetailStateCopyWithImpl<$Res, _$BookListDetailInitialImpl>
     implements _$$BookListDetailInitialImplCopyWith<$Res> {
-  __$$BookListDetailInitialImplCopyWithImpl(_$BookListDetailInitialImpl _value,
-      $Res Function(_$BookListDetailInitialImpl) _then)
-      : super(_value, _then);
+  __$$BookListDetailInitialImplCopyWithImpl(
+    _$BookListDetailInitialImpl _value,
+    $Res Function(_$BookListDetailInitialImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -865,18 +935,22 @@ abstract class BookListDetailInitial implements BookListDetailState {
 /// @nodoc
 abstract class _$$BookListDetailLoadingImplCopyWith<$Res> {
   factory _$$BookListDetailLoadingImplCopyWith(
-          _$BookListDetailLoadingImpl value,
-          $Res Function(_$BookListDetailLoadingImpl) then) =
-      __$$BookListDetailLoadingImplCopyWithImpl<$Res>;
+    _$BookListDetailLoadingImpl value,
+    $Res Function(_$BookListDetailLoadingImpl) then,
+  ) = __$$BookListDetailLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$BookListDetailLoadingImplCopyWithImpl<$Res>
     extends _$BookListDetailStateCopyWithImpl<$Res, _$BookListDetailLoadingImpl>
     implements _$$BookListDetailLoadingImplCopyWith<$Res> {
-  __$$BookListDetailLoadingImplCopyWithImpl(_$BookListDetailLoadingImpl _value,
-      $Res Function(_$BookListDetailLoadingImpl) _then)
-      : super(_value, _then);
+  __$$BookListDetailLoadingImplCopyWithImpl(
+    _$BookListDetailLoadingImpl _value,
+    $Res Function(_$BookListDetailLoadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -980,9 +1054,10 @@ abstract class BookListDetailLoading implements BookListDetailState {
 
 /// @nodoc
 abstract class _$$BookListDetailLoadedImplCopyWith<$Res> {
-  factory _$$BookListDetailLoadedImplCopyWith(_$BookListDetailLoadedImpl value,
-          $Res Function(_$BookListDetailLoadedImpl) then) =
-      __$$BookListDetailLoadedImplCopyWithImpl<$Res>;
+  factory _$$BookListDetailLoadedImplCopyWith(
+    _$BookListDetailLoadedImpl value,
+    $Res Function(_$BookListDetailLoadedImpl) then,
+  ) = __$$BookListDetailLoadedImplCopyWithImpl<$Res>;
   @useResult
   $Res call({BookListDetail list});
 
@@ -993,23 +1068,28 @@ abstract class _$$BookListDetailLoadedImplCopyWith<$Res> {
 class __$$BookListDetailLoadedImplCopyWithImpl<$Res>
     extends _$BookListDetailStateCopyWithImpl<$Res, _$BookListDetailLoadedImpl>
     implements _$$BookListDetailLoadedImplCopyWith<$Res> {
-  __$$BookListDetailLoadedImplCopyWithImpl(_$BookListDetailLoadedImpl _value,
-      $Res Function(_$BookListDetailLoadedImpl) _then)
-      : super(_value, _then);
+  __$$BookListDetailLoadedImplCopyWithImpl(
+    _$BookListDetailLoadedImpl _value,
+    $Res Function(_$BookListDetailLoadedImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? list = null,
-  }) {
-    return _then(_$BookListDetailLoadedImpl(
-      list: null == list
-          ? _value.list
-          : list // ignore: cast_nullable_to_non_nullable
-              as BookListDetail,
-    ));
+  $Res call({Object? list = null}) {
+    return _then(
+      _$BookListDetailLoadedImpl(
+        list: null == list
+            ? _value.list
+            : list // ignore: cast_nullable_to_non_nullable
+                  as BookListDetail,
+      ),
+    );
   }
 
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BookListDetailCopyWith<$Res> get list {
@@ -1043,13 +1123,17 @@ class _$BookListDetailLoadedImpl implements BookListDetailLoaded {
   @override
   int get hashCode => Object.hash(runtimeType, list);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookListDetailLoadedImplCopyWith<_$BookListDetailLoadedImpl>
-      get copyWith =>
-          __$$BookListDetailLoadedImplCopyWithImpl<_$BookListDetailLoadedImpl>(
-              this, _$identity);
+  get copyWith =>
+      __$$BookListDetailLoadedImplCopyWithImpl<_$BookListDetailLoadedImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -1131,16 +1215,20 @@ abstract class BookListDetailLoaded implements BookListDetailState {
       _$BookListDetailLoadedImpl;
 
   BookListDetail get list;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookListDetailLoadedImplCopyWith<_$BookListDetailLoadedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$BookListDetailErrorImplCopyWith<$Res> {
-  factory _$$BookListDetailErrorImplCopyWith(_$BookListDetailErrorImpl value,
-          $Res Function(_$BookListDetailErrorImpl) then) =
-      __$$BookListDetailErrorImplCopyWithImpl<$Res>;
+  factory _$$BookListDetailErrorImplCopyWith(
+    _$BookListDetailErrorImpl value,
+    $Res Function(_$BookListDetailErrorImpl) then,
+  ) = __$$BookListDetailErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Failure failure});
 
@@ -1151,23 +1239,28 @@ abstract class _$$BookListDetailErrorImplCopyWith<$Res> {
 class __$$BookListDetailErrorImplCopyWithImpl<$Res>
     extends _$BookListDetailStateCopyWithImpl<$Res, _$BookListDetailErrorImpl>
     implements _$$BookListDetailErrorImplCopyWith<$Res> {
-  __$$BookListDetailErrorImplCopyWithImpl(_$BookListDetailErrorImpl _value,
-      $Res Function(_$BookListDetailErrorImpl) _then)
-      : super(_value, _then);
+  __$$BookListDetailErrorImplCopyWithImpl(
+    _$BookListDetailErrorImpl _value,
+    $Res Function(_$BookListDetailErrorImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$BookListDetailErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
+  $Res call({Object? failure = null}) {
+    return _then(
+      _$BookListDetailErrorImpl(
+        failure: null == failure
+            ? _value.failure
+            : failure // ignore: cast_nullable_to_non_nullable
+                  as Failure,
+      ),
+    );
   }
 
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res> get failure {
@@ -1201,12 +1294,16 @@ class _$BookListDetailErrorImpl implements BookListDetailError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BookListDetailErrorImplCopyWith<_$BookListDetailErrorImpl> get copyWith =>
       __$$BookListDetailErrorImplCopyWithImpl<_$BookListDetailErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -1288,7 +1385,10 @@ abstract class BookListDetailError implements BookListDetailState {
       _$BookListDetailErrorImpl;
 
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BookListDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookListDetailErrorImplCopyWith<_$BookListDetailErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

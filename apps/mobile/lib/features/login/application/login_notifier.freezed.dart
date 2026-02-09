@@ -12,7 +12,8 @@ part of 'login_notifier.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$LoginState {
@@ -21,48 +22,55 @@ mixin _$LoginState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            String userId, String email, String idToken, String refreshToken)
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )
+    success,
     required TResult Function(String message, String? field) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult? Function(String message, String? field)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(LoginStateInitial value) initial,
     required TResult Function(LoginStateLoading value) loading,
     required TResult Function(LoginStateSuccess value) success,
     required TResult Function(LoginStateError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(LoginStateInitial value)? initial,
     TResult? Function(LoginStateLoading value)? loading,
     TResult? Function(LoginStateSuccess value)? success,
     TResult? Function(LoginStateError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(LoginStateInitial value)? initial,
@@ -70,15 +78,15 @@ mixin _$LoginState {
     TResult Function(LoginStateSuccess value)? success,
     TResult Function(LoginStateError value)? error,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LoginStateCopyWith<$Res> {
   factory $LoginStateCopyWith(
-          LoginState value, $Res Function(LoginState) then) =
-      _$LoginStateCopyWithImpl<$Res, LoginState>;
+    LoginState value,
+    $Res Function(LoginState) then,
+  ) = _$LoginStateCopyWithImpl<$Res, LoginState>;
 }
 
 /// @nodoc
@@ -90,22 +98,30 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 abstract class _$$LoginStateInitialImplCopyWith<$Res> {
-  factory _$$LoginStateInitialImplCopyWith(_$LoginStateInitialImpl value,
-          $Res Function(_$LoginStateInitialImpl) then) =
-      __$$LoginStateInitialImplCopyWithImpl<$Res>;
+  factory _$$LoginStateInitialImplCopyWith(
+    _$LoginStateInitialImpl value,
+    $Res Function(_$LoginStateInitialImpl) then,
+  ) = __$$LoginStateInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$LoginStateInitialImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$LoginStateInitialImpl>
     implements _$$LoginStateInitialImplCopyWith<$Res> {
-  __$$LoginStateInitialImplCopyWithImpl(_$LoginStateInitialImpl _value,
-      $Res Function(_$LoginStateInitialImpl) _then)
-      : super(_value, _then);
+  __$$LoginStateInitialImplCopyWithImpl(
+    _$LoginStateInitialImpl _value,
+    $Res Function(_$LoginStateInitialImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -133,8 +149,12 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            String userId, String email, String idToken, String refreshToken)
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )
+    success,
     required TResult Function(String message, String? field) error,
   }) {
     return initial();
@@ -146,8 +166,12 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult? Function(String message, String? field)? error,
   }) {
     return initial?.call();
@@ -159,8 +183,12 @@ class _$LoginStateInitialImpl implements LoginStateInitial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -214,18 +242,23 @@ abstract class LoginStateInitial implements LoginState {
 
 /// @nodoc
 abstract class _$$LoginStateLoadingImplCopyWith<$Res> {
-  factory _$$LoginStateLoadingImplCopyWith(_$LoginStateLoadingImpl value,
-          $Res Function(_$LoginStateLoadingImpl) then) =
-      __$$LoginStateLoadingImplCopyWithImpl<$Res>;
+  factory _$$LoginStateLoadingImplCopyWith(
+    _$LoginStateLoadingImpl value,
+    $Res Function(_$LoginStateLoadingImpl) then,
+  ) = __$$LoginStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$LoginStateLoadingImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$LoginStateLoadingImpl>
     implements _$$LoginStateLoadingImplCopyWith<$Res> {
-  __$$LoginStateLoadingImplCopyWithImpl(_$LoginStateLoadingImpl _value,
-      $Res Function(_$LoginStateLoadingImpl) _then)
-      : super(_value, _then);
+  __$$LoginStateLoadingImplCopyWithImpl(
+    _$LoginStateLoadingImpl _value,
+    $Res Function(_$LoginStateLoadingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -253,8 +286,12 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            String userId, String email, String idToken, String refreshToken)
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )
+    success,
     required TResult Function(String message, String? field) error,
   }) {
     return loading();
@@ -266,8 +303,12 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult? Function(String message, String? field)? error,
   }) {
     return loading?.call();
@@ -279,8 +320,12 @@ class _$LoginStateLoadingImpl implements LoginStateLoading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -334,9 +379,10 @@ abstract class LoginStateLoading implements LoginState {
 
 /// @nodoc
 abstract class _$$LoginStateSuccessImplCopyWith<$Res> {
-  factory _$$LoginStateSuccessImplCopyWith(_$LoginStateSuccessImpl value,
-          $Res Function(_$LoginStateSuccessImpl) then) =
-      __$$LoginStateSuccessImplCopyWithImpl<$Res>;
+  factory _$$LoginStateSuccessImplCopyWith(
+    _$LoginStateSuccessImpl value,
+    $Res Function(_$LoginStateSuccessImpl) then,
+  ) = __$$LoginStateSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String userId, String email, String idToken, String refreshToken});
 }
@@ -345,10 +391,13 @@ abstract class _$$LoginStateSuccessImplCopyWith<$Res> {
 class __$$LoginStateSuccessImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$LoginStateSuccessImpl>
     implements _$$LoginStateSuccessImplCopyWith<$Res> {
-  __$$LoginStateSuccessImplCopyWithImpl(_$LoginStateSuccessImpl _value,
-      $Res Function(_$LoginStateSuccessImpl) _then)
-      : super(_value, _then);
+  __$$LoginStateSuccessImplCopyWithImpl(
+    _$LoginStateSuccessImpl _value,
+    $Res Function(_$LoginStateSuccessImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -357,35 +406,38 @@ class __$$LoginStateSuccessImplCopyWithImpl<$Res>
     Object? idToken = null,
     Object? refreshToken = null,
   }) {
-    return _then(_$LoginStateSuccessImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      idToken: null == idToken
-          ? _value.idToken
-          : idToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      refreshToken: null == refreshToken
-          ? _value.refreshToken
-          : refreshToken // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+    return _then(
+      _$LoginStateSuccessImpl(
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
+                  as String,
+        idToken: null == idToken
+            ? _value.idToken
+            : idToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+        refreshToken: null == refreshToken
+            ? _value.refreshToken
+            : refreshToken // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$LoginStateSuccessImpl implements LoginStateSuccess {
-  const _$LoginStateSuccessImpl(
-      {required this.userId,
-      required this.email,
-      required this.idToken,
-      required this.refreshToken});
+  const _$LoginStateSuccessImpl({
+    required this.userId,
+    required this.email,
+    required this.idToken,
+    required this.refreshToken,
+  });
 
   @override
   final String userId;
@@ -417,12 +469,16 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
   int get hashCode =>
       Object.hash(runtimeType, userId, email, idToken, refreshToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LoginStateSuccessImplCopyWith<_$LoginStateSuccessImpl> get copyWith =>
       __$$LoginStateSuccessImplCopyWithImpl<_$LoginStateSuccessImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -430,8 +486,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            String userId, String email, String idToken, String refreshToken)
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )
+    success,
     required TResult Function(String message, String? field) error,
   }) {
     return success(userId, email, idToken, refreshToken);
@@ -443,8 +503,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult? Function(String message, String? field)? error,
   }) {
     return success?.call(userId, email, idToken, refreshToken);
@@ -456,8 +520,12 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -506,26 +574,31 @@ class _$LoginStateSuccessImpl implements LoginStateSuccess {
 }
 
 abstract class LoginStateSuccess implements LoginState {
-  const factory LoginStateSuccess(
-      {required final String userId,
-      required final String email,
-      required final String idToken,
-      required final String refreshToken}) = _$LoginStateSuccessImpl;
+  const factory LoginStateSuccess({
+    required final String userId,
+    required final String email,
+    required final String idToken,
+    required final String refreshToken,
+  }) = _$LoginStateSuccessImpl;
 
   String get userId;
   String get email;
   String get idToken;
   String get refreshToken;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginStateSuccessImplCopyWith<_$LoginStateSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$LoginStateErrorImplCopyWith<$Res> {
-  factory _$$LoginStateErrorImplCopyWith(_$LoginStateErrorImpl value,
-          $Res Function(_$LoginStateErrorImpl) then) =
-      __$$LoginStateErrorImplCopyWithImpl<$Res>;
+  factory _$$LoginStateErrorImplCopyWith(
+    _$LoginStateErrorImpl value,
+    $Res Function(_$LoginStateErrorImpl) then,
+  ) = __$$LoginStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message, String? field});
 }
@@ -535,25 +608,27 @@ class __$$LoginStateErrorImplCopyWithImpl<$Res>
     extends _$LoginStateCopyWithImpl<$Res, _$LoginStateErrorImpl>
     implements _$$LoginStateErrorImplCopyWith<$Res> {
   __$$LoginStateErrorImplCopyWithImpl(
-      _$LoginStateErrorImpl _value, $Res Function(_$LoginStateErrorImpl) _then)
-      : super(_value, _then);
+    _$LoginStateErrorImpl _value,
+    $Res Function(_$LoginStateErrorImpl) _then,
+  ) : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? message = null,
-    Object? field = freezed,
-  }) {
-    return _then(_$LoginStateErrorImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      field: freezed == field
-          ? _value.field
-          : field // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+  $Res call({Object? message = null, Object? field = freezed}) {
+    return _then(
+      _$LoginStateErrorImpl(
+        message: null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+        field: freezed == field
+            ? _value.field
+            : field // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
@@ -584,12 +659,16 @@ class _$LoginStateErrorImpl implements LoginStateError {
   @override
   int get hashCode => Object.hash(runtimeType, message, field);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LoginStateErrorImplCopyWith<_$LoginStateErrorImpl> get copyWith =>
       __$$LoginStateErrorImplCopyWithImpl<_$LoginStateErrorImpl>(
-          this, _$identity);
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
@@ -597,8 +676,12 @@ class _$LoginStateErrorImpl implements LoginStateError {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(
-            String userId, String email, String idToken, String refreshToken)
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )
+    success,
     required TResult Function(String message, String? field) error,
   }) {
     return error(message, field);
@@ -610,8 +693,12 @@ class _$LoginStateErrorImpl implements LoginStateError {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult? Function(String message, String? field)? error,
   }) {
     return error?.call(message, field);
@@ -623,8 +710,12 @@ class _$LoginStateErrorImpl implements LoginStateError {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(
-            String userId, String email, String idToken, String refreshToken)?
-        success,
+      String userId,
+      String email,
+      String idToken,
+      String refreshToken,
+    )?
+    success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
   }) {
@@ -673,13 +764,17 @@ class _$LoginStateErrorImpl implements LoginStateError {
 }
 
 abstract class LoginStateError implements LoginState {
-  const factory LoginStateError(
-      {required final String message,
-      final String? field}) = _$LoginStateErrorImpl;
+  const factory LoginStateError({
+    required final String message,
+    final String? field,
+  }) = _$LoginStateErrorImpl;
 
   String get message;
   String? get field;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginStateErrorImplCopyWith<_$LoginStateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

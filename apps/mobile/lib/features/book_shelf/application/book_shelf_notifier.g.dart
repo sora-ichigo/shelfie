@@ -16,15 +16,15 @@ String _$bookShelfNotifierHash() => r'99a858a8bbbec3c6f984a930e60fdb72b6caf8d7';
 @ProviderFor(BookShelfNotifier)
 final bookShelfNotifierProvider =
     AutoDisposeNotifierProvider<BookShelfNotifier, BookShelfState>.internal(
-  BookShelfNotifier.new,
-  name: r'bookShelfNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$bookShelfNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      BookShelfNotifier.new,
+      name: r'bookShelfNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$bookShelfNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$BookShelfNotifier = AutoDisposeNotifier<BookShelfState>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
