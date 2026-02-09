@@ -24,10 +24,13 @@ import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.da
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
-import 'package:shelfie/features/book_search/presentation/search_screen.dart';
+import 'package:shelfie/features/book_search/presentation/search_screen.dart'
+    show SearchScreen, searchAutoFocusProvider;
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
+import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
@@ -468,20 +471,42 @@ List<RouteBase> _buildRoutes() {
 /// メインシェル（タブバー）
 ///
 /// ShellRoute のビルダーとして使用され、CupertinoTabBar によるナビゲーションを提供する。
-class _MainShell extends StatelessWidget {
+class _MainShell extends ConsumerWidget {
   const _MainShell({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
+  static const int _addButtonIndex = 2;
+
   @override
-  Widget build(BuildContext context) {
-    final selectedIndex = navigationShell.currentIndex;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final branchIndex = navigationShell.currentIndex;
+    final tabBarIndex = branchIndex >= _addButtonIndex
+        ? branchIndex + 1
+        : branchIndex;
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     void onTap(int index) {
+      if (index == _addButtonIndex) {
+        showAddBookBottomSheet(
+          context: context,
+          onSearchSelected: () {
+            ref.read(searchAutoFocusProvider.notifier).state = true;
+            context.go(AppRoutes.searchTab);
+          },
+          onCameraSelected: () async {
+            final isbn = await context.push<String>(AppRoutes.isbnScan);
+            if (isbn != null && context.mounted) {
+              await ISBNScanResultDialog.show(context, isbn);
+            }
+          },
+        );
+        return;
+      }
+      final branch = index > _addButtonIndex ? index - 1 : index;
       navigationShell.goBranch(
-        index,
-        initialLocation: index == navigationShell.currentIndex,
+        branch,
+        initialLocation: branch == navigationShell.currentIndex,
       );
     }
 
@@ -499,7 +524,7 @@ class _MainShell extends StatelessWidget {
             ),
           ),
           child: CupertinoTabBar(
-            currentIndex: selectedIndex,
+            currentIndex: tabBarIndex,
             onTap: onTap,
             activeColor: appColors.textPrimary,
             inactiveColor: appColors.textSecondary,
@@ -528,6 +553,13 @@ class _MainShell extends StatelessWidget {
                     CupertinoIcons.search,
                     shadows: [Shadow(blurRadius: 3, color: Color(0xFFFFFFFF))],
                   ),
+                ),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.plus),
                 ),
                 label: '',
               ),

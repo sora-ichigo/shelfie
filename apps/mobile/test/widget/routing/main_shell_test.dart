@@ -38,7 +38,7 @@ void main() {
 
   group('MainShell', () {
     group('CupertinoTabBar', () {
-      testWidgets('CupertinoTabBar に 2 タブ表示されること', (tester) async {
+      testWidgets('CupertinoTabBar に 4 タブ表示されること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -66,7 +66,7 @@ void main() {
           find.byType(CupertinoTabBar),
         );
 
-        expect(tabBar.items.length, equals(2));
+        expect(tabBar.items.length, equals(4));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -74,7 +74,8 @@ void main() {
         resetViewport(tester);
       });
 
-      testWidgets('タブの順序がライブラリ -> さがすであること', (tester) async {
+      testWidgets('タブの順序がライブラリ -> さがす -> + -> プロフィールであること',
+          (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -98,8 +99,20 @@ void main() {
         await tester.pump();
         tester.takeException();
 
-        expect(find.text('ライブラリ'), findsWidgets);
-        expect(find.text('さがす'), findsWidgets);
+        final tabBar = tester.widget<CupertinoTabBar>(
+          find.byType(CupertinoTabBar),
+        );
+
+        final icons = <IconData>[];
+        for (final item in tabBar.items) {
+          final iconWidget = (item.icon as Padding).child as Icon;
+          icons.add(iconWidget.icon!);
+        }
+
+        expect(icons[0], equals(CupertinoIcons.collections));
+        expect(icons[1], equals(CupertinoIcons.search));
+        expect(icons[2], equals(CupertinoIcons.plus));
+        expect(icons[3], equals(CupertinoIcons.person));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));

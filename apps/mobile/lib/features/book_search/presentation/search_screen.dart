@@ -27,6 +27,8 @@ import 'package:shelfie/features/book_search/presentation/widgets/search_bar_wid
 import 'package:shelfie/features/book_search/presentation/widgets/search_history_section.dart';
 import 'package:shelfie/routing/app_router.dart';
 
+final searchAutoFocusProvider = StateProvider<bool>((ref) => false);
+
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
@@ -64,6 +66,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(searchAutoFocusProvider, (prev, next) {
+      if (next) {
+        ref.read(searchAutoFocusProvider.notifier).state = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _focusNode.requestFocus();
+        });
+      }
+    });
+
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
 
