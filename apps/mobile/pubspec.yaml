@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   adaptive_dialog: ^2.2.0
-  adaptive_platform_ui: ^0.1.101
   appinio_social_share: ^0.3.2
   built_collection: any
   built_value: any
