@@ -59,7 +59,7 @@ device_tokens (
 | 環境 | Firebase Project ID | 用途 |
 |------|-------------------|------|
 | dev | `shelfie-development-484809` | 開発・テスト用 |
-| prod | （未設定） | 本番用 |
+| prod | `shelfie-production-485714` | 本番用 |
 
 ### API 側の環境変数
 
@@ -75,9 +75,9 @@ FIREBASE_WEB_API_KEY      # Firebase Web API キー
 
 ### モバイル側の Firebase 設定
 
-- `apps/mobile/lib/firebase_options.dart` で FlutterFire CLI が生成した設定を使用
-- 現在は `shelfie-development-484809`（dev）のみ設定済み
-- prod 環境対応時は Dart-define や flavor による切り替えが必要
+- `apps/mobile/lib/firebase_options.dart` で dev/prod 両方の設定を定義
+- `kReleaseMode` で自動切り替え（Debug → dev、Release → prod）
+- ネイティブ設定ファイル（`GoogleService-Info.plist` / `google-services.json`）は不要（Dart レベルで `Firebase.initializeApp(options:)` に明示的に渡すため削除済み）
 
 ## CLI 通知送信
 
@@ -163,7 +163,6 @@ pnpm --filter @shelfie/api notify -- --title "タイトル" --body "本文" --us
 
 ## 今後の拡張ポイント
 
-- **prod 環境対応**: Firebase prod プロジェクトの設定と flavor/Dart-define による環境切り替え
 - **通知テンプレート**: よく使う通知パターンのテンプレート化
 - **Web 管理画面**: NotificationService を GraphQL エンドポイントとして公開
 - **通知履歴**: 送信ログの DB 保存と閲覧 API
