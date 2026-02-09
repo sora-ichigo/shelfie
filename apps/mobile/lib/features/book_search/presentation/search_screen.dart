@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,7 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
@@ -74,10 +74,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       bookSearchNotifierProvider,
       (previous, next) {
         if (next is BookSearchError) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: next.failure.userMessage,
-            type: AdaptiveSnackBarType.error,
+            type: AppSnackBarType.error,
           );
         }
       },
@@ -253,10 +253,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -268,10 +268,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -300,17 +300,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: 'マイライブラリから削除しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -458,10 +458,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -473,10 +473,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -501,17 +501,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: 'マイライブラリから削除しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );

@@ -1,10 +1,10 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/features/book_search/domain/isbn_extractor.dart';
 
 /// ISBN スキャン画面
@@ -276,10 +276,10 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
     // 設定アプリを開く（プラットフォーム固有の実装が必要）
     // 現時点では、ユーザーに手動で設定を開くよう促す
     if (mounted) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: '設定アプリからカメラへのアクセスを許可してください',
-        type: AdaptiveSnackBarType.info,
+        type: AppSnackBarType.info,
       );
     }
   }

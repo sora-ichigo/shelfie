@@ -1,4 +1,3 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +5,7 @@ import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/form_fields.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -359,10 +359,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     await result.fold(
       (failure) async {
         setState(() => _isSaving = false);
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (bookList) async {
@@ -418,10 +418,10 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     result.fold(
       (failure) {
         setState(() => _isSaving = false);
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {

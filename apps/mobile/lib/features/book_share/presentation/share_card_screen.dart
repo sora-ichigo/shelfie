@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_share/application/share_card_notifier.dart';
@@ -161,10 +161,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
 
     if (filePath == null) {
       setState(() => _isSharingInstagram = false);
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: '画像の生成に失敗しました。再度お試しください',
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
       return;
     }
@@ -178,10 +178,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     _cleanupTempFile(filePath);
 
     if (!success) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: 'Instagramアプリが見つかりませんでした',
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
     }
   }
@@ -195,10 +195,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
 
     if (filePath == null) {
       setState(() => _isSharingLine = false);
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: '画像の生成に失敗しました。再度お試しください',
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
       return;
     }
@@ -212,10 +212,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     _cleanupTempFile(filePath);
 
     if (!success) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: 'LINEアプリが見つかりませんでした',
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
     }
   }
@@ -238,10 +238,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     setState(() => _isSharingOther = false);
 
     result.fold((failure) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: 'シェアに失敗しました。再度お試しください',
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
     }, (_) {});
   }
@@ -259,10 +259,10 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
     await bytesResult.fold(
       (failure) async {
         setState(() => _isSaving = false);
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '画像の生成に失敗しました。再度お試しください',
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (bytes) async {
@@ -274,22 +274,22 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
 
         switch (saveResult) {
           case GallerySaveSuccess():
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: '画像を保存しました',
-              type: AdaptiveSnackBarType.success,
+              type: AppSnackBarType.success,
             );
           case GallerySavePermissionDenied():
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: '設定アプリから写真ライブラリへのアクセスを許可してください',
-              type: AdaptiveSnackBarType.error,
+              type: AppSnackBarType.error,
             );
           case GallerySaveError(:final message):
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: message,
-              type: AdaptiveSnackBarType.error,
+              type: AppSnackBarType.error,
             );
         }
       },

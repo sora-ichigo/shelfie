@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +13,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
@@ -143,10 +143,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         setState(() {
           _isAddingToShelf = false;
         });
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -158,10 +158,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${_selectedStatus.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
         Navigator.of(context).pop(true);
       },

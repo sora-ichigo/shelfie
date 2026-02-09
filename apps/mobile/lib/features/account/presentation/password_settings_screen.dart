@@ -1,8 +1,8 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/account/application/password_form_state.dart';
@@ -38,19 +38,19 @@ class PasswordSettingsScreen extends ConsumerWidget {
       passwordSettingsNotifierProvider,
       (previous, next) {
         if (next is PasswordSettingsSuccess) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: next.message,
-            type: AdaptiveSnackBarType.success,
+            type: AppSnackBarType.success,
           );
           if (next.message.contains('変更')) {
             onSaveSuccess();
           }
         } else if (next is PasswordSettingsError) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: next.failure.userMessage,
-            type: AdaptiveSnackBarType.error,
+            type: AppSnackBarType.error,
           );
         }
       },
