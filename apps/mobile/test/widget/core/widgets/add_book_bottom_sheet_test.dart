@@ -49,18 +49,18 @@ void main() {
       expect(find.byIcon(CupertinoIcons.camera), findsOneWidget);
     });
 
-    testWidgets('「キーワードで検索」タップでonSearchSelectedが呼ばれること',
+    testWidgets('「キーワードで検索」タップでAddBookOption.searchが返ること',
         (tester) async {
-      var searchCalled = false;
+      AddBookOption? result;
 
       await tester.pumpWidget(
         buildTestWidget(
           child: Builder(
             builder: (context) => ElevatedButton(
-              onPressed: () => showAddBookBottomSheet(
-                context: context,
-                onSearchSelected: () => searchCalled = true,
-              ),
+              onPressed: () async {
+                result =
+                    await showAddBookBottomSheet(context: context);
+              },
               child: const Text('Open'),
             ),
           ),
@@ -73,21 +73,21 @@ void main() {
       await tester.tap(find.text('キーワードで検索'));
       await tester.pumpAndSettle();
 
-      expect(searchCalled, isTrue);
+      expect(result, AddBookOption.search);
     });
 
-    testWidgets('「カメラで登録」タップでonCameraSelectedが呼ばれること',
+    testWidgets('「カメラで登録」タップでAddBookOption.cameraが返ること',
         (tester) async {
-      var cameraCalled = false;
+      AddBookOption? result;
 
       await tester.pumpWidget(
         buildTestWidget(
           child: Builder(
             builder: (context) => ElevatedButton(
-              onPressed: () => showAddBookBottomSheet(
-                context: context,
-                onCameraSelected: () => cameraCalled = true,
-              ),
+              onPressed: () async {
+                result =
+                    await showAddBookBottomSheet(context: context);
+              },
               child: const Text('Open'),
             ),
           ),
@@ -100,7 +100,7 @@ void main() {
       await tester.tap(find.text('カメラで登録'));
       await tester.pumpAndSettle();
 
-      expect(cameraCalled, isTrue);
+      expect(result, AddBookOption.camera);
     });
   });
 }

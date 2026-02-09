@@ -488,19 +488,26 @@ class _MainShell extends ConsumerWidget {
 
     void onTap(int index) {
       if (index == _addButtonIndex) {
-        showAddBookBottomSheet(
-          context: context,
-          onSearchSelected: () {
-            ref.read(searchAutoFocusProvider.notifier).state = true;
-            context.go(AppRoutes.searchTab);
-          },
-          onCameraSelected: () async {
-            final isbn = await context.push<String>(AppRoutes.isbnScan);
-            if (isbn != null && context.mounted) {
-              await ISBNScanResultDialog.show(context, isbn);
-            }
-          },
-        );
+        () async {
+          final option = await showAddBookBottomSheet(context: context);
+          if (!context.mounted) return;
+          switch (option) {
+            case AddBookOption.search:
+              context.go(AppRoutes.searchTab);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (context.mounted) {
+                  ref.read(searchAutoFocusProvider.notifier).state = true;
+                }
+              });
+            case AddBookOption.camera:
+              final isbn = await context.push<String>(AppRoutes.isbnScan);
+              if (isbn != null && context.mounted) {
+                await ISBNScanResultDialog.show(context, isbn);
+              }
+            case null:
+              break;
+          }
+        }();
         return;
       }
       final branch = index > _addButtonIndex ? index - 1 : index;

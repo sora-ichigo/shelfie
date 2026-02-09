@@ -4,25 +4,23 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 
-Future<void> showAddBookBottomSheet({
+enum AddBookOption { search, camera }
+
+Future<AddBookOption?> showAddBookBottomSheet({
   required BuildContext context,
-  VoidCallback? onSearchSelected,
-  VoidCallback? onCameraSelected,
 }) {
   final appColors = Theme.of(context).extension<AppColors>()!;
 
-  return showModalBottomSheet(
+  return showModalBottomSheet<AddBookOption>(
     context: context,
     isScrollControlled: true,
     backgroundColor: appColors.surface,
     builder: (context) => _AddBookBottomSheetContent(
       onSearchSelected: () {
-        Navigator.pop(context);
-        onSearchSelected?.call();
+        Navigator.pop(context, AddBookOption.search);
       },
       onCameraSelected: () {
-        Navigator.pop(context);
-        onCameraSelected?.call();
+        Navigator.pop(context, AddBookOption.camera);
       },
     ),
   );
