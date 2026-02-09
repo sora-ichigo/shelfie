@@ -46,8 +46,6 @@ jobs:
             android/app/build.gradle
           sed -i 's/<application android:label="shelfie"/<application android:label="Shelfie Dev"/' \
             android/app/src/main/AndroidManifest.xml
-          sed -i 's/"package_name": "app.shelfie.shelfie"/"package_name": "app.shelfie.shelfie.dev"/' \
-            android/app/google-services.json
 
       - name: Setup mise
         uses: jdx/mise-action@v2

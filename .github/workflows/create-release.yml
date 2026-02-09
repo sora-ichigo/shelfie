@@ -108,9 +108,10 @@ jobs:
       tag: ${{ needs.create-tag.outputs.tag }}
     secrets: inherit
 
-  deploy-playstore:
-    needs: create-tag
-    uses: ./.github/workflows/deploy-playstore.yml
-    with:
-      tag: ${{ needs.create-tag.outputs.tag }}
-    secrets: inherit
+  # TODO: Play Store アカウント作成後に有効化する
+  # deploy-playstore:
+  #   needs: create-tag
+  #   uses: ./.github/workflows/deploy-playstore.yml
+  #   with:
+  #     tag: ${{ needs.create-tag.outputs.tag }}
+  #   secrets: inherit
