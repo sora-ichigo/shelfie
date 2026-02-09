@@ -105,7 +105,7 @@ void main() {
 
         final icons = <IconData>[];
         for (final item in tabBar.items) {
-          final iconWidget = (item.icon as Padding).child as Icon;
+          final iconWidget = (item.icon as Padding).child! as Icon;
           icons.add(iconWidget.icon!);
         }
 

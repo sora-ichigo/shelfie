@@ -12,6 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
@@ -30,7 +31,6 @@ import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_resu
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
-import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
