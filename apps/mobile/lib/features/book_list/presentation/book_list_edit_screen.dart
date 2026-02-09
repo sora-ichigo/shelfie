@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -388,25 +389,16 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     final listId = _currentListId;
     if (listId == null) return;
 
-    final confirmed = await showDialog<bool>(
+    final dialogResult = await showOkCancelAlertDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('リストを削除'),
-        content: const Text('このリストを削除しますか？この操作は取り消せません。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('削除'),
-          ),
-        ],
-      ),
+      title: 'リストを削除',
+      message: 'このリストを削除しますか？この操作は取り消せません。',
+      okLabel: '削除',
+      cancelLabel: 'キャンセル',
+      isDestructiveAction: true,
     );
 
-    if (confirmed != true || !mounted) return;
+    if (dialogResult != OkCancelResult.ok || !mounted) return;
 
     setState(() => _isSaving = true);
 
