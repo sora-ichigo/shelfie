@@ -4,8 +4,7 @@ import type { FCMAdapter } from "./fcm-adapter.js";
 import type { DeviceTokenRepository } from "./repository.js";
 
 const BATCH_SIZE = 500;
-const INVALID_TOKEN_ERROR_CODE =
-  "messaging/registration-token-not-registered";
+const INVALID_TOKEN_ERROR_CODE = "messaging/registration-token-not-registered";
 
 export interface SendNotificationInput {
   title: string;
@@ -59,9 +58,7 @@ export function createNotificationService(
       }
 
       const tokenStrings = tokens.map((t) => t.token);
-      const tokenToUserId = new Map(
-        tokens.map((t) => [t.token, t.userId]),
-      );
+      const tokenToUserId = new Map(tokens.map((t) => [t.token, t.userId]));
 
       let totalSuccess = 0;
       let totalFailure = 0;
@@ -108,10 +105,9 @@ export function createNotificationService(
 
       if (invalidTokens.length > 0) {
         await repository.deleteByTokens(invalidTokens);
-        logger.info(
-          `Removed ${invalidTokens.length} invalid device tokens`,
-          { count: invalidTokens.length },
-        );
+        logger.info(`Removed ${invalidTokens.length} invalid device tokens`, {
+          count: invalidTokens.length,
+        });
       }
 
       return ok({

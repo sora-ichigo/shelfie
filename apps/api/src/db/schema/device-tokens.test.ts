@@ -4,8 +4,8 @@ import {
   DEVICE_TOKENS_USER_ID_INDEX_NAME,
   DEVICE_TOKENS_USER_TOKEN_UNIQUE_INDEX_NAME,
   type DeviceToken,
-  type NewDeviceToken,
   deviceTokens,
+  type NewDeviceToken,
 } from "./device-tokens.js";
 
 describe("device_tokens schema", () => {

@@ -32,9 +32,7 @@ function createMockLogger(): LoggerService {
   };
 }
 
-function createMockToken(
-  overrides: Partial<DeviceToken> = {},
-): DeviceToken {
+function createMockToken(overrides: Partial<DeviceToken> = {}): DeviceToken {
   return {
     id: 1,
     userId: 1,
@@ -90,9 +88,7 @@ describe("NotificationService", () => {
       const mockFCM = createMockFCMAdapter();
       const mockLogger = createMockLogger();
 
-      const tokens = [
-        createMockToken({ id: 1, userId: 1, token: "token-1" }),
-      ];
+      const tokens = [createMockToken({ id: 1, userId: 1, token: "token-1" })];
       vi.mocked(mockRepo.findByUserIds).mockResolvedValue(tokens);
       vi.mocked(mockFCM.sendMulticast).mockResolvedValue({
         successCount: 1,
@@ -212,9 +208,7 @@ describe("NotificationService", () => {
       const mockFCM = createMockFCMAdapter();
       const mockLogger = createMockLogger();
 
-      const tokens = [
-        createMockToken({ id: 1, userId: 1, token: "token-1" }),
-      ];
+      const tokens = [createMockToken({ id: 1, userId: 1, token: "token-1" })];
       vi.mocked(mockRepo.findAll).mockResolvedValue(tokens);
       vi.mocked(mockFCM.sendMulticast).mockResolvedValue({
         successCount: 0,
