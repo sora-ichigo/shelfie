@@ -28,8 +28,10 @@ class BookShelfScreen extends ConsumerStatefulWidget {
   ConsumerState<BookShelfScreen> createState() => _BookShelfScreenState();
 }
 
-class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
+class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
+    with SingleTickerProviderStateMixin {
   LibraryFilterTab _selectedTab = LibraryFilterTab.books;
+  late final TabController _tabController;
 
   static const _headerHeight = AppSpacing.sm + 40.0 + AppSpacing.sm;
   static const _tabBarHeight = 62.0;
@@ -44,6 +46,11 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(
+      length: LibraryFilterTab.values.length,
+      vsync: this,
+    );
+    _tabController.addListener(_onTabIndexChanged);
     Future.microtask(() {
       final isGuest = ref.read(authStateProvider).isGuest;
       if (isGuest) return;
@@ -55,6 +62,13 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
       }
       ref.read(bookListNotifierProvider.notifier).loadLists();
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabIndexChanged);
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -145,19 +159,17 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     );
   }
 
-  void _onTabChanged(LibraryFilterTab tab) {
-    setState(() {
-      _selectedTab = tab;
-    });
-    if (tab == LibraryFilterTab.books) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        for (final status in ReadingStatus.values) {
-          ref
-              .read(statusSectionNotifierProvider(status).notifier)
-              .initialize();
-        }
+  void _onTabIndexChanged() {
+    final tab = LibraryFilterTab.values[_tabController.index];
+    if (_selectedTab != tab) {
+      setState(() {
+        _selectedTab = tab;
       });
     }
+  }
+
+  void _onTabChanged(LibraryFilterTab tab) {
+    _tabController.animateTo(tab.index);
   }
 
   Future<void> _onSortChanged(SortOption option) async {
@@ -177,32 +189,27 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final shelfState = ref.watch(shelfStateProvider);
     final hasBooks = shelfState.isNotEmpty;
 
-    return switch (_selectedTab) {
-      LibraryFilterTab.books => StatusSectionList(
-          onBookTap: _onBookTap,
-          onBookLongPress: _onBookLongPress,
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        _KeepAlive(
+          child: StatusSectionList(
+            onBookTap: _onBookTap,
+            onBookLongPress: _onBookLongPress,
+          ),
         ),
-      LibraryFilterTab.lists => _buildListsTab(
-          lists,
-          hasBooks,
-          isLoading: isListLoading,
+        _KeepAlive(
+          child: LibraryListsTab(
+            lists: lists,
+            hasBooks: hasBooks,
+            isLoading: isListLoading,
+            onListTap: _onListTap,
+            onCreateTap: () {
+              context.push(AppRoutes.bookListCreate);
+            },
+          ),
         ),
-    };
-  }
-
-  Widget _buildListsTab(
-    List<BookListSummary> lists,
-    bool hasBooks, {
-    required bool isLoading,
-  }) {
-    return LibraryListsTab(
-      lists: lists,
-      hasBooks: hasBooks,
-      isLoading: isLoading,
-      onListTap: _onListTap,
-      onCreateTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
+      ],
     );
   }
 
@@ -225,5 +232,26 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   void _onListTap(BookListSummary list) {
     context.push(AppRoutes.bookListDetail(listId: list.id));
+  }
+}
+
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }
