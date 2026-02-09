@@ -56,9 +56,9 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _textSecondary = Color(0xFFB0B0B0);
   static const Color _star = Color(0xFFFFD60A);
   static const Color _destructive = Color(0xFFCF4F4A);
-  static const Color _success = Color(0xFF81C784);
-  static const Color _warning = Color(0xFFFFD54F);
-  static const Color _info = Color(0xFF64B5F6);
+  static const Color _success = Color(0xFF4CAF7D);
+  static const Color _warning = Color(0xFFE5A940);
+  static const Color _info = Color(0xFF5B9BD5);
   static const Color _overlay = Color(0xFF000000);
 
   // ===========================================================================
