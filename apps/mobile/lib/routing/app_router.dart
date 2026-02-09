@@ -69,7 +69,10 @@ abstract final class AppRoutes {
   static const isbnScan = '/search/isbn-scan';
 
   /// 本詳細画面パスを生成
-  static String bookDetail({required String bookId, required BookSource source}) {
+  static String bookDetail({
+    required String bookId,
+    required BookSource source,
+  }) {
     return '/books/$bookId?source=${source.name}';
   }
 
@@ -108,10 +111,7 @@ class BookDetailParams {
 
 /// 検索画面のパラメータ
 class SearchParams {
-  const SearchParams({
-    this.query = '',
-    this.page = 1,
-  });
+  const SearchParams({this.query = '', this.page = 1});
 
   /// クエリパラメータから SearchParams を生成
   factory SearchParams.fromQueryParameters({
@@ -176,10 +176,8 @@ GoRouter appRouter(Ref ref) {
     initialLocation: AppRoutes.home,
     debugLogDiagnostics: kDebugMode,
     refreshListenable: authChangeNotifier,
-    redirect: (context, state) => guardRoute(
-      authState: authState,
-      state: state,
-    ),
+    redirect: (context, state) =>
+        guardRoute(authState: authState, state: state),
     onException: (context, state, router) {
       router.go(AppRoutes.error);
     },
@@ -209,7 +207,8 @@ String? guardRoute({
 
   // ゲストモード時のルート判定
   if (isGuest) {
-    final isGuestAllowed = currentLocation == '/' ||
+    final isGuestAllowed =
+        currentLocation == '/' ||
         currentLocation == AppRoutes.homeTab ||
         currentLocation == AppRoutes.searchTab ||
         currentLocation == AppRoutes.isbnScan ||
@@ -238,33 +237,29 @@ List<RouteBase> _buildRoutes() {
     // ウェルカム画面
     GoRoute(
       path: AppRoutes.welcome,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: WelcomeScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: WelcomeScreen()),
     ),
 
     // ログイン画面
     GoRoute(
       path: AppRoutes.login,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: LoginScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: LoginScreen()),
     ),
 
     // 新規登録画面
     GoRoute(
       path: AppRoutes.register,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: RegistrationScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: RegistrationScreen()),
     ),
 
     // エラー画面
     GoRoute(
       path: AppRoutes.error,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: _ErrorScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: _ErrorScreen()),
     ),
 
     // アカウント画面（タブバーなし）
@@ -384,48 +379,46 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state, navigationShell) =>
           _MainShell(navigationShell: navigationShell),
       branches: [
-        StatefulShellBranch(routes: [
-          // ホーム（本棚）
-          GoRoute(
-            path: AppRoutes.home,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookShelfScreen(),
+        StatefulShellBranch(
+          routes: [
+            // ホーム（本棚）
+            GoRoute(
+              path: AppRoutes.home,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: BookShelfScreen()),
             ),
-          ),
-          GoRoute(
-            path: AppRoutes.homeTab,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookShelfScreen(),
+            GoRoute(
+              path: AppRoutes.homeTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: BookShelfScreen()),
             ),
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          // 検索
-          GoRoute(
-            path: AppRoutes.searchTab,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SearchScreen(),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            // 検索
+            GoRoute(
+              path: AppRoutes.searchTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SearchScreen()),
             ),
-          ),
-        ]),
+          ],
+        ),
       ],
     ),
 
     // リスト作成画面（タブバーなし）
     GoRoute(
       path: AppRoutes.bookListCreate,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: BookListEditScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: BookListEditScreen()),
     ),
 
     // ISBN スキャン画面（タブバーなし）
     GoRoute(
       path: AppRoutes.isbnScan,
-      pageBuilder: (context, state) => const CupertinoPage(
-        fullscreenDialog: true,
-        child: ISBNScanScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(fullscreenDialog: true, child: ISBNScanScreen()),
     ),
 
     // リスト詳細画面（タブバーなし）
@@ -471,34 +464,57 @@ class _MainShell extends StatelessWidget {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     void onTap(int index) {
-      navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
+      navigationShell.goBranch(
+        index,
+        initialLocation: index == navigationShell.currentIndex,
+      );
     }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
-        systemNavigationBarColor: appColors.surface,
+        systemNavigationBarColor: appColors.background,
       ),
       child: Scaffold(
         body: navigationShell,
         bottomNavigationBar: Container(
-          color: appColors.surface,
-          padding: const EdgeInsets.only(top: 8),
+          decoration: BoxDecoration(
+            color: appColors.background,
+            border: Border(
+              top: BorderSide(color: appColors.border, width: 0.5),
+            ),
+          ),
           child: CupertinoTabBar(
             currentIndex: selectedIndex,
             onTap: onTap,
             activeColor: appColors.textPrimary,
-            inactiveColor: appColors.textPrimary.withOpacity(0.7),
-            backgroundColor: appColors.surface,
+            inactiveColor: appColors.textPrimary,
+            backgroundColor: appColors.background,
             border: const Border(),
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.book),
-                activeIcon: Icon(CupertinoIcons.book_fill),
-                label: 'ライブラリ',
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.book),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.book_fill),
+                ),
+                label: '',
               ),
               BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.search),
-                label: 'さがす',
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.search),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(
+                    CupertinoIcons.search,
+                    shadows: [Shadow(blurRadius: 3, color: Color(0xFFFFFFFF))],
+                  ),
+                ),
+                label: '',
               ),
             ],
           ),
