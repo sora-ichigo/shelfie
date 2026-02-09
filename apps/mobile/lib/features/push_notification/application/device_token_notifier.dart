@@ -105,7 +105,7 @@ class DeviceTokenNotifier extends _$DeviceTokenNotifier {
     final repository = ref.read(deviceTokenRepositoryProvider);
     await repository.unregisterToken(token: _currentToken!);
 
-    _tokenRefreshSubscription?.cancel();
+    await _tokenRefreshSubscription?.cancel();
     _tokenRefreshSubscription = null;
     _currentToken = null;
     state = DeviceTokenState.idle;

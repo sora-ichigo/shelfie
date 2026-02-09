@@ -33,14 +33,14 @@ export function parseNotificationArgs(args: string[]): ParseResult {
 
   const { title, body, all, "user-ids": userIdsStr } = parsed.values;
 
-  if (!title) {
+  if (!title || typeof title !== "string") {
     return {
       success: false,
       error: "--title is required",
     };
   }
 
-  if (!body) {
+  if (!body || typeof body !== "string") {
     return {
       success: false,
       error: "--body is required",
@@ -68,7 +68,14 @@ export function parseNotificationArgs(args: string[]): ParseResult {
     };
   }
 
-  const userIdStrings = userIdsStr?.split(",").map((s) => s.trim()) ?? [];
+  if (typeof userIdsStr !== "string") {
+    return {
+      success: false,
+      error: "Either --all or --user-ids must be specified",
+    };
+  }
+
+  const userIdStrings = userIdsStr.split(",").map((s: string) => s.trim());
   const userIds = userIdStrings.map(Number);
 
   if (userIds.some(Number.isNaN)) {
