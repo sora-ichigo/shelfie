@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_state.dart';
@@ -31,13 +32,28 @@ class StatusSectionList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final states = <ReadingStatus, StatusSectionState>{
+      for (final status in _sectionOrder)
+        status: ref.watch(statusSectionNotifierProvider(status)),
+    };
+
     final visibleSections = _sectionOrder.where((status) {
-      final state = ref.watch(statusSectionNotifierProvider(status));
-      return _isSectionVisible(state);
+      final state = states[status]!;
+      return switch (state) {
+        StatusSectionLoaded(:final totalCount) => totalCount > 0,
+        StatusSectionError() => true,
+        StatusSectionLoading() || StatusSectionInitial() => false,
+      };
     }).toList();
 
     if (visibleSections.isEmpty) {
-      return const NoBooksMessage();
+      final allResolved = states.values.every(
+        (s) => s is StatusSectionLoaded || s is StatusSectionError,
+      );
+      if (allResolved) {
+        return const NoBooksMessage();
+      }
+      return const Center(child: LoadingIndicator());
     }
 
     final bottomInset = MediaQuery.of(context).padding.bottom +
@@ -59,14 +75,5 @@ class StatusSectionList extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  bool _isSectionVisible(StatusSectionState state) {
-    return switch (state) {
-      StatusSectionLoaded(:final totalCount) => totalCount > 0,
-      StatusSectionLoading() => true,
-      StatusSectionError() => true,
-      StatusSectionInitial() => true,
-    };
   }
 }
