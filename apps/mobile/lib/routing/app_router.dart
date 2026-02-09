@@ -487,7 +487,7 @@ class _MainShell extends StatelessWidget {
             currentIndex: selectedIndex,
             onTap: onTap,
             activeColor: appColors.textPrimary,
-            inactiveColor: appColors.textPrimary,
+            inactiveColor: appColors.textSecondary,
             backgroundColor: appColors.background,
             border: const Border(),
             items: const [
