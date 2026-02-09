@@ -11,6 +11,7 @@ class LibraryBooksTab extends StatelessWidget {
     required this.onBookTap,
     required this.onBookLongPress,
     required this.onLoadMore,
+    required this.onAddBookPressed,
     super.key,
   });
 
@@ -20,11 +21,12 @@ class LibraryBooksTab extends StatelessWidget {
   final ValueChanged<ShelfBookItem> onBookTap;
   final ValueChanged<ShelfBookItem> onBookLongPress;
   final VoidCallback onLoadMore;
+  final VoidCallback onAddBookPressed;
 
   @override
   Widget build(BuildContext context) {
     if (books.isEmpty) {
-      return const NoBooksMessage();
+      return NoBooksMessage(onAddBookPressed: onAddBookPressed);
     }
 
     return BookGrid(

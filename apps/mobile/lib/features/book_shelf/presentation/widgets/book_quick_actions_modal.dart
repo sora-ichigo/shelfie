@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +13,7 @@ import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/theme/app_typography.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
@@ -262,10 +262,10 @@ class _BookQuickActionsModalContentState
 
     if (mounted) {
       setState(() => _isUpdating = false);
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: '${status.displayName}に変更しました',
-        type: AdaptiveSnackBarType.success,
+        type: AppSnackBarType.success,
       );
     }
   }
@@ -327,10 +327,10 @@ class _BookQuickActionsModalContentState
 
     if (mounted) {
       setState(() => _isUpdating = false);
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: newRating == null ? '評価を解除しました' : '評価を変更しました',
-        type: AdaptiveSnackBarType.success,
+        type: AppSnackBarType.success,
       );
     }
   }
@@ -419,18 +419,18 @@ class _BookQuickActionsModalContentState
 
         result.fold(
           (failure) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: failure.userMessage,
-              type: AdaptiveSnackBarType.error,
+              type: AppSnackBarType.error,
             );
           },
           (_) {
             ref.read(bookListVersionProvider.notifier).increment();
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: 'リストに追加しました',
-              type: AdaptiveSnackBarType.success,
+              type: AppSnackBarType.success,
             );
             Navigator.pop(context);
           },
@@ -467,10 +467,10 @@ class _BookQuickActionsModalContentState
       (failure) {
         if (mounted) {
           setState(() => _isUpdating = false);
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: failure.userMessage,
-            type: AdaptiveSnackBarType.error,
+            type: AppSnackBarType.error,
           );
         }
       },
@@ -483,10 +483,10 @@ class _BookQuickActionsModalContentState
               .removeBook(widget.book.externalId);
         }
         if (mounted) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: 'マイライブラリから削除しました',
-            type: AdaptiveSnackBarType.success,
+            type: AppSnackBarType.success,
           );
           Navigator.pop(context);
         }

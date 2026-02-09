@@ -1,4 +1,4 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +7,7 @@ import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
@@ -177,25 +178,16 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
   }
 
   Future<void> _showDeleteConfirmation(BookListDetail list) async {
-    final confirmed = await showDialog<bool>(
+    final dialogResult = await showOkCancelAlertDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('リストを削除'),
-        content: const Text('このリストを削除しますか？この操作は取り消せません。'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text('削除', style: TextStyle(color: Theme.of(context).extension<AppColors>()!.destructive)),
-          ),
-        ],
-      ),
+      title: 'リストを削除',
+      message: 'このリストを削除しますか？この操作は取り消せません。',
+      okLabel: '削除',
+      cancelLabel: 'キャンセル',
+      isDestructiveAction: true,
     );
 
-    if (confirmed != true || !mounted) return;
+    if (dialogResult != OkCancelResult.ok || !mounted) return;
 
     final notifier = ref.read(bookListNotifierProvider.notifier);
     final result = await notifier.deleteList(listId: list.id);
@@ -204,10 +196,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -236,10 +228,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         result.fold(
           (failure) {
             if (mounted) {
-              AdaptiveSnackBar.show(
+              AppSnackBar.show(
                 context,
                 message: failure.userMessage,
-                type: AdaptiveSnackBarType.error,
+                type: AppSnackBarType.error,
               );
             }
           },
@@ -257,10 +249,10 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
         result.fold(
           (failure) {
             if (mounted) {
-              AdaptiveSnackBar.show(
+              AppSnackBar.show(
                 context,
                 message: failure.userMessage,
-                type: AdaptiveSnackBarType.error,
+                type: AppSnackBarType.error,
               );
             }
           },

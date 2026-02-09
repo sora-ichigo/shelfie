@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +13,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
@@ -288,10 +288,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -308,10 +308,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
             );
           }
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -335,10 +335,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     });
 
     result.fold((failure) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: failure.userMessage,
-        type: AdaptiveSnackBarType.error,
+        type: AppSnackBarType.error,
       );
     }, (_) {});
   }
@@ -363,10 +363,10 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     if (!mounted) return;
     if (newStatus == ReadingStatus.completed &&
         previousStatus != ReadingStatus.completed) {
-      AdaptiveSnackBar.show(
+      AppSnackBar.show(
         context,
         message: '読了おめでとうございます！シェアしませんか？',
-        type: AdaptiveSnackBarType.success,
+        type: AppSnackBarType.success,
         action: 'シェア',
         onActionPressed: () => _navigateToShare(ReadingStatus.completed),
       );
@@ -408,17 +408,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '読了日を更新しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -443,17 +443,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '読書開始日を更新しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -531,17 +531,17 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
         result.fold(
           (failure) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: failure.userMessage,
-              type: AdaptiveSnackBarType.error,
+              type: AppSnackBarType.error,
             );
           },
           (_) {
-            AdaptiveSnackBar.show(
+            AppSnackBar.show(
               context,
               message: 'リストに追加しました',
-              type: AdaptiveSnackBarType.success,
+              type: AppSnackBarType.success,
             );
           },
         );

@@ -14,6 +14,7 @@ class LibraryListsTab extends StatelessWidget {
     required this.hasBooks,
     required this.onListTap,
     required this.onCreateTap,
+    required this.onAddBookPressed,
     this.isLoading = false,
     super.key,
   });
@@ -22,12 +23,13 @@ class LibraryListsTab extends StatelessWidget {
   final bool hasBooks;
   final ValueChanged<BookListSummary> onListTap;
   final VoidCallback onCreateTap;
+  final VoidCallback onAddBookPressed;
   final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     if (!hasBooks) {
-      return const NoBooksMessage();
+      return NoBooksMessage(onAddBookPressed: onAddBookPressed);
     }
 
     if (isLoading) {

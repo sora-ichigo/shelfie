@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_search/presentation/search_screen.dart'
+    show searchAutoFocusProvider;
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -29,8 +32,10 @@ class BookShelfScreen extends ConsumerStatefulWidget {
   ConsumerState<BookShelfScreen> createState() => _BookShelfScreenState();
 }
 
-class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
+class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
+    with SingleTickerProviderStateMixin {
   LibraryFilterTab _selectedTab = LibraryFilterTab.books;
+  late final TabController _tabController;
 
   static const _headerHeight = AppSpacing.sm + 40.0 + AppSpacing.sm;
   static const _tabBarHeight = 62.0;
@@ -45,6 +50,11 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(
+      length: LibraryFilterTab.values.length,
+      vsync: this,
+    );
+    _tabController.addListener(_onTabIndexChanged);
     Future.microtask(() {
       final isGuest = ref.read(authStateProvider).isGuest;
       if (isGuest) return;
@@ -59,11 +69,17 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
   }
 
   @override
+  void dispose() {
+    _tabController.removeListener(_onTabIndexChanged);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
 
     final bookListState = isGuest ? null : ref.watch(bookListNotifierProvider);
-    final accountAsync = isGuest ? null : ref.watch(accountNotifierProvider);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -97,12 +113,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         height: headerSpace,
                         child: ScreenHeader(
                           title: 'ライブラリ',
-                          onProfileTap: () =>
-                              context.push(AppRoutes.account),
-                          avatarUrl:
-                              accountAsync?.valueOrNull?.avatarUrl,
-                          isAvatarLoading:
-                              accountAsync?.isLoading ?? false,
+                          showAvatar: false,
                         ),
                       ),
                     ),
@@ -147,24 +158,22 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
         ];
       },
       body: isGuest
-          ? const NoBooksMessage()
+          ? NoBooksMessage(onAddBookPressed: _onAddBookPressed)
           : _buildContent(bookListState!),
     );
   }
 
-  void _onTabChanged(LibraryFilterTab tab) {
-    setState(() {
-      _selectedTab = tab;
-    });
-    if (tab == LibraryFilterTab.books) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        for (final status in ReadingStatus.values) {
-          ref
-              .read(statusSectionNotifierProvider(status).notifier)
-              .initialize();
-        }
+  void _onTabIndexChanged() {
+    final tab = LibraryFilterTab.values[_tabController.index];
+    if (_selectedTab != tab) {
+      setState(() {
+        _selectedTab = tab;
       });
     }
+  }
+
+  void _onTabChanged(LibraryFilterTab tab) {
+    _tabController.animateTo(tab.index);
   }
 
   Future<void> _onSortChanged(SortOption option) async {
@@ -184,32 +193,29 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final shelfState = ref.watch(shelfStateProvider);
     final hasBooks = shelfState.isNotEmpty;
 
-    return switch (_selectedTab) {
-      LibraryFilterTab.books => StatusSectionList(
-          onBookTap: _onBookTap,
-          onBookLongPress: _onBookLongPress,
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        _KeepAlive(
+          child: StatusSectionList(
+            onBookTap: _onBookTap,
+            onBookLongPress: _onBookLongPress,
+            onAddBookPressed: _onAddBookPressed,
+          ),
         ),
-      LibraryFilterTab.lists => _buildListsTab(
-          lists,
-          hasBooks,
-          isLoading: isListLoading,
+        _KeepAlive(
+          child: LibraryListsTab(
+            lists: lists,
+            hasBooks: hasBooks,
+            isLoading: isListLoading,
+            onListTap: _onListTap,
+            onCreateTap: () {
+              context.push(AppRoutes.bookListCreate);
+            },
+            onAddBookPressed: _onAddBookPressed,
+          ),
         ),
-    };
-  }
-
-  Widget _buildListsTab(
-    List<BookListSummary> lists,
-    bool hasBooks, {
-    required bool isLoading,
-  }) {
-    return LibraryListsTab(
-      lists: lists,
-      hasBooks: hasBooks,
-      isLoading: isLoading,
-      onListTap: _onListTap,
-      onCreateTap: () {
-        context.push(AppRoutes.bookListCreate);
-      },
+      ],
     );
   }
 
@@ -232,5 +238,47 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
 
   void _onListTap(BookListSummary list) {
     context.push(AppRoutes.bookListDetail(listId: list.id));
+  }
+
+  Future<void> _onAddBookPressed() async {
+    final option = await showAddBookBottomSheet(context: context);
+    if (!mounted) return;
+    switch (option) {
+      case AddBookOption.search:
+        context.go(AppRoutes.searchTab);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ref.read(searchAutoFocusProvider.notifier).state = true;
+          }
+        });
+      case AddBookOption.camera:
+        final isbn = await context.push<String>(AppRoutes.isbnScan);
+        if (isbn != null && mounted) {
+          await ISBNScanResultDialog.show(context, isbn);
+        }
+      case null:
+        break;
+    }
+  }
+}
+
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }

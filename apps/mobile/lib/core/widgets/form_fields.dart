@@ -156,6 +156,7 @@ class EmailField extends StatelessWidget {
         TextFormField(
           initialValue: value,
           keyboardType: TextInputType.emailAddress,
+          autofillHints: const [AutofillHints.email],
           autocorrect: false,
           onChanged: onChanged,
           decoration: _buildInputDecoration(
@@ -192,6 +193,7 @@ class PasswordField extends StatelessWidget {
     this.hintText = 'パスワードを入力',
     this.errorText,
     this.textInputAction,
+    this.autofillHints = const [AutofillHints.password],
     super.key,
   });
 
@@ -203,6 +205,7 @@ class PasswordField extends StatelessWidget {
   final String hintText;
   final String? errorText;
   final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +227,7 @@ class PasswordField extends StatelessWidget {
           obscureText: isObscured,
           autocorrect: false,
           enableSuggestions: false,
+          autofillHints: autofillHints,
           onChanged: onChanged,
           textInputAction: textInputAction,
           decoration: _buildInputDecoration(

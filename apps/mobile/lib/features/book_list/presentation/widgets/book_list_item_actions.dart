@@ -1,8 +1,9 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 
@@ -71,25 +72,16 @@ class _BookListItemActionsState extends ConsumerState<BookListItemActions> {
   }
 
   Future<void> _onDeleteTap() async {
-    final confirmed = await showDialog<bool>(
+    final dialogResult = await showOkCancelAlertDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('本をリストから削除'),
-        content: const Text('この本をリストから削除しますか？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('削除'),
-          ),
-        ],
-      ),
+      title: '本をリストから削除',
+      message: 'この本をリストから削除しますか？',
+      okLabel: '削除',
+      cancelLabel: 'キャンセル',
+      isDestructiveAction: true,
     );
 
-    if (confirmed != true || !mounted) return;
+    if (dialogResult != OkCancelResult.ok || !mounted) return;
 
     setState(() => _isDeleting = true);
 
@@ -104,10 +96,10 @@ class _BookListItemActionsState extends ConsumerState<BookListItemActions> {
     result.fold(
       (failure) {
         setState(() => _isDeleting = false);
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {

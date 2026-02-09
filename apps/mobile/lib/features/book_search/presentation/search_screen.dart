@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,10 +7,10 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/guest_login_prompt.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
@@ -27,6 +26,8 @@ import 'package:shelfie/features/book_search/presentation/widgets/recent_books_s
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_history_section.dart';
 import 'package:shelfie/routing/app_router.dart';
+
+final searchAutoFocusProvider = StateProvider<bool>((ref) => false);
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -49,15 +50,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   @override
-  void deactivate() {
-    final notifier = ref.read(navBarHiddenProvider.notifier);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifier.state = false;
-    });
-    super.deactivate();
-  }
-
-  @override
   void dispose() {
     _focusNode
       ..removeListener(_onFocusChange)
@@ -70,26 +62,30 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     setState(() {
       _isSearchFieldFocused = _focusNode.hasFocus;
     });
-    final state = ref.read(bookSearchNotifierProvider);
-    ref.read(navBarHiddenProvider.notifier).state =
-        _focusNode.hasFocus || state is! BookSearchInitial;
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<bool>(searchAutoFocusProvider, (prev, next) {
+      if (next) {
+        ref.read(searchAutoFocusProvider.notifier).state = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _focusNode.requestFocus();
+        });
+      }
+    });
+
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
-    final accountAsync = ref.watch(accountNotifierProvider);
-    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     ref.listen<BookSearchState>(
       bookSearchNotifierProvider,
       (previous, next) {
         if (next is BookSearchError) {
-          AdaptiveSnackBar.show(
+          AppSnackBar.show(
             context,
             message: next.failure.userMessage,
-            type: AdaptiveSnackBarType.error,
+            type: AppSnackBarType.error,
           );
         }
       },
@@ -112,10 +108,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ? const SizedBox.shrink()
                     : ScreenHeader(
                         title: 'さがす',
-                        onProfileTap: () =>
-                            context.push(AppRoutes.account),
-                        avatarUrl: avatarUrl,
-                        isAvatarLoading: accountAsync.isLoading,
+                        showAvatar: false,
                       ),
               ),
               Padding(
@@ -265,10 +258,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -280,10 +273,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -312,17 +305,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: 'マイライブラリから削除しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -470,10 +463,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
@@ -485,10 +478,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
           );
         }
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: '「${addResult.status.displayName}」で登録しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );
@@ -513,17 +506,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     result.fold(
       (failure) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: failure.userMessage,
-          type: AdaptiveSnackBarType.error,
+          type: AppSnackBarType.error,
         );
       },
       (_) {
-        AdaptiveSnackBar.show(
+        AppSnackBar.show(
           context,
           message: 'マイライブラリから削除しました',
-          type: AdaptiveSnackBarType.success,
+          type: AppSnackBarType.success,
         );
       },
     );

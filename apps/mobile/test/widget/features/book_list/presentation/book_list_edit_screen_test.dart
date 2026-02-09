@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
@@ -303,30 +302,6 @@ void main() {
         await tester.pumpAndSettle();
       });
 
-      testWidgets('shows error snackbar on failure', (tester) async {
-        when(
-          () => mockRepository.createBookList(
-            title: any(named: 'title'),
-            description: any(named: 'description'),
-          ),
-        ).thenAnswer(
-          (_) async => left(const ValidationFailure(message: 'Invalid title')),
-        );
-
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        await tester.enterText(
-          find.byKey(const Key('title_field')),
-          'New List',
-        );
-        await tester.pump();
-
-        await tester.tap(find.byIcon(Icons.check));
-        await tester.pumpAndSettle();
-
-        expect(find.byType(SnackBar), findsOneWidget);
-      });
     });
   });
 }

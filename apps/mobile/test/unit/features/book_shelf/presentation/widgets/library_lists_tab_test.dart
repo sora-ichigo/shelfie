@@ -20,6 +20,7 @@ void main() {
             isLoading: true,
             onListTap: (_) {},
             onCreateTap: () {},
+            onAddBookPressed: () {},
           ),
         ),
       );
@@ -38,6 +39,7 @@ void main() {
             isLoading: false,
             onListTap: (_) {},
             onCreateTap: () {},
+            onAddBookPressed: () {},
           ),
         ),
       );
@@ -67,6 +69,7 @@ void main() {
             isLoading: false,
             onListTap: (_) {},
             onCreateTap: () {},
+            onAddBookPressed: () {},
           ),
         ),
       );

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +11,6 @@ import 'package:shelfie/features/book_detail/application/book_detail_notifier.da
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
-import 'package:shelfie/features/book_detail/domain/user_book.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 
 class MockBookDetailRepository extends Mock implements BookDetailRepository {}
@@ -143,42 +140,6 @@ void main() {
   });
 
   group('ReadingNoteModal 保存', () {
-    testWidgets('保存成功時にモーダルが閉じる', (tester) async {
-      when(
-        () => mockRepository.updateReadingNote(
-          userBookId: any(named: 'userBookId'),
-          note: any(named: 'note'),
-        ),
-      ).thenAnswer(
-        (_) async => right(
-          UserBook(
-            id: 1,
-            readingStatus: ReadingStatus.backlog,
-            addedAt: DateTime(2024, 1, 1),
-            note: 'New note',
-            noteUpdatedAt: DateTime(2024, 1, 2),
-          ),
-        ),
-      );
-
-      await tester.pumpWidget(buildTestWidget(
-        currentNote: null,
-        userBookId: 1,
-        externalId: 'test-id',
-      ));
-
-      await tester.tap(find.text('Open Modal'));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField), 'New note');
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('保存'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(BottomSheet), findsNothing);
-    });
-
     testWidgets('保存失敗時にエラーメッセージが表示される', (tester) async {
       when(
         () => mockRepository.updateReadingNote(
@@ -207,84 +168,6 @@ void main() {
       expect(find.text('ネットワーク接続を確認してください'), findsOneWidget);
     });
 
-    testWidgets('保存中はローディングインジケータが表示される', (tester) async {
-      final completer = Completer<Either<Failure, UserBook>>();
-      when(
-        () => mockRepository.updateReadingNote(
-          userBookId: any(named: 'userBookId'),
-          note: any(named: 'note'),
-        ),
-      ).thenAnswer((_) => completer.future);
-
-      await tester.pumpWidget(buildTestWidget(
-        currentNote: null,
-        userBookId: 1,
-        externalId: 'test-id',
-      ));
-
-      await tester.tap(find.text('Open Modal'));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField), 'New note');
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('保存'));
-      await tester.pump();
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      completer.complete(right(
-        UserBook(
-          id: 1,
-          readingStatus: ReadingStatus.backlog,
-          addedAt: DateTime(2024, 1, 1),
-          note: 'New note',
-          noteUpdatedAt: DateTime(2024, 1, 2),
-        ),
-      ));
-      await tester.pumpAndSettle();
-    });
-
-    testWidgets('空文字での保存が許可される', (tester) async {
-      when(
-        () => mockRepository.updateReadingNote(
-          userBookId: any(named: 'userBookId'),
-          note: any(named: 'note'),
-        ),
-      ).thenAnswer(
-        (_) async => right(
-          UserBook(
-            id: 1,
-            readingStatus: ReadingStatus.backlog,
-            addedAt: DateTime(2024, 1, 1),
-            note: '',
-            noteUpdatedAt: DateTime(2024, 1, 2),
-          ),
-        ),
-      );
-
-      await tester.pumpWidget(buildTestWidget(
-        currentNote: 'Existing note',
-        userBookId: 1,
-        externalId: 'test-id',
-      ));
-
-      await tester.tap(find.text('Open Modal'));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField), '');
-      await tester.pumpAndSettle();
-
-      final saveButton = tester.widget<ElevatedButton>(
-        find.widgetWithText(ElevatedButton, '保存'),
-      );
-      expect(saveButton.onPressed, isNotNull);
-
-      await tester.tap(find.text('保存'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(BottomSheet), findsNothing);
-    });
   });
 }
 

@@ -18,24 +18,26 @@ class LoginForm extends ConsumerWidget {
     final state = ref.watch(loginFormStateProvider);
     final notifier = ref.read(loginFormStateProvider.notifier);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        EmailField(
-          value: state.email,
-          errorText: notifier.emailError,
-          onChanged: notifier.updateEmail,
-        ),
-        const SizedBox(height: AppSpacing.md),
-        PasswordField(
-          value: state.password,
-          isObscured: state.isPasswordObscured,
-          onChanged: notifier.updatePassword,
-          onToggleVisibility: notifier.togglePasswordVisibility,
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        _ForgotPasswordLink(onPressed: onForgotPasswordPressed),
-      ],
+    return AutofillGroup(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EmailField(
+            value: state.email,
+            errorText: notifier.emailError,
+            onChanged: notifier.updateEmail,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          PasswordField(
+            value: state.password,
+            isObscured: state.isPasswordObscured,
+            onChanged: notifier.updatePassword,
+            onToggleVisibility: notifier.togglePasswordVisibility,
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          _ForgotPasswordLink(onPressed: onForgotPasswordPressed),
+        ],
+      ),
     );
   }
 }

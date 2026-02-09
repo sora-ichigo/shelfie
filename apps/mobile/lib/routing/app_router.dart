@@ -5,35 +5,35 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
+import 'package:shelfie/features/account/presentation/profile_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
     show BookSource;
 import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart';
-import 'package:shelfie/features/book_search/presentation/search_screen.dart';
+import 'package:shelfie/features/book_search/presentation/search_screen.dart'
+    show SearchScreen, searchAutoFocusProvider;
+import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
-
-/// ナビゲーションバーの非表示状態を管理する Provider
-///
-/// 検索画面でフォーカスが当たっている間は true に設定される。
-final navBarHiddenProvider = StateProvider<bool>((ref) => false);
 
 /// ルートパス定義
 ///
@@ -57,6 +57,9 @@ abstract final class AppRoutes {
   /// 検索タブ
   static const searchTab = '/search';
 
+  /// プロフィール画面（タブ）
+  static const profileTab = '/profile';
+
   /// アカウント画面
   static const account = '/account';
 
@@ -73,7 +76,10 @@ abstract final class AppRoutes {
   static const isbnScan = '/search/isbn-scan';
 
   /// 本詳細画面パスを生成
-  static String bookDetail({required String bookId, required BookSource source}) {
+  static String bookDetail({
+    required String bookId,
+    required BookSource source,
+  }) {
     return '/books/$bookId?source=${source.name}';
   }
 
@@ -112,10 +118,7 @@ class BookDetailParams {
 
 /// 検索画面のパラメータ
 class SearchParams {
-  const SearchParams({
-    this.query = '',
-    this.page = 1,
-  });
+  const SearchParams({this.query = '', this.page = 1});
 
   /// クエリパラメータから SearchParams を生成
   factory SearchParams.fromQueryParameters({
@@ -180,10 +183,8 @@ GoRouter appRouter(Ref ref) {
     initialLocation: AppRoutes.home,
     debugLogDiagnostics: kDebugMode,
     refreshListenable: authChangeNotifier,
-    redirect: (context, state) => guardRoute(
-      authState: authState,
-      state: state,
-    ),
+    redirect: (context, state) =>
+        guardRoute(authState: authState, state: state),
     onException: (context, state, router) {
       router.go(AppRoutes.error);
     },
@@ -213,11 +214,13 @@ String? guardRoute({
 
   // ゲストモード時のルート判定
   if (isGuest) {
-    final isGuestAllowed = currentLocation == '/' ||
+    final isGuestAllowed =
+        currentLocation == '/' ||
         currentLocation == AppRoutes.homeTab ||
         currentLocation == AppRoutes.searchTab ||
         currentLocation == AppRoutes.isbnScan ||
         currentLocation.startsWith('/books/') ||
+        currentLocation == AppRoutes.profileTab ||
         currentLocation == AppRoutes.account ||
         isWelcomeRoute ||
         isAuthRoute;
@@ -242,33 +245,29 @@ List<RouteBase> _buildRoutes() {
     // ウェルカム画面
     GoRoute(
       path: AppRoutes.welcome,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: WelcomeScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: WelcomeScreen()),
     ),
 
     // ログイン画面
     GoRoute(
       path: AppRoutes.login,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: LoginScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: LoginScreen()),
     ),
 
     // 新規登録画面
     GoRoute(
       path: AppRoutes.register,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: RegistrationScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: RegistrationScreen()),
     ),
 
     // エラー画面
     GoRoute(
       path: AppRoutes.error,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: _ErrorScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: _ErrorScreen()),
     ),
 
     // アカウント画面（タブバーなし）
@@ -388,48 +387,56 @@ List<RouteBase> _buildRoutes() {
       builder: (context, state, navigationShell) =>
           _MainShell(navigationShell: navigationShell),
       branches: [
-        StatefulShellBranch(routes: [
-          // ホーム（本棚）
-          GoRoute(
-            path: AppRoutes.home,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookShelfScreen(),
+        StatefulShellBranch(
+          routes: [
+            // ホーム（本棚）
+            GoRoute(
+              path: AppRoutes.home,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: BookShelfScreen()),
             ),
-          ),
-          GoRoute(
-            path: AppRoutes.homeTab,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: BookShelfScreen(),
+            GoRoute(
+              path: AppRoutes.homeTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: BookShelfScreen()),
             ),
-          ),
-        ]),
-        StatefulShellBranch(routes: [
-          // 検索
-          GoRoute(
-            path: AppRoutes.searchTab,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: SearchScreen(),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            // 検索
+            GoRoute(
+              path: AppRoutes.searchTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SearchScreen()),
             ),
-          ),
-        ]),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            // プロフィール
+            GoRoute(
+              path: AppRoutes.profileTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileScreen()),
+            ),
+          ],
+        ),
       ],
     ),
 
     // リスト作成画面（タブバーなし）
     GoRoute(
       path: AppRoutes.bookListCreate,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: BookListEditScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: BookListEditScreen()),
     ),
 
     // ISBN スキャン画面（タブバーなし）
     GoRoute(
       path: AppRoutes.isbnScan,
-      pageBuilder: (context, state) => const CupertinoPage(
-        fullscreenDialog: true,
-        child: ISBNScanScreen(),
-      ),
+      pageBuilder: (context, state) =>
+          const CupertinoPage(fullscreenDialog: true, child: ISBNScanScreen()),
     ),
 
     // リスト詳細画面（タブバーなし）
@@ -469,43 +476,115 @@ class _MainShell extends ConsumerWidget {
 
   final StatefulNavigationShell navigationShell;
 
+  static const int _addButtonIndex = 2;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedIndex = navigationShell.currentIndex;
-    final isNavBarHidden = ref.watch(navBarHiddenProvider);
+    final branchIndex = navigationShell.currentIndex;
+    final tabBarIndex = branchIndex >= _addButtonIndex
+        ? branchIndex + 1
+        : branchIndex;
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     void onTap(int index) {
-      navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
+      if (index == _addButtonIndex) {
+        () async {
+          final option = await showAddBookBottomSheet(context: context);
+          if (!context.mounted) return;
+          switch (option) {
+            case AddBookOption.search:
+              context.go(AppRoutes.searchTab);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (context.mounted) {
+                  ref.read(searchAutoFocusProvider.notifier).state = true;
+                }
+              });
+            case AddBookOption.camera:
+              final isbn = await context.push<String>(AppRoutes.isbnScan);
+              if (isbn != null && context.mounted) {
+                await ISBNScanResultDialog.show(context, isbn);
+              }
+            case null:
+              break;
+          }
+        }();
+        return;
+      }
+      final branch = index > _addButtonIndex ? index - 1 : index;
+      navigationShell.goBranch(
+        branch,
+        initialLocation: branch == navigationShell.currentIndex,
+      );
     }
 
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: isNavBarHidden
-          ? null
-          : Container(
-              color: appColors.surface,
-              padding: const EdgeInsets.only(top: 8),
-              child: CupertinoTabBar(
-                currentIndex: selectedIndex,
-                onTap: onTap,
-                activeColor: appColors.textPrimary,
-                inactiveColor: appColors.textPrimary.withOpacity(0.7),
-                backgroundColor: appColors.surface,
-                border: const Border(),
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.book),
-                    activeIcon: Icon(CupertinoIcons.book_fill),
-                    label: 'ライブラリ',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.search),
-                    label: 'さがす',
-                  ),
-                ],
-              ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarColor: appColors.background,
+      ),
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: appColors.background,
+            border: Border(
+              top: BorderSide(color: appColors.border, width: 0.5),
             ),
+          ),
+          child: CupertinoTabBar(
+            currentIndex: tabBarIndex,
+            onTap: onTap,
+            activeColor: appColors.textPrimary,
+            inactiveColor: appColors.textSecondary,
+            backgroundColor: appColors.background,
+            border: const Border(),
+            items: [
+              const BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Icon(CupertinoIcons.collections, size: 24),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Icon(CupertinoIcons.collections_solid, size: 24),
+                ),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: const Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.search),
+                ),
+                activeIcon: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Icon(
+                    CupertinoIcons.search,
+                    shadows: [Shadow(blurRadius: 3, color: appColors.textPrimary)],
+                  ),
+                ),
+                label: '',
+              ),
+              const BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.plus),
+                ),
+                label: '',
+              ),
+              const BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.person),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.person_fill),
+                ),
+                label: '',
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

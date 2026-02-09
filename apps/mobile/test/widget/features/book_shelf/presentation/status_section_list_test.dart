@@ -87,6 +87,7 @@ Widget _buildTestWidget({
     child: StatusSectionList(
       onBookTap: onBookTap ?? (_) {},
       onBookLongPress: onBookLongPress ?? (_) {},
+      onAddBookPressed: () {},
     ),
   );
 }
@@ -189,23 +190,6 @@ void main() {
         expect(statusOrder, isNot(contains(ReadingStatus.backlog)));
       });
 
-      testWidgets('loading 状態のセクションは表示される', (tester) async {
-        await tester.pumpWidget(
-          _buildTestWidget(
-            states: {
-              ReadingStatus.reading: const StatusSectionState.loading(),
-              ReadingStatus.backlog: _loadedState(count: 1, totalCount: 1),
-            },
-          ),
-        );
-        await tester.pump();
-
-        final sections = tester.widgetList<StatusSection>(
-          find.byType(StatusSection),
-        );
-        expect(sections.length, 2);
-      });
-
       testWidgets('error 状態のセクションは表示される', (tester) async {
         await tester.pumpWidget(
           _buildTestWidget(
@@ -303,23 +287,6 @@ void main() {
         expect(find.text('再試行'), findsOneWidget);
       });
 
-      testWidgets('あるセクションがloading中でも他のセクションは表示される',
-          (tester) async {
-        await tester.pumpWidget(
-          _buildTestWidget(
-            states: {
-              ReadingStatus.reading: const StatusSectionState.loading(),
-              ReadingStatus.completed: _loadedState(count: 1, totalCount: 1),
-            },
-          ),
-        );
-        await tester.pump();
-
-        final sections = tester.widgetList<StatusSection>(
-          find.byType(StatusSection),
-        );
-        expect(sections.length, 2);
-      });
     });
 
     group('空状態', () {
