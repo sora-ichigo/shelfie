@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -277,6 +279,122 @@ void main() {
               limit: any(named: 'limit'),
               offset: any(named: 'offset'),
             ));
+      });
+    });
+
+    group('searchBooks レースコンディション', () {
+      test('遅いリクエストが後から返っても最新のクエリの結果が保持される', () async {
+        final flutterCompleter = Completer<Either<Failure, SearchBooksResult>>();
+        final pythonCompleter = Completer<Either<Failure, SearchBooksResult>>();
+
+        when(() => mockRepository.searchBooks(
+              query: 'flutter',
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            )).thenAnswer((_) => flutterCompleter.future);
+
+        when(() => mockRepository.searchBooks(
+              query: 'python',
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            )).thenAnswer((_) => pythonCompleter.future);
+
+        final notifier = container.read(bookSearchNotifierProvider.notifier);
+        final states = <BookSearchState>[];
+        container.listen(bookSearchNotifierProvider, (previous, next) {
+          states.add(next);
+        });
+
+        // 1. "flutter" の検索を開始（レスポンスはまだ返さない）
+        unawaited(notifier.searchBooks('flutter'));
+        await Future<void>.delayed(Duration.zero);
+
+        // 2. "python" の検索を開始（レスポンスはまだ返さない）
+        unawaited(notifier.searchBooks('python'));
+        await Future<void>.delayed(Duration.zero);
+
+        // 3. "python" のレスポンスが先に返る
+        pythonCompleter.complete(right(
+          SearchBooksResult(
+            items: [
+              const Book(id: 'py-1', title: 'Python Book', authors: ['Author']),
+            ],
+            totalCount: 1,
+            hasMore: false,
+          ),
+        ));
+        await Future<void>.delayed(Duration.zero);
+
+        // 4. "flutter" のレスポンスが後から返る
+        flutterCompleter.complete(right(
+          SearchBooksResult(
+            items: [
+              const Book(id: 'fl-1', title: 'Flutter Book', authors: ['Author']),
+            ],
+            totalCount: 1,
+            hasMore: false,
+          ),
+        ));
+        await Future<void>.delayed(Duration.zero);
+
+        // 最新のクエリ "python" の結果が保持されるべき
+        final state = container.read(bookSearchNotifierProvider);
+        expect(state, isA<BookSearchSuccess>());
+        final success = state as BookSearchSuccess;
+        expect(success.currentQuery, equals('python'));
+        expect(success.books.first.title, equals('Python Book'));
+      });
+
+      test('古いリクエストのエラーが最新の成功結果を上書きしない', () async {
+        final flutterCompleter = Completer<Either<Failure, SearchBooksResult>>();
+        final pythonCompleter = Completer<Either<Failure, SearchBooksResult>>();
+
+        when(() => mockRepository.searchBooks(
+              query: 'flutter',
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            )).thenAnswer((_) => flutterCompleter.future);
+
+        when(() => mockRepository.searchBooks(
+              query: 'python',
+              limit: any(named: 'limit'),
+              offset: any(named: 'offset'),
+            )).thenAnswer((_) => pythonCompleter.future);
+
+        final notifier = container.read(bookSearchNotifierProvider.notifier);
+        final states = <BookSearchState>[];
+        container.listen(bookSearchNotifierProvider, (previous, next) {
+          states.add(next);
+        });
+
+        unawaited(notifier.searchBooks('flutter'));
+        await Future<void>.delayed(Duration.zero);
+
+        unawaited(notifier.searchBooks('python'));
+        await Future<void>.delayed(Duration.zero);
+
+        // "python" が先に成功
+        pythonCompleter.complete(right(
+          SearchBooksResult(
+            items: [
+              const Book(id: 'py-1', title: 'Python Book', authors: ['Author']),
+            ],
+            totalCount: 1,
+            hasMore: false,
+          ),
+        ));
+        await Future<void>.delayed(Duration.zero);
+
+        // "flutter" が後からエラーで返る
+        flutterCompleter.complete(
+          left(const NetworkFailure(message: 'timeout')),
+        );
+        await Future<void>.delayed(Duration.zero);
+
+        // "python" の成功結果がそのまま保持されるべき
+        final state = container.read(bookSearchNotifierProvider);
+        expect(state, isA<BookSearchSuccess>());
+        expect((state as BookSearchSuccess).currentQuery, equals('python'));
       });
     });
 
@@ -827,8 +945,4 @@ void main() {
       });
     });
   });
-}
-
-Future<void> unawaited(Future<void> future) async {
-  // ignore the future
 }

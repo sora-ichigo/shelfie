@@ -13,6 +13,7 @@ part 'book_search_notifier.g.dart';
 @riverpod
 class BookSearchNotifier extends _$BookSearchNotifier {
   Timer? _debounceTimer;
+  int _searchRequestId = 0;
   static const _debounceDuration = Duration(milliseconds: 300);
   static const _pageSize = 10;
 
@@ -42,6 +43,7 @@ class BookSearchNotifier extends _$BookSearchNotifier {
       return;
     }
 
+    final requestId = ++_searchRequestId;
     state = const BookSearchState.loading();
 
     final repository = ref.read(bookSearchRepositoryProvider);
@@ -50,6 +52,8 @@ class BookSearchNotifier extends _$BookSearchNotifier {
       limit: _pageSize,
       offset: 0,
     );
+
+    if (requestId != _searchRequestId) return;
 
     switch (result) {
       case Left(:final value):
