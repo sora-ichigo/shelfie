@@ -25,15 +25,15 @@ import {
   registerBooksTypes,
 } from "../features/books/index.js";
 import {
-  registerImageUploadQueries,
-  registerImageUploadTypes,
-} from "../features/image-upload/index.js";
-import {
   createDeviceTokenRepository,
   createDeviceTokenService,
   registerDeviceTokenMutations,
   registerDeviceTokenTypes,
 } from "../features/device-tokens/index.js";
+import {
+  registerImageUploadQueries,
+  registerImageUploadTypes,
+} from "../features/image-upload/index.js";
 import {
   createUserRepository,
   createUserService,

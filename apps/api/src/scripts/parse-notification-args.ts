@@ -26,7 +26,8 @@ export function parseNotificationArgs(args: string[]): ParseResult {
   } catch {
     return {
       success: false,
-      error: "Invalid arguments. Usage: --title <string> --body <string> (--all | --user-ids <id1,id2,...>)",
+      error:
+        "Invalid arguments. Usage: --title <string> --body <string> (--all | --user-ids <id1,id2,...>)",
     };
   }
 
@@ -67,7 +68,7 @@ export function parseNotificationArgs(args: string[]): ParseResult {
     };
   }
 
-  const userIdStrings = userIdsStr!.split(",").map((s) => s.trim());
+  const userIdStrings = userIdsStr?.split(",").map((s) => s.trim()) ?? [];
   const userIds = userIdStrings.map(Number);
 
   if (userIds.some(Number.isNaN)) {

@@ -10,6 +10,7 @@ function createMockDb() {
     for (const key of Object.keys(mockQuery)) {
       obj[key] = mockQuery[key as keyof typeof mockQuery];
     }
+    // biome-ignore lint/suspicious/noThenProperty: drizzle query builder returns thenable objects
     obj.then = (resolve: (v: unknown) => void) => {
       resolve(mockResults);
       return Promise.resolve(mockResults);

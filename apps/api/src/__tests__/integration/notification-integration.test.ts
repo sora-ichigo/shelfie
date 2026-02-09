@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { DeviceToken } from "../../db/schema/device-tokens.js";
-import type { FCMAdapter, FCMBatchResult } from "../../features/device-tokens/internal/fcm-adapter.js";
+import type { FCMAdapter } from "../../features/device-tokens/internal/fcm-adapter.js";
 import { createNotificationService } from "../../features/device-tokens/internal/notification-service.js";
 import type { DeviceTokenRepository } from "../../features/device-tokens/internal/repository.js";
 import { createDeviceTokenService } from "../../features/device-tokens/internal/service.js";

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createFCMAdapter, type FCMAdapter } from "./fcm-adapter.js";
+import { createFCMAdapter } from "./fcm-adapter.js";
 
 function createMockMessaging() {
   return {
@@ -23,17 +23,14 @@ describe("FCMAdapter", () => {
       mockMessaging.sendEachForMulticast.mockResolvedValue({
         successCount: 2,
         failureCount: 0,
-        responses: [
-          { success: true },
-          { success: true },
-        ],
+        responses: [{ success: true }, { success: true }],
       });
 
       const adapter = createFCMAdapter(mockMessaging as never);
-      const result = await adapter.sendMulticast(
-        ["token-1", "token-2"],
-        { title: "Test", body: "Hello" },
-      );
+      const result = await adapter.sendMulticast(["token-1", "token-2"], {
+        title: "Test",
+        body: "Hello",
+      });
 
       expect(result.successCount).toBe(2);
       expect(result.failureCount).toBe(0);
@@ -86,10 +83,10 @@ describe("FCMAdapter", () => {
       });
 
       const adapter = createFCMAdapter(mockMessaging as never);
-      await adapter.sendMulticast(
-        ["token-1"],
-        { title: "My Title", body: "My Body" },
-      );
+      await adapter.sendMulticast(["token-1"], {
+        title: "My Title",
+        body: "My Body",
+      });
 
       expect(mockMessaging.sendEachForMulticast).toHaveBeenCalledWith({
         tokens: ["token-1"],

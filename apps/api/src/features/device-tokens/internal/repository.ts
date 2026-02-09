@@ -2,11 +2,14 @@ import { and, eq, inArray } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type DeviceToken,
-  type NewDeviceToken,
   deviceTokens,
+  type NewDeviceToken,
 } from "../../../db/schema/device-tokens.js";
 
-export type { DeviceToken, NewDeviceToken } from "../../../db/schema/device-tokens.js";
+export type {
+  DeviceToken,
+  NewDeviceToken,
+} from "../../../db/schema/device-tokens.js";
 
 export interface DeviceTokenRepository {
   upsert(data: NewDeviceToken): Promise<DeviceToken>;
@@ -37,18 +40,13 @@ export function createDeviceTokenRepository(
       await db
         .delete(deviceTokens)
         .where(
-          and(
-            eq(deviceTokens.userId, userId),
-            eq(deviceTokens.token, token),
-          ),
+          and(eq(deviceTokens.userId, userId), eq(deviceTokens.token, token)),
         );
     },
 
     async deleteByTokens(tokens: string[]): Promise<void> {
       if (tokens.length === 0) return;
-      await db
-        .delete(deviceTokens)
-        .where(inArray(deviceTokens.token, tokens));
+      await db.delete(deviceTokens).where(inArray(deviceTokens.token, tokens));
     },
 
     async findByUserId(userId: number): Promise<DeviceToken[]> {

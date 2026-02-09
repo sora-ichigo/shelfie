@@ -6,11 +6,11 @@ import type {
 } from "graphql";
 import { describe, expect, it, vi } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
-import type { DeviceTokenService } from "./service.js";
 import {
   registerDeviceTokenMutations,
   registerDeviceTokenTypes,
 } from "./graphql.js";
+import type { DeviceTokenService } from "./service.js";
 
 function createMockDeviceTokenService(): DeviceTokenService {
   return {
@@ -19,9 +19,7 @@ function createMockDeviceTokenService(): DeviceTokenService {
   };
 }
 
-function buildTestSchema(
-  service?: DeviceTokenService,
-): GraphQLSchema {
+function buildTestSchema(service?: DeviceTokenService): GraphQLSchema {
   const builder = createTestBuilder();
   registerDeviceTokenTypes(builder);
 

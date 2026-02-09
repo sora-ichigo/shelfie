@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.req.gql.dart';
 import 'package:shelfie/features/push_notification/data/__generated__/unregister_device_token.req.gql.dart';

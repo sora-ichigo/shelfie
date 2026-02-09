@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  parseNotificationArgs,
-  type ParsedNotificationArgs,
-} from "./parse-notification-args.js";
+import { parseNotificationArgs } from "./parse-notification-args.js";
 
 describe("parseNotificationArgs", () => {
   it("should parse --title, --body, and --all correctly", () => {
@@ -41,11 +38,7 @@ describe("parseNotificationArgs", () => {
   });
 
   it("should return error when --title is missing", () => {
-    const result = parseNotificationArgs([
-      "--body",
-      "Test Body",
-      "--all",
-    ]);
+    const result = parseNotificationArgs(["--body", "Test Body", "--all"]);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -54,11 +47,7 @@ describe("parseNotificationArgs", () => {
   });
 
   it("should return error when --body is missing", () => {
-    const result = parseNotificationArgs([
-      "--title",
-      "Test Title",
-      "--all",
-    ]);
+    const result = parseNotificationArgs(["--title", "Test Title", "--all"]);
 
     expect(result.success).toBe(false);
     if (!result.success) {

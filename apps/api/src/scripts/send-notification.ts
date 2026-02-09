@@ -1,4 +1,8 @@
 import admin from "firebase-admin";
+import {
+  getFirebaseAuthConfig,
+  initializeFirebaseAuth,
+} from "../auth/firebase.js";
 import { closePool, getDb } from "../db/index.js";
 import {
   createDeviceTokenRepository,
@@ -6,10 +10,6 @@ import {
   createNotificationService,
 } from "../features/device-tokens/index.js";
 import { logger } from "../logger/index.js";
-import {
-  getFirebaseAuthConfig,
-  initializeFirebaseAuth,
-} from "../auth/firebase.js";
 import { parseNotificationArgs } from "./parse-notification-args.js";
 
 async function main() {
@@ -37,7 +37,9 @@ async function main() {
     );
 
     console.log(`Sending notification: "${title}"`);
-    console.log(`Target: ${userIds === "all" ? "all users" : `user IDs: ${userIds.join(", ")}`}`);
+    console.log(
+      `Target: ${userIds === "all" ? "all users" : `user IDs: ${userIds.join(", ")}`}`,
+    );
 
     const sendResult = await notificationService.sendNotification({
       title,
@@ -50,7 +52,13 @@ async function main() {
       process.exit(1);
     }
 
-    const { totalTargets, successCount, failureCount, invalidTokensRemoved, failures } = sendResult.data;
+    const {
+      totalTargets,
+      successCount,
+      failureCount,
+      invalidTokensRemoved,
+      failures,
+    } = sendResult.data;
 
     console.log("\n--- Send Result ---");
     console.log(`Total targets: ${totalTargets}`);
@@ -61,7 +69,9 @@ async function main() {
     if (failures.length > 0) {
       console.log("\n--- Failed Notifications ---");
       for (const failure of failures) {
-        console.log(`  User ID: ${failure.userId}, Token: ${failure.token}, Error: ${failure.error}`);
+        console.log(
+          `  User ID: ${failure.userId}, Token: ${failure.token}, Error: ${failure.error}`,
+        );
       }
     }
   } catch (error) {
