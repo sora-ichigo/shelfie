@@ -105,7 +105,7 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
       AppSnackBarType.success => appColors.success,
       AppSnackBarType.warning => appColors.warning,
       AppSnackBarType.error => appColors.destructive,
-      AppSnackBarType.info => CupertinoColors.systemGrey.darkColor,
+      AppSnackBarType.info => appColors.info,
     };
   }
 
