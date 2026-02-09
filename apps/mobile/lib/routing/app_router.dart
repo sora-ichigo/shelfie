@@ -17,6 +17,7 @@ import 'package:shelfie/features/account/data/account_repository.dart';
 import 'package:shelfie/features/account/presentation/account_screen.dart';
 import 'package:shelfie/features/account/presentation/password_settings_screen.dart';
 import 'package:shelfie/features/account/presentation/profile_edit_screen.dart';
+import 'package:shelfie/features/account/presentation/profile_screen.dart';
 import 'package:shelfie/features/book_detail/presentation/book_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_detail_screen.dart';
 import 'package:shelfie/features/book_list/presentation/book_list_edit_screen.dart';
@@ -52,6 +53,9 @@ abstract final class AppRoutes {
 
   /// 検索タブ
   static const searchTab = '/search';
+
+  /// プロフィール画面（タブ）
+  static const profileTab = '/profile';
 
   /// アカウント画面
   static const account = '/account';
@@ -213,6 +217,7 @@ String? guardRoute({
         currentLocation == AppRoutes.searchTab ||
         currentLocation == AppRoutes.isbnScan ||
         currentLocation.startsWith('/books/') ||
+        currentLocation == AppRoutes.profileTab ||
         currentLocation == AppRoutes.account ||
         isWelcomeRoute ||
         isAuthRoute;
@@ -404,6 +409,16 @@ List<RouteBase> _buildRoutes() {
             ),
           ],
         ),
+        StatefulShellBranch(
+          routes: [
+            // プロフィール
+            GoRoute(
+              path: AppRoutes.profileTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileScreen()),
+            ),
+          ],
+        ),
       ],
     ),
 
@@ -513,6 +528,17 @@ class _MainShell extends StatelessWidget {
                     CupertinoIcons.search,
                     shadows: [Shadow(blurRadius: 3, color: Color(0xFFFFFFFF))],
                   ),
+                ),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.person),
+                ),
+                activeIcon: Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Icon(CupertinoIcons.person_fill),
                 ),
                 label: '',
               ),

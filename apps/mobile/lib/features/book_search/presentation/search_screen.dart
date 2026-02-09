@@ -11,7 +11,6 @@ import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/error_view.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_search/application/book_search_notifier.dart';
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
@@ -67,8 +66,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(bookSearchNotifierProvider);
     final searchHistoryAsync = ref.watch(searchHistoryNotifierProvider);
-    final accountAsync = ref.watch(accountNotifierProvider);
-    final avatarUrl = accountAsync.valueOrNull?.avatarUrl;
 
     ref.listen<BookSearchState>(
       bookSearchNotifierProvider,
@@ -100,10 +97,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ? const SizedBox.shrink()
                     : ScreenHeader(
                         title: 'さがす',
-                        onProfileTap: () =>
-                            context.push(AppRoutes.account),
-                        avatarUrl: avatarUrl,
-                        isAvatarLoading: accountAsync.isLoading,
+                        showAvatar: false,
                       ),
               ),
               Padding(

@@ -5,7 +5,6 @@ import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/screen_header.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
@@ -63,7 +62,6 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
     final isGuest = ref.watch(authStateProvider.select((s) => s.isGuest));
 
     final bookListState = isGuest ? null : ref.watch(bookListNotifierProvider);
-    final accountAsync = isGuest ? null : ref.watch(accountNotifierProvider);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -97,12 +95,7 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen> {
                         height: headerSpace,
                         child: ScreenHeader(
                           title: 'ライブラリ',
-                          onProfileTap: () =>
-                              context.push(AppRoutes.account),
-                          avatarUrl:
-                              accountAsync?.valueOrNull?.avatarUrl,
-                          isAvatarLoading:
-                              accountAsync?.isLoading ?? false,
+                          showAvatar: false,
                         ),
                       ),
                     ),
