@@ -5,6 +5,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -473,29 +474,34 @@ class _MainShell extends StatelessWidget {
       navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
     }
 
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: Container(
-        color: appColors.surface,
-        padding: const EdgeInsets.only(top: 8),
-        child: CupertinoTabBar(
-          currentIndex: selectedIndex,
-          onTap: onTap,
-          activeColor: appColors.textPrimary,
-          inactiveColor: appColors.textPrimary.withOpacity(0.7),
-          backgroundColor: appColors.surface,
-          border: const Border(),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.book),
-              activeIcon: Icon(CupertinoIcons.book_fill),
-              label: 'ライブラリ',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.search),
-              label: 'さがす',
-            ),
-          ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarColor: appColors.surface,
+      ),
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Container(
+          color: appColors.surface,
+          padding: const EdgeInsets.only(top: 8),
+          child: CupertinoTabBar(
+            currentIndex: selectedIndex,
+            onTap: onTap,
+            activeColor: appColors.textPrimary,
+            inactiveColor: appColors.textPrimary.withOpacity(0.7),
+            backgroundColor: appColors.surface,
+            border: const Border(),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.book),
+                activeIcon: Icon(CupertinoIcons.book_fill),
+                label: 'ライブラリ',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.search),
+                label: 'さがす',
+              ),
+            ],
+          ),
         ),
       ),
     );
