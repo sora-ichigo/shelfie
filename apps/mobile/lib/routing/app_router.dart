@@ -508,12 +508,12 @@ class _MainShell extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Icon(CupertinoIcons.book),
+                  padding: EdgeInsets.only(top: 20),
+                  child: Icon(CupertinoIcons.collections, size: 24),
                 ),
                 activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Icon(CupertinoIcons.book_fill),
+                  padding: EdgeInsets.only(top: 20),
+                  child: Icon(CupertinoIcons.collections_solid, size: 24),
                 ),
                 label: '',
               ),
