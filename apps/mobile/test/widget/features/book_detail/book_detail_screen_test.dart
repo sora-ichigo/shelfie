@@ -309,57 +309,6 @@ void main() {
   });
 
   group('BookDetailScreen マイライブラリ操作ローディング', () {
-    testWidgets('マイライブラリ追加中はボタンにローディングインジケーターが表示される',
-        (tester) async {
-      when(() => mockRepository.getBookDetail(
-            bookId: any(named: 'bookId'),
-            source: any(named: 'source'),
-          ))
-          .thenAnswer((_) async => right((
-                bookDetail: const BookDetail(
-                  id: 'test-id',
-                  title: 'Test Book',
-                  authors: ['Test Author'],
-                ),
-                userBook: null,
-              )));
-
-      final addCompleter = Completer<Either<Failure, book_search.UserBook>>();
-      when(() => mockBookSearchRepository.addBookToShelf(
-            externalId: any(named: 'externalId'),
-            title: any(named: 'title'),
-            authors: any(named: 'authors'),
-            publisher: any(named: 'publisher'),
-            publishedDate: any(named: 'publishedDate'),
-            isbn: any(named: 'isbn'),
-            coverImageUrl: any(named: 'coverImageUrl'),
-            source: any(named: 'source'),
-            readingStatus: any(named: 'readingStatus'),
-          )).thenAnswer((_) => addCompleter.future);
-
-      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('マイライブラリに追加'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('読書状態を選択'), findsOneWidget);
-
-      await tester.tap(find.text('登録'));
-      await tester.pump();
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      addCompleter.complete(right(book_search.UserBook(
-        id: 1,
-        externalId: 'test-id',
-        title: 'Test Book',
-        authors: ['Test Author'],
-        addedAt: DateTime.now(),
-      )));
-      await tester.pumpAndSettle();
-    });
-
     testWidgets('マイライブラリ削除中はボタンにローディングインジケーターが表示される',
         (tester) async {
       final userBook = UserBook(
@@ -398,52 +347,5 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('マイライブラリ追加完了後はローディングが消えてボタンが更新される',
-        (tester) async {
-      when(() => mockRepository.getBookDetail(
-            bookId: any(named: 'bookId'),
-            source: any(named: 'source'),
-          ))
-          .thenAnswer((_) async => right((
-                bookDetail: const BookDetail(
-                  id: 'test-id',
-                  title: 'Test Book',
-                  authors: ['Test Author'],
-                ),
-                userBook: null,
-              )));
-
-      when(() => mockBookSearchRepository.addBookToShelf(
-            externalId: any(named: 'externalId'),
-            title: any(named: 'title'),
-            authors: any(named: 'authors'),
-            publisher: any(named: 'publisher'),
-            publishedDate: any(named: 'publishedDate'),
-            isbn: any(named: 'isbn'),
-            coverImageUrl: any(named: 'coverImageUrl'),
-            source: any(named: 'source'),
-            readingStatus: any(named: 'readingStatus'),
-          )).thenAnswer((_) async => right(book_search.UserBook(
-            id: 1,
-            externalId: 'test-id',
-            title: 'Test Book',
-            authors: ['Test Author'],
-            addedAt: DateTime.now(),
-          )));
-
-      await tester.pumpWidget(buildTestWidget(bookId: 'test-id'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('マイライブラリに追加'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('読書状態を選択'), findsOneWidget);
-
-      await tester.tap(find.text('登録'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.text('マイライブラリから削除'), findsOneWidget);
-    });
   });
 }

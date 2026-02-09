@@ -530,8 +530,8 @@ class _MainShell extends ConsumerWidget {
             inactiveColor: appColors.textSecondary,
             backgroundColor: appColors.background,
             border: const Border(),
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Icon(CupertinoIcons.collections, size: 24),
@@ -543,27 +543,27 @@ class _MainShell extends ConsumerWidget {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: Padding(
+                icon: const Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: Icon(CupertinoIcons.search),
                 ),
                 activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.only(top: 16),
                   child: Icon(
                     CupertinoIcons.search,
-                    shadows: [Shadow(blurRadius: 3, color: Color(0xFFFFFFFF))],
+                    shadows: [Shadow(blurRadius: 3, color: appColors.textPrimary)],
                   ),
                 ),
                 label: '',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: Icon(CupertinoIcons.plus),
                 ),
                 label: '',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: Icon(CupertinoIcons.person),

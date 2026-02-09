@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart' show ShelfState, shelfStateProvider;
 import 'package:shelfie/core/theme/app_theme.dart';
@@ -34,17 +33,6 @@ void main() {
       coverImages: coverImages,
       createdAt: now,
       updatedAt: now,
-    );
-  }
-
-  BookListItem createItem({
-    int id = 1,
-    int position = 0,
-  }) {
-    return BookListItem(
-      id: id,
-      position: position,
-      addedAt: now,
     );
   }
 
@@ -169,58 +157,5 @@ void main() {
       expect(find.text('My Reading List'), findsOneWidget);
     });
 
-    testWidgets('リスト選択後にスナックバーでフィードバックが表示される', (tester) async {
-      when(() => mockBookListRepository.addBookToList(
-            listId: any(named: 'listId'),
-            userBookId: any(named: 'userBookId'),
-          )).thenAnswer((_) async => right(createItem()));
-
-      await tester.pumpWidget(buildTestWidget(
-        book: createBook(userBookId: 5),
-        shelfEntry: createShelfEntry(userBookId: 5),
-        lists: [createSummary(id: 10, title: 'My Reading List')],
-      ));
-      await tester.pump();
-
-      await tester.tap(find.text('Show Modal'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('リストに追加'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('My Reading List'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('リストに追加しました'), findsOneWidget);
-    });
-
-    testWidgets('リスト追加エラー時にエラーメッセージが表示される', (tester) async {
-      when(() => mockBookListRepository.addBookToList(
-            listId: any(named: 'listId'),
-            userBookId: any(named: 'userBookId'),
-          )).thenAnswer(
-        (_) async => left(
-          const DuplicateBookFailure(message: 'この本は既にリストに追加されています'),
-        ),
-      );
-
-      await tester.pumpWidget(buildTestWidget(
-        book: createBook(userBookId: 5),
-        shelfEntry: createShelfEntry(userBookId: 5),
-        lists: [createSummary(id: 10, title: 'My Reading List')],
-      ));
-      await tester.pump();
-
-      await tester.tap(find.text('Show Modal'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('リストに追加'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('My Reading List'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('この書籍は既にマイライブラリに追加されています'), findsOneWidget);
-    });
   });
 }

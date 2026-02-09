@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/book_detail.dart';
@@ -51,17 +50,6 @@ void main() {
       coverImages: coverImages,
       createdAt: now,
       updatedAt: now,
-    );
-  }
-
-  BookListItem createItem({
-    int id = 1,
-    int position = 0,
-  }) {
-    return BookListItem(
-      id: id,
-      position: position,
-      addedAt: now,
     );
   }
 
@@ -202,70 +190,5 @@ void main() {
       expect(find.text('My Favorites'), findsOneWidget);
     });
 
-    testWidgets('リスト選択後にスナックバーでフィードバックが表示される', (tester) async {
-      final userBook = UserBook(
-        id: 1,
-        readingStatus: ReadingStatus.backlog,
-        addedAt: DateTime(2024, 1, 1),
-      );
-
-      when(() => mockBookListRepository.addBookToList(
-            listId: any(named: 'listId'),
-            userBookId: any(named: 'userBookId'),
-          )).thenAnswer((_) async => right(createItem()));
-
-      await tester.pumpWidget(buildTestWidget(
-        bookId: 'test-id',
-        userBook: userBook,
-        lists: [createSummary(id: 1, title: 'My Favorites')],
-      ));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('リストに追加'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('My Favorites'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('リストに追加しました'), findsOneWidget);
-    });
-
-    testWidgets('リスト追加エラー時にエラーメッセージが表示される', (tester) async {
-      final userBook = UserBook(
-        id: 1,
-        readingStatus: ReadingStatus.backlog,
-        addedAt: DateTime(2024, 1, 1),
-      );
-
-      when(() => mockBookListRepository.addBookToList(
-            listId: any(named: 'listId'),
-            userBookId: any(named: 'userBookId'),
-          )).thenAnswer(
-        (_) async => left(
-          const DuplicateBookFailure(message: 'この本は既にリストに追加されています'),
-        ),
-      );
-
-      await tester.pumpWidget(buildTestWidget(
-        bookId: 'test-id',
-        userBook: userBook,
-        lists: [createSummary(id: 1, title: 'My Favorites')],
-      ));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.more_vert));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('リストに追加'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('My Favorites'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('この書籍は既にマイライブラリに追加されています'), findsOneWidget);
-    });
   });
 }

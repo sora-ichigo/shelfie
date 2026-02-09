@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
-import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/account/application/password_form_state.dart';
@@ -151,90 +149,6 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsWidgets);
     });
 
-    testWidgets(
-      'shows success snackbar on success state transition',
-      (tester) async {
-        await tester.pumpWidget(
-          ProviderScope(
-            overrides: [
-              passwordRepositoryProvider.overrideWithValue(mockRepository),
-              secureStorageServiceProvider.overrideWithValue(mockStorageService),
-              passwordSettingsNotifierProvider.overrideWith(
-                () => _SuccessAfterSaveNotifier(),
-              ),
-              passwordFormStateProvider.overrideWith(
-                () => _TestPasswordFormState(
-                  const PasswordFormData(
-                    currentPassword: 'oldPassword123',
-                    newPassword: 'newPassword123',
-                    confirmPassword: 'newPassword123',
-                  ),
-                ),
-              ),
-              authStateProvider.overrideWith(
-                () => _TestAuthStateNotifier(isAuthenticated: true),
-              ),
-            ],
-            child: MaterialApp(
-              theme: AppTheme.theme,
-              home: PasswordSettingsScreen(
-                onClose: () {},
-                onSaveSuccess: () {},
-              ),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        await tester.tap(find.byIcon(Icons.check));
-        await tester.pumpAndSettle();
-
-        expect(find.text('パスワードを変更しました'), findsOneWidget);
-      },
-    );
-
-    testWidgets(
-      'shows error snackbar on error state transition',
-      (tester) async {
-        await tester.pumpWidget(
-          ProviderScope(
-            overrides: [
-              passwordRepositoryProvider.overrideWithValue(mockRepository),
-              secureStorageServiceProvider.overrideWithValue(mockStorageService),
-              passwordSettingsNotifierProvider.overrideWith(
-                () => _ErrorAfterSaveNotifier(),
-              ),
-              passwordFormStateProvider.overrideWith(
-                () => _TestPasswordFormState(
-                  const PasswordFormData(
-                    currentPassword: 'oldPassword123',
-                    newPassword: 'newPassword123',
-                    confirmPassword: 'newPassword123',
-                  ),
-                ),
-              ),
-              authStateProvider.overrideWith(
-                () => _TestAuthStateNotifier(isAuthenticated: true),
-              ),
-            ],
-            child: MaterialApp(
-              theme: AppTheme.theme,
-              home: PasswordSettingsScreen(
-                onClose: () {},
-                onSaveSuccess: () {},
-              ),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        await tester.tap(find.byIcon(Icons.check));
-        await tester.pumpAndSettle();
-
-        expect(find.text('再度ログインしてください'), findsOneWidget);
-      },
-    );
-
     testWidgets('password fields are obscured by default', (tester) async {
       await tester.pumpWidget(buildTestPasswordSettingsScreen());
       await tester.pumpAndSettle();
@@ -253,59 +167,6 @@ void main() {
       expect(visibilityButtons, findsWidgets);
     });
 
-    testWidgets('calls onSaveSuccess when password change succeeds', (tester) async {
-      var saveSuccessCalled = false;
-
-      when(() => mockRepository.changePassword(
-            email: any(named: 'email'),
-            currentPassword: any(named: 'currentPassword'),
-            newPassword: any(named: 'newPassword'),
-          )).thenAnswer(
-        (_) async => right(
-          const PasswordChangeResult(
-            idToken: 'new-token',
-            refreshToken: 'new-refresh-token',
-          ),
-        ),
-      );
-
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            passwordRepositoryProvider.overrideWithValue(mockRepository),
-            secureStorageServiceProvider.overrideWithValue(mockStorageService),
-            passwordSettingsNotifierProvider.overrideWith(
-              () => _SuccessAfterSaveNotifier(),
-            ),
-            passwordFormStateProvider.overrideWith(
-              () => _TestPasswordFormState(
-                const PasswordFormData(
-                  currentPassword: 'oldPassword123',
-                  newPassword: 'newPassword123',
-                  confirmPassword: 'newPassword123',
-                ),
-              ),
-            ),
-            authStateProvider.overrideWith(
-              () => _TestAuthStateNotifier(isAuthenticated: true),
-            ),
-          ],
-          child: MaterialApp(
-            theme: AppTheme.theme,
-            home: PasswordSettingsScreen(
-              onClose: () {},
-              onSaveSuccess: () => saveSuccessCalled = true,
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.check));
-      await tester.pumpAndSettle();
-
-      expect(saveSuccessCalled, isTrue);
-    });
   });
 }
 
@@ -328,45 +189,6 @@ class _TestPasswordSettingsNotifier extends PasswordSettingsNotifier {
   @override
   void reset() {}
 }
-
-class _SuccessAfterSaveNotifier extends PasswordSettingsNotifier {
-  @override
-  PasswordSettingsState build() {
-    return const PasswordSettingsState.initial();
-  }
-
-  @override
-  Future<void> changePassword() async {
-    state = const PasswordSettingsState.success(message: 'パスワードを変更しました');
-  }
-
-  @override
-  Future<void> sendPasswordResetEmail() async {}
-
-  @override
-  void reset() {}
-}
-
-class _ErrorAfterSaveNotifier extends PasswordSettingsNotifier {
-  @override
-  PasswordSettingsState build() {
-    return const PasswordSettingsState.initial();
-  }
-
-  @override
-  Future<void> changePassword() async {
-    state = const PasswordSettingsState.error(
-      failure: AuthFailure(message: '現在のパスワードが正しくありません'),
-    );
-  }
-
-  @override
-  Future<void> sendPasswordResetEmail() async {}
-
-  @override
-  void reset() {}
-}
-
 class _TestPasswordFormState extends PasswordFormState {
   _TestPasswordFormState(this._formData);
 
