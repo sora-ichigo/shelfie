@@ -49,15 +49,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   @override
-  void deactivate() {
-    final notifier = ref.read(navBarHiddenProvider.notifier);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifier.state = false;
-    });
-    super.deactivate();
-  }
-
-  @override
   void dispose() {
     _focusNode
       ..removeListener(_onFocusChange)
@@ -70,9 +61,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     setState(() {
       _isSearchFieldFocused = _focusNode.hasFocus;
     });
-    final state = ref.read(bookSearchNotifierProvider);
-    ref.read(navBarHiddenProvider.notifier).state =
-        _focusNode.hasFocus || state is! BookSearchInitial;
   }
 
   @override

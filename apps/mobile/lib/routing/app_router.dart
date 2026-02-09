@@ -30,11 +30,6 @@ import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
 part 'app_router.g.dart';
 
-/// ナビゲーションバーの非表示状態を管理する Provider
-///
-/// 検索画面でフォーカスが当たっている間は true に設定される。
-final navBarHiddenProvider = StateProvider<bool>((ref) => false);
-
 /// ルートパス定義
 ///
 /// 全てのルートパスを一元管理し、型安全なナビゲーションを実現する。
@@ -464,15 +459,14 @@ List<RouteBase> _buildRoutes() {
 /// メインシェル（タブバー）
 ///
 /// ShellRoute のビルダーとして使用され、CupertinoTabBar によるナビゲーションを提供する。
-class _MainShell extends ConsumerWidget {
+class _MainShell extends StatelessWidget {
   const _MainShell({required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final selectedIndex = navigationShell.currentIndex;
-    final isNavBarHidden = ref.watch(navBarHiddenProvider);
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     void onTap(int index) {
@@ -481,31 +475,29 @@ class _MainShell extends ConsumerWidget {
 
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: isNavBarHidden
-          ? null
-          : Container(
-              color: appColors.surface,
-              padding: const EdgeInsets.only(top: 8),
-              child: CupertinoTabBar(
-                currentIndex: selectedIndex,
-                onTap: onTap,
-                activeColor: appColors.textPrimary,
-                inactiveColor: appColors.textPrimary.withOpacity(0.7),
-                backgroundColor: appColors.surface,
-                border: const Border(),
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.book),
-                    activeIcon: Icon(CupertinoIcons.book_fill),
-                    label: 'ライブラリ',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.search),
-                    label: 'さがす',
-                  ),
-                ],
-              ),
+      bottomNavigationBar: Container(
+        color: appColors.surface,
+        padding: const EdgeInsets.only(top: 8),
+        child: CupertinoTabBar(
+          currentIndex: selectedIndex,
+          onTap: onTap,
+          activeColor: appColors.textPrimary,
+          inactiveColor: appColors.textPrimary.withOpacity(0.7),
+          backgroundColor: appColors.surface,
+          border: const Border(),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.book),
+              activeIcon: Icon(CupertinoIcons.book_fill),
+              label: 'ライブラリ',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.search),
+              label: 'さがす',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
