@@ -11,12 +11,14 @@ class PushNotificationInitializer {
     required FirebaseMessaging messaging,
     required FlutterLocalNotificationsPlugin localNotifications,
     this.registerBackgroundHandler = true,
+    this.onNotificationTap,
   })  : _messaging = messaging,
         _localNotifications = localNotifications;
 
   final FirebaseMessaging _messaging;
   final FlutterLocalNotificationsPlugin _localNotifications;
   final bool registerBackgroundHandler;
+  final DidReceiveNotificationResponseCallback? onNotificationTap;
 
   Future<void> initialize() async {
     await _messaging.requestPermission();
@@ -40,7 +42,10 @@ class PushNotificationInitializer {
       android: androidSettings,
       iOS: iosSettings,
     );
-    await _localNotifications.initialize(initSettings);
+    await _localNotifications.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: onNotificationTap,
+    );
 
     final androidPlugin = _localNotifications
         .resolvePlatformSpecificImplementation<

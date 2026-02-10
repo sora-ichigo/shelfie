@@ -14,6 +14,7 @@ export interface FCMAdapter {
   sendMulticast(
     tokens: string[],
     notification: { title: string; body: string },
+    data?: Record<string, string>,
   ): Promise<FCMBatchResult>;
 }
 
@@ -22,10 +23,12 @@ export function createFCMAdapter(messaging: Messaging): FCMAdapter {
     async sendMulticast(
       tokens: string[],
       notification: { title: string; body: string },
+      data?: Record<string, string>,
     ): Promise<FCMBatchResult> {
       const response = await messaging.sendEachForMulticast({
         tokens,
         notification,
+        ...(data && { data }),
       });
 
       const responses = response.responses.map((res, index) => ({

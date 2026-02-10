@@ -38,6 +38,7 @@ class ForegroundNotificationHandler {
       notification.title,
       notification.body,
       notificationDetails,
+      payload: message.data['route'] as String?,
     );
   }
 
