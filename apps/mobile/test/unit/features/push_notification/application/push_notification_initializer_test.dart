@@ -77,7 +77,7 @@ void main() {
       verify(() => mockMessaging.requestPermission()).called(1);
     });
 
-    test('iOS のフォアグラウンド通知表示オプションを設定する', () async {
+    test('iOS のフォアグラウンド通知表示オプションを設定する（alertはflutter_local_notificationsで制御するためfalse）', () async {
       stubDefaults();
       final initializer = createInitializer();
 
@@ -85,7 +85,7 @@ void main() {
 
       verify(
         () => mockMessaging.setForegroundNotificationPresentationOptions(
-          alert: true,
+          alert: false,
           badge: true,
           sound: true,
         ),
