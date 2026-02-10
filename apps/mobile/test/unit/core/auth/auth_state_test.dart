@@ -5,8 +5,37 @@ import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
 
 import '../../../helpers/test_helpers.dart';
+
+class SpyDeviceTokenNotifier extends DeviceTokenNotifier {
+  int syncTokenCallCount = 0;
+
+  @override
+  DeviceTokenState build() => DeviceTokenState.idle;
+
+  @override
+  Future<void> syncToken() async {
+    syncTokenCallCount++;
+  }
+
+  @override
+  Future<void> unregisterCurrentToken() async {}
+}
+
+class FailingDeviceTokenNotifier extends DeviceTokenNotifier {
+  @override
+  DeviceTokenState build() => DeviceTokenState.idle;
+
+  @override
+  Future<void> syncToken() async {
+    throw Exception('Token sync failed');
+  }
+
+  @override
+  Future<void> unregisterCurrentToken() async {}
+}
 
 void main() {
   setUpAll(registerTestFallbackValues);
@@ -272,6 +301,123 @@ void main() {
       final state = container.read(authStateProvider);
       expect(state.isGuest, isFalse);
       expect(state.isAuthenticated, isFalse);
+    });
+
+    test('login 時に syncToken が呼ばれる', () async {
+      final spy = SpyDeviceTokenNotifier();
+      final container = createTestContainer(
+        overrides: [
+          deviceTokenNotifierProvider.overrideWith(() => spy),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // DeviceTokenNotifier を初期化
+      container.read(deviceTokenNotifierProvider);
+
+      await container.read(authStateProvider.notifier).login(
+            userId: 'user-123',
+            email: 'test@example.com',
+            token: 'test-token',
+            refreshToken: 'test-refresh-token',
+          );
+
+      expect(spy.syncTokenCallCount, equals(1));
+    });
+
+    test('syncToken 失敗時もログインは成功する', () async {
+      final container = createTestContainer(
+        overrides: [
+          deviceTokenNotifierProvider
+              .overrideWith(() => FailingDeviceTokenNotifier()),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // DeviceTokenNotifier を初期化
+      container.read(deviceTokenNotifierProvider);
+
+      await container.read(authStateProvider.notifier).login(
+            userId: 'user-123',
+            email: 'test@example.com',
+            token: 'test-token',
+            refreshToken: 'test-refresh-token',
+          );
+
+      final state = container.read(authStateProvider);
+      expect(state.isAuthenticated, isTrue);
+      expect(state.userId, equals('user-123'));
+    });
+
+    test('restoreSession で認証データ復元時に syncToken が呼ばれる', () async {
+      final spy = SpyDeviceTokenNotifier();
+      final mockStorage = MockSecureStorageService();
+      when(() => mockStorage.loadAuthData()).thenAnswer(
+        (_) async => const AuthStorageData(
+          userId: 'user-123',
+          email: 'test@example.com',
+          idToken: 'test-token',
+          refreshToken: 'test-refresh-token',
+        ),
+      );
+      when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => false);
+      when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+          .thenAnswer((_) async {});
+      when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
+      when(() => mockStorage.saveAuthData(
+            userId: any(named: 'userId'),
+            email: any(named: 'email'),
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+
+      final container = createTestContainer(
+        overrides: [
+          secureStorageServiceProvider.overrideWithValue(mockStorage),
+          deviceTokenNotifierProvider.overrideWith(() => spy),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // DeviceTokenNotifier を初期化
+      container.read(deviceTokenNotifierProvider);
+
+      await container.read(authStateProvider.notifier).restoreSession();
+
+      expect(spy.syncTokenCallCount, equals(1));
+    });
+
+    test('restoreSession でゲストモード復元時は syncToken が呼ばれない', () async {
+      final spy = SpyDeviceTokenNotifier();
+      final mockStorage = MockSecureStorageService();
+      when(() => mockStorage.loadAuthData()).thenAnswer((_) async => null);
+      when(() => mockStorage.loadGuestMode()).thenAnswer((_) async => true);
+      when(() => mockStorage.saveGuestMode(isGuest: any(named: 'isGuest')))
+          .thenAnswer((_) async {});
+      when(() => mockStorage.clearGuestMode()).thenAnswer((_) async {});
+      when(() => mockStorage.saveAuthData(
+            userId: any(named: 'userId'),
+            email: any(named: 'email'),
+            idToken: any(named: 'idToken'),
+            refreshToken: any(named: 'refreshToken'),
+          )).thenAnswer((_) async {});
+      when(() => mockStorage.clearAuthData()).thenAnswer((_) async {});
+
+      final container = createTestContainer(
+        overrides: [
+          secureStorageServiceProvider.overrideWithValue(mockStorage),
+          deviceTokenNotifierProvider.overrideWith(() => spy),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // DeviceTokenNotifier を初期化
+      container.read(deviceTokenNotifierProvider);
+
+      await container.read(authStateProvider.notifier).restoreSession();
+
+      expect(spy.syncTokenCallCount, equals(0));
     });
 
     test('logout 時にゲストモードフラグもクリアされる', () async {

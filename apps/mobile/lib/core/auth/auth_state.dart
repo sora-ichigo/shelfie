@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
@@ -103,6 +104,13 @@ class AuthState extends _$AuthState {
       idToken: token,
       refreshToken: refreshToken,
     );
+
+    try {
+      await ref.read(deviceTokenNotifierProvider.notifier).syncToken();
+    } catch (e, stackTrace) {
+      debugPrint('[AuthState] Device token sync failed: $e');
+      Sentry.captureException(e, stackTrace: stackTrace);
+    }
   }
 
   Future<void> updateTokens({
@@ -150,6 +158,14 @@ class AuthState extends _$AuthState {
         token: authData.idToken,
         refreshToken: authData.refreshToken,
       );
+
+      try {
+        await ref.read(deviceTokenNotifierProvider.notifier).syncToken();
+      } catch (e, stackTrace) {
+        debugPrint('[AuthState] Device token sync failed: $e');
+        Sentry.captureException(e, stackTrace: stackTrace);
+      }
+
       return true;
     }
 
