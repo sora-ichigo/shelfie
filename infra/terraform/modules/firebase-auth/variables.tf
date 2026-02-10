@@ -77,6 +77,12 @@ variable "ios_dev_bundle_id" {
   default     = null
 }
 
+variable "apple_team_id" {
+  description = "Apple Developer Team ID for iOS apps"
+  type        = string
+  default     = null
+}
+
 variable "enable_web_app" {
   description = "Enable Firebase Web App"
   type        = bool

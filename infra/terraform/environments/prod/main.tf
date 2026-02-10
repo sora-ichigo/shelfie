@@ -137,6 +137,7 @@ module "firebase_auth" {
 
   android_package_name = "app.shelfie.shelfie"
   ios_bundle_id        = "app.shelfie.shelfie"
+  apple_team_id        = "X9V24ZSQJQ"
 
   depends_on = [module.api_cloud_run]
 }

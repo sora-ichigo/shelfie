@@ -96,6 +96,7 @@ resource "google_firebase_apple_app" "default" {
   project      = var.project_id
   display_name = "shelfie-${var.environment}-ios"
   bundle_id    = var.ios_bundle_id
+  team_id      = var.apple_team_id
 
   depends_on = [google_firebase_project.default]
 }
@@ -107,6 +108,7 @@ resource "google_firebase_apple_app" "dev" {
   project      = var.project_id
   display_name = "shelfie-${var.environment}-ios-dev"
   bundle_id    = var.ios_dev_bundle_id
+  team_id      = var.apple_team_id
 
   depends_on = [google_firebase_project.default]
 }

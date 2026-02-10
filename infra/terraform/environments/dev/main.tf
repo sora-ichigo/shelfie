@@ -109,10 +109,9 @@ module "firebase_auth" {
   environment        = var.environment
   authorized_domains = ["localhost", "${var.project_id}.firebaseapp.com", "${var.project_id}.web.app"]
 
-  android_package_name     = "app.shelfie.shelfie"
   android_dev_package_name = "app.shelfie.shelfie.dev"
-  ios_bundle_id            = "app.shelfie.shelfie"
   ios_dev_bundle_id        = "app.shelfie.shelfie.dev"
+  apple_team_id            = "X9V24ZSQJQ"
 
   depends_on = [module.api_cloud_run]
 }
@@ -125,18 +124,6 @@ output "firebase_project_id" {
 output "firebase_authorized_domains" {
   description = "Authorized domains for Firebase Authentication"
   value       = module.firebase_auth.identity_platform_authorized_domains
-}
-
-output "android_config_json" {
-  description = "google-services.json content for Android (base64 encoded)"
-  value       = module.firebase_auth.android_config_json
-  sensitive   = true
-}
-
-output "ios_config_plist" {
-  description = "GoogleService-Info.plist content for iOS (base64 encoded)"
-  value       = module.firebase_auth.ios_config_plist
-  sensitive   = true
 }
 
 output "android_dev_app_id" {
