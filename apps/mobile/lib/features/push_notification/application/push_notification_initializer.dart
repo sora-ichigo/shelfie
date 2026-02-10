@@ -22,7 +22,7 @@ class PushNotificationInitializer {
     await _messaging.requestPermission();
 
     await _messaging.setForegroundNotificationPresentationOptions(
-      alert: true,
+      alert: false,
       badge: true,
       sound: true,
     );
