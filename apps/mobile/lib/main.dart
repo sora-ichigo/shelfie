@@ -22,8 +22,8 @@ import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.
 import 'package:shelfie/features/push_notification/application/foreground_notification_handler.dart';
 import 'package:shelfie/features/push_notification/application/notification_tap_handler.dart';
 import 'package:shelfie/features/push_notification/application/push_notification_initializer.dart';
-import 'package:shelfie/routing/app_router.dart';
 import 'package:shelfie/firebase_options.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 const _sentryDsn =
     'https://6aa9de3b859cc4bf651d397f4d7c8409@o4510782375395328.ingest.us.sentry.io/4510785500348416';

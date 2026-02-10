@@ -33,7 +33,9 @@ export function parseNotificationArgs(args: string[]): ParseResult {
     };
   }
 
-  const { title, body, all, "user-ids": userIdsStr, route } = parsed.values;
+  const { title, body, all, "user-ids": userIdsStr } = parsed.values;
+  const route =
+    typeof parsed.values.route === "string" ? parsed.values.route : undefined;
 
   if (!title || typeof title !== "string") {
     return {
