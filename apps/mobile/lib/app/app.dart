@@ -15,6 +15,7 @@ class ShelfieApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Shelfie',
       themeMode: ThemeMode.dark,
       darkTheme: AppTheme.theme,
