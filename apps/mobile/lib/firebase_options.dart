@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show TargetPlatform, defaultTargetPlatform, kReleaseMode;
+    show TargetPlatform, defaultTargetPlatform;
+
+const _firebaseEnv = String.fromEnvironment('FIREBASE_ENV', defaultValue: 'dev');
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
+    final isProd = _firebaseEnv == 'prod';
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return kReleaseMode ? _prodAndroid : _devAndroid;
+        return isProd ? _prodAndroid : _devAndroid;
       case TargetPlatform.iOS:
-        return kReleaseMode ? _prodIos : _devIos;
+        return isProd ? _prodIos : _devIos;
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
       case TargetPlatform.linux:

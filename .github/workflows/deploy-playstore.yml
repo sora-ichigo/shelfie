@@ -106,7 +106,8 @@ jobs:
             --release \
             --build-name="$BUILD_NAME" \
             --build-number="$BUILD_NUMBER" \
-            --dart-define=API_BASE_URL="$API_BASE_URL"
+            --dart-define=API_BASE_URL="$API_BASE_URL" \
+            --dart-define=FIREBASE_ENV=prod
 
       - name: Decode service account key
         env:
