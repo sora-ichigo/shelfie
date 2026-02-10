@@ -88,6 +88,38 @@ describe("parseNotificationArgs", () => {
     }
   });
 
+  it("should parse --route option", () => {
+    const result = parseNotificationArgs([
+      "--title",
+      "Test Title",
+      "--body",
+      "Test Body",
+      "--all",
+      "--route",
+      "/books/123?source=rakuten",
+    ]);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.route).toBe("/books/123?source=rakuten");
+    }
+  });
+
+  it("should return undefined route when --route is not specified", () => {
+    const result = parseNotificationArgs([
+      "--title",
+      "Test Title",
+      "--body",
+      "Test Body",
+      "--all",
+    ]);
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.route).toBeUndefined();
+    }
+  });
+
   it("should return error for invalid user-ids format", () => {
     const result = parseNotificationArgs([
       "--title",

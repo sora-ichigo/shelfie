@@ -21,7 +21,7 @@ async function main() {
     process.exit(1);
   }
 
-  const { title, body, userIds } = result.data;
+  const { title, body, userIds, route } = result.data;
 
   try {
     const firebaseConfig = getFirebaseAuthConfig();
@@ -41,11 +41,15 @@ async function main() {
     console.log(
       `Target: ${userIds === "all" ? "all users" : `user IDs: ${userIds.join(", ")}`}`,
     );
+    if (route) {
+      console.log(`Route: ${route}`);
+    }
 
     const sendResult = await notificationService.sendNotification({
       title,
       body,
       userIds,
+      ...(route && { data: { route } }),
     });
 
     if (!sendResult.success) {

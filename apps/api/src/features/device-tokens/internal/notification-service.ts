@@ -10,6 +10,7 @@ export interface SendNotificationInput {
   title: string;
   body: string;
   userIds: number[] | "all";
+  data?: Record<string, string>;
 }
 
 export interface FailedNotification {
@@ -67,10 +68,11 @@ export function createNotificationService(
 
       for (let i = 0; i < tokenStrings.length; i += BATCH_SIZE) {
         const batch = tokenStrings.slice(i, i + BATCH_SIZE);
-        const batchResult = await fcmAdapter.sendMulticast(batch, {
-          title: input.title,
-          body: input.body,
-        });
+        const batchResult = await fcmAdapter.sendMulticast(
+          batch,
+          { title: input.title, body: input.body },
+          input.data,
+        );
 
         totalSuccess += batchResult.successCount;
         totalFailure += batchResult.failureCount;

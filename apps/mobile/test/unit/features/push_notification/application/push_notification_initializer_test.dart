@@ -58,8 +58,14 @@ void main() {
         sound: any(named: 'sound'),
       ),
     ).thenAnswer((_) async {});
-    when(() => mockLocalNotifications.initialize(any()))
-        .thenAnswer((_) async => true);
+    when(
+      () => mockLocalNotifications.initialize(
+        any(),
+        onDidReceiveNotificationResponse: any(
+          named: 'onDidReceiveNotificationResponse',
+        ),
+      ),
+    ).thenAnswer((_) async => true);
     when(
       () => mockLocalNotifications
           .resolvePlatformSpecificImplementation<
@@ -99,6 +105,46 @@ void main() {
       await initializer.initialize();
 
       verify(() => mockLocalNotifications.initialize(any())).called(1);
+    });
+
+    test('onNotificationTap が渡された場合、initialize に onDidReceiveNotificationResponse として設定される', () async {
+      stubDefaults();
+
+      void onTap(NotificationResponse response) {}
+
+      final initializer = PushNotificationInitializer(
+        messaging: mockMessaging,
+        localNotifications: mockLocalNotifications,
+        registerBackgroundHandler: false,
+        onNotificationTap: onTap,
+      );
+
+      await initializer.initialize();
+
+      final captured = verify(
+        () => mockLocalNotifications.initialize(
+          any(),
+          onDidReceiveNotificationResponse: captureAny(
+            named: 'onDidReceiveNotificationResponse',
+          ),
+        ),
+      ).captured;
+
+      expect(captured.single, equals(onTap));
+    });
+
+    test('onNotificationTap が渡されない場合、onDidReceiveNotificationResponse は null', () async {
+      stubDefaults();
+      final initializer = createInitializer();
+
+      await initializer.initialize();
+
+      verify(
+        () => mockLocalNotifications.initialize(
+          any(),
+          onDidReceiveNotificationResponse: null,
+        ),
+      ).called(1);
     });
 
     test('通知許可が拒否されてもクラッシュしない', () async {

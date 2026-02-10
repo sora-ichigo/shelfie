@@ -20,8 +20,10 @@ import 'package:shelfie/features/book_search/data/recent_books_repository.dart';
 import 'package:shelfie/features/book_search/data/search_history_repository.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
 import 'package:shelfie/features/push_notification/application/foreground_notification_handler.dart';
+import 'package:shelfie/features/push_notification/application/notification_tap_handler.dart';
 import 'package:shelfie/features/push_notification/application/push_notification_initializer.dart';
 import 'package:shelfie/firebase_options.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 const _sentryDsn =
     'https://6aa9de3b859cc4bf651d397f4d7c8409@o4510782375395328.ingest.us.sentry.io/4510785500348416';
@@ -98,6 +100,7 @@ class _AppInitializer extends ConsumerStatefulWidget {
 
 class _AppInitializerState extends ConsumerState<_AppInitializer> {
   bool _initialized = false;
+  NotificationTapHandler? _tapHandler;
 
   @override
   void initState() {
@@ -106,20 +109,17 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
   }
 
   Future<void> _initializeApp() async {
-    // ErrorHandler を初期化して、
-    // FlutterError.onError と PlatformDispatcher.instance.onError を設定
     ref.read(errorHandlerProvider).initialize();
 
-    // プッシュ通知の初期化
     await _initializePushNotifications();
 
-    // セキュアストレージから認証状態を復元
     await ref.read(authStateProvider.notifier).restoreSession();
 
     if (mounted) {
       setState(() {
         _initialized = true;
       });
+      _setupNotificationTapHandlers();
       _validateSessionInBackground();
     }
   }
@@ -129,9 +129,18 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
       final localNotifications = FlutterLocalNotificationsPlugin();
       final messaging = FirebaseMessaging.instance;
 
+      final tapHandler = NotificationTapHandler(
+        messaging: messaging,
+        onNavigate: (route) {
+          ref.read(appRouterProvider).push(route);
+        },
+      );
+      _tapHandler = tapHandler;
+
       final initializer = PushNotificationInitializer(
         messaging: messaging,
         localNotifications: localNotifications,
+        onNotificationTap: tapHandler.onLocalNotificationTap,
       );
       await initializer.initialize();
 
@@ -144,6 +153,12 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
     } catch (e) {
       debugPrint('[PushNotification] Initialization failed: $e');
     }
+  }
+
+  void _setupNotificationTapHandlers() {
+    _tapHandler?.setupFCMHandlers(
+      onMessageOpenedApp: FirebaseMessaging.onMessageOpenedApp,
+    );
   }
 
   void _validateSessionInBackground() {

@@ -203,6 +203,61 @@ describe("NotificationService", () => {
       expect(mockRepo.deleteByTokens).toHaveBeenCalledWith(["invalid-token"]);
     });
 
+    it("should pass data to fcmAdapter.sendMulticast when provided", async () => {
+      const mockRepo = createMockRepository();
+      const mockFCM = createMockFCMAdapter();
+      const mockLogger = createMockLogger();
+
+      const tokens = [createMockToken({ id: 1, userId: 1, token: "token-1" })];
+      vi.mocked(mockRepo.findAll).mockResolvedValue(tokens);
+      vi.mocked(mockFCM.sendMulticast).mockResolvedValue({
+        successCount: 1,
+        failureCount: 0,
+        responses: [{ success: true, token: "token-1" }],
+      });
+
+      const service = createNotificationService(mockRepo, mockFCM, mockLogger);
+      await service.sendNotification({
+        title: "Test",
+        body: "Hello",
+        userIds: "all",
+        data: { route: "/books/123?source=rakuten" },
+      });
+
+      expect(mockFCM.sendMulticast).toHaveBeenCalledWith(
+        ["token-1"],
+        { title: "Test", body: "Hello" },
+        { route: "/books/123?source=rakuten" },
+      );
+    });
+
+    it("should not pass data to fcmAdapter.sendMulticast when not provided", async () => {
+      const mockRepo = createMockRepository();
+      const mockFCM = createMockFCMAdapter();
+      const mockLogger = createMockLogger();
+
+      const tokens = [createMockToken({ id: 1, userId: 1, token: "token-1" })];
+      vi.mocked(mockRepo.findAll).mockResolvedValue(tokens);
+      vi.mocked(mockFCM.sendMulticast).mockResolvedValue({
+        successCount: 1,
+        failureCount: 0,
+        responses: [{ success: true, token: "token-1" }],
+      });
+
+      const service = createNotificationService(mockRepo, mockFCM, mockLogger);
+      await service.sendNotification({
+        title: "Test",
+        body: "Hello",
+        userIds: "all",
+      });
+
+      expect(mockFCM.sendMulticast).toHaveBeenCalledWith(
+        ["token-1"],
+        { title: "Test", body: "Hello" },
+        undefined,
+      );
+    });
+
     it("should log errors for failed sends", async () => {
       const mockRepo = createMockRepository();
       const mockFCM = createMockFCMAdapter();

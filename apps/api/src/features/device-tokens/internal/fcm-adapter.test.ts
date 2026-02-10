@@ -93,5 +93,47 @@ describe("FCMAdapter", () => {
         notification: { title: "My Title", body: "My Body" },
       });
     });
+
+    it("should pass data parameter to sendEachForMulticast", async () => {
+      const mockMessaging = createMockMessaging();
+      mockMessaging.sendEachForMulticast.mockResolvedValue({
+        successCount: 1,
+        failureCount: 0,
+        responses: [{ success: true }],
+      });
+
+      const adapter = createFCMAdapter(mockMessaging as never);
+      await adapter.sendMulticast(
+        ["token-1"],
+        { title: "My Title", body: "My Body" },
+        { route: "/books/123?source=rakuten" },
+      );
+
+      expect(mockMessaging.sendEachForMulticast).toHaveBeenCalledWith({
+        tokens: ["token-1"],
+        notification: { title: "My Title", body: "My Body" },
+        data: { route: "/books/123?source=rakuten" },
+      });
+    });
+
+    it("should not include data when not provided", async () => {
+      const mockMessaging = createMockMessaging();
+      mockMessaging.sendEachForMulticast.mockResolvedValue({
+        successCount: 1,
+        failureCount: 0,
+        responses: [{ success: true }],
+      });
+
+      const adapter = createFCMAdapter(mockMessaging as never);
+      await adapter.sendMulticast(["token-1"], {
+        title: "My Title",
+        body: "My Body",
+      });
+
+      expect(mockMessaging.sendEachForMulticast).toHaveBeenCalledWith({
+        tokens: ["token-1"],
+        notification: { title: "My Title", body: "My Body" },
+      });
+    });
   });
 });

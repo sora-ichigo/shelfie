@@ -36,6 +36,7 @@ void main() {
           any(),
           any(),
           any(),
+          payload: any(named: 'payload'),
         ),
       ).thenAnswer((_) async {});
 
@@ -64,6 +65,90 @@ void main() {
           'Test Title',
           'Test Body',
           any(),
+          payload: any(named: 'payload'),
+        ),
+      ).called(1);
+    });
+
+    test('フォアグラウンドメッセージ受信時に data[route] を payload として渡す', () async {
+      when(
+        () => mockLocalNotifications.show(
+          any(),
+          any(),
+          any(),
+          any(),
+          payload: any(named: 'payload'),
+        ),
+      ).thenAnswer((_) async {});
+
+      final handler = ForegroundNotificationHandler(
+        localNotifications: mockLocalNotifications,
+      );
+
+      handler.handleForegroundMessage(
+        messageController.stream,
+      );
+
+      messageController.add(
+        RemoteMessage(
+          notification: const RemoteNotification(
+            title: 'Test Title',
+            body: 'Test Body',
+          ),
+          data: {'route': '/books/123?source=rakuten'},
+        ),
+      );
+
+      await Future<void>.delayed(Duration.zero);
+
+      verify(
+        () => mockLocalNotifications.show(
+          any(),
+          'Test Title',
+          'Test Body',
+          any(),
+          payload: '/books/123?source=rakuten',
+        ),
+      ).called(1);
+    });
+
+    test('data に route がない場合、payload は null', () async {
+      when(
+        () => mockLocalNotifications.show(
+          any(),
+          any(),
+          any(),
+          any(),
+          payload: any(named: 'payload'),
+        ),
+      ).thenAnswer((_) async {});
+
+      final handler = ForegroundNotificationHandler(
+        localNotifications: mockLocalNotifications,
+      );
+
+      handler.handleForegroundMessage(
+        messageController.stream,
+      );
+
+      messageController.add(
+        const RemoteMessage(
+          notification: RemoteNotification(
+            title: 'Test Title',
+            body: 'Test Body',
+          ),
+        ),
+      );
+
+      await Future<void>.delayed(Duration.zero);
+
+      verify(
+        () => mockLocalNotifications.show(
+          any(),
+          'Test Title',
+          'Test Body',
+          any(),
+          payload: null,
         ),
       ).called(1);
     });
@@ -75,6 +160,7 @@ void main() {
           any(),
           any(),
           any(),
+          payload: any(named: 'payload'),
         ),
       ).thenAnswer((_) async {});
 
@@ -98,6 +184,7 @@ void main() {
           any(),
           any(),
           any(),
+          payload: any(named: 'payload'),
         ),
       );
     });

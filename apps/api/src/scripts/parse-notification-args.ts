@@ -4,6 +4,7 @@ export interface ParsedNotificationArgs {
   title: string;
   body: string;
   userIds: number[] | "all";
+  route?: string;
 }
 
 type ParseResult =
@@ -20,6 +21,7 @@ export function parseNotificationArgs(args: string[]): ParseResult {
         body: { type: "string" },
         all: { type: "boolean", default: false },
         "user-ids": { type: "string" },
+        route: { type: "string" },
       },
       strict: true,
     });
@@ -32,6 +34,8 @@ export function parseNotificationArgs(args: string[]): ParseResult {
   }
 
   const { title, body, all, "user-ids": userIdsStr } = parsed.values;
+  const route =
+    typeof parsed.values.route === "string" ? parsed.values.route : undefined;
 
   if (!title || typeof title !== "string") {
     return {
@@ -64,7 +68,7 @@ export function parseNotificationArgs(args: string[]): ParseResult {
   if (all) {
     return {
       success: true,
-      data: { title, body, userIds: "all" },
+      data: { title, body, userIds: "all", ...(route && { route }) },
     };
   }
 
@@ -87,6 +91,6 @@ export function parseNotificationArgs(args: string[]): ParseResult {
 
   return {
     success: true,
-    data: { title, body, userIds },
+    data: { title, body, userIds, ...(route && { route }) },
   };
 }
