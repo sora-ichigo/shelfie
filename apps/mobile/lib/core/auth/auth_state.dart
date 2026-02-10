@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -109,7 +111,7 @@ class AuthState extends _$AuthState {
       await ref.read(deviceTokenNotifierProvider.notifier).syncToken();
     } catch (e, stackTrace) {
       debugPrint('[AuthState] Device token sync failed: $e');
-      Sentry.captureException(e, stackTrace: stackTrace);
+      unawaited(Sentry.captureException(e, stackTrace: stackTrace));
     }
   }
 
@@ -163,7 +165,7 @@ class AuthState extends _$AuthState {
         await ref.read(deviceTokenNotifierProvider.notifier).syncToken();
       } catch (e, stackTrace) {
         debugPrint('[AuthState] Device token sync failed: $e');
-        Sentry.captureException(e, stackTrace: stackTrace);
+        unawaited(Sentry.captureException(e, stackTrace: stackTrace));
       }
 
       return true;
