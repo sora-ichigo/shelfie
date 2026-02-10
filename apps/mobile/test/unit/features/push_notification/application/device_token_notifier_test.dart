@@ -56,9 +56,6 @@ void main() {
             refreshToken: 'test-refresh-token',
           );
 
-      final notifier = container.read(deviceTokenNotifierProvider.notifier);
-      await notifier.syncToken();
-
       verify(
         () => mockRepository.registerToken(
           token: 'fcm-token-123',
