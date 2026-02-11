@@ -5,7 +5,6 @@ import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
@@ -123,7 +122,7 @@ class BookCard extends ConsumerWidget {
       book.authorsDisplay,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: AppTypography.labelSmall.copyWith(
+      style: theme.textTheme.labelSmall?.copyWith(
         color: appColors.textSecondary,
       ),
     );
