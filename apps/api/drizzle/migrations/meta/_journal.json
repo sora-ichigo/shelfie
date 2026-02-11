@@ -71,6 +71,20 @@
       "when": 1770636463056,
       "tag": "0009_amused_mimic",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1770809230333,
+      "tag": "0010_regular_shape",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1770814618674,
+      "tag": "0011_real_paper_doll",
+      "breakpoints": true
     }
   ]
 }

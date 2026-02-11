@@ -51,11 +51,17 @@ class AccountRepository {
   Future<Either<Failure, UserProfile>> updateProfile({
     required String name,
     String? avatarUrl,
+    String? bio,
+    String? instagramHandle,
+    String? handle,
   }) async {
     final request = GUpdateProfileReq(
       (b) => b
         ..vars.input.name = name
-        ..vars.input.avatarUrl = avatarUrl,
+        ..vars.input.avatarUrl = avatarUrl
+        ..vars.input.bio = bio
+        ..vars.input.instagramHandle = instagramHandle
+        ..vars.input.handle = handle,
     );
 
     try {
@@ -288,8 +294,10 @@ class AccountRepository {
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
-      username: user.name != null ? '@${user.name}' : null,
+      handle: user.handle,
       bookCount: user.bookCount,
+      bio: user.bio,
+      instagramHandle: user.instagramHandle,
       readingStartYear: createdAt.year,
       readingStartMonth: createdAt.month,
       createdAt: createdAt,
@@ -305,8 +313,10 @@ class AccountRepository {
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
-      username: user.name != null ? '@${user.name}' : null,
+      handle: user.handle,
       bookCount: user.bookCount,
+      bio: user.bio,
+      instagramHandle: user.instagramHandle,
       readingStartYear: createdAt.year,
       readingStartMonth: createdAt.month,
       createdAt: createdAt,

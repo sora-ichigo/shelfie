@@ -17,28 +17,23 @@ class _$GGetMyProfileVarsSerializer
   final String wireName = 'GGetMyProfileVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMyProfileVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GGetMyProfileVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     return <Object?>[];
   }
 
   @override
   GGetMyProfileVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     return GGetMyProfileVarsBuilder().build();
   }
 }
 
 class _$GGetMyProfileVars extends GGetMyProfileVars {
-  factory _$GGetMyProfileVars([
-    void Function(GGetMyProfileVarsBuilder)? updates,
-  ]) => (GGetMyProfileVarsBuilder()..update(updates))._build();
+  factory _$GGetMyProfileVars(
+          [void Function(GGetMyProfileVarsBuilder)? updates]) =>
+      (GGetMyProfileVarsBuilder()..update(updates))._build();
 
   _$GGetMyProfileVars._() : super._();
   @override

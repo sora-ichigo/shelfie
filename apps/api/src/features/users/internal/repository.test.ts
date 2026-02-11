@@ -55,6 +55,9 @@ describe("UserRepository", () => {
         firebaseUid: "firebase-uid-12345",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -85,6 +88,9 @@ describe("UserRepository", () => {
         firebaseUid: "firebase-uid-test",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -123,6 +129,9 @@ describe("UserRepository", () => {
         firebaseUid: "firebase-uid-output",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

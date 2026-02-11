@@ -15,14 +15,14 @@ String _$searchHistoryRepositoryHash() =>
 @ProviderFor(searchHistoryRepository)
 final searchHistoryRepositoryProvider =
     Provider<SearchHistoryRepository>.internal(
-      searchHistoryRepository,
-      name: r'searchHistoryRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$searchHistoryRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  searchHistoryRepository,
+  name: r'searchHistoryRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$searchHistoryRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

@@ -33,7 +33,9 @@ abstract class _$ShareCardNotifier
     extends BuildlessAutoDisposeNotifier<ShareCardState> {
   late final String externalId;
 
-  ShareCardState build(String externalId);
+  ShareCardState build(
+    String externalId,
+  );
 }
 
 /// See also [ShareCardNotifier].
@@ -46,15 +48,21 @@ class ShareCardNotifierFamily extends Family<ShareCardState> {
   const ShareCardNotifierFamily();
 
   /// See also [ShareCardNotifier].
-  ShareCardNotifierProvider call(String externalId) {
-    return ShareCardNotifierProvider(externalId);
+  ShareCardNotifierProvider call(
+    String externalId,
+  ) {
+    return ShareCardNotifierProvider(
+      externalId,
+    );
   }
 
   @override
   ShareCardNotifierProvider getProviderOverride(
     covariant ShareCardNotifierProvider provider,
   ) {
-    return call(provider.externalId);
+    return call(
+      provider.externalId,
+    );
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -76,19 +84,21 @@ class ShareCardNotifierFamily extends Family<ShareCardState> {
 class ShareCardNotifierProvider
     extends AutoDisposeNotifierProviderImpl<ShareCardNotifier, ShareCardState> {
   /// See also [ShareCardNotifier].
-  ShareCardNotifierProvider(String externalId)
-    : this._internal(
-        () => ShareCardNotifier()..externalId = externalId,
-        from: shareCardNotifierProvider,
-        name: r'shareCardNotifierProvider',
-        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-            ? null
-            : _$shareCardNotifierHash,
-        dependencies: ShareCardNotifierFamily._dependencies,
-        allTransitiveDependencies:
-            ShareCardNotifierFamily._allTransitiveDependencies,
-        externalId: externalId,
-      );
+  ShareCardNotifierProvider(
+    String externalId,
+  ) : this._internal(
+          () => ShareCardNotifier()..externalId = externalId,
+          from: shareCardNotifierProvider,
+          name: r'shareCardNotifierProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$shareCardNotifierHash,
+          dependencies: ShareCardNotifierFamily._dependencies,
+          allTransitiveDependencies:
+              ShareCardNotifierFamily._allTransitiveDependencies,
+          externalId: externalId,
+        );
 
   ShareCardNotifierProvider._internal(
     super._createNotifier, {
@@ -103,8 +113,12 @@ class ShareCardNotifierProvider
   final String externalId;
 
   @override
-  ShareCardState runNotifierBuild(covariant ShareCardNotifier notifier) {
-    return notifier.build(externalId);
+  ShareCardState runNotifierBuild(
+    covariant ShareCardNotifier notifier,
+  ) {
+    return notifier.build(
+      externalId,
+    );
   }
 
   @override
@@ -125,7 +139,7 @@ class ShareCardNotifierProvider
 
   @override
   AutoDisposeNotifierProviderElement<ShareCardNotifier, ShareCardState>
-  createElement() {
+      createElement() {
     return _ShareCardNotifierProviderElement(this);
   }
 
@@ -151,14 +165,12 @@ mixin ShareCardNotifierRef on AutoDisposeNotifierProviderRef<ShareCardState> {
 }
 
 class _ShareCardNotifierProviderElement
-    extends
-        AutoDisposeNotifierProviderElement<ShareCardNotifier, ShareCardState>
-    with ShareCardNotifierRef {
+    extends AutoDisposeNotifierProviderElement<ShareCardNotifier,
+        ShareCardState> with ShareCardNotifierRef {
   _ShareCardNotifierProviderElement(super.provider);
 
   @override
   String get externalId => (origin as ShareCardNotifierProvider).externalId;
 }
-
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

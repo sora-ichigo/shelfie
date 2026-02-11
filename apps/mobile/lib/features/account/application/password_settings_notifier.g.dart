@@ -11,19 +11,16 @@ String _$passwordSettingsNotifierHash() =>
 
 /// See also [PasswordSettingsNotifier].
 @ProviderFor(PasswordSettingsNotifier)
-final passwordSettingsNotifierProvider =
-    AutoDisposeNotifierProvider<
-      PasswordSettingsNotifier,
-      PasswordSettingsState
-    >.internal(
-      PasswordSettingsNotifier.new,
-      name: r'passwordSettingsNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$passwordSettingsNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final passwordSettingsNotifierProvider = AutoDisposeNotifierProvider<
+    PasswordSettingsNotifier, PasswordSettingsState>.internal(
+  PasswordSettingsNotifier.new,
+  name: r'passwordSettingsNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$passwordSettingsNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$PasswordSettingsNotifier = AutoDisposeNotifier<PasswordSettingsState>;
 // ignore_for_file: type=lint

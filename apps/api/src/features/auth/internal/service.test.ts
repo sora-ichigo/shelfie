@@ -162,6 +162,9 @@ describe("AuthService.register", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -286,6 +289,9 @@ describe("AuthService.register", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -340,6 +346,9 @@ describe("AuthService.getCurrentUser", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -386,6 +395,9 @@ describe("AuthService.getCurrentUser", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -413,6 +425,9 @@ describe("AuthService.getCurrentUser", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -460,6 +475,9 @@ describe("AuthService.getCurrentUser", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -503,6 +521,9 @@ describe("AuthService.login", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -620,6 +641,9 @@ describe("AuthService.login", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1051,6 +1075,9 @@ describe("AuthService.deleteAccount", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1100,6 +1127,9 @@ describe("AuthService.deleteAccount", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1131,6 +1161,9 @@ describe("AuthService.deleteAccount", () => {
       firebaseUid: "firebase-uid-123",
       name: null,
       avatarUrl: null,
+      bio: null,
+      instagramHandle: null,
+      handle: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

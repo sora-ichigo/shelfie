@@ -12,14 +12,14 @@ String _$loginNotifierHash() => r'158328eec683c159e75fd54bec07537b211fc27c';
 @ProviderFor(LoginNotifier)
 final loginNotifierProvider =
     AutoDisposeNotifierProvider<LoginNotifier, LoginState>.internal(
-      LoginNotifier.new,
-      name: r'loginNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$loginNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  LoginNotifier.new,
+  name: r'loginNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$LoginNotifier = AutoDisposeNotifier<LoginState>;
 // ignore_for_file: type=lint

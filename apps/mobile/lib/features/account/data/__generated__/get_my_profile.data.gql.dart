@@ -121,6 +121,9 @@ abstract class GGetMyProfileData_me__asUser
   String? get avatarUrl;
   DateTime? get createdAt;
   int get bookCount;
+  String? get bio;
+  String? get instagramHandle;
+  String? get handle;
   static Serializer<GGetMyProfileData_me__asUser> get serializer =>
       _$gGetMyProfileDataMeAsUserSerializer;
 

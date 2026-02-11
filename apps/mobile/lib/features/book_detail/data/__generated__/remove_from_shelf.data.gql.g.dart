@@ -14,28 +14,22 @@ class _$GRemoveFromShelfDataSerializer
   @override
   final Iterable<Type> types = const [
     GRemoveFromShelfData,
-    _$GRemoveFromShelfData,
+    _$GRemoveFromShelfData
   ];
   @override
   final String wireName = 'GRemoveFromShelfData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRemoveFromShelfData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRemoveFromShelfData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'removeFromShelf',
-      serializers.serialize(
-        object.removeFromShelf,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.removeFromShelf,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -43,10 +37,8 @@ class _$GRemoveFromShelfDataSerializer
 
   @override
   GRemoveFromShelfData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRemoveFromShelfDataBuilder();
 
     final iterator = serialized.iterator;
@@ -56,20 +48,12 @@ class _$GRemoveFromShelfDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'removeFromShelf':
-          result.removeFromShelf =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.removeFromShelf = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -84,18 +68,17 @@ class _$GRemoveFromShelfData extends GRemoveFromShelfData {
   @override
   final bool removeFromShelf;
 
-  factory _$GRemoveFromShelfData([
-    void Function(GRemoveFromShelfDataBuilder)? updates,
-  ]) => (GRemoveFromShelfDataBuilder()..update(updates))._build();
+  factory _$GRemoveFromShelfData(
+          [void Function(GRemoveFromShelfDataBuilder)? updates]) =>
+      (GRemoveFromShelfDataBuilder()..update(updates))._build();
 
-  _$GRemoveFromShelfData._({
-    required this.G__typename,
-    required this.removeFromShelf,
-  }) : super._();
+  _$GRemoveFromShelfData._(
+      {required this.G__typename, required this.removeFromShelf})
+      : super._();
   @override
   GRemoveFromShelfData rebuild(
-    void Function(GRemoveFromShelfDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRemoveFromShelfDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRemoveFromShelfDataBuilder toBuilder() =>
@@ -168,19 +151,12 @@ class GRemoveFromShelfDataBuilder
   GRemoveFromShelfData build() => _build();
 
   _$GRemoveFromShelfData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRemoveFromShelfData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRemoveFromShelfData',
-            'G__typename',
-          ),
+              G__typename, r'GRemoveFromShelfData', 'G__typename'),
           removeFromShelf: BuiltValueNullFieldError.checkNotNull(
-            removeFromShelf,
-            r'GRemoveFromShelfData',
-            'removeFromShelf',
-          ),
+              removeFromShelf, r'GRemoveFromShelfData', 'removeFromShelf'),
         );
     replace(_$result);
     return _$result;

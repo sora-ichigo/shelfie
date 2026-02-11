@@ -12,8 +12,7 @@ part of 'book_search_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BookSearchState {
@@ -21,69 +20,45 @@ mixin _$BookSearchState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
-  }) => throw _privateConstructorUsedError;
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
-  }) => throw _privateConstructorUsedError;
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(BookSearchInitial value) initial,
@@ -92,7 +67,8 @@ mixin _$BookSearchState {
     required TResult Function(BookSearchEmpty value) empty,
     required TResult Function(BookSearchError value) error,
     required TResult Function(BookSearchLoadingMore value) loadingMore,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(BookSearchInitial value)? initial,
@@ -101,7 +77,8 @@ mixin _$BookSearchState {
     TResult? Function(BookSearchEmpty value)? empty,
     TResult? Function(BookSearchError value)? error,
     TResult? Function(BookSearchLoadingMore value)? loadingMore,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(BookSearchInitial value)? initial,
@@ -111,15 +88,15 @@ mixin _$BookSearchState {
     TResult Function(BookSearchError value)? error,
     TResult Function(BookSearchLoadingMore value)? loadingMore,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $BookSearchStateCopyWith<$Res> {
   factory $BookSearchStateCopyWith(
-    BookSearchState value,
-    $Res Function(BookSearchState) then,
-  ) = _$BookSearchStateCopyWithImpl<$Res, BookSearchState>;
+          BookSearchState value, $Res Function(BookSearchState) then) =
+      _$BookSearchStateCopyWithImpl<$Res, BookSearchState>;
 }
 
 /// @nodoc
@@ -138,20 +115,18 @@ class _$BookSearchStateCopyWithImpl<$Res, $Val extends BookSearchState>
 
 /// @nodoc
 abstract class _$$BookSearchInitialImplCopyWith<$Res> {
-  factory _$$BookSearchInitialImplCopyWith(
-    _$BookSearchInitialImpl value,
-    $Res Function(_$BookSearchInitialImpl) then,
-  ) = __$$BookSearchInitialImplCopyWithImpl<$Res>;
+  factory _$$BookSearchInitialImplCopyWith(_$BookSearchInitialImpl value,
+          $Res Function(_$BookSearchInitialImpl) then) =
+      __$$BookSearchInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$BookSearchInitialImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchInitialImpl>
     implements _$$BookSearchInitialImplCopyWith<$Res> {
-  __$$BookSearchInitialImplCopyWithImpl(
-    _$BookSearchInitialImpl _value,
-    $Res Function(_$BookSearchInitialImpl) _then,
-  ) : super(_value, _then);
+  __$$BookSearchInitialImplCopyWithImpl(_$BookSearchInitialImpl _value,
+      $Res Function(_$BookSearchInitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -181,23 +156,14 @@ class _$BookSearchInitialImpl implements BookSearchInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return initial();
   }
@@ -207,23 +173,14 @@ class _$BookSearchInitialImpl implements BookSearchInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return initial?.call();
   }
@@ -233,23 +190,14 @@ class _$BookSearchInitialImpl implements BookSearchInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -308,20 +256,18 @@ abstract class BookSearchInitial implements BookSearchState {
 
 /// @nodoc
 abstract class _$$BookSearchLoadingImplCopyWith<$Res> {
-  factory _$$BookSearchLoadingImplCopyWith(
-    _$BookSearchLoadingImpl value,
-    $Res Function(_$BookSearchLoadingImpl) then,
-  ) = __$$BookSearchLoadingImplCopyWithImpl<$Res>;
+  factory _$$BookSearchLoadingImplCopyWith(_$BookSearchLoadingImpl value,
+          $Res Function(_$BookSearchLoadingImpl) then) =
+      __$$BookSearchLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$BookSearchLoadingImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchLoadingImpl>
     implements _$$BookSearchLoadingImplCopyWith<$Res> {
-  __$$BookSearchLoadingImplCopyWithImpl(
-    _$BookSearchLoadingImpl _value,
-    $Res Function(_$BookSearchLoadingImpl) _then,
-  ) : super(_value, _then);
+  __$$BookSearchLoadingImplCopyWithImpl(_$BookSearchLoadingImpl _value,
+      $Res Function(_$BookSearchLoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -351,23 +297,14 @@ class _$BookSearchLoadingImpl implements BookSearchLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return loading();
   }
@@ -377,23 +314,14 @@ class _$BookSearchLoadingImpl implements BookSearchLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return loading?.call();
   }
@@ -403,23 +331,14 @@ class _$BookSearchLoadingImpl implements BookSearchLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -478,28 +397,25 @@ abstract class BookSearchLoading implements BookSearchState {
 
 /// @nodoc
 abstract class _$$BookSearchSuccessImplCopyWith<$Res> {
-  factory _$$BookSearchSuccessImplCopyWith(
-    _$BookSearchSuccessImpl value,
-    $Res Function(_$BookSearchSuccessImpl) then,
-  ) = __$$BookSearchSuccessImplCopyWithImpl<$Res>;
+  factory _$$BookSearchSuccessImplCopyWith(_$BookSearchSuccessImpl value,
+          $Res Function(_$BookSearchSuccessImpl) then) =
+      __$$BookSearchSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({
-    List<Book> books,
-    int totalCount,
-    bool hasMore,
-    String currentQuery,
-    int currentOffset,
-  });
+  $Res call(
+      {List<Book> books,
+      int totalCount,
+      bool hasMore,
+      String currentQuery,
+      int currentOffset});
 }
 
 /// @nodoc
 class __$$BookSearchSuccessImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchSuccessImpl>
     implements _$$BookSearchSuccessImplCopyWith<$Res> {
-  __$$BookSearchSuccessImplCopyWithImpl(
-    _$BookSearchSuccessImpl _value,
-    $Res Function(_$BookSearchSuccessImpl) _then,
-  ) : super(_value, _then);
+  __$$BookSearchSuccessImplCopyWithImpl(_$BookSearchSuccessImpl _value,
+      $Res Function(_$BookSearchSuccessImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -512,43 +428,41 @@ class __$$BookSearchSuccessImplCopyWithImpl<$Res>
     Object? currentQuery = null,
     Object? currentOffset = null,
   }) {
-    return _then(
-      _$BookSearchSuccessImpl(
-        books: null == books
-            ? _value._books
-            : books // ignore: cast_nullable_to_non_nullable
-                  as List<Book>,
-        totalCount: null == totalCount
-            ? _value.totalCount
-            : totalCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        hasMore: null == hasMore
-            ? _value.hasMore
-            : hasMore // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        currentQuery: null == currentQuery
-            ? _value.currentQuery
-            : currentQuery // ignore: cast_nullable_to_non_nullable
-                  as String,
-        currentOffset: null == currentOffset
-            ? _value.currentOffset
-            : currentOffset // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
+    return _then(_$BookSearchSuccessImpl(
+      books: null == books
+          ? _value._books
+          : books // ignore: cast_nullable_to_non_nullable
+              as List<Book>,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentQuery: null == currentQuery
+          ? _value.currentQuery
+          : currentQuery // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentOffset: null == currentOffset
+          ? _value.currentOffset
+          : currentOffset // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookSearchSuccessImpl implements BookSearchSuccess {
-  const _$BookSearchSuccessImpl({
-    required final List<Book> books,
-    required this.totalCount,
-    required this.hasMore,
-    required this.currentQuery,
-    required this.currentOffset,
-  }) : _books = books;
+  const _$BookSearchSuccessImpl(
+      {required final List<Book> books,
+      required this.totalCount,
+      required this.hasMore,
+      required this.currentQuery,
+      required this.currentOffset})
+      : _books = books;
 
   final List<Book> _books;
   @override
@@ -589,13 +503,12 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_books),
-    totalCount,
-    hasMore,
-    currentQuery,
-    currentOffset,
-  );
+      runtimeType,
+      const DeepCollectionEquality().hash(_books),
+      totalCount,
+      hasMore,
+      currentQuery,
+      currentOffset);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -604,32 +517,21 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
   @pragma('vm:prefer-inline')
   _$$BookSearchSuccessImplCopyWith<_$BookSearchSuccessImpl> get copyWith =>
       __$$BookSearchSuccessImplCopyWithImpl<_$BookSearchSuccessImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return success(books, totalCount, hasMore, currentQuery, currentOffset);
   }
@@ -639,31 +541,17 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return success?.call(
-      books,
-      totalCount,
-      hasMore,
-      currentQuery,
-      currentOffset,
-    );
+        books, totalCount, hasMore, currentQuery, currentOffset);
   }
 
   @override
@@ -671,23 +559,14 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -741,13 +620,12 @@ class _$BookSearchSuccessImpl implements BookSearchSuccess {
 }
 
 abstract class BookSearchSuccess implements BookSearchState {
-  const factory BookSearchSuccess({
-    required final List<Book> books,
-    required final int totalCount,
-    required final bool hasMore,
-    required final String currentQuery,
-    required final int currentOffset,
-  }) = _$BookSearchSuccessImpl;
+  const factory BookSearchSuccess(
+      {required final List<Book> books,
+      required final int totalCount,
+      required final bool hasMore,
+      required final String currentQuery,
+      required final int currentOffset}) = _$BookSearchSuccessImpl;
 
   List<Book> get books;
   int get totalCount;
@@ -764,10 +642,9 @@ abstract class BookSearchSuccess implements BookSearchState {
 
 /// @nodoc
 abstract class _$$BookSearchEmptyImplCopyWith<$Res> {
-  factory _$$BookSearchEmptyImplCopyWith(
-    _$BookSearchEmptyImpl value,
-    $Res Function(_$BookSearchEmptyImpl) then,
-  ) = __$$BookSearchEmptyImplCopyWithImpl<$Res>;
+  factory _$$BookSearchEmptyImplCopyWith(_$BookSearchEmptyImpl value,
+          $Res Function(_$BookSearchEmptyImpl) then) =
+      __$$BookSearchEmptyImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String query});
 }
@@ -777,23 +654,22 @@ class __$$BookSearchEmptyImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchEmptyImpl>
     implements _$$BookSearchEmptyImplCopyWith<$Res> {
   __$$BookSearchEmptyImplCopyWithImpl(
-    _$BookSearchEmptyImpl _value,
-    $Res Function(_$BookSearchEmptyImpl) _then,
-  ) : super(_value, _then);
+      _$BookSearchEmptyImpl _value, $Res Function(_$BookSearchEmptyImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? query = null}) {
-    return _then(
-      _$BookSearchEmptyImpl(
-        query: null == query
-            ? _value.query
-            : query // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
+  $Res call({
+    Object? query = null,
+  }) {
+    return _then(_$BookSearchEmptyImpl(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
@@ -828,32 +704,21 @@ class _$BookSearchEmptyImpl implements BookSearchEmpty {
   @pragma('vm:prefer-inline')
   _$$BookSearchEmptyImplCopyWith<_$BookSearchEmptyImpl> get copyWith =>
       __$$BookSearchEmptyImplCopyWithImpl<_$BookSearchEmptyImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return empty(query);
   }
@@ -863,23 +728,14 @@ class _$BookSearchEmptyImpl implements BookSearchEmpty {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return empty?.call(query);
   }
@@ -889,23 +745,14 @@ class _$BookSearchEmptyImpl implements BookSearchEmpty {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -973,10 +820,9 @@ abstract class BookSearchEmpty implements BookSearchState {
 
 /// @nodoc
 abstract class _$$BookSearchErrorImplCopyWith<$Res> {
-  factory _$$BookSearchErrorImplCopyWith(
-    _$BookSearchErrorImpl value,
-    $Res Function(_$BookSearchErrorImpl) then,
-  ) = __$$BookSearchErrorImplCopyWithImpl<$Res>;
+  factory _$$BookSearchErrorImplCopyWith(_$BookSearchErrorImpl value,
+          $Res Function(_$BookSearchErrorImpl) then) =
+      __$$BookSearchErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Failure failure});
 
@@ -988,23 +834,22 @@ class __$$BookSearchErrorImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchErrorImpl>
     implements _$$BookSearchErrorImplCopyWith<$Res> {
   __$$BookSearchErrorImplCopyWithImpl(
-    _$BookSearchErrorImpl _value,
-    $Res Function(_$BookSearchErrorImpl) _then,
-  ) : super(_value, _then);
+      _$BookSearchErrorImpl _value, $Res Function(_$BookSearchErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? failure = null}) {
-    return _then(
-      _$BookSearchErrorImpl(
-        failure: null == failure
-            ? _value.failure
-            : failure // ignore: cast_nullable_to_non_nullable
-                  as Failure,
-      ),
-    );
+  $Res call({
+    Object? failure = null,
+  }) {
+    return _then(_$BookSearchErrorImpl(
+      failure: null == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure,
+    ));
   }
 
   /// Create a copy of BookSearchState
@@ -1049,32 +894,21 @@ class _$BookSearchErrorImpl implements BookSearchError {
   @pragma('vm:prefer-inline')
   _$$BookSearchErrorImplCopyWith<_$BookSearchErrorImpl> get copyWith =>
       __$$BookSearchErrorImplCopyWithImpl<_$BookSearchErrorImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return error(failure);
   }
@@ -1084,23 +918,14 @@ class _$BookSearchErrorImpl implements BookSearchError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return error?.call(failure);
   }
@@ -1110,23 +935,14 @@ class _$BookSearchErrorImpl implements BookSearchError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1195,26 +1011,24 @@ abstract class BookSearchError implements BookSearchState {
 /// @nodoc
 abstract class _$$BookSearchLoadingMoreImplCopyWith<$Res> {
   factory _$$BookSearchLoadingMoreImplCopyWith(
-    _$BookSearchLoadingMoreImpl value,
-    $Res Function(_$BookSearchLoadingMoreImpl) then,
-  ) = __$$BookSearchLoadingMoreImplCopyWithImpl<$Res>;
+          _$BookSearchLoadingMoreImpl value,
+          $Res Function(_$BookSearchLoadingMoreImpl) then) =
+      __$$BookSearchLoadingMoreImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({
-    List<Book> books,
-    int totalCount,
-    String currentQuery,
-    int currentOffset,
-  });
+  $Res call(
+      {List<Book> books,
+      int totalCount,
+      String currentQuery,
+      int currentOffset});
 }
 
 /// @nodoc
 class __$$BookSearchLoadingMoreImplCopyWithImpl<$Res>
     extends _$BookSearchStateCopyWithImpl<$Res, _$BookSearchLoadingMoreImpl>
     implements _$$BookSearchLoadingMoreImplCopyWith<$Res> {
-  __$$BookSearchLoadingMoreImplCopyWithImpl(
-    _$BookSearchLoadingMoreImpl _value,
-    $Res Function(_$BookSearchLoadingMoreImpl) _then,
-  ) : super(_value, _then);
+  __$$BookSearchLoadingMoreImplCopyWithImpl(_$BookSearchLoadingMoreImpl _value,
+      $Res Function(_$BookSearchLoadingMoreImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -1226,38 +1040,36 @@ class __$$BookSearchLoadingMoreImplCopyWithImpl<$Res>
     Object? currentQuery = null,
     Object? currentOffset = null,
   }) {
-    return _then(
-      _$BookSearchLoadingMoreImpl(
-        books: null == books
-            ? _value._books
-            : books // ignore: cast_nullable_to_non_nullable
-                  as List<Book>,
-        totalCount: null == totalCount
-            ? _value.totalCount
-            : totalCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        currentQuery: null == currentQuery
-            ? _value.currentQuery
-            : currentQuery // ignore: cast_nullable_to_non_nullable
-                  as String,
-        currentOffset: null == currentOffset
-            ? _value.currentOffset
-            : currentOffset // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
+    return _then(_$BookSearchLoadingMoreImpl(
+      books: null == books
+          ? _value._books
+          : books // ignore: cast_nullable_to_non_nullable
+              as List<Book>,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      currentQuery: null == currentQuery
+          ? _value.currentQuery
+          : currentQuery // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentOffset: null == currentOffset
+          ? _value.currentOffset
+          : currentOffset // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
-  const _$BookSearchLoadingMoreImpl({
-    required final List<Book> books,
-    required this.totalCount,
-    required this.currentQuery,
-    required this.currentOffset,
-  }) : _books = books;
+  const _$BookSearchLoadingMoreImpl(
+      {required final List<Book> books,
+      required this.totalCount,
+      required this.currentQuery,
+      required this.currentOffset})
+      : _books = books;
 
   final List<Book> _books;
   @override
@@ -1295,12 +1107,11 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_books),
-    totalCount,
-    currentQuery,
-    currentOffset,
-  );
+      runtimeType,
+      const DeepCollectionEquality().hash(_books),
+      totalCount,
+      currentQuery,
+      currentOffset);
 
   /// Create a copy of BookSearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -1308,34 +1119,22 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
   @override
   @pragma('vm:prefer-inline')
   _$$BookSearchLoadingMoreImplCopyWith<_$BookSearchLoadingMoreImpl>
-  get copyWith =>
-      __$$BookSearchLoadingMoreImplCopyWithImpl<_$BookSearchLoadingMoreImpl>(
-        this,
-        _$identity,
-      );
+      get copyWith => __$$BookSearchLoadingMoreImplCopyWithImpl<
+          _$BookSearchLoadingMoreImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )
-    success,
+    required TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)
+        success,
     required TResult Function(String query) empty,
     required TResult Function(Failure failure) error,
-    required TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )
-    loadingMore,
+    required TResult Function(List<Book> books, int totalCount,
+            String currentQuery, int currentOffset)
+        loadingMore,
   }) {
     return loadingMore(books, totalCount, currentQuery, currentOffset);
   }
@@ -1345,23 +1144,14 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult? Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult? Function(String query)? empty,
     TResult? Function(Failure failure)? error,
-    TResult? Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult? Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
   }) {
     return loadingMore?.call(books, totalCount, currentQuery, currentOffset);
   }
@@ -1371,23 +1161,14 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      bool hasMore,
-      String currentQuery,
-      int currentOffset,
-    )?
-    success,
+    TResult Function(List<Book> books, int totalCount, bool hasMore,
+            String currentQuery, int currentOffset)?
+        success,
     TResult Function(String query)? empty,
     TResult Function(Failure failure)? error,
-    TResult Function(
-      List<Book> books,
-      int totalCount,
-      String currentQuery,
-      int currentOffset,
-    )?
-    loadingMore,
+    TResult Function(List<Book> books, int totalCount, String currentQuery,
+            int currentOffset)?
+        loadingMore,
     required TResult orElse(),
   }) {
     if (loadingMore != null) {
@@ -1441,12 +1222,11 @@ class _$BookSearchLoadingMoreImpl implements BookSearchLoadingMore {
 }
 
 abstract class BookSearchLoadingMore implements BookSearchState {
-  const factory BookSearchLoadingMore({
-    required final List<Book> books,
-    required final int totalCount,
-    required final String currentQuery,
-    required final int currentOffset,
-  }) = _$BookSearchLoadingMoreImpl;
+  const factory BookSearchLoadingMore(
+      {required final List<Book> books,
+      required final int totalCount,
+      required final String currentQuery,
+      required final int currentOffset}) = _$BookSearchLoadingMoreImpl;
 
   List<Book> get books;
   int get totalCount;
@@ -1457,5 +1237,5 @@ abstract class BookSearchLoadingMore implements BookSearchState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookSearchLoadingMoreImplCopyWith<_$BookSearchLoadingMoreImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }

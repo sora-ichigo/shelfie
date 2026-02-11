@@ -12,8 +12,7 @@ part of 'registration_notifier.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$RegistrationState {
@@ -23,14 +22,16 @@ mixin _$RegistrationState {
     required TResult Function() loading,
     required TResult Function(RegisteredUser user) success,
     required TResult Function(String message, String? field) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(RegisteredUser user)? success,
     TResult? Function(String message, String? field)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -38,21 +39,24 @@ mixin _$RegistrationState {
     TResult Function(RegisteredUser user)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RegistrationStateInitial value) initial,
     required TResult Function(RegistrationStateLoading value) loading,
     required TResult Function(RegistrationStateSuccess value) success,
     required TResult Function(RegistrationStateError value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RegistrationStateInitial value)? initial,
     TResult? Function(RegistrationStateLoading value)? loading,
     TResult? Function(RegistrationStateSuccess value)? success,
     TResult? Function(RegistrationStateError value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(RegistrationStateInitial value)? initial,
@@ -60,15 +64,15 @@ mixin _$RegistrationState {
     TResult Function(RegistrationStateSuccess value)? success,
     TResult Function(RegistrationStateError value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $RegistrationStateCopyWith<$Res> {
   factory $RegistrationStateCopyWith(
-    RegistrationState value,
-    $Res Function(RegistrationState) then,
-  ) = _$RegistrationStateCopyWithImpl<$Res, RegistrationState>;
+          RegistrationState value, $Res Function(RegistrationState) then) =
+      _$RegistrationStateCopyWithImpl<$Res, RegistrationState>;
 }
 
 /// @nodoc
@@ -88,20 +92,20 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
 /// @nodoc
 abstract class _$$RegistrationStateInitialImplCopyWith<$Res> {
   factory _$$RegistrationStateInitialImplCopyWith(
-    _$RegistrationStateInitialImpl value,
-    $Res Function(_$RegistrationStateInitialImpl) then,
-  ) = __$$RegistrationStateInitialImplCopyWithImpl<$Res>;
+          _$RegistrationStateInitialImpl value,
+          $Res Function(_$RegistrationStateInitialImpl) then) =
+      __$$RegistrationStateInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$RegistrationStateInitialImplCopyWithImpl<$Res>
-    extends
-        _$RegistrationStateCopyWithImpl<$Res, _$RegistrationStateInitialImpl>
+    extends _$RegistrationStateCopyWithImpl<$Res,
+        _$RegistrationStateInitialImpl>
     implements _$$RegistrationStateInitialImplCopyWith<$Res> {
   __$$RegistrationStateInitialImplCopyWithImpl(
-    _$RegistrationStateInitialImpl _value,
-    $Res Function(_$RegistrationStateInitialImpl) _then,
-  ) : super(_value, _then);
+      _$RegistrationStateInitialImpl _value,
+      $Res Function(_$RegistrationStateInitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
@@ -209,20 +213,20 @@ abstract class RegistrationStateInitial implements RegistrationState {
 /// @nodoc
 abstract class _$$RegistrationStateLoadingImplCopyWith<$Res> {
   factory _$$RegistrationStateLoadingImplCopyWith(
-    _$RegistrationStateLoadingImpl value,
-    $Res Function(_$RegistrationStateLoadingImpl) then,
-  ) = __$$RegistrationStateLoadingImplCopyWithImpl<$Res>;
+          _$RegistrationStateLoadingImpl value,
+          $Res Function(_$RegistrationStateLoadingImpl) then) =
+      __$$RegistrationStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$RegistrationStateLoadingImplCopyWithImpl<$Res>
-    extends
-        _$RegistrationStateCopyWithImpl<$Res, _$RegistrationStateLoadingImpl>
+    extends _$RegistrationStateCopyWithImpl<$Res,
+        _$RegistrationStateLoadingImpl>
     implements _$$RegistrationStateLoadingImplCopyWith<$Res> {
   __$$RegistrationStateLoadingImplCopyWithImpl(
-    _$RegistrationStateLoadingImpl _value,
-    $Res Function(_$RegistrationStateLoadingImpl) _then,
-  ) : super(_value, _then);
+      _$RegistrationStateLoadingImpl _value,
+      $Res Function(_$RegistrationStateLoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
@@ -330,36 +334,36 @@ abstract class RegistrationStateLoading implements RegistrationState {
 /// @nodoc
 abstract class _$$RegistrationStateSuccessImplCopyWith<$Res> {
   factory _$$RegistrationStateSuccessImplCopyWith(
-    _$RegistrationStateSuccessImpl value,
-    $Res Function(_$RegistrationStateSuccessImpl) then,
-  ) = __$$RegistrationStateSuccessImplCopyWithImpl<$Res>;
+          _$RegistrationStateSuccessImpl value,
+          $Res Function(_$RegistrationStateSuccessImpl) then) =
+      __$$RegistrationStateSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({RegisteredUser user});
 }
 
 /// @nodoc
 class __$$RegistrationStateSuccessImplCopyWithImpl<$Res>
-    extends
-        _$RegistrationStateCopyWithImpl<$Res, _$RegistrationStateSuccessImpl>
+    extends _$RegistrationStateCopyWithImpl<$Res,
+        _$RegistrationStateSuccessImpl>
     implements _$$RegistrationStateSuccessImplCopyWith<$Res> {
   __$$RegistrationStateSuccessImplCopyWithImpl(
-    _$RegistrationStateSuccessImpl _value,
-    $Res Function(_$RegistrationStateSuccessImpl) _then,
-  ) : super(_value, _then);
+      _$RegistrationStateSuccessImpl _value,
+      $Res Function(_$RegistrationStateSuccessImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? user = null}) {
-    return _then(
-      _$RegistrationStateSuccessImpl(
-        user: null == user
-            ? _value.user
-            : user // ignore: cast_nullable_to_non_nullable
-                  as RegisteredUser,
-      ),
-    );
+  $Res call({
+    Object? user = null,
+  }) {
+    return _then(_$RegistrationStateSuccessImpl(
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as RegisteredUser,
+    ));
   }
 }
 
@@ -393,10 +397,8 @@ class _$RegistrationStateSuccessImpl implements RegistrationStateSuccess {
   @override
   @pragma('vm:prefer-inline')
   _$$RegistrationStateSuccessImplCopyWith<_$RegistrationStateSuccessImpl>
-  get copyWith =>
-      __$$RegistrationStateSuccessImplCopyWithImpl<
-        _$RegistrationStateSuccessImpl
-      >(this, _$identity);
+      get copyWith => __$$RegistrationStateSuccessImplCopyWithImpl<
+          _$RegistrationStateSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -483,15 +485,15 @@ abstract class RegistrationStateSuccess implements RegistrationState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegistrationStateSuccessImplCopyWith<_$RegistrationStateSuccessImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$RegistrationStateErrorImplCopyWith<$Res> {
   factory _$$RegistrationStateErrorImplCopyWith(
-    _$RegistrationStateErrorImpl value,
-    $Res Function(_$RegistrationStateErrorImpl) then,
-  ) = __$$RegistrationStateErrorImplCopyWithImpl<$Res>;
+          _$RegistrationStateErrorImpl value,
+          $Res Function(_$RegistrationStateErrorImpl) then) =
+      __$$RegistrationStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message, String? field});
 }
@@ -501,27 +503,28 @@ class __$$RegistrationStateErrorImplCopyWithImpl<$Res>
     extends _$RegistrationStateCopyWithImpl<$Res, _$RegistrationStateErrorImpl>
     implements _$$RegistrationStateErrorImplCopyWith<$Res> {
   __$$RegistrationStateErrorImplCopyWithImpl(
-    _$RegistrationStateErrorImpl _value,
-    $Res Function(_$RegistrationStateErrorImpl) _then,
-  ) : super(_value, _then);
+      _$RegistrationStateErrorImpl _value,
+      $Res Function(_$RegistrationStateErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null, Object? field = freezed}) {
-    return _then(
-      _$RegistrationStateErrorImpl(
-        message: null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as String,
-        field: freezed == field
-            ? _value.field
-            : field // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+  $Res call({
+    Object? message = null,
+    Object? field = freezed,
+  }) {
+    return _then(_$RegistrationStateErrorImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      field: freezed == field
+          ? _value.field
+          : field // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
@@ -558,11 +561,8 @@ class _$RegistrationStateErrorImpl implements RegistrationStateError {
   @override
   @pragma('vm:prefer-inline')
   _$$RegistrationStateErrorImplCopyWith<_$RegistrationStateErrorImpl>
-  get copyWith =>
-      __$$RegistrationStateErrorImplCopyWithImpl<_$RegistrationStateErrorImpl>(
-        this,
-        _$identity,
-      );
+      get copyWith => __$$RegistrationStateErrorImplCopyWithImpl<
+          _$RegistrationStateErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -640,10 +640,9 @@ class _$RegistrationStateErrorImpl implements RegistrationStateError {
 }
 
 abstract class RegistrationStateError implements RegistrationState {
-  const factory RegistrationStateError({
-    required final String message,
-    final String? field,
-  }) = _$RegistrationStateErrorImpl;
+  const factory RegistrationStateError(
+      {required final String message,
+      final String? field}) = _$RegistrationStateErrorImpl;
 
   String get message;
   String? get field;
@@ -652,5 +651,5 @@ abstract class RegistrationStateError implements RegistrationState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegistrationStateErrorImplCopyWith<_$RegistrationStateErrorImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }

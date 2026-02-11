@@ -13,14 +13,14 @@ String _$gallerySaveServiceHash() =>
 @ProviderFor(gallerySaveService)
 final gallerySaveServiceProvider =
     AutoDisposeProvider<GallerySaveService>.internal(
-      gallerySaveService,
-      name: r'gallerySaveServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$gallerySaveServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  gallerySaveService,
+  name: r'gallerySaveServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$gallerySaveServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

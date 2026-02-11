@@ -14,27 +14,23 @@ class _$GReorderBookInListVarsSerializer
   @override
   final Iterable<Type> types = const [
     GReorderBookInListVars,
-    _$GReorderBookInListVars,
+    _$GReorderBookInListVars
   ];
   @override
   final String wireName = 'GReorderBookInListVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GReorderBookInListVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GReorderBookInListVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
       'itemId',
       serializers.serialize(object.itemId, specifiedType: const FullType(int)),
       'newPosition',
-      serializers.serialize(
-        object.newPosition,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.newPosition,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -42,10 +38,8 @@ class _$GReorderBookInListVarsSerializer
 
   @override
   GReorderBookInListVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GReorderBookInListVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -55,28 +49,16 @@ class _$GReorderBookInListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'listId':
-          result.listId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.listId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'itemId':
-          result.itemId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.itemId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'newPosition':
-          result.newPosition =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.newPosition = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -93,19 +75,17 @@ class _$GReorderBookInListVars extends GReorderBookInListVars {
   @override
   final int newPosition;
 
-  factory _$GReorderBookInListVars([
-    void Function(GReorderBookInListVarsBuilder)? updates,
-  ]) => (GReorderBookInListVarsBuilder()..update(updates))._build();
+  factory _$GReorderBookInListVars(
+          [void Function(GReorderBookInListVarsBuilder)? updates]) =>
+      (GReorderBookInListVarsBuilder()..update(updates))._build();
 
-  _$GReorderBookInListVars._({
-    required this.listId,
-    required this.itemId,
-    required this.newPosition,
-  }) : super._();
+  _$GReorderBookInListVars._(
+      {required this.listId, required this.itemId, required this.newPosition})
+      : super._();
   @override
   GReorderBookInListVars rebuild(
-    void Function(GReorderBookInListVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GReorderBookInListVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GReorderBookInListVarsBuilder toBuilder() =>
@@ -183,24 +163,14 @@ class GReorderBookInListVarsBuilder
   GReorderBookInListVars build() => _build();
 
   _$GReorderBookInListVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GReorderBookInListVars._(
           listId: BuiltValueNullFieldError.checkNotNull(
-            listId,
-            r'GReorderBookInListVars',
-            'listId',
-          ),
+              listId, r'GReorderBookInListVars', 'listId'),
           itemId: BuiltValueNullFieldError.checkNotNull(
-            itemId,
-            r'GReorderBookInListVars',
-            'itemId',
-          ),
+              itemId, r'GReorderBookInListVars', 'itemId'),
           newPosition: BuiltValueNullFieldError.checkNotNull(
-            newPosition,
-            r'GReorderBookInListVars',
-            'newPosition',
-          ),
+              newPosition, r'GReorderBookInListVars', 'newPosition'),
         );
     replace(_$result);
     return _$result;

@@ -6,16 +6,15 @@ part of 'auth_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authStateHash() => r'ae960dceec72ebeff0124f1f31510b1f53c4d292';
+String _$authStateHash() => r'e5cba5e3624539435b9dd7a3fd06eba48eea92c5';
 
 /// See also [AuthState].
 @ProviderFor(AuthState)
 final authStateProvider = NotifierProvider<AuthState, AuthStateData>.internal(
   AuthState.new,
   name: r'authStateProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authStateHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

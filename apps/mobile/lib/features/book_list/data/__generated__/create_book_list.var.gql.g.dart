@@ -14,23 +14,19 @@ class _$GCreateBookListVarsSerializer
   @override
   final Iterable<Type> types = const [
     GCreateBookListVars,
-    _$GCreateBookListVars,
+    _$GCreateBookListVars
   ];
   @override
   final String wireName = 'GCreateBookListVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GCreateBookListVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GCreateBookListVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GCreateBookListInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GCreateBookListInput)),
     ];
 
     return result;
@@ -38,10 +34,8 @@ class _$GCreateBookListVarsSerializer
 
   @override
   GCreateBookListVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GCreateBookListVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -51,13 +45,9 @@ class _$GCreateBookListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GCreateBookListInput),
-                )!
-                as _i1.GCreateBookListInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GCreateBookListInput))!
+              as _i1.GCreateBookListInput);
           break;
       }
     }
@@ -70,15 +60,15 @@ class _$GCreateBookListVars extends GCreateBookListVars {
   @override
   final _i1.GCreateBookListInput input;
 
-  factory _$GCreateBookListVars([
-    void Function(GCreateBookListVarsBuilder)? updates,
-  ]) => (GCreateBookListVarsBuilder()..update(updates))._build();
+  factory _$GCreateBookListVars(
+          [void Function(GCreateBookListVarsBuilder)? updates]) =>
+      (GCreateBookListVarsBuilder()..update(updates))._build();
 
   _$GCreateBookListVars._({required this.input}) : super._();
   @override
   GCreateBookListVars rebuild(
-    void Function(GCreateBookListVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GCreateBookListVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GCreateBookListVarsBuilder toBuilder() =>
@@ -100,9 +90,9 @@ class _$GCreateBookListVars extends GCreateBookListVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GCreateBookListVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GCreateBookListVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -142,7 +132,10 @@ class GCreateBookListVarsBuilder
   _$GCreateBookListVars _build() {
     _$GCreateBookListVars _$result;
     try {
-      _$result = _$v ?? _$GCreateBookListVars._(input: input.build());
+      _$result = _$v ??
+          _$GCreateBookListVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -150,10 +143,7 @@ class GCreateBookListVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GCreateBookListVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GCreateBookListVars', _$failedField, e.toString());
       }
       rethrow;
     }

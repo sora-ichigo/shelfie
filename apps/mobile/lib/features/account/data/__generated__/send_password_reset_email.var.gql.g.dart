@@ -7,7 +7,7 @@ part of 'send_password_reset_email.var.gql.dart';
 // **************************************************************************
 
 Serializer<GSendPasswordResetEmailVars>
-_$gSendPasswordResetEmailVarsSerializer =
+    _$gSendPasswordResetEmailVarsSerializer =
     _$GSendPasswordResetEmailVarsSerializer();
 
 class _$GSendPasswordResetEmailVarsSerializer
@@ -15,23 +15,19 @@ class _$GSendPasswordResetEmailVarsSerializer
   @override
   final Iterable<Type> types = const [
     GSendPasswordResetEmailVars,
-    _$GSendPasswordResetEmailVars,
+    _$GSendPasswordResetEmailVars
   ];
   @override
   final String wireName = 'GSendPasswordResetEmailVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSendPasswordResetEmailVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSendPasswordResetEmailVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GSendPasswordResetEmailInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GSendPasswordResetEmailInput)),
     ];
 
     return result;
@@ -39,10 +35,8 @@ class _$GSendPasswordResetEmailVarsSerializer
 
   @override
   GSendPasswordResetEmailVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSendPasswordResetEmailVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -52,15 +46,10 @@ class _$GSendPasswordResetEmailVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(
-                    _i1.GSendPasswordResetEmailInput,
-                  ),
-                )!
-                as _i1.GSendPasswordResetEmailInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(_i1.GSendPasswordResetEmailInput))!
+              as _i1.GSendPasswordResetEmailInput);
           break;
       }
     }
@@ -73,15 +62,15 @@ class _$GSendPasswordResetEmailVars extends GSendPasswordResetEmailVars {
   @override
   final _i1.GSendPasswordResetEmailInput input;
 
-  factory _$GSendPasswordResetEmailVars([
-    void Function(GSendPasswordResetEmailVarsBuilder)? updates,
-  ]) => (GSendPasswordResetEmailVarsBuilder()..update(updates))._build();
+  factory _$GSendPasswordResetEmailVars(
+          [void Function(GSendPasswordResetEmailVarsBuilder)? updates]) =>
+      (GSendPasswordResetEmailVarsBuilder()..update(updates))._build();
 
   _$GSendPasswordResetEmailVars._({required this.input}) : super._();
   @override
   GSendPasswordResetEmailVars rebuild(
-    void Function(GSendPasswordResetEmailVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSendPasswordResetEmailVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSendPasswordResetEmailVarsBuilder toBuilder() =>
@@ -103,18 +92,16 @@ class _$GSendPasswordResetEmailVars extends GSendPasswordResetEmailVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GSendPasswordResetEmailVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GSendPasswordResetEmailVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
 class GSendPasswordResetEmailVarsBuilder
     implements
-        Builder<
-          GSendPasswordResetEmailVars,
-          GSendPasswordResetEmailVarsBuilder
-        > {
+        Builder<GSendPasswordResetEmailVars,
+            GSendPasswordResetEmailVarsBuilder> {
   _$GSendPasswordResetEmailVars? _$v;
 
   _i1.GSendPasswordResetEmailInputBuilder? _input;
@@ -150,7 +137,10 @@ class GSendPasswordResetEmailVarsBuilder
   _$GSendPasswordResetEmailVars _build() {
     _$GSendPasswordResetEmailVars _$result;
     try {
-      _$result = _$v ?? _$GSendPasswordResetEmailVars._(input: input.build());
+      _$result = _$v ??
+          _$GSendPasswordResetEmailVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -158,10 +148,7 @@ class GSendPasswordResetEmailVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSendPasswordResetEmailVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSendPasswordResetEmailVars', _$failedField, e.toString());
       }
       rethrow;
     }

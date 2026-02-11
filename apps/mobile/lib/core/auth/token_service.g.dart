@@ -13,9 +13,8 @@ String _$tokenServiceHash() => r'fbe13f9e879a72263690c6cfb2614ab5c9fda68f';
 final tokenServiceProvider = Provider<TokenService>.internal(
   tokenService,
   name: r'tokenServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tokenServiceHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tokenServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

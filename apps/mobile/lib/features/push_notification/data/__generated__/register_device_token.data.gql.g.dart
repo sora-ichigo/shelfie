@@ -9,7 +9,7 @@ part of 'register_device_token.data.gql.dart';
 Serializer<GRegisterDeviceTokenData> _$gRegisterDeviceTokenDataSerializer =
     _$GRegisterDeviceTokenDataSerializer();
 Serializer<GRegisterDeviceTokenData_registerDeviceToken>
-_$gRegisterDeviceTokenDataRegisterDeviceTokenSerializer =
+    _$gRegisterDeviceTokenDataRegisterDeviceTokenSerializer =
     _$GRegisterDeviceTokenData_registerDeviceTokenSerializer();
 
 class _$GRegisterDeviceTokenDataSerializer
@@ -17,47 +17,36 @@ class _$GRegisterDeviceTokenDataSerializer
   @override
   final Iterable<Type> types = const [
     GRegisterDeviceTokenData,
-    _$GRegisterDeviceTokenData,
+    _$GRegisterDeviceTokenData
   ];
   @override
   final String wireName = 'GRegisterDeviceTokenData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterDeviceTokenData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRegisterDeviceTokenData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.registerDeviceToken;
     if (value != null) {
       result
         ..add('registerDeviceToken')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(
-              GRegisterDeviceTokenData_registerDeviceToken,
-            ),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GRegisterDeviceTokenData_registerDeviceToken)));
     }
     return result;
   }
 
   @override
   GRegisterDeviceTokenData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterDeviceTokenDataBuilder();
 
     final iterator = serialized.iterator;
@@ -67,23 +56,14 @@ class _$GRegisterDeviceTokenDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'registerDeviceToken':
-          result.registerDeviceToken.replace(
-            serializers.deserialize(
-                  value,
+          result.registerDeviceToken.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GRegisterDeviceTokenData_registerDeviceToken,
-                  ),
-                )!
-                as GRegisterDeviceTokenData_registerDeviceToken,
-          );
+                      GRegisterDeviceTokenData_registerDeviceToken))!
+              as GRegisterDeviceTokenData_registerDeviceToken);
           break;
       }
     }
@@ -98,23 +78,19 @@ class _$GRegisterDeviceTokenData_registerDeviceTokenSerializer
   @override
   final Iterable<Type> types = const [
     GRegisterDeviceTokenData_registerDeviceToken,
-    _$GRegisterDeviceTokenData_registerDeviceToken,
+    _$GRegisterDeviceTokenData_registerDeviceToken
   ];
   @override
   final String wireName = 'GRegisterDeviceTokenData_registerDeviceToken';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterDeviceTokenData_registerDeviceToken object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRegisterDeviceTokenData_registerDeviceToken object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.id;
@@ -133,27 +109,23 @@ class _$GRegisterDeviceTokenData_registerDeviceTokenSerializer
     if (value != null) {
       result
         ..add('platform')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createdAt;
     if (value != null) {
       result
         ..add('createdAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     return result;
   }
 
   @override
   GRegisterDeviceTokenData_registerDeviceToken deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterDeviceTokenData_registerDeviceTokenBuilder();
 
     final iterator = serialized.iterator;
@@ -163,38 +135,24 @@ class _$GRegisterDeviceTokenData_registerDeviceTokenSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'userId':
-          result.userId =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'platform':
-          result.platform =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.platform = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'createdAt':
-          result.createdAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -209,18 +167,17 @@ class _$GRegisterDeviceTokenData extends GRegisterDeviceTokenData {
   @override
   final GRegisterDeviceTokenData_registerDeviceToken? registerDeviceToken;
 
-  factory _$GRegisterDeviceTokenData([
-    void Function(GRegisterDeviceTokenDataBuilder)? updates,
-  ]) => (GRegisterDeviceTokenDataBuilder()..update(updates))._build();
+  factory _$GRegisterDeviceTokenData(
+          [void Function(GRegisterDeviceTokenDataBuilder)? updates]) =>
+      (GRegisterDeviceTokenDataBuilder()..update(updates))._build();
 
-  _$GRegisterDeviceTokenData._({
-    required this.G__typename,
-    this.registerDeviceToken,
-  }) : super._();
+  _$GRegisterDeviceTokenData._(
+      {required this.G__typename, this.registerDeviceToken})
+      : super._();
   @override
   GRegisterDeviceTokenData rebuild(
-    void Function(GRegisterDeviceTokenDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRegisterDeviceTokenDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterDeviceTokenDataBuilder toBuilder() =>
@@ -266,8 +223,9 @@ class GRegisterDeviceTokenDataBuilder
       _$this._registerDeviceToken ??=
           GRegisterDeviceTokenData_registerDeviceTokenBuilder();
   set registerDeviceToken(
-    GRegisterDeviceTokenData_registerDeviceTokenBuilder? registerDeviceToken,
-  ) => _$this._registerDeviceToken = registerDeviceToken;
+          GRegisterDeviceTokenData_registerDeviceTokenBuilder?
+              registerDeviceToken) =>
+      _$this._registerDeviceToken = registerDeviceToken;
 
   GRegisterDeviceTokenDataBuilder() {
     GRegisterDeviceTokenData._initializeBuilder(this);
@@ -299,14 +257,10 @@ class GRegisterDeviceTokenDataBuilder
   _$GRegisterDeviceTokenData _build() {
     _$GRegisterDeviceTokenData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GRegisterDeviceTokenData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GRegisterDeviceTokenData',
-              'G__typename',
-            ),
+                G__typename, r'GRegisterDeviceTokenData', 'G__typename'),
             registerDeviceToken: _registerDeviceToken?.build(),
           );
     } catch (_) {
@@ -316,10 +270,7 @@ class GRegisterDeviceTokenDataBuilder
         _registerDeviceToken?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRegisterDeviceTokenData',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRegisterDeviceTokenData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -341,22 +292,24 @@ class _$GRegisterDeviceTokenData_registerDeviceToken
   @override
   final DateTime? createdAt;
 
-  factory _$GRegisterDeviceTokenData_registerDeviceToken([
-    void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder)? updates,
-  ]) => (GRegisterDeviceTokenData_registerDeviceTokenBuilder()..update(updates))
-      ._build();
+  factory _$GRegisterDeviceTokenData_registerDeviceToken(
+          [void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder)?
+              updates]) =>
+      (GRegisterDeviceTokenData_registerDeviceTokenBuilder()..update(updates))
+          ._build();
 
-  _$GRegisterDeviceTokenData_registerDeviceToken._({
-    required this.G__typename,
-    this.id,
-    this.userId,
-    this.platform,
-    this.createdAt,
-  }) : super._();
+  _$GRegisterDeviceTokenData_registerDeviceToken._(
+      {required this.G__typename,
+      this.id,
+      this.userId,
+      this.platform,
+      this.createdAt})
+      : super._();
   @override
   GRegisterDeviceTokenData_registerDeviceToken rebuild(
-    void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterDeviceTokenData_registerDeviceTokenBuilder toBuilder() =>
@@ -388,8 +341,7 @@ class _$GRegisterDeviceTokenData_registerDeviceToken
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRegisterDeviceTokenData_registerDeviceToken',
-          )
+            r'GRegisterDeviceTokenData_registerDeviceToken')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('userId', userId)
@@ -401,10 +353,8 @@ class _$GRegisterDeviceTokenData_registerDeviceToken
 
 class GRegisterDeviceTokenData_registerDeviceTokenBuilder
     implements
-        Builder<
-          GRegisterDeviceTokenData_registerDeviceToken,
-          GRegisterDeviceTokenData_registerDeviceTokenBuilder
-        > {
+        Builder<GRegisterDeviceTokenData_registerDeviceToken,
+            GRegisterDeviceTokenData_registerDeviceTokenBuilder> {
   _$GRegisterDeviceTokenData_registerDeviceToken? _$v;
 
   String? _G__typename;
@@ -451,8 +401,8 @@ class GRegisterDeviceTokenData_registerDeviceTokenBuilder
 
   @override
   void update(
-    void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder)? updates,
-  ) {
+      void Function(GRegisterDeviceTokenData_registerDeviceTokenBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -460,14 +410,10 @@ class GRegisterDeviceTokenData_registerDeviceTokenBuilder
   GRegisterDeviceTokenData_registerDeviceToken build() => _build();
 
   _$GRegisterDeviceTokenData_registerDeviceToken _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRegisterDeviceTokenData_registerDeviceToken._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRegisterDeviceTokenData_registerDeviceToken',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRegisterDeviceTokenData_registerDeviceToken', 'G__typename'),
           id: id,
           userId: userId,
           platform: platform,

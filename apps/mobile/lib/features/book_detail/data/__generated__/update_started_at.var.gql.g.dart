@@ -14,28 +14,22 @@ class _$GUpdateStartedAtVarsSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateStartedAtVars,
-    _$GUpdateStartedAtVars,
+    _$GUpdateStartedAtVars
   ];
   @override
   final String wireName = 'GUpdateStartedAtVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateStartedAtVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUpdateStartedAtVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'userBookId',
-      serializers.serialize(
-        object.userBookId,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.userBookId,
+          specifiedType: const FullType(int)),
       'startedAt',
-      serializers.serialize(
-        object.startedAt,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.startedAt,
+          specifiedType: const FullType(DateTime)),
     ];
 
     return result;
@@ -43,10 +37,8 @@ class _$GUpdateStartedAtVarsSerializer
 
   @override
   GUpdateStartedAtVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateStartedAtVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -56,20 +48,12 @@ class _$GUpdateStartedAtVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'userBookId':
-          result.userBookId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.userBookId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'startedAt':
-          result.startedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.startedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
       }
     }
@@ -84,16 +68,16 @@ class _$GUpdateStartedAtVars extends GUpdateStartedAtVars {
   @override
   final DateTime startedAt;
 
-  factory _$GUpdateStartedAtVars([
-    void Function(GUpdateStartedAtVarsBuilder)? updates,
-  ]) => (GUpdateStartedAtVarsBuilder()..update(updates))._build();
+  factory _$GUpdateStartedAtVars(
+          [void Function(GUpdateStartedAtVarsBuilder)? updates]) =>
+      (GUpdateStartedAtVarsBuilder()..update(updates))._build();
 
   _$GUpdateStartedAtVars._({required this.userBookId, required this.startedAt})
-    : super._();
+      : super._();
   @override
   GUpdateStartedAtVars rebuild(
-    void Function(GUpdateStartedAtVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUpdateStartedAtVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUpdateStartedAtVarsBuilder toBuilder() =>
@@ -163,19 +147,12 @@ class GUpdateStartedAtVarsBuilder
   GUpdateStartedAtVars build() => _build();
 
   _$GUpdateStartedAtVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GUpdateStartedAtVars._(
           userBookId: BuiltValueNullFieldError.checkNotNull(
-            userBookId,
-            r'GUpdateStartedAtVars',
-            'userBookId',
-          ),
+              userBookId, r'GUpdateStartedAtVars', 'userBookId'),
           startedAt: BuiltValueNullFieldError.checkNotNull(
-            startedAt,
-            r'GUpdateStartedAtVars',
-            'startedAt',
-          ),
+              startedAt, r'GUpdateStartedAtVars', 'startedAt'),
         );
     replace(_$result);
     return _$result;

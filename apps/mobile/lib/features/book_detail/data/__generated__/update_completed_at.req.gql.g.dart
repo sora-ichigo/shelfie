@@ -14,96 +14,70 @@ class _$GUpdateCompletedAtReqSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateCompletedAtReq,
-    _$GUpdateCompletedAtReq,
+    _$GUpdateCompletedAtReq
   ];
   @override
   final String wireName = 'GUpdateCompletedAtReq';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateCompletedAtReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUpdateCompletedAtReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GUpdateCompletedAtVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GUpdateCompletedAtVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GUpdateCompletedAtData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GUpdateCompletedAtData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GUpdateCompletedAtReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateCompletedAtReqBuilder();
 
     final iterator = serialized.iterator;
@@ -113,73 +87,42 @@ class _$GUpdateCompletedAtReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GUpdateCompletedAtVars),
-                )!
-                as _i3.GUpdateCompletedAtVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GUpdateCompletedAtVars))!
+              as _i3.GUpdateCompletedAtVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GUpdateCompletedAtData),
-                )!
-                as _i2.GUpdateCompletedAtData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GUpdateCompletedAtData))!
+              as _i2.GUpdateCompletedAtData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -197,10 +140,7 @@ class _$GUpdateCompletedAtReq extends GUpdateCompletedAtReq {
   final String? requestId;
   @override
   final _i2.GUpdateCompletedAtData? Function(
-    _i2.GUpdateCompletedAtData?,
-    _i2.GUpdateCompletedAtData?,
-  )?
-  updateResult;
+      _i2.GUpdateCompletedAtData?, _i2.GUpdateCompletedAtData?)? updateResult;
   @override
   final _i2.GUpdateCompletedAtData? optimisticResponse;
   @override
@@ -214,26 +154,26 @@ class _$GUpdateCompletedAtReq extends GUpdateCompletedAtReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateCompletedAtReq([
-    void Function(GUpdateCompletedAtReqBuilder)? updates,
-  ]) => (GUpdateCompletedAtReqBuilder()..update(updates))._build();
+  factory _$GUpdateCompletedAtReq(
+          [void Function(GUpdateCompletedAtReqBuilder)? updates]) =>
+      (GUpdateCompletedAtReqBuilder()..update(updates))._build();
 
-  _$GUpdateCompletedAtReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GUpdateCompletedAtReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GUpdateCompletedAtReq rebuild(
-    void Function(GUpdateCompletedAtReqBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUpdateCompletedAtReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUpdateCompletedAtReqBuilder toBuilder() =>
@@ -308,29 +248,22 @@ class GUpdateCompletedAtReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateCompletedAtData? Function(
-    _i2.GUpdateCompletedAtData?,
-    _i2.GUpdateCompletedAtData?,
-  )?
-  _updateResult;
+      _i2.GUpdateCompletedAtData?, _i2.GUpdateCompletedAtData?)? _updateResult;
   _i2.GUpdateCompletedAtData? Function(
-    _i2.GUpdateCompletedAtData?,
-    _i2.GUpdateCompletedAtData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GUpdateCompletedAtData?, _i2.GUpdateCompletedAtData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GUpdateCompletedAtData? Function(
-      _i2.GUpdateCompletedAtData?,
-      _i2.GUpdateCompletedAtData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GUpdateCompletedAtData? Function(
+                  _i2.GUpdateCompletedAtData?, _i2.GUpdateCompletedAtData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GUpdateCompletedAtDataBuilder? _optimisticResponse;
   _i2.GUpdateCompletedAtDataBuilder get optimisticResponse =>
       _$this._optimisticResponse ??= _i2.GUpdateCompletedAtDataBuilder();
   set optimisticResponse(
-    _i2.GUpdateCompletedAtDataBuilder? optimisticResponse,
-  ) => _$this._optimisticResponse = optimisticResponse;
+          _i2.GUpdateCompletedAtDataBuilder? optimisticResponse) =>
+      _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -341,8 +274,8 @@ class GUpdateCompletedAtReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -396,15 +329,11 @@ class GUpdateCompletedAtReqBuilder
   _$GUpdateCompletedAtReq _build() {
     _$GUpdateCompletedAtReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GUpdateCompletedAtReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GUpdateCompletedAtReq',
-              'operation',
-            ),
+                operation, r'GUpdateCompletedAtReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -412,10 +341,7 @@ class GUpdateCompletedAtReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GUpdateCompletedAtReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GUpdateCompletedAtReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -428,10 +354,7 @@ class GUpdateCompletedAtReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUpdateCompletedAtReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUpdateCompletedAtReq', _$failedField, e.toString());
       }
       rethrow;
     }

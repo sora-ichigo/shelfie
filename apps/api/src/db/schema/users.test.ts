@@ -65,6 +65,14 @@ describe("users schema", () => {
       expect(avatarUrlColumn.name).toBe("avatar_url");
       expect(avatarUrlColumn.notNull).toBe(false);
     });
+
+    it("should have handle column as nullable unique text", () => {
+      const handleColumn = users.handle;
+
+      expect(handleColumn.name).toBe("handle");
+      expect(handleColumn.notNull).toBe(false);
+      expect(handleColumn.isUnique).toBe(true);
+    });
   });
 
   describe("index definition", () => {
@@ -81,6 +89,9 @@ describe("users schema", () => {
         firebaseUid: "firebase-uid-123",
         name: "Test User",
         avatarUrl: "https://example.com/avatar.jpg",
+        bio: null,
+        instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -101,12 +112,16 @@ describe("users schema", () => {
         firebaseUid: "firebase-uid-123",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       expect(user.name).toBeNull();
       expect(user.avatarUrl).toBeNull();
+      expect(user.handle).toBeNull();
     });
 
     it("should infer NewUser type for insert operations (id should be optional)", () => {

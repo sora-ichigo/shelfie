@@ -691,6 +691,15 @@ input UpdateProfileInput {
   """User avatar image URL"""
   avatarUrl: String
 
+  """User bio text"""
+  bio: String
+
+  """User unique handle"""
+  handle: String
+
+  """User Instagram handle"""
+  instagramHandle: String
+
   """User display name"""
   name: String!
 }
@@ -718,6 +727,9 @@ type User {
   """The URL of the user's avatar image (128x128)"""
   avatarUrl: String
 
+  """The user's bio"""
+  bio: String
+
   """The number of books in the user's shelf"""
   bookCount: Int!
 
@@ -729,6 +741,12 @@ type User {
 
   """The unique identifier of the user"""
   id: Int
+
+  """The user's unique handle"""
+  handle: String
+
+  """The user's Instagram handle"""
+  instagramHandle: String
 
   """The display name of the user"""
   name: String

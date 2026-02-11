@@ -9,10 +9,10 @@ part of 'search_books.data.gql.dart';
 Serializer<GSearchBooksData> _$gSearchBooksDataSerializer =
     _$GSearchBooksDataSerializer();
 Serializer<GSearchBooksData_searchBooks>
-_$gSearchBooksDataSearchBooksSerializer =
+    _$gSearchBooksDataSearchBooksSerializer =
     _$GSearchBooksData_searchBooksSerializer();
 Serializer<GSearchBooksData_searchBooks_items>
-_$gSearchBooksDataSearchBooksItemsSerializer =
+    _$gSearchBooksDataSearchBooksItemsSerializer =
     _$GSearchBooksData_searchBooks_itemsSerializer();
 
 class _$GSearchBooksDataSerializer
@@ -23,22 +23,15 @@ class _$GSearchBooksDataSerializer
   final String wireName = 'GSearchBooksData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBooksData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GSearchBooksData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'searchBooks',
-      serializers.serialize(
-        object.searchBooks,
-        specifiedType: const FullType(GSearchBooksData_searchBooks),
-      ),
+      serializers.serialize(object.searchBooks,
+          specifiedType: const FullType(GSearchBooksData_searchBooks)),
     ];
 
     return result;
@@ -46,10 +39,8 @@ class _$GSearchBooksDataSerializer
 
   @override
   GSearchBooksData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBooksDataBuilder();
 
     final iterator = serialized.iterator;
@@ -59,21 +50,13 @@ class _$GSearchBooksDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'searchBooks':
-          result.searchBooks.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(GSearchBooksData_searchBooks),
-                )!
-                as GSearchBooksData_searchBooks,
-          );
+          result.searchBooks.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(GSearchBooksData_searchBooks))!
+              as GSearchBooksData_searchBooks);
           break;
       }
     }
@@ -87,40 +70,29 @@ class _$GSearchBooksData_searchBooksSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBooksData_searchBooks,
-    _$GSearchBooksData_searchBooks,
+    _$GSearchBooksData_searchBooks
   ];
   @override
   final String wireName = 'GSearchBooksData_searchBooks';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBooksData_searchBooks object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBooksData_searchBooks object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'items',
-      serializers.serialize(
-        object.items,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(GSearchBooksData_searchBooks_items),
-        ]),
-      ),
+      serializers.serialize(object.items,
+          specifiedType: const FullType(BuiltList,
+              const [const FullType(GSearchBooksData_searchBooks_items)])),
       'totalCount',
-      serializers.serialize(
-        object.totalCount,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.totalCount,
+          specifiedType: const FullType(int)),
       'hasMore',
-      serializers.serialize(
-        object.hasMore,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.hasMore,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -128,10 +100,8 @@ class _$GSearchBooksData_searchBooksSerializer
 
   @override
   GSearchBooksData_searchBooks deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBooksData_searchBooksBuilder();
 
     final iterator = serialized.iterator;
@@ -141,39 +111,22 @@ class _$GSearchBooksData_searchBooksSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'items':
-          result.items.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(GSearchBooksData_searchBooks_items),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.items.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(GSearchBooksData_searchBooks_items)
+              ]))! as BuiltList<Object?>);
           break;
         case 'totalCount':
-          result.totalCount =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.totalCount = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'hasMore':
-          result.hasMore =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.hasMore = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -187,85 +140,68 @@ class _$GSearchBooksData_searchBooks_itemsSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBooksData_searchBooks_items,
-    _$GSearchBooksData_searchBooks_items,
+    _$GSearchBooksData_searchBooks_items
   ];
   @override
   final String wireName = 'GSearchBooksData_searchBooks_items';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBooksData_searchBooks_items object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBooksData_searchBooks_items object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
       'title',
-      serializers.serialize(
-        object.title,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'authors',
-      serializers.serialize(
-        object.authors,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(String),
-        ]),
-      ),
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'source',
-      serializers.serialize(
-        object.source,
-        specifiedType: const FullType(_i2.GBookSource),
-      ),
+      serializers.serialize(object.source,
+          specifiedType: const FullType(_i2.GBookSource)),
     ];
     Object? value;
     value = object.publisher;
     if (value != null) {
       result
         ..add('publisher')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.publishedDate;
     if (value != null) {
       result
         ..add('publishedDate')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.isbn;
     if (value != null) {
       result
         ..add('isbn')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
   GSearchBooksData_searchBooks_items deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBooksData_searchBooks_itemsBuilder();
 
     final iterator = serialized.iterator;
@@ -275,79 +211,43 @@ class _$GSearchBooksData_searchBooks_itemsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'title':
-          result.title =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'authors':
-          result.authors.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(String),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'publisher':
-          result.publisher =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.publisher = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'publishedDate':
-          result.publishedDate =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.publishedDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'isbn':
-          result.isbn =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.isbn = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'coverImageUrl':
-          result.coverImageUrl =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.coverImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'source':
-          result.source =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i2.GBookSource),
-                  )!
-                  as _i2.GBookSource;
+          result.source = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GBookSource))!
+              as _i2.GBookSource;
           break;
       }
     }
@@ -362,12 +262,12 @@ class _$GSearchBooksData extends GSearchBooksData {
   @override
   final GSearchBooksData_searchBooks searchBooks;
 
-  factory _$GSearchBooksData([
-    void Function(GSearchBooksDataBuilder)? updates,
-  ]) => (GSearchBooksDataBuilder()..update(updates))._build();
+  factory _$GSearchBooksData(
+          [void Function(GSearchBooksDataBuilder)? updates]) =>
+      (GSearchBooksDataBuilder()..update(updates))._build();
 
   _$GSearchBooksData._({required this.G__typename, required this.searchBooks})
-    : super._();
+      : super._();
   @override
   GSearchBooksData rebuild(void Function(GSearchBooksDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -446,14 +346,10 @@ class GSearchBooksDataBuilder
   _$GSearchBooksData _build() {
     _$GSearchBooksData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBooksData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSearchBooksData',
-              'G__typename',
-            ),
+                G__typename, r'GSearchBooksData', 'G__typename'),
             searchBooks: searchBooks.build(),
           );
     } catch (_) {
@@ -463,10 +359,7 @@ class GSearchBooksDataBuilder
         searchBooks.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBooksData',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBooksData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -485,20 +378,20 @@ class _$GSearchBooksData_searchBooks extends GSearchBooksData_searchBooks {
   @override
   final bool hasMore;
 
-  factory _$GSearchBooksData_searchBooks([
-    void Function(GSearchBooksData_searchBooksBuilder)? updates,
-  ]) => (GSearchBooksData_searchBooksBuilder()..update(updates))._build();
+  factory _$GSearchBooksData_searchBooks(
+          [void Function(GSearchBooksData_searchBooksBuilder)? updates]) =>
+      (GSearchBooksData_searchBooksBuilder()..update(updates))._build();
 
-  _$GSearchBooksData_searchBooks._({
-    required this.G__typename,
-    required this.items,
-    required this.totalCount,
-    required this.hasMore,
-  }) : super._();
+  _$GSearchBooksData_searchBooks._(
+      {required this.G__typename,
+      required this.items,
+      required this.totalCount,
+      required this.hasMore})
+      : super._();
   @override
   GSearchBooksData_searchBooks rebuild(
-    void Function(GSearchBooksData_searchBooksBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBooksData_searchBooksBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBooksData_searchBooksBuilder toBuilder() =>
@@ -538,10 +431,8 @@ class _$GSearchBooksData_searchBooks extends GSearchBooksData_searchBooks {
 
 class GSearchBooksData_searchBooksBuilder
     implements
-        Builder<
-          GSearchBooksData_searchBooks,
-          GSearchBooksData_searchBooksBuilder
-        > {
+        Builder<GSearchBooksData_searchBooks,
+            GSearchBooksData_searchBooksBuilder> {
   _$GSearchBooksData_searchBooks? _$v;
 
   String? _G__typename;
@@ -594,25 +485,15 @@ class GSearchBooksData_searchBooksBuilder
   _$GSearchBooksData_searchBooks _build() {
     _$GSearchBooksData_searchBooks _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBooksData_searchBooks._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSearchBooksData_searchBooks',
-              'G__typename',
-            ),
+                G__typename, r'GSearchBooksData_searchBooks', 'G__typename'),
             items: items.build(),
             totalCount: BuiltValueNullFieldError.checkNotNull(
-              totalCount,
-              r'GSearchBooksData_searchBooks',
-              'totalCount',
-            ),
+                totalCount, r'GSearchBooksData_searchBooks', 'totalCount'),
             hasMore: BuiltValueNullFieldError.checkNotNull(
-              hasMore,
-              r'GSearchBooksData_searchBooks',
-              'hasMore',
-            ),
+                hasMore, r'GSearchBooksData_searchBooks', 'hasMore'),
           );
     } catch (_) {
       late String _$failedField;
@@ -621,10 +502,7 @@ class GSearchBooksData_searchBooksBuilder
         items.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBooksData_searchBooks',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBooksData_searchBooks', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -654,25 +532,26 @@ class _$GSearchBooksData_searchBooks_items
   @override
   final _i2.GBookSource source;
 
-  factory _$GSearchBooksData_searchBooks_items([
-    void Function(GSearchBooksData_searchBooks_itemsBuilder)? updates,
-  ]) => (GSearchBooksData_searchBooks_itemsBuilder()..update(updates))._build();
+  factory _$GSearchBooksData_searchBooks_items(
+          [void Function(GSearchBooksData_searchBooks_itemsBuilder)?
+              updates]) =>
+      (GSearchBooksData_searchBooks_itemsBuilder()..update(updates))._build();
 
-  _$GSearchBooksData_searchBooks_items._({
-    required this.G__typename,
-    required this.id,
-    required this.title,
-    required this.authors,
-    this.publisher,
-    this.publishedDate,
-    this.isbn,
-    this.coverImageUrl,
-    required this.source,
-  }) : super._();
+  _$GSearchBooksData_searchBooks_items._(
+      {required this.G__typename,
+      required this.id,
+      required this.title,
+      required this.authors,
+      this.publisher,
+      this.publishedDate,
+      this.isbn,
+      this.coverImageUrl,
+      required this.source})
+      : super._();
   @override
   GSearchBooksData_searchBooks_items rebuild(
-    void Function(GSearchBooksData_searchBooks_itemsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBooksData_searchBooks_itemsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBooksData_searchBooks_itemsBuilder toBuilder() =>
@@ -727,10 +606,8 @@ class _$GSearchBooksData_searchBooks_items
 
 class GSearchBooksData_searchBooks_itemsBuilder
     implements
-        Builder<
-          GSearchBooksData_searchBooks_items,
-          GSearchBooksData_searchBooks_itemsBuilder
-        > {
+        Builder<GSearchBooksData_searchBooks_items,
+            GSearchBooksData_searchBooks_itemsBuilder> {
   _$GSearchBooksData_searchBooks_items? _$v;
 
   String? _G__typename;
@@ -799,8 +676,7 @@ class GSearchBooksData_searchBooks_itemsBuilder
 
   @override
   void update(
-    void Function(GSearchBooksData_searchBooks_itemsBuilder)? updates,
-  ) {
+      void Function(GSearchBooksData_searchBooks_itemsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -810,34 +686,21 @@ class GSearchBooksData_searchBooks_itemsBuilder
   _$GSearchBooksData_searchBooks_items _build() {
     _$GSearchBooksData_searchBooks_items _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBooksData_searchBooks_items._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSearchBooksData_searchBooks_items',
-              'G__typename',
-            ),
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GSearchBooksData_searchBooks_items', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GSearchBooksData_searchBooks_items',
-              'id',
-            ),
+                id, r'GSearchBooksData_searchBooks_items', 'id'),
             title: BuiltValueNullFieldError.checkNotNull(
-              title,
-              r'GSearchBooksData_searchBooks_items',
-              'title',
-            ),
+                title, r'GSearchBooksData_searchBooks_items', 'title'),
             authors: authors.build(),
             publisher: publisher,
             publishedDate: publishedDate,
             isbn: isbn,
             coverImageUrl: coverImageUrl,
             source: BuiltValueNullFieldError.checkNotNull(
-              source,
-              r'GSearchBooksData_searchBooks_items',
-              'source',
-            ),
+                source, r'GSearchBooksData_searchBooks_items', 'source'),
           );
     } catch (_) {
       late String _$failedField;
@@ -846,10 +709,7 @@ class GSearchBooksData_searchBooks_itemsBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBooksData_searchBooks_items',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBooksData_searchBooks_items', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -14,96 +14,70 @@ class _$GUnregisterDeviceTokenReqSerializer
   @override
   final Iterable<Type> types = const [
     GUnregisterDeviceTokenReq,
-    _$GUnregisterDeviceTokenReq,
+    _$GUnregisterDeviceTokenReq
   ];
   @override
   final String wireName = 'GUnregisterDeviceTokenReq';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUnregisterDeviceTokenReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUnregisterDeviceTokenReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GUnregisterDeviceTokenVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GUnregisterDeviceTokenVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GUnregisterDeviceTokenData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GUnregisterDeviceTokenData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GUnregisterDeviceTokenReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUnregisterDeviceTokenReqBuilder();
 
     final iterator = serialized.iterator;
@@ -113,73 +87,44 @@ class _$GUnregisterDeviceTokenReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GUnregisterDeviceTokenVars),
-                )!
-                as _i3.GUnregisterDeviceTokenVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(_i3.GUnregisterDeviceTokenVars))!
+              as _i3.GUnregisterDeviceTokenVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GUnregisterDeviceTokenData),
-                )!
-                as _i2.GUnregisterDeviceTokenData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(_i2.GUnregisterDeviceTokenData))!
+              as _i2.GUnregisterDeviceTokenData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -197,10 +142,8 @@ class _$GUnregisterDeviceTokenReq extends GUnregisterDeviceTokenReq {
   final String? requestId;
   @override
   final _i2.GUnregisterDeviceTokenData? Function(
-    _i2.GUnregisterDeviceTokenData?,
-    _i2.GUnregisterDeviceTokenData?,
-  )?
-  updateResult;
+          _i2.GUnregisterDeviceTokenData?, _i2.GUnregisterDeviceTokenData?)?
+      updateResult;
   @override
   final _i2.GUnregisterDeviceTokenData? optimisticResponse;
   @override
@@ -214,26 +157,26 @@ class _$GUnregisterDeviceTokenReq extends GUnregisterDeviceTokenReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUnregisterDeviceTokenReq([
-    void Function(GUnregisterDeviceTokenReqBuilder)? updates,
-  ]) => (GUnregisterDeviceTokenReqBuilder()..update(updates))._build();
+  factory _$GUnregisterDeviceTokenReq(
+          [void Function(GUnregisterDeviceTokenReqBuilder)? updates]) =>
+      (GUnregisterDeviceTokenReqBuilder()..update(updates))._build();
 
-  _$GUnregisterDeviceTokenReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GUnregisterDeviceTokenReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GUnregisterDeviceTokenReq rebuild(
-    void Function(GUnregisterDeviceTokenReqBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUnregisterDeviceTokenReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUnregisterDeviceTokenReqBuilder toBuilder() =>
@@ -309,29 +252,24 @@ class GUnregisterDeviceTokenReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUnregisterDeviceTokenData? Function(
-    _i2.GUnregisterDeviceTokenData?,
-    _i2.GUnregisterDeviceTokenData?,
-  )?
-  _updateResult;
+          _i2.GUnregisterDeviceTokenData?, _i2.GUnregisterDeviceTokenData?)?
+      _updateResult;
   _i2.GUnregisterDeviceTokenData? Function(
-    _i2.GUnregisterDeviceTokenData?,
-    _i2.GUnregisterDeviceTokenData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GUnregisterDeviceTokenData?, _i2.GUnregisterDeviceTokenData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GUnregisterDeviceTokenData? Function(
-      _i2.GUnregisterDeviceTokenData?,
-      _i2.GUnregisterDeviceTokenData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GUnregisterDeviceTokenData? Function(
+                  _i2.GUnregisterDeviceTokenData?,
+                  _i2.GUnregisterDeviceTokenData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GUnregisterDeviceTokenDataBuilder? _optimisticResponse;
   _i2.GUnregisterDeviceTokenDataBuilder get optimisticResponse =>
       _$this._optimisticResponse ??= _i2.GUnregisterDeviceTokenDataBuilder();
   set optimisticResponse(
-    _i2.GUnregisterDeviceTokenDataBuilder? optimisticResponse,
-  ) => _$this._optimisticResponse = optimisticResponse;
+          _i2.GUnregisterDeviceTokenDataBuilder? optimisticResponse) =>
+      _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -342,8 +280,8 @@ class GUnregisterDeviceTokenReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -397,15 +335,11 @@ class GUnregisterDeviceTokenReqBuilder
   _$GUnregisterDeviceTokenReq _build() {
     _$GUnregisterDeviceTokenReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GUnregisterDeviceTokenReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GUnregisterDeviceTokenReq',
-              'operation',
-            ),
+                operation, r'GUnregisterDeviceTokenReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -413,10 +347,9 @@ class GUnregisterDeviceTokenReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GUnregisterDeviceTokenReq',
-              'executeOnListen',
-            ),
+                executeOnListen,
+                r'GUnregisterDeviceTokenReq',
+                'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -429,10 +362,7 @@ class GUnregisterDeviceTokenReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUnregisterDeviceTokenReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUnregisterDeviceTokenReq', _$failedField, e.toString());
       }
       rethrow;
     }

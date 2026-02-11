@@ -9,21 +9,20 @@ part of 'register_user.data.gql.dart';
 Serializer<GRegisterUserData> _$gRegisterUserDataSerializer =
     _$GRegisterUserDataSerializer();
 Serializer<GRegisterUserData_registerUser__base>
-_$gRegisterUserDataRegisterUserBaseSerializer =
+    _$gRegisterUserDataRegisterUserBaseSerializer =
     _$GRegisterUserData_registerUser__baseSerializer();
 Serializer<GRegisterUserData_registerUser__asMutationRegisterUserSuccess>
-_$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessSerializer =
+    _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessSerializer =
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer();
 Serializer<GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data>
-_$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataSerializer =
+    _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataSerializer =
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerializer();
 Serializer<
-  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
->
-_$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataUserSerializer =
+        GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user>
+    _$gRegisterUserDataRegisterUserAsMutationRegisterUserSuccessDataUserSerializer =
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userSerializer();
 Serializer<GRegisterUserData_registerUser__asAuthError>
-_$gRegisterUserDataRegisterUserAsAuthErrorSerializer =
+    _$gRegisterUserDataRegisterUserAsAuthErrorSerializer =
     _$GRegisterUserData_registerUser__asAuthErrorSerializer();
 
 class _$GRegisterUserDataSerializer
@@ -34,39 +33,28 @@ class _$GRegisterUserDataSerializer
   final String wireName = 'GRegisterUserData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GRegisterUserData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.registerUser;
     if (value != null) {
       result
         ..add('registerUser')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(GRegisterUserData_registerUser),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GRegisterUserData_registerUser)));
     }
     return result;
   }
 
   @override
   GRegisterUserData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterUserDataBuilder();
 
     final iterator = serialized.iterator;
@@ -76,22 +64,13 @@ class _$GRegisterUserDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'registerUser':
-          result.registerUser =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(
-                      GRegisterUserData_registerUser,
-                    ),
-                  )
-                  as GRegisterUserData_registerUser?;
+          result.registerUser = serializers.deserialize(value,
+                  specifiedType: const FullType(GRegisterUserData_registerUser))
+              as GRegisterUserData_registerUser?;
           break;
       }
     }
@@ -105,23 +84,19 @@ class _$GRegisterUserData_registerUser__baseSerializer
   @override
   final Iterable<Type> types = const [
     GRegisterUserData_registerUser__base,
-    _$GRegisterUserData_registerUser__base,
+    _$GRegisterUserData_registerUser__base
   ];
   @override
   final String wireName = 'GRegisterUserData_registerUser__base';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData_registerUser__base object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRegisterUserData_registerUser__base object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -129,10 +104,8 @@ class _$GRegisterUserData_registerUser__baseSerializer
 
   @override
   GRegisterUserData_registerUser__base deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterUserData_registerUser__baseBuilder();
 
     final iterator = serialized.iterator;
@@ -142,12 +115,8 @@ class _$GRegisterUserData_registerUser__baseSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -159,36 +128,28 @@ class _$GRegisterUserData_registerUser__baseSerializer
 class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer
     implements
         StructuredSerializer<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess
-        > {
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess> {
   @override
   final Iterable<Type> types = const [
     GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
-    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
+    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
   ];
   @override
   final String wireName =
       'GRegisterUserData_registerUser__asMutationRegisterUserSuccess';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'data',
-      serializers.serialize(
-        object.data,
-        specifiedType: const FullType(
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
-        ),
-      ),
+      serializers.serialize(object.data,
+          specifiedType: const FullType(
+              GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data)),
     ];
 
     return result;
@@ -196,10 +157,8 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result =
         GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder();
 
@@ -210,23 +169,14 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'data':
-          result.data.replace(
-            serializers.deserialize(
-                  value,
+          result.data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
-                  ),
-                )!
-                as GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
-          );
+                      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data))!
+              as GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data);
           break;
       }
     }
@@ -238,46 +188,34 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccessSerializer
 class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerializer
     implements
         StructuredSerializer<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
-        > {
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data> {
   @override
   final Iterable<Type> types = const [
     GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
-    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
+    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
   ];
   @override
   final String wireName =
       'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'user',
-      serializers.serialize(
-        object.user,
-        specifiedType: const FullType(
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
-        ),
-      ),
+      serializers.serialize(object.user,
+          specifiedType: const FullType(
+              GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user)),
       'idToken',
-      serializers.serialize(
-        object.idToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.idToken,
+          specifiedType: const FullType(String)),
       'refreshToken',
-      serializers.serialize(
-        object.refreshToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.refreshToken,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -285,11 +223,8 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerial
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
-  deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      deserialize(Serializers serializers, Iterable<Object?> serialized,
+          {FullType specifiedType = FullType.unspecified}) {
     final result =
         GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
 
@@ -300,39 +235,22 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerial
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'user':
-          result.user.replace(
-            serializers.deserialize(
-                  value,
+          result.user.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
-                  ),
-                )!
-                as GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
-          );
+                      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user))!
+              as GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user);
           break;
         case 'idToken':
-          result.idToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.idToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'refreshToken':
-          result.refreshToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -344,12 +262,11 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataSerial
 class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userSerializer
     implements
         StructuredSerializer<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-        > {
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user> {
   @override
   final Iterable<Type> types = const [
     GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
-    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
+    _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
   ];
   @override
   final String wireName =
@@ -357,17 +274,14 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userS
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-    object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers,
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+          object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.id;
@@ -380,28 +294,23 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userS
     if (value != null) {
       result
         ..add('email')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createdAt;
     if (value != null) {
       result
         ..add('createdAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     return result;
   }
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-  deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      deserialize(Serializers serializers, Iterable<Object?> serialized,
+          {FullType specifiedType = FullType.unspecified}) {
     final result =
         GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder();
 
@@ -412,33 +321,20 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userS
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'email':
-          result.email =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'createdAt':
-          result.createdAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -453,69 +349,56 @@ class _$GRegisterUserData_registerUser__asAuthErrorSerializer
   @override
   final Iterable<Type> types = const [
     GRegisterUserData_registerUser__asAuthError,
-    _$GRegisterUserData_registerUser__asAuthError,
+    _$GRegisterUserData_registerUser__asAuthError
   ];
   @override
   final String wireName = 'GRegisterUserData_registerUser__asAuthError';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserData_registerUser__asAuthError object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRegisterUserData_registerUser__asAuthError object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.code;
     if (value != null) {
       result
         ..add('code')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i3.GAuthErrorCode),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GAuthErrorCode)));
     }
     value = object.message;
     if (value != null) {
       result
         ..add('message')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.field;
     if (value != null) {
       result
         ..add('field')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.retryable;
     if (value != null) {
       result
         ..add('retryable')
         ..add(
-          serializers.serialize(value, specifiedType: const FullType(bool)),
-        );
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   GRegisterUserData_registerUser__asAuthError deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterUserData_registerUser__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
@@ -525,44 +408,25 @@ class _$GRegisterUserData_registerUser__asAuthErrorSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'code':
-          result.code =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i3.GAuthErrorCode),
-                  )
-                  as _i3.GAuthErrorCode?;
+          result.code = serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GAuthErrorCode))
+              as _i3.GAuthErrorCode?;
           break;
         case 'message':
-          result.message =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'field':
-          result.field =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.field = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'retryable':
-          result.retryable =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )
-                  as bool?;
+          result.retryable = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -577,12 +441,12 @@ class _$GRegisterUserData extends GRegisterUserData {
   @override
   final GRegisterUserData_registerUser? registerUser;
 
-  factory _$GRegisterUserData([
-    void Function(GRegisterUserDataBuilder)? updates,
-  ]) => (GRegisterUserDataBuilder()..update(updates))._build();
+  factory _$GRegisterUserData(
+          [void Function(GRegisterUserDataBuilder)? updates]) =>
+      (GRegisterUserDataBuilder()..update(updates))._build();
 
   _$GRegisterUserData._({required this.G__typename, this.registerUser})
-    : super._();
+      : super._();
   @override
   GRegisterUserData rebuild(void Function(GRegisterUserDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -658,14 +522,10 @@ class GRegisterUserDataBuilder
   GRegisterUserData build() => _build();
 
   _$GRegisterUserData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRegisterUserData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRegisterUserData',
-            'G__typename',
-          ),
+              G__typename, r'GRegisterUserData', 'G__typename'),
           registerUser: registerUser,
         );
     replace(_$result);
@@ -678,17 +538,17 @@ class _$GRegisterUserData_registerUser__base
   @override
   final String G__typename;
 
-  factory _$GRegisterUserData_registerUser__base([
-    void Function(GRegisterUserData_registerUser__baseBuilder)? updates,
-  ]) =>
+  factory _$GRegisterUserData_registerUser__base(
+          [void Function(GRegisterUserData_registerUser__baseBuilder)?
+              updates]) =>
       (GRegisterUserData_registerUser__baseBuilder()..update(updates))._build();
 
   _$GRegisterUserData_registerUser__base._({required this.G__typename})
-    : super._();
+      : super._();
   @override
   GRegisterUserData_registerUser__base rebuild(
-    void Function(GRegisterUserData_registerUser__baseBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRegisterUserData_registerUser__baseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserData_registerUser__baseBuilder toBuilder() =>
@@ -711,18 +571,16 @@ class _$GRegisterUserData_registerUser__base
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GRegisterUserData_registerUser__base',
-    )..add('G__typename', G__typename)).toString();
+    return (newBuiltValueToStringHelper(r'GRegisterUserData_registerUser__base')
+          ..add('G__typename', G__typename))
+        .toString();
   }
 }
 
 class GRegisterUserData_registerUser__baseBuilder
     implements
-        Builder<
-          GRegisterUserData_registerUser__base,
-          GRegisterUserData_registerUser__baseBuilder
-        > {
+        Builder<GRegisterUserData_registerUser__base,
+            GRegisterUserData_registerUser__baseBuilder> {
   _$GRegisterUserData_registerUser__base? _$v;
 
   String? _G__typename;
@@ -749,8 +607,7 @@ class GRegisterUserData_registerUser__baseBuilder
 
   @override
   void update(
-    void Function(GRegisterUserData_registerUser__baseBuilder)? updates,
-  ) {
+      void Function(GRegisterUserData_registerUser__baseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -758,14 +615,10 @@ class GRegisterUserData_registerUser__baseBuilder
   GRegisterUserData_registerUser__base build() => _build();
 
   _$GRegisterUserData_registerUser__base _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRegisterUserData_registerUser__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRegisterUserData_registerUser__base',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRegisterUserData_registerUser__base', 'G__typename'),
         );
     replace(_$result);
     return _$result;
@@ -779,33 +632,29 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
   @override
   final GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data data;
 
-  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess([
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess(
+          [void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder)?
+              updates]) =>
       (GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
             ..update(updates))
           ._build();
 
-  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._({
-    required this.G__typename,
-    required this.data,
-  }) : super._();
+  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._(
+      {required this.G__typename, required this.data})
+      : super._();
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess rebuild(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
-  toBuilder() =>
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -828,8 +677,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-          )
+            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess')
           ..add('G__typename', G__typename)
           ..add('data', data))
         .toString();
@@ -838,10 +686,8 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess
 
 class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
     implements
-        Builder<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
-        > {
+        Builder<GRegisterUserData_registerUser__asMutationRegisterUserSuccess,
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder> {
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess? _$v;
 
   String? _G__typename;
@@ -849,23 +695,22 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder?
-  _data;
+      _data;
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
-  get data => _$this._data ??=
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
+      get data => _$this._data ??=
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder();
   set data(
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder?
-    data,
-  ) => _$this._data = data;
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder?
+              data) =>
+      _$this._data = data;
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder() {
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess._initializeBuilder(
-      this,
-    );
+    GRegisterUserData_registerUser__asMutationRegisterUserSuccess
+        ._initializeBuilder(this);
   }
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -877,20 +722,16 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
 
   @override
   void replace(
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess other,
-  ) {
-    _$v =
-        other
-            as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess;
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess other) {
+    _$v = other
+        as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess;
   }
 
   @override
   void update(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -901,14 +742,12 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess _build() {
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-              'G__typename',
-            ),
+                G__typename,
+                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
+                'G__typename'),
             data: data.build(),
           );
     } catch (_) {
@@ -918,10 +757,9 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccessBuilder
         data.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }
@@ -936,41 +774,38 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
   final String G__typename;
   @override
   final GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-  user;
+      user;
   @override
   final String idToken;
   @override
   final String refreshToken;
 
-  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data([
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data(
+          [void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder)?
+              updates]) =>
       (GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
-  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._({
-    required this.G__typename,
-    required this.user,
-    required this.idToken,
-    required this.refreshToken,
-  }) : super._();
+  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._(
+      {required this.G__typename,
+      required this.user,
+      required this.idToken,
+      required this.refreshToken})
+      : super._();
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data rebuild(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
-  toBuilder() =>
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -997,8 +832,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-          )
+            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data')
           ..add('G__typename', G__typename)
           ..add('user', user)
           ..add('idToken', idToken)
@@ -1010,9 +844,8 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
 class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
     implements
         Builder<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
-        > {
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data,
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder> {
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data? _$v;
 
   String? _G__typename;
@@ -1020,14 +853,14 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder?
-  _user;
+      _user;
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
-  get user => _$this._user ??=
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder();
+      get user => _$this._user ??=
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder();
   set user(
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder?
-    user,
-  ) => _$this._user = user;
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder?
+              user) =>
+      _$this._user = user;
 
   String? _idToken;
   String? get idToken => _$this._idToken;
@@ -1038,13 +871,12 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
   set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder() {
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._initializeBuilder(
-      this,
-    );
+    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
+        ._initializeBuilder(this);
   }
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -1058,20 +890,17 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
 
   @override
   void replace(
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data other,
-  ) {
-    _$v =
-        other
-            as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data;
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
+          other) {
+    _$v = other
+        as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data;
   }
 
   @override
   void update(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -1080,29 +909,26 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
       _build();
 
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
-  _build() {
+      _build() {
     _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
-    _$result;
+        _$result;
     try {
-      _$result =
-          _$v ??
-          _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data._(
+      _$result = _$v ??
+          _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data
+              ._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-              'G__typename',
-            ),
+                G__typename,
+                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
+                'G__typename'),
             user: user.build(),
             idToken: BuiltValueNullFieldError.checkNotNull(
-              idToken,
-              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-              'idToken',
-            ),
+                idToken,
+                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
+                'idToken'),
             refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken,
-              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-              'refreshToken',
-            ),
+                refreshToken,
+                r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
+                'refreshToken'),
           );
     } catch (_) {
       late String _$failedField;
@@ -1111,10 +937,9 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
         user.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }
@@ -1124,8 +949,7 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_dataBuilder
 }
 
 class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-    extends
-        GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user {
+    extends GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user {
   @override
   final String G__typename;
   @override
@@ -1135,36 +959,29 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
   @override
   final DateTime? createdAt;
 
-  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user([
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user(
+          [void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder)?
+              updates]) =>
       (GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder()
             ..update(updates))
           ._build();
 
-  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user._({
-    required this.G__typename,
-    this.id,
-    this.email,
-    this.createdAt,
-  }) : super._();
+  _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user._(
+      {required this.G__typename, this.id, this.email, this.createdAt})
+      : super._();
   @override
-  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-  rebuild(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user rebuild(
+          void Function(
+                  GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
-  toBuilder() =>
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1191,8 +1008,7 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user',
-          )
+            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('email', email)
@@ -1204,11 +1020,10 @@ class _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
 class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
     implements
         Builder<
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
-          GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
-        > {
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user,
+            GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder> {
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user?
-  _$v;
+      _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
@@ -1227,13 +1042,12 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBui
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder() {
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user._initializeBuilder(
-      this,
-    );
+    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+        ._initializeBuilder(this);
   }
 
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -1247,38 +1061,33 @@ class GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBui
 
   @override
   void replace(
-    GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-    other,
-  ) {
-    _$v =
-        other
-            as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user;
+      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+          other) {
+    _$v = other
+        as _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user;
   }
 
   @override
   void update(
-    void Function(
-      GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_userBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
   @override
   GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-  build() => _build();
+      build() => _build();
 
   _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
-  _build() {
-    final _$result =
-        _$v ??
-        _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user._(
+      _build() {
+    final _$result = _$v ??
+        _$GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user
+            ._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user',
-            'G__typename',
-          ),
+              G__typename,
+              r'GRegisterUserData_registerUser__asMutationRegisterUserSuccess_data_user',
+              'G__typename'),
           id: id,
           email: email,
           createdAt: createdAt,
@@ -1301,22 +1110,24 @@ class _$GRegisterUserData_registerUser__asAuthError
   @override
   final bool? retryable;
 
-  factory _$GRegisterUserData_registerUser__asAuthError([
-    void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)? updates,
-  ]) => (GRegisterUserData_registerUser__asAuthErrorBuilder()..update(updates))
-      ._build();
+  factory _$GRegisterUserData_registerUser__asAuthError(
+          [void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)?
+              updates]) =>
+      (GRegisterUserData_registerUser__asAuthErrorBuilder()..update(updates))
+          ._build();
 
-  _$GRegisterUserData_registerUser__asAuthError._({
-    required this.G__typename,
-    this.code,
-    this.message,
-    this.field,
-    this.retryable,
-  }) : super._();
+  _$GRegisterUserData_registerUser__asAuthError._(
+      {required this.G__typename,
+      this.code,
+      this.message,
+      this.field,
+      this.retryable})
+      : super._();
   @override
   GRegisterUserData_registerUser__asAuthError rebuild(
-    void Function(GRegisterUserData_registerUser__asAuthErrorBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterUserData_registerUser__asAuthErrorBuilder toBuilder() =>
@@ -1348,8 +1159,7 @@ class _$GRegisterUserData_registerUser__asAuthError
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRegisterUserData_registerUser__asAuthError',
-          )
+            r'GRegisterUserData_registerUser__asAuthError')
           ..add('G__typename', G__typename)
           ..add('code', code)
           ..add('message', message)
@@ -1361,10 +1171,8 @@ class _$GRegisterUserData_registerUser__asAuthError
 
 class GRegisterUserData_registerUser__asAuthErrorBuilder
     implements
-        Builder<
-          GRegisterUserData_registerUser__asAuthError,
-          GRegisterUserData_registerUser__asAuthErrorBuilder
-        > {
+        Builder<GRegisterUserData_registerUser__asAuthError,
+            GRegisterUserData_registerUser__asAuthErrorBuilder> {
   _$GRegisterUserData_registerUser__asAuthError? _$v;
 
   String? _G__typename;
@@ -1411,8 +1219,8 @@ class GRegisterUserData_registerUser__asAuthErrorBuilder
 
   @override
   void update(
-    void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)? updates,
-  ) {
+      void Function(GRegisterUserData_registerUser__asAuthErrorBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -1420,14 +1228,10 @@ class GRegisterUserData_registerUser__asAuthErrorBuilder
   GRegisterUserData_registerUser__asAuthError build() => _build();
 
   _$GRegisterUserData_registerUser__asAuthError _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRegisterUserData_registerUser__asAuthError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRegisterUserData_registerUser__asAuthError',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRegisterUserData_registerUser__asAuthError', 'G__typename'),
           code: code,
           message: message,
           field: field,

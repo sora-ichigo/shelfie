@@ -17,17 +17,12 @@ class _$GRegisterUserVarsSerializer
   final String wireName = 'GRegisterUserVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterUserVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GRegisterUserVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GRegisterUserInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GRegisterUserInput)),
     ];
 
     return result;
@@ -35,10 +30,8 @@ class _$GRegisterUserVarsSerializer
 
   @override
   GRegisterUserVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterUserVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -48,13 +41,9 @@ class _$GRegisterUserVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GRegisterUserInput),
-                )!
-                as _i1.GRegisterUserInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GRegisterUserInput))!
+              as _i1.GRegisterUserInput);
           break;
       }
     }
@@ -67,9 +56,9 @@ class _$GRegisterUserVars extends GRegisterUserVars {
   @override
   final _i1.GRegisterUserInput input;
 
-  factory _$GRegisterUserVars([
-    void Function(GRegisterUserVarsBuilder)? updates,
-  ]) => (GRegisterUserVarsBuilder()..update(updates))._build();
+  factory _$GRegisterUserVars(
+          [void Function(GRegisterUserVarsBuilder)? updates]) =>
+      (GRegisterUserVarsBuilder()..update(updates))._build();
 
   _$GRegisterUserVars._({required this.input}) : super._();
   @override
@@ -96,9 +85,9 @@ class _$GRegisterUserVars extends GRegisterUserVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GRegisterUserVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GRegisterUserVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -138,7 +127,10 @@ class GRegisterUserVarsBuilder
   _$GRegisterUserVars _build() {
     _$GRegisterUserVars _$result;
     try {
-      _$result = _$v ?? _$GRegisterUserVars._(input: input.build());
+      _$result = _$v ??
+          _$GRegisterUserVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -146,10 +138,7 @@ class GRegisterUserVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRegisterUserVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRegisterUserVars', _$failedField, e.toString());
       }
       rethrow;
     }

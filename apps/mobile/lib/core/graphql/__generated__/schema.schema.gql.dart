@@ -435,6 +435,9 @@ abstract class GUpdateProfileInput
       _$GUpdateProfileInput;
 
   String? get avatarUrl;
+  String? get bio;
+  String? get handle;
+  String? get instagramHandle;
   String get name;
   static Serializer<GUpdateProfileInput> get serializer =>
       _$gUpdateProfileInputSerializer;

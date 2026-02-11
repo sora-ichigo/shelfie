@@ -143,6 +143,40 @@ describe("User GraphQL Types", () => {
       expect(bookCountField).toBeDefined();
       expect(bookCountField?.type.toString()).toBe("Int!");
     });
+
+    it("should have bio field as nullable String", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const bioField = getField(schema, "User", "bio");
+
+      expect(bioField).toBeDefined();
+      expect(bioField?.type.toString()).toBe("String");
+    });
+
+    it("should have instagramHandle field as nullable String", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const instagramHandleField = getField(schema, "User", "instagramHandle");
+
+      expect(instagramHandleField).toBeDefined();
+      expect(instagramHandleField?.type.toString()).toBe("String");
+    });
   });
 
   describe("UpdateProfileInput type", () => {

@@ -13,14 +13,14 @@ String _$bookShelfRepositoryHash() =>
 @ProviderFor(bookShelfRepository)
 final bookShelfRepositoryProvider =
     AutoDisposeProvider<BookShelfRepository>.internal(
-      bookShelfRepository,
-      name: r'bookShelfRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$bookShelfRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  bookShelfRepository,
+  name: r'bookShelfRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$bookShelfRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

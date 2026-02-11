@@ -12,8 +12,7 @@ part of 'user_profile.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UserProfile {
@@ -21,8 +20,10 @@ mixin _$UserProfile {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get avatarUrl => throw _privateConstructorUsedError;
-  String? get username => throw _privateConstructorUsedError;
+  String? get handle => throw _privateConstructorUsedError;
   int get bookCount => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  String? get instagramHandle => throw _privateConstructorUsedError;
   int? get readingStartYear => throw _privateConstructorUsedError;
   int? get readingStartMonth => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -37,21 +38,21 @@ mixin _$UserProfile {
 /// @nodoc
 abstract class $UserProfileCopyWith<$Res> {
   factory $UserProfileCopyWith(
-    UserProfile value,
-    $Res Function(UserProfile) then,
-  ) = _$UserProfileCopyWithImpl<$Res, UserProfile>;
+          UserProfile value, $Res Function(UserProfile) then) =
+      _$UserProfileCopyWithImpl<$Res, UserProfile>;
   @useResult
-  $Res call({
-    int id,
-    String email,
-    String? name,
-    String? avatarUrl,
-    String? username,
-    int bookCount,
-    int? readingStartYear,
-    int? readingStartMonth,
-    DateTime createdAt,
-  });
+  $Res call(
+      {int id,
+      String email,
+      String? name,
+      String? avatarUrl,
+      String? handle,
+      int bookCount,
+      String? bio,
+      String? instagramHandle,
+      int? readingStartYear,
+      int? readingStartMonth,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -73,53 +74,60 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? email = null,
     Object? name = freezed,
     Object? avatarUrl = freezed,
-    Object? username = freezed,
+    Object? handle = freezed,
     Object? bookCount = null,
+    Object? bio = freezed,
+    Object? instagramHandle = freezed,
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            email: null == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String,
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            avatarUrl: freezed == avatarUrl
-                ? _value.avatarUrl
-                : avatarUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            username: freezed == username
-                ? _value.username
-                : username // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            bookCount: null == bookCount
-                ? _value.bookCount
-                : bookCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            readingStartYear: freezed == readingStartYear
-                ? _value.readingStartYear
-                : readingStartYear // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            readingStartMonth: freezed == readingStartMonth
-                ? _value.readingStartMonth
-                : readingStartMonth // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatarUrl: freezed == avatarUrl
+          ? _value.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      handle: freezed == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instagramHandle: freezed == instagramHandle
+          ? _value.instagramHandle
+          : instagramHandle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      readingStartYear: freezed == readingStartYear
+          ? _value.readingStartYear
+          : readingStartYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      readingStartMonth: freezed == readingStartMonth
+          ? _value.readingStartMonth
+          : readingStartMonth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
@@ -127,22 +135,22 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
 abstract class _$$UserProfileImplCopyWith<$Res>
     implements $UserProfileCopyWith<$Res> {
   factory _$$UserProfileImplCopyWith(
-    _$UserProfileImpl value,
-    $Res Function(_$UserProfileImpl) then,
-  ) = __$$UserProfileImplCopyWithImpl<$Res>;
+          _$UserProfileImpl value, $Res Function(_$UserProfileImpl) then) =
+      __$$UserProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    String email,
-    String? name,
-    String? avatarUrl,
-    String? username,
-    int bookCount,
-    int? readingStartYear,
-    int? readingStartMonth,
-    DateTime createdAt,
-  });
+  $Res call(
+      {int id,
+      String email,
+      String? name,
+      String? avatarUrl,
+      String? handle,
+      int bookCount,
+      String? bio,
+      String? instagramHandle,
+      int? readingStartYear,
+      int? readingStartMonth,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -150,9 +158,8 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     extends _$UserProfileCopyWithImpl<$Res, _$UserProfileImpl>
     implements _$$UserProfileImplCopyWith<$Res> {
   __$$UserProfileImplCopyWithImpl(
-    _$UserProfileImpl _value,
-    $Res Function(_$UserProfileImpl) _then,
-  ) : super(_value, _then);
+      _$UserProfileImpl _value, $Res Function(_$UserProfileImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -163,69 +170,78 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? email = null,
     Object? name = freezed,
     Object? avatarUrl = freezed,
-    Object? username = freezed,
+    Object? handle = freezed,
     Object? bookCount = null,
+    Object? bio = freezed,
+    Object? instagramHandle = freezed,
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
   }) {
-    return _then(
-      _$UserProfileImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        email: null == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String,
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        avatarUrl: freezed == avatarUrl
-            ? _value.avatarUrl
-            : avatarUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        username: freezed == username
-            ? _value.username
-            : username // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        bookCount: null == bookCount
-            ? _value.bookCount
-            : bookCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        readingStartYear: freezed == readingStartYear
-            ? _value.readingStartYear
-            : readingStartYear // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        readingStartMonth: freezed == readingStartMonth
-            ? _value.readingStartMonth
-            : readingStartMonth // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$UserProfileImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatarUrl: freezed == avatarUrl
+          ? _value.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      handle: freezed == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      instagramHandle: freezed == instagramHandle
+          ? _value.instagramHandle
+          : instagramHandle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      readingStartYear: freezed == readingStartYear
+          ? _value.readingStartYear
+          : readingStartYear // ignore: cast_nullable_to_non_nullable
+              as int?,
+      readingStartMonth: freezed == readingStartMonth
+          ? _value.readingStartMonth
+          : readingStartMonth // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$UserProfileImpl implements _UserProfile {
-  const _$UserProfileImpl({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.avatarUrl,
-    required this.username,
-    required this.bookCount,
-    required this.readingStartYear,
-    required this.readingStartMonth,
-    required this.createdAt,
-  });
+  const _$UserProfileImpl(
+      {required this.id,
+      required this.email,
+      required this.name,
+      required this.avatarUrl,
+      required this.handle,
+      required this.bookCount,
+      required this.bio,
+      required this.instagramHandle,
+      required this.readingStartYear,
+      required this.readingStartMonth,
+      required this.createdAt});
 
   @override
   final int id;
@@ -236,9 +252,13 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final String? avatarUrl;
   @override
-  final String? username;
+  final String? handle;
   @override
   final int bookCount;
+  @override
+  final String? bio;
+  @override
+  final String? instagramHandle;
   @override
   final int? readingStartYear;
   @override
@@ -248,7 +268,7 @@ class _$UserProfileImpl implements _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, username: $username, bookCount: $bookCount, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
   }
 
   @override
@@ -261,10 +281,12 @@ class _$UserProfileImpl implements _UserProfile {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
+            (identical(other.handle, handle) || other.handle == handle) &&
             (identical(other.bookCount, bookCount) ||
                 other.bookCount == bookCount) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.instagramHandle, instagramHandle) ||
+                other.instagramHandle == instagramHandle) &&
             (identical(other.readingStartYear, readingStartYear) ||
                 other.readingStartYear == readingStartYear) &&
             (identical(other.readingStartMonth, readingStartMonth) ||
@@ -275,17 +297,18 @@ class _$UserProfileImpl implements _UserProfile {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    email,
-    name,
-    avatarUrl,
-    username,
-    bookCount,
-    readingStartYear,
-    readingStartMonth,
-    createdAt,
-  );
+      runtimeType,
+      id,
+      email,
+      name,
+      avatarUrl,
+      handle,
+      bookCount,
+      bio,
+      instagramHandle,
+      readingStartYear,
+      readingStartMonth,
+      createdAt);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -297,17 +320,18 @@ class _$UserProfileImpl implements _UserProfile {
 }
 
 abstract class _UserProfile implements UserProfile {
-  const factory _UserProfile({
-    required final int id,
-    required final String email,
-    required final String? name,
-    required final String? avatarUrl,
-    required final String? username,
-    required final int bookCount,
-    required final int? readingStartYear,
-    required final int? readingStartMonth,
-    required final DateTime createdAt,
-  }) = _$UserProfileImpl;
+  const factory _UserProfile(
+      {required final int id,
+      required final String email,
+      required final String? name,
+      required final String? avatarUrl,
+      required final String? handle,
+      required final int bookCount,
+      required final String? bio,
+      required final String? instagramHandle,
+      required final int? readingStartYear,
+      required final int? readingStartMonth,
+      required final DateTime createdAt}) = _$UserProfileImpl;
 
   @override
   int get id;
@@ -318,9 +342,13 @@ abstract class _UserProfile implements UserProfile {
   @override
   String? get avatarUrl;
   @override
-  String? get username;
+  String? get handle;
   @override
   int get bookCount;
+  @override
+  String? get bio;
+  @override
+  String? get instagramHandle;
   @override
   int? get readingStartYear;
   @override

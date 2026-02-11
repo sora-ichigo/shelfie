@@ -9,7 +9,7 @@ part of 'search_book_by_isbn.data.gql.dart';
 Serializer<GSearchBookByISBNData> _$gSearchBookByISBNDataSerializer =
     _$GSearchBookByISBNDataSerializer();
 Serializer<GSearchBookByISBNData_searchBookByISBN>
-_$gSearchBookByISBNDataSearchBookByISBNSerializer =
+    _$gSearchBookByISBNDataSearchBookByISBNSerializer =
     _$GSearchBookByISBNData_searchBookByISBNSerializer();
 
 class _$GSearchBookByISBNDataSerializer
@@ -17,47 +17,36 @@ class _$GSearchBookByISBNDataSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBookByISBNData,
-    _$GSearchBookByISBNData,
+    _$GSearchBookByISBNData
   ];
   @override
   final String wireName = 'GSearchBookByISBNData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBookByISBNData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBookByISBNData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.searchBookByISBN;
     if (value != null) {
       result
         ..add('searchBookByISBN')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(
-              GSearchBookByISBNData_searchBookByISBN,
-            ),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GSearchBookByISBNData_searchBookByISBN)));
     }
     return result;
   }
 
   @override
   GSearchBookByISBNData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBookByISBNDataBuilder();
 
     final iterator = serialized.iterator;
@@ -67,23 +56,14 @@ class _$GSearchBookByISBNDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'searchBookByISBN':
-          result.searchBookByISBN.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(
-                    GSearchBookByISBNData_searchBookByISBN,
-                  ),
-                )!
-                as GSearchBookByISBNData_searchBookByISBN,
-          );
+          result.searchBookByISBN.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(GSearchBookByISBNData_searchBookByISBN))!
+              as GSearchBookByISBNData_searchBookByISBN);
           break;
       }
     }
@@ -97,80 +77,65 @@ class _$GSearchBookByISBNData_searchBookByISBNSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBookByISBNData_searchBookByISBN,
-    _$GSearchBookByISBNData_searchBookByISBN,
+    _$GSearchBookByISBNData_searchBookByISBN
   ];
   @override
   final String wireName = 'GSearchBookByISBNData_searchBookByISBN';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBookByISBNData_searchBookByISBN object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBookByISBNData_searchBookByISBN object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(String)),
       'title',
-      serializers.serialize(
-        object.title,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'authors',
-      serializers.serialize(
-        object.authors,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(String),
-        ]),
-      ),
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
     Object? value;
     value = object.publisher;
     if (value != null) {
       result
         ..add('publisher')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.publishedDate;
     if (value != null) {
       result
         ..add('publishedDate')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.isbn;
     if (value != null) {
       result
         ..add('isbn')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
   GSearchBookByISBNData_searchBookByISBN deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBookByISBNData_searchBookByISBNBuilder();
 
     final iterator = serialized.iterator;
@@ -180,71 +145,38 @@ class _$GSearchBookByISBNData_searchBookByISBNSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'title':
-          result.title =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'authors':
-          result.authors.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(String),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'publisher':
-          result.publisher =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.publisher = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'publishedDate':
-          result.publishedDate =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.publishedDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'isbn':
-          result.isbn =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.isbn = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'coverImageUrl':
-          result.coverImageUrl =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.coverImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -259,16 +191,16 @@ class _$GSearchBookByISBNData extends GSearchBookByISBNData {
   @override
   final GSearchBookByISBNData_searchBookByISBN? searchBookByISBN;
 
-  factory _$GSearchBookByISBNData([
-    void Function(GSearchBookByISBNDataBuilder)? updates,
-  ]) => (GSearchBookByISBNDataBuilder()..update(updates))._build();
+  factory _$GSearchBookByISBNData(
+          [void Function(GSearchBookByISBNDataBuilder)? updates]) =>
+      (GSearchBookByISBNDataBuilder()..update(updates))._build();
 
   _$GSearchBookByISBNData._({required this.G__typename, this.searchBookByISBN})
-    : super._();
+      : super._();
   @override
   GSearchBookByISBNData rebuild(
-    void Function(GSearchBookByISBNDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBookByISBNDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBookByISBNDataBuilder toBuilder() =>
@@ -313,8 +245,8 @@ class GSearchBookByISBNDataBuilder
       _$this._searchBookByISBN ??=
           GSearchBookByISBNData_searchBookByISBNBuilder();
   set searchBookByISBN(
-    GSearchBookByISBNData_searchBookByISBNBuilder? searchBookByISBN,
-  ) => _$this._searchBookByISBN = searchBookByISBN;
+          GSearchBookByISBNData_searchBookByISBNBuilder? searchBookByISBN) =>
+      _$this._searchBookByISBN = searchBookByISBN;
 
   GSearchBookByISBNDataBuilder() {
     GSearchBookByISBNData._initializeBuilder(this);
@@ -346,14 +278,10 @@ class GSearchBookByISBNDataBuilder
   _$GSearchBookByISBNData _build() {
     _$GSearchBookByISBNData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBookByISBNData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSearchBookByISBNData',
-              'G__typename',
-            ),
+                G__typename, r'GSearchBookByISBNData', 'G__typename'),
             searchBookByISBN: _searchBookByISBN?.build(),
           );
     } catch (_) {
@@ -363,10 +291,7 @@ class GSearchBookByISBNDataBuilder
         _searchBookByISBN?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBookByISBNData',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBookByISBNData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -394,25 +319,27 @@ class _$GSearchBookByISBNData_searchBookByISBN
   @override
   final String? coverImageUrl;
 
-  factory _$GSearchBookByISBNData_searchBookByISBN([
-    void Function(GSearchBookByISBNData_searchBookByISBNBuilder)? updates,
-  ]) => (GSearchBookByISBNData_searchBookByISBNBuilder()..update(updates))
-      ._build();
+  factory _$GSearchBookByISBNData_searchBookByISBN(
+          [void Function(GSearchBookByISBNData_searchBookByISBNBuilder)?
+              updates]) =>
+      (GSearchBookByISBNData_searchBookByISBNBuilder()..update(updates))
+          ._build();
 
-  _$GSearchBookByISBNData_searchBookByISBN._({
-    required this.G__typename,
-    required this.id,
-    required this.title,
-    required this.authors,
-    this.publisher,
-    this.publishedDate,
-    this.isbn,
-    this.coverImageUrl,
-  }) : super._();
+  _$GSearchBookByISBNData_searchBookByISBN._(
+      {required this.G__typename,
+      required this.id,
+      required this.title,
+      required this.authors,
+      this.publisher,
+      this.publishedDate,
+      this.isbn,
+      this.coverImageUrl})
+      : super._();
   @override
   GSearchBookByISBNData_searchBookByISBN rebuild(
-    void Function(GSearchBookByISBNData_searchBookByISBNBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBookByISBNData_searchBookByISBNBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBookByISBNData_searchBookByISBNBuilder toBuilder() =>
@@ -450,8 +377,7 @@ class _$GSearchBookByISBNData_searchBookByISBN
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GSearchBookByISBNData_searchBookByISBN',
-          )
+            r'GSearchBookByISBNData_searchBookByISBN')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('title', title)
@@ -466,10 +392,8 @@ class _$GSearchBookByISBNData_searchBookByISBN
 
 class GSearchBookByISBNData_searchBookByISBNBuilder
     implements
-        Builder<
-          GSearchBookByISBNData_searchBookByISBN,
-          GSearchBookByISBNData_searchBookByISBNBuilder
-        > {
+        Builder<GSearchBookByISBNData_searchBookByISBN,
+            GSearchBookByISBNData_searchBookByISBNBuilder> {
   _$GSearchBookByISBNData_searchBookByISBN? _$v;
 
   String? _G__typename;
@@ -533,8 +457,7 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
 
   @override
   void update(
-    void Function(GSearchBookByISBNData_searchBookByISBNBuilder)? updates,
-  ) {
+      void Function(GSearchBookByISBNData_searchBookByISBNBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -544,24 +467,14 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
   _$GSearchBookByISBNData_searchBookByISBN _build() {
     _$GSearchBookByISBNData_searchBookByISBN _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBookByISBNData_searchBookByISBN._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GSearchBookByISBNData_searchBookByISBN',
-              'G__typename',
-            ),
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GSearchBookByISBNData_searchBookByISBN', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GSearchBookByISBNData_searchBookByISBN',
-              'id',
-            ),
+                id, r'GSearchBookByISBNData_searchBookByISBN', 'id'),
             title: BuiltValueNullFieldError.checkNotNull(
-              title,
-              r'GSearchBookByISBNData_searchBookByISBN',
-              'title',
-            ),
+                title, r'GSearchBookByISBNData_searchBookByISBN', 'title'),
             authors: authors.build(),
             publisher: publisher,
             publishedDate: publishedDate,
@@ -575,10 +488,9 @@ class GSearchBookByISBNData_searchBookByISBNBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBookByISBNData_searchBookByISBN',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBookByISBNData_searchBookByISBN',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }

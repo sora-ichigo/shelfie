@@ -38,9 +38,13 @@ export class ValidationError extends Error implements ValidationErrorData {
 }
 
 function createUpdateProfileInputRef(builder: Builder) {
-  return builder.inputRef<{ name: string; avatarUrl?: string }>(
-    "UpdateProfileInput",
-  );
+  return builder.inputRef<{
+    name: string;
+    avatarUrl?: string;
+    bio?: string;
+    instagramHandle?: string;
+    handle?: string;
+  }>("UpdateProfileInput");
 }
 
 type UpdateProfileInputRef = ReturnType<typeof createUpdateProfileInputRef>;
@@ -76,6 +80,18 @@ export function registerUserTypes(
         description: "The URL of the user's avatar image (128x128)",
         nullable: true,
         resolve: (user) => transformImageKitUrl(user.avatarUrl),
+      }),
+      bio: t.exposeString("bio", {
+        description: "The user's bio",
+        nullable: true,
+      }),
+      instagramHandle: t.exposeString("instagramHandle", {
+        description: "The user's Instagram handle",
+        nullable: true,
+      }),
+      handle: t.exposeString("handle", {
+        description: "The user's unique handle",
+        nullable: true,
       }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
@@ -125,6 +141,18 @@ export function registerUserTypes(
         required: false,
         description: "User avatar image URL",
       }),
+      bio: t.string({
+        required: false,
+        description: "User bio text",
+      }),
+      instagramHandle: t.string({
+        required: false,
+        description: "User Instagram handle",
+      }),
+      handle: t.string({
+        required: false,
+        description: "User unique handle",
+      }),
     }),
   });
 }
@@ -166,6 +194,9 @@ export function registerUserMutations(
           userId: userResult.data.id,
           name: input.name,
           avatarUrl: input.avatarUrl ?? undefined,
+          bio: input.bio ?? undefined,
+          instagramHandle: input.instagramHandle ?? undefined,
+          handle: input.handle ?? undefined,
         });
 
         if (!result.success) {

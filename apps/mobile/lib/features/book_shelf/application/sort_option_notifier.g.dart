@@ -13,14 +13,14 @@ String _$sortOptionNotifierHash() =>
 @ProviderFor(SortOptionNotifier)
 final sortOptionNotifierProvider =
     AutoDisposeNotifierProvider<SortOptionNotifier, SortOption>.internal(
-      SortOptionNotifier.new,
-      name: r'sortOptionNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$sortOptionNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  SortOptionNotifier.new,
+  name: r'sortOptionNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sortOptionNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$SortOptionNotifier = AutoDisposeNotifier<SortOption>;
 // ignore_for_file: type=lint
