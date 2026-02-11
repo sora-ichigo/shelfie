@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import type { NewUserBook, UserBook } from "../../../db/schema/books.js";
 import {
-  type StatusCounts,
   createBookShelfRepository,
+  type StatusCounts,
 } from "./book-shelf-repository.js";
 
 function createMockDb() {
@@ -22,9 +22,8 @@ function createMockDb() {
         groupBy: typeof groupByFn;
       }
     ).returning = returningFn;
-    (
-      chainAfterWhere as unknown as { groupBy: typeof groupByFn }
-    ).groupBy = groupByFn;
+    (chainAfterWhere as unknown as { groupBy: typeof groupByFn }).groupBy =
+      groupByFn;
     return chainAfterWhere;
   });
   const setFn = vi
@@ -421,8 +420,7 @@ describe("BookShelfRepository", () => {
       ]);
 
       const repository = createBookShelfRepository(mockDb.query as never);
-      const result: StatusCounts =
-        await repository.countUserBooksByStatus(100);
+      const result: StatusCounts = await repository.countUserBooksByStatus(100);
 
       expect(result.readingCount).toBe(3);
       expect(result.backlogCount).toBe(5);
@@ -435,8 +433,7 @@ describe("BookShelfRepository", () => {
       mockDb.setResults([]);
 
       const repository = createBookShelfRepository(mockDb.query as never);
-      const result: StatusCounts =
-        await repository.countUserBooksByStatus(999);
+      const result: StatusCounts = await repository.countUserBooksByStatus(999);
 
       expect(result.readingCount).toBe(0);
       expect(result.backlogCount).toBe(0);
@@ -446,13 +443,10 @@ describe("BookShelfRepository", () => {
 
     it("should return 0 for statuses with no books", async () => {
       const mockDb = createMockDb();
-      mockDb.setResults([
-        { readingStatus: "completed", count: 7 },
-      ]);
+      mockDb.setResults([{ readingStatus: "completed", count: 7 }]);
 
       const repository = createBookShelfRepository(mockDb.query as never);
-      const result: StatusCounts =
-        await repository.countUserBooksByStatus(100);
+      const result: StatusCounts = await repository.countUserBooksByStatus(100);
 
       expect(result.readingCount).toBe(0);
       expect(result.backlogCount).toBe(0);

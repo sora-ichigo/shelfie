@@ -5,8 +5,8 @@ import type {
   GraphQLSchema,
 } from "graphql";
 import { describe, expect, it, vi } from "vitest";
-import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
 import { createTestBuilder } from "../../../graphql/builder.js";
+import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
 import { registerUserTypes } from "./graphql.js";
 
 function getField(
@@ -290,18 +290,10 @@ describe("User GraphQL Types", () => {
 
       const info = {} as GraphQLResolveInfo;
 
-      expect(
-        await readingResolver?.(mockUser, {}, {}, info),
-      ).toBe(3);
-      expect(
-        await backlogResolver?.(mockUser, {}, {}, info),
-      ).toBe(5);
-      expect(
-        await completedResolver?.(mockUser, {}, {}, info),
-      ).toBe(10);
-      expect(
-        await interestedResolver?.(mockUser, {}, {}, info),
-      ).toBe(2);
+      expect(await readingResolver?.(mockUser, {}, {}, info)).toBe(3);
+      expect(await backlogResolver?.(mockUser, {}, {}, info)).toBe(5);
+      expect(await completedResolver?.(mockUser, {}, {}, info)).toBe(10);
+      expect(await interestedResolver?.(mockUser, {}, {}, info)).toBe(2);
     });
 
     it("should return 0 for all counts when bookShelfRepository is not provided", async () => {
@@ -312,18 +304,10 @@ describe("User GraphQL Types", () => {
 
       const info = {} as GraphQLResolveInfo;
 
-      expect(
-        await readingResolver?.(mockUser, {}, {}, info),
-      ).toBe(0);
-      expect(
-        await backlogResolver?.(mockUser, {}, {}, info),
-      ).toBe(0);
-      expect(
-        await completedResolver?.(mockUser, {}, {}, info),
-      ).toBe(0);
-      expect(
-        await interestedResolver?.(mockUser, {}, {}, info),
-      ).toBe(0);
+      expect(await readingResolver?.(mockUser, {}, {}, info)).toBe(0);
+      expect(await backlogResolver?.(mockUser, {}, {}, info)).toBe(0);
+      expect(await completedResolver?.(mockUser, {}, {}, info)).toBe(0);
+      expect(await interestedResolver?.(mockUser, {}, {}, info)).toBe(0);
     });
 
     it("should call countUserBooksByStatus only once when multiple count fields are queried in same resolver context", async () => {
@@ -359,7 +343,12 @@ describe("User GraphQL Types", () => {
       const readingResult = readingField?.resolve?.(mockUser, {}, {}, info);
       const backlogResult = backlogField?.resolve?.(mockUser, {}, {}, info);
       const completedResult = completedField?.resolve?.(mockUser, {}, {}, info);
-      const interestedResult = interestedField?.resolve?.(mockUser, {}, {}, info);
+      const interestedResult = interestedField?.resolve?.(
+        mockUser,
+        {},
+        {},
+        info,
+      );
 
       const results = await Promise.all([
         readingResult,
