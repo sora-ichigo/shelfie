@@ -34,7 +34,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: ProfileTab.values.length, vsync: this);
+    _tabController = TabController(
+      length: ProfileTab.values.length,
+      vsync: this,
+    );
     _tabController.addListener(_onTabIndexChanged);
   }
 
@@ -64,12 +67,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     final accountAsync = ref.watch(accountNotifierProvider);
 
     return accountAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, _) => Scaffold(
-        body: Center(child: Text('エラーが発生しました: $error')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, _) =>
+          Scaffold(body: Center(child: Text('エラーが発生しました: $error'))),
       data: (profile) => _buildProfileView(context, profile),
     );
   }
@@ -83,7 +84,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.person_outline, size: 64, color: appColors.textSecondary),
+            Icon(
+              Icons.person_outline,
+              size: 64,
+              color: appColors.textSecondary,
+            ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'ログインするとプロフィールが表示されます',
@@ -114,9 +119,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               scrolledUnderElevation: 0,
               title: Text(
                 profile.username ?? profile.name ?? '',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.titleMedium,
               ),
               centerTitle: true,
               actions: [
@@ -174,7 +177,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     if (profile.bio != null && profile.bio!.isNotEmpty) {
       height += 12 + 40;
     }
-    if (profile.instagramHandle != null && profile.instagramHandle!.isNotEmpty) {
+    if (profile.instagramHandle != null &&
+        profile.instagramHandle!.isNotEmpty) {
       height += 8 + 20;
     }
     return height + 24 + 12 + 40 + 8;
@@ -272,18 +276,15 @@ class _BookShelfTab extends ConsumerWidget {
                 crossAxisSpacing: AppSpacing.xs,
                 mainAxisSpacing: AppSpacing.xs,
               ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  if (index >= booksState.books.length) return null;
-                  final book = booksState.books[index];
-                  return ProfileBookCard(
-                    book: book,
-                    onTap: () => onBookTap(book),
-                    onLongPress: () => onBookLongPress(book),
-                  );
-                },
-                childCount: booksState.books.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                if (index >= booksState.books.length) return null;
+                final book = booksState.books[index];
+                return ProfileBookCard(
+                  book: book,
+                  onTap: () => onBookTap(book),
+                  onLongPress: () => onBookLongPress(book),
+                );
+              }, childCount: booksState.books.length),
             ),
           ),
           if (booksState.hasMore)
@@ -317,8 +318,11 @@ class _BookListTab extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.construction_outlined,
-              size: 48, color: appColors.textSecondary),
+          Icon(
+            Icons.construction_outlined,
+            size: 48,
+            color: appColors.textSecondary,
+          ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             'ブックリストは準備中です',
