@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/features/book_share/domain/share_card_data.dart';
 
 enum ShareCardStyle { simple, card }
@@ -56,6 +55,7 @@ class _SimpleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = AppColors.dark;
+    final textTheme = Theme.of(context).textTheme;
 
     return Container(
       decoration: BoxDecoration(color: accentColor ?? appColors.surface),
@@ -79,7 +79,7 @@ class _SimpleContent extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: AppTypography.titleLarge.copyWith(
+                style: textTheme.titleLarge?.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
                   color: appColors.textPrimary,
@@ -94,7 +94,7 @@ class _SimpleContent extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: AppTypography.bodyMedium.copyWith(
+                style: textTheme.bodyMedium?.copyWith(
                   fontSize: 52,
                   color: appColors.textPrimary,
                 ),
@@ -120,7 +120,7 @@ class _SimpleContent extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     'Shelfie',
-                    style: AppTypography.bodySmall.copyWith(
+                    style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: appColors.textPrimary,
                       fontSize: 52,
@@ -145,6 +145,7 @@ class _CardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = AppColors.dark;
+    final textTheme = Theme.of(context).textTheme;
 
     return ColoredBox(
       color: accentColor ?? appColors.surface,
@@ -174,7 +175,7 @@ class _CardContent extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
-                style: AppTypography.titleLarge.copyWith(
+                style: textTheme.titleLarge?.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
                   color: appColors.textPrimary,
@@ -186,7 +187,7 @@ class _CardContent extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
-                style: AppTypography.bodyMedium.copyWith(
+                style: textTheme.bodyMedium?.copyWith(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
                   color: appColors.textSecondary,
@@ -209,7 +210,7 @@ class _CardContent extends StatelessWidget {
                     const SizedBox(width: 12),
                     Text(
                       'Shelfie',
-                      style: AppTypography.bodySmall.copyWith(
+                      style: textTheme.bodySmall?.copyWith(
                         color: appColors.textPrimary,
                         fontWeight: FontWeight.w600,
                         fontSize: 52,

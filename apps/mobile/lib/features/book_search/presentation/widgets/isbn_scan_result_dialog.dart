@@ -12,7 +12,6 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_icon_size.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/theme/app_typography.dart';
 import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
@@ -283,7 +282,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   _formatAuthors(book.authors),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.captionSmall.copyWith(
+                  style: theme.textTheme.labelSmall?.copyWith(
                     color: appColors.textSecondary,
                   ),
                 ),
