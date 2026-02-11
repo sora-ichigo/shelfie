@@ -193,6 +193,9 @@ function extractIsbn(
 function enhanceGoogleBooksImageUrl(url: string): string {
   try {
     const urlObj = new URL(url);
+    if (urlObj.protocol === "http:") {
+      urlObj.protocol = "https:";
+    }
     urlObj.searchParams.set("zoom", "2");
     urlObj.searchParams.delete("edge");
     return urlObj.toString();
@@ -264,7 +267,8 @@ export async function validateGoogleBooksCoverImageUrl(
       return url;
     } catch {
       clearTimeout(timeoutId);
-      return url;
+      urlObj.searchParams.set("zoom", "1");
+      return urlObj.toString();
     }
   } catch {
     return url;

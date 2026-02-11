@@ -264,10 +264,33 @@ describe("ExternalBookRepository", () => {
 
       await repository.searchByQuery("テスト", 10, 0);
 
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringMatching(/hits=20/),
-        expect.any(Object),
+      const calls = vi.mocked(fetch).mock.calls;
+      const titleCall = calls.find((c) => (c[0] as string).includes("title="));
+      expect(titleCall?.[0]).toMatch(/hits=20/);
+    });
+
+    it("著者検索は常に最大件数（30件）で取得する", async () => {
+      const mockResponse = {
+        count: 0,
+        page: 1,
+        pageCount: 0,
+        hits: 0,
+        Items: [],
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockResponse),
+      });
+
+      await repository.searchByQuery("テスト", 10, 0);
+
+      const calls = vi.mocked(fetch).mock.calls;
+      const authorCall = calls.find((c) =>
+        (c[0] as string).includes("author="),
       );
+      expect(authorCall?.[0]).toMatch(/hits=30/);
     });
 
     it("title と author の両方のパラメータでAPIを呼び出す", async () => {

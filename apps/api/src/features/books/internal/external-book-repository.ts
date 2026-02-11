@@ -171,8 +171,8 @@ export function createExternalBookRepository(
 
       const authorUrl = buildSearchUrl(subApplicationId ?? applicationId, {
         author: query,
-        hits,
-        page,
+        hits: MAX_HITS,
+        page: 1,
         sort: "reviewCount",
       });
 
