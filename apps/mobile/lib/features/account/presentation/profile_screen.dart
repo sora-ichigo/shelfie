@@ -26,38 +26,8 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   ProfileTab _selectedTab = ProfileTab.bookShelf;
-  late final TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: ProfileTab.values.length,
-      vsync: this,
-    );
-    _tabController.addListener(_onTabIndexChanged);
-  }
-
-  @override
-  void dispose() {
-    _tabController.removeListener(_onTabIndexChanged);
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  void _onTabIndexChanged() {
-    final tab = ProfileTab.values[_tabController.index];
-    if (_selectedTab != tab) {
-      setState(() => _selectedTab = tab);
-    }
-  }
-
-  void _onTabChanged(ProfileTab tab) {
-    _tabController.animateTo(tab.index);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,81 +77,137 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     final booksState = ref.watch(profileBooksNotifierProvider);
 
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              pinned: true,
-              toolbarHeight: kToolbarHeight,
-              expandedHeight: _calculateExpandedHeight(profile),
-              backgroundColor: theme.scaffoldBackgroundColor,
-              surfaceTintColor: Colors.transparent,
-              scrolledUnderElevation: 0,
-              title: Text(
-                profile.username ?? profile.name ?? '',
-                style: theme.textTheme.titleMedium,
-              ),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.settings_outlined),
-                  onPressed: () => context.push(AppRoutes.account),
+      appBar: AppBar(
+        title: Text(
+          profile.username ?? profile.name ?? '',
+          style: theme.textTheme.titleMedium,
+        ),
+        centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
+        surfaceTintColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push(AppRoutes.account),
+          ),
+        ],
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                ProfileHeader(
+                  profile: profile,
+                  onEditProfile: () => context.push(AppRoutes.accountEdit),
+                  onShareProfile: () {},
+                ),
+                ProfileTabBar(
+                  selectedTab: _selectedTab,
+                  onTabChanged: (tab) => setState(() => _selectedTab = tab),
                 ),
               ],
-              flexibleSpace: FlexibleSpaceBar(
-                background: SafeArea(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: kToolbarHeight),
-                      ProfileHeader(
-                        profile: profile,
-                        onEditProfile: () =>
-                            context.push(AppRoutes.accountEdit),
-                        onShareProfile: () {},
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(48),
-                child: ColoredBox(
-                  color: theme.scaffoldBackgroundColor,
-                  child: ProfileTabBar(
-                    selectedTab: _selectedTab,
-                    onTabChanged: _onTabChanged,
-                  ),
-                ),
-              ),
             ),
-          ];
-        },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            _BookShelfTab(
-              booksState: booksState,
-              onBookTap: _onBookTap,
-              onBookLongPress: _onBookLongPress,
-            ),
-            _BookListTab(),
-          ],
-        ),
+          ),
+          if (_selectedTab == ProfileTab.bookShelf)
+            ..._buildBookShelfSlivers(booksState)
+          else
+            SliverToBoxAdapter(child: _BookListTab()),
+        ],
       ),
     );
   }
 
-  double _calculateExpandedHeight(UserProfile profile) {
-    var height = kToolbarHeight + 48.0;
-    height += 16 + 80 + 12;
-    if (profile.bio != null && profile.bio!.isNotEmpty) {
-      height += 12 + 40;
-    }
-    if (profile.instagramHandle != null &&
-        profile.instagramHandle!.isNotEmpty) {
-      height += 8 + 20;
-    }
-    return height + 24 + 12 + 40 + 8;
+  List<Widget> _buildBookShelfSlivers(ProfileBooksState booksState) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
+    return [
+      SliverToBoxAdapter(
+        child: Column(
+          children: [
+            const SizedBox(height: AppSpacing.xs),
+            ReadingStatusChips(
+              selectedFilter: booksState.selectedFilter,
+              onFilterChanged: (filter) {
+                ref
+                    .read(profileBooksNotifierProvider.notifier)
+                    .setFilter(filter);
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.xxs,
+              ),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: SearchFilterBar(
+                  sortOption: ref.watch(sortOptionNotifierProvider),
+                  onSortChanged: (option) async {
+                    await ref
+                        .read(sortOptionNotifierProvider.notifier)
+                        .update(option);
+                    ref.invalidate(profileBooksNotifierProvider);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      if (booksState.isLoading)
+        const SliverFillRemaining(
+          child: Center(child: CircularProgressIndicator()),
+        )
+      else if (booksState.books.isEmpty)
+        SliverFillRemaining(
+          child: Center(
+            child: Text(
+              'まだ本が登録されていません',
+              style: TextStyle(color: appColors.textSecondary),
+            ),
+          ),
+        )
+      else ...[
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          sliver: SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 0.58,
+              crossAxisSpacing: AppSpacing.xs,
+              mainAxisSpacing: AppSpacing.xs,
+            ),
+            delegate: SliverChildBuilderDelegate((context, index) {
+              if (index >= booksState.books.length) return null;
+              final book = booksState.books[index];
+              return ProfileBookCard(
+                book: book,
+                onTap: () => _onBookTap(book),
+                onLongPress: () => _onBookLongPress(book),
+              );
+            }, childCount: booksState.books.length),
+          ),
+        ),
+        if (booksState.hasMore)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Center(
+                child: booksState.isLoadingMore
+                    ? const CircularProgressIndicator()
+                    : TextButton(
+                        onPressed: () => ref
+                            .read(profileBooksNotifierProvider.notifier)
+                            .loadMore(),
+                        child: const Text('もっと見る'),
+                      ),
+              ),
+            ),
+          ),
+      ],
+    ];
   }
 
   void _onBookTap(ShelfBookItem book) {
@@ -199,112 +225,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       ref: ref,
       book: book,
       shelfEntry: shelfEntry,
-    );
-  }
-}
-
-class _BookShelfTab extends ConsumerWidget {
-  const _BookShelfTab({
-    required this.booksState,
-    required this.onBookTap,
-    required this.onBookLongPress,
-  });
-
-  final ProfileBooksState booksState;
-  final void Function(ShelfBookItem) onBookTap;
-  final void Function(ShelfBookItem) onBookLongPress;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
-
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              const SizedBox(height: AppSpacing.xs),
-              ReadingStatusChips(
-                selectedFilter: booksState.selectedFilter,
-                onFilterChanged: (filter) {
-                  ref
-                      .read(profileBooksNotifierProvider.notifier)
-                      .setFilter(filter);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.xxs,
-                ),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: SearchFilterBar(
-                    sortOption: ref.watch(sortOptionNotifierProvider),
-                    onSortChanged: (option) async {
-                      await ref
-                          .read(sortOptionNotifierProvider.notifier)
-                          .update(option);
-                      ref.invalidate(profileBooksNotifierProvider);
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (booksState.isLoading)
-          const SliverFillRemaining(
-            child: Center(child: CircularProgressIndicator()),
-          )
-        else if (booksState.books.isEmpty)
-          SliverFillRemaining(
-            child: Center(
-              child: Text(
-                'まだ本が登録されていません',
-                style: TextStyle(color: appColors.textSecondary),
-              ),
-            ),
-          )
-        else ...[
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.58,
-                crossAxisSpacing: AppSpacing.xs,
-                mainAxisSpacing: AppSpacing.xs,
-              ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                if (index >= booksState.books.length) return null;
-                final book = booksState.books[index];
-                return ProfileBookCard(
-                  book: book,
-                  onTap: () => onBookTap(book),
-                  onLongPress: () => onBookLongPress(book),
-                );
-              }, childCount: booksState.books.length),
-            ),
-          ),
-          if (booksState.hasMore)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                child: Center(
-                  child: booksState.isLoadingMore
-                      ? const CircularProgressIndicator()
-                      : TextButton(
-                          onPressed: () => ref
-                              .read(profileBooksNotifierProvider.notifier)
-                              .loadMore(),
-                          child: const Text('もっと見る'),
-                        ),
-                ),
-              ),
-            ),
-        ],
-      ],
     );
   }
 }
