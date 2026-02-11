@@ -27,6 +27,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -68,6 +69,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -97,6 +99,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -125,6 +128,9 @@ describe("UserService", () => {
           firebaseUid: "firebase-uid-1",
           name: null,
           avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -134,6 +140,9 @@ describe("UserService", () => {
           firebaseUid: "firebase-uid-2",
           name: null,
           avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -161,6 +170,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -201,6 +211,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -234,6 +245,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -263,6 +275,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -297,6 +310,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -376,6 +390,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -416,6 +431,71 @@ describe("UserService", () => {
       }
     });
 
+    it("should update user profile with handle", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        handle: "taro_yamada",
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        handle: "taro_yamada",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.handle).toBe("taro_yamada");
+      }
+    });
+
+    it("should return error when handle contains invalid characters", async () => {
+      const mockRepo = createMockRepository();
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        handle: "invalid handle!",
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("VALIDATION_ERROR");
+      }
+    });
+
+    it("should return error when handle exceeds 30 characters", async () => {
+      const mockRepo = createMockRepository();
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        handle: "a".repeat(31),
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("VALIDATION_ERROR");
+      }
+    });
+
     it("should update user profile with instagramHandle", async () => {
       const mockRepo = createMockRepository();
       const mockUser: User = {
@@ -426,6 +506,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -462,6 +543,7 @@ describe("UserService", () => {
         avatarUrl: null,
         bio: null,
         instagramHandle: null,
+        handle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

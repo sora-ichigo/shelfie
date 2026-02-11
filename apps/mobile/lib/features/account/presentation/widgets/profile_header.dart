@@ -38,9 +38,9 @@ class ProfileHeader extends StatelessWidget {
                       profile.name ?? 'ユーザー',
                       style: theme.textTheme.titleMedium,
                     ),
-                    if (profile.username != null)
+                    if (profile.handle != null)
                       Text(
-                        '@${profile.username}',
+                        '@${profile.handle}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: appColors.textSecondary,
                         ),

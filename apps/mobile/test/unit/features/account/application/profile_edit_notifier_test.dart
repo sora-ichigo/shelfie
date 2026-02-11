@@ -35,7 +35,7 @@ void main() {
       email: 'test@example.com',
       name: 'Test User',
       avatarUrl: 'https://example.com/avatar.png',
-      username: '@testuser',
+      handle: '@testuser',
       bookCount: 10,
       bio: null,
       instagramHandle: null,

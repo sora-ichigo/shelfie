@@ -20,7 +20,7 @@ mixin _$UserProfile {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get avatarUrl => throw _privateConstructorUsedError;
-  String? get username => throw _privateConstructorUsedError;
+  String? get handle => throw _privateConstructorUsedError;
   int get bookCount => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get instagramHandle => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $UserProfileCopyWith<$Res> {
       String email,
       String? name,
       String? avatarUrl,
-      String? username,
+      String? handle,
       int bookCount,
       String? bio,
       String? instagramHandle,
@@ -74,7 +74,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? email = null,
     Object? name = freezed,
     Object? avatarUrl = freezed,
-    Object? username = freezed,
+    Object? handle = freezed,
     Object? bookCount = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
@@ -99,9 +99,9 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      handle: freezed == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
               as String?,
       bookCount: null == bookCount
           ? _value.bookCount
@@ -144,7 +144,7 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String email,
       String? name,
       String? avatarUrl,
-      String? username,
+      String? handle,
       int bookCount,
       String? bio,
       String? instagramHandle,
@@ -170,7 +170,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? email = null,
     Object? name = freezed,
     Object? avatarUrl = freezed,
-    Object? username = freezed,
+    Object? handle = freezed,
     Object? bookCount = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
@@ -195,9 +195,9 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      username: freezed == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      handle: freezed == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
               as String?,
       bookCount: null == bookCount
           ? _value.bookCount
@@ -235,7 +235,7 @@ class _$UserProfileImpl implements _UserProfile {
       required this.email,
       required this.name,
       required this.avatarUrl,
-      required this.username,
+      required this.handle,
       required this.bookCount,
       required this.bio,
       required this.instagramHandle,
@@ -252,7 +252,7 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final String? avatarUrl;
   @override
-  final String? username;
+  final String? handle;
   @override
   final int bookCount;
   @override
@@ -268,7 +268,7 @@ class _$UserProfileImpl implements _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, username: $username, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
   }
 
   @override
@@ -281,8 +281,7 @@ class _$UserProfileImpl implements _UserProfile {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatarUrl, avatarUrl) ||
                 other.avatarUrl == avatarUrl) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
+            (identical(other.handle, handle) || other.handle == handle) &&
             (identical(other.bookCount, bookCount) ||
                 other.bookCount == bookCount) &&
             (identical(other.bio, bio) || other.bio == bio) &&
@@ -303,7 +302,7 @@ class _$UserProfileImpl implements _UserProfile {
       email,
       name,
       avatarUrl,
-      username,
+      handle,
       bookCount,
       bio,
       instagramHandle,
@@ -326,7 +325,7 @@ abstract class _UserProfile implements UserProfile {
       required final String email,
       required final String? name,
       required final String? avatarUrl,
-      required final String? username,
+      required final String? handle,
       required final int bookCount,
       required final String? bio,
       required final String? instagramHandle,
@@ -343,7 +342,7 @@ abstract class _UserProfile implements UserProfile {
   @override
   String? get avatarUrl;
   @override
-  String? get username;
+  String? get handle;
   @override
   int get bookCount;
   @override

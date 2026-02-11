@@ -1091,6 +1091,13 @@ class _$GUpdateProfileInputSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.handle;
+    if (value != null) {
+      result
+        ..add('handle')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.instagramHandle;
     if (value != null) {
       result
@@ -1119,6 +1126,10 @@ class _$GUpdateProfileInputSerializer
           break;
         case 'bio':
           result.bio = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'handle':
+          result.handle = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'instagramHandle':
@@ -2432,6 +2443,8 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
   final String? bio;
   @override
+  final String? handle;
+  @override
   final String? instagramHandle;
   @override
   final String name;
@@ -2441,7 +2454,11 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
       (GUpdateProfileInputBuilder()..update(updates))._build();
 
   _$GUpdateProfileInput._(
-      {this.avatarUrl, this.bio, this.instagramHandle, required this.name})
+      {this.avatarUrl,
+      this.bio,
+      this.handle,
+      this.instagramHandle,
+      required this.name})
       : super._();
   @override
   GUpdateProfileInput rebuild(
@@ -2458,6 +2475,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
     return other is GUpdateProfileInput &&
         avatarUrl == other.avatarUrl &&
         bio == other.bio &&
+        handle == other.handle &&
         instagramHandle == other.instagramHandle &&
         name == other.name;
   }
@@ -2467,6 +2485,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
     var _$hash = 0;
     _$hash = $jc(_$hash, avatarUrl.hashCode);
     _$hash = $jc(_$hash, bio.hashCode);
+    _$hash = $jc(_$hash, handle.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
@@ -2478,6 +2497,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
     return (newBuiltValueToStringHelper(r'GUpdateProfileInput')
           ..add('avatarUrl', avatarUrl)
           ..add('bio', bio)
+          ..add('handle', handle)
           ..add('instagramHandle', instagramHandle)
           ..add('name', name))
         .toString();
@@ -2496,6 +2516,10 @@ class GUpdateProfileInputBuilder
   String? get bio => _$this._bio;
   set bio(String? bio) => _$this._bio = bio;
 
+  String? _handle;
+  String? get handle => _$this._handle;
+  set handle(String? handle) => _$this._handle = handle;
+
   String? _instagramHandle;
   String? get instagramHandle => _$this._instagramHandle;
   set instagramHandle(String? instagramHandle) =>
@@ -2512,6 +2536,7 @@ class GUpdateProfileInputBuilder
     if ($v != null) {
       _avatarUrl = $v.avatarUrl;
       _bio = $v.bio;
+      _handle = $v.handle;
       _instagramHandle = $v.instagramHandle;
       _name = $v.name;
       _$v = null;
@@ -2537,6 +2562,7 @@ class GUpdateProfileInputBuilder
         _$GUpdateProfileInput._(
           avatarUrl: avatarUrl,
           bio: bio,
+          handle: handle,
           instagramHandle: instagramHandle,
           name: BuiltValueNullFieldError.checkNotNull(
               name, r'GUpdateProfileInput', 'name'),

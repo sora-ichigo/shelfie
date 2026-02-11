@@ -8,7 +8,7 @@ void main() {
   UserProfile createTestProfile({
     String? name = 'Test User',
     String? avatarUrl,
-    String? username = '@testuser',
+    String? handle = '@testuser',
     int bookCount = 10,
     int? readingStartYear = 2020,
     int? readingStartMonth = 4,
@@ -18,7 +18,7 @@ void main() {
       email: 'test@example.com',
       name: name,
       avatarUrl: avatarUrl,
-      username: username,
+      handle: handle,
       bookCount: bookCount,
       bio: null,
       instagramHandle: null,
@@ -129,7 +129,7 @@ void main() {
     });
 
     testWidgets('名前がnullの場合はデフォルト表示', (tester) async {
-      final profile = createTestProfile(name: null, username: null);
+      final profile = createTestProfile(name: null, handle: null);
 
       await tester.pumpWidget(
         MaterialApp(

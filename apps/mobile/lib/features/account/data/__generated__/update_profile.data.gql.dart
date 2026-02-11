@@ -175,6 +175,7 @@ abstract class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_
   int get bookCount;
   String? get bio;
   String? get instagramHandle;
+  String? get handle;
   static Serializer<
           GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data>
       get serializer =>

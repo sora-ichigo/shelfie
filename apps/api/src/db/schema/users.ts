@@ -12,6 +12,7 @@ export const users = pgTable(
     avatarUrl: text("avatar_url"),
     bio: text("bio"),
     instagramHandle: text("instagram_handle"),
+    handle: text("handle").unique(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },

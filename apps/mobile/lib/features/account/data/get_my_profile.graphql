@@ -9,6 +9,7 @@ query GetMyProfile {
       bookCount
       bio
       instagramHandle
+      handle
     }
     ... on AuthErrorResult {
       code

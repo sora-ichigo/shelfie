@@ -260,6 +260,13 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.handle;
+    if (value != null) {
+      result
+        ..add('handle')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -310,6 +317,10 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
           break;
         case 'instagramHandle':
           result.instagramHandle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'handle':
+          result.handle = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -759,6 +770,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
   final String? bio;
   @override
   final String? instagramHandle;
+  @override
+  final String? handle;
 
   factory _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data(
           [void Function(
@@ -777,7 +790,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       this.createdAt,
       required this.bookCount,
       this.bio,
-      this.instagramHandle})
+      this.instagramHandle,
+      this.handle})
       : super._();
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data rebuild(
@@ -805,7 +819,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         createdAt == other.createdAt &&
         bookCount == other.bookCount &&
         bio == other.bio &&
-        instagramHandle == other.instagramHandle;
+        instagramHandle == other.instagramHandle &&
+        handle == other.handle;
   }
 
   @override
@@ -820,6 +835,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
     _$hash = $jc(_$hash, bookCount.hashCode);
     _$hash = $jc(_$hash, bio.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
+    _$hash = $jc(_$hash, handle.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -836,7 +852,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           ..add('createdAt', createdAt)
           ..add('bookCount', bookCount)
           ..add('bio', bio)
-          ..add('instagramHandle', instagramHandle))
+          ..add('instagramHandle', instagramHandle)
+          ..add('handle', handle))
         .toString();
   }
 }
@@ -885,6 +902,10 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   set instagramHandle(String? instagramHandle) =>
       _$this._instagramHandle = instagramHandle;
 
+  String? _handle;
+  String? get handle => _$this._handle;
+  set handle(String? handle) => _$this._handle = handle;
+
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder() {
     GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         ._initializeBuilder(this);
@@ -903,6 +924,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
       _bookCount = $v.bookCount;
       _bio = $v.bio;
       _instagramHandle = $v.instagramHandle;
+      _handle = $v.handle;
       _$v = null;
     }
     return this;
@@ -948,6 +970,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
               'bookCount'),
           bio: bio,
           instagramHandle: instagramHandle,
+          handle: handle,
         );
     replace(_$result);
     return _$result;

@@ -27,6 +27,7 @@ export interface UpdateProfileInput {
   avatarUrl?: string;
   bio?: string;
   instagramHandle?: string;
+  handle?: string;
 }
 
 export interface DeleteAccountInput {
@@ -129,6 +130,21 @@ export function createUserService(repository: UserRepository): UserService {
         });
       }
 
+      if (input.handle !== undefined) {
+        if (input.handle.length > 30) {
+          return err({
+            code: "VALIDATION_ERROR",
+            message: "ハンドルは30文字以内で入力してください",
+          });
+        }
+        if (!/^[a-zA-Z0-9_]+$/.test(input.handle)) {
+          return err({
+            code: "VALIDATION_ERROR",
+            message: "ハンドルは英数字とアンダースコアのみ使用できます",
+          });
+        }
+      }
+
       if (input.bio !== undefined && input.bio.length > 500) {
         return err({
           code: "VALIDATION_ERROR",
@@ -153,6 +169,9 @@ export function createUserService(repository: UserRepository): UserService {
       }
       if (input.instagramHandle !== undefined) {
         updateData.instagramHandle = input.instagramHandle;
+      }
+      if (input.handle !== undefined) {
+        updateData.handle = input.handle;
       }
 
       const updatedUser = await repository.update(input.userId, updateData);

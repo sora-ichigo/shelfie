@@ -10,7 +10,7 @@ void main() {
         email: 'test@example.com',
         name: 'テストユーザー',
         avatarUrl: 'https://example.com/avatar.jpg',
-        username: 'testuser',
+        handle: 'testuser',
         bookCount: 42,
         bio: null,
         instagramHandle: null,
@@ -23,7 +23,7 @@ void main() {
       expect(profile.email, equals('test@example.com'));
       expect(profile.name, equals('テストユーザー'));
       expect(profile.avatarUrl, equals('https://example.com/avatar.jpg'));
-      expect(profile.username, equals('testuser'));
+      expect(profile.handle, equals('testuser'));
       expect(profile.bookCount, equals(42));
       expect(profile.readingStartYear, equals(2020));
       expect(profile.createdAt, equals(createdAt));
@@ -35,7 +35,7 @@ void main() {
         email: 'test@example.com',
         name: null,
         avatarUrl: null,
-        username: null,
+        handle: null,
         bookCount: 0,
         bio: null,
         instagramHandle: null,
@@ -46,7 +46,7 @@ void main() {
 
       expect(profile.name, isNull);
       expect(profile.avatarUrl, isNull);
-      expect(profile.username, isNull);
+      expect(profile.handle, isNull);
       expect(profile.readingStartYear, isNull);
     });
 
@@ -56,7 +56,7 @@ void main() {
         email: 'test@example.com',
         name: '旧名前',
         avatarUrl: null,
-        username: 'olduser',
+        handle: 'olduser',
         bookCount: 10,
         bio: null,
         instagramHandle: null,
@@ -74,7 +74,7 @@ void main() {
       expect(updated.email, equals(original.email));
       expect(updated.name, equals('新名前'));
       expect(updated.avatarUrl, equals('https://example.com/new-avatar.jpg'));
-      expect(updated.username, equals(original.username));
+      expect(updated.handle, equals(original.handle));
       expect(updated.bookCount, equals(original.bookCount));
     });
 
@@ -85,7 +85,7 @@ void main() {
         email: 'test@example.com',
         name: 'Test User',
         avatarUrl: null,
-        username: 'testuser',
+        handle: 'testuser',
         bookCount: 5,
         bio: null,
         instagramHandle: null,
@@ -98,7 +98,7 @@ void main() {
         email: 'test@example.com',
         name: 'Test User',
         avatarUrl: null,
-        username: 'testuser',
+        handle: 'testuser',
         bookCount: 5,
         bio: null,
         instagramHandle: null,
@@ -118,7 +118,7 @@ void main() {
         email: 'test@example.com',
         name: 'User A',
         avatarUrl: null,
-        username: 'usera',
+        handle: 'usera',
         bookCount: 5,
         bio: null,
         instagramHandle: null,
@@ -131,7 +131,7 @@ void main() {
         email: 'test@example.com',
         name: 'User B',
         avatarUrl: null,
-        username: 'userb',
+        handle: 'userb',
         bookCount: 5,
         bio: null,
         instagramHandle: null,

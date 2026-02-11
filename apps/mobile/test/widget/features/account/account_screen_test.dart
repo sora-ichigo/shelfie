@@ -13,7 +13,7 @@ void main() {
     email: 'test@example.com',
     name: 'Test User',
     avatarUrl: null,
-    username: '@testuser',
+    handle: '@testuser',
     bookCount: 42,
     bio: null,
     instagramHandle: null,

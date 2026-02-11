@@ -694,6 +694,9 @@ input UpdateProfileInput {
   """User bio text"""
   bio: String
 
+  """User unique handle"""
+  handle: String
+
   """User Instagram handle"""
   instagramHandle: String
 
@@ -738,6 +741,9 @@ type User {
 
   """The unique identifier of the user"""
   id: Int
+
+  """The user's unique handle"""
+  handle: String
 
   """The user's Instagram handle"""
   instagramHandle: String

@@ -53,13 +53,15 @@ class AccountRepository {
     String? avatarUrl,
     String? bio,
     String? instagramHandle,
+    String? handle,
   }) async {
     final request = GUpdateProfileReq(
       (b) => b
         ..vars.input.name = name
         ..vars.input.avatarUrl = avatarUrl
         ..vars.input.bio = bio
-        ..vars.input.instagramHandle = instagramHandle,
+        ..vars.input.instagramHandle = instagramHandle
+        ..vars.input.handle = handle,
     );
 
     try {
@@ -292,7 +294,7 @@ class AccountRepository {
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
-      username: user.name,
+      handle: user.handle,
       bookCount: user.bookCount,
       bio: user.bio,
       instagramHandle: user.instagramHandle,
@@ -311,7 +313,7 @@ class AccountRepository {
       email: user.email ?? '',
       name: user.name,
       avatarUrl: user.avatarUrl,
-      username: user.name,
+      handle: user.handle,
       bookCount: user.bookCount,
       bio: user.bio,
       instagramHandle: user.instagramHandle,

@@ -79,7 +79,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          profile.username ?? profile.name ?? '',
+          profile.handle ?? profile.name ?? '',
           style: theme.textTheme.titleMedium,
         ),
         centerTitle: true,

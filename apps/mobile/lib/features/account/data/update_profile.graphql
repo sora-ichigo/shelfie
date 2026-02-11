@@ -10,6 +10,7 @@ mutation UpdateProfile($input: UpdateProfileInput!) {
         bookCount
         bio
         instagramHandle
+        handle
       }
     }
     ... on ValidationError {
