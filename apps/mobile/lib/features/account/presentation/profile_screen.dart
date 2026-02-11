@@ -28,6 +28,29 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   ProfileTab _selectedTab = ProfileTab.bookShelf;
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      final booksState = ref.read(profileBooksNotifierProvider);
+      if (booksState.hasMore && !booksState.isLoadingMore) {
+        ref.read(profileBooksNotifierProvider.notifier).loadMore();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +117,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverToBoxAdapter(
             child: Column(
@@ -188,20 +212,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             }, childCount: booksState.books.length),
           ),
         ),
-        if (booksState.hasMore)
-          SliverToBoxAdapter(
+        if (booksState.isLoadingMore)
+          const SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.md),
-              child: Center(
-                child: booksState.isLoadingMore
-                    ? const CircularProgressIndicator()
-                    : TextButton(
-                        onPressed: () => ref
-                            .read(profileBooksNotifierProvider.notifier)
-                            .loadMore(),
-                        child: const Text('もっと見る'),
-                      ),
-              ),
+              padding: EdgeInsets.all(AppSpacing.md),
+              child: Center(child: CircularProgressIndicator()),
             ),
           ),
       ],
