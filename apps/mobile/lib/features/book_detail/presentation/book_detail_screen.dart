@@ -25,10 +25,10 @@ import 'package:shelfie/features/book_detail/presentation/widgets/book_info_sect
 import 'package:shelfie/features/book_detail/presentation/widgets/rating_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
-import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_modal.dart';
-import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_section.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';

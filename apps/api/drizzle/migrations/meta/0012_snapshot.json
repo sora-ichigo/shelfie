@@ -105,23 +105,17 @@
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         },
         "users_firebase_uid_unique": {
           "name": "users_firebase_uid_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "firebase_uid"
-          ]
+          "columns": ["firebase_uid"]
         },
         "users_handle_unique": {
           "name": "users_handle_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "handle"
-          ]
+          "columns": ["handle"]
         }
       },
       "policies": {},
@@ -286,12 +280,8 @@
           "name": "user_books_user_id_users_id_fk",
           "tableFrom": "user_books",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -301,10 +291,7 @@
         "user_books_user_id_external_id_unique": {
           "name": "user_books_user_id_external_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id",
-            "external_id"
-          ]
+          "columns": ["user_id", "external_id"]
         }
       },
       "policies": {},
@@ -396,12 +383,8 @@
           "name": "book_list_items_list_id_book_lists_id_fk",
           "tableFrom": "book_list_items",
           "tableTo": "book_lists",
-          "columnsFrom": [
-            "list_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["list_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -409,12 +392,8 @@
           "name": "book_list_items_user_book_id_user_books_id_fk",
           "tableFrom": "book_list_items",
           "tableTo": "user_books",
-          "columnsFrom": [
-            "user_book_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_book_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -424,10 +403,7 @@
         "book_list_items_list_id_user_book_id_unique": {
           "name": "book_list_items_list_id_user_book_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "list_id",
-            "user_book_id"
-          ]
+          "columns": ["list_id", "user_book_id"]
         }
       },
       "policies": {},
@@ -510,12 +486,8 @@
           "name": "book_lists_user_id_users_id_fk",
           "tableFrom": "book_lists",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -623,12 +595,8 @@
           "name": "device_tokens_user_id_users_id_fk",
           "tableFrom": "device_tokens",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -644,20 +612,12 @@
     "public.book_source": {
       "name": "book_source",
       "schema": "public",
-      "values": [
-        "rakuten",
-        "google"
-      ]
+      "values": ["rakuten", "google"]
     },
     "public.reading_status": {
       "name": "reading_status",
       "schema": "public",
-      "values": [
-        "backlog",
-        "reading",
-        "completed",
-        "interested"
-      ]
+      "values": ["backlog", "reading", "completed", "interested"]
     }
   },
   "schemas": {},
