@@ -4,6 +4,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
@@ -16,6 +17,18 @@ class ProfileHeader extends StatelessWidget {
   final UserProfile profile;
   final VoidCallback onEditProfile;
   final VoidCallback onShareProfile;
+
+  Future<void> _openInstagramProfile(String handle) async {
+    final appUri = Uri.parse('instagram://user?username=$handle');
+    if (await canLaunchUrl(appUri)) {
+      await launchUrl(appUri, mode: LaunchMode.externalApplication);
+    } else {
+      await launchUrl(
+        Uri.parse('https://www.instagram.com/$handle'),
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,53 +82,56 @@ class ProfileHeader extends StatelessWidget {
               profile.instagramHandle!.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.xs,
-                  vertical: AppSpacing.xxs,
-                ),
-                decoration: BoxDecoration(
-                  color: appColors.surface,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // ignore: avoid_direct_colors
-                    SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [
+              child: GestureDetector(
+                onTap: () => _openInstagramProfile(profile.instagramHandle!),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.xs,
+                    vertical: AppSpacing.xxs,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appColors.surface,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // ignore: avoid_direct_colors
+                      SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [
+                              // ignore: avoid_direct_colors
+                              Color(0xFFFDF497),
+                              // ignore: avoid_direct_colors
+                              Color(0xFFFD5949),
+                              // ignore: avoid_direct_colors
+                              Color(0xFFD6249F),
+                              // ignore: avoid_direct_colors
+                              Color(0xFF285AEB),
+                            ],
+                            stops: [0.0, 0.35, 0.55, 0.9],
+                          ).createShader(bounds),
+                          child: const FaIcon(
+                            FontAwesomeIcons.instagram,
+                            size: 16,
                             // ignore: avoid_direct_colors
-                            Color(0xFFFDF497),
-                            // ignore: avoid_direct_colors
-                            Color(0xFFFD5949),
-                            // ignore: avoid_direct_colors
-                            Color(0xFFD6249F),
-                            // ignore: avoid_direct_colors
-                            Color(0xFF285AEB),
-                          ],
-                          stops: [0.0, 0.35, 0.55, 0.9],
-                        ).createShader(bounds),
-                        child: const FaIcon(
-                          FontAwesomeIcons.instagram,
-                          size: 16,
-                          // ignore: avoid_direct_colors
-                          color: Colors.white,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: AppSpacing.xxs),
-                    Text(
-                      '@${profile.instagramHandle}',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: appColors.textSecondary,
+                      const SizedBox(width: AppSpacing.xxs),
+                      Text(
+                        '@${profile.instagramHandle}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: appColors.textSecondary,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
