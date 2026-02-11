@@ -135,16 +135,16 @@ void main() {
         expect(ProfileValidators.validateBio(''), isNull);
       });
 
-      test('500文字ちょうどの場合、null を返す', () {
-        final bio = 'あ' * 500;
+      test('100文字ちょうどの場合、null を返す', () {
+        final bio = 'あ' * 100;
         expect(ProfileValidators.validateBio(bio), isNull);
       });
 
-      test('500文字を超える場合、エラーメッセージを返す', () {
-        final longBio = 'あ' * 501;
+      test('100文字を超える場合、エラーメッセージを返す', () {
+        final longBio = 'あ' * 101;
         expect(
           ProfileValidators.validateBio(longBio),
-          equals('自己紹介は500文字以内で入力してください'),
+          equals('自己紹介は100文字以内で入力してください'),
         );
       });
     });

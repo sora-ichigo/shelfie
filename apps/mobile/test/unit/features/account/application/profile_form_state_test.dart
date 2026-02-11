@@ -253,13 +253,13 @@ void main() {
     });
 
     group('bioError', () {
-      test('BIOが500文字超の場合はエラーメッセージを返す', () {
+      test('BIOが100文字超の場合はエラーメッセージを返す', () {
         container
             .read(profileFormStateProvider.notifier)
-            .updateBio('あ' * 501);
+            .updateBio('あ' * 101);
         expect(
           container.read(profileFormStateProvider.notifier).bioError,
-          equals('自己紹介は500文字以内で入力してください'),
+          equals('自己紹介は100文字以内で入力してください'),
         );
       });
 
@@ -319,7 +319,7 @@ void main() {
       test('BIOが長すぎる場合は false', () {
         final notifier = container.read(profileFormStateProvider.notifier);
         notifier.updateName('Valid Name');
-        notifier.updateBio('あ' * 501);
+        notifier.updateBio('あ' * 101);
         expect(notifier.isValid, isFalse);
       });
 

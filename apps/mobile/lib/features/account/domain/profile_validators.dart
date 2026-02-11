@@ -33,8 +33,8 @@ abstract final class ProfileValidators {
 
   static String? validateBio(String bio) {
     if (bio.isEmpty) return null;
-    if (bio.length > 500) {
-      return '自己紹介は500文字以内で入力してください';
+    if (bio.length > 100) {
+      return '自己紹介は100文字以内で入力してください';
     }
     return null;
   }
