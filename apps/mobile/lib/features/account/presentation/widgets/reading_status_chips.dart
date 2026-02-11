@@ -7,11 +7,15 @@ class ReadingStatusChips extends StatelessWidget {
   const ReadingStatusChips({
     required this.selectedFilter,
     required this.onFilterChanged,
+    this.counts = const {},
     super.key,
   });
 
   final ReadingStatus? selectedFilter;
   final ValueChanged<ReadingStatus?> onFilterChanged;
+  final Map<ReadingStatus, int> counts;
+
+  int get _totalCount => counts.values.fold(0, (a, b) => a + b);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class ReadingStatusChips extends StatelessWidget {
         children: [
           _Chip(
             label: 'すべて',
+            count: counts.isNotEmpty ? _totalCount : null,
             isSelected: selectedFilter == null,
             onTap: () => onFilterChanged(null),
           ),
@@ -30,6 +35,7 @@ class ReadingStatusChips extends StatelessWidget {
               padding: const EdgeInsets.only(right: AppSpacing.xs),
               child: _Chip(
                 label: status.displayName,
+                count: counts[status],
                 isSelected: selectedFilter == status,
                 onTap: () => onFilterChanged(status),
               ),
@@ -46,15 +52,18 @@ class _Chip extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.onTap,
+    this.count,
   });
 
   final String label;
+  final int? count;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final displayText = count != null ? '$label $count' : label;
 
     return GestureDetector(
       onTap: onTap,
@@ -68,7 +77,7 @@ class _Chip extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          label,
+          displayText,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
             color: isSelected ? Colors.white : appColors.textSecondary,
           ),

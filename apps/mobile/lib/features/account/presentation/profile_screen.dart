@@ -8,6 +8,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/application/profile_books_notifier.dart';
 import 'package:shelfie/features/account/application/profile_books_state.dart';
+import 'package:shelfie/features/account/application/reading_status_counts_notifier.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_book_card.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
@@ -162,6 +163,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Expanded(
                   child: ReadingStatusChips(
                     selectedFilter: booksState.selectedFilter,
+                    counts: ref.watch(readingStatusCountsNotifierProvider),
                     onFilterChanged: (filter) {
                       ref
                           .read(profileBooksNotifierProvider.notifier)
