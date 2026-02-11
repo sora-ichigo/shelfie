@@ -222,7 +222,7 @@ class _StatItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text("${count} ", style: theme.textTheme.labelMedium),
+        Text('$count ', style: theme.textTheme.labelMedium),
         Text(
           label,
           style: theme.textTheme.labelSmall?.copyWith(
