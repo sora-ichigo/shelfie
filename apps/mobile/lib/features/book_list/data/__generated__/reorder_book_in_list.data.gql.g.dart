@@ -14,28 +14,22 @@ class _$GReorderBookInListDataSerializer
   @override
   final Iterable<Type> types = const [
     GReorderBookInListData,
-    _$GReorderBookInListData,
+    _$GReorderBookInListData
   ];
   @override
   final String wireName = 'GReorderBookInListData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GReorderBookInListData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GReorderBookInListData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'reorderBookInList',
-      serializers.serialize(
-        object.reorderBookInList,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.reorderBookInList,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -43,10 +37,8 @@ class _$GReorderBookInListDataSerializer
 
   @override
   GReorderBookInListData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GReorderBookInListDataBuilder();
 
     final iterator = serialized.iterator;
@@ -56,20 +48,12 @@ class _$GReorderBookInListDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'reorderBookInList':
-          result.reorderBookInList =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.reorderBookInList = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -84,18 +68,17 @@ class _$GReorderBookInListData extends GReorderBookInListData {
   @override
   final bool reorderBookInList;
 
-  factory _$GReorderBookInListData([
-    void Function(GReorderBookInListDataBuilder)? updates,
-  ]) => (GReorderBookInListDataBuilder()..update(updates))._build();
+  factory _$GReorderBookInListData(
+          [void Function(GReorderBookInListDataBuilder)? updates]) =>
+      (GReorderBookInListDataBuilder()..update(updates))._build();
 
-  _$GReorderBookInListData._({
-    required this.G__typename,
-    required this.reorderBookInList,
-  }) : super._();
+  _$GReorderBookInListData._(
+      {required this.G__typename, required this.reorderBookInList})
+      : super._();
   @override
   GReorderBookInListData rebuild(
-    void Function(GReorderBookInListDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GReorderBookInListDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GReorderBookInListDataBuilder toBuilder() =>
@@ -168,19 +151,14 @@ class GReorderBookInListDataBuilder
   GReorderBookInListData build() => _build();
 
   _$GReorderBookInListData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GReorderBookInListData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GReorderBookInListData',
-            'G__typename',
-          ),
+              G__typename, r'GReorderBookInListData', 'G__typename'),
           reorderBookInList: BuiltValueNullFieldError.checkNotNull(
-            reorderBookInList,
-            r'GReorderBookInListData',
-            'reorderBookInList',
-          ),
+              reorderBookInList,
+              r'GReorderBookInListData',
+              'reorderBookInList'),
         );
     replace(_$result);
     return _$result;

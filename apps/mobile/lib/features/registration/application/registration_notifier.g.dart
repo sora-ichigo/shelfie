@@ -11,19 +11,16 @@ String _$registrationNotifierHash() =>
 
 /// See also [RegistrationNotifier].
 @ProviderFor(RegistrationNotifier)
-final registrationNotifierProvider =
-    AutoDisposeNotifierProvider<
-      RegistrationNotifier,
-      RegistrationState
-    >.internal(
-      RegistrationNotifier.new,
-      name: r'registrationNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$registrationNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final registrationNotifierProvider = AutoDisposeNotifierProvider<
+    RegistrationNotifier, RegistrationState>.internal(
+  RegistrationNotifier.new,
+  name: r'registrationNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$registrationNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$RegistrationNotifier = AutoDisposeNotifier<RegistrationState>;
 // ignore_for_file: type=lint

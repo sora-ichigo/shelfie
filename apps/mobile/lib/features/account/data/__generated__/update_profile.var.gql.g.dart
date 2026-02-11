@@ -18,16 +18,12 @@ class _$GUpdateProfileVarsSerializer
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateProfileVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUpdateProfileVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GUpdateProfileInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GUpdateProfileInput)),
     ];
 
     return result;
@@ -35,10 +31,8 @@ class _$GUpdateProfileVarsSerializer
 
   @override
   GUpdateProfileVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateProfileVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -48,13 +42,9 @@ class _$GUpdateProfileVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GUpdateProfileInput),
-                )!
-                as _i1.GUpdateProfileInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GUpdateProfileInput))!
+              as _i1.GUpdateProfileInput);
           break;
       }
     }
@@ -67,15 +57,15 @@ class _$GUpdateProfileVars extends GUpdateProfileVars {
   @override
   final _i1.GUpdateProfileInput input;
 
-  factory _$GUpdateProfileVars([
-    void Function(GUpdateProfileVarsBuilder)? updates,
-  ]) => (GUpdateProfileVarsBuilder()..update(updates))._build();
+  factory _$GUpdateProfileVars(
+          [void Function(GUpdateProfileVarsBuilder)? updates]) =>
+      (GUpdateProfileVarsBuilder()..update(updates))._build();
 
   _$GUpdateProfileVars._({required this.input}) : super._();
   @override
   GUpdateProfileVars rebuild(
-    void Function(GUpdateProfileVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUpdateProfileVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUpdateProfileVarsBuilder toBuilder() =>
@@ -97,9 +87,9 @@ class _$GUpdateProfileVars extends GUpdateProfileVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GUpdateProfileVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GUpdateProfileVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -139,7 +129,10 @@ class GUpdateProfileVarsBuilder
   _$GUpdateProfileVars _build() {
     _$GUpdateProfileVars _$result;
     try {
-      _$result = _$v ?? _$GUpdateProfileVars._(input: input.build());
+      _$result = _$v ??
+          _$GUpdateProfileVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -147,10 +140,7 @@ class GUpdateProfileVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUpdateProfileVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUpdateProfileVars', _$failedField, e.toString());
       }
       rethrow;
     }

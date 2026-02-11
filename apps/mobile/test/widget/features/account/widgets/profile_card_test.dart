@@ -20,6 +20,8 @@ void main() {
       avatarUrl: avatarUrl,
       username: username,
       bookCount: bookCount,
+      bio: null,
+      instagramHandle: null,
       readingStartYear: readingStartYear,
       readingStartMonth: readingStartMonth,
       createdAt: DateTime(2020, 4, 1),

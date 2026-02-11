@@ -17,90 +17,63 @@ class _$GUpdateProfileReqSerializer
   final String wireName = 'GUpdateProfileReq';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateProfileReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GUpdateProfileReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GUpdateProfileVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GUpdateProfileVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GUpdateProfileData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GUpdateProfileData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GUpdateProfileReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateProfileReqBuilder();
 
     final iterator = serialized.iterator;
@@ -110,73 +83,42 @@ class _$GUpdateProfileReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GUpdateProfileVars),
-                )!
-                as _i3.GUpdateProfileVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GUpdateProfileVars))!
+              as _i3.GUpdateProfileVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GUpdateProfileData),
-                )!
-                as _i2.GUpdateProfileData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GUpdateProfileData))!
+              as _i2.GUpdateProfileData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -194,10 +136,7 @@ class _$GUpdateProfileReq extends GUpdateProfileReq {
   final String? requestId;
   @override
   final _i2.GUpdateProfileData? Function(
-    _i2.GUpdateProfileData?,
-    _i2.GUpdateProfileData?,
-  )?
-  updateResult;
+      _i2.GUpdateProfileData?, _i2.GUpdateProfileData?)? updateResult;
   @override
   final _i2.GUpdateProfileData? optimisticResponse;
   @override
@@ -211,22 +150,22 @@ class _$GUpdateProfileReq extends GUpdateProfileReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateProfileReq([
-    void Function(GUpdateProfileReqBuilder)? updates,
-  ]) => (GUpdateProfileReqBuilder()..update(updates))._build();
+  factory _$GUpdateProfileReq(
+          [void Function(GUpdateProfileReqBuilder)? updates]) =>
+      (GUpdateProfileReqBuilder()..update(updates))._build();
 
-  _$GUpdateProfileReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GUpdateProfileReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GUpdateProfileReq rebuild(void Function(GUpdateProfileReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -304,22 +243,15 @@ class GUpdateProfileReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateProfileData? Function(
-    _i2.GUpdateProfileData?,
-    _i2.GUpdateProfileData?,
-  )?
-  _updateResult;
+      _i2.GUpdateProfileData?, _i2.GUpdateProfileData?)? _updateResult;
   _i2.GUpdateProfileData? Function(
-    _i2.GUpdateProfileData?,
-    _i2.GUpdateProfileData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GUpdateProfileData?, _i2.GUpdateProfileData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GUpdateProfileData? Function(
-      _i2.GUpdateProfileData?,
-      _i2.GUpdateProfileData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GUpdateProfileData? Function(
+                  _i2.GUpdateProfileData?, _i2.GUpdateProfileData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GUpdateProfileDataBuilder? _optimisticResponse;
   _i2.GUpdateProfileDataBuilder get optimisticResponse =>
@@ -336,8 +268,8 @@ class GUpdateProfileReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -391,15 +323,11 @@ class GUpdateProfileReqBuilder
   _$GUpdateProfileReq _build() {
     _$GUpdateProfileReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GUpdateProfileReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GUpdateProfileReq',
-              'operation',
-            ),
+                operation, r'GUpdateProfileReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -407,10 +335,7 @@ class GUpdateProfileReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GUpdateProfileReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GUpdateProfileReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -423,10 +348,7 @@ class GUpdateProfileReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUpdateProfileReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUpdateProfileReq', _$failedField, e.toString());
       }
       rethrow;
     }

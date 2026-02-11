@@ -37,6 +37,8 @@ void main() {
       avatarUrl: 'https://example.com/avatar.png',
       username: '@testuser',
       bookCount: 10,
+      bio: null,
+      instagramHandle: null,
       readingStartYear: 2020,
       readingStartMonth: 1,
       createdAt: DateTime(2020, 1, 1),

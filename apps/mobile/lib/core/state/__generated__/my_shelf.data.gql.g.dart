@@ -19,22 +19,15 @@ class _$GMyShelfDataSerializer implements StructuredSerializer<GMyShelfData> {
   final String wireName = 'GMyShelfData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GMyShelfData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GMyShelfData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'myShelf',
-      serializers.serialize(
-        object.myShelf,
-        specifiedType: const FullType(GMyShelfData_myShelf),
-      ),
+      serializers.serialize(object.myShelf,
+          specifiedType: const FullType(GMyShelfData_myShelf)),
     ];
 
     return result;
@@ -42,10 +35,8 @@ class _$GMyShelfDataSerializer implements StructuredSerializer<GMyShelfData> {
 
   @override
   GMyShelfData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GMyShelfDataBuilder();
 
     final iterator = serialized.iterator;
@@ -55,21 +46,13 @@ class _$GMyShelfDataSerializer implements StructuredSerializer<GMyShelfData> {
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'myShelf':
-          result.myShelf.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(GMyShelfData_myShelf),
-                )!
-                as GMyShelfData_myShelf,
-          );
+          result.myShelf.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(GMyShelfData_myShelf))!
+              as GMyShelfData_myShelf);
           break;
       }
     }
@@ -83,40 +66,29 @@ class _$GMyShelfData_myShelfSerializer
   @override
   final Iterable<Type> types = const [
     GMyShelfData_myShelf,
-    _$GMyShelfData_myShelf,
+    _$GMyShelfData_myShelf
   ];
   @override
   final String wireName = 'GMyShelfData_myShelf';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GMyShelfData_myShelf object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GMyShelfData_myShelf object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'items',
-      serializers.serialize(
-        object.items,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(GMyShelfData_myShelf_items),
-        ]),
-      ),
+      serializers.serialize(object.items,
+          specifiedType: const FullType(
+              BuiltList, const [const FullType(GMyShelfData_myShelf_items)])),
       'totalCount',
-      serializers.serialize(
-        object.totalCount,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.totalCount,
+          specifiedType: const FullType(int)),
       'hasMore',
-      serializers.serialize(
-        object.hasMore,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.hasMore,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -124,10 +96,8 @@ class _$GMyShelfData_myShelfSerializer
 
   @override
   GMyShelfData_myShelf deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GMyShelfData_myShelfBuilder();
 
     final iterator = serialized.iterator;
@@ -137,39 +107,22 @@ class _$GMyShelfData_myShelfSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'items':
-          result.items.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(GMyShelfData_myShelf_items),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.items.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltList, const [
+                const FullType(GMyShelfData_myShelf_items)
+              ]))! as BuiltList<Object?>);
           break;
         case 'totalCount':
-          result.totalCount =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.totalCount = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'hasMore':
-          result.hasMore =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.hasMore = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -183,95 +136,74 @@ class _$GMyShelfData_myShelf_itemsSerializer
   @override
   final Iterable<Type> types = const [
     GMyShelfData_myShelf_items,
-    _$GMyShelfData_myShelf_items,
+    _$GMyShelfData_myShelf_items
   ];
   @override
   final String wireName = 'GMyShelfData_myShelf_items';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GMyShelfData_myShelf_items object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GMyShelfData_myShelf_items object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'externalId',
-      serializers.serialize(
-        object.externalId,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.externalId,
+          specifiedType: const FullType(String)),
       'title',
-      serializers.serialize(
-        object.title,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'authors',
-      serializers.serialize(
-        object.authors,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(String),
-        ]),
-      ),
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'readingStatus',
-      serializers.serialize(
-        object.readingStatus,
-        specifiedType: const FullType(_i2.GReadingStatus),
-      ),
+      serializers.serialize(object.readingStatus,
+          specifiedType: const FullType(_i2.GReadingStatus)),
       'addedAt',
-      serializers.serialize(
-        object.addedAt,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.addedAt,
+          specifiedType: const FullType(DateTime)),
     ];
     Object? value;
     value = object.note;
     if (value != null) {
       result
         ..add('note')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.noteUpdatedAt;
     if (value != null) {
       result
         ..add('noteUpdatedAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     value = object.startedAt;
     if (value != null) {
       result
         ..add('startedAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     value = object.completedAt;
     if (value != null) {
       result
         ..add('completedAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     return result;
   }
 
   @override
   GMyShelfData_myShelf_items deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GMyShelfData_myShelf_itemsBuilder();
 
     final iterator = serialized.iterator;
@@ -281,95 +213,51 @@ class _$GMyShelfData_myShelf_itemsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'externalId':
-          result.externalId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.externalId = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'title':
-          result.title =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'authors':
-          result.authors.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(String),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'readingStatus':
-          result.readingStatus =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i2.GReadingStatus),
-                  )!
-                  as _i2.GReadingStatus;
+          result.readingStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GReadingStatus))!
+              as _i2.GReadingStatus;
           break;
         case 'note':
-          result.note =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.note = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'noteUpdatedAt':
-          result.noteUpdatedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.noteUpdatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'addedAt':
-          result.addedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.addedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'startedAt':
-          result.startedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.startedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'completedAt':
-          result.completedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.completedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -388,7 +276,7 @@ class _$GMyShelfData extends GMyShelfData {
       (GMyShelfDataBuilder()..update(updates))._build();
 
   _$GMyShelfData._({required this.G__typename, required this.myShelf})
-    : super._();
+      : super._();
   @override
   GMyShelfData rebuild(void Function(GMyShelfDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -466,14 +354,10 @@ class GMyShelfDataBuilder
   _$GMyShelfData _build() {
     _$GMyShelfData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GMyShelfData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GMyShelfData',
-              'G__typename',
-            ),
+                G__typename, r'GMyShelfData', 'G__typename'),
             myShelf: myShelf.build(),
           );
     } catch (_) {
@@ -483,10 +367,7 @@ class GMyShelfDataBuilder
         myShelf.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GMyShelfData',
-          _$failedField,
-          e.toString(),
-        );
+            r'GMyShelfData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -505,20 +386,20 @@ class _$GMyShelfData_myShelf extends GMyShelfData_myShelf {
   @override
   final bool hasMore;
 
-  factory _$GMyShelfData_myShelf([
-    void Function(GMyShelfData_myShelfBuilder)? updates,
-  ]) => (GMyShelfData_myShelfBuilder()..update(updates))._build();
+  factory _$GMyShelfData_myShelf(
+          [void Function(GMyShelfData_myShelfBuilder)? updates]) =>
+      (GMyShelfData_myShelfBuilder()..update(updates))._build();
 
-  _$GMyShelfData_myShelf._({
-    required this.G__typename,
-    required this.items,
-    required this.totalCount,
-    required this.hasMore,
-  }) : super._();
+  _$GMyShelfData_myShelf._(
+      {required this.G__typename,
+      required this.items,
+      required this.totalCount,
+      required this.hasMore})
+      : super._();
   @override
   GMyShelfData_myShelf rebuild(
-    void Function(GMyShelfData_myShelfBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GMyShelfData_myShelfBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GMyShelfData_myShelfBuilder toBuilder() =>
@@ -610,25 +491,15 @@ class GMyShelfData_myShelfBuilder
   _$GMyShelfData_myShelf _build() {
     _$GMyShelfData_myShelf _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GMyShelfData_myShelf._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GMyShelfData_myShelf',
-              'G__typename',
-            ),
+                G__typename, r'GMyShelfData_myShelf', 'G__typename'),
             items: items.build(),
             totalCount: BuiltValueNullFieldError.checkNotNull(
-              totalCount,
-              r'GMyShelfData_myShelf',
-              'totalCount',
-            ),
+                totalCount, r'GMyShelfData_myShelf', 'totalCount'),
             hasMore: BuiltValueNullFieldError.checkNotNull(
-              hasMore,
-              r'GMyShelfData_myShelf',
-              'hasMore',
-            ),
+                hasMore, r'GMyShelfData_myShelf', 'hasMore'),
           );
     } catch (_) {
       late String _$failedField;
@@ -637,10 +508,7 @@ class GMyShelfData_myShelfBuilder
         items.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GMyShelfData_myShelf',
-          _$failedField,
-          e.toString(),
-        );
+            r'GMyShelfData_myShelf', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -673,27 +541,27 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
   @override
   final DateTime? completedAt;
 
-  factory _$GMyShelfData_myShelf_items([
-    void Function(GMyShelfData_myShelf_itemsBuilder)? updates,
-  ]) => (GMyShelfData_myShelf_itemsBuilder()..update(updates))._build();
+  factory _$GMyShelfData_myShelf_items(
+          [void Function(GMyShelfData_myShelf_itemsBuilder)? updates]) =>
+      (GMyShelfData_myShelf_itemsBuilder()..update(updates))._build();
 
-  _$GMyShelfData_myShelf_items._({
-    required this.G__typename,
-    required this.id,
-    required this.externalId,
-    required this.title,
-    required this.authors,
-    required this.readingStatus,
-    this.note,
-    this.noteUpdatedAt,
-    required this.addedAt,
-    this.startedAt,
-    this.completedAt,
-  }) : super._();
+  _$GMyShelfData_myShelf_items._(
+      {required this.G__typename,
+      required this.id,
+      required this.externalId,
+      required this.title,
+      required this.authors,
+      required this.readingStatus,
+      this.note,
+      this.noteUpdatedAt,
+      required this.addedAt,
+      this.startedAt,
+      this.completedAt})
+      : super._();
   @override
   GMyShelfData_myShelf_items rebuild(
-    void Function(GMyShelfData_myShelf_itemsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GMyShelfData_myShelf_itemsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GMyShelfData_myShelf_itemsBuilder toBuilder() =>
@@ -842,42 +710,23 @@ class GMyShelfData_myShelf_itemsBuilder
   _$GMyShelfData_myShelf_items _build() {
     _$GMyShelfData_myShelf_items _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GMyShelfData_myShelf_items._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GMyShelfData_myShelf_items',
-              'G__typename',
-            ),
+                G__typename, r'GMyShelfData_myShelf_items', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GMyShelfData_myShelf_items',
-              'id',
-            ),
+                id, r'GMyShelfData_myShelf_items', 'id'),
             externalId: BuiltValueNullFieldError.checkNotNull(
-              externalId,
-              r'GMyShelfData_myShelf_items',
-              'externalId',
-            ),
+                externalId, r'GMyShelfData_myShelf_items', 'externalId'),
             title: BuiltValueNullFieldError.checkNotNull(
-              title,
-              r'GMyShelfData_myShelf_items',
-              'title',
-            ),
+                title, r'GMyShelfData_myShelf_items', 'title'),
             authors: authors.build(),
             readingStatus: BuiltValueNullFieldError.checkNotNull(
-              readingStatus,
-              r'GMyShelfData_myShelf_items',
-              'readingStatus',
-            ),
+                readingStatus, r'GMyShelfData_myShelf_items', 'readingStatus'),
             note: note,
             noteUpdatedAt: noteUpdatedAt,
             addedAt: BuiltValueNullFieldError.checkNotNull(
-              addedAt,
-              r'GMyShelfData_myShelf_items',
-              'addedAt',
-            ),
+                addedAt, r'GMyShelfData_myShelf_items', 'addedAt'),
             startedAt: startedAt,
             completedAt: completedAt,
           );
@@ -888,10 +737,7 @@ class GMyShelfData_myShelf_itemsBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GMyShelfData_myShelf_items',
-          _$failedField,
-          e.toString(),
-        );
+            r'GMyShelfData_myShelf_items', _$failedField, e.toString());
       }
       rethrow;
     }

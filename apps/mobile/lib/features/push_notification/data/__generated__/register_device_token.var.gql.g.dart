@@ -14,23 +14,19 @@ class _$GRegisterDeviceTokenVarsSerializer
   @override
   final Iterable<Type> types = const [
     GRegisterDeviceTokenVars,
-    _$GRegisterDeviceTokenVars,
+    _$GRegisterDeviceTokenVars
   ];
   @override
   final String wireName = 'GRegisterDeviceTokenVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRegisterDeviceTokenVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRegisterDeviceTokenVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GRegisterDeviceTokenInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GRegisterDeviceTokenInput)),
     ];
 
     return result;
@@ -38,10 +34,8 @@ class _$GRegisterDeviceTokenVarsSerializer
 
   @override
   GRegisterDeviceTokenVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRegisterDeviceTokenVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -51,13 +45,9 @@ class _$GRegisterDeviceTokenVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GRegisterDeviceTokenInput),
-                )!
-                as _i1.GRegisterDeviceTokenInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GRegisterDeviceTokenInput))!
+              as _i1.GRegisterDeviceTokenInput);
           break;
       }
     }
@@ -70,15 +60,15 @@ class _$GRegisterDeviceTokenVars extends GRegisterDeviceTokenVars {
   @override
   final _i1.GRegisterDeviceTokenInput input;
 
-  factory _$GRegisterDeviceTokenVars([
-    void Function(GRegisterDeviceTokenVarsBuilder)? updates,
-  ]) => (GRegisterDeviceTokenVarsBuilder()..update(updates))._build();
+  factory _$GRegisterDeviceTokenVars(
+          [void Function(GRegisterDeviceTokenVarsBuilder)? updates]) =>
+      (GRegisterDeviceTokenVarsBuilder()..update(updates))._build();
 
   _$GRegisterDeviceTokenVars._({required this.input}) : super._();
   @override
   GRegisterDeviceTokenVars rebuild(
-    void Function(GRegisterDeviceTokenVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRegisterDeviceTokenVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRegisterDeviceTokenVarsBuilder toBuilder() =>
@@ -100,9 +90,9 @@ class _$GRegisterDeviceTokenVars extends GRegisterDeviceTokenVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GRegisterDeviceTokenVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GRegisterDeviceTokenVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -144,7 +134,10 @@ class GRegisterDeviceTokenVarsBuilder
   _$GRegisterDeviceTokenVars _build() {
     _$GRegisterDeviceTokenVars _$result;
     try {
-      _$result = _$v ?? _$GRegisterDeviceTokenVars._(input: input.build());
+      _$result = _$v ??
+          _$GRegisterDeviceTokenVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -152,10 +145,7 @@ class GRegisterDeviceTokenVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRegisterDeviceTokenVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRegisterDeviceTokenVars', _$failedField, e.toString());
       }
       rethrow;
     }

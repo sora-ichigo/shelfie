@@ -14,96 +14,70 @@ class _$GSearchBookByISBNReqSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBookByISBNReq,
-    _$GSearchBookByISBNReq,
+    _$GSearchBookByISBNReq
   ];
   @override
   final String wireName = 'GSearchBookByISBNReq';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBookByISBNReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBookByISBNReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GSearchBookByISBNVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GSearchBookByISBNVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GSearchBookByISBNData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GSearchBookByISBNData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GSearchBookByISBNReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBookByISBNReqBuilder();
 
     final iterator = serialized.iterator;
@@ -113,73 +87,42 @@ class _$GSearchBookByISBNReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GSearchBookByISBNVars),
-                )!
-                as _i3.GSearchBookByISBNVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GSearchBookByISBNVars))!
+              as _i3.GSearchBookByISBNVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GSearchBookByISBNData),
-                )!
-                as _i2.GSearchBookByISBNData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GSearchBookByISBNData))!
+              as _i2.GSearchBookByISBNData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -197,10 +140,7 @@ class _$GSearchBookByISBNReq extends GSearchBookByISBNReq {
   final String? requestId;
   @override
   final _i2.GSearchBookByISBNData? Function(
-    _i2.GSearchBookByISBNData?,
-    _i2.GSearchBookByISBNData?,
-  )?
-  updateResult;
+      _i2.GSearchBookByISBNData?, _i2.GSearchBookByISBNData?)? updateResult;
   @override
   final _i2.GSearchBookByISBNData? optimisticResponse;
   @override
@@ -214,26 +154,26 @@ class _$GSearchBookByISBNReq extends GSearchBookByISBNReq {
   @override
   final _i4.Context? context;
 
-  factory _$GSearchBookByISBNReq([
-    void Function(GSearchBookByISBNReqBuilder)? updates,
-  ]) => (GSearchBookByISBNReqBuilder()..update(updates))._build();
+  factory _$GSearchBookByISBNReq(
+          [void Function(GSearchBookByISBNReqBuilder)? updates]) =>
+      (GSearchBookByISBNReqBuilder()..update(updates))._build();
 
-  _$GSearchBookByISBNReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GSearchBookByISBNReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GSearchBookByISBNReq rebuild(
-    void Function(GSearchBookByISBNReqBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBookByISBNReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBookByISBNReqBuilder toBuilder() =>
@@ -308,29 +248,22 @@ class GSearchBookByISBNReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GSearchBookByISBNData? Function(
-    _i2.GSearchBookByISBNData?,
-    _i2.GSearchBookByISBNData?,
-  )?
-  _updateResult;
+      _i2.GSearchBookByISBNData?, _i2.GSearchBookByISBNData?)? _updateResult;
   _i2.GSearchBookByISBNData? Function(
-    _i2.GSearchBookByISBNData?,
-    _i2.GSearchBookByISBNData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GSearchBookByISBNData?, _i2.GSearchBookByISBNData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GSearchBookByISBNData? Function(
-      _i2.GSearchBookByISBNData?,
-      _i2.GSearchBookByISBNData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GSearchBookByISBNData? Function(
+                  _i2.GSearchBookByISBNData?, _i2.GSearchBookByISBNData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GSearchBookByISBNDataBuilder? _optimisticResponse;
   _i2.GSearchBookByISBNDataBuilder get optimisticResponse =>
       _$this._optimisticResponse ??= _i2.GSearchBookByISBNDataBuilder();
   set optimisticResponse(
-    _i2.GSearchBookByISBNDataBuilder? optimisticResponse,
-  ) => _$this._optimisticResponse = optimisticResponse;
+          _i2.GSearchBookByISBNDataBuilder? optimisticResponse) =>
+      _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -341,8 +274,8 @@ class GSearchBookByISBNReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -396,15 +329,11 @@ class GSearchBookByISBNReqBuilder
   _$GSearchBookByISBNReq _build() {
     _$GSearchBookByISBNReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GSearchBookByISBNReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GSearchBookByISBNReq',
-              'operation',
-            ),
+                operation, r'GSearchBookByISBNReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -412,10 +341,7 @@ class GSearchBookByISBNReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GSearchBookByISBNReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GSearchBookByISBNReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -428,10 +354,7 @@ class GSearchBookByISBNReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GSearchBookByISBNReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GSearchBookByISBNReq', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -14,23 +14,19 @@ class _$GUnregisterDeviceTokenVarsSerializer
   @override
   final Iterable<Type> types = const [
     GUnregisterDeviceTokenVars,
-    _$GUnregisterDeviceTokenVars,
+    _$GUnregisterDeviceTokenVars
   ];
   @override
   final String wireName = 'GUnregisterDeviceTokenVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUnregisterDeviceTokenVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUnregisterDeviceTokenVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GUnregisterDeviceTokenInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GUnregisterDeviceTokenInput)),
     ];
 
     return result;
@@ -38,10 +34,8 @@ class _$GUnregisterDeviceTokenVarsSerializer
 
   @override
   GUnregisterDeviceTokenVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUnregisterDeviceTokenVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -51,15 +45,10 @@ class _$GUnregisterDeviceTokenVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(
-                    _i1.GUnregisterDeviceTokenInput,
-                  ),
-                )!
-                as _i1.GUnregisterDeviceTokenInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(_i1.GUnregisterDeviceTokenInput))!
+              as _i1.GUnregisterDeviceTokenInput);
           break;
       }
     }
@@ -72,15 +61,15 @@ class _$GUnregisterDeviceTokenVars extends GUnregisterDeviceTokenVars {
   @override
   final _i1.GUnregisterDeviceTokenInput input;
 
-  factory _$GUnregisterDeviceTokenVars([
-    void Function(GUnregisterDeviceTokenVarsBuilder)? updates,
-  ]) => (GUnregisterDeviceTokenVarsBuilder()..update(updates))._build();
+  factory _$GUnregisterDeviceTokenVars(
+          [void Function(GUnregisterDeviceTokenVarsBuilder)? updates]) =>
+      (GUnregisterDeviceTokenVarsBuilder()..update(updates))._build();
 
   _$GUnregisterDeviceTokenVars._({required this.input}) : super._();
   @override
   GUnregisterDeviceTokenVars rebuild(
-    void Function(GUnregisterDeviceTokenVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUnregisterDeviceTokenVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUnregisterDeviceTokenVarsBuilder toBuilder() =>
@@ -102,9 +91,9 @@ class _$GUnregisterDeviceTokenVars extends GUnregisterDeviceTokenVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GUnregisterDeviceTokenVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GUnregisterDeviceTokenVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -146,7 +135,10 @@ class GUnregisterDeviceTokenVarsBuilder
   _$GUnregisterDeviceTokenVars _build() {
     _$GUnregisterDeviceTokenVars _$result;
     try {
-      _$result = _$v ?? _$GUnregisterDeviceTokenVars._(input: input.build());
+      _$result = _$v ??
+          _$GUnregisterDeviceTokenVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -154,10 +146,7 @@ class GUnregisterDeviceTokenVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUnregisterDeviceTokenVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUnregisterDeviceTokenVars', _$failedField, e.toString());
       }
       rethrow;
     }

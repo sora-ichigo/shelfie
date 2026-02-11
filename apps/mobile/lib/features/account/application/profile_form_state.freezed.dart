@@ -12,8 +12,7 @@ part of 'profile_form_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ProfileFormData {
@@ -32,16 +31,11 @@ mixin _$ProfileFormData {
 /// @nodoc
 abstract class $ProfileFormDataCopyWith<$Res> {
   factory $ProfileFormDataCopyWith(
-    ProfileFormData value,
-    $Res Function(ProfileFormData) then,
-  ) = _$ProfileFormDataCopyWithImpl<$Res, ProfileFormData>;
+          ProfileFormData value, $Res Function(ProfileFormData) then) =
+      _$ProfileFormDataCopyWithImpl<$Res, ProfileFormData>;
   @useResult
-  $Res call({
-    String name,
-    String email,
-    XFile? pendingAvatarImage,
-    bool hasChanges,
-  });
+  $Res call(
+      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
 }
 
 /// @nodoc
@@ -64,45 +58,37 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
-    return _then(
-      _value.copyWith(
-            name: null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String,
-            email: null == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String,
-            pendingAvatarImage: freezed == pendingAvatarImage
-                ? _value.pendingAvatarImage
-                : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
-                      as XFile?,
-            hasChanges: null == hasChanges
-                ? _value.hasChanges
-                : hasChanges // ignore: cast_nullable_to_non_nullable
-                      as bool,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      pendingAvatarImage: freezed == pendingAvatarImage
+          ? _value.pendingAvatarImage
+          : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      hasChanges: null == hasChanges
+          ? _value.hasChanges
+          : hasChanges // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$ProfileFormDataImplCopyWith<$Res>
     implements $ProfileFormDataCopyWith<$Res> {
-  factory _$$ProfileFormDataImplCopyWith(
-    _$ProfileFormDataImpl value,
-    $Res Function(_$ProfileFormDataImpl) then,
-  ) = __$$ProfileFormDataImplCopyWithImpl<$Res>;
+  factory _$$ProfileFormDataImplCopyWith(_$ProfileFormDataImpl value,
+          $Res Function(_$ProfileFormDataImpl) then) =
+      __$$ProfileFormDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String name,
-    String email,
-    XFile? pendingAvatarImage,
-    bool hasChanges,
-  });
+  $Res call(
+      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
 }
 
 /// @nodoc
@@ -110,9 +96,8 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
     extends _$ProfileFormDataCopyWithImpl<$Res, _$ProfileFormDataImpl>
     implements _$$ProfileFormDataImplCopyWith<$Res> {
   __$$ProfileFormDataImplCopyWithImpl(
-    _$ProfileFormDataImpl _value,
-    $Res Function(_$ProfileFormDataImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileFormDataImpl _value, $Res Function(_$ProfileFormDataImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileFormData
   /// with the given fields replaced by the non-null parameter values.
@@ -124,38 +109,35 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
-    return _then(
-      _$ProfileFormDataImpl(
-        name: null == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String,
-        email: null == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String,
-        pendingAvatarImage: freezed == pendingAvatarImage
-            ? _value.pendingAvatarImage
-            : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
-                  as XFile?,
-        hasChanges: null == hasChanges
-            ? _value.hasChanges
-            : hasChanges // ignore: cast_nullable_to_non_nullable
-                  as bool,
-      ),
-    );
+    return _then(_$ProfileFormDataImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      pendingAvatarImage: freezed == pendingAvatarImage
+          ? _value.pendingAvatarImage
+          : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
+              as XFile?,
+      hasChanges: null == hasChanges
+          ? _value.hasChanges
+          : hasChanges // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$ProfileFormDataImpl implements _ProfileFormData {
-  const _$ProfileFormDataImpl({
-    this.name = '',
-    this.email = '',
-    this.pendingAvatarImage,
-    this.hasChanges = false,
-  });
+  const _$ProfileFormDataImpl(
+      {this.name = '',
+      this.email = '',
+      this.pendingAvatarImage,
+      this.hasChanges = false});
 
   @override
   @JsonKey()
@@ -198,18 +180,15 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   @pragma('vm:prefer-inline')
   _$$ProfileFormDataImplCopyWith<_$ProfileFormDataImpl> get copyWith =>
       __$$ProfileFormDataImplCopyWithImpl<_$ProfileFormDataImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _ProfileFormData implements ProfileFormData {
-  const factory _ProfileFormData({
-    final String name,
-    final String email,
-    final XFile? pendingAvatarImage,
-    final bool hasChanges,
-  }) = _$ProfileFormDataImpl;
+  const factory _ProfileFormData(
+      {final String name,
+      final String email,
+      final XFile? pendingAvatarImage,
+      final bool hasChanges}) = _$ProfileFormDataImpl;
 
   @override
   String get name;

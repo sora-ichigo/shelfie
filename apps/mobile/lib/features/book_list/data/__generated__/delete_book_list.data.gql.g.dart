@@ -14,28 +14,22 @@ class _$GDeleteBookListDataSerializer
   @override
   final Iterable<Type> types = const [
     GDeleteBookListData,
-    _$GDeleteBookListData,
+    _$GDeleteBookListData
   ];
   @override
   final String wireName = 'GDeleteBookListData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GDeleteBookListData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GDeleteBookListData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'deleteBookList',
-      serializers.serialize(
-        object.deleteBookList,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.deleteBookList,
+          specifiedType: const FullType(bool)),
     ];
 
     return result;
@@ -43,10 +37,8 @@ class _$GDeleteBookListDataSerializer
 
   @override
   GDeleteBookListData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GDeleteBookListDataBuilder();
 
     final iterator = serialized.iterator;
@@ -56,20 +48,12 @@ class _$GDeleteBookListDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'deleteBookList':
-          result.deleteBookList =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.deleteBookList = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -84,18 +68,17 @@ class _$GDeleteBookListData extends GDeleteBookListData {
   @override
   final bool deleteBookList;
 
-  factory _$GDeleteBookListData([
-    void Function(GDeleteBookListDataBuilder)? updates,
-  ]) => (GDeleteBookListDataBuilder()..update(updates))._build();
+  factory _$GDeleteBookListData(
+          [void Function(GDeleteBookListDataBuilder)? updates]) =>
+      (GDeleteBookListDataBuilder()..update(updates))._build();
 
-  _$GDeleteBookListData._({
-    required this.G__typename,
-    required this.deleteBookList,
-  }) : super._();
+  _$GDeleteBookListData._(
+      {required this.G__typename, required this.deleteBookList})
+      : super._();
   @override
   GDeleteBookListData rebuild(
-    void Function(GDeleteBookListDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GDeleteBookListDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GDeleteBookListDataBuilder toBuilder() =>
@@ -168,19 +151,12 @@ class GDeleteBookListDataBuilder
   GDeleteBookListData build() => _build();
 
   _$GDeleteBookListData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GDeleteBookListData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GDeleteBookListData',
-            'G__typename',
-          ),
+              G__typename, r'GDeleteBookListData', 'G__typename'),
           deleteBookList: BuiltValueNullFieldError.checkNotNull(
-            deleteBookList,
-            r'GDeleteBookListData',
-            'deleteBookList',
-          ),
+              deleteBookList, r'GDeleteBookListData', 'deleteBookList'),
         );
     replace(_$result);
     return _$result;

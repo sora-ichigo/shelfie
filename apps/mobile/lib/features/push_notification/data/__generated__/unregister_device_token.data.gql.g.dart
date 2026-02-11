@@ -14,23 +14,19 @@ class _$GUnregisterDeviceTokenDataSerializer
   @override
   final Iterable<Type> types = const [
     GUnregisterDeviceTokenData,
-    _$GUnregisterDeviceTokenData,
+    _$GUnregisterDeviceTokenData
   ];
   @override
   final String wireName = 'GUnregisterDeviceTokenData';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUnregisterDeviceTokenData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUnregisterDeviceTokenData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.unregisterDeviceToken;
@@ -38,18 +34,15 @@ class _$GUnregisterDeviceTokenDataSerializer
       result
         ..add('unregisterDeviceToken')
         ..add(
-          serializers.serialize(value, specifiedType: const FullType(bool)),
-        );
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   GUnregisterDeviceTokenData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUnregisterDeviceTokenDataBuilder();
 
     final iterator = serialized.iterator;
@@ -59,20 +52,12 @@ class _$GUnregisterDeviceTokenDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'unregisterDeviceToken':
-          result.unregisterDeviceToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )
-                  as bool?;
+          result.unregisterDeviceToken = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -87,18 +72,17 @@ class _$GUnregisterDeviceTokenData extends GUnregisterDeviceTokenData {
   @override
   final bool? unregisterDeviceToken;
 
-  factory _$GUnregisterDeviceTokenData([
-    void Function(GUnregisterDeviceTokenDataBuilder)? updates,
-  ]) => (GUnregisterDeviceTokenDataBuilder()..update(updates))._build();
+  factory _$GUnregisterDeviceTokenData(
+          [void Function(GUnregisterDeviceTokenDataBuilder)? updates]) =>
+      (GUnregisterDeviceTokenDataBuilder()..update(updates))._build();
 
-  _$GUnregisterDeviceTokenData._({
-    required this.G__typename,
-    this.unregisterDeviceToken,
-  }) : super._();
+  _$GUnregisterDeviceTokenData._(
+      {required this.G__typename, this.unregisterDeviceToken})
+      : super._();
   @override
   GUnregisterDeviceTokenData rebuild(
-    void Function(GUnregisterDeviceTokenDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUnregisterDeviceTokenDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUnregisterDeviceTokenDataBuilder toBuilder() =>
@@ -172,14 +156,10 @@ class GUnregisterDeviceTokenDataBuilder
   GUnregisterDeviceTokenData build() => _build();
 
   _$GUnregisterDeviceTokenData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GUnregisterDeviceTokenData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GUnregisterDeviceTokenData',
-            'G__typename',
-          ),
+              G__typename, r'GUnregisterDeviceTokenData', 'G__typename'),
           unregisterDeviceToken: unregisterDeviceToken,
         );
     replace(_$result);

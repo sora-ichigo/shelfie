@@ -7,6 +7,8 @@ query GetMyProfile {
       avatarUrl
       createdAt
       bookCount
+      bio
+      instagramHandle
     }
     ... on AuthErrorResult {
       code

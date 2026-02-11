@@ -12,8 +12,7 @@ part of 'book_detail.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BookDetail {
@@ -66,25 +65,23 @@ mixin _$BookDetail {
 /// @nodoc
 abstract class $BookDetailCopyWith<$Res> {
   factory $BookDetailCopyWith(
-    BookDetail value,
-    $Res Function(BookDetail) then,
-  ) = _$BookDetailCopyWithImpl<$Res, BookDetail>;
+          BookDetail value, $Res Function(BookDetail) then) =
+      _$BookDetailCopyWithImpl<$Res, BookDetail>;
   @useResult
-  $Res call({
-    String id,
-    String title,
-    List<String> authors,
-    BookSource source,
-    String? publisher,
-    String? publishedDate,
-    int? pageCount,
-    List<String>? categories,
-    String? description,
-    String? isbn,
-    String? thumbnailUrl,
-    String? amazonUrl,
-    String? rakutenBooksUrl,
-  });
+  $Res call(
+      {String id,
+      String title,
+      List<String> authors,
+      BookSource source,
+      String? publisher,
+      String? publishedDate,
+      int? pageCount,
+      List<String>? categories,
+      String? description,
+      String? isbn,
+      String? thumbnailUrl,
+      String? amazonUrl,
+      String? rakutenBooksUrl});
 }
 
 /// @nodoc
@@ -116,63 +113,60 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
     Object? amazonUrl = freezed,
     Object? rakutenBooksUrl = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            authors: null == authors
-                ? _value.authors
-                : authors // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-            source: null == source
-                ? _value.source
-                : source // ignore: cast_nullable_to_non_nullable
-                      as BookSource,
-            publisher: freezed == publisher
-                ? _value.publisher
-                : publisher // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            publishedDate: freezed == publishedDate
-                ? _value.publishedDate
-                : publishedDate // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            pageCount: freezed == pageCount
-                ? _value.pageCount
-                : pageCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            categories: freezed == categories
-                ? _value.categories
-                : categories // ignore: cast_nullable_to_non_nullable
-                      as List<String>?,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            isbn: freezed == isbn
-                ? _value.isbn
-                : isbn // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            thumbnailUrl: freezed == thumbnailUrl
-                ? _value.thumbnailUrl
-                : thumbnailUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            amazonUrl: freezed == amazonUrl
-                ? _value.amazonUrl
-                : amazonUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            rakutenBooksUrl: freezed == rakutenBooksUrl
-                ? _value.rakutenBooksUrl
-                : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
+      publisher: freezed == publisher
+          ? _value.publisher
+          : publisher // ignore: cast_nullable_to_non_nullable
+              as String?,
+      publishedDate: freezed == publishedDate
+          ? _value.publishedDate
+          : publishedDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pageCount: freezed == pageCount
+          ? _value.pageCount
+          : pageCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      categories: freezed == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isbn: freezed == isbn
+          ? _value.isbn
+          : isbn // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thumbnailUrl: freezed == thumbnailUrl
+          ? _value.thumbnailUrl
+          : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amazonUrl: freezed == amazonUrl
+          ? _value.amazonUrl
+          : amazonUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rakutenBooksUrl: freezed == rakutenBooksUrl
+          ? _value.rakutenBooksUrl
+          : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -180,26 +174,24 @@ class _$BookDetailCopyWithImpl<$Res, $Val extends BookDetail>
 abstract class _$$BookDetailImplCopyWith<$Res>
     implements $BookDetailCopyWith<$Res> {
   factory _$$BookDetailImplCopyWith(
-    _$BookDetailImpl value,
-    $Res Function(_$BookDetailImpl) then,
-  ) = __$$BookDetailImplCopyWithImpl<$Res>;
+          _$BookDetailImpl value, $Res Function(_$BookDetailImpl) then) =
+      __$$BookDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String title,
-    List<String> authors,
-    BookSource source,
-    String? publisher,
-    String? publishedDate,
-    int? pageCount,
-    List<String>? categories,
-    String? description,
-    String? isbn,
-    String? thumbnailUrl,
-    String? amazonUrl,
-    String? rakutenBooksUrl,
-  });
+  $Res call(
+      {String id,
+      String title,
+      List<String> authors,
+      BookSource source,
+      String? publisher,
+      String? publishedDate,
+      int? pageCount,
+      List<String>? categories,
+      String? description,
+      String? isbn,
+      String? thumbnailUrl,
+      String? amazonUrl,
+      String? rakutenBooksUrl});
 }
 
 /// @nodoc
@@ -207,9 +199,8 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     extends _$BookDetailCopyWithImpl<$Res, _$BookDetailImpl>
     implements _$$BookDetailImplCopyWith<$Res> {
   __$$BookDetailImplCopyWithImpl(
-    _$BookDetailImpl _value,
-    $Res Function(_$BookDetailImpl) _then,
-  ) : super(_value, _then);
+      _$BookDetailImpl _value, $Res Function(_$BookDetailImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -230,84 +221,82 @@ class __$$BookDetailImplCopyWithImpl<$Res>
     Object? amazonUrl = freezed,
     Object? rakutenBooksUrl = freezed,
   }) {
-    return _then(
-      _$BookDetailImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        authors: null == authors
-            ? _value._authors
-            : authors // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-        source: null == source
-            ? _value.source
-            : source // ignore: cast_nullable_to_non_nullable
-                  as BookSource,
-        publisher: freezed == publisher
-            ? _value.publisher
-            : publisher // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        publishedDate: freezed == publishedDate
-            ? _value.publishedDate
-            : publishedDate // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        pageCount: freezed == pageCount
-            ? _value.pageCount
-            : pageCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        categories: freezed == categories
-            ? _value._categories
-            : categories // ignore: cast_nullable_to_non_nullable
-                  as List<String>?,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        isbn: freezed == isbn
-            ? _value.isbn
-            : isbn // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        thumbnailUrl: freezed == thumbnailUrl
-            ? _value.thumbnailUrl
-            : thumbnailUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        amazonUrl: freezed == amazonUrl
-            ? _value.amazonUrl
-            : amazonUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        rakutenBooksUrl: freezed == rakutenBooksUrl
-            ? _value.rakutenBooksUrl
-            : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$BookDetailImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
+      publisher: freezed == publisher
+          ? _value.publisher
+          : publisher // ignore: cast_nullable_to_non_nullable
+              as String?,
+      publishedDate: freezed == publishedDate
+          ? _value.publishedDate
+          : publishedDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pageCount: freezed == pageCount
+          ? _value.pageCount
+          : pageCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      categories: freezed == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isbn: freezed == isbn
+          ? _value.isbn
+          : isbn // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thumbnailUrl: freezed == thumbnailUrl
+          ? _value.thumbnailUrl
+          : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amazonUrl: freezed == amazonUrl
+          ? _value.amazonUrl
+          : amazonUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rakutenBooksUrl: freezed == rakutenBooksUrl
+          ? _value.rakutenBooksUrl
+          : rakutenBooksUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookDetailImpl implements _BookDetail {
-  const _$BookDetailImpl({
-    required this.id,
-    required this.title,
-    required final List<String> authors,
-    this.source = BookSource.rakuten,
-    this.publisher,
-    this.publishedDate,
-    this.pageCount,
-    final List<String>? categories,
-    this.description,
-    this.isbn,
-    this.thumbnailUrl,
-    this.amazonUrl,
-    this.rakutenBooksUrl,
-  }) : _authors = authors,
-       _categories = categories;
+  const _$BookDetailImpl(
+      {required this.id,
+      required this.title,
+      required final List<String> authors,
+      this.source = BookSource.rakuten,
+      this.publisher,
+      this.publishedDate,
+      this.pageCount,
+      final List<String>? categories,
+      this.description,
+      this.isbn,
+      this.thumbnailUrl,
+      this.amazonUrl,
+      this.rakutenBooksUrl})
+      : _authors = authors,
+        _categories = categories;
 
   /// 書籍 ID（Google Books ID）
   @override
@@ -398,10 +387,8 @@ class _$BookDetailImpl implements _BookDetail {
                 other.publishedDate == publishedDate) &&
             (identical(other.pageCount, pageCount) ||
                 other.pageCount == pageCount) &&
-            const DeepCollectionEquality().equals(
-              other._categories,
-              _categories,
-            ) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.isbn, isbn) || other.isbn == isbn) &&
@@ -415,21 +402,20 @@ class _$BookDetailImpl implements _BookDetail {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    title,
-    const DeepCollectionEquality().hash(_authors),
-    source,
-    publisher,
-    publishedDate,
-    pageCount,
-    const DeepCollectionEquality().hash(_categories),
-    description,
-    isbn,
-    thumbnailUrl,
-    amazonUrl,
-    rakutenBooksUrl,
-  );
+      runtimeType,
+      id,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      source,
+      publisher,
+      publishedDate,
+      pageCount,
+      const DeepCollectionEquality().hash(_categories),
+      description,
+      isbn,
+      thumbnailUrl,
+      amazonUrl,
+      rakutenBooksUrl);
 
   /// Create a copy of BookDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -441,21 +427,20 @@ class _$BookDetailImpl implements _BookDetail {
 }
 
 abstract class _BookDetail implements BookDetail {
-  const factory _BookDetail({
-    required final String id,
-    required final String title,
-    required final List<String> authors,
-    final BookSource source,
-    final String? publisher,
-    final String? publishedDate,
-    final int? pageCount,
-    final List<String>? categories,
-    final String? description,
-    final String? isbn,
-    final String? thumbnailUrl,
-    final String? amazonUrl,
-    final String? rakutenBooksUrl,
-  }) = _$BookDetailImpl;
+  const factory _BookDetail(
+      {required final String id,
+      required final String title,
+      required final List<String> authors,
+      final BookSource source,
+      final String? publisher,
+      final String? publishedDate,
+      final int? pageCount,
+      final List<String>? categories,
+      final String? description,
+      final String? isbn,
+      final String? thumbnailUrl,
+      final String? amazonUrl,
+      final String? rakutenBooksUrl}) = _$BookDetailImpl;
 
   /// 書籍 ID（Google Books ID）
   @override

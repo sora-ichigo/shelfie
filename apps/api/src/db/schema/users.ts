@@ -10,6 +10,8 @@ export const users = pgTable(
     firebaseUid: text("firebase_uid").notNull().unique(),
     name: text("name"),
     avatarUrl: text("avatar_url"),
+    bio: text("bio"),
+    instagramHandle: text("instagram_handle"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },

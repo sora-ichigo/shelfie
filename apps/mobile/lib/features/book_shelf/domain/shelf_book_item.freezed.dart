@@ -12,8 +12,7 @@ part of 'shelf_book_item.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShelfBookItem {
@@ -48,19 +47,17 @@ mixin _$ShelfBookItem {
 /// @nodoc
 abstract class $ShelfBookItemCopyWith<$Res> {
   factory $ShelfBookItemCopyWith(
-    ShelfBookItem value,
-    $Res Function(ShelfBookItem) then,
-  ) = _$ShelfBookItemCopyWithImpl<$Res, ShelfBookItem>;
+          ShelfBookItem value, $Res Function(ShelfBookItem) then) =
+      _$ShelfBookItemCopyWithImpl<$Res, ShelfBookItem>;
   @useResult
-  $Res call({
-    int userBookId,
-    String externalId,
-    String title,
-    List<String> authors,
-    BookSource source,
-    DateTime addedAt,
-    String? coverImageUrl,
-  });
+  $Res call(
+      {int userBookId,
+      String externalId,
+      String title,
+      List<String> authors,
+      BookSource source,
+      DateTime addedAt,
+      String? coverImageUrl});
 }
 
 /// @nodoc
@@ -86,39 +83,36 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            userBookId: null == userBookId
-                ? _value.userBookId
-                : userBookId // ignore: cast_nullable_to_non_nullable
-                      as int,
-            externalId: null == externalId
-                ? _value.externalId
-                : externalId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            authors: null == authors
-                ? _value.authors
-                : authors // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-            source: null == source
-                ? _value.source
-                : source // ignore: cast_nullable_to_non_nullable
-                      as BookSource,
-            addedAt: null == addedAt
-                ? _value.addedAt
-                : addedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            coverImageUrl: freezed == coverImageUrl
-                ? _value.coverImageUrl
-                : coverImageUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -126,20 +120,18 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
 abstract class _$$ShelfBookItemImplCopyWith<$Res>
     implements $ShelfBookItemCopyWith<$Res> {
   factory _$$ShelfBookItemImplCopyWith(
-    _$ShelfBookItemImpl value,
-    $Res Function(_$ShelfBookItemImpl) then,
-  ) = __$$ShelfBookItemImplCopyWithImpl<$Res>;
+          _$ShelfBookItemImpl value, $Res Function(_$ShelfBookItemImpl) then) =
+      __$$ShelfBookItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int userBookId,
-    String externalId,
-    String title,
-    List<String> authors,
-    BookSource source,
-    DateTime addedAt,
-    String? coverImageUrl,
-  });
+  $Res call(
+      {int userBookId,
+      String externalId,
+      String title,
+      List<String> authors,
+      BookSource source,
+      DateTime addedAt,
+      String? coverImageUrl});
 }
 
 /// @nodoc
@@ -147,9 +139,8 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
     extends _$ShelfBookItemCopyWithImpl<$Res, _$ShelfBookItemImpl>
     implements _$$ShelfBookItemImplCopyWith<$Res> {
   __$$ShelfBookItemImplCopyWithImpl(
-    _$ShelfBookItemImpl _value,
-    $Res Function(_$ShelfBookItemImpl) _then,
-  ) : super(_value, _then);
+      _$ShelfBookItemImpl _value, $Res Function(_$ShelfBookItemImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.
@@ -164,54 +155,52 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
   }) {
-    return _then(
-      _$ShelfBookItemImpl(
-        userBookId: null == userBookId
-            ? _value.userBookId
-            : userBookId // ignore: cast_nullable_to_non_nullable
-                  as int,
-        externalId: null == externalId
-            ? _value.externalId
-            : externalId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        authors: null == authors
-            ? _value._authors
-            : authors // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-        source: null == source
-            ? _value.source
-            : source // ignore: cast_nullable_to_non_nullable
-                  as BookSource,
-        addedAt: null == addedAt
-            ? _value.addedAt
-            : addedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        coverImageUrl: freezed == coverImageUrl
-            ? _value.coverImageUrl
-            : coverImageUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$ShelfBookItemImpl(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as BookSource,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$ShelfBookItemImpl extends _ShelfBookItem {
-  const _$ShelfBookItemImpl({
-    required this.userBookId,
-    required this.externalId,
-    required this.title,
-    required final List<String> authors,
-    this.source = BookSource.rakuten,
-    required this.addedAt,
-    this.coverImageUrl,
-  }) : _authors = authors,
-       super._();
+  const _$ShelfBookItemImpl(
+      {required this.userBookId,
+      required this.externalId,
+      required this.title,
+      required final List<String> authors,
+      this.source = BookSource.rakuten,
+      required this.addedAt,
+      this.coverImageUrl})
+      : _authors = authors,
+        super._();
 
   /// ユーザーの本棚エントリID
   @override
@@ -273,15 +262,14 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    userBookId,
-    externalId,
-    title,
-    const DeepCollectionEquality().hash(_authors),
-    source,
-    addedAt,
-    coverImageUrl,
-  );
+      runtimeType,
+      userBookId,
+      externalId,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      source,
+      addedAt,
+      coverImageUrl);
 
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.
@@ -293,15 +281,14 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
 }
 
 abstract class _ShelfBookItem extends ShelfBookItem {
-  const factory _ShelfBookItem({
-    required final int userBookId,
-    required final String externalId,
-    required final String title,
-    required final List<String> authors,
-    final BookSource source,
-    required final DateTime addedAt,
-    final String? coverImageUrl,
-  }) = _$ShelfBookItemImpl;
+  const factory _ShelfBookItem(
+      {required final int userBookId,
+      required final String externalId,
+      required final String title,
+      required final List<String> authors,
+      final BookSource source,
+      required final DateTime addedAt,
+      final String? coverImageUrl}) = _$ShelfBookItemImpl;
   const _ShelfBookItem._() : super._();
 
   /// ユーザーの本棚エントリID

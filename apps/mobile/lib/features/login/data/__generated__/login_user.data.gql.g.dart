@@ -9,19 +9,19 @@ part of 'login_user.data.gql.dart';
 Serializer<GLoginUserData> _$gLoginUserDataSerializer =
     _$GLoginUserDataSerializer();
 Serializer<GLoginUserData_loginUser__base>
-_$gLoginUserDataLoginUserBaseSerializer =
+    _$gLoginUserDataLoginUserBaseSerializer =
     _$GLoginUserData_loginUser__baseSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess>
-_$gLoginUserDataLoginUserAsMutationLoginUserSuccessSerializer =
+    _$gLoginUserDataLoginUserAsMutationLoginUserSuccessSerializer =
     _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess_data>
-_$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataSerializer =
+    _$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataSerializer =
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer();
 Serializer<GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user>
-_$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataUserSerializer =
+    _$gLoginUserDataLoginUserAsMutationLoginUserSuccessDataUserSerializer =
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer();
 Serializer<GLoginUserData_loginUser__asAuthError>
-_$gLoginUserDataLoginUserAsAuthErrorSerializer =
+    _$gLoginUserDataLoginUserAsAuthErrorSerializer =
     _$GLoginUserData_loginUser__asAuthErrorSerializer();
 
 class _$GLoginUserDataSerializer
@@ -32,39 +32,28 @@ class _$GLoginUserDataSerializer
   final String wireName = 'GLoginUserData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GLoginUserData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.loginUser;
     if (value != null) {
       result
         ..add('loginUser')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(GLoginUserData_loginUser),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GLoginUserData_loginUser)));
     }
     return result;
   }
 
   @override
   GLoginUserData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GLoginUserDataBuilder();
 
     final iterator = serialized.iterator;
@@ -74,20 +63,13 @@ class _$GLoginUserDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'loginUser':
-          result.loginUser =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(GLoginUserData_loginUser),
-                  )
-                  as GLoginUserData_loginUser?;
+          result.loginUser = serializers.deserialize(value,
+                  specifiedType: const FullType(GLoginUserData_loginUser))
+              as GLoginUserData_loginUser?;
           break;
       }
     }
@@ -101,23 +83,19 @@ class _$GLoginUserData_loginUser__baseSerializer
   @override
   final Iterable<Type> types = const [
     GLoginUserData_loginUser__base,
-    _$GLoginUserData_loginUser__base,
+    _$GLoginUserData_loginUser__base
   ];
   @override
   final String wireName = 'GLoginUserData_loginUser__base';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData_loginUser__base object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GLoginUserData_loginUser__base object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -125,10 +103,8 @@ class _$GLoginUserData_loginUser__baseSerializer
 
   @override
   GLoginUserData_loginUser__base deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GLoginUserData_loginUser__baseBuilder();
 
     final iterator = serialized.iterator;
@@ -138,12 +114,8 @@ class _$GLoginUserData_loginUser__baseSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -155,36 +127,28 @@ class _$GLoginUserData_loginUser__baseSerializer
 class _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer
     implements
         StructuredSerializer<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess
-        > {
+            GLoginUserData_loginUser__asMutationLoginUserSuccess> {
   @override
   final Iterable<Type> types = const [
     GLoginUserData_loginUser__asMutationLoginUserSuccess,
-    _$GLoginUserData_loginUser__asMutationLoginUserSuccess,
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccess
   ];
   @override
   final String wireName =
       'GLoginUserData_loginUser__asMutationLoginUserSuccess';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData_loginUser__asMutationLoginUserSuccess object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GLoginUserData_loginUser__asMutationLoginUserSuccess object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'data',
-      serializers.serialize(
-        object.data,
-        specifiedType: const FullType(
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
-        ),
-      ),
+      serializers.serialize(object.data,
+          specifiedType: const FullType(
+              GLoginUserData_loginUser__asMutationLoginUserSuccess_data)),
     ];
 
     return result;
@@ -192,10 +156,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result =
         GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder();
 
@@ -206,23 +168,14 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'data':
-          result.data.replace(
-            serializers.deserialize(
-                  value,
+          result.data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
-                  ),
-                )!
-                as GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
-          );
+                      GLoginUserData_loginUser__asMutationLoginUserSuccess_data))!
+              as GLoginUserData_loginUser__asMutationLoginUserSuccess_data);
           break;
       }
     }
@@ -234,46 +187,34 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccessSerializer
 class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
     implements
         StructuredSerializer<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data
-        > {
+            GLoginUserData_loginUser__asMutationLoginUserSuccess_data> {
   @override
   final Iterable<Type> types = const [
     GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
-    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   ];
   @override
   final String wireName =
       'GLoginUserData_loginUser__asMutationLoginUserSuccess_data';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GLoginUserData_loginUser__asMutationLoginUserSuccess_data object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'user',
-      serializers.serialize(
-        object.user,
-        specifiedType: const FullType(
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
-        ),
-      ),
+      serializers.serialize(object.user,
+          specifiedType: const FullType(
+              GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user)),
       'idToken',
-      serializers.serialize(
-        object.idToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.idToken,
+          specifiedType: const FullType(String)),
       'refreshToken',
-      serializers.serialize(
-        object.refreshToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.refreshToken,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -281,10 +222,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result =
         GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
 
@@ -295,39 +234,22 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'user':
-          result.user.replace(
-            serializers.deserialize(
-                  value,
+          result.user.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
-                  ),
-                )!
-                as GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
-          );
+                      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user))!
+              as GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user);
           break;
         case 'idToken':
-          result.idToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.idToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'refreshToken':
-          result.refreshToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -339,29 +261,24 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_dataSerializer
 class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer
     implements
         StructuredSerializer<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
-        > {
+            GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user> {
   @override
   final Iterable<Type> types = const [
     GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
-    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
+    _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
   ];
   @override
   final String wireName =
       'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.id;
@@ -374,27 +291,23 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer
     if (value != null) {
       result
         ..add('email')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.createdAt;
     if (value != null) {
       result
         ..add('createdAt')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(DateTime)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
     }
     return result;
   }
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result =
         GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
 
@@ -405,33 +318,20 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'email':
-          result.email =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'createdAt':
-          result.createdAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )
-                  as DateTime?;
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -445,69 +345,56 @@ class _$GLoginUserData_loginUser__asAuthErrorSerializer
   @override
   final Iterable<Type> types = const [
     GLoginUserData_loginUser__asAuthError,
-    _$GLoginUserData_loginUser__asAuthError,
+    _$GLoginUserData_loginUser__asAuthError
   ];
   @override
   final String wireName = 'GLoginUserData_loginUser__asAuthError';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserData_loginUser__asAuthError object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GLoginUserData_loginUser__asAuthError object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.code;
     if (value != null) {
       result
         ..add('code')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i3.GAuthErrorCode),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GAuthErrorCode)));
     }
     value = object.message;
     if (value != null) {
       result
         ..add('message')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.field;
     if (value != null) {
       result
         ..add('field')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.retryable;
     if (value != null) {
       result
         ..add('retryable')
         ..add(
-          serializers.serialize(value, specifiedType: const FullType(bool)),
-        );
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   GLoginUserData_loginUser__asAuthError deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GLoginUserData_loginUser__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
@@ -517,44 +404,25 @@ class _$GLoginUserData_loginUser__asAuthErrorSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'code':
-          result.code =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i3.GAuthErrorCode),
-                  )
-                  as _i3.GAuthErrorCode?;
+          result.code = serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GAuthErrorCode))
+              as _i3.GAuthErrorCode?;
           break;
         case 'message':
-          result.message =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'field':
-          result.field =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.field = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'retryable':
-          result.retryable =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )
-                  as bool?;
+          result.retryable = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -647,14 +515,10 @@ class GLoginUserDataBuilder
   GLoginUserData build() => _build();
 
   _$GLoginUserData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GLoginUserData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GLoginUserData',
-            'G__typename',
-          ),
+              G__typename, r'GLoginUserData', 'G__typename'),
           loginUser: loginUser,
         );
     replace(_$result);
@@ -666,15 +530,15 @@ class _$GLoginUserData_loginUser__base extends GLoginUserData_loginUser__base {
   @override
   final String G__typename;
 
-  factory _$GLoginUserData_loginUser__base([
-    void Function(GLoginUserData_loginUser__baseBuilder)? updates,
-  ]) => (GLoginUserData_loginUser__baseBuilder()..update(updates))._build();
+  factory _$GLoginUserData_loginUser__base(
+          [void Function(GLoginUserData_loginUser__baseBuilder)? updates]) =>
+      (GLoginUserData_loginUser__baseBuilder()..update(updates))._build();
 
   _$GLoginUserData_loginUser__base._({required this.G__typename}) : super._();
   @override
   GLoginUserData_loginUser__base rebuild(
-    void Function(GLoginUserData_loginUser__baseBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GLoginUserData_loginUser__baseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GLoginUserData_loginUser__baseBuilder toBuilder() =>
@@ -697,18 +561,16 @@ class _$GLoginUserData_loginUser__base extends GLoginUserData_loginUser__base {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GLoginUserData_loginUser__base',
-    )..add('G__typename', G__typename)).toString();
+    return (newBuiltValueToStringHelper(r'GLoginUserData_loginUser__base')
+          ..add('G__typename', G__typename))
+        .toString();
   }
 }
 
 class GLoginUserData_loginUser__baseBuilder
     implements
-        Builder<
-          GLoginUserData_loginUser__base,
-          GLoginUserData_loginUser__baseBuilder
-        > {
+        Builder<GLoginUserData_loginUser__base,
+            GLoginUserData_loginUser__baseBuilder> {
   _$GLoginUserData_loginUser__base? _$v;
 
   String? _G__typename;
@@ -742,14 +604,10 @@ class GLoginUserData_loginUser__baseBuilder
   GLoginUserData_loginUser__base build() => _build();
 
   _$GLoginUserData_loginUser__base _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GLoginUserData_loginUser__base._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GLoginUserData_loginUser__base',
-            'G__typename',
-          ),
+              G__typename, r'GLoginUserData_loginUser__base', 'G__typename'),
         );
     replace(_$result);
     return _$result;
@@ -763,23 +621,23 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess
   @override
   final GLoginUserData_loginUser__asMutationLoginUserSuccess_data data;
 
-  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess([
-    void Function(GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)?
-    updates,
-  ]) =>
+  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess(
+          [void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)?
+              updates]) =>
       (GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder()
             ..update(updates))
           ._build();
 
-  _$GLoginUserData_loginUser__asMutationLoginUserSuccess._({
-    required this.G__typename,
-    required this.data,
-  }) : super._();
+  _$GLoginUserData_loginUser__asMutationLoginUserSuccess._(
+      {required this.G__typename, required this.data})
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess rebuild(
-    void Function(GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder toBuilder() =>
@@ -806,8 +664,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
-          )
+            r'GLoginUserData_loginUser__asMutationLoginUserSuccess')
           ..add('G__typename', G__typename)
           ..add('data', data))
         .toString();
@@ -816,10 +673,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess
 
 class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
     implements
-        Builder<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess,
-          GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
-        > {
+        Builder<GLoginUserData_loginUser__asMutationLoginUserSuccess,
+            GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder> {
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess? _$v;
 
   String? _G__typename;
@@ -831,13 +686,13 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
       _$this._data ??=
           GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder();
   set data(
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder? data,
-  ) => _$this._data = data;
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder?
+              data) =>
+      _$this._data = data;
 
   GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder() {
     GLoginUserData_loginUser__asMutationLoginUserSuccess._initializeBuilder(
-      this,
-    );
+        this);
   }
 
   GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder get _$this {
@@ -857,9 +712,9 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
 
   @override
   void update(
-    void Function(GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)?
-    updates,
-  ) {
+      void Function(
+              GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -869,14 +724,12 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess _build() {
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GLoginUserData_loginUser__asMutationLoginUserSuccess._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
-              'G__typename',
-            ),
+                G__typename,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
+                'G__typename'),
             data: data.build(),
           );
     } catch (_) {
@@ -886,10 +739,9 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccessBuilder
         data.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
-          _$failedField,
-          e.toString(),
-        );
+            r'GLoginUserData_loginUser__asMutationLoginUserSuccess',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }
@@ -909,35 +761,32 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   @override
   final String refreshToken;
 
-  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data([
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data(
+          [void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder)?
+              updates]) =>
       (GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
-  _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._({
-    required this.G__typename,
-    required this.user,
-    required this.idToken,
-    required this.refreshToken,
-  }) : super._();
+  _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._(
+      {required this.G__typename,
+      required this.user,
+      required this.idToken,
+      required this.refreshToken})
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data rebuild(
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
-  toBuilder() =>
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -963,8 +812,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-          )
+            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data')
           ..add('G__typename', G__typename)
           ..add('user', user)
           ..add('idToken', idToken)
@@ -975,10 +823,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data
 
 class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
     implements
-        Builder<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
-        > {
+        Builder<GLoginUserData_loginUser__asMutationLoginUserSuccess_data,
+            GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder> {
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data? _$v;
 
   String? _G__typename;
@@ -987,11 +833,12 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
 
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder? _user;
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
-  get user => _$this._user ??=
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
+      get user => _$this._user ??=
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder();
   set user(
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder? user,
-  ) => _$this._user = user;
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder?
+              user) =>
+      _$this._user = user;
 
   String? _idToken;
   String? get idToken => _$this._idToken;
@@ -1002,9 +849,8 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
   set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
 
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder() {
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data._initializeBuilder(
-      this,
-    );
+    GLoginUserData_loginUser__asMutationLoginUserSuccess_data
+        ._initializeBuilder(this);
   }
 
   GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder get _$this {
@@ -1021,18 +867,15 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
 
   @override
   void replace(
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data other,
-  ) {
+      GLoginUserData_loginUser__asMutationLoginUserSuccess_data other) {
     _$v = other as _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data;
   }
 
   @override
   void update(
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -1042,25 +885,21 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data _build() {
     _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-              'G__typename',
-            ),
+                G__typename,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'G__typename'),
             user: user.build(),
             idToken: BuiltValueNullFieldError.checkNotNull(
-              idToken,
-              r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-              'idToken',
-            ),
+                idToken,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'idToken'),
             refreshToken: BuiltValueNullFieldError.checkNotNull(
-              refreshToken,
-              r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-              'refreshToken',
-            ),
+                refreshToken,
+                r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+                'refreshToken'),
           );
     } catch (_) {
       late String _$failedField;
@@ -1069,10 +908,9 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_dataBuilder
         user.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
-          _$failedField,
-          e.toString(),
-        );
+            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }
@@ -1092,35 +930,29 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
   @override
   final DateTime? createdAt;
 
-  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user([
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user(
+          [void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder)?
+              updates]) =>
       (GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
             ..update(updates))
           ._build();
 
-  _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._({
-    required this.G__typename,
-    this.id,
-    this.email,
-    this.createdAt,
-  }) : super._();
+  _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._(
+      {required this.G__typename, this.id, this.email, this.createdAt})
+      : super._();
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user rebuild(
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
-  toBuilder() =>
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -1147,8 +979,7 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
-          )
+            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('email', email)
@@ -1159,10 +990,8 @@ class _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
 
 class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
     implements
-        Builder<
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
-          GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
-        > {
+        Builder<GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user,
+            GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder> {
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user? _$v;
 
   String? _G__typename;
@@ -1182,13 +1011,12 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
   set createdAt(DateTime? createdAt) => _$this._createdAt = createdAt;
 
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder() {
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._initializeBuilder(
-      this,
-    );
+    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user
+        ._initializeBuilder(this);
   }
 
   GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -1202,20 +1030,16 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
 
   @override
   void replace(
-    GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user other,
-  ) {
-    _$v =
-        other
-            as _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user;
+      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user other) {
+    _$v = other
+        as _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user;
   }
 
   @override
   void update(
-    void Function(
-      GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -1224,14 +1048,12 @@ class GLoginUserData_loginUser__asMutationLoginUserSuccess_data_userBuilder
       _build();
 
   _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
-            'G__typename',
-          ),
+              G__typename,
+              r'GLoginUserData_loginUser__asMutationLoginUserSuccess_data_user',
+              'G__typename'),
           id: id,
           email: email,
           createdAt: createdAt,
@@ -1254,22 +1076,24 @@ class _$GLoginUserData_loginUser__asAuthError
   @override
   final bool? retryable;
 
-  factory _$GLoginUserData_loginUser__asAuthError([
-    void Function(GLoginUserData_loginUser__asAuthErrorBuilder)? updates,
-  ]) => (GLoginUserData_loginUser__asAuthErrorBuilder()..update(updates))
-      ._build();
+  factory _$GLoginUserData_loginUser__asAuthError(
+          [void Function(GLoginUserData_loginUser__asAuthErrorBuilder)?
+              updates]) =>
+      (GLoginUserData_loginUser__asAuthErrorBuilder()..update(updates))
+          ._build();
 
-  _$GLoginUserData_loginUser__asAuthError._({
-    required this.G__typename,
-    this.code,
-    this.message,
-    this.field,
-    this.retryable,
-  }) : super._();
+  _$GLoginUserData_loginUser__asAuthError._(
+      {required this.G__typename,
+      this.code,
+      this.message,
+      this.field,
+      this.retryable})
+      : super._();
   @override
   GLoginUserData_loginUser__asAuthError rebuild(
-    void Function(GLoginUserData_loginUser__asAuthErrorBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GLoginUserData_loginUser__asAuthErrorBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GLoginUserData_loginUser__asAuthErrorBuilder toBuilder() =>
@@ -1301,8 +1125,7 @@ class _$GLoginUserData_loginUser__asAuthError
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GLoginUserData_loginUser__asAuthError',
-          )
+            r'GLoginUserData_loginUser__asAuthError')
           ..add('G__typename', G__typename)
           ..add('code', code)
           ..add('message', message)
@@ -1314,10 +1137,8 @@ class _$GLoginUserData_loginUser__asAuthError
 
 class GLoginUserData_loginUser__asAuthErrorBuilder
     implements
-        Builder<
-          GLoginUserData_loginUser__asAuthError,
-          GLoginUserData_loginUser__asAuthErrorBuilder
-        > {
+        Builder<GLoginUserData_loginUser__asAuthError,
+            GLoginUserData_loginUser__asAuthErrorBuilder> {
   _$GLoginUserData_loginUser__asAuthError? _$v;
 
   String? _G__typename;
@@ -1364,8 +1185,7 @@ class GLoginUserData_loginUser__asAuthErrorBuilder
 
   @override
   void update(
-    void Function(GLoginUserData_loginUser__asAuthErrorBuilder)? updates,
-  ) {
+      void Function(GLoginUserData_loginUser__asAuthErrorBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -1373,14 +1193,10 @@ class GLoginUserData_loginUser__asAuthErrorBuilder
   GLoginUserData_loginUser__asAuthError build() => _build();
 
   _$GLoginUserData_loginUser__asAuthError _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GLoginUserData_loginUser__asAuthError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GLoginUserData_loginUser__asAuthError',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GLoginUserData_loginUser__asAuthError', 'G__typename'),
           code: code,
           message: message,
           field: field,

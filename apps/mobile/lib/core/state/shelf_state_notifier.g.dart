@@ -17,14 +17,13 @@ String _$shelfStateHash() => r'acddf8760e8c6e632f6bafaacfad4f3beb405aca';
 @ProviderFor(ShelfState)
 final shelfStateProvider =
     NotifierProvider<ShelfState, Map<String, ShelfEntry>>.internal(
-      ShelfState.new,
-      name: r'shelfStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$shelfStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  ShelfState.new,
+  name: r'shelfStateProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$shelfStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$ShelfState = Notifier<Map<String, ShelfEntry>>;
 // ignore_for_file: type=lint

@@ -25,6 +25,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-test",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -64,6 +66,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-new",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -91,6 +95,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-existing",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -153,6 +159,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-12345",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -191,6 +199,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-new",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -222,6 +232,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-existing",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -249,6 +261,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-test",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -281,6 +295,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-test",
         name: "Test User",
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -349,6 +365,90 @@ describe("UserService", () => {
         expect(result.error.code).toBe("USER_NOT_FOUND");
       }
     });
+
+    it("should update user profile with bio", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        bio: "本が好きです",
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        bio: "本が好きです",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.bio).toBe("本が好きです");
+      }
+    });
+
+    it("should return error when bio exceeds 500 characters", async () => {
+      const mockRepo = createMockRepository();
+      const service = createUserService(mockRepo);
+      const longBio = "あ".repeat(501);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        bio: longBio,
+      });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("VALIDATION_ERROR");
+      }
+    });
+
+    it("should update user profile with instagramHandle", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        instagramHandle: "bookworm_123",
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        instagramHandle: "bookworm_123",
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.instagramHandle).toBe("bookworm_123");
+      }
+    });
   });
 
   describe("deleteAccount", () => {
@@ -360,6 +460,8 @@ describe("UserService", () => {
         firebaseUid: "firebase-uid-test",
         name: null,
         avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

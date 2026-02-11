@@ -8,6 +8,8 @@ mutation UpdateProfile($input: UpdateProfileInput!) {
         avatarUrl
         createdAt
         bookCount
+        bio
+        instagramHandle
       }
     }
     ... on ValidationError {

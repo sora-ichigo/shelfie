@@ -9,10 +9,10 @@ part of 'add_book_to_list.data.gql.dart';
 Serializer<GAddBookToListData> _$gAddBookToListDataSerializer =
     _$GAddBookToListDataSerializer();
 Serializer<GAddBookToListData_addBookToList>
-_$gAddBookToListDataAddBookToListSerializer =
+    _$gAddBookToListDataAddBookToListSerializer =
     _$GAddBookToListData_addBookToListSerializer();
 Serializer<GAddBookToListData_addBookToList_userBook>
-_$gAddBookToListDataAddBookToListUserBookSerializer =
+    _$gAddBookToListDataAddBookToListUserBookSerializer =
     _$GAddBookToListData_addBookToList_userBookSerializer();
 
 class _$GAddBookToListDataSerializer
@@ -24,21 +24,15 @@ class _$GAddBookToListDataSerializer
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GAddBookToListData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GAddBookToListData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'addBookToList',
-      serializers.serialize(
-        object.addBookToList,
-        specifiedType: const FullType(GAddBookToListData_addBookToList),
-      ),
+      serializers.serialize(object.addBookToList,
+          specifiedType: const FullType(GAddBookToListData_addBookToList)),
     ];
 
     return result;
@@ -46,10 +40,8 @@ class _$GAddBookToListDataSerializer
 
   @override
   GAddBookToListData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GAddBookToListDataBuilder();
 
     final iterator = serialized.iterator;
@@ -59,23 +51,14 @@ class _$GAddBookToListDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'addBookToList':
-          result.addBookToList.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(
-                    GAddBookToListData_addBookToList,
-                  ),
-                )!
-                as GAddBookToListData_addBookToList,
-          );
+          result.addBookToList.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(GAddBookToListData_addBookToList))!
+              as GAddBookToListData_addBookToList);
           break;
       }
     }
@@ -89,59 +72,44 @@ class _$GAddBookToListData_addBookToListSerializer
   @override
   final Iterable<Type> types = const [
     GAddBookToListData_addBookToList,
-    _$GAddBookToListData_addBookToList,
+    _$GAddBookToListData_addBookToList
   ];
   @override
   final String wireName = 'GAddBookToListData_addBookToList';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GAddBookToListData_addBookToList object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GAddBookToListData_addBookToList object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'position',
-      serializers.serialize(
-        object.position,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.position,
+          specifiedType: const FullType(int)),
       'addedAt',
-      serializers.serialize(
-        object.addedAt,
-        specifiedType: const FullType(DateTime),
-      ),
+      serializers.serialize(object.addedAt,
+          specifiedType: const FullType(DateTime)),
     ];
     Object? value;
     value = object.userBook;
     if (value != null) {
       result
         ..add('userBook')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(
-              GAddBookToListData_addBookToList_userBook,
-            ),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GAddBookToListData_addBookToList_userBook)));
     }
     return result;
   }
 
   @override
   GAddBookToListData_addBookToList deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GAddBookToListData_addBookToListBuilder();
 
     final iterator = serialized.iterator;
@@ -151,47 +119,26 @@ class _$GAddBookToListData_addBookToListSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'position':
-          result.position =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.position = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'addedAt':
-          result.addedAt =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(DateTime),
-                  )!
-                  as DateTime;
+          result.addedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime))! as DateTime;
           break;
         case 'userBook':
-          result.userBook.replace(
-            serializers.deserialize(
-                  value,
+          result.userBook.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GAddBookToListData_addBookToList_userBook,
-                  ),
-                )!
-                as GAddBookToListData_addBookToList_userBook,
-          );
+                      GAddBookToListData_addBookToList_userBook))!
+              as GAddBookToListData_addBookToList_userBook);
           break;
       }
     }
@@ -205,71 +152,53 @@ class _$GAddBookToListData_addBookToList_userBookSerializer
   @override
   final Iterable<Type> types = const [
     GAddBookToListData_addBookToList_userBook,
-    _$GAddBookToListData_addBookToList_userBook,
+    _$GAddBookToListData_addBookToList_userBook
   ];
   @override
   final String wireName = 'GAddBookToListData_addBookToList_userBook';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GAddBookToListData_addBookToList_userBook object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GAddBookToListData_addBookToList_userBook object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'externalId',
-      serializers.serialize(
-        object.externalId,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.externalId,
+          specifiedType: const FullType(String)),
       'title',
-      serializers.serialize(
-        object.title,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
       'authors',
-      serializers.serialize(
-        object.authors,
-        specifiedType: const FullType(BuiltList, const [
-          const FullType(String),
-        ]),
-      ),
+      serializers.serialize(object.authors,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
       'readingStatus',
-      serializers.serialize(
-        object.readingStatus,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.readingStatus,
+          specifiedType: const FullType(String)),
       'source',
-      serializers.serialize(
-        object.source,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.source,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.coverImageUrl;
     if (value != null) {
       result
         ..add('coverImageUrl')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
   GAddBookToListData_addBookToList_userBook deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GAddBookToListData_addBookToList_userBookBuilder();
 
     final iterator = serialized.iterator;
@@ -279,71 +208,38 @@ class _$GAddBookToListData_addBookToList_userBookSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'externalId':
-          result.externalId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.externalId = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'title':
-          result.title =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'authors':
-          result.authors.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(BuiltList, const [
-                    const FullType(String),
-                  ]),
-                )!
-                as BuiltList<Object?>,
-          );
+          result.authors.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
           break;
         case 'coverImageUrl':
-          result.coverImageUrl =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.coverImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'readingStatus':
-          result.readingStatus =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.readingStatus = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'source':
-          result.source =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.source = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -358,18 +254,17 @@ class _$GAddBookToListData extends GAddBookToListData {
   @override
   final GAddBookToListData_addBookToList addBookToList;
 
-  factory _$GAddBookToListData([
-    void Function(GAddBookToListDataBuilder)? updates,
-  ]) => (GAddBookToListDataBuilder()..update(updates))._build();
+  factory _$GAddBookToListData(
+          [void Function(GAddBookToListDataBuilder)? updates]) =>
+      (GAddBookToListDataBuilder()..update(updates))._build();
 
-  _$GAddBookToListData._({
-    required this.G__typename,
-    required this.addBookToList,
-  }) : super._();
+  _$GAddBookToListData._(
+      {required this.G__typename, required this.addBookToList})
+      : super._();
   @override
   GAddBookToListData rebuild(
-    void Function(GAddBookToListDataBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GAddBookToListDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToListDataBuilder toBuilder() =>
@@ -445,14 +340,10 @@ class GAddBookToListDataBuilder
   _$GAddBookToListData _build() {
     _$GAddBookToListData _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GAddBookToListData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GAddBookToListData',
-              'G__typename',
-            ),
+                G__typename, r'GAddBookToListData', 'G__typename'),
             addBookToList: addBookToList.build(),
           );
     } catch (_) {
@@ -462,10 +353,7 @@ class GAddBookToListDataBuilder
         addBookToList.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GAddBookToListData',
-          _$failedField,
-          e.toString(),
-        );
+            r'GAddBookToListData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -487,21 +375,21 @@ class _$GAddBookToListData_addBookToList
   @override
   final GAddBookToListData_addBookToList_userBook? userBook;
 
-  factory _$GAddBookToListData_addBookToList([
-    void Function(GAddBookToListData_addBookToListBuilder)? updates,
-  ]) => (GAddBookToListData_addBookToListBuilder()..update(updates))._build();
+  factory _$GAddBookToListData_addBookToList(
+          [void Function(GAddBookToListData_addBookToListBuilder)? updates]) =>
+      (GAddBookToListData_addBookToListBuilder()..update(updates))._build();
 
-  _$GAddBookToListData_addBookToList._({
-    required this.G__typename,
-    required this.id,
-    required this.position,
-    required this.addedAt,
-    this.userBook,
-  }) : super._();
+  _$GAddBookToListData_addBookToList._(
+      {required this.G__typename,
+      required this.id,
+      required this.position,
+      required this.addedAt,
+      this.userBook})
+      : super._();
   @override
   GAddBookToListData_addBookToList rebuild(
-    void Function(GAddBookToListData_addBookToListBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GAddBookToListData_addBookToListBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToListData_addBookToListBuilder toBuilder() =>
@@ -544,10 +432,8 @@ class _$GAddBookToListData_addBookToList
 
 class GAddBookToListData_addBookToListBuilder
     implements
-        Builder<
-          GAddBookToListData_addBookToList,
-          GAddBookToListData_addBookToListBuilder
-        > {
+        Builder<GAddBookToListData_addBookToList,
+            GAddBookToListData_addBookToListBuilder> {
   _$GAddBookToListData_addBookToList? _$v;
 
   String? _G__typename;
@@ -605,29 +491,16 @@ class GAddBookToListData_addBookToListBuilder
   _$GAddBookToListData_addBookToList _build() {
     _$GAddBookToListData_addBookToList _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GAddBookToListData_addBookToList._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GAddBookToListData_addBookToList',
-              'G__typename',
-            ),
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GAddBookToListData_addBookToList', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GAddBookToListData_addBookToList',
-              'id',
-            ),
+                id, r'GAddBookToListData_addBookToList', 'id'),
             position: BuiltValueNullFieldError.checkNotNull(
-              position,
-              r'GAddBookToListData_addBookToList',
-              'position',
-            ),
+                position, r'GAddBookToListData_addBookToList', 'position'),
             addedAt: BuiltValueNullFieldError.checkNotNull(
-              addedAt,
-              r'GAddBookToListData_addBookToList',
-              'addedAt',
-            ),
+                addedAt, r'GAddBookToListData_addBookToList', 'addedAt'),
             userBook: _userBook?.build(),
           );
     } catch (_) {
@@ -637,10 +510,7 @@ class GAddBookToListData_addBookToListBuilder
         _userBook?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GAddBookToListData_addBookToList',
-          _$failedField,
-          e.toString(),
-        );
+            r'GAddBookToListData_addBookToList', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -668,25 +538,27 @@ class _$GAddBookToListData_addBookToList_userBook
   @override
   final String source;
 
-  factory _$GAddBookToListData_addBookToList_userBook([
-    void Function(GAddBookToListData_addBookToList_userBookBuilder)? updates,
-  ]) => (GAddBookToListData_addBookToList_userBookBuilder()..update(updates))
-      ._build();
+  factory _$GAddBookToListData_addBookToList_userBook(
+          [void Function(GAddBookToListData_addBookToList_userBookBuilder)?
+              updates]) =>
+      (GAddBookToListData_addBookToList_userBookBuilder()..update(updates))
+          ._build();
 
-  _$GAddBookToListData_addBookToList_userBook._({
-    required this.G__typename,
-    required this.id,
-    required this.externalId,
-    required this.title,
-    required this.authors,
-    this.coverImageUrl,
-    required this.readingStatus,
-    required this.source,
-  }) : super._();
+  _$GAddBookToListData_addBookToList_userBook._(
+      {required this.G__typename,
+      required this.id,
+      required this.externalId,
+      required this.title,
+      required this.authors,
+      this.coverImageUrl,
+      required this.readingStatus,
+      required this.source})
+      : super._();
   @override
   GAddBookToListData_addBookToList_userBook rebuild(
-    void Function(GAddBookToListData_addBookToList_userBookBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GAddBookToListData_addBookToList_userBookBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToListData_addBookToList_userBookBuilder toBuilder() =>
@@ -724,8 +596,7 @@ class _$GAddBookToListData_addBookToList_userBook
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GAddBookToListData_addBookToList_userBook',
-          )
+            r'GAddBookToListData_addBookToList_userBook')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('externalId', externalId)
@@ -740,10 +611,8 @@ class _$GAddBookToListData_addBookToList_userBook
 
 class GAddBookToListData_addBookToList_userBookBuilder
     implements
-        Builder<
-          GAddBookToListData_addBookToList_userBook,
-          GAddBookToListData_addBookToList_userBookBuilder
-        > {
+        Builder<GAddBookToListData_addBookToList_userBook,
+            GAddBookToListData_addBookToList_userBookBuilder> {
   _$GAddBookToListData_addBookToList_userBook? _$v;
 
   String? _G__typename;
@@ -807,8 +676,8 @@ class GAddBookToListData_addBookToList_userBookBuilder
 
   @override
   void update(
-    void Function(GAddBookToListData_addBookToList_userBookBuilder)? updates,
-  ) {
+      void Function(GAddBookToListData_addBookToList_userBookBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -818,41 +687,22 @@ class GAddBookToListData_addBookToList_userBookBuilder
   _$GAddBookToListData_addBookToList_userBook _build() {
     _$GAddBookToListData_addBookToList_userBook _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GAddBookToListData_addBookToList_userBook._(
-            G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GAddBookToListData_addBookToList_userBook',
-              'G__typename',
-            ),
+            G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                r'GAddBookToListData_addBookToList_userBook', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GAddBookToListData_addBookToList_userBook',
-              'id',
-            ),
-            externalId: BuiltValueNullFieldError.checkNotNull(
-              externalId,
-              r'GAddBookToListData_addBookToList_userBook',
-              'externalId',
-            ),
+                id, r'GAddBookToListData_addBookToList_userBook', 'id'),
+            externalId: BuiltValueNullFieldError.checkNotNull(externalId,
+                r'GAddBookToListData_addBookToList_userBook', 'externalId'),
             title: BuiltValueNullFieldError.checkNotNull(
-              title,
-              r'GAddBookToListData_addBookToList_userBook',
-              'title',
-            ),
+                title, r'GAddBookToListData_addBookToList_userBook', 'title'),
             authors: authors.build(),
             coverImageUrl: coverImageUrl,
-            readingStatus: BuiltValueNullFieldError.checkNotNull(
-              readingStatus,
-              r'GAddBookToListData_addBookToList_userBook',
-              'readingStatus',
-            ),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
+                r'GAddBookToListData_addBookToList_userBook', 'readingStatus'),
             source: BuiltValueNullFieldError.checkNotNull(
-              source,
-              r'GAddBookToListData_addBookToList_userBook',
-              'source',
-            ),
+                source, r'GAddBookToListData_addBookToList_userBook', 'source'),
           );
     } catch (_) {
       late String _$failedField;
@@ -861,10 +711,9 @@ class GAddBookToListData_addBookToList_userBookBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GAddBookToListData_addBookToList_userBook',
-          _$failedField,
-          e.toString(),
-        );
+            r'GAddBookToListData_addBookToList_userBook',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }

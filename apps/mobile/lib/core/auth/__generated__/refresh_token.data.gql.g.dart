@@ -9,16 +9,16 @@ part of 'refresh_token.data.gql.dart';
 Serializer<GRefreshTokenData> _$gRefreshTokenDataSerializer =
     _$GRefreshTokenDataSerializer();
 Serializer<GRefreshTokenData_refreshToken__base>
-_$gRefreshTokenDataRefreshTokenBaseSerializer =
+    _$gRefreshTokenDataRefreshTokenBaseSerializer =
     _$GRefreshTokenData_refreshToken__baseSerializer();
 Serializer<GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess>
-_$gRefreshTokenDataRefreshTokenAsMutationRefreshTokenSuccessSerializer =
+    _$gRefreshTokenDataRefreshTokenAsMutationRefreshTokenSuccessSerializer =
     _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessSerializer();
 Serializer<GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data>
-_$gRefreshTokenDataRefreshTokenAsMutationRefreshTokenSuccessDataSerializer =
+    _$gRefreshTokenDataRefreshTokenAsMutationRefreshTokenSuccessDataSerializer =
     _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataSerializer();
 Serializer<GRefreshTokenData_refreshToken__asAuthError>
-_$gRefreshTokenDataRefreshTokenAsAuthErrorSerializer =
+    _$gRefreshTokenDataRefreshTokenAsAuthErrorSerializer =
     _$GRefreshTokenData_refreshToken__asAuthErrorSerializer();
 
 class _$GRefreshTokenDataSerializer
@@ -29,39 +29,28 @@ class _$GRefreshTokenDataSerializer
   final String wireName = 'GRefreshTokenData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GRefreshTokenData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.refreshToken;
     if (value != null) {
       result
         ..add('refreshToken')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(GRefreshTokenData_refreshToken),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GRefreshTokenData_refreshToken)));
     }
     return result;
   }
 
   @override
   GRefreshTokenData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRefreshTokenDataBuilder();
 
     final iterator = serialized.iterator;
@@ -71,22 +60,13 @@ class _$GRefreshTokenDataSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'refreshToken':
-          result.refreshToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(
-                      GRefreshTokenData_refreshToken,
-                    ),
-                  )
-                  as GRefreshTokenData_refreshToken?;
+          result.refreshToken = serializers.deserialize(value,
+                  specifiedType: const FullType(GRefreshTokenData_refreshToken))
+              as GRefreshTokenData_refreshToken?;
           break;
       }
     }
@@ -100,23 +80,19 @@ class _$GRefreshTokenData_refreshToken__baseSerializer
   @override
   final Iterable<Type> types = const [
     GRefreshTokenData_refreshToken__base,
-    _$GRefreshTokenData_refreshToken__base,
+    _$GRefreshTokenData_refreshToken__base
   ];
   @override
   final String wireName = 'GRefreshTokenData_refreshToken__base';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenData_refreshToken__base object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRefreshTokenData_refreshToken__base object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -124,10 +100,8 @@ class _$GRefreshTokenData_refreshToken__baseSerializer
 
   @override
   GRefreshTokenData_refreshToken__base deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRefreshTokenData_refreshToken__baseBuilder();
 
     final iterator = serialized.iterator;
@@ -137,12 +111,8 @@ class _$GRefreshTokenData_refreshToken__baseSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -154,36 +124,28 @@ class _$GRefreshTokenData_refreshToken__baseSerializer
 class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessSerializer
     implements
         StructuredSerializer<
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
-        > {
+            GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess> {
   @override
   final Iterable<Type> types = const [
     GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
-    _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
+    _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
   ];
   @override
   final String wireName =
       'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'data',
-      serializers.serialize(
-        object.data,
-        specifiedType: const FullType(
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
-        ),
-      ),
+      serializers.serialize(object.data,
+          specifiedType: const FullType(
+              GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data)),
     ];
 
     return result;
@@ -191,10 +153,8 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessSerializer
 
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result =
         GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder();
 
@@ -205,23 +165,14 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'data':
-          result.data.replace(
-            serializers.deserialize(
-                  value,
+          result.data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
-                  ),
-                )!
-                as GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
-          );
+                      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data))!
+              as GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data);
           break;
       }
     }
@@ -233,39 +184,30 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessSerializer
 class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataSerializer
     implements
         StructuredSerializer<
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
-        > {
+            GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data> {
   @override
   final Iterable<Type> types = const [
     GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
-    _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
+    _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
   ];
   @override
   final String wireName =
       'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'idToken',
-      serializers.serialize(
-        object.idToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.idToken,
+          specifiedType: const FullType(String)),
       'refreshToken',
-      serializers.serialize(
-        object.refreshToken,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.refreshToken,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -273,11 +215,8 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataSerial
 
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
-  deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      deserialize(Serializers serializers, Iterable<Object?> serialized,
+          {FullType specifiedType = FullType.unspecified}) {
     final result =
         GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder();
 
@@ -288,28 +227,16 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataSerial
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'idToken':
-          result.idToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.idToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'refreshToken':
-          result.refreshToken =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.refreshToken = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -324,69 +251,56 @@ class _$GRefreshTokenData_refreshToken__asAuthErrorSerializer
   @override
   final Iterable<Type> types = const [
     GRefreshTokenData_refreshToken__asAuthError,
-    _$GRefreshTokenData_refreshToken__asAuthError,
+    _$GRefreshTokenData_refreshToken__asAuthError
   ];
   @override
   final String wireName = 'GRefreshTokenData_refreshToken__asAuthError';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenData_refreshToken__asAuthError object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers,
+      GRefreshTokenData_refreshToken__asAuthError object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.code;
     if (value != null) {
       result
         ..add('code')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i3.GAuthErrorCode),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GAuthErrorCode)));
     }
     value = object.message;
     if (value != null) {
       result
         ..add('message')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.field;
     if (value != null) {
       result
         ..add('field')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.retryable;
     if (value != null) {
       result
         ..add('retryable')
         ..add(
-          serializers.serialize(value, specifiedType: const FullType(bool)),
-        );
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
     return result;
   }
 
   @override
   GRefreshTokenData_refreshToken__asAuthError deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRefreshTokenData_refreshToken__asAuthErrorBuilder();
 
     final iterator = serialized.iterator;
@@ -396,44 +310,25 @@ class _$GRefreshTokenData_refreshToken__asAuthErrorSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'code':
-          result.code =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i3.GAuthErrorCode),
-                  )
-                  as _i3.GAuthErrorCode?;
+          result.code = serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GAuthErrorCode))
+              as _i3.GAuthErrorCode?;
           break;
         case 'message':
-          result.message =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'field':
-          result.field =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.field = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'retryable':
-          result.retryable =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )
-                  as bool?;
+          result.retryable = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -448,12 +343,12 @@ class _$GRefreshTokenData extends GRefreshTokenData {
   @override
   final GRefreshTokenData_refreshToken? refreshToken;
 
-  factory _$GRefreshTokenData([
-    void Function(GRefreshTokenDataBuilder)? updates,
-  ]) => (GRefreshTokenDataBuilder()..update(updates))._build();
+  factory _$GRefreshTokenData(
+          [void Function(GRefreshTokenDataBuilder)? updates]) =>
+      (GRefreshTokenDataBuilder()..update(updates))._build();
 
   _$GRefreshTokenData._({required this.G__typename, this.refreshToken})
-    : super._();
+      : super._();
   @override
   GRefreshTokenData rebuild(void Function(GRefreshTokenDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -529,14 +424,10 @@ class GRefreshTokenDataBuilder
   GRefreshTokenData build() => _build();
 
   _$GRefreshTokenData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRefreshTokenData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRefreshTokenData',
-            'G__typename',
-          ),
+              G__typename, r'GRefreshTokenData', 'G__typename'),
           refreshToken: refreshToken,
         );
     replace(_$result);
@@ -549,17 +440,17 @@ class _$GRefreshTokenData_refreshToken__base
   @override
   final String G__typename;
 
-  factory _$GRefreshTokenData_refreshToken__base([
-    void Function(GRefreshTokenData_refreshToken__baseBuilder)? updates,
-  ]) =>
+  factory _$GRefreshTokenData_refreshToken__base(
+          [void Function(GRefreshTokenData_refreshToken__baseBuilder)?
+              updates]) =>
       (GRefreshTokenData_refreshToken__baseBuilder()..update(updates))._build();
 
   _$GRefreshTokenData_refreshToken__base._({required this.G__typename})
-    : super._();
+      : super._();
   @override
   GRefreshTokenData_refreshToken__base rebuild(
-    void Function(GRefreshTokenData_refreshToken__baseBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRefreshTokenData_refreshToken__baseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenData_refreshToken__baseBuilder toBuilder() =>
@@ -582,18 +473,16 @@ class _$GRefreshTokenData_refreshToken__base
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GRefreshTokenData_refreshToken__base',
-    )..add('G__typename', G__typename)).toString();
+    return (newBuiltValueToStringHelper(r'GRefreshTokenData_refreshToken__base')
+          ..add('G__typename', G__typename))
+        .toString();
   }
 }
 
 class GRefreshTokenData_refreshToken__baseBuilder
     implements
-        Builder<
-          GRefreshTokenData_refreshToken__base,
-          GRefreshTokenData_refreshToken__baseBuilder
-        > {
+        Builder<GRefreshTokenData_refreshToken__base,
+            GRefreshTokenData_refreshToken__baseBuilder> {
   _$GRefreshTokenData_refreshToken__base? _$v;
 
   String? _G__typename;
@@ -620,8 +509,7 @@ class GRefreshTokenData_refreshToken__baseBuilder
 
   @override
   void update(
-    void Function(GRefreshTokenData_refreshToken__baseBuilder)? updates,
-  ) {
+      void Function(GRefreshTokenData_refreshToken__baseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -629,14 +517,10 @@ class GRefreshTokenData_refreshToken__baseBuilder
   GRefreshTokenData_refreshToken__base build() => _build();
 
   _$GRefreshTokenData_refreshToken__base _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRefreshTokenData_refreshToken__base._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRefreshTokenData_refreshToken__base',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRefreshTokenData_refreshToken__base', 'G__typename'),
         );
     replace(_$result);
     return _$result;
@@ -650,33 +534,29 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
   @override
   final GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data data;
 
-  factory _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess([
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess(
+          [void Function(
+                  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder)?
+              updates]) =>
       (GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder()
             ..update(updates))
           ._build();
 
-  _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess._({
-    required this.G__typename,
-    required this.data,
-  }) : super._();
+  _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess._(
+      {required this.G__typename, required this.data})
+      : super._();
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess rebuild(
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
-  toBuilder() =>
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -699,8 +579,7 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess',
-          )
+            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess')
           ..add('G__typename', G__typename)
           ..add('data', data))
         .toString();
@@ -709,10 +588,8 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
 
 class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
     implements
-        Builder<
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
-        > {
+        Builder<GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess,
+            GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder> {
   _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess? _$v;
 
   String? _G__typename;
@@ -720,23 +597,22 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder?
-  _data;
+      _data;
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
-  get data => _$this._data ??=
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder();
+      get data => _$this._data ??=
+          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder();
   set data(
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder?
-    data,
-  ) => _$this._data = data;
+          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder?
+              data) =>
+      _$this._data = data;
 
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder() {
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess._initializeBuilder(
-      this,
-    );
+    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess
+        ._initializeBuilder(this);
   }
 
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -748,20 +624,16 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
 
   @override
   void replace(
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess other,
-  ) {
-    _$v =
-        other
-            as _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess;
+      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess other) {
+    _$v = other
+        as _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess;
   }
 
   @override
   void update(
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -772,14 +644,12 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
   _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess _build() {
     _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-              G__typename,
-              r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess',
-              'G__typename',
-            ),
+                G__typename,
+                r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess',
+                'G__typename'),
             data: data.build(),
           );
     } catch (_) {
@@ -789,10 +659,9 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccessBuilder
         data.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess',
+            _$failedField,
+            e.toString());
       }
       rethrow;
     }
@@ -810,34 +679,31 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
   @override
   final String refreshToken;
 
-  factory _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data([
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder,
-    )?
-    updates,
-  ]) =>
+  factory _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data(
+          [void Function(
+                  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder)?
+              updates]) =>
       (GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder()
             ..update(updates))
           ._build();
 
-  _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data._({
-    required this.G__typename,
-    required this.idToken,
-    required this.refreshToken,
-  }) : super._();
+  _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data._(
+      {required this.G__typename,
+      required this.idToken,
+      required this.refreshToken})
+      : super._();
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data rebuild(
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder,
-    )
-    updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(
+                  GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
-  toBuilder() =>
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder()
-        ..replace(this);
+      toBuilder() =>
+          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder()
+            ..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -862,8 +728,7 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
-          )
+            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data')
           ..add('G__typename', G__typename)
           ..add('idToken', idToken)
           ..add('refreshToken', refreshToken))
@@ -874,9 +739,8 @@ class _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
 class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
     implements
         Builder<
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
-          GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
-        > {
+            GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data,
+            GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder> {
   _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data? _$v;
 
   String? _G__typename;
@@ -892,13 +756,12 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
   set refreshToken(String? refreshToken) => _$this._refreshToken = refreshToken;
 
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder() {
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data._initializeBuilder(
-      this,
-    );
+    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
+        ._initializeBuilder(this);
   }
 
   GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
-  get _$this {
+      get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -911,20 +774,17 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
 
   @override
   void replace(
-    GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data other,
-  ) {
-    _$v =
-        other
-            as _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data;
+      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
+          other) {
+    _$v = other
+        as _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data;
   }
 
   @override
   void update(
-    void Function(
-      GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder,
-    )?
-    updates,
-  ) {
+      void Function(
+              GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -933,25 +793,21 @@ class GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_dataBuilder
       _build();
 
   _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data
-  _build() {
-    final _$result =
-        _$v ??
+      _build() {
+    final _$result = _$v ??
         _$GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
-            'G__typename',
-          ),
+              G__typename,
+              r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
+              'G__typename'),
           idToken: BuiltValueNullFieldError.checkNotNull(
-            idToken,
-            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
-            'idToken',
-          ),
+              idToken,
+              r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
+              'idToken'),
           refreshToken: BuiltValueNullFieldError.checkNotNull(
-            refreshToken,
-            r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
-            'refreshToken',
-          ),
+              refreshToken,
+              r'GRefreshTokenData_refreshToken__asMutationRefreshTokenSuccess_data',
+              'refreshToken'),
         );
     replace(_$result);
     return _$result;
@@ -971,22 +827,24 @@ class _$GRefreshTokenData_refreshToken__asAuthError
   @override
   final bool? retryable;
 
-  factory _$GRefreshTokenData_refreshToken__asAuthError([
-    void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder)? updates,
-  ]) => (GRefreshTokenData_refreshToken__asAuthErrorBuilder()..update(updates))
-      ._build();
+  factory _$GRefreshTokenData_refreshToken__asAuthError(
+          [void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder)?
+              updates]) =>
+      (GRefreshTokenData_refreshToken__asAuthErrorBuilder()..update(updates))
+          ._build();
 
-  _$GRefreshTokenData_refreshToken__asAuthError._({
-    required this.G__typename,
-    this.code,
-    this.message,
-    this.field,
-    this.retryable,
-  }) : super._();
+  _$GRefreshTokenData_refreshToken__asAuthError._(
+      {required this.G__typename,
+      this.code,
+      this.message,
+      this.field,
+      this.retryable})
+      : super._();
   @override
   GRefreshTokenData_refreshToken__asAuthError rebuild(
-    void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder)
+              updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRefreshTokenData_refreshToken__asAuthErrorBuilder toBuilder() =>
@@ -1018,8 +876,7 @@ class _$GRefreshTokenData_refreshToken__asAuthError
   @override
   String toString() {
     return (newBuiltValueToStringHelper(
-            r'GRefreshTokenData_refreshToken__asAuthError',
-          )
+            r'GRefreshTokenData_refreshToken__asAuthError')
           ..add('G__typename', G__typename)
           ..add('code', code)
           ..add('message', message)
@@ -1031,10 +888,8 @@ class _$GRefreshTokenData_refreshToken__asAuthError
 
 class GRefreshTokenData_refreshToken__asAuthErrorBuilder
     implements
-        Builder<
-          GRefreshTokenData_refreshToken__asAuthError,
-          GRefreshTokenData_refreshToken__asAuthErrorBuilder
-        > {
+        Builder<GRefreshTokenData_refreshToken__asAuthError,
+            GRefreshTokenData_refreshToken__asAuthErrorBuilder> {
   _$GRefreshTokenData_refreshToken__asAuthError? _$v;
 
   String? _G__typename;
@@ -1081,8 +936,8 @@ class GRefreshTokenData_refreshToken__asAuthErrorBuilder
 
   @override
   void update(
-    void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder)? updates,
-  ) {
+      void Function(GRefreshTokenData_refreshToken__asAuthErrorBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
@@ -1090,14 +945,10 @@ class GRefreshTokenData_refreshToken__asAuthErrorBuilder
   GRefreshTokenData_refreshToken__asAuthError build() => _build();
 
   _$GRefreshTokenData_refreshToken__asAuthError _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRefreshTokenData_refreshToken__asAuthError._(
-          G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GRefreshTokenData_refreshToken__asAuthError',
-            'G__typename',
-          ),
+          G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+              r'GRefreshTokenData_refreshToken__asAuthError', 'G__typename'),
           code: code,
           message: message,
           field: field,

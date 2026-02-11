@@ -15,20 +15,15 @@ class _$GMyShelfVarsSerializer implements StructuredSerializer<GMyShelfVars> {
   final String wireName = 'GMyShelfVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GMyShelfVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GMyShelfVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     return <Object?>[];
   }
 
   @override
   GMyShelfVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     return GMyShelfVarsBuilder().build();
   }
 }
