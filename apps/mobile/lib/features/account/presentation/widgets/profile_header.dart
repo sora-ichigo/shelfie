@@ -26,20 +26,17 @@ class ProfileHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSpacing.md),
           Row(
             children: [
-              UserAvatar(avatarUrl: profile.avatarUrl, radius: 40),
-              const SizedBox(width: AppSpacing.md),
+              UserAvatar(avatarUrl: profile.avatarUrl, radius: 32),
+              const SizedBox(width: AppSpacing.xs),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       profile.name ?? 'ユーザー',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: theme.textTheme.titleMedium,
                     ),
                     if (profile.username != null)
                       Text(
@@ -67,8 +64,11 @@ class ProfileHeader extends StatelessWidget {
             const SizedBox(height: AppSpacing.xs),
             Row(
               children: [
-                Icon(Icons.camera_alt_outlined,
-                    size: 16, color: appColors.textSecondary),
+                Icon(
+                  Icons.camera_alt_outlined,
+                  size: 16,
+                  color: appColors.textSecondary,
+                ),
                 const SizedBox(width: AppSpacing.xxs),
                 Text(
                   '@${profile.instagramHandle}',
