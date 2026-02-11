@@ -34,8 +34,8 @@ void main() {
       test('AppTypography の textTheme が適用されている', () {
         final theme = AppTheme.dark();
 
-        expect(theme.textTheme.displayLarge?.fontSize,
-            equals(AppTypography.displayLarge.fontSize));
+        expect(theme.textTheme.headlineLarge?.fontSize,
+            equals(AppTypography.headlineLarge.fontSize));
         expect(theme.textTheme.bodyMedium?.fontSize,
             equals(AppTypography.bodyMedium.fontSize));
       });

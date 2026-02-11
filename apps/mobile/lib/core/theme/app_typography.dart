@@ -6,34 +6,6 @@ import 'package:flutter/material.dart';
 /// 一貫したタイポグラフィを提供することで、デザインの統一性を保つ。
 abstract final class AppTypography {
   // ===========================================================================
-  // Display styles - ヒーローセクション、スプラッシュ画面など最も目立つテキスト
-  // ===========================================================================
-
-  /// 57px - 最大の見出し。ヒーローセクションやランディングページ用
-  static const displayLarge = TextStyle(
-    fontSize: 57,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.25,
-    height: 1.12,
-  );
-
-  /// 45px - 大きな見出し。セクションの主要タイトル用
-  static const displayMedium = TextStyle(
-    fontSize: 45,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0,
-    height: 1.16,
-  );
-
-  /// 36px - 中程度の見出し。重要なセクションタイトル用
-  static const displaySmall = TextStyle(
-    fontSize: 36,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0,
-    height: 1.22,
-  );
-
-  // ===========================================================================
   // Headline styles - ページやセクションの見出し
   // ===========================================================================
 
@@ -159,9 +131,6 @@ abstract final class AppTypography {
 
   /// Material 3 TextTheme を生成
   static TextTheme get textTheme => const TextTheme(
-        displayLarge: displayLarge,
-        displayMedium: displayMedium,
-        displaySmall: displaySmall,
         headlineLarge: headlineLarge,
         headlineMedium: headlineMedium,
         headlineSmall: headlineSmall,
