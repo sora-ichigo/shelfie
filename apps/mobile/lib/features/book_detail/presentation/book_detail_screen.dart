@@ -25,6 +25,8 @@ import 'package:shelfie/features/book_detail/presentation/widgets/book_info_sect
 import 'package:shelfie/features/book_detail/presentation/widgets/rating_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
@@ -188,6 +190,11 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                         ReadingNoteSection(
                           shelfEntry: shelfEntry,
                           onNoteTap: _onNoteTap,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        ThoughtsSection(
+                          shelfEntry: shelfEntry,
+                          onThoughtsTap: _onThoughtsTap,
                         ),
                       ],
                     )
@@ -384,6 +391,22 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     showReadingNoteModal(
       context: context,
       currentNote: shelfEntry.note,
+      userBookId: shelfEntry.userBookId,
+      externalId: widget.bookId,
+    );
+  }
+
+  void _onThoughtsTap() {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
+
+    showThoughtsModal(
+      context: context,
+      currentThoughts: shelfEntry.thoughts,
       userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );

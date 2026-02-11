@@ -15,5 +15,7 @@ mutation UpdateReadingNote($userBookId: Int!, $note: String!) {
     note
     noteUpdatedAt
     rating
+    thoughts
+    thoughtsUpdatedAt
   }
 }

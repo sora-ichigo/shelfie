@@ -348,6 +348,20 @@ class _$GBookDetailData_bookDetail_userBookSerializer
         ..add('rating')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.thoughts;
+    if (value != null) {
+      result
+        ..add('thoughts')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.thoughtsUpdatedAt;
+    if (value != null) {
+      result
+        ..add('thoughtsUpdatedAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     return result;
   }
 
@@ -429,6 +443,14 @@ class _$GBookDetailData_bookDetail_userBookSerializer
         case 'rating':
           result.rating = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
+          break;
+        case 'thoughts':
+          result.thoughts = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'thoughtsUpdatedAt':
+          result.thoughtsUpdatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -854,6 +876,10 @@ class _$GBookDetailData_bookDetail_userBook
   final DateTime? noteUpdatedAt;
   @override
   final int? rating;
+  @override
+  final String? thoughts;
+  @override
+  final DateTime? thoughtsUpdatedAt;
 
   factory _$GBookDetailData_bookDetail_userBook(
           [void Function(GBookDetailData_bookDetail_userBookBuilder)?
@@ -876,7 +902,9 @@ class _$GBookDetailData_bookDetail_userBook
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
-      this.rating})
+      this.rating,
+      this.thoughts,
+      this.thoughtsUpdatedAt})
       : super._();
   @override
   GBookDetailData_bookDetail_userBook rebuild(
@@ -906,7 +934,9 @@ class _$GBookDetailData_bookDetail_userBook
         completedAt == other.completedAt &&
         note == other.note &&
         noteUpdatedAt == other.noteUpdatedAt &&
-        rating == other.rating;
+        rating == other.rating &&
+        thoughts == other.thoughts &&
+        thoughtsUpdatedAt == other.thoughtsUpdatedAt;
   }
 
   @override
@@ -928,6 +958,8 @@ class _$GBookDetailData_bookDetail_userBook
     _$hash = $jc(_$hash, note.hashCode);
     _$hash = $jc(_$hash, noteUpdatedAt.hashCode);
     _$hash = $jc(_$hash, rating.hashCode);
+    _$hash = $jc(_$hash, thoughts.hashCode);
+    _$hash = $jc(_$hash, thoughtsUpdatedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -950,7 +982,9 @@ class _$GBookDetailData_bookDetail_userBook
           ..add('completedAt', completedAt)
           ..add('note', note)
           ..add('noteUpdatedAt', noteUpdatedAt)
-          ..add('rating', rating))
+          ..add('rating', rating)
+          ..add('thoughts', thoughts)
+          ..add('thoughtsUpdatedAt', thoughtsUpdatedAt))
         .toString();
   }
 }
@@ -1029,6 +1063,15 @@ class GBookDetailData_bookDetail_userBookBuilder
   int? get rating => _$this._rating;
   set rating(int? rating) => _$this._rating = rating;
 
+  String? _thoughts;
+  String? get thoughts => _$this._thoughts;
+  set thoughts(String? thoughts) => _$this._thoughts = thoughts;
+
+  DateTime? _thoughtsUpdatedAt;
+  DateTime? get thoughtsUpdatedAt => _$this._thoughtsUpdatedAt;
+  set thoughtsUpdatedAt(DateTime? thoughtsUpdatedAt) =>
+      _$this._thoughtsUpdatedAt = thoughtsUpdatedAt;
+
   GBookDetailData_bookDetail_userBookBuilder() {
     GBookDetailData_bookDetail_userBook._initializeBuilder(this);
   }
@@ -1052,6 +1095,8 @@ class GBookDetailData_bookDetail_userBookBuilder
       _note = $v.note;
       _noteUpdatedAt = $v.noteUpdatedAt;
       _rating = $v.rating;
+      _thoughts = $v.thoughts;
+      _thoughtsUpdatedAt = $v.thoughtsUpdatedAt;
       _$v = null;
     }
     return this;
@@ -1098,6 +1143,8 @@ class GBookDetailData_bookDetail_userBookBuilder
             note: note,
             noteUpdatedAt: noteUpdatedAt,
             rating: rating,
+            thoughts: thoughts,
+            thoughtsUpdatedAt: thoughtsUpdatedAt,
           );
     } catch (_) {
       late String _$failedField;

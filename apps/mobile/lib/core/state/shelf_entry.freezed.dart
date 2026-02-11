@@ -43,6 +43,12 @@ mixin _$ShelfEntry {
   /// 評価（1-5）
   int? get rating => throw _privateConstructorUsedError;
 
+  /// 感想
+  String? get thoughts => throw _privateConstructorUsedError;
+
+  /// 感想の最終更新日時
+  DateTime? get thoughtsUpdatedAt => throw _privateConstructorUsedError;
+
   /// Create a copy of ShelfEntry
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -65,7 +71,9 @@ abstract class $ShelfEntryCopyWith<$Res> {
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
-      int? rating});
+      int? rating,
+      String? thoughts,
+      DateTime? thoughtsUpdatedAt});
 }
 
 /// @nodoc
@@ -92,6 +100,8 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
+    Object? thoughts = freezed,
+    Object? thoughtsUpdatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       userBookId: null == userBookId
@@ -130,6 +140,14 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      thoughts: freezed == thoughts
+          ? _value.thoughts
+          : thoughts // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thoughtsUpdatedAt: freezed == thoughtsUpdatedAt
+          ? _value.thoughtsUpdatedAt
+          : thoughtsUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -151,7 +169,9 @@ abstract class _$$ShelfEntryImplCopyWith<$Res>
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
-      int? rating});
+      int? rating,
+      String? thoughts,
+      DateTime? thoughtsUpdatedAt});
 }
 
 /// @nodoc
@@ -176,6 +196,8 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
+    Object? thoughts = freezed,
+    Object? thoughtsUpdatedAt = freezed,
   }) {
     return _then(_$ShelfEntryImpl(
       userBookId: null == userBookId
@@ -214,6 +236,14 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      thoughts: freezed == thoughts
+          ? _value.thoughts
+          : thoughts // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thoughtsUpdatedAt: freezed == thoughtsUpdatedAt
+          ? _value.thoughtsUpdatedAt
+          : thoughtsUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -230,7 +260,9 @@ class _$ShelfEntryImpl extends _ShelfEntry {
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
-      this.rating})
+      this.rating,
+      this.thoughts,
+      this.thoughtsUpdatedAt})
       : super._();
 
   /// 読書記録の ID（userBookId）
@@ -269,9 +301,17 @@ class _$ShelfEntryImpl extends _ShelfEntry {
   @override
   final int? rating;
 
+  /// 感想
+  @override
+  final String? thoughts;
+
+  /// 感想の最終更新日時
+  @override
+  final DateTime? thoughtsUpdatedAt;
+
   @override
   String toString() {
-    return 'ShelfEntry(userBookId: $userBookId, externalId: $externalId, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
+    return 'ShelfEntry(userBookId: $userBookId, externalId: $externalId, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating, thoughts: $thoughts, thoughtsUpdatedAt: $thoughtsUpdatedAt)';
   }
 
   @override
@@ -293,7 +333,11 @@ class _$ShelfEntryImpl extends _ShelfEntry {
             (identical(other.note, note) || other.note == note) &&
             (identical(other.noteUpdatedAt, noteUpdatedAt) ||
                 other.noteUpdatedAt == noteUpdatedAt) &&
-            (identical(other.rating, rating) || other.rating == rating));
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.thoughts, thoughts) ||
+                other.thoughts == thoughts) &&
+            (identical(other.thoughtsUpdatedAt, thoughtsUpdatedAt) ||
+                other.thoughtsUpdatedAt == thoughtsUpdatedAt));
   }
 
   @override
@@ -307,7 +351,9 @@ class _$ShelfEntryImpl extends _ShelfEntry {
       completedAt,
       note,
       noteUpdatedAt,
-      rating);
+      rating,
+      thoughts,
+      thoughtsUpdatedAt);
 
   /// Create a copy of ShelfEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -328,7 +374,9 @@ abstract class _ShelfEntry extends ShelfEntry {
       final DateTime? completedAt,
       final String? note,
       final DateTime? noteUpdatedAt,
-      final int? rating}) = _$ShelfEntryImpl;
+      final int? rating,
+      final String? thoughts,
+      final DateTime? thoughtsUpdatedAt}) = _$ShelfEntryImpl;
   const _ShelfEntry._() : super._();
 
   /// 読書記録の ID（userBookId）
@@ -366,6 +414,14 @@ abstract class _ShelfEntry extends ShelfEntry {
   /// 評価（1-5）
   @override
   int? get rating;
+
+  /// 感想
+  @override
+  String? get thoughts;
+
+  /// 感想の最終更新日時
+  @override
+  DateTime? get thoughtsUpdatedAt;
 
   /// Create a copy of ShelfEntry
   /// with the given fields replaced by the non-null parameter values.

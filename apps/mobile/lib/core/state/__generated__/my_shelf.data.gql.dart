@@ -90,6 +90,8 @@ abstract class GMyShelfData_myShelf_items
   _i2.GReadingStatus get readingStatus;
   String? get note;
   DateTime? get noteUpdatedAt;
+  String? get thoughts;
+  DateTime? get thoughtsUpdatedAt;
   DateTime get addedAt;
   DateTime? get startedAt;
   DateTime? get completedAt;

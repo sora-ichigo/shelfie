@@ -31,6 +31,8 @@ export interface UpdateUserBookInput {
   note?: string;
   noteUpdatedAt?: Date;
   rating?: number | null;
+  thoughts?: string;
+  thoughtsUpdatedAt?: Date;
 }
 
 export type ShelfSortField =

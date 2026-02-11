@@ -71,6 +71,8 @@ abstract class GUpdateBookRatingData_updateBookRating
   String? get note;
   DateTime? get noteUpdatedAt;
   int? get rating;
+  String? get thoughts;
+  DateTime? get thoughtsUpdatedAt;
   static Serializer<GUpdateBookRatingData_updateBookRating> get serializer =>
       _$gUpdateBookRatingDataUpdateBookRatingSerializer;
 

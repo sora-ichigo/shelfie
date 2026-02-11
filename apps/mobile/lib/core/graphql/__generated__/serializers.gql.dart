@@ -173,6 +173,12 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_started_a
     show GUpdateStartedAtReq;
 import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.var.gql.dart'
     show GUpdateStartedAtVars;
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.data.gql.dart'
+    show GUpdateThoughtsData, GUpdateThoughtsData_updateThoughts;
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.req.gql.dart'
+    show GUpdateThoughtsReq;
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.var.gql.dart'
+    show GUpdateThoughtsVars;
 import 'package:shelfie/features/book_list/data/__generated__/add_book_to_list.data.gql.dart'
     show
         GAddBookToListData,
@@ -498,5 +504,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUpdateStartedAtData_updateStartedAt,
   GUpdateStartedAtReq,
   GUpdateStartedAtVars,
+  GUpdateThoughtsData,
+  GUpdateThoughtsData_updateThoughts,
+  GUpdateThoughtsReq,
+  GUpdateThoughtsVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

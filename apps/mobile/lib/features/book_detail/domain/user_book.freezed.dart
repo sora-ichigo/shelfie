@@ -40,6 +40,12 @@ mixin _$UserBook {
   /// 評価（1-5）
   int? get rating => throw _privateConstructorUsedError;
 
+  /// 感想
+  String? get thoughts => throw _privateConstructorUsedError;
+
+  /// 感想の最終更新日時
+  DateTime? get thoughtsUpdatedAt => throw _privateConstructorUsedError;
+
   /// Create a copy of UserBook
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -60,7 +66,9 @@ abstract class $UserBookCopyWith<$Res> {
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
-      int? rating});
+      int? rating,
+      String? thoughts,
+      DateTime? thoughtsUpdatedAt});
 }
 
 /// @nodoc
@@ -86,6 +94,8 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
+    Object? thoughts = freezed,
+    Object? thoughtsUpdatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -120,6 +130,14 @@ class _$UserBookCopyWithImpl<$Res, $Val extends UserBook>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      thoughts: freezed == thoughts
+          ? _value.thoughts
+          : thoughts // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thoughtsUpdatedAt: freezed == thoughtsUpdatedAt
+          ? _value.thoughtsUpdatedAt
+          : thoughtsUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -140,7 +158,9 @@ abstract class _$$UserBookImplCopyWith<$Res>
       DateTime? completedAt,
       String? note,
       DateTime? noteUpdatedAt,
-      int? rating});
+      int? rating,
+      String? thoughts,
+      DateTime? thoughtsUpdatedAt});
 }
 
 /// @nodoc
@@ -164,6 +184,8 @@ class __$$UserBookImplCopyWithImpl<$Res>
     Object? note = freezed,
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
+    Object? thoughts = freezed,
+    Object? thoughtsUpdatedAt = freezed,
   }) {
     return _then(_$UserBookImpl(
       id: null == id
@@ -198,6 +220,14 @@ class __$$UserBookImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int?,
+      thoughts: freezed == thoughts
+          ? _value.thoughts
+          : thoughts // ignore: cast_nullable_to_non_nullable
+              as String?,
+      thoughtsUpdatedAt: freezed == thoughtsUpdatedAt
+          ? _value.thoughtsUpdatedAt
+          : thoughtsUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -213,7 +243,9 @@ class _$UserBookImpl extends _UserBook {
       this.completedAt,
       this.note,
       this.noteUpdatedAt,
-      this.rating})
+      this.rating,
+      this.thoughts,
+      this.thoughtsUpdatedAt})
       : super._();
 
   /// 読書記録の ID
@@ -248,9 +280,17 @@ class _$UserBookImpl extends _UserBook {
   @override
   final int? rating;
 
+  /// 感想
+  @override
+  final String? thoughts;
+
+  /// 感想の最終更新日時
+  @override
+  final DateTime? thoughtsUpdatedAt;
+
   @override
   String toString() {
-    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating)';
+    return 'UserBook(id: $id, readingStatus: $readingStatus, addedAt: $addedAt, startedAt: $startedAt, completedAt: $completedAt, note: $note, noteUpdatedAt: $noteUpdatedAt, rating: $rating, thoughts: $thoughts, thoughtsUpdatedAt: $thoughtsUpdatedAt)';
   }
 
   @override
@@ -269,12 +309,26 @@ class _$UserBookImpl extends _UserBook {
             (identical(other.note, note) || other.note == note) &&
             (identical(other.noteUpdatedAt, noteUpdatedAt) ||
                 other.noteUpdatedAt == noteUpdatedAt) &&
-            (identical(other.rating, rating) || other.rating == rating));
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.thoughts, thoughts) ||
+                other.thoughts == thoughts) &&
+            (identical(other.thoughtsUpdatedAt, thoughtsUpdatedAt) ||
+                other.thoughtsUpdatedAt == thoughtsUpdatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, readingStatus, addedAt,
-      startedAt, completedAt, note, noteUpdatedAt, rating);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      readingStatus,
+      addedAt,
+      startedAt,
+      completedAt,
+      note,
+      noteUpdatedAt,
+      rating,
+      thoughts,
+      thoughtsUpdatedAt);
 
   /// Create a copy of UserBook
   /// with the given fields replaced by the non-null parameter values.
@@ -294,7 +348,9 @@ abstract class _UserBook extends UserBook {
       final DateTime? completedAt,
       final String? note,
       final DateTime? noteUpdatedAt,
-      final int? rating}) = _$UserBookImpl;
+      final int? rating,
+      final String? thoughts,
+      final DateTime? thoughtsUpdatedAt}) = _$UserBookImpl;
   const _UserBook._() : super._();
 
   /// 読書記録の ID
@@ -328,6 +384,14 @@ abstract class _UserBook extends UserBook {
   /// 評価（1-5）
   @override
   int? get rating;
+
+  /// 感想
+  @override
+  String? get thoughts;
+
+  /// 感想の最終更新日時
+  @override
+  DateTime? get thoughtsUpdatedAt;
 
   /// Create a copy of UserBook
   /// with the given fields replaced by the non-null parameter values.
