@@ -124,36 +124,34 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     return [
       SliverToBoxAdapter(
-        child: Column(
-          children: [
-            const SizedBox(height: AppSpacing.xs),
-            ReadingStatusChips(
-              selectedFilter: booksState.selectedFilter,
-              onFilterChanged: (filter) {
-                ref
-                    .read(profileBooksNotifierProvider.notifier)
-                    .setFilter(filter);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.xxs,
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: SearchFilterBar(
-                  sortOption: ref.watch(sortOptionNotifierProvider),
-                  onSortChanged: (option) async {
-                    await ref
-                        .read(sortOptionNotifierProvider.notifier)
-                        .update(option);
-                    ref.invalidate(profileBooksNotifierProvider);
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.xxs,
+            horizontal: AppSpacing.md,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: ReadingStatusChips(
+                  selectedFilter: booksState.selectedFilter,
+                  onFilterChanged: (filter) {
+                    ref
+                        .read(profileBooksNotifierProvider.notifier)
+                        .setFilter(filter);
                   },
                 ),
               ),
-            ),
-          ],
+              SearchFilterBar(
+                sortOption: ref.watch(sortOptionNotifierProvider),
+                onSortChanged: (option) async {
+                  await ref
+                      .read(sortOptionNotifierProvider.notifier)
+                      .update(option);
+                  ref.invalidate(profileBooksNotifierProvider);
+                },
+              ),
+            ],
+          ),
         ),
       ),
       if (booksState.isLoading)

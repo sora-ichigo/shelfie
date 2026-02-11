@@ -15,11 +15,9 @@ class ReadingStatusChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 36,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
         children: [
           _Chip(
             label: 'すべて',
@@ -62,19 +60,17 @@ class _Chip extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
+          horizontal: AppSpacing.xs,
           vertical: AppSpacing.xxs,
         ),
         decoration: BoxDecoration(
           color: isSelected ? appColors.primary : appColors.surface,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
               color: isSelected ? Colors.white : appColors.textSecondary,
             ),
           ),
