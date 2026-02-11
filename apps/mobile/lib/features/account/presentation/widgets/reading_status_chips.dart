@@ -79,7 +79,7 @@ class _Chip extends StatelessWidget {
         child: Text(
           displayText,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: isSelected ? Colors.white : appColors.textSecondary,
+            color: isSelected ? appColors.textPrimary : appColors.textSecondary,
           ),
         ),
       ),
