@@ -130,18 +130,6 @@ abstract final class AppTypography {
     height: 1.45,
   );
 
-  // ===========================================================================
-  // Caption styles - 極小テキスト、補足情報
-  // ===========================================================================
-
-  /// 10px - 極小キャプション、著者名表示など
-  static const captionSmall = TextStyle(
-    fontSize: 10,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.4,
-    height: 1.40,
-  );
-
   /// Material 3 TextTheme を生成
   static TextTheme get textTheme => const TextTheme(
         displayLarge: displayLarge,

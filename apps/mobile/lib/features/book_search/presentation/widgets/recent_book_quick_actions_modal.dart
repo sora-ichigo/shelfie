@@ -110,7 +110,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
                 book.authors.join(', '),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTypography.captionSmall.copyWith(
+                style: AppTypography.labelSmall.copyWith(
                   color: appColors.textSecondary,
                 ),
               ),

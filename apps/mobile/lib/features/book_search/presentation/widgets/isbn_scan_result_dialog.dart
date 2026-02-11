@@ -283,7 +283,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   _formatAuthors(book.authors),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.captionSmall.copyWith(
+                  style: AppTypography.labelSmall.copyWith(
                     color: appColors.textSecondary,
                   ),
                 ),
