@@ -175,7 +175,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               crossAxisCount: 3,
               childAspectRatio: 0.58,
               crossAxisSpacing: AppSpacing.xl,
-              mainAxisSpacing: AppSpacing.xs,
+              mainAxisSpacing: AppSpacing.md,
             ),
             delegate: SliverChildBuilderDelegate((context, index) {
               if (index >= booksState.books.length) return null;
