@@ -75,10 +75,10 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe("intitle:テスト");
+      expect(url.searchParams.get("q")).toBe("テスト");
     });
 
-    it("プレーンキーワードに intitle: プレフィックスが付与される", async () => {
+    it("プレーンキーワードがそのまま送信される", async () => {
       const mockResponse = {
         kind: "books#volumes",
         totalItems: 0,
@@ -95,10 +95,10 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe("intitle:プログラミング");
+      expect(url.searchParams.get("q")).toBe("プログラミング");
     });
 
-    it("スペースを含むキーワードは各単語に intitle: が付与される", async () => {
+    it("スペースを含むキーワードがそのまま送信される", async () => {
       const mockResponse = {
         kind: "books#volumes",
         totalItems: 2,
@@ -115,12 +115,10 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe(
-        "intitle:モチベーション intitle:3.0",
-      );
+      expect(url.searchParams.get("q")).toBe("モチベーション 3.0");
     });
 
-    it("複数スペースを含むキーワードでも各単語に intitle: が付与される", async () => {
+    it("複数スペースを含むキーワードがそのまま送信される", async () => {
       const mockResponse = {
         kind: "books#volumes",
         totalItems: 0,
@@ -137,9 +135,7 @@ describe("GoogleBooksRepository", () => {
 
       const calledUrl = (fetch as ReturnType<typeof vi.fn>).mock.calls[0][0];
       const url = new URL(calledUrl);
-      expect(url.searchParams.get("q")).toBe(
-        "intitle:Clean intitle:Code intitle:アジャイル",
-      );
+      expect(url.searchParams.get("q")).toBe("Clean Code アジャイル");
     });
 
     it("isbn: プレフィックス付きクエリはそのまま送信される", async () => {
