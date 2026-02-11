@@ -174,7 +174,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               childAspectRatio: 0.58,
-              crossAxisSpacing: AppSpacing.xs,
+              crossAxisSpacing: AppSpacing.xl,
               mainAxisSpacing: AppSpacing.xs,
             ),
             delegate: SliverChildBuilderDelegate((context, index) {

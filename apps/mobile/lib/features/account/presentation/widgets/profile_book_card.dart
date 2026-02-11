@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
-import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 class ProfileBookCard extends ConsumerWidget {
@@ -26,9 +26,7 @@ class ProfileBookCard extends ConsumerWidget {
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[book.externalId]),
     );
-    final rating = shelfEntry?.rating;
-    final isCompleted = shelfEntry?.readingStatus == ReadingStatus.completed;
-    final showRating = rating != null || isCompleted;
+    final rating = shelfEntry?.rating ?? 0;
 
     return InkWell(
       onTap: onTap,
@@ -43,10 +41,8 @@ class ProfileBookCard extends ConsumerWidget {
               child: _buildCoverImage(appColors),
             ),
           ),
-          if (showRating) ...[
-            const SizedBox(height: 2),
-            _buildRating(appColors, rating ?? 0),
-          ],
+          const SizedBox(height: AppSpacing.xxs),
+          _buildRating(appColors, rating),
         ],
       ),
     );
@@ -81,7 +77,7 @@ class ProfileBookCard extends ConsumerWidget {
         final isFilled = index < rating;
         return Icon(
           Icons.star_rounded,
-          size: 12,
+          size: 18,
           color: isFilled ? appColors.star : appColors.inactive,
         );
       }),
