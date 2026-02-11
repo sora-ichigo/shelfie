@@ -40,18 +40,21 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
     final pendingImage = formState.pendingAvatarImage;
 
     if (pendingImage != null) {
-      await _saveWithAvatar(formState.name, pendingImage);
+      await _saveWithAvatar(formState, pendingImage);
     } else {
-      await _saveNameOnly(formState.name);
+      await _saveProfile(formState);
     }
   }
 
-  Future<void> _saveWithAvatar(String name, XFile image) async {
+  Future<void> _saveWithAvatar(ProfileFormData formState, XFile image) async {
     final uploadService = ref.read(avatarUploadServiceProvider);
 
     final result = await uploadService.uploadAndUpdateProfile(
       file: image,
-      name: name,
+      name: formState.name,
+      bio: formState.bio,
+      instagramHandle: formState.instagramHandle,
+      handle: formState.handle,
       onProgress: (progress) {
         state = ProfileEditState.uploading(progress: progress);
       },
@@ -63,11 +66,14 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
     );
   }
 
-  Future<void> _saveNameOnly(String name) async {
+  Future<void> _saveProfile(ProfileFormData formState) async {
     final repository = ref.read(accountRepositoryProvider);
 
     final updateResult = await repository.updateProfile(
-      name: name,
+      name: formState.name,
+      bio: formState.bio,
+      instagramHandle: formState.instagramHandle,
+      handle: formState.handle,
     );
 
     state = updateResult.fold<ProfileEditState>(

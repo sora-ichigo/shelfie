@@ -12,6 +12,9 @@ class ProfileFormData with _$ProfileFormData {
   const factory ProfileFormData({
     @Default('') String name,
     @Default('') String email,
+    @Default('') String handle,
+    @Default('') String bio,
+    @Default('') String instagramHandle,
     XFile? pendingAvatarImage,
     @Default(false) bool hasChanges,
   }) = _ProfileFormData;
@@ -28,6 +31,9 @@ class ProfileFormState extends _$ProfileFormState {
     state = ProfileFormData(
       name: profile.name ?? '',
       email: profile.email,
+      handle: profile.handle ?? '',
+      bio: profile.bio ?? '',
+      instagramHandle: profile.instagramHandle ?? '',
     );
   }
 
@@ -35,11 +41,31 @@ class ProfileFormState extends _$ProfileFormState {
     state = state.copyWith(name: value, hasChanges: true);
   }
 
+  void updateHandle(String value) {
+    state = state.copyWith(handle: value, hasChanges: true);
+  }
+
+  void updateBio(String value) {
+    state = state.copyWith(bio: value, hasChanges: true);
+  }
+
+  void updateInstagramHandle(String value) {
+    state = state.copyWith(instagramHandle: value, hasChanges: true);
+  }
+
   void setAvatarImage(XFile? image) {
     state = state.copyWith(pendingAvatarImage: image, hasChanges: true);
   }
 
   String? get nameError => ProfileValidators.validateName(state.name);
+  String? get handleError => ProfileValidators.validateHandle(state.handle);
+  String? get bioError => ProfileValidators.validateBio(state.bio);
+  String? get instagramHandleError =>
+      ProfileValidators.validateInstagramHandle(state.instagramHandle);
 
-  bool get isValid => nameError == null;
+  bool get isValid =>
+      nameError == null &&
+      handleError == null &&
+      bioError == null &&
+      instagramHandleError == null;
 }

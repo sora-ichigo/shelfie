@@ -7,15 +7,33 @@ class ProfileEditForm extends StatelessWidget {
   const ProfileEditForm({
     required this.nameController,
     required this.emailController,
+    required this.handleController,
+    required this.bioController,
+    required this.instagramHandleController,
     required this.onNameChanged,
+    required this.onHandleChanged,
+    required this.onBioChanged,
+    required this.onInstagramHandleChanged,
     this.nameError,
+    this.handleError,
+    this.bioError,
+    this.instagramHandleError,
     super.key,
   });
 
   final TextEditingController nameController;
   final TextEditingController emailController;
+  final TextEditingController handleController;
+  final TextEditingController bioController;
+  final TextEditingController instagramHandleController;
   final ValueChanged<String> onNameChanged;
+  final ValueChanged<String> onHandleChanged;
+  final ValueChanged<String> onBioChanged;
+  final ValueChanged<String> onInstagramHandleChanged;
   final String? nameError;
+  final String? handleError;
+  final String? bioError;
+  final String? instagramHandleError;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +49,32 @@ class ProfileEditForm extends StatelessWidget {
           onChanged: onNameChanged,
           errorText: nameError,
           keyboardType: TextInputType.name,
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        LabeledTextField(
+          label: 'ハンドル',
+          controller: handleController,
+          onChanged: onHandleChanged,
+          errorText: handleError,
+          hintText: 'username',
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        LabeledTextField(
+          label: '自己紹介',
+          controller: bioController,
+          onChanged: onBioChanged,
+          errorText: bioError,
+          maxLines: 4,
+          maxLength: 500,
+          hintText: '自己紹介を入力してください',
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        LabeledTextField(
+          label: 'Instagram',
+          controller: instagramHandleController,
+          onChanged: onInstagramHandleChanged,
+          errorText: instagramHandleError,
+          hintText: 'instagram_handle',
         ),
         const SizedBox(height: AppSpacing.lg),
         LabeledTextField(

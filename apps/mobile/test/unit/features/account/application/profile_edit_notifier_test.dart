@@ -95,9 +95,14 @@ void main() {
         final profile = createTestProfile();
         final updatedProfile = profile.copyWith(name: 'New Name');
 
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async => right(updatedProfile),
-        );
+        when(
+          () => mockRepository.updateProfile(
+            name: 'New Name',
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
+          ),
+        ).thenAnswer((_) async => right(updatedProfile));
 
         final container = ProviderContainer(
           overrides: [
@@ -114,19 +119,69 @@ void main() {
 
         final state = container.read(profileEditNotifierProvider);
         expect(state, isA<ProfileEditStateSuccess>());
-        expect((state as ProfileEditStateSuccess).profile.name, equals('New Name'));
+        expect(
+          (state as ProfileEditStateSuccess).profile.name,
+          equals('New Name'),
+        );
+      });
+
+      test('全フィールド変更で保存成功', () async {
+        final profile = createTestProfile();
+        final updatedProfile = profile.copyWith(
+          name: 'New Name',
+          handle: 'newhandle',
+          bio: '新しい自己紹介',
+          instagramHandle: 'new_insta',
+        );
+
+        when(
+          () => mockRepository.updateProfile(
+            name: 'New Name',
+            bio: '新しい自己紹介',
+            instagramHandle: 'new_insta',
+            handle: 'newhandle',
+          ),
+        ).thenAnswer((_) async => right(updatedProfile));
+
+        final container = ProviderContainer(
+          overrides: [
+            accountRepositoryProvider.overrideWithValue(mockRepository),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final formNotifier = container.read(profileFormStateProvider.notifier);
+        formNotifier.initialize(profile);
+        formNotifier.updateName('New Name');
+        formNotifier.updateHandle('newhandle');
+        formNotifier.updateBio('新しい自己紹介');
+        formNotifier.updateInstagramHandle('new_insta');
+
+        await container.read(profileEditNotifierProvider.notifier).save();
+
+        final state = container.read(profileEditNotifierProvider);
+        expect(state, isA<ProfileEditStateSuccess>());
+        final successState = state as ProfileEditStateSuccess;
+        expect(successState.profile.handle, equals('newhandle'));
+        expect(successState.profile.bio, equals('新しい自己紹介'));
+        expect(successState.profile.instagramHandle, equals('new_insta'));
       });
 
       test('保存中は loading 状態になる', () async {
         final profile = createTestProfile();
         final updatedProfile = profile.copyWith(name: 'New Name');
 
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async {
-            await Future<void>.delayed(const Duration(milliseconds: 100));
-            return right(updatedProfile);
-          },
-        );
+        when(
+          () => mockRepository.updateProfile(
+            name: 'New Name',
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
+          ),
+        ).thenAnswer((_) async {
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          return right(updatedProfile);
+        });
 
         final container = ProviderContainer(
           overrides: [
@@ -139,7 +194,8 @@ void main() {
         formNotifier.initialize(profile);
         formNotifier.updateName('New Name');
 
-        final future = container.read(profileEditNotifierProvider.notifier).save();
+        final future =
+            container.read(profileEditNotifierProvider.notifier).save();
 
         final loadingState = container.read(profileEditNotifierProvider);
         expect(loadingState, isA<ProfileEditStateLoading>());
@@ -154,9 +210,14 @@ void main() {
           code: 'SERVER_ERROR',
         );
 
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async => left(failure),
-        );
+        when(
+          () => mockRepository.updateProfile(
+            name: 'New Name',
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
+          ),
+        ).thenAnswer((_) async => left(failure));
 
         final container = ProviderContainer(
           overrides: [
@@ -183,9 +244,14 @@ void main() {
           fieldErrors: {'name': '氏名を入力してください'},
         );
 
-        when(() => mockRepository.updateProfile(name: '')).thenAnswer(
-          (_) async => left(failure),
-        );
+        when(
+          () => mockRepository.updateProfile(
+            name: '',
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
+          ),
+        ).thenAnswer((_) async => left(failure));
 
         final container = ProviderContainer(
           overrides: [
@@ -229,9 +295,14 @@ void main() {
         final profile = createTestProfile();
         final updatedProfile = profile.copyWith(name: 'New Name');
 
-        when(() => mockRepository.updateProfile(name: 'New Name')).thenAnswer(
-          (_) async => right(updatedProfile),
-        );
+        when(
+          () => mockRepository.updateProfile(
+            name: 'New Name',
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
+          ),
+        ).thenAnswer((_) async => right(updatedProfile));
 
         final container = ProviderContainer(
           overrides: [
@@ -286,6 +357,9 @@ void main() {
           () => mockUploadService.uploadAndUpdateProfile(
             file: any(named: 'file'),
             name: any(named: 'name'),
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
             onProgress: any(named: 'onProgress'),
           ),
         ).thenAnswer((_) async => right(updatedProfile));
@@ -325,6 +399,9 @@ void main() {
           () => mockUploadService.uploadAndUpdateProfile(
             file: any(named: 'file'),
             name: any(named: 'name'),
+            bio: any(named: 'bio'),
+            instagramHandle: any(named: 'instagramHandle'),
+            handle: any(named: 'handle'),
             onProgress: any(named: 'onProgress'),
           ),
         ).thenAnswer(

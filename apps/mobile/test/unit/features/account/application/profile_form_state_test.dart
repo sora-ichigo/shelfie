@@ -10,6 +10,9 @@ void main() {
       const data = ProfileFormData();
       expect(data.name, equals(''));
       expect(data.email, equals(''));
+      expect(data.handle, equals(''));
+      expect(data.bio, equals(''));
+      expect(data.instagramHandle, equals(''));
       expect(data.pendingAvatarImage, isNull);
       expect(data.hasChanges, isFalse);
     });
@@ -20,12 +23,18 @@ void main() {
       final updated = data.copyWith(
         name: 'Test Name',
         email: 'test@example.com',
+        handle: 'testuser',
+        bio: '自己紹介',
+        instagramHandle: 'test_insta',
         pendingAvatarImage: xFile,
         hasChanges: true,
       );
 
       expect(updated.name, equals('Test Name'));
       expect(updated.email, equals('test@example.com'));
+      expect(updated.handle, equals('testuser'));
+      expect(updated.bio, equals('自己紹介'));
+      expect(updated.instagramHandle, equals('test_insta'));
       expect(updated.pendingAvatarImage, equals(xFile));
       expect(updated.hasChanges, isTrue);
     });
@@ -57,10 +66,10 @@ void main() {
           email: 'user@example.com',
           name: 'Test User',
           avatarUrl: 'https://example.com/avatar.png',
-          handle: '@testuser',
+          handle: 'testuser',
           bookCount: 10,
-          bio: null,
-          instagramHandle: null,
+          bio: '自己紹介テキスト',
+          instagramHandle: 'test_insta',
           readingStartYear: 2020,
           readingStartMonth: 1,
           createdAt: DateTime(2020, 1, 1),
@@ -71,6 +80,9 @@ void main() {
 
         expect(state.name, equals('Test User'));
         expect(state.email, equals('user@example.com'));
+        expect(state.handle, equals('testuser'));
+        expect(state.bio, equals('自己紹介テキスト'));
+        expect(state.instagramHandle, equals('test_insta'));
         expect(state.hasChanges, isFalse);
       });
 
@@ -93,6 +105,9 @@ void main() {
         final state = container.read(profileFormStateProvider);
 
         expect(state.name, equals(''));
+        expect(state.handle, equals(''));
+        expect(state.bio, equals(''));
+        expect(state.instagramHandle, equals(''));
       });
     });
 
@@ -161,6 +176,126 @@ void main() {
       });
     });
 
+    group('updateHandle', () {
+      test('ハンドルを更新できる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateHandle('newhandle');
+        final state = container.read(profileFormStateProvider);
+        expect(state.handle, equals('newhandle'));
+      });
+
+      test('ハンドルを更新すると hasChanges が true になる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateHandle('newhandle');
+        final state = container.read(profileFormStateProvider);
+        expect(state.hasChanges, isTrue);
+      });
+    });
+
+    group('updateBio', () {
+      test('BIOを更新できる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateBio('新しい自己紹介');
+        final state = container.read(profileFormStateProvider);
+        expect(state.bio, equals('新しい自己紹介'));
+      });
+
+      test('BIOを更新すると hasChanges が true になる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateBio('新しい自己紹介');
+        final state = container.read(profileFormStateProvider);
+        expect(state.hasChanges, isTrue);
+      });
+    });
+
+    group('updateInstagramHandle', () {
+      test('Instagramハンドルを更新できる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateInstagramHandle('new_insta');
+        final state = container.read(profileFormStateProvider);
+        expect(state.instagramHandle, equals('new_insta'));
+      });
+
+      test('Instagramハンドルを更新すると hasChanges が true になる', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateInstagramHandle('new_insta');
+        final state = container.read(profileFormStateProvider);
+        expect(state.hasChanges, isTrue);
+      });
+    });
+
+    group('handleError', () {
+      test('ハンドルが不正な場合はエラーメッセージを返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateHandle('test-user');
+        expect(
+          container.read(profileFormStateProvider.notifier).handleError,
+          equals('ハンドルは英数字とアンダースコアのみ使用できます'),
+        );
+      });
+
+      test('ハンドルが有効な場合は null を返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateHandle('valid_handle');
+        expect(
+          container.read(profileFormStateProvider.notifier).handleError,
+          isNull,
+        );
+      });
+    });
+
+    group('bioError', () {
+      test('BIOが500文字超の場合はエラーメッセージを返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateBio('あ' * 501);
+        expect(
+          container.read(profileFormStateProvider.notifier).bioError,
+          equals('自己紹介は500文字以内で入力してください'),
+        );
+      });
+
+      test('BIOが有効な場合は null を返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateBio('自己紹介');
+        expect(
+          container.read(profileFormStateProvider.notifier).bioError,
+          isNull,
+        );
+      });
+    });
+
+    group('instagramHandleError', () {
+      test('Instagramハンドルが不正な場合はエラーメッセージを返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateInstagramHandle('test user');
+        expect(
+          container.read(profileFormStateProvider.notifier).instagramHandleError,
+          equals('Instagramハンドルの形式が正しくありません'),
+        );
+      });
+
+      test('Instagramハンドルが有効な場合は null を返す', () {
+        container
+            .read(profileFormStateProvider.notifier)
+            .updateInstagramHandle('valid_handle');
+        expect(
+          container.read(profileFormStateProvider.notifier).instagramHandleError,
+          isNull,
+        );
+      });
+    });
+
     group('isValid', () {
       test('名前が空の場合は false', () {
         final notifier = container.read(profileFormStateProvider.notifier);
@@ -172,6 +307,27 @@ void main() {
         final notifier = container.read(profileFormStateProvider.notifier);
         notifier.updateName('Valid Name');
         expect(notifier.isValid, isTrue);
+      });
+
+      test('ハンドルが不正な場合は false', () {
+        final notifier = container.read(profileFormStateProvider.notifier);
+        notifier.updateName('Valid Name');
+        notifier.updateHandle('test-user');
+        expect(notifier.isValid, isFalse);
+      });
+
+      test('BIOが長すぎる場合は false', () {
+        final notifier = container.read(profileFormStateProvider.notifier);
+        notifier.updateName('Valid Name');
+        notifier.updateBio('あ' * 501);
+        expect(notifier.isValid, isFalse);
+      });
+
+      test('Instagramハンドルが不正な場合は false', () {
+        final notifier = container.read(profileFormStateProvider.notifier);
+        notifier.updateName('Valid Name');
+        notifier.updateInstagramHandle('test user');
+        expect(notifier.isValid, isFalse);
       });
     });
   });

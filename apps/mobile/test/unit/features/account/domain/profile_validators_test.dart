@@ -79,5 +79,106 @@ void main() {
         );
       });
     });
+
+    group('validateHandle', () {
+      test('有効なハンドルの場合、null を返す', () {
+        expect(ProfileValidators.validateHandle('testuser'), isNull);
+        expect(ProfileValidators.validateHandle('test_user'), isNull);
+        expect(ProfileValidators.validateHandle('TestUser123'), isNull);
+        expect(ProfileValidators.validateHandle('a'), isNull);
+      });
+
+      test('空文字の場合、null を返す（任意フィールド）', () {
+        expect(ProfileValidators.validateHandle(''), isNull);
+      });
+
+      test('30文字を超える場合、エラーメッセージを返す', () {
+        final longHandle = 'a' * 31;
+        expect(
+          ProfileValidators.validateHandle(longHandle),
+          equals('ハンドルは30文字以内で入力してください'),
+        );
+      });
+
+      test('30文字ちょうどの場合、null を返す', () {
+        final handle = 'a' * 30;
+        expect(ProfileValidators.validateHandle(handle), isNull);
+      });
+
+      test('英数字とアンダースコア以外を含む場合、エラーメッセージを返す', () {
+        expect(
+          ProfileValidators.validateHandle('test-user'),
+          equals('ハンドルは英数字とアンダースコアのみ使用できます'),
+        );
+        expect(
+          ProfileValidators.validateHandle('test user'),
+          equals('ハンドルは英数字とアンダースコアのみ使用できます'),
+        );
+        expect(
+          ProfileValidators.validateHandle('テスト'),
+          equals('ハンドルは英数字とアンダースコアのみ使用できます'),
+        );
+        expect(
+          ProfileValidators.validateHandle('test@user'),
+          equals('ハンドルは英数字とアンダースコアのみ使用できます'),
+        );
+      });
+    });
+
+    group('validateBio', () {
+      test('有効なBIOの場合、null を返す', () {
+        expect(ProfileValidators.validateBio('自己紹介テキスト'), isNull);
+        expect(ProfileValidators.validateBio('Hello, World!'), isNull);
+      });
+
+      test('空文字の場合、null を返す（任意フィールド）', () {
+        expect(ProfileValidators.validateBio(''), isNull);
+      });
+
+      test('500文字ちょうどの場合、null を返す', () {
+        final bio = 'あ' * 500;
+        expect(ProfileValidators.validateBio(bio), isNull);
+      });
+
+      test('500文字を超える場合、エラーメッセージを返す', () {
+        final longBio = 'あ' * 501;
+        expect(
+          ProfileValidators.validateBio(longBio),
+          equals('自己紹介は500文字以内で入力してください'),
+        );
+      });
+    });
+
+    group('validateInstagramHandle', () {
+      test('有効なInstagramハンドルの場合、null を返す', () {
+        expect(ProfileValidators.validateInstagramHandle('testuser'), isNull);
+        expect(ProfileValidators.validateInstagramHandle('test.user'), isNull);
+        expect(ProfileValidators.validateInstagramHandle('test_user'), isNull);
+        expect(ProfileValidators.validateInstagramHandle('test123'), isNull);
+      });
+
+      test('空文字の場合、null を返す（任意フィールド）', () {
+        expect(ProfileValidators.validateInstagramHandle(''), isNull);
+      });
+
+      test('30文字を超える場合、エラーメッセージを返す', () {
+        final longHandle = 'a' * 31;
+        expect(
+          ProfileValidators.validateInstagramHandle(longHandle),
+          equals('Instagramハンドルは30文字以内で入力してください'),
+        );
+      });
+
+      test('不正な文字を含む場合、エラーメッセージを返す', () {
+        expect(
+          ProfileValidators.validateInstagramHandle('test user'),
+          equals('Instagramハンドルの形式が正しくありません'),
+        );
+        expect(
+          ProfileValidators.validateInstagramHandle('test@user'),
+          equals('Instagramハンドルの形式が正しくありません'),
+        );
+      });
+    });
   });
 }
