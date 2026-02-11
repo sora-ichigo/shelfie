@@ -14,96 +14,70 @@ class _$GUpdateBookRatingReqSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateBookRatingReq,
-    _$GUpdateBookRatingReq,
+    _$GUpdateBookRatingReq
   ];
   @override
   final String wireName = 'GUpdateBookRatingReq';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateBookRatingReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUpdateBookRatingReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GUpdateBookRatingVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GUpdateBookRatingVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GUpdateBookRatingData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GUpdateBookRatingData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GUpdateBookRatingReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateBookRatingReqBuilder();
 
     final iterator = serialized.iterator;
@@ -113,73 +87,42 @@ class _$GUpdateBookRatingReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GUpdateBookRatingVars),
-                )!
-                as _i3.GUpdateBookRatingVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GUpdateBookRatingVars))!
+              as _i3.GUpdateBookRatingVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GUpdateBookRatingData),
-                )!
-                as _i2.GUpdateBookRatingData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GUpdateBookRatingData))!
+              as _i2.GUpdateBookRatingData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -197,10 +140,7 @@ class _$GUpdateBookRatingReq extends GUpdateBookRatingReq {
   final String? requestId;
   @override
   final _i2.GUpdateBookRatingData? Function(
-    _i2.GUpdateBookRatingData?,
-    _i2.GUpdateBookRatingData?,
-  )?
-  updateResult;
+      _i2.GUpdateBookRatingData?, _i2.GUpdateBookRatingData?)? updateResult;
   @override
   final _i2.GUpdateBookRatingData? optimisticResponse;
   @override
@@ -214,26 +154,26 @@ class _$GUpdateBookRatingReq extends GUpdateBookRatingReq {
   @override
   final _i4.Context? context;
 
-  factory _$GUpdateBookRatingReq([
-    void Function(GUpdateBookRatingReqBuilder)? updates,
-  ]) => (GUpdateBookRatingReqBuilder()..update(updates))._build();
+  factory _$GUpdateBookRatingReq(
+          [void Function(GUpdateBookRatingReqBuilder)? updates]) =>
+      (GUpdateBookRatingReqBuilder()..update(updates))._build();
 
-  _$GUpdateBookRatingReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GUpdateBookRatingReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GUpdateBookRatingReq rebuild(
-    void Function(GUpdateBookRatingReqBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUpdateBookRatingReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUpdateBookRatingReqBuilder toBuilder() =>
@@ -308,29 +248,22 @@ class GUpdateBookRatingReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GUpdateBookRatingData? Function(
-    _i2.GUpdateBookRatingData?,
-    _i2.GUpdateBookRatingData?,
-  )?
-  _updateResult;
+      _i2.GUpdateBookRatingData?, _i2.GUpdateBookRatingData?)? _updateResult;
   _i2.GUpdateBookRatingData? Function(
-    _i2.GUpdateBookRatingData?,
-    _i2.GUpdateBookRatingData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GUpdateBookRatingData?, _i2.GUpdateBookRatingData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GUpdateBookRatingData? Function(
-      _i2.GUpdateBookRatingData?,
-      _i2.GUpdateBookRatingData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GUpdateBookRatingData? Function(
+                  _i2.GUpdateBookRatingData?, _i2.GUpdateBookRatingData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GUpdateBookRatingDataBuilder? _optimisticResponse;
   _i2.GUpdateBookRatingDataBuilder get optimisticResponse =>
       _$this._optimisticResponse ??= _i2.GUpdateBookRatingDataBuilder();
   set optimisticResponse(
-    _i2.GUpdateBookRatingDataBuilder? optimisticResponse,
-  ) => _$this._optimisticResponse = optimisticResponse;
+          _i2.GUpdateBookRatingDataBuilder? optimisticResponse) =>
+      _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
   String? get updateCacheHandlerKey => _$this._updateCacheHandlerKey;
@@ -341,8 +274,8 @@ class GUpdateBookRatingReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -396,15 +329,11 @@ class GUpdateBookRatingReqBuilder
   _$GUpdateBookRatingReq _build() {
     _$GUpdateBookRatingReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GUpdateBookRatingReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GUpdateBookRatingReq',
-              'operation',
-            ),
+                operation, r'GUpdateBookRatingReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -412,10 +341,7 @@ class GUpdateBookRatingReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GUpdateBookRatingReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GUpdateBookRatingReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -428,10 +354,7 @@ class GUpdateBookRatingReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GUpdateBookRatingReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GUpdateBookRatingReq', _$failedField, e.toString());
       }
       rethrow;
     }

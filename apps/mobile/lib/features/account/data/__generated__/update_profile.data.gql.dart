@@ -173,6 +173,10 @@ abstract class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_
   String? get avatarUrl;
   DateTime? get createdAt;
   int get bookCount;
+  int get readingCount;
+  int get backlogCount;
+  int get completedCount;
+  int get interestedCount;
   static Serializer<
           GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data>
       get serializer =>

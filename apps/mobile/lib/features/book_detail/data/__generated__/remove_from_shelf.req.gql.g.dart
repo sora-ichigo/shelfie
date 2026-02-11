@@ -14,96 +14,70 @@ class _$GRemoveFromShelfReqSerializer
   @override
   final Iterable<Type> types = const [
     GRemoveFromShelfReq,
-    _$GRemoveFromShelfReq,
+    _$GRemoveFromShelfReq
   ];
   @override
   final String wireName = 'GRemoveFromShelfReq';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRemoveFromShelfReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRemoveFromShelfReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GRemoveFromShelfVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GRemoveFromShelfVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GRemoveFromShelfData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GRemoveFromShelfData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GRemoveFromShelfReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRemoveFromShelfReqBuilder();
 
     final iterator = serialized.iterator;
@@ -113,73 +87,42 @@ class _$GRemoveFromShelfReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GRemoveFromShelfVars),
-                )!
-                as _i3.GRemoveFromShelfVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GRemoveFromShelfVars))!
+              as _i3.GRemoveFromShelfVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GRemoveFromShelfData),
-                )!
-                as _i2.GRemoveFromShelfData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GRemoveFromShelfData))!
+              as _i2.GRemoveFromShelfData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -197,10 +140,7 @@ class _$GRemoveFromShelfReq extends GRemoveFromShelfReq {
   final String? requestId;
   @override
   final _i2.GRemoveFromShelfData? Function(
-    _i2.GRemoveFromShelfData?,
-    _i2.GRemoveFromShelfData?,
-  )?
-  updateResult;
+      _i2.GRemoveFromShelfData?, _i2.GRemoveFromShelfData?)? updateResult;
   @override
   final _i2.GRemoveFromShelfData? optimisticResponse;
   @override
@@ -214,26 +154,26 @@ class _$GRemoveFromShelfReq extends GRemoveFromShelfReq {
   @override
   final _i4.Context? context;
 
-  factory _$GRemoveFromShelfReq([
-    void Function(GRemoveFromShelfReqBuilder)? updates,
-  ]) => (GRemoveFromShelfReqBuilder()..update(updates))._build();
+  factory _$GRemoveFromShelfReq(
+          [void Function(GRemoveFromShelfReqBuilder)? updates]) =>
+      (GRemoveFromShelfReqBuilder()..update(updates))._build();
 
-  _$GRemoveFromShelfReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GRemoveFromShelfReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GRemoveFromShelfReq rebuild(
-    void Function(GRemoveFromShelfReqBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRemoveFromShelfReqBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRemoveFromShelfReqBuilder toBuilder() =>
@@ -308,22 +248,15 @@ class GRemoveFromShelfReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GRemoveFromShelfData? Function(
-    _i2.GRemoveFromShelfData?,
-    _i2.GRemoveFromShelfData?,
-  )?
-  _updateResult;
+      _i2.GRemoveFromShelfData?, _i2.GRemoveFromShelfData?)? _updateResult;
   _i2.GRemoveFromShelfData? Function(
-    _i2.GRemoveFromShelfData?,
-    _i2.GRemoveFromShelfData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GRemoveFromShelfData?, _i2.GRemoveFromShelfData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GRemoveFromShelfData? Function(
-      _i2.GRemoveFromShelfData?,
-      _i2.GRemoveFromShelfData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GRemoveFromShelfData? Function(
+                  _i2.GRemoveFromShelfData?, _i2.GRemoveFromShelfData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GRemoveFromShelfDataBuilder? _optimisticResponse;
   _i2.GRemoveFromShelfDataBuilder get optimisticResponse =>
@@ -340,8 +273,8 @@ class GRemoveFromShelfReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -395,15 +328,11 @@ class GRemoveFromShelfReqBuilder
   _$GRemoveFromShelfReq _build() {
     _$GRemoveFromShelfReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GRemoveFromShelfReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GRemoveFromShelfReq',
-              'operation',
-            ),
+                operation, r'GRemoveFromShelfReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -411,10 +340,7 @@ class GRemoveFromShelfReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GRemoveFromShelfReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GRemoveFromShelfReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -427,10 +353,7 @@ class GRemoveFromShelfReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRemoveFromShelfReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRemoveFromShelfReq', _$failedField, e.toString());
       }
       rethrow;
     }

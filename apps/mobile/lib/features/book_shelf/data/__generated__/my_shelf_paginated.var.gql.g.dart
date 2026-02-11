@@ -14,39 +14,31 @@ class _$GMyShelfPaginatedVarsSerializer
   @override
   final Iterable<Type> types = const [
     GMyShelfPaginatedVars,
-    _$GMyShelfPaginatedVars,
+    _$GMyShelfPaginatedVars
   ];
   @override
   final String wireName = 'GMyShelfPaginatedVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GMyShelfPaginatedVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GMyShelfPaginatedVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
     value = object.input;
     if (value != null) {
       result
         ..add('input')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.GMyShelfInput),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.GMyShelfInput)));
     }
     return result;
   }
 
   @override
   GMyShelfPaginatedVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GMyShelfPaginatedVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -56,13 +48,9 @@ class _$GMyShelfPaginatedVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GMyShelfInput),
-                )!
-                as _i1.GMyShelfInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GMyShelfInput))!
+              as _i1.GMyShelfInput);
           break;
       }
     }
@@ -75,15 +63,15 @@ class _$GMyShelfPaginatedVars extends GMyShelfPaginatedVars {
   @override
   final _i1.GMyShelfInput? input;
 
-  factory _$GMyShelfPaginatedVars([
-    void Function(GMyShelfPaginatedVarsBuilder)? updates,
-  ]) => (GMyShelfPaginatedVarsBuilder()..update(updates))._build();
+  factory _$GMyShelfPaginatedVars(
+          [void Function(GMyShelfPaginatedVarsBuilder)? updates]) =>
+      (GMyShelfPaginatedVarsBuilder()..update(updates))._build();
 
   _$GMyShelfPaginatedVars._({this.input}) : super._();
   @override
   GMyShelfPaginatedVars rebuild(
-    void Function(GMyShelfPaginatedVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GMyShelfPaginatedVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GMyShelfPaginatedVarsBuilder toBuilder() =>
@@ -105,9 +93,9 @@ class _$GMyShelfPaginatedVars extends GMyShelfPaginatedVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GMyShelfPaginatedVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GMyShelfPaginatedVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -147,7 +135,10 @@ class GMyShelfPaginatedVarsBuilder
   _$GMyShelfPaginatedVars _build() {
     _$GMyShelfPaginatedVars _$result;
     try {
-      _$result = _$v ?? _$GMyShelfPaginatedVars._(input: _input?.build());
+      _$result = _$v ??
+          _$GMyShelfPaginatedVars._(
+            input: _input?.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -155,10 +146,7 @@ class GMyShelfPaginatedVarsBuilder
         _input?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GMyShelfPaginatedVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GMyShelfPaginatedVars', _$failedField, e.toString());
       }
       rethrow;
     }

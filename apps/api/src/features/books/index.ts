@@ -29,6 +29,7 @@ export type {
   ReadingStatusValue,
   ShelfSortField,
   SortOrder,
+  StatusCounts,
   UpdateUserBookInput,
   UserBook,
 } from "./internal/book-shelf-repository.js";

@@ -17,17 +17,12 @@ class _$GSearchBooksVarsSerializer
   final String wireName = 'GSearchBooksVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBooksVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GSearchBooksVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'query',
-      serializers.serialize(
-        object.query,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.query,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.limit;
@@ -47,10 +42,8 @@ class _$GSearchBooksVarsSerializer
 
   @override
   GSearchBooksVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBooksVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -60,22 +53,16 @@ class _$GSearchBooksVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'query':
-          result.query =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.query = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'limit':
-          result.limit =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.limit = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'offset':
-          result.offset =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.offset = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -92,12 +79,12 @@ class _$GSearchBooksVars extends GSearchBooksVars {
   @override
   final int? offset;
 
-  factory _$GSearchBooksVars([
-    void Function(GSearchBooksVarsBuilder)? updates,
-  ]) => (GSearchBooksVarsBuilder()..update(updates))._build();
+  factory _$GSearchBooksVars(
+          [void Function(GSearchBooksVarsBuilder)? updates]) =>
+      (GSearchBooksVarsBuilder()..update(updates))._build();
 
   _$GSearchBooksVars._({required this.query, this.limit, this.offset})
-    : super._();
+      : super._();
   @override
   GSearchBooksVars rebuild(void Function(GSearchBooksVarsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -178,14 +165,10 @@ class GSearchBooksVarsBuilder
   GSearchBooksVars build() => _build();
 
   _$GSearchBooksVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GSearchBooksVars._(
           query: BuiltValueNullFieldError.checkNotNull(
-            query,
-            r'GSearchBooksVars',
-            'query',
-          ),
+              query, r'GSearchBooksVars', 'query'),
           limit: limit,
           offset: offset,
         );

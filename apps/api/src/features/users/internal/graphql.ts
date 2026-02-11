@@ -1,7 +1,10 @@
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
 import { transformImageKitUrl } from "../../../infra/imagekit-url-transformer.js";
-import type { BookShelfRepository } from "../../books/internal/book-shelf-repository.js";
+import type {
+  BookShelfRepository,
+  StatusCounts,
+} from "../../books/internal/book-shelf-repository.js";
 import type { UserService } from "./service.js";
 
 type UserObjectRef = ReturnType<typeof createUserRef>;
@@ -51,11 +54,41 @@ export { UpdateProfileInputRef };
 
 let bookShelfRepositoryInstance: BookShelfRepository | null = null;
 
+function createStatusCountsCache() {
+  let pendingPromise: Promise<StatusCounts> | null = null;
+
+  return function getStatusCounts(userId: number): Promise<StatusCounts> {
+    if (!bookShelfRepositoryInstance) {
+      return Promise.resolve({
+        readingCount: 0,
+        backlogCount: 0,
+        completedCount: 0,
+        interestedCount: 0,
+      });
+    }
+
+    if (pendingPromise) {
+      return pendingPromise;
+    }
+
+    pendingPromise = bookShelfRepositoryInstance
+      .countUserBooksByStatus(userId)
+      .then((result) => {
+        pendingPromise = null;
+        return result;
+      });
+
+    return pendingPromise;
+  };
+}
+
 export function registerUserTypes(
   builder: Builder,
   bookShelfRepository?: BookShelfRepository,
 ): void {
   bookShelfRepositoryInstance = bookShelfRepository ?? null;
+
+  const getStatusCounts = createStatusCountsCache();
 
   UserRef = createUserRef(builder);
 
@@ -93,6 +126,38 @@ export function registerUserTypes(
             return 0;
           }
           return bookShelfRepositoryInstance.countUserBooks(user.id);
+        },
+      }),
+      readingCount: t.int({
+        description: "The number of books currently being read",
+        nullable: false,
+        resolve: async (user) => {
+          const counts = await getStatusCounts(user.id);
+          return counts.readingCount;
+        },
+      }),
+      backlogCount: t.int({
+        description: "The number of books in the backlog",
+        nullable: false,
+        resolve: async (user) => {
+          const counts = await getStatusCounts(user.id);
+          return counts.backlogCount;
+        },
+      }),
+      completedCount: t.int({
+        description: "The number of completed books",
+        nullable: false,
+        resolve: async (user) => {
+          const counts = await getStatusCounts(user.id);
+          return counts.completedCount;
+        },
+      }),
+      interestedCount: t.int({
+        description: "The number of books the user is interested in",
+        nullable: false,
+        resolve: async (user) => {
+          const counts = await getStatusCounts(user.id);
+          return counts.interestedCount;
         },
       }),
     }),

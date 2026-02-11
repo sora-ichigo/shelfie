@@ -17,90 +17,63 @@ class _$GAddBookToListReqSerializer
   final String wireName = 'GAddBookToListReq';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GAddBookToListReq object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GAddBookToListReq object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
-      serializers.serialize(
-        object.vars,
-        specifiedType: const FullType(_i3.GAddBookToListVars),
-      ),
+      serializers.serialize(object.vars,
+          specifiedType: const FullType(_i3.GAddBookToListVars)),
       'operation',
-      serializers.serialize(
-        object.operation,
-        specifiedType: const FullType(_i4.Operation),
-      ),
+      serializers.serialize(object.operation,
+          specifiedType: const FullType(_i4.Operation)),
       'executeOnListen',
-      serializers.serialize(
-        object.executeOnListen,
-        specifiedType: const FullType(bool),
-      ),
+      serializers.serialize(object.executeOnListen,
+          specifiedType: const FullType(bool)),
     ];
     Object? value;
     value = object.requestId;
     if (value != null) {
       result
         ..add('requestId')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.optimisticResponse;
     if (value != null) {
       result
         ..add('optimisticResponse')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i2.GAddBookToListData),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GAddBookToListData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
       result
         ..add('updateCacheHandlerKey')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.updateCacheHandlerContext;
     if (value != null) {
       result
         ..add('updateCacheHandlerContext')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(Map, const [
-              const FullType(String),
-              const FullType(dynamic),
-            ]),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                Map, const [const FullType(String), const FullType(dynamic)])));
     }
     value = object.fetchPolicy;
     if (value != null) {
       result
         ..add('fetchPolicy')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i1.FetchPolicy),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i1.FetchPolicy)));
     }
     return result;
   }
 
   @override
   GAddBookToListReq deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GAddBookToListReqBuilder();
 
     final iterator = serialized.iterator;
@@ -110,73 +83,42 @@ class _$GAddBookToListReqSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'vars':
-          result.vars.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i3.GAddBookToListVars),
-                )!
-                as _i3.GAddBookToListVars,
-          );
+          result.vars.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GAddBookToListVars))!
+              as _i3.GAddBookToListVars);
           break;
         case 'operation':
-          result.operation =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i4.Operation),
-                  )!
-                  as _i4.Operation;
+          result.operation = serializers.deserialize(value,
+              specifiedType: const FullType(_i4.Operation))! as _i4.Operation;
           break;
         case 'requestId':
-          result.requestId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.requestId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'optimisticResponse':
-          result.optimisticResponse.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i2.GAddBookToListData),
-                )!
-                as _i2.GAddBookToListData,
-          );
+          result.optimisticResponse.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GAddBookToListData))!
+              as _i2.GAddBookToListData);
           break;
         case 'updateCacheHandlerKey':
-          result.updateCacheHandlerKey =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.updateCacheHandlerKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updateCacheHandlerContext':
-          result.updateCacheHandlerContext =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(Map, const [
-                      const FullType(String),
-                      const FullType(dynamic),
-                    ]),
-                  )
-                  as Map<String, dynamic>?;
+          result.updateCacheHandlerContext = serializers.deserialize(value,
+              specifiedType: const FullType(Map, const [
+                const FullType(String),
+                const FullType(dynamic)
+              ])) as Map<String, dynamic>?;
           break;
         case 'fetchPolicy':
-          result.fetchPolicy =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i1.FetchPolicy),
-                  )
-                  as _i1.FetchPolicy?;
+          result.fetchPolicy = serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.FetchPolicy))
+              as _i1.FetchPolicy?;
           break;
         case 'executeOnListen':
-          result.executeOnListen =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(bool),
-                  )!
-                  as bool;
+          result.executeOnListen = serializers.deserialize(value,
+              specifiedType: const FullType(bool))! as bool;
           break;
       }
     }
@@ -194,10 +136,7 @@ class _$GAddBookToListReq extends GAddBookToListReq {
   final String? requestId;
   @override
   final _i2.GAddBookToListData? Function(
-    _i2.GAddBookToListData?,
-    _i2.GAddBookToListData?,
-  )?
-  updateResult;
+      _i2.GAddBookToListData?, _i2.GAddBookToListData?)? updateResult;
   @override
   final _i2.GAddBookToListData? optimisticResponse;
   @override
@@ -211,22 +150,22 @@ class _$GAddBookToListReq extends GAddBookToListReq {
   @override
   final _i4.Context? context;
 
-  factory _$GAddBookToListReq([
-    void Function(GAddBookToListReqBuilder)? updates,
-  ]) => (GAddBookToListReqBuilder()..update(updates))._build();
+  factory _$GAddBookToListReq(
+          [void Function(GAddBookToListReqBuilder)? updates]) =>
+      (GAddBookToListReqBuilder()..update(updates))._build();
 
-  _$GAddBookToListReq._({
-    required this.vars,
-    required this.operation,
-    this.requestId,
-    this.updateResult,
-    this.optimisticResponse,
-    this.updateCacheHandlerKey,
-    this.updateCacheHandlerContext,
-    this.fetchPolicy,
-    required this.executeOnListen,
-    this.context,
-  }) : super._();
+  _$GAddBookToListReq._(
+      {required this.vars,
+      required this.operation,
+      this.requestId,
+      this.updateResult,
+      this.optimisticResponse,
+      this.updateCacheHandlerKey,
+      this.updateCacheHandlerContext,
+      this.fetchPolicy,
+      required this.executeOnListen,
+      this.context})
+      : super._();
   @override
   GAddBookToListReq rebuild(void Function(GAddBookToListReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -304,22 +243,15 @@ class GAddBookToListReqBuilder
   set requestId(String? requestId) => _$this._requestId = requestId;
 
   _i2.GAddBookToListData? Function(
-    _i2.GAddBookToListData?,
-    _i2.GAddBookToListData?,
-  )?
-  _updateResult;
+      _i2.GAddBookToListData?, _i2.GAddBookToListData?)? _updateResult;
   _i2.GAddBookToListData? Function(
-    _i2.GAddBookToListData?,
-    _i2.GAddBookToListData?,
-  )?
-  get updateResult => _$this._updateResult;
+          _i2.GAddBookToListData?, _i2.GAddBookToListData?)?
+      get updateResult => _$this._updateResult;
   set updateResult(
-    _i2.GAddBookToListData? Function(
-      _i2.GAddBookToListData?,
-      _i2.GAddBookToListData?,
-    )?
-    updateResult,
-  ) => _$this._updateResult = updateResult;
+          _i2.GAddBookToListData? Function(
+                  _i2.GAddBookToListData?, _i2.GAddBookToListData?)?
+              updateResult) =>
+      _$this._updateResult = updateResult;
 
   _i2.GAddBookToListDataBuilder? _optimisticResponse;
   _i2.GAddBookToListDataBuilder get optimisticResponse =>
@@ -336,8 +268,8 @@ class GAddBookToListReqBuilder
   Map<String, dynamic>? get updateCacheHandlerContext =>
       _$this._updateCacheHandlerContext;
   set updateCacheHandlerContext(
-    Map<String, dynamic>? updateCacheHandlerContext,
-  ) => _$this._updateCacheHandlerContext = updateCacheHandlerContext;
+          Map<String, dynamic>? updateCacheHandlerContext) =>
+      _$this._updateCacheHandlerContext = updateCacheHandlerContext;
 
   _i1.FetchPolicy? _fetchPolicy;
   _i1.FetchPolicy? get fetchPolicy => _$this._fetchPolicy;
@@ -391,15 +323,11 @@ class GAddBookToListReqBuilder
   _$GAddBookToListReq _build() {
     _$GAddBookToListReq _$result;
     try {
-      _$result =
-          _$v ??
+      _$result = _$v ??
           _$GAddBookToListReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-              operation,
-              r'GAddBookToListReq',
-              'operation',
-            ),
+                operation, r'GAddBookToListReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -407,10 +335,7 @@ class GAddBookToListReqBuilder
             updateCacheHandlerContext: updateCacheHandlerContext,
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
-              executeOnListen,
-              r'GAddBookToListReq',
-              'executeOnListen',
-            ),
+                executeOnListen, r'GAddBookToListReq', 'executeOnListen'),
             context: context,
           );
     } catch (_) {
@@ -423,10 +348,7 @@ class GAddBookToListReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GAddBookToListReq',
-          _$failedField,
-          e.toString(),
-        );
+            r'GAddBookToListReq', _$failedField, e.toString());
       }
       rethrow;
     }

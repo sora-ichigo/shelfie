@@ -17,19 +17,16 @@ String _$recentBooksNotifierHash() =>
 ///
 /// Copied from [RecentBooksNotifier].
 @ProviderFor(RecentBooksNotifier)
-final recentBooksNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<
-      RecentBooksNotifier,
-      List<RecentBookEntry>
-    >.internal(
-      RecentBooksNotifier.new,
-      name: r'recentBooksNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$recentBooksNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final recentBooksNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    RecentBooksNotifier, List<RecentBookEntry>>.internal(
+  RecentBooksNotifier.new,
+  name: r'recentBooksNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$recentBooksNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$RecentBooksNotifier = AutoDisposeAsyncNotifier<List<RecentBookEntry>>;
 // ignore_for_file: type=lint

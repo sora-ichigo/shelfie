@@ -11,19 +11,16 @@ String _$registrationFormStateHash() =>
 
 /// See also [RegistrationFormState].
 @ProviderFor(RegistrationFormState)
-final registrationFormStateProvider =
-    AutoDisposeNotifierProvider<
-      RegistrationFormState,
-      RegistrationFormData
-    >.internal(
-      RegistrationFormState.new,
-      name: r'registrationFormStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$registrationFormStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final registrationFormStateProvider = AutoDisposeNotifierProvider<
+    RegistrationFormState, RegistrationFormData>.internal(
+  RegistrationFormState.new,
+  name: r'registrationFormStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$registrationFormStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$RegistrationFormState = AutoDisposeNotifier<RegistrationFormData>;
 // ignore_for_file: type=lint

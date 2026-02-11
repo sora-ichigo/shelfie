@@ -12,8 +12,7 @@ part of 'book_list.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BookList {
@@ -35,13 +34,12 @@ abstract class $BookListCopyWith<$Res> {
   factory $BookListCopyWith(BookList value, $Res Function(BookList) then) =
       _$BookListCopyWithImpl<$Res, BookList>;
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -65,31 +63,28 @@ class _$BookListCopyWithImpl<$Res, $Val extends BookList>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            updatedAt: null == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
@@ -97,18 +92,16 @@ class _$BookListCopyWithImpl<$Res, $Val extends BookList>
 abstract class _$$BookListImplCopyWith<$Res>
     implements $BookListCopyWith<$Res> {
   factory _$$BookListImplCopyWith(
-    _$BookListImpl value,
-    $Res Function(_$BookListImpl) then,
-  ) = __$$BookListImplCopyWithImpl<$Res>;
+          _$BookListImpl value, $Res Function(_$BookListImpl) then) =
+      __$$BookListImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -116,9 +109,8 @@ class __$$BookListImplCopyWithImpl<$Res>
     extends _$BookListCopyWithImpl<$Res, _$BookListImpl>
     implements _$$BookListImplCopyWith<$Res> {
   __$$BookListImplCopyWithImpl(
-    _$BookListImpl _value,
-    $Res Function(_$BookListImpl) _then,
-  ) : super(_value, _then);
+      _$BookListImpl _value, $Res Function(_$BookListImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookList
   /// with the given fields replaced by the non-null parameter values.
@@ -131,43 +123,40 @@ class __$$BookListImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _$BookListImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        updatedAt: null == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$BookListImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListImpl implements _BookList {
-  const _$BookListImpl({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  const _$BookListImpl(
+      {required this.id,
+      required this.title,
+      this.description,
+      required this.createdAt,
+      required this.updatedAt});
 
   @override
   final int id;
@@ -214,13 +203,12 @@ class _$BookListImpl implements _BookList {
 }
 
 abstract class _BookList implements BookList {
-  const factory _BookList({
-    required final int id,
-    required final String title,
-    final String? description,
-    required final DateTime createdAt,
-    required final DateTime updatedAt,
-  }) = _$BookListImpl;
+  const factory _BookList(
+      {required final int id,
+      required final String title,
+      final String? description,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$BookListImpl;
 
   @override
   int get id;
@@ -261,19 +249,17 @@ mixin _$BookListSummary {
 /// @nodoc
 abstract class $BookListSummaryCopyWith<$Res> {
   factory $BookListSummaryCopyWith(
-    BookListSummary value,
-    $Res Function(BookListSummary) then,
-  ) = _$BookListSummaryCopyWithImpl<$Res, BookListSummary>;
+          BookListSummary value, $Res Function(BookListSummary) then) =
+      _$BookListSummaryCopyWithImpl<$Res, BookListSummary>;
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    int bookCount,
-    List<String> coverImages,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      int bookCount,
+      List<String> coverImages,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -299,60 +285,55 @@ class _$BookListSummaryCopyWithImpl<$Res, $Val extends BookListSummary>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            bookCount: null == bookCount
-                ? _value.bookCount
-                : bookCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            coverImages: null == coverImages
-                ? _value.coverImages
-                : coverImages // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            updatedAt: null == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      coverImages: null == coverImages
+          ? _value.coverImages
+          : coverImages // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BookListSummaryImplCopyWith<$Res>
     implements $BookListSummaryCopyWith<$Res> {
-  factory _$$BookListSummaryImplCopyWith(
-    _$BookListSummaryImpl value,
-    $Res Function(_$BookListSummaryImpl) then,
-  ) = __$$BookListSummaryImplCopyWithImpl<$Res>;
+  factory _$$BookListSummaryImplCopyWith(_$BookListSummaryImpl value,
+          $Res Function(_$BookListSummaryImpl) then) =
+      __$$BookListSummaryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    int bookCount,
-    List<String> coverImages,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      int bookCount,
+      List<String> coverImages,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -360,9 +341,8 @@ class __$$BookListSummaryImplCopyWithImpl<$Res>
     extends _$BookListSummaryCopyWithImpl<$Res, _$BookListSummaryImpl>
     implements _$$BookListSummaryImplCopyWith<$Res> {
   __$$BookListSummaryImplCopyWithImpl(
-    _$BookListSummaryImpl _value,
-    $Res Function(_$BookListSummaryImpl) _then,
-  ) : super(_value, _then);
+      _$BookListSummaryImpl _value, $Res Function(_$BookListSummaryImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookListSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -377,53 +357,51 @@ class __$$BookListSummaryImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _$BookListSummaryImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        bookCount: null == bookCount
-            ? _value.bookCount
-            : bookCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        coverImages: null == coverImages
-            ? _value._coverImages
-            : coverImages // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        updatedAt: null == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$BookListSummaryImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      coverImages: null == coverImages
+          ? _value._coverImages
+          : coverImages // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListSummaryImpl implements _BookListSummary {
-  const _$BookListSummaryImpl({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.bookCount,
-    required final List<String> coverImages,
-    required this.createdAt,
-    required this.updatedAt,
-  }) : _coverImages = coverImages;
+  const _$BookListSummaryImpl(
+      {required this.id,
+      required this.title,
+      this.description,
+      required this.bookCount,
+      required final List<String> coverImages,
+      required this.createdAt,
+      required this.updatedAt})
+      : _coverImages = coverImages;
 
   @override
   final int id;
@@ -462,10 +440,8 @@ class _$BookListSummaryImpl implements _BookListSummary {
                 other.description == description) &&
             (identical(other.bookCount, bookCount) ||
                 other.bookCount == bookCount) &&
-            const DeepCollectionEquality().equals(
-              other._coverImages,
-              _coverImages,
-            ) &&
+            const DeepCollectionEquality()
+                .equals(other._coverImages, _coverImages) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -474,15 +450,14 @@ class _$BookListSummaryImpl implements _BookListSummary {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    title,
-    description,
-    bookCount,
-    const DeepCollectionEquality().hash(_coverImages),
-    createdAt,
-    updatedAt,
-  );
+      runtimeType,
+      id,
+      title,
+      description,
+      bookCount,
+      const DeepCollectionEquality().hash(_coverImages),
+      createdAt,
+      updatedAt);
 
   /// Create a copy of BookListSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -491,21 +466,18 @@ class _$BookListSummaryImpl implements _BookListSummary {
   @pragma('vm:prefer-inline')
   _$$BookListSummaryImplCopyWith<_$BookListSummaryImpl> get copyWith =>
       __$$BookListSummaryImplCopyWithImpl<_$BookListSummaryImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _BookListSummary implements BookListSummary {
-  const factory _BookListSummary({
-    required final int id,
-    required final String title,
-    final String? description,
-    required final int bookCount,
-    required final List<String> coverImages,
-    required final DateTime createdAt,
-    required final DateTime updatedAt,
-  }) = _$BookListSummaryImpl;
+  const factory _BookListSummary(
+      {required final int id,
+      required final String title,
+      final String? description,
+      required final int bookCount,
+      required final List<String> coverImages,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$BookListSummaryImpl;
 
   @override
   int get id;
@@ -550,19 +522,17 @@ mixin _$BookListDetail {
 /// @nodoc
 abstract class $BookListDetailCopyWith<$Res> {
   factory $BookListDetailCopyWith(
-    BookListDetail value,
-    $Res Function(BookListDetail) then,
-  ) = _$BookListDetailCopyWithImpl<$Res, BookListDetail>;
+          BookListDetail value, $Res Function(BookListDetail) then) =
+      _$BookListDetailCopyWithImpl<$Res, BookListDetail>;
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    List<BookListItem> items,
-    BookListDetailStats stats,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      List<BookListItem> items,
+      BookListDetailStats stats,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   $BookListDetailStatsCopyWith<$Res> get stats;
 }
@@ -590,39 +560,36 @@ class _$BookListDetailCopyWithImpl<$Res, $Val extends BookListDetail>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            description: freezed == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            items: null == items
-                ? _value.items
-                : items // ignore: cast_nullable_to_non_nullable
-                      as List<BookListItem>,
-            stats: null == stats
-                ? _value.stats
-                : stats // ignore: cast_nullable_to_non_nullable
-                      as BookListDetailStats,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            updatedAt: null == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<BookListItem>,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as BookListDetailStats,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 
   /// Create a copy of BookListDetail
@@ -639,21 +606,19 @@ class _$BookListDetailCopyWithImpl<$Res, $Val extends BookListDetail>
 /// @nodoc
 abstract class _$$BookListDetailImplCopyWith<$Res>
     implements $BookListDetailCopyWith<$Res> {
-  factory _$$BookListDetailImplCopyWith(
-    _$BookListDetailImpl value,
-    $Res Function(_$BookListDetailImpl) then,
-  ) = __$$BookListDetailImplCopyWithImpl<$Res>;
+  factory _$$BookListDetailImplCopyWith(_$BookListDetailImpl value,
+          $Res Function(_$BookListDetailImpl) then) =
+      __$$BookListDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    String title,
-    String? description,
-    List<BookListItem> items,
-    BookListDetailStats stats,
-    DateTime createdAt,
-    DateTime updatedAt,
-  });
+  $Res call(
+      {int id,
+      String title,
+      String? description,
+      List<BookListItem> items,
+      BookListDetailStats stats,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   @override
   $BookListDetailStatsCopyWith<$Res> get stats;
@@ -664,9 +629,8 @@ class __$$BookListDetailImplCopyWithImpl<$Res>
     extends _$BookListDetailCopyWithImpl<$Res, _$BookListDetailImpl>
     implements _$$BookListDetailImplCopyWith<$Res> {
   __$$BookListDetailImplCopyWithImpl(
-    _$BookListDetailImpl _value,
-    $Res Function(_$BookListDetailImpl) _then,
-  ) : super(_value, _then);
+      _$BookListDetailImpl _value, $Res Function(_$BookListDetailImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookListDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -681,53 +645,51 @@ class __$$BookListDetailImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(
-      _$BookListDetailImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        description: freezed == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        items: null == items
-            ? _value._items
-            : items // ignore: cast_nullable_to_non_nullable
-                  as List<BookListItem>,
-        stats: null == stats
-            ? _value.stats
-            : stats // ignore: cast_nullable_to_non_nullable
-                  as BookListDetailStats,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        updatedAt: null == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$BookListDetailImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<BookListItem>,
+      stats: null == stats
+          ? _value.stats
+          : stats // ignore: cast_nullable_to_non_nullable
+              as BookListDetailStats,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListDetailImpl implements _BookListDetail {
-  const _$BookListDetailImpl({
-    required this.id,
-    required this.title,
-    this.description,
-    required final List<BookListItem> items,
-    required this.stats,
-    required this.createdAt,
-    required this.updatedAt,
-  }) : _items = items;
+  const _$BookListDetailImpl(
+      {required this.id,
+      required this.title,
+      this.description,
+      required final List<BookListItem> items,
+      required this.stats,
+      required this.createdAt,
+      required this.updatedAt})
+      : _items = items;
 
   @override
   final int id;
@@ -773,16 +735,8 @@ class _$BookListDetailImpl implements _BookListDetail {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    title,
-    description,
-    const DeepCollectionEquality().hash(_items),
-    stats,
-    createdAt,
-    updatedAt,
-  );
+  int get hashCode => Object.hash(runtimeType, id, title, description,
+      const DeepCollectionEquality().hash(_items), stats, createdAt, updatedAt);
 
   /// Create a copy of BookListDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -791,21 +745,18 @@ class _$BookListDetailImpl implements _BookListDetail {
   @pragma('vm:prefer-inline')
   _$$BookListDetailImplCopyWith<_$BookListDetailImpl> get copyWith =>
       __$$BookListDetailImplCopyWithImpl<_$BookListDetailImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _BookListDetail implements BookListDetail {
-  const factory _BookListDetail({
-    required final int id,
-    required final String title,
-    final String? description,
-    required final List<BookListItem> items,
-    required final BookListDetailStats stats,
-    required final DateTime createdAt,
-    required final DateTime updatedAt,
-  }) = _$BookListDetailImpl;
+  const factory _BookListDetail(
+      {required final int id,
+      required final String title,
+      final String? description,
+      required final List<BookListItem> items,
+      required final BookListDetailStats stats,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$BookListDetailImpl;
 
   @override
   int get id;
@@ -847,16 +798,11 @@ mixin _$BookListItem {
 /// @nodoc
 abstract class $BookListItemCopyWith<$Res> {
   factory $BookListItemCopyWith(
-    BookListItem value,
-    $Res Function(BookListItem) then,
-  ) = _$BookListItemCopyWithImpl<$Res, BookListItem>;
+          BookListItem value, $Res Function(BookListItem) then) =
+      _$BookListItemCopyWithImpl<$Res, BookListItem>;
   @useResult
-  $Res call({
-    int id,
-    int position,
-    DateTime addedAt,
-    BookListItemUserBook? userBook,
-  });
+  $Res call(
+      {int id, int position, DateTime addedAt, BookListItemUserBook? userBook});
 
   $BookListItemUserBookCopyWith<$Res>? get userBook;
 }
@@ -881,27 +827,24 @@ class _$BookListItemCopyWithImpl<$Res, $Val extends BookListItem>
     Object? addedAt = null,
     Object? userBook = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            position: null == position
-                ? _value.position
-                : position // ignore: cast_nullable_to_non_nullable
-                      as int,
-            addedAt: null == addedAt
-                ? _value.addedAt
-                : addedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            userBook: freezed == userBook
-                ? _value.userBook
-                : userBook // ignore: cast_nullable_to_non_nullable
-                      as BookListItemUserBook?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      userBook: freezed == userBook
+          ? _value.userBook
+          : userBook // ignore: cast_nullable_to_non_nullable
+              as BookListItemUserBook?,
+    ) as $Val);
   }
 
   /// Create a copy of BookListItem
@@ -923,17 +866,12 @@ class _$BookListItemCopyWithImpl<$Res, $Val extends BookListItem>
 abstract class _$$BookListItemImplCopyWith<$Res>
     implements $BookListItemCopyWith<$Res> {
   factory _$$BookListItemImplCopyWith(
-    _$BookListItemImpl value,
-    $Res Function(_$BookListItemImpl) then,
-  ) = __$$BookListItemImplCopyWithImpl<$Res>;
+          _$BookListItemImpl value, $Res Function(_$BookListItemImpl) then) =
+      __$$BookListItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    int position,
-    DateTime addedAt,
-    BookListItemUserBook? userBook,
-  });
+  $Res call(
+      {int id, int position, DateTime addedAt, BookListItemUserBook? userBook});
 
   @override
   $BookListItemUserBookCopyWith<$Res>? get userBook;
@@ -944,9 +882,8 @@ class __$$BookListItemImplCopyWithImpl<$Res>
     extends _$BookListItemCopyWithImpl<$Res, _$BookListItemImpl>
     implements _$$BookListItemImplCopyWith<$Res> {
   __$$BookListItemImplCopyWithImpl(
-    _$BookListItemImpl _value,
-    $Res Function(_$BookListItemImpl) _then,
-  ) : super(_value, _then);
+      _$BookListItemImpl _value, $Res Function(_$BookListItemImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookListItem
   /// with the given fields replaced by the non-null parameter values.
@@ -958,38 +895,35 @@ class __$$BookListItemImplCopyWithImpl<$Res>
     Object? addedAt = null,
     Object? userBook = freezed,
   }) {
-    return _then(
-      _$BookListItemImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        position: null == position
-            ? _value.position
-            : position // ignore: cast_nullable_to_non_nullable
-                  as int,
-        addedAt: null == addedAt
-            ? _value.addedAt
-            : addedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        userBook: freezed == userBook
-            ? _value.userBook
-            : userBook // ignore: cast_nullable_to_non_nullable
-                  as BookListItemUserBook?,
-      ),
-    );
+    return _then(_$BookListItemImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      userBook: freezed == userBook
+          ? _value.userBook
+          : userBook // ignore: cast_nullable_to_non_nullable
+              as BookListItemUserBook?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListItemImpl implements _BookListItem {
-  const _$BookListItemImpl({
-    required this.id,
-    required this.position,
-    required this.addedAt,
-    this.userBook,
-  });
+  const _$BookListItemImpl(
+      {required this.id,
+      required this.position,
+      required this.addedAt,
+      this.userBook});
 
   @override
   final int id;
@@ -1031,12 +965,11 @@ class _$BookListItemImpl implements _BookListItem {
 }
 
 abstract class _BookListItem implements BookListItem {
-  const factory _BookListItem({
-    required final int id,
-    required final int position,
-    required final DateTime addedAt,
-    final BookListItemUserBook? userBook,
-  }) = _$BookListItemImpl;
+  const factory _BookListItem(
+      {required final int id,
+      required final int position,
+      required final DateTime addedAt,
+      final BookListItemUserBook? userBook}) = _$BookListItemImpl;
 
   @override
   int get id;
@@ -1074,27 +1007,23 @@ mixin _$BookListItemUserBook {
 
 /// @nodoc
 abstract class $BookListItemUserBookCopyWith<$Res> {
-  factory $BookListItemUserBookCopyWith(
-    BookListItemUserBook value,
-    $Res Function(BookListItemUserBook) then,
-  ) = _$BookListItemUserBookCopyWithImpl<$Res, BookListItemUserBook>;
+  factory $BookListItemUserBookCopyWith(BookListItemUserBook value,
+          $Res Function(BookListItemUserBook) then) =
+      _$BookListItemUserBookCopyWithImpl<$Res, BookListItemUserBook>;
   @useResult
-  $Res call({
-    int id,
-    String externalId,
-    String title,
-    List<String> authors,
-    String? coverImageUrl,
-    String readingStatus,
-    String source,
-  });
+  $Res call(
+      {int id,
+      String externalId,
+      String title,
+      List<String> authors,
+      String? coverImageUrl,
+      String readingStatus,
+      String source});
 }
 
 /// @nodoc
-class _$BookListItemUserBookCopyWithImpl<
-  $Res,
-  $Val extends BookListItemUserBook
->
+class _$BookListItemUserBookCopyWithImpl<$Res,
+        $Val extends BookListItemUserBook>
     implements $BookListItemUserBookCopyWith<$Res> {
   _$BookListItemUserBookCopyWithImpl(this._value, this._then);
 
@@ -1116,70 +1045,64 @@ class _$BookListItemUserBookCopyWithImpl<
     Object? readingStatus = null,
     Object? source = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            externalId: null == externalId
-                ? _value.externalId
-                : externalId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            authors: null == authors
-                ? _value.authors
-                : authors // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-            coverImageUrl: freezed == coverImageUrl
-                ? _value.coverImageUrl
-                : coverImageUrl // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            readingStatus: null == readingStatus
-                ? _value.readingStatus
-                : readingStatus // ignore: cast_nullable_to_non_nullable
-                      as String,
-            source: null == source
-                ? _value.source
-                : source // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value.authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as String,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BookListItemUserBookImplCopyWith<$Res>
     implements $BookListItemUserBookCopyWith<$Res> {
-  factory _$$BookListItemUserBookImplCopyWith(
-    _$BookListItemUserBookImpl value,
-    $Res Function(_$BookListItemUserBookImpl) then,
-  ) = __$$BookListItemUserBookImplCopyWithImpl<$Res>;
+  factory _$$BookListItemUserBookImplCopyWith(_$BookListItemUserBookImpl value,
+          $Res Function(_$BookListItemUserBookImpl) then) =
+      __$$BookListItemUserBookImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    String externalId,
-    String title,
-    List<String> authors,
-    String? coverImageUrl,
-    String readingStatus,
-    String source,
-  });
+  $Res call(
+      {int id,
+      String externalId,
+      String title,
+      List<String> authors,
+      String? coverImageUrl,
+      String readingStatus,
+      String source});
 }
 
 /// @nodoc
 class __$$BookListItemUserBookImplCopyWithImpl<$Res>
     extends _$BookListItemUserBookCopyWithImpl<$Res, _$BookListItemUserBookImpl>
     implements _$$BookListItemUserBookImplCopyWith<$Res> {
-  __$$BookListItemUserBookImplCopyWithImpl(
-    _$BookListItemUserBookImpl _value,
-    $Res Function(_$BookListItemUserBookImpl) _then,
-  ) : super(_value, _then);
+  __$$BookListItemUserBookImplCopyWithImpl(_$BookListItemUserBookImpl _value,
+      $Res Function(_$BookListItemUserBookImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookListItemUserBook
   /// with the given fields replaced by the non-null parameter values.
@@ -1194,53 +1117,51 @@ class __$$BookListItemUserBookImplCopyWithImpl<$Res>
     Object? readingStatus = null,
     Object? source = null,
   }) {
-    return _then(
-      _$BookListItemUserBookImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        externalId: null == externalId
-            ? _value.externalId
-            : externalId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        authors: null == authors
-            ? _value._authors
-            : authors // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-        coverImageUrl: freezed == coverImageUrl
-            ? _value.coverImageUrl
-            : coverImageUrl // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        readingStatus: null == readingStatus
-            ? _value.readingStatus
-            : readingStatus // ignore: cast_nullable_to_non_nullable
-                  as String,
-        source: null == source
-            ? _value.source
-            : source // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
+    return _then(_$BookListItemUserBookImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      authors: null == authors
+          ? _value._authors
+          : authors // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as String,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListItemUserBookImpl implements _BookListItemUserBook {
-  const _$BookListItemUserBookImpl({
-    required this.id,
-    required this.externalId,
-    required this.title,
-    required final List<String> authors,
-    this.coverImageUrl,
-    required this.readingStatus,
-    required this.source,
-  }) : _authors = authors;
+  const _$BookListItemUserBookImpl(
+      {required this.id,
+      required this.externalId,
+      required this.title,
+      required final List<String> authors,
+      this.coverImageUrl,
+      required this.readingStatus,
+      required this.source})
+      : _authors = authors;
 
   @override
   final int id;
@@ -1287,15 +1208,14 @@ class _$BookListItemUserBookImpl implements _BookListItemUserBook {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    externalId,
-    title,
-    const DeepCollectionEquality().hash(_authors),
-    coverImageUrl,
-    readingStatus,
-    source,
-  );
+      runtimeType,
+      id,
+      externalId,
+      title,
+      const DeepCollectionEquality().hash(_authors),
+      coverImageUrl,
+      readingStatus,
+      source);
 
   /// Create a copy of BookListItemUserBook
   /// with the given fields replaced by the non-null parameter values.
@@ -1303,23 +1223,20 @@ class _$BookListItemUserBookImpl implements _BookListItemUserBook {
   @override
   @pragma('vm:prefer-inline')
   _$$BookListItemUserBookImplCopyWith<_$BookListItemUserBookImpl>
-  get copyWith =>
-      __$$BookListItemUserBookImplCopyWithImpl<_$BookListItemUserBookImpl>(
-        this,
-        _$identity,
-      );
+      get copyWith =>
+          __$$BookListItemUserBookImplCopyWithImpl<_$BookListItemUserBookImpl>(
+              this, _$identity);
 }
 
 abstract class _BookListItemUserBook implements BookListItemUserBook {
-  const factory _BookListItemUserBook({
-    required final int id,
-    required final String externalId,
-    required final String title,
-    required final List<String> authors,
-    final String? coverImageUrl,
-    required final String readingStatus,
-    required final String source,
-  }) = _$BookListItemUserBookImpl;
+  const factory _BookListItemUserBook(
+      {required final int id,
+      required final String externalId,
+      required final String title,
+      required final List<String> authors,
+      final String? coverImageUrl,
+      required final String readingStatus,
+      required final String source}) = _$BookListItemUserBookImpl;
 
   @override
   int get id;
@@ -1341,7 +1258,7 @@ abstract class _BookListItemUserBook implements BookListItemUserBook {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BookListItemUserBookImplCopyWith<_$BookListItemUserBookImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1360,9 +1277,8 @@ mixin _$BookListDetailStats {
 /// @nodoc
 abstract class $BookListDetailStatsCopyWith<$Res> {
   factory $BookListDetailStatsCopyWith(
-    BookListDetailStats value,
-    $Res Function(BookListDetailStats) then,
-  ) = _$BookListDetailStatsCopyWithImpl<$Res, BookListDetailStats>;
+          BookListDetailStats value, $Res Function(BookListDetailStats) then) =
+      _$BookListDetailStatsCopyWithImpl<$Res, BookListDetailStats>;
   @useResult
   $Res call({int bookCount, int completedCount, List<String> coverImages});
 }
@@ -1386,33 +1302,29 @@ class _$BookListDetailStatsCopyWithImpl<$Res, $Val extends BookListDetailStats>
     Object? completedCount = null,
     Object? coverImages = null,
   }) {
-    return _then(
-      _value.copyWith(
-            bookCount: null == bookCount
-                ? _value.bookCount
-                : bookCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            completedCount: null == completedCount
-                ? _value.completedCount
-                : completedCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            coverImages: null == coverImages
-                ? _value.coverImages
-                : coverImages // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      completedCount: null == completedCount
+          ? _value.completedCount
+          : completedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      coverImages: null == coverImages
+          ? _value.coverImages
+          : coverImages // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$BookListDetailStatsImplCopyWith<$Res>
     implements $BookListDetailStatsCopyWith<$Res> {
-  factory _$$BookListDetailStatsImplCopyWith(
-    _$BookListDetailStatsImpl value,
-    $Res Function(_$BookListDetailStatsImpl) then,
-  ) = __$$BookListDetailStatsImplCopyWithImpl<$Res>;
+  factory _$$BookListDetailStatsImplCopyWith(_$BookListDetailStatsImpl value,
+          $Res Function(_$BookListDetailStatsImpl) then) =
+      __$$BookListDetailStatsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int bookCount, int completedCount, List<String> coverImages});
@@ -1422,10 +1334,9 @@ abstract class _$$BookListDetailStatsImplCopyWith<$Res>
 class __$$BookListDetailStatsImplCopyWithImpl<$Res>
     extends _$BookListDetailStatsCopyWithImpl<$Res, _$BookListDetailStatsImpl>
     implements _$$BookListDetailStatsImplCopyWith<$Res> {
-  __$$BookListDetailStatsImplCopyWithImpl(
-    _$BookListDetailStatsImpl _value,
-    $Res Function(_$BookListDetailStatsImpl) _then,
-  ) : super(_value, _then);
+  __$$BookListDetailStatsImplCopyWithImpl(_$BookListDetailStatsImpl _value,
+      $Res Function(_$BookListDetailStatsImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of BookListDetailStats
   /// with the given fields replaced by the non-null parameter values.
@@ -1436,33 +1347,31 @@ class __$$BookListDetailStatsImplCopyWithImpl<$Res>
     Object? completedCount = null,
     Object? coverImages = null,
   }) {
-    return _then(
-      _$BookListDetailStatsImpl(
-        bookCount: null == bookCount
-            ? _value.bookCount
-            : bookCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        completedCount: null == completedCount
-            ? _value.completedCount
-            : completedCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        coverImages: null == coverImages
-            ? _value._coverImages
-            : coverImages // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-      ),
-    );
+    return _then(_$BookListDetailStatsImpl(
+      bookCount: null == bookCount
+          ? _value.bookCount
+          : bookCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      completedCount: null == completedCount
+          ? _value.completedCount
+          : completedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      coverImages: null == coverImages
+          ? _value._coverImages
+          : coverImages // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$BookListDetailStatsImpl implements _BookListDetailStats {
-  const _$BookListDetailStatsImpl({
-    required this.bookCount,
-    required this.completedCount,
-    required final List<String> coverImages,
-  }) : _coverImages = coverImages;
+  const _$BookListDetailStatsImpl(
+      {required this.bookCount,
+      required this.completedCount,
+      required final List<String> coverImages})
+      : _coverImages = coverImages;
 
   @override
   final int bookCount;
@@ -1490,19 +1399,13 @@ class _$BookListDetailStatsImpl implements _BookListDetailStats {
                 other.bookCount == bookCount) &&
             (identical(other.completedCount, completedCount) ||
                 other.completedCount == completedCount) &&
-            const DeepCollectionEquality().equals(
-              other._coverImages,
-              _coverImages,
-            ));
+            const DeepCollectionEquality()
+                .equals(other._coverImages, _coverImages));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    bookCount,
-    completedCount,
-    const DeepCollectionEquality().hash(_coverImages),
-  );
+  int get hashCode => Object.hash(runtimeType, bookCount, completedCount,
+      const DeepCollectionEquality().hash(_coverImages));
 
   /// Create a copy of BookListDetailStats
   /// with the given fields replaced by the non-null parameter values.
@@ -1511,17 +1414,14 @@ class _$BookListDetailStatsImpl implements _BookListDetailStats {
   @pragma('vm:prefer-inline')
   _$$BookListDetailStatsImplCopyWith<_$BookListDetailStatsImpl> get copyWith =>
       __$$BookListDetailStatsImplCopyWithImpl<_$BookListDetailStatsImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _BookListDetailStats implements BookListDetailStats {
-  const factory _BookListDetailStats({
-    required final int bookCount,
-    required final int completedCount,
-    required final List<String> coverImages,
-  }) = _$BookListDetailStatsImpl;
+  const factory _BookListDetailStats(
+      {required final int bookCount,
+      required final int completedCount,
+      required final List<String> coverImages}) = _$BookListDetailStatsImpl;
 
   @override
   int get bookCount;
@@ -1554,9 +1454,8 @@ mixin _$MyBookListsResult {
 /// @nodoc
 abstract class $MyBookListsResultCopyWith<$Res> {
   factory $MyBookListsResultCopyWith(
-    MyBookListsResult value,
-    $Res Function(MyBookListsResult) then,
-  ) = _$MyBookListsResultCopyWithImpl<$Res, MyBookListsResult>;
+          MyBookListsResult value, $Res Function(MyBookListsResult) then) =
+      _$MyBookListsResultCopyWithImpl<$Res, MyBookListsResult>;
   @useResult
   $Res call({List<BookListSummary> items, int totalCount, bool hasMore});
 }
@@ -1580,33 +1479,29 @@ class _$MyBookListsResultCopyWithImpl<$Res, $Val extends MyBookListsResult>
     Object? totalCount = null,
     Object? hasMore = null,
   }) {
-    return _then(
-      _value.copyWith(
-            items: null == items
-                ? _value.items
-                : items // ignore: cast_nullable_to_non_nullable
-                      as List<BookListSummary>,
-            totalCount: null == totalCount
-                ? _value.totalCount
-                : totalCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            hasMore: null == hasMore
-                ? _value.hasMore
-                : hasMore // ignore: cast_nullable_to_non_nullable
-                      as bool,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<BookListSummary>,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$MyBookListsResultImplCopyWith<$Res>
     implements $MyBookListsResultCopyWith<$Res> {
-  factory _$$MyBookListsResultImplCopyWith(
-    _$MyBookListsResultImpl value,
-    $Res Function(_$MyBookListsResultImpl) then,
-  ) = __$$MyBookListsResultImplCopyWithImpl<$Res>;
+  factory _$$MyBookListsResultImplCopyWith(_$MyBookListsResultImpl value,
+          $Res Function(_$MyBookListsResultImpl) then) =
+      __$$MyBookListsResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<BookListSummary> items, int totalCount, bool hasMore});
@@ -1616,10 +1511,9 @@ abstract class _$$MyBookListsResultImplCopyWith<$Res>
 class __$$MyBookListsResultImplCopyWithImpl<$Res>
     extends _$MyBookListsResultCopyWithImpl<$Res, _$MyBookListsResultImpl>
     implements _$$MyBookListsResultImplCopyWith<$Res> {
-  __$$MyBookListsResultImplCopyWithImpl(
-    _$MyBookListsResultImpl _value,
-    $Res Function(_$MyBookListsResultImpl) _then,
-  ) : super(_value, _then);
+  __$$MyBookListsResultImplCopyWithImpl(_$MyBookListsResultImpl _value,
+      $Res Function(_$MyBookListsResultImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of MyBookListsResult
   /// with the given fields replaced by the non-null parameter values.
@@ -1630,33 +1524,31 @@ class __$$MyBookListsResultImplCopyWithImpl<$Res>
     Object? totalCount = null,
     Object? hasMore = null,
   }) {
-    return _then(
-      _$MyBookListsResultImpl(
-        items: null == items
-            ? _value._items
-            : items // ignore: cast_nullable_to_non_nullable
-                  as List<BookListSummary>,
-        totalCount: null == totalCount
-            ? _value.totalCount
-            : totalCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        hasMore: null == hasMore
-            ? _value.hasMore
-            : hasMore // ignore: cast_nullable_to_non_nullable
-                  as bool,
-      ),
-    );
+    return _then(_$MyBookListsResultImpl(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<BookListSummary>,
+      totalCount: null == totalCount
+          ? _value.totalCount
+          : totalCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$MyBookListsResultImpl implements _MyBookListsResult {
-  const _$MyBookListsResultImpl({
-    required final List<BookListSummary> items,
-    required this.totalCount,
-    required this.hasMore,
-  }) : _items = items;
+  const _$MyBookListsResultImpl(
+      {required final List<BookListSummary> items,
+      required this.totalCount,
+      required this.hasMore})
+      : _items = items;
 
   final List<BookListSummary> _items;
   @override
@@ -1688,12 +1580,8 @@ class _$MyBookListsResultImpl implements _MyBookListsResult {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_items),
-    totalCount,
-    hasMore,
-  );
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_items), totalCount, hasMore);
 
   /// Create a copy of MyBookListsResult
   /// with the given fields replaced by the non-null parameter values.
@@ -1702,17 +1590,14 @@ class _$MyBookListsResultImpl implements _MyBookListsResult {
   @pragma('vm:prefer-inline')
   _$$MyBookListsResultImplCopyWith<_$MyBookListsResultImpl> get copyWith =>
       __$$MyBookListsResultImplCopyWithImpl<_$MyBookListsResultImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _MyBookListsResult implements MyBookListsResult {
-  const factory _MyBookListsResult({
-    required final List<BookListSummary> items,
-    required final int totalCount,
-    required final bool hasMore,
-  }) = _$MyBookListsResultImpl;
+  const factory _MyBookListsResult(
+      {required final List<BookListSummary> items,
+      required final int totalCount,
+      required final bool hasMore}) = _$MyBookListsResultImpl;
 
   @override
   List<BookListSummary> get items;

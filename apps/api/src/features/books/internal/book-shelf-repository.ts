@@ -56,6 +56,13 @@ export interface GetUserBooksResult {
   totalCount: number;
 }
 
+export interface StatusCounts {
+  readingCount: number;
+  backlogCount: number;
+  completedCount: number;
+  interestedCount: number;
+}
+
 export interface BookShelfRepository {
   findUserBookByExternalId(
     userId: number,
@@ -74,6 +81,7 @@ export interface BookShelfRepository {
     input: GetUserBooksInput,
   ): Promise<GetUserBooksResult>;
   countUserBooks(userId: number): Promise<number>;
+  countUserBooksByStatus(userId: number): Promise<StatusCounts>;
 }
 
 export function createBookShelfRepository(
@@ -217,6 +225,43 @@ export function createBookShelfRepository(
         .from(userBooks)
         .where(eq(userBooks.userId, userId));
       return result[0]?.count ?? 0;
+    },
+
+    async countUserBooksByStatus(userId: number): Promise<StatusCounts> {
+      const rows = await db
+        .select({
+          readingStatus: userBooks.readingStatus,
+          count: count(),
+        })
+        .from(userBooks)
+        .where(eq(userBooks.userId, userId))
+        .groupBy(userBooks.readingStatus);
+
+      const counts: StatusCounts = {
+        readingCount: 0,
+        backlogCount: 0,
+        completedCount: 0,
+        interestedCount: 0,
+      };
+
+      for (const row of rows) {
+        switch (row.readingStatus) {
+          case "reading":
+            counts.readingCount = row.count;
+            break;
+          case "backlog":
+            counts.backlogCount = row.count;
+            break;
+          case "completed":
+            counts.completedCount = row.count;
+            break;
+          case "interested":
+            counts.interestedCount = row.count;
+            break;
+        }
+      }
+
+      return counts;
     },
   };
 }

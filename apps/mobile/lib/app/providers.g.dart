@@ -24,9 +24,8 @@ String _$loggerHash() => r'c9f90d15885085157a9b3b4e6495cfb0341f4e24';
 final loggerProvider = Provider<Logger>.internal(
   logger,
   name: r'loggerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$loggerHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$loggerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -72,9 +71,8 @@ String _$isProductionHash() => r'e7c9fba1a6b490ae73f5ab716470c98bbec2cc21';
 final isProductionProvider = Provider<bool>.internal(
   isProduction,
   name: r'isProductionProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$isProductionHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$isProductionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -106,9 +104,8 @@ String _$errorHandlerHash() => r'1e472533683739ebe651822f7db3abda5c4ba806';
 final errorHandlerProvider = Provider<ErrorHandler>.internal(
   errorHandler,
   name: r'errorHandlerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$errorHandlerHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$errorHandlerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

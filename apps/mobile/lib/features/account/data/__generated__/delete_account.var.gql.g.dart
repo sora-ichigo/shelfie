@@ -18,33 +18,29 @@ class _$GDeleteAccountVarsSerializer
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GDeleteAccountVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GDeleteAccountVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     return <Object?>[];
   }
 
   @override
   GDeleteAccountVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     return GDeleteAccountVarsBuilder().build();
   }
 }
 
 class _$GDeleteAccountVars extends GDeleteAccountVars {
-  factory _$GDeleteAccountVars([
-    void Function(GDeleteAccountVarsBuilder)? updates,
-  ]) => (GDeleteAccountVarsBuilder()..update(updates))._build();
+  factory _$GDeleteAccountVars(
+          [void Function(GDeleteAccountVarsBuilder)? updates]) =>
+      (GDeleteAccountVarsBuilder()..update(updates))._build();
 
   _$GDeleteAccountVars._() : super._();
   @override
   GDeleteAccountVars rebuild(
-    void Function(GDeleteAccountVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GDeleteAccountVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GDeleteAccountVarsBuilder toBuilder() =>

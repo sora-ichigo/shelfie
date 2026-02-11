@@ -12,8 +12,7 @@ part of 'shelf_entry.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ShelfEntry {
@@ -54,21 +53,19 @@ mixin _$ShelfEntry {
 /// @nodoc
 abstract class $ShelfEntryCopyWith<$Res> {
   factory $ShelfEntryCopyWith(
-    ShelfEntry value,
-    $Res Function(ShelfEntry) then,
-  ) = _$ShelfEntryCopyWithImpl<$Res, ShelfEntry>;
+          ShelfEntry value, $Res Function(ShelfEntry) then) =
+      _$ShelfEntryCopyWithImpl<$Res, ShelfEntry>;
   @useResult
-  $Res call({
-    int userBookId,
-    String externalId,
-    ReadingStatus readingStatus,
-    DateTime addedAt,
-    DateTime? startedAt,
-    DateTime? completedAt,
-    String? note,
-    DateTime? noteUpdatedAt,
-    int? rating,
-  });
+  $Res call(
+      {int userBookId,
+      String externalId,
+      ReadingStatus readingStatus,
+      DateTime addedAt,
+      DateTime? startedAt,
+      DateTime? completedAt,
+      String? note,
+      DateTime? noteUpdatedAt,
+      int? rating});
 }
 
 /// @nodoc
@@ -96,47 +93,44 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            userBookId: null == userBookId
-                ? _value.userBookId
-                : userBookId // ignore: cast_nullable_to_non_nullable
-                      as int,
-            externalId: null == externalId
-                ? _value.externalId
-                : externalId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            readingStatus: null == readingStatus
-                ? _value.readingStatus
-                : readingStatus // ignore: cast_nullable_to_non_nullable
-                      as ReadingStatus,
-            addedAt: null == addedAt
-                ? _value.addedAt
-                : addedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            startedAt: freezed == startedAt
-                ? _value.startedAt
-                : startedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            completedAt: freezed == completedAt
-                ? _value.completedAt
-                : completedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            note: freezed == note
-                ? _value.note
-                : note // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            noteUpdatedAt: freezed == noteUpdatedAt
-                ? _value.noteUpdatedAt
-                : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
-            rating: freezed == rating
-                ? _value.rating
-                : rating // ignore: cast_nullable_to_non_nullable
-                      as int?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as ReadingStatus,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      noteUpdatedAt: freezed == noteUpdatedAt
+          ? _value.noteUpdatedAt
+          : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
   }
 }
 
@@ -144,22 +138,20 @@ class _$ShelfEntryCopyWithImpl<$Res, $Val extends ShelfEntry>
 abstract class _$$ShelfEntryImplCopyWith<$Res>
     implements $ShelfEntryCopyWith<$Res> {
   factory _$$ShelfEntryImplCopyWith(
-    _$ShelfEntryImpl value,
-    $Res Function(_$ShelfEntryImpl) then,
-  ) = __$$ShelfEntryImplCopyWithImpl<$Res>;
+          _$ShelfEntryImpl value, $Res Function(_$ShelfEntryImpl) then) =
+      __$$ShelfEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int userBookId,
-    String externalId,
-    ReadingStatus readingStatus,
-    DateTime addedAt,
-    DateTime? startedAt,
-    DateTime? completedAt,
-    String? note,
-    DateTime? noteUpdatedAt,
-    int? rating,
-  });
+  $Res call(
+      {int userBookId,
+      String externalId,
+      ReadingStatus readingStatus,
+      DateTime addedAt,
+      DateTime? startedAt,
+      DateTime? completedAt,
+      String? note,
+      DateTime? noteUpdatedAt,
+      int? rating});
 }
 
 /// @nodoc
@@ -167,9 +159,8 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
     extends _$ShelfEntryCopyWithImpl<$Res, _$ShelfEntryImpl>
     implements _$$ShelfEntryImplCopyWith<$Res> {
   __$$ShelfEntryImplCopyWithImpl(
-    _$ShelfEntryImpl _value,
-    $Res Function(_$ShelfEntryImpl) _then,
-  ) : super(_value, _then);
+      _$ShelfEntryImpl _value, $Res Function(_$ShelfEntryImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ShelfEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -186,63 +177,61 @@ class __$$ShelfEntryImplCopyWithImpl<$Res>
     Object? noteUpdatedAt = freezed,
     Object? rating = freezed,
   }) {
-    return _then(
-      _$ShelfEntryImpl(
-        userBookId: null == userBookId
-            ? _value.userBookId
-            : userBookId // ignore: cast_nullable_to_non_nullable
-                  as int,
-        externalId: null == externalId
-            ? _value.externalId
-            : externalId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        readingStatus: null == readingStatus
-            ? _value.readingStatus
-            : readingStatus // ignore: cast_nullable_to_non_nullable
-                  as ReadingStatus,
-        addedAt: null == addedAt
-            ? _value.addedAt
-            : addedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        startedAt: freezed == startedAt
-            ? _value.startedAt
-            : startedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        completedAt: freezed == completedAt
-            ? _value.completedAt
-            : completedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        note: freezed == note
-            ? _value.note
-            : note // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        noteUpdatedAt: freezed == noteUpdatedAt
-            ? _value.noteUpdatedAt
-            : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
-        rating: freezed == rating
-            ? _value.rating
-            : rating // ignore: cast_nullable_to_non_nullable
-                  as int?,
-      ),
-    );
+    return _then(_$ShelfEntryImpl(
+      userBookId: null == userBookId
+          ? _value.userBookId
+          : userBookId // ignore: cast_nullable_to_non_nullable
+              as int,
+      externalId: null == externalId
+          ? _value.externalId
+          : externalId // ignore: cast_nullable_to_non_nullable
+              as String,
+      readingStatus: null == readingStatus
+          ? _value.readingStatus
+          : readingStatus // ignore: cast_nullable_to_non_nullable
+              as ReadingStatus,
+      addedAt: null == addedAt
+          ? _value.addedAt
+          : addedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      noteUpdatedAt: freezed == noteUpdatedAt
+          ? _value.noteUpdatedAt
+          : noteUpdatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$ShelfEntryImpl extends _ShelfEntry {
-  const _$ShelfEntryImpl({
-    required this.userBookId,
-    required this.externalId,
-    required this.readingStatus,
-    required this.addedAt,
-    this.startedAt,
-    this.completedAt,
-    this.note,
-    this.noteUpdatedAt,
-    this.rating,
-  }) : super._();
+  const _$ShelfEntryImpl(
+      {required this.userBookId,
+      required this.externalId,
+      required this.readingStatus,
+      required this.addedAt,
+      this.startedAt,
+      this.completedAt,
+      this.note,
+      this.noteUpdatedAt,
+      this.rating})
+      : super._();
 
   /// 読書記録の ID（userBookId）
   @override
@@ -309,17 +298,16 @@ class _$ShelfEntryImpl extends _ShelfEntry {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    userBookId,
-    externalId,
-    readingStatus,
-    addedAt,
-    startedAt,
-    completedAt,
-    note,
-    noteUpdatedAt,
-    rating,
-  );
+      runtimeType,
+      userBookId,
+      externalId,
+      readingStatus,
+      addedAt,
+      startedAt,
+      completedAt,
+      note,
+      noteUpdatedAt,
+      rating);
 
   /// Create a copy of ShelfEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -331,17 +319,16 @@ class _$ShelfEntryImpl extends _ShelfEntry {
 }
 
 abstract class _ShelfEntry extends ShelfEntry {
-  const factory _ShelfEntry({
-    required final int userBookId,
-    required final String externalId,
-    required final ReadingStatus readingStatus,
-    required final DateTime addedAt,
-    final DateTime? startedAt,
-    final DateTime? completedAt,
-    final String? note,
-    final DateTime? noteUpdatedAt,
-    final int? rating,
-  }) = _$ShelfEntryImpl;
+  const factory _ShelfEntry(
+      {required final int userBookId,
+      required final String externalId,
+      required final ReadingStatus readingStatus,
+      required final DateTime addedAt,
+      final DateTime? startedAt,
+      final DateTime? completedAt,
+      final String? note,
+      final DateTime? noteUpdatedAt,
+      final int? rating}) = _$ShelfEntryImpl;
   const _ShelfEntry._() : super._();
 
   /// 読書記録の ID（userBookId）

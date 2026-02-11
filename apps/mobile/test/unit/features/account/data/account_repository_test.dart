@@ -45,6 +45,10 @@ void main() {
             'avatarUrl': 'https://example.com/avatar.png',
             'createdAt': '2024-01-01T00:00:00Z',
             'bookCount': 5,
+            'readingCount': 1,
+            'backlogCount': 2,
+            'completedCount': 1,
+            'interestedCount': 1,
           },
         });
 
@@ -116,6 +120,10 @@ void main() {
             'avatarUrl': null,
             'createdAt': '2024-01-01T00:00:00Z',
             'bookCount': 5,
+            'readingCount': 1,
+            'backlogCount': 2,
+            'completedCount': 1,
+            'interestedCount': 1,
           },
         });
 
@@ -149,6 +157,10 @@ void main() {
               'avatarUrl': 'https://example.com/avatar.png',
               'createdAt': '2024-01-01T00:00:00Z',
               'bookCount': 10,
+              'readingCount': 2,
+              'backlogCount': 3,
+              'completedCount': 4,
+              'interestedCount': 1,
             },
           },
         });

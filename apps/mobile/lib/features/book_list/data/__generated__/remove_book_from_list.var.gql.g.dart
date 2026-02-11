@@ -14,25 +14,21 @@ class _$GRemoveBookFromListVarsSerializer
   @override
   final Iterable<Type> types = const [
     GRemoveBookFromListVars,
-    _$GRemoveBookFromListVars,
+    _$GRemoveBookFromListVars
   ];
   @override
   final String wireName = 'GRemoveBookFromListVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GRemoveBookFromListVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GRemoveBookFromListVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
       'userBookId',
-      serializers.serialize(
-        object.userBookId,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.userBookId,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -40,10 +36,8 @@ class _$GRemoveBookFromListVarsSerializer
 
   @override
   GRemoveBookFromListVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRemoveBookFromListVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -53,20 +47,12 @@ class _$GRemoveBookFromListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'listId':
-          result.listId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.listId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'userBookId':
-          result.userBookId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.userBookId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -81,16 +67,16 @@ class _$GRemoveBookFromListVars extends GRemoveBookFromListVars {
   @override
   final int userBookId;
 
-  factory _$GRemoveBookFromListVars([
-    void Function(GRemoveBookFromListVarsBuilder)? updates,
-  ]) => (GRemoveBookFromListVarsBuilder()..update(updates))._build();
+  factory _$GRemoveBookFromListVars(
+          [void Function(GRemoveBookFromListVarsBuilder)? updates]) =>
+      (GRemoveBookFromListVarsBuilder()..update(updates))._build();
 
   _$GRemoveBookFromListVars._({required this.listId, required this.userBookId})
-    : super._();
+      : super._();
   @override
   GRemoveBookFromListVars rebuild(
-    void Function(GRemoveBookFromListVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GRemoveBookFromListVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GRemoveBookFromListVarsBuilder toBuilder() =>
@@ -161,19 +147,12 @@ class GRemoveBookFromListVarsBuilder
   GRemoveBookFromListVars build() => _build();
 
   _$GRemoveBookFromListVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GRemoveBookFromListVars._(
           listId: BuiltValueNullFieldError.checkNotNull(
-            listId,
-            r'GRemoveBookFromListVars',
-            'listId',
-          ),
+              listId, r'GRemoveBookFromListVars', 'listId'),
           userBookId: BuiltValueNullFieldError.checkNotNull(
-            userBookId,
-            r'GRemoveBookFromListVars',
-            'userBookId',
-          ),
+              userBookId, r'GRemoveBookFromListVars', 'userBookId'),
         );
     replace(_$result);
     return _$result;

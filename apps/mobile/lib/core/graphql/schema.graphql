@@ -718,8 +718,14 @@ type User {
   """The URL of the user's avatar image (128x128)"""
   avatarUrl: String
 
+  """The number of books with backlog status"""
+  backlogCount: Int!
+
   """The number of books in the user's shelf"""
   bookCount: Int!
+
+  """The number of books with completed status"""
+  completedCount: Int!
 
   """When the user was created"""
   createdAt: DateTime
@@ -730,8 +736,14 @@ type User {
   """The unique identifier of the user"""
   id: Int
 
+  """The number of books with interested status"""
+  interestedCount: Int!
+
   """The display name of the user"""
   name: String
+
+  """The number of books with reading status"""
+  readingCount: Int!
 
   """When the user was last updated"""
   updatedAt: DateTime

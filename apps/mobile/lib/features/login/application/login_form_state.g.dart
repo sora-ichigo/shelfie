@@ -12,14 +12,14 @@ String _$loginFormStateHash() => r'6207b96ea09576a3adcf17d26a289bd68386395b';
 @ProviderFor(LoginFormState)
 final loginFormStateProvider =
     AutoDisposeNotifierProvider<LoginFormState, LoginFormData>.internal(
-      LoginFormState.new,
-      name: r'loginFormStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$loginFormStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  LoginFormState.new,
+  name: r'loginFormStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginFormStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$LoginFormState = AutoDisposeNotifier<LoginFormData>;
 // ignore_for_file: type=lint

@@ -17,17 +17,12 @@ class _$GRefreshTokenVarsSerializer
   final String wireName = 'GRefreshTokenVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GRefreshTokenVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GRefreshTokenVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GRefreshTokenInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GRefreshTokenInput)),
     ];
 
     return result;
@@ -35,10 +30,8 @@ class _$GRefreshTokenVarsSerializer
 
   @override
   GRefreshTokenVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GRefreshTokenVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -48,13 +41,9 @@ class _$GRefreshTokenVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GRefreshTokenInput),
-                )!
-                as _i1.GRefreshTokenInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GRefreshTokenInput))!
+              as _i1.GRefreshTokenInput);
           break;
       }
     }
@@ -67,9 +56,9 @@ class _$GRefreshTokenVars extends GRefreshTokenVars {
   @override
   final _i1.GRefreshTokenInput input;
 
-  factory _$GRefreshTokenVars([
-    void Function(GRefreshTokenVarsBuilder)? updates,
-  ]) => (GRefreshTokenVarsBuilder()..update(updates))._build();
+  factory _$GRefreshTokenVars(
+          [void Function(GRefreshTokenVarsBuilder)? updates]) =>
+      (GRefreshTokenVarsBuilder()..update(updates))._build();
 
   _$GRefreshTokenVars._({required this.input}) : super._();
   @override
@@ -96,9 +85,9 @@ class _$GRefreshTokenVars extends GRefreshTokenVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GRefreshTokenVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GRefreshTokenVars')
+          ..add('input', input))
+        .toString();
   }
 }
 
@@ -138,7 +127,10 @@ class GRefreshTokenVarsBuilder
   _$GRefreshTokenVars _build() {
     _$GRefreshTokenVars _$result;
     try {
-      _$result = _$v ?? _$GRefreshTokenVars._(input: input.build());
+      _$result = _$v ??
+          _$GRefreshTokenVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -146,10 +138,7 @@ class GRefreshTokenVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GRefreshTokenVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GRefreshTokenVars', _$failedField, e.toString());
       }
       rethrow;
     }

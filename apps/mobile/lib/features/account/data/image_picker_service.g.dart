@@ -13,14 +13,14 @@ String _$imagePickerServiceHash() =>
 @ProviderFor(imagePickerService)
 final imagePickerServiceProvider =
     AutoDisposeProvider<ImagePickerService>.internal(
-      imagePickerService,
-      name: r'imagePickerServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$imagePickerServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  imagePickerService,
+  name: r'imagePickerServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$imagePickerServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

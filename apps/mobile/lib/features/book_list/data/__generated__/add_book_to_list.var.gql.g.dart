@@ -18,18 +18,14 @@ class _$GAddBookToListVarsSerializer
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GAddBookToListVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GAddBookToListVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'listId',
       serializers.serialize(object.listId, specifiedType: const FullType(int)),
       'userBookId',
-      serializers.serialize(
-        object.userBookId,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.userBookId,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -37,10 +33,8 @@ class _$GAddBookToListVarsSerializer
 
   @override
   GAddBookToListVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GAddBookToListVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -50,20 +44,12 @@ class _$GAddBookToListVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'listId':
-          result.listId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.listId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'userBookId':
-          result.userBookId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.userBookId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
       }
     }
@@ -78,16 +64,16 @@ class _$GAddBookToListVars extends GAddBookToListVars {
   @override
   final int userBookId;
 
-  factory _$GAddBookToListVars([
-    void Function(GAddBookToListVarsBuilder)? updates,
-  ]) => (GAddBookToListVarsBuilder()..update(updates))._build();
+  factory _$GAddBookToListVars(
+          [void Function(GAddBookToListVarsBuilder)? updates]) =>
+      (GAddBookToListVarsBuilder()..update(updates))._build();
 
   _$GAddBookToListVars._({required this.listId, required this.userBookId})
-    : super._();
+      : super._();
   @override
   GAddBookToListVars rebuild(
-    void Function(GAddBookToListVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GAddBookToListVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GAddBookToListVarsBuilder toBuilder() =>
@@ -157,19 +143,12 @@ class GAddBookToListVarsBuilder
   GAddBookToListVars build() => _build();
 
   _$GAddBookToListVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GAddBookToListVars._(
           listId: BuiltValueNullFieldError.checkNotNull(
-            listId,
-            r'GAddBookToListVars',
-            'listId',
-          ),
+              listId, r'GAddBookToListVars', 'listId'),
           userBookId: BuiltValueNullFieldError.checkNotNull(
-            userBookId,
-            r'GAddBookToListVars',
-            'userBookId',
-          ),
+              userBookId, r'GAddBookToListVars', 'userBookId'),
         );
     replace(_$result);
     return _$result;

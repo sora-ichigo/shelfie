@@ -12,14 +12,14 @@ String _$shareImageServiceHash() => r'90d23245c31dc7d4eeb759867d1897b279eb6af0';
 @ProviderFor(shareImageService)
 final shareImageServiceProvider =
     AutoDisposeProvider<ShareImageService>.internal(
-      shareImageService,
-      name: r'shareImageServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$shareImageServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  shareImageService,
+  name: r'shareImageServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$shareImageServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

@@ -17,17 +17,12 @@ class _$GLoginUserVarsSerializer
   final String wireName = 'GLoginUserVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GLoginUserVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GLoginUserVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'input',
-      serializers.serialize(
-        object.input,
-        specifiedType: const FullType(_i1.GLoginUserInput),
-      ),
+      serializers.serialize(object.input,
+          specifiedType: const FullType(_i1.GLoginUserInput)),
     ];
 
     return result;
@@ -35,10 +30,8 @@ class _$GLoginUserVarsSerializer
 
   @override
   GLoginUserVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GLoginUserVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -48,13 +41,9 @@ class _$GLoginUserVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'input':
-          result.input.replace(
-            serializers.deserialize(
-                  value,
-                  specifiedType: const FullType(_i1.GLoginUserInput),
-                )!
-                as _i1.GLoginUserInput,
-          );
+          result.input.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(_i1.GLoginUserInput))!
+              as _i1.GLoginUserInput);
           break;
       }
     }
@@ -94,9 +83,8 @@ class _$GLoginUserVars extends GLoginUserVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GLoginUserVars',
-    )..add('input', input)).toString();
+    return (newBuiltValueToStringHelper(r'GLoginUserVars')..add('input', input))
+        .toString();
   }
 }
 
@@ -136,7 +124,10 @@ class GLoginUserVarsBuilder
   _$GLoginUserVars _build() {
     _$GLoginUserVars _$result;
     try {
-      _$result = _$v ?? _$GLoginUserVars._(input: input.build());
+      _$result = _$v ??
+          _$GLoginUserVars._(
+            input: input.build(),
+          );
     } catch (_) {
       late String _$failedField;
       try {
@@ -144,10 +135,7 @@ class GLoginUserVarsBuilder
         input.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-          r'GLoginUserVars',
-          _$failedField,
-          e.toString(),
-        );
+            r'GLoginUserVars', _$failedField, e.toString());
       }
       rethrow;
     }

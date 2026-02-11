@@ -14,23 +14,19 @@ class _$GUpdateReadingNoteVarsSerializer
   @override
   final Iterable<Type> types = const [
     GUpdateReadingNoteVars,
-    _$GUpdateReadingNoteVars,
+    _$GUpdateReadingNoteVars
   ];
   @override
   final String wireName = 'GUpdateReadingNoteVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GUpdateReadingNoteVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GUpdateReadingNoteVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'userBookId',
-      serializers.serialize(
-        object.userBookId,
-        specifiedType: const FullType(int),
-      ),
+      serializers.serialize(object.userBookId,
+          specifiedType: const FullType(int)),
       'note',
       serializers.serialize(object.note, specifiedType: const FullType(String)),
     ];
@@ -40,10 +36,8 @@ class _$GUpdateReadingNoteVarsSerializer
 
   @override
   GUpdateReadingNoteVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GUpdateReadingNoteVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -53,20 +47,12 @@ class _$GUpdateReadingNoteVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'userBookId':
-          result.userBookId =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(int),
-                  )!
-                  as int;
+          result.userBookId = serializers.deserialize(value,
+              specifiedType: const FullType(int))! as int;
           break;
         case 'note':
-          result.note =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.note = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -81,16 +67,16 @@ class _$GUpdateReadingNoteVars extends GUpdateReadingNoteVars {
   @override
   final String note;
 
-  factory _$GUpdateReadingNoteVars([
-    void Function(GUpdateReadingNoteVarsBuilder)? updates,
-  ]) => (GUpdateReadingNoteVarsBuilder()..update(updates))._build();
+  factory _$GUpdateReadingNoteVars(
+          [void Function(GUpdateReadingNoteVarsBuilder)? updates]) =>
+      (GUpdateReadingNoteVarsBuilder()..update(updates))._build();
 
   _$GUpdateReadingNoteVars._({required this.userBookId, required this.note})
-    : super._();
+      : super._();
   @override
   GUpdateReadingNoteVars rebuild(
-    void Function(GUpdateReadingNoteVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GUpdateReadingNoteVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GUpdateReadingNoteVarsBuilder toBuilder() =>
@@ -160,19 +146,12 @@ class GUpdateReadingNoteVarsBuilder
   GUpdateReadingNoteVars build() => _build();
 
   _$GUpdateReadingNoteVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GUpdateReadingNoteVars._(
           userBookId: BuiltValueNullFieldError.checkNotNull(
-            userBookId,
-            r'GUpdateReadingNoteVars',
-            'userBookId',
-          ),
+              userBookId, r'GUpdateReadingNoteVars', 'userBookId'),
           note: BuiltValueNullFieldError.checkNotNull(
-            note,
-            r'GUpdateReadingNoteVars',
-            'note',
-          ),
+              note, r'GUpdateReadingNoteVars', 'note'),
         );
     replace(_$result);
     return _$result;

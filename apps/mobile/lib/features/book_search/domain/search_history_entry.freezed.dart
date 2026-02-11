@@ -12,8 +12,7 @@ part of 'search_history_entry.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 SearchHistoryEntry _$SearchHistoryEntryFromJson(Map<String, dynamic> json) {
   return _SearchHistoryEntry.fromJson(json);
@@ -40,9 +39,8 @@ mixin _$SearchHistoryEntry {
 /// @nodoc
 abstract class $SearchHistoryEntryCopyWith<$Res> {
   factory $SearchHistoryEntryCopyWith(
-    SearchHistoryEntry value,
-    $Res Function(SearchHistoryEntry) then,
-  ) = _$SearchHistoryEntryCopyWithImpl<$Res, SearchHistoryEntry>;
+          SearchHistoryEntry value, $Res Function(SearchHistoryEntry) then) =
+      _$SearchHistoryEntryCopyWithImpl<$Res, SearchHistoryEntry>;
   @useResult
   $Res call({String query, DateTime searchedAt});
 }
@@ -61,30 +59,29 @@ class _$SearchHistoryEntryCopyWithImpl<$Res, $Val extends SearchHistoryEntry>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? query = null, Object? searchedAt = null}) {
-    return _then(
-      _value.copyWith(
-            query: null == query
-                ? _value.query
-                : query // ignore: cast_nullable_to_non_nullable
-                      as String,
-            searchedAt: null == searchedAt
-                ? _value.searchedAt
-                : searchedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? query = null,
+    Object? searchedAt = null,
+  }) {
+    return _then(_value.copyWith(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      searchedAt: null == searchedAt
+          ? _value.searchedAt
+          : searchedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$SearchHistoryEntryImplCopyWith<$Res>
     implements $SearchHistoryEntryCopyWith<$Res> {
-  factory _$$SearchHistoryEntryImplCopyWith(
-    _$SearchHistoryEntryImpl value,
-    $Res Function(_$SearchHistoryEntryImpl) then,
-  ) = __$$SearchHistoryEntryImplCopyWithImpl<$Res>;
+  factory _$$SearchHistoryEntryImplCopyWith(_$SearchHistoryEntryImpl value,
+          $Res Function(_$SearchHistoryEntryImpl) then) =
+      __$$SearchHistoryEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String query, DateTime searchedAt});
@@ -94,38 +91,36 @@ abstract class _$$SearchHistoryEntryImplCopyWith<$Res>
 class __$$SearchHistoryEntryImplCopyWithImpl<$Res>
     extends _$SearchHistoryEntryCopyWithImpl<$Res, _$SearchHistoryEntryImpl>
     implements _$$SearchHistoryEntryImplCopyWith<$Res> {
-  __$$SearchHistoryEntryImplCopyWithImpl(
-    _$SearchHistoryEntryImpl _value,
-    $Res Function(_$SearchHistoryEntryImpl) _then,
-  ) : super(_value, _then);
+  __$$SearchHistoryEntryImplCopyWithImpl(_$SearchHistoryEntryImpl _value,
+      $Res Function(_$SearchHistoryEntryImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of SearchHistoryEntry
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? query = null, Object? searchedAt = null}) {
-    return _then(
-      _$SearchHistoryEntryImpl(
-        query: null == query
-            ? _value.query
-            : query // ignore: cast_nullable_to_non_nullable
-                  as String,
-        searchedAt: null == searchedAt
-            ? _value.searchedAt
-            : searchedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+  $Res call({
+    Object? query = null,
+    Object? searchedAt = null,
+  }) {
+    return _then(_$SearchHistoryEntryImpl(
+      query: null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+      searchedAt: null == searchedAt
+          ? _value.searchedAt
+          : searchedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SearchHistoryEntryImpl implements _SearchHistoryEntry {
-  const _$SearchHistoryEntryImpl({
-    required this.query,
-    required this.searchedAt,
-  });
+  const _$SearchHistoryEntryImpl(
+      {required this.query, required this.searchedAt});
 
   factory _$SearchHistoryEntryImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchHistoryEntryImplFromJson(json);
@@ -164,21 +159,20 @@ class _$SearchHistoryEntryImpl implements _SearchHistoryEntry {
   @pragma('vm:prefer-inline')
   _$$SearchHistoryEntryImplCopyWith<_$SearchHistoryEntryImpl> get copyWith =>
       __$$SearchHistoryEntryImplCopyWithImpl<_$SearchHistoryEntryImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SearchHistoryEntryImplToJson(this);
+    return _$$SearchHistoryEntryImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _SearchHistoryEntry implements SearchHistoryEntry {
-  const factory _SearchHistoryEntry({
-    required final String query,
-    required final DateTime searchedAt,
-  }) = _$SearchHistoryEntryImpl;
+  const factory _SearchHistoryEntry(
+      {required final String query,
+      required final DateTime searchedAt}) = _$SearchHistoryEntryImpl;
 
   factory _SearchHistoryEntry.fromJson(Map<String, dynamic> json) =
       _$SearchHistoryEntryImpl.fromJson;

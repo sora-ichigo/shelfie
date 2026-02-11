@@ -12,7 +12,7 @@ Serializer<GGetMeData_me__base> _$gGetMeDataMeBaseSerializer =
 Serializer<GGetMeData_me__asUser> _$gGetMeDataMeAsUserSerializer =
     _$GGetMeData_me__asUserSerializer();
 Serializer<GGetMeData_me__asAuthErrorResult>
-_$gGetMeDataMeAsAuthErrorResultSerializer =
+    _$gGetMeDataMeAsAuthErrorResultSerializer =
     _$GGetMeData_me__asAuthErrorResultSerializer();
 
 class _$GGetMeDataSerializer implements StructuredSerializer<GGetMeData> {
@@ -22,33 +22,23 @@ class _$GGetMeDataSerializer implements StructuredSerializer<GGetMeData> {
   final String wireName = 'GGetMeData';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMeData object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GGetMeData object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
       'me',
-      serializers.serialize(
-        object.me,
-        specifiedType: const FullType(GGetMeData_me),
-      ),
+      serializers.serialize(object.me,
+          specifiedType: const FullType(GGetMeData_me)),
     ];
 
     return result;
   }
 
   @override
-  GGetMeData deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  GGetMeData deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GGetMeDataBuilder();
 
     final iterator = serialized.iterator;
@@ -58,20 +48,12 @@ class _$GGetMeDataSerializer implements StructuredSerializer<GGetMeData> {
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'me':
-          result.me =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(GGetMeData_me),
-                  )!
-                  as GGetMeData_me;
+          result.me = serializers.deserialize(value,
+              specifiedType: const FullType(GGetMeData_me))! as GGetMeData_me;
           break;
       }
     }
@@ -85,23 +67,19 @@ class _$GGetMeData_me__baseSerializer
   @override
   final Iterable<Type> types = const [
     GGetMeData_me__base,
-    _$GGetMeData_me__base,
+    _$GGetMeData_me__base
   ];
   @override
   final String wireName = 'GGetMeData_me__base';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMeData_me__base object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GGetMeData_me__base object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -109,10 +87,8 @@ class _$GGetMeData_me__baseSerializer
 
   @override
   GGetMeData_me__base deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GGetMeData_me__baseBuilder();
 
     final iterator = serialized.iterator;
@@ -122,12 +98,8 @@ class _$GGetMeData_me__baseSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -141,23 +113,19 @@ class _$GGetMeData_me__asUserSerializer
   @override
   final Iterable<Type> types = const [
     GGetMeData_me__asUser,
-    _$GGetMeData_me__asUser,
+    _$GGetMeData_me__asUser
   ];
   @override
   final String wireName = 'GGetMeData_me__asUser';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMeData_me__asUser object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GGetMeData_me__asUser object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.id;
@@ -170,19 +138,16 @@ class _$GGetMeData_me__asUserSerializer
     if (value != null) {
       result
         ..add('email')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
   GGetMeData_me__asUser deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GGetMeData_me__asUserBuilder();
 
     final iterator = serialized.iterator;
@@ -192,25 +157,16 @@ class _$GGetMeData_me__asUserSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'id':
-          result.id =
-              serializers.deserialize(value, specifiedType: const FullType(int))
-                  as int?;
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'email':
-          result.email =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.email = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -224,53 +180,42 @@ class _$GGetMeData_me__asAuthErrorResultSerializer
   @override
   final Iterable<Type> types = const [
     GGetMeData_me__asAuthErrorResult,
-    _$GGetMeData_me__asAuthErrorResult,
+    _$GGetMeData_me__asAuthErrorResult
   ];
   @override
   final String wireName = 'GGetMeData_me__asAuthErrorResult';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMeData_me__asAuthErrorResult object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GGetMeData_me__asAuthErrorResult object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
-      serializers.serialize(
-        object.G__typename,
-        specifiedType: const FullType(String),
-      ),
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
     ];
     Object? value;
     value = object.code;
     if (value != null) {
       result
         ..add('code')
-        ..add(
-          serializers.serialize(
-            value,
-            specifiedType: const FullType(_i3.GAuthErrorCode),
-          ),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GAuthErrorCode)));
     }
     value = object.message;
     if (value != null) {
       result
         ..add('message')
-        ..add(
-          serializers.serialize(value, specifiedType: const FullType(String)),
-        );
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
 
   @override
   GGetMeData_me__asAuthErrorResult deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GGetMeData_me__asAuthErrorResultBuilder();
 
     final iterator = serialized.iterator;
@@ -280,28 +225,17 @@ class _$GGetMeData_me__asAuthErrorResultSerializer
       final Object? value = iterator.current;
       switch (key) {
         case '__typename':
-          result.G__typename =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
         case 'code':
-          result.code =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(_i3.GAuthErrorCode),
-                  )
-                  as _i3.GAuthErrorCode?;
+          result.code = serializers.deserialize(value,
+                  specifiedType: const FullType(_i3.GAuthErrorCode))
+              as _i3.GAuthErrorCode?;
           break;
         case 'message':
-          result.message =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )
-                  as String?;
+          result.message = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -392,14 +326,10 @@ class GGetMeDataBuilder implements Builder<GGetMeData, GGetMeDataBuilder> {
   GGetMeData build() => _build();
 
   _$GGetMeData _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GGetMeData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GGetMeData',
-            'G__typename',
-          ),
+              G__typename, r'GGetMeData', 'G__typename'),
           me: BuiltValueNullFieldError.checkNotNull(me, r'GGetMeData', 'me'),
         );
     replace(_$result);
@@ -411,15 +341,15 @@ class _$GGetMeData_me__base extends GGetMeData_me__base {
   @override
   final String G__typename;
 
-  factory _$GGetMeData_me__base([
-    void Function(GGetMeData_me__baseBuilder)? updates,
-  ]) => (GGetMeData_me__baseBuilder()..update(updates))._build();
+  factory _$GGetMeData_me__base(
+          [void Function(GGetMeData_me__baseBuilder)? updates]) =>
+      (GGetMeData_me__baseBuilder()..update(updates))._build();
 
   _$GGetMeData_me__base._({required this.G__typename}) : super._();
   @override
   GGetMeData_me__base rebuild(
-    void Function(GGetMeData_me__baseBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GGetMeData_me__baseBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GGetMeData_me__baseBuilder toBuilder() =>
@@ -441,9 +371,9 @@ class _$GGetMeData_me__base extends GGetMeData_me__base {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GGetMeData_me__base',
-    )..add('G__typename', G__typename)).toString();
+    return (newBuiltValueToStringHelper(r'GGetMeData_me__base')
+          ..add('G__typename', G__typename))
+        .toString();
   }
 }
 
@@ -482,14 +412,10 @@ class GGetMeData_me__baseBuilder
   GGetMeData_me__base build() => _build();
 
   _$GGetMeData_me__base _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GGetMeData_me__base._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GGetMeData_me__base',
-            'G__typename',
-          ),
+              G__typename, r'GGetMeData_me__base', 'G__typename'),
         );
     replace(_$result);
     return _$result;
@@ -504,16 +430,16 @@ class _$GGetMeData_me__asUser extends GGetMeData_me__asUser {
   @override
   final String? email;
 
-  factory _$GGetMeData_me__asUser([
-    void Function(GGetMeData_me__asUserBuilder)? updates,
-  ]) => (GGetMeData_me__asUserBuilder()..update(updates))._build();
+  factory _$GGetMeData_me__asUser(
+          [void Function(GGetMeData_me__asUserBuilder)? updates]) =>
+      (GGetMeData_me__asUserBuilder()..update(updates))._build();
 
   _$GGetMeData_me__asUser._({required this.G__typename, this.id, this.email})
-    : super._();
+      : super._();
   @override
   GGetMeData_me__asUser rebuild(
-    void Function(GGetMeData_me__asUserBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GGetMeData_me__asUserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GGetMeData_me__asUserBuilder toBuilder() =>
@@ -593,14 +519,10 @@ class GGetMeData_me__asUserBuilder
   GGetMeData_me__asUser build() => _build();
 
   _$GGetMeData_me__asUser _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GGetMeData_me__asUser._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GGetMeData_me__asUser',
-            'G__typename',
-          ),
+              G__typename, r'GGetMeData_me__asUser', 'G__typename'),
           id: id,
           email: email,
         );
@@ -618,19 +540,17 @@ class _$GGetMeData_me__asAuthErrorResult
   @override
   final String? message;
 
-  factory _$GGetMeData_me__asAuthErrorResult([
-    void Function(GGetMeData_me__asAuthErrorResultBuilder)? updates,
-  ]) => (GGetMeData_me__asAuthErrorResultBuilder()..update(updates))._build();
+  factory _$GGetMeData_me__asAuthErrorResult(
+          [void Function(GGetMeData_me__asAuthErrorResultBuilder)? updates]) =>
+      (GGetMeData_me__asAuthErrorResultBuilder()..update(updates))._build();
 
-  _$GGetMeData_me__asAuthErrorResult._({
-    required this.G__typename,
-    this.code,
-    this.message,
-  }) : super._();
+  _$GGetMeData_me__asAuthErrorResult._(
+      {required this.G__typename, this.code, this.message})
+      : super._();
   @override
   GGetMeData_me__asAuthErrorResult rebuild(
-    void Function(GGetMeData_me__asAuthErrorResultBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GGetMeData_me__asAuthErrorResultBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GGetMeData_me__asAuthErrorResultBuilder toBuilder() =>
@@ -667,10 +587,8 @@ class _$GGetMeData_me__asAuthErrorResult
 
 class GGetMeData_me__asAuthErrorResultBuilder
     implements
-        Builder<
-          GGetMeData_me__asAuthErrorResult,
-          GGetMeData_me__asAuthErrorResultBuilder
-        > {
+        Builder<GGetMeData_me__asAuthErrorResult,
+            GGetMeData_me__asAuthErrorResultBuilder> {
   _$GGetMeData_me__asAuthErrorResult? _$v;
 
   String? _G__typename;
@@ -714,14 +632,10 @@ class GGetMeData_me__asAuthErrorResultBuilder
   GGetMeData_me__asAuthErrorResult build() => _build();
 
   _$GGetMeData_me__asAuthErrorResult _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GGetMeData_me__asAuthErrorResult._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
-            G__typename,
-            r'GGetMeData_me__asAuthErrorResult',
-            'G__typename',
-          ),
+              G__typename, r'GGetMeData_me__asAuthErrorResult', 'G__typename'),
           code: code,
           message: message,
         );

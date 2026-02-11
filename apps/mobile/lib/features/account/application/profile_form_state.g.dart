@@ -12,14 +12,14 @@ String _$profileFormStateHash() => r'c44c5e6e26f72791814220de7d23f1238620995b';
 @ProviderFor(ProfileFormState)
 final profileFormStateProvider =
     AutoDisposeNotifierProvider<ProfileFormState, ProfileFormData>.internal(
-      ProfileFormState.new,
-      name: r'profileFormStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$profileFormStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  ProfileFormState.new,
+  name: r'profileFormStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$profileFormStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$ProfileFormState = AutoDisposeNotifier<ProfileFormData>;
 // ignore_for_file: type=lint

@@ -14,17 +14,15 @@ class _$GSearchBookByISBNVarsSerializer
   @override
   final Iterable<Type> types = const [
     GSearchBookByISBNVars,
-    _$GSearchBookByISBNVars,
+    _$GSearchBookByISBNVars
   ];
   @override
   final String wireName = 'GSearchBookByISBNVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GSearchBookByISBNVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GSearchBookByISBNVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'isbn',
       serializers.serialize(object.isbn, specifiedType: const FullType(String)),
@@ -35,10 +33,8 @@ class _$GSearchBookByISBNVarsSerializer
 
   @override
   GSearchBookByISBNVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     final result = GSearchBookByISBNVarsBuilder();
 
     final iterator = serialized.iterator;
@@ -48,12 +44,8 @@ class _$GSearchBookByISBNVarsSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'isbn':
-          result.isbn =
-              serializers.deserialize(
-                    value,
-                    specifiedType: const FullType(String),
-                  )!
-                  as String;
+          result.isbn = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -66,15 +58,15 @@ class _$GSearchBookByISBNVars extends GSearchBookByISBNVars {
   @override
   final String isbn;
 
-  factory _$GSearchBookByISBNVars([
-    void Function(GSearchBookByISBNVarsBuilder)? updates,
-  ]) => (GSearchBookByISBNVarsBuilder()..update(updates))._build();
+  factory _$GSearchBookByISBNVars(
+          [void Function(GSearchBookByISBNVarsBuilder)? updates]) =>
+      (GSearchBookByISBNVarsBuilder()..update(updates))._build();
 
   _$GSearchBookByISBNVars._({required this.isbn}) : super._();
   @override
   GSearchBookByISBNVars rebuild(
-    void Function(GSearchBookByISBNVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GSearchBookByISBNVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GSearchBookByISBNVarsBuilder toBuilder() =>
@@ -96,9 +88,9 @@ class _$GSearchBookByISBNVars extends GSearchBookByISBNVars {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-      r'GSearchBookByISBNVars',
-    )..add('isbn', isbn)).toString();
+    return (newBuiltValueToStringHelper(r'GSearchBookByISBNVars')
+          ..add('isbn', isbn))
+        .toString();
   }
 }
 
@@ -135,14 +127,10 @@ class GSearchBookByISBNVarsBuilder
   GSearchBookByISBNVars build() => _build();
 
   _$GSearchBookByISBNVars _build() {
-    final _$result =
-        _$v ??
+    final _$result = _$v ??
         _$GSearchBookByISBNVars._(
           isbn: BuiltValueNullFieldError.checkNotNull(
-            isbn,
-            r'GSearchBookByISBNVars',
-            'isbn',
-          ),
+              isbn, r'GSearchBookByISBNVars', 'isbn'),
         );
     replace(_$result);
     return _$result;

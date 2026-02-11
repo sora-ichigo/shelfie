@@ -15,20 +15,14 @@ class _$GGetMeVarsSerializer implements StructuredSerializer<GGetMeVars> {
   final String wireName = 'GGetMeVars';
 
   @override
-  Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetMeVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  Iterable<Object?> serialize(Serializers serializers, GGetMeVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     return <Object?>[];
   }
 
   @override
-  GGetMeVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+  GGetMeVars deserialize(Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     return GGetMeVarsBuilder().build();
   }
 }

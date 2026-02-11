@@ -12,14 +12,14 @@ String _$accountNotifierHash() => r'4d731ea947de2ca72bd9596011e9f7c792f0a71f';
 @ProviderFor(AccountNotifier)
 final accountNotifierProvider =
     AutoDisposeAsyncNotifierProvider<AccountNotifier, UserProfile>.internal(
-      AccountNotifier.new,
-      name: r'accountNotifierProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$accountNotifierHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  AccountNotifier.new,
+  name: r'accountNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$accountNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 typedef _$AccountNotifier = AutoDisposeAsyncNotifier<UserProfile>;
 // ignore_for_file: type=lint

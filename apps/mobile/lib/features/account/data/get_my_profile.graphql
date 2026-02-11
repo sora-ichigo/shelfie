@@ -7,6 +7,10 @@ query GetMyProfile {
       avatarUrl
       createdAt
       bookCount
+      readingCount
+      backlogCount
+      completedCount
+      interestedCount
     }
     ... on AuthErrorResult {
       code

@@ -14,40 +14,36 @@ class _$GGetUploadCredentialsVarsSerializer
   @override
   final Iterable<Type> types = const [
     GGetUploadCredentialsVars,
-    _$GGetUploadCredentialsVars,
+    _$GGetUploadCredentialsVars
   ];
   @override
   final String wireName = 'GGetUploadCredentialsVars';
 
   @override
   Iterable<Object?> serialize(
-    Serializers serializers,
-    GGetUploadCredentialsVars object, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, GGetUploadCredentialsVars object,
+      {FullType specifiedType = FullType.unspecified}) {
     return <Object?>[];
   }
 
   @override
   GGetUploadCredentialsVars deserialize(
-    Serializers serializers,
-    Iterable<Object?> serialized, {
-    FullType specifiedType = FullType.unspecified,
-  }) {
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
     return GGetUploadCredentialsVarsBuilder().build();
   }
 }
 
 class _$GGetUploadCredentialsVars extends GGetUploadCredentialsVars {
-  factory _$GGetUploadCredentialsVars([
-    void Function(GGetUploadCredentialsVarsBuilder)? updates,
-  ]) => (GGetUploadCredentialsVarsBuilder()..update(updates))._build();
+  factory _$GGetUploadCredentialsVars(
+          [void Function(GGetUploadCredentialsVarsBuilder)? updates]) =>
+      (GGetUploadCredentialsVarsBuilder()..update(updates))._build();
 
   _$GGetUploadCredentialsVars._() : super._();
   @override
   GGetUploadCredentialsVars rebuild(
-    void Function(GGetUploadCredentialsVarsBuilder) updates,
-  ) => (toBuilder()..update(updates)).build();
+          void Function(GGetUploadCredentialsVarsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
 
   @override
   GGetUploadCredentialsVarsBuilder toBuilder() =>

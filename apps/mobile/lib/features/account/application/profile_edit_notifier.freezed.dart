@@ -12,8 +12,7 @@ part of 'profile_edit_notifier.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ProfileEditState {
@@ -24,7 +23,8 @@ mixin _$ProfileEditState {
     required TResult Function(double progress) uploading,
     required TResult Function(UserProfile profile) success,
     required TResult Function(String message, String? field) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
@@ -32,7 +32,8 @@ mixin _$ProfileEditState {
     TResult? Function(double progress)? uploading,
     TResult? Function(UserProfile profile)? success,
     TResult? Function(String message, String? field)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -41,7 +42,8 @@ mixin _$ProfileEditState {
     TResult Function(UserProfile profile)? success,
     TResult Function(String message, String? field)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ProfileEditStateInitial value) initial,
@@ -49,7 +51,8 @@ mixin _$ProfileEditState {
     required TResult Function(ProfileEditStateUploading value) uploading,
     required TResult Function(ProfileEditStateSuccess value) success,
     required TResult Function(ProfileEditStateError value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProfileEditStateInitial value)? initial,
@@ -57,7 +60,8 @@ mixin _$ProfileEditState {
     TResult? Function(ProfileEditStateUploading value)? uploading,
     TResult? Function(ProfileEditStateSuccess value)? success,
     TResult? Function(ProfileEditStateError value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ProfileEditStateInitial value)? initial,
@@ -66,15 +70,15 @@ mixin _$ProfileEditState {
     TResult Function(ProfileEditStateSuccess value)? success,
     TResult Function(ProfileEditStateError value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $ProfileEditStateCopyWith<$Res> {
   factory $ProfileEditStateCopyWith(
-    ProfileEditState value,
-    $Res Function(ProfileEditState) then,
-  ) = _$ProfileEditStateCopyWithImpl<$Res, ProfileEditState>;
+          ProfileEditState value, $Res Function(ProfileEditState) then) =
+      _$ProfileEditStateCopyWithImpl<$Res, ProfileEditState>;
 }
 
 /// @nodoc
@@ -94,9 +98,9 @@ class _$ProfileEditStateCopyWithImpl<$Res, $Val extends ProfileEditState>
 /// @nodoc
 abstract class _$$ProfileEditStateInitialImplCopyWith<$Res> {
   factory _$$ProfileEditStateInitialImplCopyWith(
-    _$ProfileEditStateInitialImpl value,
-    $Res Function(_$ProfileEditStateInitialImpl) then,
-  ) = __$$ProfileEditStateInitialImplCopyWithImpl<$Res>;
+          _$ProfileEditStateInitialImpl value,
+          $Res Function(_$ProfileEditStateInitialImpl) then) =
+      __$$ProfileEditStateInitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -104,9 +108,9 @@ class __$$ProfileEditStateInitialImplCopyWithImpl<$Res>
     extends _$ProfileEditStateCopyWithImpl<$Res, _$ProfileEditStateInitialImpl>
     implements _$$ProfileEditStateInitialImplCopyWith<$Res> {
   __$$ProfileEditStateInitialImplCopyWithImpl(
-    _$ProfileEditStateInitialImpl _value,
-    $Res Function(_$ProfileEditStateInitialImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileEditStateInitialImpl _value,
+      $Res Function(_$ProfileEditStateInitialImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -220,9 +224,9 @@ abstract class ProfileEditStateInitial implements ProfileEditState {
 /// @nodoc
 abstract class _$$ProfileEditStateLoadingImplCopyWith<$Res> {
   factory _$$ProfileEditStateLoadingImplCopyWith(
-    _$ProfileEditStateLoadingImpl value,
-    $Res Function(_$ProfileEditStateLoadingImpl) then,
-  ) = __$$ProfileEditStateLoadingImplCopyWithImpl<$Res>;
+          _$ProfileEditStateLoadingImpl value,
+          $Res Function(_$ProfileEditStateLoadingImpl) then) =
+      __$$ProfileEditStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -230,9 +234,9 @@ class __$$ProfileEditStateLoadingImplCopyWithImpl<$Res>
     extends _$ProfileEditStateCopyWithImpl<$Res, _$ProfileEditStateLoadingImpl>
     implements _$$ProfileEditStateLoadingImplCopyWith<$Res> {
   __$$ProfileEditStateLoadingImplCopyWithImpl(
-    _$ProfileEditStateLoadingImpl _value,
-    $Res Function(_$ProfileEditStateLoadingImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileEditStateLoadingImpl _value,
+      $Res Function(_$ProfileEditStateLoadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -346,36 +350,36 @@ abstract class ProfileEditStateLoading implements ProfileEditState {
 /// @nodoc
 abstract class _$$ProfileEditStateUploadingImplCopyWith<$Res> {
   factory _$$ProfileEditStateUploadingImplCopyWith(
-    _$ProfileEditStateUploadingImpl value,
-    $Res Function(_$ProfileEditStateUploadingImpl) then,
-  ) = __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>;
+          _$ProfileEditStateUploadingImpl value,
+          $Res Function(_$ProfileEditStateUploadingImpl) then) =
+      __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>;
   @useResult
   $Res call({double progress});
 }
 
 /// @nodoc
 class __$$ProfileEditStateUploadingImplCopyWithImpl<$Res>
-    extends
-        _$ProfileEditStateCopyWithImpl<$Res, _$ProfileEditStateUploadingImpl>
+    extends _$ProfileEditStateCopyWithImpl<$Res,
+        _$ProfileEditStateUploadingImpl>
     implements _$$ProfileEditStateUploadingImplCopyWith<$Res> {
   __$$ProfileEditStateUploadingImplCopyWithImpl(
-    _$ProfileEditStateUploadingImpl _value,
-    $Res Function(_$ProfileEditStateUploadingImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileEditStateUploadingImpl _value,
+      $Res Function(_$ProfileEditStateUploadingImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileEditState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? progress = null}) {
-    return _then(
-      _$ProfileEditStateUploadingImpl(
-        progress: null == progress
-            ? _value.progress
-            : progress // ignore: cast_nullable_to_non_nullable
-                  as double,
-      ),
-    );
+  $Res call({
+    Object? progress = null,
+  }) {
+    return _then(_$ProfileEditStateUploadingImpl(
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 }
 
@@ -410,10 +414,8 @@ class _$ProfileEditStateUploadingImpl implements ProfileEditStateUploading {
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
-  get copyWith =>
-      __$$ProfileEditStateUploadingImplCopyWithImpl<
-        _$ProfileEditStateUploadingImpl
-      >(this, _$identity);
+      get copyWith => __$$ProfileEditStateUploadingImplCopyWithImpl<
+          _$ProfileEditStateUploadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -506,15 +508,15 @@ abstract class ProfileEditStateUploading implements ProfileEditState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProfileEditStateUploadingImplCopyWith<_$ProfileEditStateUploadingImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ProfileEditStateSuccessImplCopyWith<$Res> {
   factory _$$ProfileEditStateSuccessImplCopyWith(
-    _$ProfileEditStateSuccessImpl value,
-    $Res Function(_$ProfileEditStateSuccessImpl) then,
-  ) = __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>;
+          _$ProfileEditStateSuccessImpl value,
+          $Res Function(_$ProfileEditStateSuccessImpl) then) =
+      __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call({UserProfile profile});
 
@@ -526,23 +528,23 @@ class __$$ProfileEditStateSuccessImplCopyWithImpl<$Res>
     extends _$ProfileEditStateCopyWithImpl<$Res, _$ProfileEditStateSuccessImpl>
     implements _$$ProfileEditStateSuccessImplCopyWith<$Res> {
   __$$ProfileEditStateSuccessImplCopyWithImpl(
-    _$ProfileEditStateSuccessImpl _value,
-    $Res Function(_$ProfileEditStateSuccessImpl) _then,
-  ) : super(_value, _then);
+      _$ProfileEditStateSuccessImpl _value,
+      $Res Function(_$ProfileEditStateSuccessImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileEditState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? profile = null}) {
-    return _then(
-      _$ProfileEditStateSuccessImpl(
-        profile: null == profile
-            ? _value.profile
-            : profile // ignore: cast_nullable_to_non_nullable
-                  as UserProfile,
-      ),
-    );
+  $Res call({
+    Object? profile = null,
+  }) {
+    return _then(_$ProfileEditStateSuccessImpl(
+      profile: null == profile
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as UserProfile,
+    ));
   }
 
   /// Create a copy of ProfileEditState
@@ -586,10 +588,8 @@ class _$ProfileEditStateSuccessImpl implements ProfileEditStateSuccess {
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateSuccessImplCopyWith<_$ProfileEditStateSuccessImpl>
-  get copyWith =>
-      __$$ProfileEditStateSuccessImplCopyWithImpl<
-        _$ProfileEditStateSuccessImpl
-      >(this, _$identity);
+      get copyWith => __$$ProfileEditStateSuccessImplCopyWithImpl<
+          _$ProfileEditStateSuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -682,15 +682,15 @@ abstract class ProfileEditStateSuccess implements ProfileEditState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProfileEditStateSuccessImplCopyWith<_$ProfileEditStateSuccessImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$ProfileEditStateErrorImplCopyWith<$Res> {
   factory _$$ProfileEditStateErrorImplCopyWith(
-    _$ProfileEditStateErrorImpl value,
-    $Res Function(_$ProfileEditStateErrorImpl) then,
-  ) = __$$ProfileEditStateErrorImplCopyWithImpl<$Res>;
+          _$ProfileEditStateErrorImpl value,
+          $Res Function(_$ProfileEditStateErrorImpl) then) =
+      __$$ProfileEditStateErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message, String? field});
 }
@@ -699,28 +699,28 @@ abstract class _$$ProfileEditStateErrorImplCopyWith<$Res> {
 class __$$ProfileEditStateErrorImplCopyWithImpl<$Res>
     extends _$ProfileEditStateCopyWithImpl<$Res, _$ProfileEditStateErrorImpl>
     implements _$$ProfileEditStateErrorImplCopyWith<$Res> {
-  __$$ProfileEditStateErrorImplCopyWithImpl(
-    _$ProfileEditStateErrorImpl _value,
-    $Res Function(_$ProfileEditStateErrorImpl) _then,
-  ) : super(_value, _then);
+  __$$ProfileEditStateErrorImplCopyWithImpl(_$ProfileEditStateErrorImpl _value,
+      $Res Function(_$ProfileEditStateErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ProfileEditState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null, Object? field = freezed}) {
-    return _then(
-      _$ProfileEditStateErrorImpl(
-        message: null == message
-            ? _value.message
-            : message // ignore: cast_nullable_to_non_nullable
-                  as String,
-        field: freezed == field
-            ? _value.field
-            : field // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+  $Res call({
+    Object? message = null,
+    Object? field = freezed,
+  }) {
+    return _then(_$ProfileEditStateErrorImpl(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      field: freezed == field
+          ? _value.field
+          : field // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
@@ -757,11 +757,8 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileEditStateErrorImplCopyWith<_$ProfileEditStateErrorImpl>
-  get copyWith =>
-      __$$ProfileEditStateErrorImplCopyWithImpl<_$ProfileEditStateErrorImpl>(
-        this,
-        _$identity,
-      );
+      get copyWith => __$$ProfileEditStateErrorImplCopyWithImpl<
+          _$ProfileEditStateErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -845,10 +842,9 @@ class _$ProfileEditStateErrorImpl implements ProfileEditStateError {
 }
 
 abstract class ProfileEditStateError implements ProfileEditState {
-  const factory ProfileEditStateError({
-    required final String message,
-    final String? field,
-  }) = _$ProfileEditStateErrorImpl;
+  const factory ProfileEditStateError(
+      {required final String message,
+      final String? field}) = _$ProfileEditStateErrorImpl;
 
   String get message;
   String? get field;
@@ -857,5 +853,5 @@ abstract class ProfileEditStateError implements ProfileEditState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProfileEditStateErrorImplCopyWith<_$ProfileEditStateErrorImpl>
-  get copyWith => throw _privateConstructorUsedError;
+      get copyWith => throw _privateConstructorUsedError;
 }

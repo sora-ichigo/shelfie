@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import type { NewUserBook, UserBook } from "../../../db/schema/books.js";
-import { createBookShelfRepository } from "./book-shelf-repository.js";
+import {
+  type StatusCounts,
+  createBookShelfRepository,
+} from "./book-shelf-repository.js";
 
 function createMockDb() {
   const mockResults: unknown[] = [];
@@ -8,11 +11,20 @@ function createMockDb() {
   const returningFn = vi
     .fn()
     .mockImplementation(() => Promise.resolve(mockResults));
+  const groupByFn = vi
+    .fn()
+    .mockImplementation(() => Promise.resolve(mockResults));
   const whereFn = vi.fn().mockImplementation(() => {
     const chainAfterWhere = Promise.resolve(mockResults);
     (
-      chainAfterWhere as unknown as { returning: typeof returningFn }
+      chainAfterWhere as unknown as {
+        returning: typeof returningFn;
+        groupBy: typeof groupByFn;
+      }
     ).returning = returningFn;
+    (
+      chainAfterWhere as unknown as { groupBy: typeof groupByFn }
+    ).groupBy = groupByFn;
     return chainAfterWhere;
   });
   const setFn = vi
@@ -29,6 +41,7 @@ function createMockDb() {
     returning: returningFn,
     update: updateFn,
     set: setFn,
+    groupBy: groupByFn,
   };
 
   return {
@@ -54,6 +67,7 @@ describe("BookShelfRepository", () => {
       expect(typeof repository.createUserBook).toBe("function");
       expect(typeof repository.getUserBooks).toBe("function");
       expect(typeof repository.countUserBooks).toBe("function");
+      expect(typeof repository.countUserBooksByStatus).toBe("function");
     });
   });
 
@@ -396,6 +410,57 @@ describe("BookShelfRepository", () => {
     });
   });
 
+  describe("countUserBooksByStatus", () => {
+    it("should return counts for each status", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([
+        { readingStatus: "reading", count: 3 },
+        { readingStatus: "backlog", count: 5 },
+        { readingStatus: "completed", count: 10 },
+        { readingStatus: "interested", count: 2 },
+      ]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result: StatusCounts =
+        await repository.countUserBooksByStatus(100);
+
+      expect(result.readingCount).toBe(3);
+      expect(result.backlogCount).toBe(5);
+      expect(result.completedCount).toBe(10);
+      expect(result.interestedCount).toBe(2);
+    });
+
+    it("should return 0 for all statuses when user has no books", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result: StatusCounts =
+        await repository.countUserBooksByStatus(999);
+
+      expect(result.readingCount).toBe(0);
+      expect(result.backlogCount).toBe(0);
+      expect(result.completedCount).toBe(0);
+      expect(result.interestedCount).toBe(0);
+    });
+
+    it("should return 0 for statuses with no books", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([
+        { readingStatus: "completed", count: 7 },
+      ]);
+
+      const repository = createBookShelfRepository(mockDb.query as never);
+      const result: StatusCounts =
+        await repository.countUserBooksByStatus(100);
+
+      expect(result.readingCount).toBe(0);
+      expect(result.backlogCount).toBe(0);
+      expect(result.completedCount).toBe(7);
+      expect(result.interestedCount).toBe(0);
+    });
+  });
+
   describe("types", () => {
     it("should use NewUserBook type for create input", () => {
       const newUserBook: NewUserBook = {
@@ -436,6 +501,20 @@ describe("BookShelfRepository", () => {
       expect(userBook.userId).toBe(100);
       expect(userBook.externalId).toBe("test-external-id");
       expect(userBook.addedAt).toBeInstanceOf(Date);
+    });
+
+    it("should define StatusCounts type with all status fields", () => {
+      const counts: StatusCounts = {
+        readingCount: 1,
+        backlogCount: 2,
+        completedCount: 3,
+        interestedCount: 4,
+      };
+
+      expect(counts.readingCount).toBe(1);
+      expect(counts.backlogCount).toBe(2);
+      expect(counts.completedCount).toBe(3);
+      expect(counts.interestedCount).toBe(4);
     });
   });
 });

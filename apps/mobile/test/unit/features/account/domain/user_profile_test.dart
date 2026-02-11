@@ -12,6 +12,10 @@ void main() {
         avatarUrl: 'https://example.com/avatar.jpg',
         username: 'testuser',
         bookCount: 42,
+        readingCount: 3,
+        backlogCount: 5,
+        completedCount: 6,
+        interestedCount: 1,
         readingStartYear: 2020,
         readingStartMonth: 1,
         createdAt: createdAt,
@@ -23,6 +27,10 @@ void main() {
       expect(profile.avatarUrl, equals('https://example.com/avatar.jpg'));
       expect(profile.username, equals('testuser'));
       expect(profile.bookCount, equals(42));
+      expect(profile.readingCount, equals(3));
+      expect(profile.backlogCount, equals(5));
+      expect(profile.completedCount, equals(6));
+      expect(profile.interestedCount, equals(1));
       expect(profile.readingStartYear, equals(2020));
       expect(profile.createdAt, equals(createdAt));
     });
@@ -35,6 +43,10 @@ void main() {
         avatarUrl: null,
         username: null,
         bookCount: 0,
+        readingCount: 0,
+        backlogCount: 0,
+        completedCount: 0,
+        interestedCount: 0,
         readingStartYear: null,
         readingStartMonth: null,
         createdAt: DateTime(2024, 1, 1),
@@ -54,6 +66,10 @@ void main() {
         avatarUrl: null,
         username: 'olduser',
         bookCount: 10,
+        readingCount: 2,
+        backlogCount: 3,
+        completedCount: 4,
+        interestedCount: 1,
         readingStartYear: 2020,
         readingStartMonth: 1,
         createdAt: DateTime(2024, 1, 1),
@@ -70,6 +86,10 @@ void main() {
       expect(updated.avatarUrl, equals('https://example.com/new-avatar.jpg'));
       expect(updated.username, equals(original.username));
       expect(updated.bookCount, equals(original.bookCount));
+      expect(updated.readingCount, equals(original.readingCount));
+      expect(updated.backlogCount, equals(original.backlogCount));
+      expect(updated.completedCount, equals(original.completedCount));
+      expect(updated.interestedCount, equals(original.interestedCount));
     });
 
     test('同じ値を持つインスタンスは等価である', () {
@@ -81,6 +101,10 @@ void main() {
         avatarUrl: null,
         username: 'testuser',
         bookCount: 5,
+        readingCount: 1,
+        backlogCount: 2,
+        completedCount: 1,
+        interestedCount: 1,
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
@@ -92,6 +116,10 @@ void main() {
         avatarUrl: null,
         username: 'testuser',
         bookCount: 5,
+        readingCount: 1,
+        backlogCount: 2,
+        completedCount: 1,
+        interestedCount: 1,
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
@@ -110,6 +138,10 @@ void main() {
         avatarUrl: null,
         username: 'usera',
         bookCount: 5,
+        readingCount: 1,
+        backlogCount: 2,
+        completedCount: 1,
+        interestedCount: 1,
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
@@ -121,12 +153,30 @@ void main() {
         avatarUrl: null,
         username: 'userb',
         bookCount: 5,
+        readingCount: 1,
+        backlogCount: 2,
+        completedCount: 1,
+        interestedCount: 1,
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
       );
 
       expect(profile1, isNot(equals(profile2)));
+    });
+
+    test('guest() ファクトリは全カウントを 0 で初期化する', () {
+      final guest = UserProfile.guest();
+
+      expect(guest.id, equals(0));
+      expect(guest.bookCount, equals(0));
+      expect(guest.readingCount, equals(0));
+      expect(guest.backlogCount, equals(0));
+      expect(guest.completedCount, equals(0));
+      expect(guest.interestedCount, equals(0));
+      expect(guest.name, isNull);
+      expect(guest.avatarUrl, isNull);
+      expect(guest.username, isNull);
     });
   });
 }
