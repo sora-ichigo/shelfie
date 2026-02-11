@@ -120,18 +120,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         controller: _scrollController,
         slivers: [
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                ProfileHeader(
-                  profile: profile,
-                  onEditProfile: () => context.push(AppRoutes.accountEdit),
-                  onShareProfile: () {},
-                ),
-                ProfileTabBar(
-                  selectedTab: _selectedTab,
-                  onTabChanged: (tab) => setState(() => _selectedTab = tab),
-                ),
-              ],
+            child: ProfileHeader(
+              profile: profile,
+              onEditProfile: () => context.push(AppRoutes.accountEdit),
+              onShareProfile: () {},
+            ),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _TabBarDelegate(
+              child: ProfileTabBar(
+                selectedTab: _selectedTab,
+                onTabChanged: (tab) => setState(() => _selectedTab = tab),
+              ),
+              backgroundColor: theme.scaffoldBackgroundColor,
             ),
           ),
           if (_selectedTab == ProfileTab.bookShelf)
@@ -244,6 +246,33 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       shelfEntry: shelfEntry,
     );
   }
+}
+
+class _TabBarDelegate extends SliverPersistentHeaderDelegate {
+  _TabBarDelegate({required this.child, required this.backgroundColor});
+
+  final Widget child;
+  final Color backgroundColor;
+
+  @override
+  double get minExtent => 56;
+
+  @override
+  double get maxExtent => 56;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(color: backgroundColor, child: child);
+  }
+
+  @override
+  bool shouldRebuild(_TabBarDelegate oldDelegate) =>
+      child != oldDelegate.child ||
+      backgroundColor != oldDelegate.backgroundColor;
 }
 
 class _FilterBarDelegate extends SliverPersistentHeaderDelegate {
