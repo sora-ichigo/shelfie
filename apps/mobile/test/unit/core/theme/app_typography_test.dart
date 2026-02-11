@@ -5,6 +5,12 @@ import 'package:shelfie/core/theme/app_typography.dart';
 void main() {
   group('AppTypography', () {
     group('定数定義', () {
+      test('ディスプレイスタイルが定義されている', () {
+        expect(AppTypography.displayLarge, isA<TextStyle>());
+        expect(AppTypography.displayMedium, isA<TextStyle>());
+        expect(AppTypography.displaySmall, isA<TextStyle>());
+      });
+
       test('ヘッドラインスタイルが定義されている', () {
         expect(AppTypography.headlineLarge, isA<TextStyle>());
         expect(AppTypography.headlineMedium, isA<TextStyle>());
@@ -31,6 +37,13 @@ void main() {
     });
 
     group('フォントサイズ階層', () {
+      test('ディスプレイはヘッドラインより大きい', () {
+        expect(
+          AppTypography.displayLarge.fontSize,
+          greaterThan(AppTypography.headlineLarge.fontSize!),
+        );
+      });
+
       test('ヘッドラインはタイトルより大きい', () {
         expect(
           AppTypography.headlineLarge.fontSize,
@@ -62,7 +75,7 @@ void main() {
         final textTheme = AppTypography.textTheme;
 
         expect(textTheme, isA<TextTheme>());
-        expect(textTheme.headlineLarge, isNotNull);
+        expect(textTheme.displayLarge, isNotNull);
         expect(textTheme.bodyMedium, isNotNull);
         expect(textTheme.labelSmall, isNotNull);
       });
@@ -70,7 +83,7 @@ void main() {
       test('textTheme の各スタイルが定数と一致する', () {
         final textTheme = AppTypography.textTheme;
 
-        expect(textTheme.headlineLarge, equals(AppTypography.headlineLarge));
+        expect(textTheme.displayLarge, equals(AppTypography.displayLarge));
         expect(textTheme.bodyMedium, equals(AppTypography.bodyMedium));
         expect(textTheme.labelSmall, equals(AppTypography.labelSmall));
       });
