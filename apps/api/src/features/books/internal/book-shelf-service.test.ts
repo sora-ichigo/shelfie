@@ -80,6 +80,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -153,6 +155,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookByExternalId.mockResolvedValue(
@@ -259,6 +263,8 @@ describe("BookShelfService", () => {
         completedAt: new Date(),
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -314,6 +320,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -365,6 +373,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -419,6 +429,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -505,6 +517,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -560,6 +574,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockCreateUserBook.mockResolvedValue(createdUserBook);
@@ -611,6 +627,8 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
         },
         {
@@ -630,6 +648,8 @@ describe("BookShelfService", () => {
           completedAt: new Date(),
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
         },
       ];
@@ -676,6 +696,8 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
         },
       ];
@@ -977,6 +999,8 @@ describe("BookShelfService", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
         },
         {
@@ -996,6 +1020,8 @@ describe("BookShelfService", () => {
           completedAt: new Date(),
           note: "Great book!",
           noteUpdatedAt: new Date(),
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
         },
       ];
@@ -1080,6 +1106,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1131,6 +1159,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1187,6 +1217,8 @@ describe("BookShelfService", () => {
         completedAt: existingCompletedAt,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1242,6 +1274,8 @@ describe("BookShelfService", () => {
         completedAt: existingCompletedAt,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1316,6 +1350,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1356,6 +1392,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1418,6 +1456,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1472,6 +1512,8 @@ describe("BookShelfService", () => {
         completedAt: new Date(),
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1518,6 +1560,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1564,6 +1608,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1619,6 +1665,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: "Old note",
         noteUpdatedAt: new Date(),
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1694,6 +1742,8 @@ describe("BookShelfService", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
       };
       mockRepository.mockFindUserBookById.mockResolvedValue(existingUserBook);
@@ -1755,6 +1805,8 @@ describe("BookShelfService", () => {
       note: null,
       noteUpdatedAt: null,
       rating: 3,
+      thoughts: null,
+      thoughtsUpdatedAt: null,
     };
 
     it("should update rating successfully", async () => {
@@ -1899,6 +1951,8 @@ describe("BookShelfService", () => {
       note: null,
       noteUpdatedAt: null,
       rating: null,
+      thoughts: null,
+      thoughtsUpdatedAt: null,
     };
 
     it("should update startedAt successfully", async () => {
@@ -2015,6 +2069,8 @@ describe("BookShelfService", () => {
       note: null,
       noteUpdatedAt: null,
       rating: null,
+      thoughts: null,
+      thoughtsUpdatedAt: null,
     };
 
     it("should update completedAt successfully", async () => {

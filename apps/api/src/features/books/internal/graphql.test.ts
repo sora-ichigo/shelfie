@@ -35,6 +35,7 @@ function createMockShelfService(): BookShelfService {
     updateRating: vi.fn(),
     updateStartedAt: vi.fn(),
     updateCompletedAt: vi.fn(),
+    updateThoughts: vi.fn(),
     removeFromShelf: vi.fn(),
   };
 }
@@ -201,6 +202,12 @@ describe("BooksGraphQL Types", () => {
 
       expect(fields.noteUpdatedAt).toBeDefined();
       expect(fields.noteUpdatedAt.type.toString()).toBe("DateTime");
+
+      expect(fields.thoughts).toBeDefined();
+      expect(fields.thoughts.type.toString()).toBe("String");
+
+      expect(fields.thoughtsUpdatedAt).toBeDefined();
+      expect(fields.thoughtsUpdatedAt.type.toString()).toBe("DateTime");
     });
   });
 
@@ -1075,6 +1082,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -1284,6 +1293,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -1458,6 +1469,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -1727,6 +1740,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -1961,6 +1976,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: "Great book!",
         noteUpdatedAt: new Date(),
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -2045,6 +2062,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: "",
         noteUpdatedAt: new Date(),
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -2277,6 +2296,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt: null,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -2402,6 +2423,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
         completedAt,
         note: null,
         noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         rating: null,
         source: "rakuten" as const,
       };
@@ -2530,6 +2553,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
           source: "rakuten" as const,
         },
@@ -2847,6 +2872,8 @@ describe("BooksGraphQL Resolver Behavior", () => {
           completedAt: null,
           note: null,
           noteUpdatedAt: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           rating: null,
           source: "rakuten" as const,
         },
