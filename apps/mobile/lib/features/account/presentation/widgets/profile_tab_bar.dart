@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 
-enum ProfileTab {
-  bookShelf,
-  bookList,
-}
+enum ProfileTab { bookShelf, bookList }
 
 extension ProfileTabX on ProfileTab {
   String get label {
@@ -17,7 +14,7 @@ extension ProfileTabX on ProfileTab {
   IconData get icon {
     return switch (this) {
       ProfileTab.bookShelf => Icons.grid_view_rounded,
-      ProfileTab.bookList => Icons.list_rounded,
+      ProfileTab.bookList => Icons.library_books_rounded,
     };
   }
 }
@@ -34,16 +31,26 @@ class ProfileTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: ProfileTab.values.map((tab) {
-        return Expanded(
-          child: _TabButton(
-            tab: tab,
-            isSelected: tab == selectedTab,
-            onTap: () => onTabChanged(tab),
-          ),
-        );
-      }).toList(),
+    final appColors = Theme.of(context).extension<AppColors>()!;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: appColors.border, width: 0.5)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Row(
+          children: ProfileTab.values.map((tab) {
+            return Expanded(
+              child: _TabButton(
+                tab: tab,
+                isSelected: tab == selectedTab,
+                onTap: () => onTabChanged(tab),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }
@@ -72,19 +79,15 @@ class _TabButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(tab.icon, size: 20, color: color),
-                const SizedBox(width: 6),
+                Icon(tab.icon, size: 16, color: color),
+                const SizedBox(height: 2),
                 Text(
                   tab.label,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
-                    color: color,
-                  ),
+                  style: theme.textTheme.labelMedium?.copyWith(color: color),
                 ),
               ],
             ),
@@ -92,7 +95,11 @@ class _TabButton extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             height: 2,
-            color: isSelected ? appColors.primary : Colors.transparent,
+            width: 32,
+            decoration: BoxDecoration(
+              color: isSelected ? appColors.textPrimary : Colors.transparent,
+              borderRadius: BorderRadius.circular(1),
+            ),
           ),
         ],
       ),
