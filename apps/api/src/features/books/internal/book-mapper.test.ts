@@ -477,6 +477,23 @@ describe("BookMapper", () => {
       expect(book.coverImageUrl).toBe("https://example.com/small.jpg?zoom=2");
     });
 
+    it("HTTP の thumbnail URL を HTTPS に変換する", () => {
+      const volume = createGoogleBooksVolume({
+        volumeInfo: {
+          imageLinks: {
+            thumbnail:
+              "http://books.google.com/books/content?id=abc&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+          },
+        },
+      });
+
+      const book = mapGoogleBooksVolume(volume);
+
+      expect(book.coverImageUrl).toBe(
+        "https://books.google.com/books/content?id=abc&printsec=frontcover&img=1&zoom=2&source=gbs_api",
+      );
+    });
+
     it("imageLinks がない場合は coverImageUrl が null を返す", () => {
       const volume = createGoogleBooksVolume({
         volumeInfo: {
@@ -572,7 +589,7 @@ describe("BookMapper", () => {
       expect(result).toBeNull();
     });
 
-    it("fetch がエラーの場合は元の URL を返す", async () => {
+    it("fetch がエラーの場合は zoom=1 にフォールバックする", async () => {
       vi.spyOn(globalThis, "fetch").mockRejectedValueOnce(
         new Error("Network error"),
       );
@@ -585,7 +602,9 @@ describe("BookMapper", () => {
         testPlaceholders,
       );
 
-      expect(result).toBe(url);
+      expect(result).toBe(
+        "https://books.google.com/books/content?id=abc&zoom=1&source=gbs_api",
+      );
     });
 
     it("zoom パラメータがない URL はバリデーションせずそのまま返す", async () => {
