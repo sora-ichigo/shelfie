@@ -67,12 +67,10 @@ class _Chip extends StatelessWidget {
           color: isSelected ? appColors.primary : appColors.surface,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: isSelected ? Colors.white : appColors.textSecondary,
-            ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: isSelected ? Colors.white : appColors.textSecondary,
           ),
         ),
       ),

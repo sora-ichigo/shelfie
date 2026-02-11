@@ -147,35 +147,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     return [
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.xxs,
-            horizontal: AppSpacing.md,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: ReadingStatusChips(
-                  selectedFilter: booksState.selectedFilter,
-                  onFilterChanged: (filter) {
-                    ref
-                        .read(profileBooksNotifierProvider.notifier)
-                        .setFilter(filter);
+      SliverPersistentHeader(
+        pinned: true,
+        delegate: _FilterBarDelegate(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.md,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ReadingStatusChips(
+                    selectedFilter: booksState.selectedFilter,
+                    onFilterChanged: (filter) {
+                      ref
+                          .read(profileBooksNotifierProvider.notifier)
+                          .setFilter(filter);
+                    },
+                  ),
+                ),
+                SearchFilterBar(
+                  sortOption: ref.watch(sortOptionNotifierProvider),
+                  onSortChanged: (option) async {
+                    await ref
+                        .read(sortOptionNotifierProvider.notifier)
+                        .update(option);
+                    ref.invalidate(profileBooksNotifierProvider);
                   },
                 ),
-              ),
-              SearchFilterBar(
-                sortOption: ref.watch(sortOptionNotifierProvider),
-                onSortChanged: (option) async {
-                  await ref
-                      .read(sortOptionNotifierProvider.notifier)
-                      .update(option);
-                  ref.invalidate(profileBooksNotifierProvider);
-                },
-              ),
-            ],
+              ],
+            ),
           ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         ),
       ),
       if (booksState.isLoading)
@@ -240,6 +244,33 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       shelfEntry: shelfEntry,
     );
   }
+}
+
+class _FilterBarDelegate extends SliverPersistentHeaderDelegate {
+  _FilterBarDelegate({required this.child, required this.backgroundColor});
+
+  final Widget child;
+  final Color backgroundColor;
+
+  @override
+  double get minExtent => 48;
+
+  @override
+  double get maxExtent => 48;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(color: backgroundColor, child: Align(child: child));
+  }
+
+  @override
+  bool shouldRebuild(_FilterBarDelegate oldDelegate) =>
+      child != oldDelegate.child ||
+      backgroundColor != oldDelegate.backgroundColor;
 }
 
 class _BookListTab extends StatelessWidget {
