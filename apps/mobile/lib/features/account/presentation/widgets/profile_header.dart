@@ -120,60 +120,84 @@ class ProfileHeader extends StatelessWidget {
               ),
             ),
           ],
-          Row(
-            children: [
-              _StatItem(
-                count: '${profile.bookCount}',
-                label: '冊登録',
-                theme: theme,
-              ),
-              const SizedBox(width: AppSpacing.md),
-              _StatItem(
-                count: '0',
-                label: 'フォロー中',
-                theme: theme,
-                appColors: appColors,
-              ),
-              const SizedBox(width: AppSpacing.md),
-              _StatItem(
-                count: '0',
-                label: 'フォロワー',
-                theme: theme,
-                appColors: appColors,
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                _StatItem(
+                  count: '${profile.bookCount}',
+                  label: '冊登録',
+                  theme: theme,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                _StatItem(
+                  count: '0',
+                  label: 'フォロー中',
+                  theme: theme,
+                  appColors: appColors,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                _StatItem(
+                  count: '0',
+                  label: 'フォロワー',
+                  theme: theme,
+                  appColors: appColors,
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onEditProfile,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: appColors.border),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: onEditProfile,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: appColors.surfaceElevated,
+                      foregroundColor: appColors.textPrimary,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'プロフィールを編集',
+                      style: theme.textTheme.labelMedium,
                     ),
                   ),
-                  child: const Text('プロフィールを編集'),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.xs),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onShareProfile,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: appColors.border),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                const SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: onShareProfile,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: appColors.surfaceElevated,
+                      foregroundColor: appColors.textPrimary,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'プロフィールをシェア',
+                      style: theme.textTheme.labelMedium,
                     ),
                   ),
-                  child: const Text('プロフィールをシェア'),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: AppSpacing.xs),
         ],
       ),
     );
@@ -198,16 +222,10 @@ class _StatItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          count,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(width: AppSpacing.xxs),
+        Text("${count} ", style: theme.textTheme.labelMedium),
         Text(
           label,
-          style: theme.textTheme.bodySmall?.copyWith(
+          style: theme.textTheme.labelSmall?.copyWith(
             color: appColors?.textSecondary,
           ),
         ),
