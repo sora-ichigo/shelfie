@@ -9,49 +9,48 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
     as _i2;
 import 'package:shelfie/core/graphql/__generated__/serializers.gql.dart' as _i1;
 
-part 'update_started_at.data.gql.g.dart';
+part 'update_thoughts.data.gql.g.dart';
 
-abstract class GUpdateStartedAtData
-    implements Built<GUpdateStartedAtData, GUpdateStartedAtDataBuilder> {
-  GUpdateStartedAtData._();
+abstract class GUpdateThoughtsData
+    implements Built<GUpdateThoughtsData, GUpdateThoughtsDataBuilder> {
+  GUpdateThoughtsData._();
 
-  factory GUpdateStartedAtData(
-          [void Function(GUpdateStartedAtDataBuilder b) updates]) =
-      _$GUpdateStartedAtData;
+  factory GUpdateThoughtsData(
+          [void Function(GUpdateThoughtsDataBuilder b) updates]) =
+      _$GUpdateThoughtsData;
 
-  static void _initializeBuilder(GUpdateStartedAtDataBuilder b) =>
+  static void _initializeBuilder(GUpdateThoughtsDataBuilder b) =>
       b..G__typename = 'Mutation';
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GUpdateStartedAtData_updateStartedAt get updateStartedAt;
-  static Serializer<GUpdateStartedAtData> get serializer =>
-      _$gUpdateStartedAtDataSerializer;
+  GUpdateThoughtsData_updateThoughts get updateThoughts;
+  static Serializer<GUpdateThoughtsData> get serializer =>
+      _$gUpdateThoughtsDataSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GUpdateStartedAtData.serializer,
+        GUpdateThoughtsData.serializer,
         this,
       ) as Map<String, dynamic>);
 
-  static GUpdateStartedAtData? fromJson(Map<String, dynamic> json) =>
+  static GUpdateThoughtsData? fromJson(Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
-        GUpdateStartedAtData.serializer,
+        GUpdateThoughtsData.serializer,
         json,
       );
 }
 
-abstract class GUpdateStartedAtData_updateStartedAt
+abstract class GUpdateThoughtsData_updateThoughts
     implements
-        Built<GUpdateStartedAtData_updateStartedAt,
-            GUpdateStartedAtData_updateStartedAtBuilder> {
-  GUpdateStartedAtData_updateStartedAt._();
+        Built<GUpdateThoughtsData_updateThoughts,
+            GUpdateThoughtsData_updateThoughtsBuilder> {
+  GUpdateThoughtsData_updateThoughts._();
 
-  factory GUpdateStartedAtData_updateStartedAt(
-      [void Function(GUpdateStartedAtData_updateStartedAtBuilder b)
-          updates]) = _$GUpdateStartedAtData_updateStartedAt;
+  factory GUpdateThoughtsData_updateThoughts(
+      [void Function(GUpdateThoughtsData_updateThoughtsBuilder b)
+          updates]) = _$GUpdateThoughtsData_updateThoughts;
 
-  static void _initializeBuilder(
-          GUpdateStartedAtData_updateStartedAtBuilder b) =>
+  static void _initializeBuilder(GUpdateThoughtsData_updateThoughtsBuilder b) =>
       b..G__typename = 'UserBook';
 
   @BuiltValueField(wireName: '__typename')
@@ -73,18 +72,18 @@ abstract class GUpdateStartedAtData_updateStartedAt
   int? get rating;
   String? get thoughts;
   DateTime? get thoughtsUpdatedAt;
-  static Serializer<GUpdateStartedAtData_updateStartedAt> get serializer =>
-      _$gUpdateStartedAtDataUpdateStartedAtSerializer;
+  static Serializer<GUpdateThoughtsData_updateThoughts> get serializer =>
+      _$gUpdateThoughtsDataUpdateThoughtsSerializer;
 
   Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
-        GUpdateStartedAtData_updateStartedAt.serializer,
+        GUpdateThoughtsData_updateThoughts.serializer,
         this,
       ) as Map<String, dynamic>);
 
-  static GUpdateStartedAtData_updateStartedAt? fromJson(
+  static GUpdateThoughtsData_updateThoughts? fromJson(
           Map<String, dynamic> json) =>
       _i1.serializers.deserializeWith(
-        GUpdateStartedAtData_updateStartedAt.serializer,
+        GUpdateThoughtsData_updateThoughts.serializer,
         json,
       );
 }

@@ -15,5 +15,7 @@ mutation UpdateStartedAt($userBookId: Int!, $startedAt: DateTime!) {
     note
     noteUpdatedAt
     rating
+    thoughts
+    thoughtsUpdatedAt
   }
 }

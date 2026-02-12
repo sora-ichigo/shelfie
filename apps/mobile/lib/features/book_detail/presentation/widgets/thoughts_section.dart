@@ -3,18 +3,18 @@ import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 
-/// 読書メモセクション
+/// 感想セクション
 ///
-/// 読書メモの内容と最終更新日時を表示する。
-class ReadingNoteSection extends StatelessWidget {
-  const ReadingNoteSection({
+/// 感想の内容と最終更新日時を表示する。
+class ThoughtsSection extends StatelessWidget {
+  const ThoughtsSection({
     required this.shelfEntry,
-    required this.onNoteTap,
+    required this.onThoughtsTap,
     super.key,
   });
 
   final ShelfEntry shelfEntry;
-  final VoidCallback onNoteTap;
+  final VoidCallback onThoughtsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +25,16 @@ class ReadingNoteSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text('自分メモ', style: theme.textTheme.titleMedium),
+            Text('感想', style: theme.textTheme.titleMedium),
             const SizedBox(width: AppSpacing.xs),
             Icon(
-              Icons.lock,
+              Icons.public,
               size: 16,
               color: theme.extension<AppColors>()!.textSecondary,
             ),
             const SizedBox(width: 2),
             Text(
-              '自分のみ見ることができます',
+              'フォロワーに公開されます',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.extension<AppColors>()!.textSecondary,
               ),
@@ -42,11 +42,11 @@ class ReadingNoteSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.sm),
-        _buildNoteContent(context),
-        if (shelfEntry.noteUpdatedAt != null) ...[
+        _buildThoughtsContent(context),
+        if (shelfEntry.thoughtsUpdatedAt != null) ...[
           const SizedBox(height: AppSpacing.sm),
           Text(
-            '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
+            '最終更新: ${_formatDateTime(shelfEntry.thoughtsUpdatedAt!)}',
             style: theme.textTheme.labelSmall?.copyWith(
               color: theme.extension<AppColors>()!.textSecondary,
             ),
@@ -56,12 +56,12 @@ class ReadingNoteSection extends StatelessWidget {
     );
   }
 
-  Widget _buildNoteContent(BuildContext context) {
+  Widget _buildThoughtsContent(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
     return InkWell(
-      onTap: onNoteTap,
+      onTap: onThoughtsTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
         width: double.infinity,
@@ -75,9 +75,11 @@ class ReadingNoteSection extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                shelfEntry.hasNote ? shelfEntry.note! : '自分用のメモを書く...',
+                shelfEntry.hasThoughts ? shelfEntry.thoughts! : '読んだ感想を書く...',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: shelfEntry.hasNote ? null : appColors.textSecondary,
+                  color: shelfEntry.hasThoughts
+                      ? null
+                      : appColors.textSecondary,
                 ),
               ),
             ),

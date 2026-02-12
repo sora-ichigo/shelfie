@@ -183,6 +183,20 @@ class _$GMyShelfData_myShelf_itemsSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DateTime)));
     }
+    value = object.thoughts;
+    if (value != null) {
+      result
+        ..add('thoughts')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.thoughtsUpdatedAt;
+    if (value != null) {
+      result
+        ..add('thoughtsUpdatedAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     value = object.startedAt;
     if (value != null) {
       result
@@ -245,6 +259,14 @@ class _$GMyShelfData_myShelf_itemsSerializer
           break;
         case 'noteUpdatedAt':
           result.noteUpdatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime?;
+          break;
+        case 'thoughts':
+          result.thoughts = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'thoughtsUpdatedAt':
+          result.thoughtsUpdatedAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
           break;
         case 'addedAt':
@@ -535,6 +557,10 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
   @override
   final DateTime? noteUpdatedAt;
   @override
+  final String? thoughts;
+  @override
+  final DateTime? thoughtsUpdatedAt;
+  @override
   final DateTime addedAt;
   @override
   final DateTime? startedAt;
@@ -554,6 +580,8 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
       required this.readingStatus,
       this.note,
       this.noteUpdatedAt,
+      this.thoughts,
+      this.thoughtsUpdatedAt,
       required this.addedAt,
       this.startedAt,
       this.completedAt})
@@ -579,6 +607,8 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
         readingStatus == other.readingStatus &&
         note == other.note &&
         noteUpdatedAt == other.noteUpdatedAt &&
+        thoughts == other.thoughts &&
+        thoughtsUpdatedAt == other.thoughtsUpdatedAt &&
         addedAt == other.addedAt &&
         startedAt == other.startedAt &&
         completedAt == other.completedAt;
@@ -595,6 +625,8 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
     _$hash = $jc(_$hash, readingStatus.hashCode);
     _$hash = $jc(_$hash, note.hashCode);
     _$hash = $jc(_$hash, noteUpdatedAt.hashCode);
+    _$hash = $jc(_$hash, thoughts.hashCode);
+    _$hash = $jc(_$hash, thoughtsUpdatedAt.hashCode);
     _$hash = $jc(_$hash, addedAt.hashCode);
     _$hash = $jc(_$hash, startedAt.hashCode);
     _$hash = $jc(_$hash, completedAt.hashCode);
@@ -613,6 +645,8 @@ class _$GMyShelfData_myShelf_items extends GMyShelfData_myShelf_items {
           ..add('readingStatus', readingStatus)
           ..add('note', note)
           ..add('noteUpdatedAt', noteUpdatedAt)
+          ..add('thoughts', thoughts)
+          ..add('thoughtsUpdatedAt', thoughtsUpdatedAt)
           ..add('addedAt', addedAt)
           ..add('startedAt', startedAt)
           ..add('completedAt', completedAt))
@@ -659,6 +693,15 @@ class GMyShelfData_myShelf_itemsBuilder
   set noteUpdatedAt(DateTime? noteUpdatedAt) =>
       _$this._noteUpdatedAt = noteUpdatedAt;
 
+  String? _thoughts;
+  String? get thoughts => _$this._thoughts;
+  set thoughts(String? thoughts) => _$this._thoughts = thoughts;
+
+  DateTime? _thoughtsUpdatedAt;
+  DateTime? get thoughtsUpdatedAt => _$this._thoughtsUpdatedAt;
+  set thoughtsUpdatedAt(DateTime? thoughtsUpdatedAt) =>
+      _$this._thoughtsUpdatedAt = thoughtsUpdatedAt;
+
   DateTime? _addedAt;
   DateTime? get addedAt => _$this._addedAt;
   set addedAt(DateTime? addedAt) => _$this._addedAt = addedAt;
@@ -686,6 +729,8 @@ class GMyShelfData_myShelf_itemsBuilder
       _readingStatus = $v.readingStatus;
       _note = $v.note;
       _noteUpdatedAt = $v.noteUpdatedAt;
+      _thoughts = $v.thoughts;
+      _thoughtsUpdatedAt = $v.thoughtsUpdatedAt;
       _addedAt = $v.addedAt;
       _startedAt = $v.startedAt;
       _completedAt = $v.completedAt;
@@ -725,6 +770,8 @@ class GMyShelfData_myShelf_itemsBuilder
                 readingStatus, r'GMyShelfData_myShelf_items', 'readingStatus'),
             note: note,
             noteUpdatedAt: noteUpdatedAt,
+            thoughts: thoughts,
+            thoughtsUpdatedAt: thoughtsUpdatedAt,
             addedAt: BuiltValueNullFieldError.checkNotNull(
                 addedAt, r'GMyShelfData_myShelf_items', 'addedAt'),
             startedAt: startedAt,

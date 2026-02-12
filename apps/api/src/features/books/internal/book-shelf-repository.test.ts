@@ -99,6 +99,8 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       mockDb.setResults([mockUserBook]);
@@ -156,6 +158,8 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       mockDb.setResults([createdUserBook]);
@@ -189,6 +193,8 @@ describe("BookShelfRepository", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           source: "rakuten",
         },
         {
@@ -208,6 +214,8 @@ describe("BookShelfRepository", () => {
           note: null,
           noteUpdatedAt: null,
           rating: null,
+          thoughts: null,
+          thoughtsUpdatedAt: null,
           source: "rakuten",
         },
       ];
@@ -251,6 +259,8 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       mockDb.setResults([mockUserBook]);
@@ -292,6 +302,8 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       mockDb.setResults([updatedUserBook]);
@@ -327,6 +339,8 @@ describe("BookShelfRepository", () => {
         note: "Great book!",
         noteUpdatedAt,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       mockDb.setResults([updatedUserBook]);
@@ -429,6 +443,8 @@ describe("BookShelfRepository", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
 

@@ -8,6 +8,8 @@ query MyShelf {
       readingStatus
       note
       noteUpdatedAt
+      thoughts
+      thoughtsUpdatedAt
       addedAt
       startedAt
       completedAt

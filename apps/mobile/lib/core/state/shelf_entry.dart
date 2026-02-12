@@ -38,10 +38,19 @@ class ShelfEntry with _$ShelfEntry {
 
     /// 評価（1-5）
     int? rating,
+
+    /// 感想
+    String? thoughts,
+
+    /// 感想の最終更新日時
+    DateTime? thoughtsUpdatedAt,
   }) = _ShelfEntry;
 
   /// メモが存在するかどうか
   bool get hasNote => note != null && note!.trim().isNotEmpty;
+
+  /// 感想が存在するかどうか
+  bool get hasThoughts => thoughts != null && thoughts!.trim().isNotEmpty;
 
   /// 読了済みかどうか
   bool get isCompleted => readingStatus == ReadingStatus.completed;

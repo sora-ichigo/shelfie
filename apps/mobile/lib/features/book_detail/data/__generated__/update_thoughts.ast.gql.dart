@@ -4,9 +4,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:gql/ast.dart' as _i1;
 
-const UpdateReadingStatus = _i1.OperationDefinitionNode(
+const UpdateThoughts = _i1.OperationDefinitionNode(
   type: _i1.OperationType.mutation,
-  name: _i1.NameNode(value: 'UpdateReadingStatus'),
+  name: _i1.NameNode(value: 'UpdateThoughts'),
   variableDefinitions: [
     _i1.VariableDefinitionNode(
       variable: _i1.VariableNode(name: _i1.NameNode(value: 'userBookId')),
@@ -18,9 +18,9 @@ const UpdateReadingStatus = _i1.OperationDefinitionNode(
       directives: [],
     ),
     _i1.VariableDefinitionNode(
-      variable: _i1.VariableNode(name: _i1.NameNode(value: 'status')),
+      variable: _i1.VariableNode(name: _i1.NameNode(value: 'thoughts')),
       type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'ReadingStatus'),
+        name: _i1.NameNode(value: 'String'),
         isNonNull: true,
       ),
       defaultValue: _i1.DefaultValueNode(value: null),
@@ -30,7 +30,7 @@ const UpdateReadingStatus = _i1.OperationDefinitionNode(
   directives: [],
   selectionSet: _i1.SelectionSetNode(selections: [
     _i1.FieldNode(
-      name: _i1.NameNode(value: 'updateReadingStatus'),
+      name: _i1.NameNode(value: 'updateThoughts'),
       alias: null,
       arguments: [
         _i1.ArgumentNode(
@@ -38,8 +38,8 @@ const UpdateReadingStatus = _i1.OperationDefinitionNode(
           value: _i1.VariableNode(name: _i1.NameNode(value: 'userBookId')),
         ),
         _i1.ArgumentNode(
-          name: _i1.NameNode(value: 'status'),
-          value: _i1.VariableNode(name: _i1.NameNode(value: 'status')),
+          name: _i1.NameNode(value: 'thoughts'),
+          value: _i1.VariableNode(name: _i1.NameNode(value: 'thoughts')),
         ),
       ],
       directives: [],
@@ -167,4 +167,4 @@ const UpdateReadingStatus = _i1.OperationDefinitionNode(
     )
   ]),
 );
-const document = _i1.DocumentNode(definitions: [UpdateReadingStatus]);
+const document = _i1.DocumentNode(definitions: [UpdateThoughts]);

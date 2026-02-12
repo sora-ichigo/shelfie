@@ -175,6 +175,41 @@ class ShelfState extends _$ShelfState {
     );
   }
 
+  /// 感想を更新する（Optimistic Update + API呼び出し）
+  Future<Either<Failure, ShelfEntry>> updateThoughtsWithApi({
+    required String externalId,
+    required String thoughts,
+  }) async {
+    final entry = state[externalId];
+    if (entry == null) {
+      return left(const UnexpectedFailure(message: 'Entry not found'));
+    }
+
+    final previousEntry = entry;
+    _updateThoughtsOptimistic(externalId: externalId, thoughts: thoughts);
+
+    final repository = ref.read(bookDetailRepositoryProvider);
+    final result = await repository.updateThoughts(
+      userBookId: entry.userBookId,
+      thoughts: thoughts,
+    );
+
+    return result.fold(
+      (failure) {
+        state = {...state, externalId: previousEntry};
+        return left(failure);
+      },
+      (userBook) {
+        final updated = entry.copyWith(
+          thoughts: userBook.thoughts,
+          thoughtsUpdatedAt: userBook.thoughtsUpdatedAt,
+        );
+        state = {...state, externalId: updated};
+        return right(updated);
+      },
+    );
+  }
+
   /// 評価を更新する（Optimistic Update + API呼び出し）
   Future<Either<Failure, ShelfEntry>> updateRatingWithApi({
     required String externalId,
@@ -295,6 +330,14 @@ class ShelfState extends _$ShelfState {
     _updateReadingNoteOptimistic(externalId: externalId, note: note);
   }
 
+  /// 感想を更新する（Optimistic Update のみ）
+  void updateThoughts({
+    required String externalId,
+    required String thoughts,
+  }) {
+    _updateThoughtsOptimistic(externalId: externalId, thoughts: thoughts);
+  }
+
   void _updateReadingStatusOptimistic({
     required String externalId,
     required ReadingStatus status,
@@ -322,6 +365,21 @@ class ShelfState extends _$ShelfState {
     final updated = entry.copyWith(
       note: note,
       noteUpdatedAt: DateTime.now(),
+    );
+
+    state = {...state, externalId: updated};
+  }
+
+  void _updateThoughtsOptimistic({
+    required String externalId,
+    required String thoughts,
+  }) {
+    final entry = state[externalId];
+    if (entry == null) return;
+
+    final updated = entry.copyWith(
+      thoughts: thoughts,
+      thoughtsUpdatedAt: DateTime.now(),
     );
 
     state = {...state, externalId: updated};

@@ -34,12 +34,21 @@ class UserBook with _$UserBook {
 
     /// 評価（1-5）
     int? rating,
+
+    /// 感想
+    String? thoughts,
+
+    /// 感想の最終更新日時
+    DateTime? thoughtsUpdatedAt,
   }) = _UserBook;
 
   /// メモが存在するかどうか
   ///
   /// note が null でなく、空白文字以外の内容がある場合に true を返す。
   bool get hasNote => note != null && note!.trim().isNotEmpty;
+
+  /// 感想が存在するかどうか
+  bool get hasThoughts => thoughts != null && thoughts!.trim().isNotEmpty;
 
   /// 読了済みかどうか
   bool get isCompleted => readingStatus == ReadingStatus.completed;

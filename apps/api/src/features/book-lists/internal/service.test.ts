@@ -461,6 +461,8 @@ describe("BookListService", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
       };
       const userBook2: UserBook = {
         id: 11,
@@ -480,6 +482,8 @@ describe("BookListService", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
       };
 
       mockBookShelfRepository.mockFindUserBookById
@@ -867,6 +871,8 @@ describe("BookListService", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
       };
       mockBookShelfRepository.mockFindUserBookById.mockResolvedValue(userBook);
 
@@ -941,6 +947,8 @@ describe("BookListService", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
       };
       mockBookShelfRepository.mockFindUserBookById.mockResolvedValue(userBook);
 

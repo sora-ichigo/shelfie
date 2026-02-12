@@ -112,6 +112,8 @@ abstract class GBookDetailData_bookDetail_userBook
   String? get note;
   DateTime? get noteUpdatedAt;
   int? get rating;
+  String? get thoughts;
+  DateTime? get thoughtsUpdatedAt;
   static Serializer<GBookDetailData_bookDetail_userBook> get serializer =>
       _$gBookDetailDataBookDetailUserBookSerializer;
 

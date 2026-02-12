@@ -34,10 +34,7 @@ class ReadingRecordSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '読書記録',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('読書記録', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         _buildRecordTable(context),
       ],
@@ -49,8 +46,7 @@ class ReadingRecordSection extends StatelessWidget {
         shelfEntry.startedAt != null || onStartedAtTap != null;
     final hasCompletedDate =
         shelfEntry.isCompleted && shelfEntry.completedAt != null;
-    final isLastRow =
-        !showStartedDate && !hasCompletedDate;
+    final isLastRow = !showStartedDate && !hasCompletedDate;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
@@ -83,8 +79,9 @@ class ReadingRecordSection extends StatelessWidget {
               value: shelfEntry.startedAt != null
                   ? _formatDate(shelfEntry.startedAt!)
                   : '未設定',
-              position:
-                  hasCompletedDate ? _RowPosition.middle : _RowPosition.last,
+              position: hasCompletedDate
+                  ? _RowPosition.middle
+                  : _RowPosition.last,
               onTap: onStartedAtTap != null
                   ? () => _showStartedAtPicker(context)
                   : null,
@@ -116,24 +113,24 @@ class ReadingRecordSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     final borderRadius = switch (position) {
-      _RowPosition.first =>
-        const BorderRadius.vertical(top: Radius.circular(8)),
+      _RowPosition.first => const BorderRadius.vertical(
+        top: Radius.circular(8),
+      ),
       _RowPosition.middle => BorderRadius.zero,
-      _RowPosition.last =>
-        const BorderRadius.vertical(bottom: Radius.circular(8)),
+      _RowPosition.last => const BorderRadius.vertical(
+        bottom: Radius.circular(8),
+      ),
     };
 
     final appColors = theme.extension<AppColors>()!;
 
     final border = switch (position) {
       _RowPosition.first || _RowPosition.middle => Border(
-          left: BorderSide(color: appColors.border),
-          right: BorderSide(color: appColors.border),
-          top: BorderSide(color: appColors.border),
-        ),
-      _RowPosition.last => Border.all(
-          color: appColors.border,
-        ),
+        left: BorderSide(color: appColors.border),
+        right: BorderSide(color: appColors.border),
+        top: BorderSide(color: appColors.border),
+      ),
+      _RowPosition.last => Border.all(color: appColors.border),
     };
 
     final content = Container(
@@ -157,18 +154,10 @@ class ReadingRecordSection extends StatelessWidget {
               if (valueWidget != null)
                 valueWidget
               else if (value != null)
-                Text(
-                  value,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                Text(value, style: theme.textTheme.bodyMedium),
               if (onTap != null && showChevron) ...[
                 const SizedBox(width: AppSpacing.xs),
-                Icon(
-                  Icons.chevron_right,
-                  color: appColors.textSecondary,
-                ),
+                Icon(Icons.chevron_right, color: appColors.textSecondary),
               ],
             ],
           ),
@@ -177,10 +166,7 @@ class ReadingRecordSection extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return InkWell(
-        onTap: onTap,
-        child: content,
-      );
+      return InkWell(onTap: onTap, child: content);
     }
 
     return content;
@@ -197,16 +183,11 @@ class ReadingRecordSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(36),
-        border: Border.all(
-          color: color.withOpacity(0.5),
-        ),
+        border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Text(
         status.displayName,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color),
       ),
     );
   }
@@ -231,9 +212,7 @@ class ReadingRecordSection extends StatelessWidget {
         return Icon(
           isFilled ? Icons.star_rounded : Icons.star_border_rounded,
           size: 18,
-          color: isFilled
-              ? appColors.star
-              : appColors.inactive,
+          color: isFilled ? appColors.star : appColors.inactive,
         );
       }),
     );

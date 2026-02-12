@@ -49,6 +49,12 @@ export interface UpdateReadingNoteInput {
   note: string;
 }
 
+export interface UpdateThoughtsInput {
+  userBookId: number;
+  userId: number;
+  thoughts: string;
+}
+
 export interface UpdateRatingInput {
   userBookId: number;
   userId: number;
@@ -101,6 +107,10 @@ export interface BookShelfService {
 
   updateReadingNote(
     input: UpdateReadingNoteInput,
+  ): Promise<Result<UserBook, BookShelfErrors>>;
+
+  updateThoughts(
+    input: UpdateThoughtsInput,
   ): Promise<Result<UserBook, BookShelfErrors>>;
 
   updateRating(
@@ -439,6 +449,75 @@ export function createBookShelfService(
       } catch (error) {
         logger.error(
           "Database error while updating reading note",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "books",
+            userBookId: String(userBookId),
+            userId: String(userId),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async updateThoughts(
+      input: UpdateThoughtsInput,
+    ): Promise<Result<UserBook, BookShelfErrors>> {
+      const { userBookId, userId, thoughts } = input;
+
+      try {
+        const userBook = await repository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "BOOK_NOT_FOUND",
+            message: "Book not found in shelf",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          logger.warn("Unauthorized thoughts update attempt", {
+            feature: "books",
+            userBookId: String(userBookId),
+            ownerId: String(userBook.userId),
+            requesterId: String(userId),
+          });
+
+          return err({
+            code: "FORBIDDEN",
+            message: "You are not allowed to update this book",
+          });
+        }
+
+        const updatedBook = await repository.updateUserBook(userBookId, {
+          thoughts,
+          thoughtsUpdatedAt: new Date(),
+        });
+
+        if (updatedBook === null) {
+          return err({
+            code: "DATABASE_ERROR",
+            message: "Failed to update thoughts",
+          });
+        }
+
+        logger.info("Thoughts updated successfully", {
+          feature: "books",
+          userBookId: String(userBookId),
+          userId: String(userId),
+        });
+
+        return ok(updatedBook);
+      } catch (error) {
+        logger.error(
+          "Database error while updating thoughts",
           error instanceof Error ? error : new Error(String(error)),
           {
             feature: "books",

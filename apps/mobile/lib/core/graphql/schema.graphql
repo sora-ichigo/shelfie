@@ -421,6 +421,9 @@ type Mutation {
   """Update the reading note of a book in the user's shelf"""
   updateReadingNote(note: String!, userBookId: Int!): UserBook!
 
+  """Update the thoughts of a book in the user's shelf"""
+  updateThoughts(thoughts: String!, userBookId: Int!): UserBook!
+
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
 
@@ -801,6 +804,12 @@ type UserBook {
 
   """When the book was started reading"""
   startedAt: DateTime
+
+  """User's thoughts/review for the book"""
+  thoughts: String
+
+  """When the thoughts were last updated"""
+  thoughtsUpdatedAt: DateTime
 
   """The title of the book"""
   title: String!

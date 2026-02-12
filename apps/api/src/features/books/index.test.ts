@@ -241,6 +241,8 @@ describe("books Feature public API", () => {
         note: null,
         noteUpdatedAt: null,
         rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
         source: "rakuten",
       };
       expect(userBook.id).toBe(1);

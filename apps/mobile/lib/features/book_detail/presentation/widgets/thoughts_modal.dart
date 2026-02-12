@@ -7,15 +7,10 @@ import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/application/book_detail_notifier.dart';
 
-/// 読書メモ編集モーダルを表示する
-///
-/// [context] - BuildContext
-/// [currentNote] - 現在のメモ（既存メモがある場合）
-/// [userBookId] - ユーザー本ID
-/// [externalId] - 外部ID（BookDetailNotifier のパラメータ）
-Future<void> showReadingNoteModal({
+/// 感想編集モーダルを表示する
+Future<void> showThoughtsModal({
   required BuildContext context,
-  required String? currentNote,
+  required String? currentThoughts,
   required int userBookId,
   required String externalId,
 }) async {
@@ -29,8 +24,8 @@ Future<void> showReadingNoteModal({
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      child: _ReadingNoteModalContent(
-        currentNote: currentNote,
+      child: _ThoughtsModalContent(
+        currentThoughts: currentThoughts,
         userBookId: userBookId,
         externalId: externalId,
       ),
@@ -38,24 +33,24 @@ Future<void> showReadingNoteModal({
   );
 }
 
-class _ReadingNoteModalContent extends ConsumerStatefulWidget {
-  const _ReadingNoteModalContent({
-    required this.currentNote,
+class _ThoughtsModalContent extends ConsumerStatefulWidget {
+  const _ThoughtsModalContent({
+    required this.currentThoughts,
     required this.userBookId,
     required this.externalId,
   });
 
-  final String? currentNote;
+  final String? currentThoughts;
   final int userBookId;
   final String externalId;
 
   @override
-  ConsumerState<_ReadingNoteModalContent> createState() =>
-      _ReadingNoteModalContentState();
+  ConsumerState<_ThoughtsModalContent> createState() =>
+      _ThoughtsModalContentState();
 }
 
-class _ReadingNoteModalContentState
-    extends ConsumerState<_ReadingNoteModalContent> {
+class _ThoughtsModalContentState
+    extends ConsumerState<_ThoughtsModalContent> {
   late TextEditingController _controller;
   bool _isSaving = false;
   Failure? _error;
@@ -63,7 +58,7 @@ class _ReadingNoteModalContentState
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.currentNote ?? '');
+    _controller = TextEditingController(text: widget.currentThoughts ?? '');
   }
 
   @override
@@ -78,7 +73,7 @@ class _ReadingNoteModalContentState
     final appColors = theme.extension<AppColors>()!;
 
     return BaseBottomSheet(
-      title: '自分メモを編集',
+      title: '感想を編集',
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -89,7 +84,7 @@ class _ReadingNoteModalContentState
             style: TextStyle(color: appColors.textPrimary),
             cursorColor: appColors.primary,
             decoration: InputDecoration(
-              hintText: '自分用のメモを書く...',
+              hintText: '読んだ感想を書く...',
               hintStyle: TextStyle(color: appColors.inactive),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -200,9 +195,9 @@ class _ReadingNoteModalContentState
 
     final notifier =
         ref.read(bookDetailNotifierProvider(widget.externalId).notifier);
-    final result = await notifier.updateReadingNote(
+    final result = await notifier.updateThoughts(
       userBookId: widget.userBookId,
-      note: _controller.text,
+      thoughts: _controller.text,
     );
 
     result.fold(
@@ -218,7 +213,7 @@ class _ReadingNoteModalContentState
         if (mounted) {
           AppSnackBar.show(
             context,
-            message: 'メモを保存しました',
+            message: '感想を保存しました',
             type: AppSnackBarType.success,
           );
           Navigator.pop(context);

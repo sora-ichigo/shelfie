@@ -27,6 +27,8 @@ import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_m
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_record_section.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_status_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_modal.dart';
+import 'package:shelfie/features/book_detail/presentation/widgets/thoughts_section.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
@@ -183,6 +185,11 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                                   shelfEntry.isCompleted
                               ? _onStartedAtSelected
                               : null,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        ThoughtsSection(
+                          shelfEntry: shelfEntry,
+                          onThoughtsTap: _onThoughtsTap,
                         ),
                         const SizedBox(height: AppSpacing.lg),
                         ReadingNoteSection(
@@ -384,6 +391,22 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
     showReadingNoteModal(
       context: context,
       currentNote: shelfEntry.note,
+      userBookId: shelfEntry.userBookId,
+      externalId: widget.bookId,
+    );
+  }
+
+  void _onThoughtsTap() {
+    if (_isGuest) {
+      showGuestLoginSnackBar(context);
+      return;
+    }
+    final shelfEntry = ref.read(shelfStateProvider)[widget.bookId];
+    if (shelfEntry == null) return;
+
+    showThoughtsModal(
+      context: context,
+      currentThoughts: shelfEntry.thoughts,
       userBookId: shelfEntry.userBookId,
       externalId: widget.bookId,
     );

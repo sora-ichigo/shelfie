@@ -211,6 +211,51 @@ void main() {
       });
     });
 
+    group('hasThoughts', () {
+      test('should return true when thoughts is not null and not empty', () {
+        final userBook = UserBook(
+          id: 1,
+          readingStatus: ReadingStatus.reading,
+          addedAt: DateTime(2024, 1, 15),
+          thoughts: 'Great book!',
+        );
+
+        expect(userBook.hasThoughts, isTrue);
+      });
+
+      test('should return false when thoughts is null', () {
+        final userBook = UserBook(
+          id: 1,
+          readingStatus: ReadingStatus.reading,
+          addedAt: DateTime(2024, 1, 15),
+        );
+
+        expect(userBook.hasThoughts, isFalse);
+      });
+
+      test('should return false when thoughts is empty', () {
+        final userBook = UserBook(
+          id: 1,
+          readingStatus: ReadingStatus.reading,
+          addedAt: DateTime(2024, 1, 15),
+          thoughts: '',
+        );
+
+        expect(userBook.hasThoughts, isFalse);
+      });
+
+      test('should return false when thoughts is whitespace only', () {
+        final userBook = UserBook(
+          id: 1,
+          readingStatus: ReadingStatus.reading,
+          addedAt: DateTime(2024, 1, 15),
+          thoughts: '   ',
+        );
+
+        expect(userBook.hasThoughts, isFalse);
+      });
+    });
+
     group('isCompleted', () {
       test('should return true when readingStatus is completed', () {
         final userBook = UserBook(

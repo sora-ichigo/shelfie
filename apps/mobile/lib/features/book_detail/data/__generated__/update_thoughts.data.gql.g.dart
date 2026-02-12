@@ -1,49 +1,48 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'update_reading_status.data.gql.dart';
+part of 'update_thoughts.data.gql.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GUpdateReadingStatusData> _$gUpdateReadingStatusDataSerializer =
-    _$GUpdateReadingStatusDataSerializer();
-Serializer<GUpdateReadingStatusData_updateReadingStatus>
-    _$gUpdateReadingStatusDataUpdateReadingStatusSerializer =
-    _$GUpdateReadingStatusData_updateReadingStatusSerializer();
+Serializer<GUpdateThoughtsData> _$gUpdateThoughtsDataSerializer =
+    _$GUpdateThoughtsDataSerializer();
+Serializer<GUpdateThoughtsData_updateThoughts>
+    _$gUpdateThoughtsDataUpdateThoughtsSerializer =
+    _$GUpdateThoughtsData_updateThoughtsSerializer();
 
-class _$GUpdateReadingStatusDataSerializer
-    implements StructuredSerializer<GUpdateReadingStatusData> {
+class _$GUpdateThoughtsDataSerializer
+    implements StructuredSerializer<GUpdateThoughtsData> {
   @override
   final Iterable<Type> types = const [
-    GUpdateReadingStatusData,
-    _$GUpdateReadingStatusData
+    GUpdateThoughtsData,
+    _$GUpdateThoughtsData
   ];
   @override
-  final String wireName = 'GUpdateReadingStatusData';
+  final String wireName = 'GUpdateThoughtsData';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GUpdateReadingStatusData object,
+      Serializers serializers, GUpdateThoughtsData object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'updateReadingStatus',
-      serializers.serialize(object.updateReadingStatus,
-          specifiedType:
-              const FullType(GUpdateReadingStatusData_updateReadingStatus)),
+      'updateThoughts',
+      serializers.serialize(object.updateThoughts,
+          specifiedType: const FullType(GUpdateThoughtsData_updateThoughts)),
     ];
 
     return result;
   }
 
   @override
-  GUpdateReadingStatusData deserialize(
+  GUpdateThoughtsData deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingStatusDataBuilder();
+    final result = GUpdateThoughtsDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -55,11 +54,11 @@ class _$GUpdateReadingStatusDataSerializer
           result.G__typename = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
-        case 'updateReadingStatus':
-          result.updateReadingStatus.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(
-                      GUpdateReadingStatusData_updateReadingStatus))!
-              as GUpdateReadingStatusData_updateReadingStatus);
+        case 'updateThoughts':
+          result.updateThoughts.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(GUpdateThoughtsData_updateThoughts))!
+              as GUpdateThoughtsData_updateThoughts);
           break;
       }
     }
@@ -68,20 +67,19 @@ class _$GUpdateReadingStatusDataSerializer
   }
 }
 
-class _$GUpdateReadingStatusData_updateReadingStatusSerializer
-    implements
-        StructuredSerializer<GUpdateReadingStatusData_updateReadingStatus> {
+class _$GUpdateThoughtsData_updateThoughtsSerializer
+    implements StructuredSerializer<GUpdateThoughtsData_updateThoughts> {
   @override
   final Iterable<Type> types = const [
-    GUpdateReadingStatusData_updateReadingStatus,
-    _$GUpdateReadingStatusData_updateReadingStatus
+    GUpdateThoughtsData_updateThoughts,
+    _$GUpdateThoughtsData_updateThoughts
   ];
   @override
-  final String wireName = 'GUpdateReadingStatusData_updateReadingStatus';
+  final String wireName = 'GUpdateThoughtsData_updateThoughts';
 
   @override
-  Iterable<Object?> serialize(Serializers serializers,
-      GUpdateReadingStatusData_updateReadingStatus object,
+  Iterable<Object?> serialize(
+      Serializers serializers, GUpdateThoughtsData_updateThoughts object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       '__typename',
@@ -187,10 +185,10 @@ class _$GUpdateReadingStatusData_updateReadingStatusSerializer
   }
 
   @override
-  GUpdateReadingStatusData_updateReadingStatus deserialize(
+  GUpdateThoughtsData_updateThoughts deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GUpdateReadingStatusData_updateReadingStatusBuilder();
+    final result = GUpdateThoughtsData_updateThoughtsBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -280,116 +278,113 @@ class _$GUpdateReadingStatusData_updateReadingStatusSerializer
   }
 }
 
-class _$GUpdateReadingStatusData extends GUpdateReadingStatusData {
+class _$GUpdateThoughtsData extends GUpdateThoughtsData {
   @override
   final String G__typename;
   @override
-  final GUpdateReadingStatusData_updateReadingStatus updateReadingStatus;
+  final GUpdateThoughtsData_updateThoughts updateThoughts;
 
-  factory _$GUpdateReadingStatusData(
-          [void Function(GUpdateReadingStatusDataBuilder)? updates]) =>
-      (GUpdateReadingStatusDataBuilder()..update(updates))._build();
+  factory _$GUpdateThoughtsData(
+          [void Function(GUpdateThoughtsDataBuilder)? updates]) =>
+      (GUpdateThoughtsDataBuilder()..update(updates))._build();
 
-  _$GUpdateReadingStatusData._(
-      {required this.G__typename, required this.updateReadingStatus})
+  _$GUpdateThoughtsData._(
+      {required this.G__typename, required this.updateThoughts})
       : super._();
   @override
-  GUpdateReadingStatusData rebuild(
-          void Function(GUpdateReadingStatusDataBuilder) updates) =>
+  GUpdateThoughtsData rebuild(
+          void Function(GUpdateThoughtsDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateReadingStatusDataBuilder toBuilder() =>
-      GUpdateReadingStatusDataBuilder()..replace(this);
+  GUpdateThoughtsDataBuilder toBuilder() =>
+      GUpdateThoughtsDataBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateReadingStatusData &&
+    return other is GUpdateThoughtsData &&
         G__typename == other.G__typename &&
-        updateReadingStatus == other.updateReadingStatus;
+        updateThoughts == other.updateThoughts;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
-    _$hash = $jc(_$hash, updateReadingStatus.hashCode);
+    _$hash = $jc(_$hash, updateThoughts.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GUpdateReadingStatusData')
+    return (newBuiltValueToStringHelper(r'GUpdateThoughtsData')
           ..add('G__typename', G__typename)
-          ..add('updateReadingStatus', updateReadingStatus))
+          ..add('updateThoughts', updateThoughts))
         .toString();
   }
 }
 
-class GUpdateReadingStatusDataBuilder
-    implements
-        Builder<GUpdateReadingStatusData, GUpdateReadingStatusDataBuilder> {
-  _$GUpdateReadingStatusData? _$v;
+class GUpdateThoughtsDataBuilder
+    implements Builder<GUpdateThoughtsData, GUpdateThoughtsDataBuilder> {
+  _$GUpdateThoughtsData? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  GUpdateReadingStatusData_updateReadingStatusBuilder? _updateReadingStatus;
-  GUpdateReadingStatusData_updateReadingStatusBuilder get updateReadingStatus =>
-      _$this._updateReadingStatus ??=
-          GUpdateReadingStatusData_updateReadingStatusBuilder();
-  set updateReadingStatus(
-          GUpdateReadingStatusData_updateReadingStatusBuilder?
-              updateReadingStatus) =>
-      _$this._updateReadingStatus = updateReadingStatus;
+  GUpdateThoughtsData_updateThoughtsBuilder? _updateThoughts;
+  GUpdateThoughtsData_updateThoughtsBuilder get updateThoughts =>
+      _$this._updateThoughts ??= GUpdateThoughtsData_updateThoughtsBuilder();
+  set updateThoughts(
+          GUpdateThoughtsData_updateThoughtsBuilder? updateThoughts) =>
+      _$this._updateThoughts = updateThoughts;
 
-  GUpdateReadingStatusDataBuilder() {
-    GUpdateReadingStatusData._initializeBuilder(this);
+  GUpdateThoughtsDataBuilder() {
+    GUpdateThoughtsData._initializeBuilder(this);
   }
 
-  GUpdateReadingStatusDataBuilder get _$this {
+  GUpdateThoughtsDataBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _updateReadingStatus = $v.updateReadingStatus.toBuilder();
+      _updateThoughts = $v.updateThoughts.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(GUpdateReadingStatusData other) {
-    _$v = other as _$GUpdateReadingStatusData;
+  void replace(GUpdateThoughtsData other) {
+    _$v = other as _$GUpdateThoughtsData;
   }
 
   @override
-  void update(void Function(GUpdateReadingStatusDataBuilder)? updates) {
+  void update(void Function(GUpdateThoughtsDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateReadingStatusData build() => _build();
+  GUpdateThoughtsData build() => _build();
 
-  _$GUpdateReadingStatusData _build() {
-    _$GUpdateReadingStatusData _$result;
+  _$GUpdateThoughtsData _build() {
+    _$GUpdateThoughtsData _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingStatusData._(
+          _$GUpdateThoughtsData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
-                G__typename, r'GUpdateReadingStatusData', 'G__typename'),
-            updateReadingStatus: updateReadingStatus.build(),
+                G__typename, r'GUpdateThoughtsData', 'G__typename'),
+            updateThoughts: updateThoughts.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'updateReadingStatus';
-        updateReadingStatus.build();
+        _$failedField = 'updateThoughts';
+        updateThoughts.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'GUpdateReadingStatusData', _$failedField, e.toString());
+            r'GUpdateThoughtsData', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -398,8 +393,8 @@ class GUpdateReadingStatusDataBuilder
   }
 }
 
-class _$GUpdateReadingStatusData_updateReadingStatus
-    extends GUpdateReadingStatusData_updateReadingStatus {
+class _$GUpdateThoughtsData_updateThoughts
+    extends GUpdateThoughtsData_updateThoughts {
   @override
   final String G__typename;
   @override
@@ -437,13 +432,12 @@ class _$GUpdateReadingStatusData_updateReadingStatus
   @override
   final DateTime? thoughtsUpdatedAt;
 
-  factory _$GUpdateReadingStatusData_updateReadingStatus(
-          [void Function(GUpdateReadingStatusData_updateReadingStatusBuilder)?
+  factory _$GUpdateThoughtsData_updateThoughts(
+          [void Function(GUpdateThoughtsData_updateThoughtsBuilder)?
               updates]) =>
-      (GUpdateReadingStatusData_updateReadingStatusBuilder()..update(updates))
-          ._build();
+      (GUpdateThoughtsData_updateThoughtsBuilder()..update(updates))._build();
 
-  _$GUpdateReadingStatusData_updateReadingStatus._(
+  _$GUpdateThoughtsData_updateThoughts._(
       {required this.G__typename,
       required this.id,
       required this.externalId,
@@ -464,19 +458,18 @@ class _$GUpdateReadingStatusData_updateReadingStatus
       this.thoughtsUpdatedAt})
       : super._();
   @override
-  GUpdateReadingStatusData_updateReadingStatus rebuild(
-          void Function(GUpdateReadingStatusData_updateReadingStatusBuilder)
-              updates) =>
+  GUpdateThoughtsData_updateThoughts rebuild(
+          void Function(GUpdateThoughtsData_updateThoughtsBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GUpdateReadingStatusData_updateReadingStatusBuilder toBuilder() =>
-      GUpdateReadingStatusData_updateReadingStatusBuilder()..replace(this);
+  GUpdateThoughtsData_updateThoughtsBuilder toBuilder() =>
+      GUpdateThoughtsData_updateThoughtsBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GUpdateReadingStatusData_updateReadingStatus &&
+    return other is GUpdateThoughtsData_updateThoughts &&
         G__typename == other.G__typename &&
         id == other.id &&
         externalId == other.externalId &&
@@ -524,8 +517,7 @@ class _$GUpdateReadingStatusData_updateReadingStatus
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(
-            r'GUpdateReadingStatusData_updateReadingStatus')
+    return (newBuiltValueToStringHelper(r'GUpdateThoughtsData_updateThoughts')
           ..add('G__typename', G__typename)
           ..add('id', id)
           ..add('externalId', externalId)
@@ -548,11 +540,11 @@ class _$GUpdateReadingStatusData_updateReadingStatus
   }
 }
 
-class GUpdateReadingStatusData_updateReadingStatusBuilder
+class GUpdateThoughtsData_updateThoughtsBuilder
     implements
-        Builder<GUpdateReadingStatusData_updateReadingStatus,
-            GUpdateReadingStatusData_updateReadingStatusBuilder> {
-  _$GUpdateReadingStatusData_updateReadingStatus? _$v;
+        Builder<GUpdateThoughtsData_updateThoughts,
+            GUpdateThoughtsData_updateThoughtsBuilder> {
+  _$GUpdateThoughtsData_updateThoughts? _$v;
 
   String? _G__typename;
   String? get G__typename => _$this._G__typename;
@@ -631,11 +623,11 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
   set thoughtsUpdatedAt(DateTime? thoughtsUpdatedAt) =>
       _$this._thoughtsUpdatedAt = thoughtsUpdatedAt;
 
-  GUpdateReadingStatusData_updateReadingStatusBuilder() {
-    GUpdateReadingStatusData_updateReadingStatus._initializeBuilder(this);
+  GUpdateThoughtsData_updateThoughtsBuilder() {
+    GUpdateThoughtsData_updateThoughts._initializeBuilder(this);
   }
 
-  GUpdateReadingStatusData_updateReadingStatusBuilder get _$this {
+  GUpdateThoughtsData_updateThoughtsBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
@@ -662,44 +654,41 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
   }
 
   @override
-  void replace(GUpdateReadingStatusData_updateReadingStatus other) {
-    _$v = other as _$GUpdateReadingStatusData_updateReadingStatus;
+  void replace(GUpdateThoughtsData_updateThoughts other) {
+    _$v = other as _$GUpdateThoughtsData_updateThoughts;
   }
 
   @override
   void update(
-      void Function(GUpdateReadingStatusData_updateReadingStatusBuilder)?
-          updates) {
+      void Function(GUpdateThoughtsData_updateThoughtsBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GUpdateReadingStatusData_updateReadingStatus build() => _build();
+  GUpdateThoughtsData_updateThoughts build() => _build();
 
-  _$GUpdateReadingStatusData_updateReadingStatus _build() {
-    _$GUpdateReadingStatusData_updateReadingStatus _$result;
+  _$GUpdateThoughtsData_updateThoughts _build() {
+    _$GUpdateThoughtsData_updateThoughts _$result;
     try {
       _$result = _$v ??
-          _$GUpdateReadingStatusData_updateReadingStatus._(
+          _$GUpdateThoughtsData_updateThoughts._(
             G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'G__typename'),
+                r'GUpdateThoughtsData_updateThoughts', 'G__typename'),
             id: BuiltValueNullFieldError.checkNotNull(
-                id, r'GUpdateReadingStatusData_updateReadingStatus', 'id'),
+                id, r'GUpdateThoughtsData_updateThoughts', 'id'),
             externalId: BuiltValueNullFieldError.checkNotNull(externalId,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'externalId'),
-            title: BuiltValueNullFieldError.checkNotNull(title,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'title'),
+                r'GUpdateThoughtsData_updateThoughts', 'externalId'),
+            title: BuiltValueNullFieldError.checkNotNull(
+                title, r'GUpdateThoughtsData_updateThoughts', 'title'),
             authors: authors.build(),
             publisher: publisher,
             publishedDate: publishedDate,
             isbn: isbn,
             coverImageUrl: coverImageUrl,
-            addedAt: BuiltValueNullFieldError.checkNotNull(addedAt,
-                r'GUpdateReadingStatusData_updateReadingStatus', 'addedAt'),
-            readingStatus: BuiltValueNullFieldError.checkNotNull(
-                readingStatus,
-                r'GUpdateReadingStatusData_updateReadingStatus',
-                'readingStatus'),
+            addedAt: BuiltValueNullFieldError.checkNotNull(
+                addedAt, r'GUpdateThoughtsData_updateThoughts', 'addedAt'),
+            readingStatus: BuiltValueNullFieldError.checkNotNull(readingStatus,
+                r'GUpdateThoughtsData_updateThoughts', 'readingStatus'),
             startedAt: startedAt,
             completedAt: completedAt,
             note: note,
@@ -715,9 +704,7 @@ class GUpdateReadingStatusData_updateReadingStatusBuilder
         authors.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'GUpdateReadingStatusData_updateReadingStatus',
-            _$failedField,
-            e.toString());
+            r'GUpdateThoughtsData_updateThoughts', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -23,6 +23,9 @@ import 'package:shelfie/features/book_detail/data/__generated__/update_reading_s
 import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.data.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.req.gql.dart';
 import 'package:shelfie/features/book_detail/data/__generated__/update_started_at.var.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.data.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.req.gql.dart';
+import 'package:shelfie/features/book_detail/data/__generated__/update_thoughts.var.gql.dart';
 import 'package:shelfie/features/book_detail/data/book_detail_repository.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart'
@@ -92,6 +95,13 @@ void main() {
         (b) => b
           ..vars.userBookId = 1
           ..vars.startedAt = DateTime(2024, 1, 1),
+      ),
+    );
+    registerFallbackValue(
+      GUpdateThoughtsReq(
+        (b) => b
+          ..vars.userBookId = 1
+          ..vars.thoughts = 'test',
       ),
     );
   });
@@ -860,6 +870,122 @@ void main() {
         final result = await repository.updateStartedAt(
           userBookId: 42,
           startedAt: DateTime(2024, 7, 1),
+        );
+
+        expect(result.isLeft(), isTrue);
+        final failure = result.getLeft().toNullable();
+        expect(failure, isA<ForbiddenFailure>());
+      });
+    });
+
+    group('updateThoughts', () {
+      test('感想更新成功時は Right(UserBook) を返す', () async {
+        final addedAt = DateTime(2024, 6, 15, 10, 30);
+        final thoughtsUpdatedAt = DateTime(2024, 6, 20, 15, 0);
+
+        final mockData = GUpdateThoughtsData(
+          (b) => b
+            ..updateThoughts = GUpdateThoughtsData_updateThoughts(
+              (ub) => ub
+                ..id = 42
+                ..externalId = 'book-1'
+                ..title = 'Test Book'
+                ..authors = ListBuilder(['Author 1'])
+                ..publisher = null
+                ..publishedDate = null
+                ..isbn = null
+                ..coverImageUrl = null
+                ..addedAt = addedAt
+                ..readingStatus = GReadingStatus.READING
+                ..startedAt = null
+                ..completedAt = null
+                ..note = null
+                ..noteUpdatedAt = null
+                ..rating = null
+                ..thoughts = 'Great story!'
+                ..thoughtsUpdatedAt = thoughtsUpdatedAt,
+            ).toBuilder(),
+        );
+
+        when(() => mockClient.request(any<GUpdateThoughtsReq>())).thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateThoughtsData, GUpdateThoughtsVars>(
+              operationRequest: GUpdateThoughtsReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.thoughts = 'Great story!',
+              ),
+              data: mockData,
+            ),
+          ),
+        );
+
+        final result = await repository.updateThoughts(
+          userBookId: 42,
+          thoughts: 'Great story!',
+        );
+
+        expect(result.isRight(), isTrue);
+        final data =
+            result.getOrElse((_) => throw Exception('Should be right'));
+        expect(data.id, equals(42));
+        expect(data.thoughts, equals('Great story!'));
+        expect(data.thoughtsUpdatedAt, equals(thoughtsUpdatedAt));
+      });
+
+      test('認証エラー時は Left(AuthFailure) を返す', () async {
+        when(() => mockClient.request(any<GUpdateThoughtsReq>())).thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateThoughtsData, GUpdateThoughtsVars>(
+              operationRequest: GUpdateThoughtsReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.thoughts = 'thoughts',
+              ),
+              data: null,
+              graphqlErrors: [
+                const GraphQLError(
+                  message: 'Authentication required',
+                  extensions: {'code': 'UNAUTHENTICATED'},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final result = await repository.updateThoughts(
+          userBookId: 42,
+          thoughts: 'thoughts',
+        );
+
+        expect(result.isLeft(), isTrue);
+        final failure = result.getLeft().toNullable();
+        expect(failure, isA<AuthFailure>());
+      });
+
+      test('権限エラー時は Left(ForbiddenFailure) を返す', () async {
+        when(() => mockClient.request(any<GUpdateThoughtsReq>())).thenAnswer(
+          (_) => Stream.value(
+            OperationResponse<GUpdateThoughtsData, GUpdateThoughtsVars>(
+              operationRequest: GUpdateThoughtsReq(
+                (b) => b
+                  ..vars.userBookId = 42
+                  ..vars.thoughts = 'thoughts',
+              ),
+              data: null,
+              graphqlErrors: [
+                const GraphQLError(
+                  message: 'Not authorized to update this record',
+                  extensions: {'code': 'FORBIDDEN'},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        final result = await repository.updateThoughts(
+          userBookId: 42,
+          thoughts: 'thoughts',
         );
 
         expect(result.isLeft(), isTrue);

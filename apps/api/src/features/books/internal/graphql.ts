@@ -406,6 +406,16 @@ export function registerBooksTypes(builder: Builder): void {
         description: "User's rating for the book (1-5)",
         resolve: (parent) => parent.rating,
       }),
+      thoughts: t.string({
+        nullable: true,
+        description: "User's thoughts/review for the book",
+        resolve: (parent) => parent.thoughts,
+      }),
+      thoughtsUpdatedAt: t.expose("thoughtsUpdatedAt", {
+        type: "DateTime",
+        description: "When the thoughts were last updated",
+        nullable: true,
+      }),
       source: t.field({
         type: BookSourceRef,
         nullable: false,
@@ -924,6 +934,51 @@ export function registerBooksMutations(
           userBookId: args.userBookId,
           userId: userResult.data.id,
           note: args.note,
+        });
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
+    updateThoughts: t.field({
+      type: UserBookRef,
+      nullable: false,
+      description: "Update the thoughts of a book in the user's shelf",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+        thoughts: t.arg.string({ required: true }),
+      },
+      resolve: async (_parent, args, context): Promise<UserBook> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await shelfService.updateThoughts({
+          userBookId: args.userBookId,
+          userId: userResult.data.id,
+          thoughts: args.thoughts,
         });
 
         if (!result.success) {
