@@ -63,9 +63,7 @@ class BookInfoSection extends StatelessWidget {
         const SizedBox(height: AppSpacing.md),
         Text(
           bookDetail.title,
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: theme.textTheme.titleLarge,
           textAlign: TextAlign.center,
           maxLines: 6,
           overflow: TextOverflow.ellipsis,
@@ -112,7 +110,6 @@ class BookInfoSection extends StatelessWidget {
             'マイライブラリに追加',
             style: theme.textTheme.labelLarge?.copyWith(
               color: appColors.textPrimary,
-              fontWeight: FontWeight.w600,
             ),
           ),
           style: ElevatedButton.styleFrom(
@@ -160,7 +157,6 @@ class BookInfoSection extends StatelessWidget {
           'マイライブラリから削除',
           style: theme.textTheme.labelLarge?.copyWith(
             color: appColors.destructive,
-            fontWeight: FontWeight.w600,
           ),
         ),
         style: ElevatedButton.styleFrom(
@@ -211,8 +207,7 @@ class BookInfoSection extends StatelessWidget {
                 width: coverWidth,
                 height: coverHeight,
                 fit: BoxFit.cover,
-                frameBuilder:
-                    (context, child, frame, wasSynchronouslyLoaded) {
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                   if (wasSynchronouslyLoaded || frame != null) {
                     return child;
                   }
@@ -226,10 +221,7 @@ class BookInfoSection extends StatelessWidget {
                   height: coverHeight,
                 ),
               )
-            : const _CoverPlaceholder(
-                width: coverWidth,
-                height: coverHeight,
-              ),
+            : const _CoverPlaceholder(width: coverWidth, height: coverHeight),
       ),
     );
   }
@@ -241,8 +233,13 @@ class BookInfoSection extends StatelessWidget {
       items.add(_buildInfoItem(theme, '出版社', bookDetail.publisher!));
     }
     if (bookDetail.publishedDate != null) {
-      items.add(_buildInfoItem(
-          theme, '発売日', formatDateString(bookDetail.publishedDate!)));
+      items.add(
+        _buildInfoItem(
+          theme,
+          '発売日',
+          formatDateString(bookDetail.publishedDate!),
+        ),
+      );
     }
     if (bookDetail.pageCount != null) {
       items.add(_buildInfoItem(theme, 'ページ数', '${bookDetail.pageCount}ページ'));
@@ -264,10 +261,7 @@ class BookInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '書誌情報',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('書誌情報', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         ...items,
       ],
@@ -289,18 +283,16 @@ class BookInfoSection extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: theme.textTheme.bodyMedium,
-            ),
-          ),
+          Expanded(child: Text(value, style: theme.textTheme.bodyMedium)),
         ],
       ),
     );
   }
 
-  Widget _buildCategoriesChips(ThemeData theme, List<String> translatedCategories) {
+  Widget _buildCategoriesChips(
+    ThemeData theme,
+    List<String> translatedCategories,
+  ) {
     final appColors = theme.extension<AppColors>()!;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xs),
@@ -356,10 +348,7 @@ class BookInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '作品紹介',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('作品紹介', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         Text(
           _stripHtmlTags(bookDetail.description!),
@@ -375,13 +364,22 @@ class BookInfoSection extends StatelessWidget {
     var result = htmlString;
 
     // <br>, <br/>, <br /> を改行に変換
-    result = result.replaceAll(RegExp(r'<br\s*/?\s*>', caseSensitive: false), '\n');
+    result = result.replaceAll(
+      RegExp(r'<br\s*/?\s*>', caseSensitive: false),
+      '\n',
+    );
 
     // </p> を段落区切り（2改行）に変換
-    result = result.replaceAll(RegExp(r'</p\s*>', caseSensitive: false), '\n\n');
+    result = result.replaceAll(
+      RegExp(r'</p\s*>', caseSensitive: false),
+      '\n\n',
+    );
 
     // 残りのHTMLタグを除去
-    result = result.replaceAll(RegExp('<[^>]*>', multiLine: true, caseSensitive: false), '');
+    result = result.replaceAll(
+      RegExp('<[^>]*>', multiLine: true, caseSensitive: false),
+      '',
+    );
 
     // HTMLエンティティを変換
     result = result
@@ -411,10 +409,7 @@ class BookInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '購入・詳細',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('購入・詳細', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -451,9 +446,7 @@ class BookInfoSection extends StatelessWidget {
       color: appColors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: appColors.border,
-        ),
+        side: BorderSide(color: appColors.border),
       ),
       child: InkWell(
         onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
@@ -463,19 +456,9 @@ class BookInfoSection extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                label,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: appColors.textPrimary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              Text(label, style: theme.textTheme.labelLarge),
               const SizedBox(width: AppSpacing.xs),
-              Icon(
-                Icons.open_in_new,
-                size: 16,
-                color: appColors.textSecondary,
-              ),
+              Icon(Icons.open_in_new, size: 16, color: appColors.textSecondary),
             ],
           ),
         ),
@@ -485,10 +468,7 @@ class BookInfoSection extends StatelessWidget {
 }
 
 class _CoverPlaceholder extends StatelessWidget {
-  const _CoverPlaceholder({
-    this.width = 140,
-    this.height = 200,
-  });
+  const _CoverPlaceholder({this.width = 140, this.height = 200});
 
   final double width;
   final double height;

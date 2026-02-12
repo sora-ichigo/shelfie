@@ -23,10 +23,7 @@ class ReadingNoteSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '自分メモ',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('自分メモ', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         _buildNoteContent(context),
         if (shelfEntry.noteUpdatedAt != null) ...[
@@ -55,9 +52,7 @@ class ReadingNoteSection extends StatelessWidget {
         decoration: BoxDecoration(
           color: appColors.surface,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: appColors.border,
-          ),
+          border: Border.all(color: appColors.border),
         ),
         child: Row(
           children: [
@@ -65,17 +60,12 @@ class ReadingNoteSection extends StatelessWidget {
               child: Text(
                 shelfEntry.hasNote ? shelfEntry.note! : '自分用のメモを書く...',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: shelfEntry.hasNote
-                      ? null
-                      : appColors.textSecondary,
+                  color: shelfEntry.hasNote ? null : appColors.textSecondary,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            Icon(
-              Icons.chevron_right,
-              color: appColors.textSecondary,
-            ),
+            Icon(Icons.chevron_right, color: appColors.textSecondary),
           ],
         ),
       ),

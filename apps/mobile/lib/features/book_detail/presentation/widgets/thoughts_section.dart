@@ -23,10 +23,7 @@ class ThoughtsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '感想',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text('感想', style: theme.textTheme.titleMedium),
         const SizedBox(height: AppSpacing.sm),
         _buildThoughtsContent(context),
         if (shelfEntry.thoughtsUpdatedAt != null) ...[
@@ -55,9 +52,7 @@ class ThoughtsSection extends StatelessWidget {
         decoration: BoxDecoration(
           color: appColors.surface,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: appColors.border,
-          ),
+          border: Border.all(color: appColors.border),
         ),
         child: Row(
           children: [
@@ -72,10 +67,7 @@ class ThoughtsSection extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            Icon(
-              Icons.chevron_right,
-              color: appColors.textSecondary,
-            ),
+            Icon(Icons.chevron_right, color: appColors.textSecondary),
           ],
         ),
       ),
