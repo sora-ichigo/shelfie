@@ -14,143 +14,88 @@ void main() {
   late MockBookListRepository mockRepository;
   final now = DateTime(2024, 1, 15, 10, 30);
 
-  BookList createBookList({
-    int id = 1,
-    String title = 'Test List',
-    String? description,
-  }) {
-    return BookList(
-      id: id,
-      title: title,
-      description: description,
-      createdAt: now,
-      updatedAt: now,
-    );
-  }
-
   setUp(() {
     mockRepository = MockBookListRepository();
+    when(() => mockRepository.getBookListDetail(listId: any(named: 'listId')))
+        .thenAnswer((_) async => right(BookListDetail(
+              id: 1,
+              title: 'Test List',
+              description: null,
+              items: const [],
+              stats: const BookListDetailStats(
+                  bookCount: 0, completedCount: 0, coverImages: []),
+              createdAt: now,
+              updatedAt: now,
+            )));
   });
 
-  Widget buildTestWidget({
-    BookList? existingList,
-  }) {
+  Widget buildTestWidget({int listId = 1}) {
     return ProviderScope(
       overrides: [
         bookListRepositoryProvider.overrideWithValue(mockRepository),
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),
-        home: BookListEditScreen(
-          existingList: existingList,
-          autoOpenBookSelector: false,
-        ),
+        home: BookListEditScreen(listId: listId),
       ),
     );
   }
 
+  Future<void> pumpUntilLoaded(WidgetTester tester) async {
+    await tester.pumpWidget(buildTestWidget());
+    await tester.pump();
+    await tester.pump();
+  }
+
   group('BookListEditScreen', () {
-    group('create mode', () {
-      testWidgets('displays "新しいリスト" title when creating', (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        expect(find.text('新しいリスト'), findsOneWidget);
-      });
-
-      testWidgets('displays empty title field', (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        final titleField = find.byKey(const Key('title_field'));
-        expect(titleField, findsOneWidget);
-
-        final textField = tester.widget<TextField>(
-          find.descendant(of: titleField, matching: find.byType(TextField)),
-        );
-        expect(textField.controller?.text, isEmpty);
-      });
-
-      testWidgets('displays empty description field', (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        final descField = find.byKey(const Key('description_field'));
-        expect(descField, findsOneWidget);
-      });
-
-      testWidgets('save button is disabled when title is empty', (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        final saveButton = find.byIcon(Icons.check);
-        expect(saveButton, findsOneWidget);
-
-        final buttonWidget = tester.widget<IconButton>(
-          find.ancestor(
-            of: saveButton,
-            matching: find.byType(IconButton),
-          ),
-        );
-        expect(buttonWidget.onPressed, isNull);
-      });
-
-      testWidgets('save button is enabled when title is entered', (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        await tester.enterText(
-          find.byKey(const Key('title_field')),
-          'New List',
-        );
-        await tester.pump();
-
-        final buttonWidget = tester.widget<IconButton>(
-          find.ancestor(
-            of: find.byIcon(Icons.check),
-            matching: find.byType(IconButton),
-          ),
-        );
-        expect(buttonWidget.onPressed, isNotNull);
-      });
-    });
-
     group('edit mode', () {
-      testWidgets('displays "リスト編集" title when editing', (tester) async {
-        await tester.pumpWidget(
-          buildTestWidget(existingList: createBookList()),
-        );
-        await tester.pump();
+      testWidgets('displays "リスト編集" title', (tester) async {
+        await pumpUntilLoaded(tester);
 
         expect(find.text('リスト編集'), findsOneWidget);
       });
 
-      testWidgets('pre-fills title field with existing value', (tester) async {
-        await tester.pumpWidget(
-          buildTestWidget(existingList: createBookList(title: 'My List')),
-        );
-        await tester.pump();
+      testWidgets('pre-fills title field with loaded value', (tester) async {
+        when(() =>
+                mockRepository.getBookListDetail(listId: any(named: 'listId')))
+            .thenAnswer((_) async => right(BookListDetail(
+                  id: 1,
+                  title: 'My List',
+                  description: null,
+                  items: const [],
+                  stats: const BookListDetailStats(
+                      bookCount: 0, completedCount: 0, coverImages: []),
+                  createdAt: now,
+                  updatedAt: now,
+                )));
+
+        await pumpUntilLoaded(tester);
 
         expect(find.text('My List'), findsOneWidget);
       });
 
-      testWidgets('pre-fills description field with existing value',
+      testWidgets('pre-fills description field with loaded value',
           (tester) async {
-        await tester.pumpWidget(
-          buildTestWidget(
-            existingList: createBookList(description: 'A description'),
-          ),
-        );
-        await tester.pump();
+        when(() =>
+                mockRepository.getBookListDetail(listId: any(named: 'listId')))
+            .thenAnswer((_) async => right(BookListDetail(
+                  id: 1,
+                  title: 'Test List',
+                  description: 'A description',
+                  items: const [],
+                  stats: const BookListDetailStats(
+                      bookCount: 0, completedCount: 0, coverImages: []),
+                  createdAt: now,
+                  updatedAt: now,
+                )));
+
+        await pumpUntilLoaded(tester);
 
         expect(find.text('A description'), findsOneWidget);
       });
 
-      testWidgets('displays delete button when editing', (tester) async {
-        await tester.pumpWidget(
-          buildTestWidget(existingList: createBookList()),
-        );
-        await tester.pump();
+      testWidgets('displays delete button', (tester) async {
+        await pumpUntilLoaded(tester);
 
         expect(find.text('リストを削除'), findsOneWidget);
       });
@@ -159,8 +104,7 @@ void main() {
     group('form validation', () {
       testWidgets('shows error when title is cleared after input',
           (tester) async {
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
+        await pumpUntilLoaded(tester);
 
         await tester.enterText(
           find.byKey(const Key('title_field')),
@@ -179,48 +123,7 @@ void main() {
     });
 
     group('save action', () {
-      testWidgets('calls createBookList when saving new list', (tester) async {
-        when(
-          () => mockRepository.createBookList(
-            title: any(named: 'title'),
-            description: any(named: 'description'),
-          ),
-        ).thenAnswer(
-          (_) async => right(createBookList(title: 'New List')),
-        );
-        when(
-          () => mockRepository.getMyBookLists(
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            const MyBookListsResult(items: [], totalCount: 0, hasMore: false),
-          ),
-        );
-
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        await tester.enterText(
-          find.byKey(const Key('title_field')),
-          'New List',
-        );
-        await tester.pump();
-
-        await tester.tap(find.byIcon(Icons.check));
-        await tester.pumpAndSettle();
-
-        verify(
-          () => mockRepository.createBookList(
-            title: 'New List',
-            description: null,
-          ),
-        ).called(1);
-      });
-
-      testWidgets('calls updateBookList when saving existing list',
-          (tester) async {
+      testWidgets('calls updateBookList when saving', (tester) async {
         when(
           () => mockRepository.updateBookList(
             listId: any(named: 'listId'),
@@ -228,7 +131,13 @@ void main() {
             description: any(named: 'description'),
           ),
         ).thenAnswer(
-          (_) async => right(createBookList(title: 'Updated List')),
+          (_) async => right(BookList(
+            id: 1,
+            title: 'Updated List',
+            description: null,
+            createdAt: now,
+            updatedAt: now,
+          )),
         );
         when(
           () => mockRepository.getMyBookLists(
@@ -241,10 +150,7 @@ void main() {
           ),
         );
 
-        await tester.pumpWidget(
-          buildTestWidget(existingList: createBookList(id: 1)),
-        );
-        await tester.pump();
+        await pumpUntilLoaded(tester);
 
         await tester.enterText(
           find.byKey(const Key('title_field')),
@@ -253,7 +159,8 @@ void main() {
         await tester.pump();
 
         await tester.tap(find.byIcon(Icons.check));
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump();
 
         verify(
           () => mockRepository.updateBookList(
@@ -263,45 +170,6 @@ void main() {
           ),
         ).called(1);
       });
-
-      testWidgets('shows loading indicator while saving', (tester) async {
-        when(
-          () => mockRepository.createBookList(
-            title: any(named: 'title'),
-            description: any(named: 'description'),
-          ),
-        ).thenAnswer((_) async {
-          await Future<void>.delayed(const Duration(milliseconds: 500));
-          return right(createBookList());
-        });
-        when(
-          () => mockRepository.getMyBookLists(
-            limit: any(named: 'limit'),
-            offset: any(named: 'offset'),
-          ),
-        ).thenAnswer(
-          (_) async => right(
-            const MyBookListsResult(items: [], totalCount: 0, hasMore: false),
-          ),
-        );
-
-        await tester.pumpWidget(buildTestWidget());
-        await tester.pump();
-
-        await tester.enterText(
-          find.byKey(const Key('title_field')),
-          'New List',
-        );
-        await tester.pump();
-
-        await tester.tap(find.byIcon(Icons.check));
-        await tester.pump();
-
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-        await tester.pumpAndSettle();
-      });
-
     });
   });
 }

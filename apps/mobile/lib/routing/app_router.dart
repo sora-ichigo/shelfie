@@ -86,9 +86,6 @@ abstract final class AppRoutes {
   /// リスト詳細画面パスを生成
   static String bookListDetail({required int listId}) => '/lists/$listId';
 
-  /// リスト作成画面
-  static const bookListCreate = '/lists/new';
-
   /// リスト編集画面パスを生成
   static String bookListEdit({required int listId}) => '/lists/$listId/edit';
 }
@@ -406,13 +403,6 @@ List<RouteBase> _buildRoutes() {
           ],
         ),
       ],
-    ),
-
-    // リスト作成画面（タブバーなし）
-    GoRoute(
-      path: AppRoutes.bookListCreate,
-      pageBuilder: (context, state) =>
-          const CupertinoPage(child: BookListEditScreen()),
     ),
 
     // ISBN スキャン画面（タブバーなし）

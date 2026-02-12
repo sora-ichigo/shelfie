@@ -21,6 +21,7 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/create_book_list_modal.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
@@ -266,7 +267,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 icon: Icons.add,
                 color: appColors.textSecondary,
                 semanticLabel: 'リストを作成',
-                onTap: () => context.push(AppRoutes.bookListCreate),
+                onTap: _onCreateBookList,
               ),
             ],
           ),
@@ -294,7 +295,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       BookListLoaded(lists: final lists) when lists.isEmpty => [
         SliverFillRemaining(
           child: NoBookListsMessage(
-            onCreateListPressed: () => context.push(AppRoutes.bookListCreate),
+            onCreateListPressed: _onCreateBookList,
           ),
         ),
       ],
@@ -321,6 +322,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
       ],
     };
+  }
+
+  Future<void> _onCreateBookList() async {
+    final bookListState = ref.read(bookListNotifierProvider);
+    final existingCount =
+        bookListState is BookListLoaded ? bookListState.lists.length : 0;
+    final bookList = await showCreateBookListModal(
+      context: context,
+      existingCount: existingCount,
+    );
+    if (bookList != null && mounted) {
+      await context.push(AppRoutes.bookListDetail(listId: bookList.id));
+    }
   }
 
   void _onBookTap(ShelfBookItem book) {
