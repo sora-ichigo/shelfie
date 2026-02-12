@@ -4,6 +4,7 @@ import type {
   AuthenticatedContext,
   Builder,
 } from "../../../graphql/builder.js";
+import type { FollowService } from "../../follows/index.js";
 import type { UserService } from "../../users/index.js";
 import {
   type Book,
@@ -570,6 +571,7 @@ export function registerBooksQueries(
   searchService: BookSearchService,
   shelfService?: BookShelfService,
   userService?: UserService,
+  followService?: FollowService,
 ): void {
   builder.queryFields((t) => ({
     searchBooks: t.field({
@@ -768,6 +770,83 @@ export function registerBooksQueries(
             : undefined;
         const userBooksResult = await shelfService.getUserBooksWithPagination(
           userResult.data.id,
+          {
+            query: input.query ?? undefined,
+            sortBy: input.sortBy ?? undefined,
+            sortOrder: input.sortOrder ?? undefined,
+            limit: input.limit ?? undefined,
+            offset: input.offset ?? undefined,
+            readingStatus,
+          },
+        );
+
+        if (!userBooksResult.success) {
+          throw new GraphQLError(userBooksResult.error.message, {
+            extensions: { code: userBooksResult.error.code },
+          });
+        }
+
+        return userBooksResult.data;
+      },
+    }),
+    userShelf: t.field({
+      type: MyShelfResultRef,
+      nullable: false,
+      description: "Get books in another user's shelf (requires following)",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userId: t.arg.int({ required: true }),
+        input: t.arg({
+          type: MyShelfInputRef,
+          required: false,
+        }),
+      },
+      resolve: async (_parent, args, context): Promise<MyShelfResultData> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        if (!shelfService || !userService || !followService) {
+          throw new GraphQLError("Service unavailable", {
+            extensions: { code: "INTERNAL_ERROR" },
+          });
+        }
+
+        const currentUserResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!currentUserResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const status = await followService.getFollowStatus(
+          currentUserResult.data.id,
+          args.userId,
+        );
+
+        if (status !== "FOLLOWING") {
+          throw new GraphQLError(
+            "You must follow this user to view their shelf",
+            { extensions: { code: "FORBIDDEN" } },
+          );
+        }
+
+        const input = args.input ?? {};
+        const readingStatus =
+          input.readingStatus && input.readingStatus !== "dropped"
+            ? input.readingStatus
+            : undefined;
+        const userBooksResult = await shelfService.getUserBooksWithPagination(
+          args.userId,
           {
             query: input.query ?? undefined,
             sortBy: input.sortBy ?? undefined,
