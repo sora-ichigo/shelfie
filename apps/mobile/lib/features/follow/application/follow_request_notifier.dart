@@ -39,6 +39,24 @@ class FollowRequestNotifier extends _$FollowRequestNotifier {
     _isOperating = false;
   }
 
+  Future<void> cancelFollowRequest() async {
+    if (_isOperating) return;
+    _isOperating = true;
+
+    final previous = state;
+    state = const AsyncData(FollowStatusType.none);
+
+    final repo = ref.read(followRepositoryProvider);
+    final result = await repo.cancelFollowRequest(targetUserId: _targetUserId);
+
+    result.fold(
+      (failure) => state = previous,
+      (_) => ref.read(followVersionProvider.notifier).increment(),
+    );
+
+    _isOperating = false;
+  }
+
   Future<void> unfollow() async {
     if (_isOperating) return;
     _isOperating = true;

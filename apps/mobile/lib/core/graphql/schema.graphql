@@ -432,6 +432,12 @@ type MutationApproveFollowRequestSuccess {
   data: FollowRequest!
 }
 
+union MutationCancelFollowRequestResult = MutationCancelFollowRequestSuccess | ValidationError
+
+type MutationCancelFollowRequestSuccess {
+  data: Boolean!
+}
+
 type Mutation {
   """Add a book to a book list"""
   addBookToList(listId: Int!, userBookId: Int!): BookListDetailItem!
@@ -441,6 +447,9 @@ type Mutation {
 
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
+
+  """Cancel a pending follow request"""
+  cancelFollowRequest(targetUserId: Int!): MutationCancelFollowRequestResult
 
   """Change user password after verifying current password"""
   changePassword(input: ChangePasswordInput!): MutationChangePasswordResult

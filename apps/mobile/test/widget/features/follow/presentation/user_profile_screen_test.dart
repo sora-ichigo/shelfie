@@ -15,6 +15,7 @@ class FakeFollowRequestNotifier extends FollowRequestNotifier {
   AsyncValue<FollowStatusType> _state =
       const AsyncData(FollowStatusType.none);
   bool sendFollowRequestCalled = false;
+  bool cancelFollowRequestCalled = false;
   bool unfollowCalled = false;
 
   void setState(AsyncValue<FollowStatusType> value) {
@@ -35,6 +36,11 @@ class FakeFollowRequestNotifier extends FollowRequestNotifier {
   @override
   Future<void> sendFollowRequest() async {
     sendFollowRequestCalled = true;
+  }
+
+  @override
+  Future<void> cancelFollowRequest() async {
+    cancelFollowRequestCalled = true;
   }
 
   @override
@@ -105,10 +111,10 @@ void main() {
     });
 
     group('フォロー関係なし', () {
-      testWidgets('制限付きプロフィールが表示される', (tester) async {
+      testWidgets('プロフィール情報が表示される', (tester) async {
         final profile = _createProfile(
           followStatus: FollowStatusType.none,
-          bio: 'This should not be visible',
+          bio: 'I love reading!',
           bookCount: 42,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
@@ -116,8 +122,10 @@ void main() {
 
         expect(find.text('TestUser'), findsOneWidget);
         expect(find.text('@testuser'), findsOneWidget);
-        expect(find.text('This should not be visible'), findsNothing);
-        expect(find.text('42'), findsNothing);
+        expect(find.text('I love reading!'), findsOneWidget);
+        expect(find.text('42 '), findsOneWidget);
+        expect(find.text('5 '), findsOneWidget);
+        expect(find.text('3 '), findsOneWidget);
       });
 
       testWidgets('フォローリクエスト送信ボタンが表示される', (tester) async {
@@ -127,7 +135,7 @@ void main() {
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
-        expect(find.text('フォローリクエストを送信'), findsOneWidget);
+        expect(find.text('フォロー'), findsOneWidget);
       });
 
       testWidgets('フォローリクエスト送信ボタンタップで sendFollowRequest が呼ばれる',
@@ -138,7 +146,7 @@ void main() {
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
-        await tester.tap(find.text('フォローリクエストを送信'));
+        await tester.tap(find.text('フォロー'));
         await tester.pump();
 
         expect(fakeNotifier.sendFollowRequestCalled, isTrue);
@@ -160,6 +168,24 @@ void main() {
 
         expect(find.text('リクエスト送信済み'), findsOneWidget);
       });
+
+      testWidgets('リクエスト送信済みボタンタップで cancelFollowRequest が呼ばれる', (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          followStatus: FollowStatusType.pendingSent,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData(FollowStatusType.pendingSent));
+        await tester.pump();
+
+        await tester.tap(find.text('リクエスト送信済み'));
+        await tester.pump();
+
+        expect(fakeNotifier.cancelFollowRequestCalled, isTrue);
+      });
     });
 
     group('フォロー関係あり', () {
@@ -179,8 +205,8 @@ void main() {
 
         expect(find.text('TestUser'), findsOneWidget);
         expect(find.text('I love reading!'), findsOneWidget);
-        expect(find.text('5'), findsOneWidget);
-        expect(find.text('3'), findsOneWidget);
+        expect(find.text('5 '), findsOneWidget);
+        expect(find.text('3 '), findsOneWidget);
       });
 
       testWidgets('フォロー解除ボタンが表示される', (tester) async {
@@ -226,7 +252,7 @@ void main() {
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
-        expect(find.text('フォローリクエストを送信'), findsNothing);
+        expect(find.text('フォロー'), findsNothing);
         expect(find.text('フォロー解除'), findsNothing);
         expect(find.text('リクエスト送信済み'), findsNothing);
       });

@@ -562,6 +562,90 @@ describe("FollowService", () => {
     });
   });
 
+  describe("cancelFollowRequest", () => {
+    it("should cancel pending follow request successfully", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        pendingRequest,
+      );
+      vi.mocked(repo.updateRequestStatus).mockResolvedValue({
+        ...pendingRequest,
+        status: "rejected",
+      });
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.cancelFollowRequest(1, 2);
+
+      expect(result.success).toBe(true);
+      expect(repo.updateRequestStatus).toHaveBeenCalledWith(5, "rejected");
+    });
+
+    it("should return error when no pending request exists", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.cancelFollowRequest(1, 2);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("REQUEST_NOT_FOUND");
+      }
+    });
+
+    it("should return error when request is already processed", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        createMockFollowRequest({
+          senderId: 1,
+          receiverId: 2,
+          status: "approved",
+        }),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.cancelFollowRequest(1, 2);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("REQUEST_ALREADY_PROCESSED");
+      }
+    });
+  });
+
   describe("getFollowStatus", () => {
     it("should return FOLLOWING when follow exists", async () => {
       const repo = createMockFollowRepository();

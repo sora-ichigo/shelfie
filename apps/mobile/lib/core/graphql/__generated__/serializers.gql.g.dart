@@ -44,6 +44,15 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GBookListDetailReq.serializer)
       ..add(GBookListDetailVars.serializer)
       ..add(GBookSource.serializer)
+      ..add(GCancelFollowRequestData.serializer)
+      ..add(
+          GCancelFollowRequestData_cancelFollowRequest__asMutationCancelFollowRequestSuccess
+              .serializer)
+      ..add(GCancelFollowRequestData_cancelFollowRequest__asValidationError
+          .serializer)
+      ..add(GCancelFollowRequestData_cancelFollowRequest__base.serializer)
+      ..add(GCancelFollowRequestReq.serializer)
+      ..add(GCancelFollowRequestVars.serializer)
       ..add(GChangePasswordData.serializer)
       ..add(GChangePasswordData_changePassword__asAuthError.serializer)
       ..add(GChangePasswordData_changePassword__asMutationChangePasswordSuccess

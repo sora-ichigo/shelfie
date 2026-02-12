@@ -2,39 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
 
 import '../../../../helpers/test_helpers.dart';
-
-UserProfile _createProfile({
-  int id = 1,
-  String? handle = 'testuser',
-  String? name = 'TestUser',
-  int bookCount = 10,
-}) {
-  return UserProfile(
-    id: id,
-    email: 'test@example.com',
-    name: name,
-    avatarUrl: null,
-    handle: handle,
-    bookCount: bookCount,
-    bio: null,
-    instagramHandle: null,
-    readingStartYear: null,
-    readingStartMonth: null,
-    createdAt: DateTime(2026),
-  );
-}
 
 void main() {
   setUpAll(registerTestFallbackValues);
 
   Widget buildSubject({
-    required UserProfile profile,
+    String? name = 'TestUser',
+    String? handle = 'testuser',
+    int bookCount = 10,
     int followingCount = 0,
     int followerCount = 0,
+    Widget? actionButtons,
     List<Override> overrides = const [],
   }) {
     return ProviderScope(
@@ -43,13 +24,14 @@ void main() {
         theme: AppTheme.theme,
         home: Scaffold(
           body: ProfileHeader(
-            profile: profile,
+            name: name,
+            handle: handle,
+            bookCount: bookCount,
             followingCount: followingCount,
             followerCount: followerCount,
-            onEditProfile: () {},
-            onShareProfile: () {},
             onFollowingTap: () {},
             onFollowersTap: () {},
+            actionButtons: actionButtons,
           ),
         ),
       ),
@@ -59,7 +41,6 @@ void main() {
   group('ProfileHeader フォロー数統合', () {
     testWidgets('フォロー数が表示される', (tester) async {
       await tester.pumpWidget(buildSubject(
-        profile: _createProfile(),
         followingCount: 42,
         followerCount: 15,
       ));
@@ -72,22 +53,20 @@ void main() {
     });
 
     testWidgets('冊数が表示される', (tester) async {
-      await tester.pumpWidget(buildSubject(
-        profile: _createProfile(bookCount: 25),
-      ));
+      await tester.pumpWidget(buildSubject(bookCount: 25));
       await tester.pump();
 
       expect(find.text('25 '), findsOneWidget);
       expect(find.text('冊登録'), findsOneWidget);
     });
 
-    testWidgets('プロフィールをシェアボタンが存在する', (tester) async {
+    testWidgets('actionButtons が表示される', (tester) async {
       await tester.pumpWidget(buildSubject(
-        profile: _createProfile(),
+        actionButtons: const Text('カスタムボタン'),
       ));
       await tester.pump();
 
-      expect(find.text('プロフィールをシェア'), findsOneWidget);
+      expect(find.text('カスタムボタン'), findsOneWidget);
     });
   });
 }

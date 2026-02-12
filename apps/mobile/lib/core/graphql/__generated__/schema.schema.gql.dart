@@ -518,6 +518,10 @@ const Map<String, Set<String>> possibleTypesMap = {
     'MutationApproveFollowRequestSuccess',
     'ValidationError',
   },
+  'MutationCancelFollowRequestResult': {
+    'MutationCancelFollowRequestSuccess',
+    'ValidationError',
+  },
   'MutationChangePasswordResult': {
     'AuthError',
     'MutationChangePasswordSuccess',

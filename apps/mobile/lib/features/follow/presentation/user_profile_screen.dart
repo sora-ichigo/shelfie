@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
-import 'package:shelfie/core/widgets/user_avatar.dart';
+import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
 import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
@@ -41,7 +41,6 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     final followState = ref.watch(
         followRequestNotifierProvider(widget.profile.user.id));
     final currentStatus = followState.valueOrNull ?? widget.profile.followStatus;
-    final isFollowing = currentStatus == FollowStatusType.following;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,137 +54,58 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
         scrolledUnderElevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: AppSpacing.md),
-              _buildHeader(context, theme, appColors),
-              if (isFollowing) ...[
-                if (widget.profile.bio != null &&
-                    widget.profile.bio!.isNotEmpty) ...[
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    widget.profile.bio!,
-                    style: theme.textTheme.bodyMedium,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-                const SizedBox(height: AppSpacing.sm),
-                _buildStats(context, theme, appColors),
-              ],
-              if (!widget.profile.isOwnProfile) ...[
-                const SizedBox(height: AppSpacing.md),
-                _buildActionButton(context, theme, appColors, currentStatus),
-              ],
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: AppSpacing.md),
+            ProfileHeader(
+              name: widget.profile.user.name,
+              avatarUrl: widget.profile.user.avatarUrl,
+              handle: widget.profile.user.handle,
+              bio: widget.profile.bio,
+              instagramHandle: widget.profile.instagramHandle,
+              bookCount: widget.profile.bookCount ?? 0,
+              followingCount: widget.profile.followCounts.followingCount,
+              followerCount: widget.profile.followCounts.followerCount,
+              onFollowingTap: widget.onFollowingTap,
+              onFollowersTap: widget.onFollowersTap,
+              actionButtons: widget.profile.isOwnProfile
+                  ? null
+                  : _buildActionButton(appColors, theme, currentStatus),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(
-      BuildContext context, ThemeData theme, AppColors appColors) {
-    return Row(
-      children: [
-        UserAvatar(
-          avatarUrl: widget.profile.user.avatarUrl,
-          radius: 40,
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.profile.user.name ?? 'ユーザー',
-                style: theme.textTheme.titleMedium,
-              ),
-              if (widget.profile.user.handle != null)
-                Text(
-                  '@${widget.profile.user.handle}',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: appColors.textSecondary,
-                  ),
-                ),
-            ],
+  Widget _buildActionButton(
+      AppColors appColors, ThemeData theme, FollowStatusType status) {
+    final shareButton = Expanded(
+      child: FilledButton(
+        onPressed: () {},
+        style: FilledButton.styleFrom(
+          backgroundColor: appColors.surfaceElevated,
+          foregroundColor: appColors.textPrimary,
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
-      ],
+        child: Text(
+          'プロフィールをシェア',
+          style: theme.textTheme.labelMedium,
+        ),
+      ),
     );
-  }
 
-  Widget _buildStats(
-      BuildContext context, ThemeData theme, AppColors appColors) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: widget.onFollowingTap,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${widget.profile.followCounts.followingCount}',
-                style: theme.textTheme.labelMedium,
-              ),
-              Text(
-                ' フォロー中',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        GestureDetector(
-          onTap: widget.onFollowersTap,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${widget.profile.followCounts.followerCount}',
-                style: theme.textTheme.labelMedium,
-              ),
-              Text(
-                ' フォロワー',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (widget.profile.bookCount != null) ...[
-          const SizedBox(width: AppSpacing.md),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${widget.profile.bookCount}',
-                style: theme.textTheme.labelMedium,
-              ),
-              Text(
-                ' 冊登録',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textSecondary,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildActionButton(BuildContext context, ThemeData theme,
-      AppColors appColors, FollowStatusType status) {
-    return switch (status) {
-      FollowStatusType.none => SizedBox(
-          width: double.infinity,
+    final followButton = switch (status) {
+      FollowStatusType.none => Expanded(
           child: FilledButton(
             onPressed: () => ref
                 .read(followRequestNotifierProvider(widget.profile.user.id)
@@ -194,29 +114,42 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
             style: FilledButton.styleFrom(
               backgroundColor: appColors.primary,
               foregroundColor: appColors.textPrimary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('フォローリクエストを送信'),
+            child: Text('フォロー', style: theme.textTheme.labelMedium),
           ),
         ),
-      FollowStatusType.pendingSent => SizedBox(
-          width: double.infinity,
+      FollowStatusType.pendingSent => Expanded(
           child: FilledButton(
-            onPressed: null,
+            onPressed: () => ref
+                .read(followRequestNotifierProvider(widget.profile.user.id)
+                    .notifier)
+                .cancelFollowRequest(),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.surfaceElevated,
               foregroundColor: appColors.textSecondary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('リクエスト送信済み'),
+            child: Text('リクエスト送信済み', style: theme.textTheme.labelMedium),
           ),
         ),
-      FollowStatusType.following => SizedBox(
-          width: double.infinity,
+      FollowStatusType.following => Expanded(
           child: OutlinedButton(
             onPressed: () => ref
                 .read(followRequestNotifierProvider(widget.profile.user.id)
@@ -224,15 +157,29 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 .unfollow(),
             style: OutlinedButton.styleFrom(
               foregroundColor: appColors.destructive,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
               side: BorderSide(color: appColors.destructive),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('フォロー解除'),
+            child: Text('フォロー解除', style: theme.textTheme.labelMedium),
           ),
         ),
       FollowStatusType.pendingReceived => const SizedBox.shrink(),
     };
+
+    return Row(
+      children: [
+        followButton,
+        const SizedBox(width: AppSpacing.xs),
+        shareButton,
+      ],
+    );
   }
 }

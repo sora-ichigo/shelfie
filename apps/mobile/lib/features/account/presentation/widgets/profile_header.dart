@@ -3,28 +3,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
-import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
-    required this.profile,
-    required this.onEditProfile,
-    required this.onShareProfile,
+    required this.name,
+    required this.bookCount,
+    this.avatarUrl,
+    this.handle,
+    this.bio,
+    this.instagramHandle,
     this.followingCount = 0,
     this.followerCount = 0,
     this.onFollowingTap,
     this.onFollowersTap,
+    this.actionButtons,
     super.key,
   });
 
-  final UserProfile profile;
-  final VoidCallback onEditProfile;
-  final VoidCallback onShareProfile;
+  final String? name;
+  final String? avatarUrl;
+  final String? handle;
+  final String? bio;
+  final String? instagramHandle;
+  final int bookCount;
   final int followingCount;
   final int followerCount;
   final VoidCallback? onFollowingTap;
   final VoidCallback? onFollowersTap;
+  final Widget? actionButtons;
 
   Future<void> _openInstagramProfile(String handle) async {
     final appUri = Uri.parse('instagram://user?username=$handle');
@@ -52,19 +59,19 @@ class ProfileHeader extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Row(
               children: [
-                UserAvatar(avatarUrl: profile.avatarUrl, radius: 32),
+                UserAvatar(avatarUrl: avatarUrl, radius: 32),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        profile.name ?? 'ユーザー',
+                        name ?? 'ユーザー',
                         style: theme.textTheme.titleMedium,
                       ),
-                      if (profile.handle != null)
+                      if (handle != null)
                         Text(
-                          '@${profile.handle}',
+                          '@$handle',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: appColors.textSecondary,
                           ),
@@ -75,23 +82,22 @@ class ProfileHeader extends StatelessWidget {
               ],
             ),
           ),
-          if (profile.bio != null && profile.bio!.isNotEmpty) ...[
+          if (bio != null && bio!.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Text(
-                profile.bio!,
+                bio!,
                 style: theme.textTheme.bodyMedium,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
-          if (profile.instagramHandle != null &&
-              profile.instagramHandle!.isNotEmpty) ...[
+          if (instagramHandle != null && instagramHandle!.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: GestureDetector(
-                onTap: () => _openInstagramProfile(profile.instagramHandle!),
+                onTap: () => _openInstagramProfile(instagramHandle!),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSpacing.xs,
@@ -135,7 +141,7 @@ class ProfileHeader extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.xxs),
                       Text(
-                        '@${profile.instagramHandle}',
+                        '@$instagramHandle',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: appColors.textSecondary,
                         ),
@@ -151,7 +157,7 @@ class ProfileHeader extends StatelessWidget {
             child: Row(
               children: [
                 _StatItem(
-                  count: '${profile.bookCount}',
+                  count: '$bookCount',
                   label: '冊登録',
                   theme: theme,
                   appColors: appColors,
@@ -179,58 +185,11 @@ class ProfileHeader extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: onEditProfile,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: appColors.surfaceElevated,
-                      foregroundColor: appColors.textPrimary,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      'プロフィールを編集',
-                      style: theme.textTheme.labelMedium,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: FilledButton(
-                    onPressed: onShareProfile,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: appColors.surfaceElevated,
-                      foregroundColor: appColors.textPrimary,
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      'プロフィールをシェア',
-                      style: theme.textTheme.labelMedium,
-                    ),
-                  ),
-                ),
-              ],
+          if (actionButtons case final buttons?)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: buttons,
             ),
-          ),
         ],
       ),
     );
