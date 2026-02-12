@@ -104,6 +104,10 @@ void main() {
               userBook: userBook,
             )));
 
+    when(() => mockBookListRepository.getListIdsContainingUserBook(
+          userBookId: any(named: 'userBookId'),
+        )).thenAnswer((_) async => right(<int>[]));
+
     if (lists != null) {
       when(() => mockBookListRepository.getMyBookLists()).thenAnswer(
         (_) async => right(createMyBookListsResult(items: lists)),
