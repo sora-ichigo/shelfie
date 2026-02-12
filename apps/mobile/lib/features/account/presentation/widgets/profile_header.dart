@@ -11,12 +11,20 @@ class ProfileHeader extends StatelessWidget {
     required this.profile,
     required this.onEditProfile,
     required this.onShareProfile,
+    this.followingCount = 0,
+    this.followerCount = 0,
+    this.onFollowingTap,
+    this.onFollowersTap,
     super.key,
   });
 
   final UserProfile profile;
   final VoidCallback onEditProfile;
   final VoidCallback onShareProfile;
+  final int followingCount;
+  final int followerCount;
+  final VoidCallback? onFollowingTap;
+  final VoidCallback? onFollowersTap;
 
   Future<void> _openInstagramProfile(String handle) async {
     final appUri = Uri.parse('instagram://user?username=$handle');
@@ -149,18 +157,24 @@ class ProfileHeader extends StatelessWidget {
                   appColors: appColors,
                 ),
                 const SizedBox(width: AppSpacing.xs),
-                _StatItem(
-                  count: '0',
-                  label: 'フォロー中',
-                  theme: theme,
-                  appColors: appColors,
+                GestureDetector(
+                  onTap: onFollowingTap,
+                  child: _StatItem(
+                    count: '$followingCount',
+                    label: 'フォロー中',
+                    theme: theme,
+                    appColors: appColors,
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.xs),
-                _StatItem(
-                  count: '0',
-                  label: 'フォロワー',
-                  theme: theme,
-                  appColors: appColors,
+                GestureDetector(
+                  onTap: onFollowersTap,
+                  child: _StatItem(
+                    count: '$followerCount',
+                    label: 'フォロワー',
+                    theme: theme,
+                    appColors: appColors,
+                  ),
                 ),
               ],
             ),

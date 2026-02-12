@@ -38,7 +38,7 @@ void main() {
 
   group('MainShell', () {
     group('CupertinoTabBar', () {
-      testWidgets('CupertinoTabBar に 3 タブ表示されること', (tester) async {
+      testWidgets('CupertinoTabBar に 4 タブ表示されること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -66,7 +66,7 @@ void main() {
           find.byType(CupertinoTabBar),
         );
 
-        expect(tabBar.items.length, equals(3));
+        expect(tabBar.items.length, equals(4));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -74,7 +74,8 @@ void main() {
         resetViewport(tester);
       });
 
-      testWidgets('タブの順序がさがす -> + -> プロフィールであること', (tester) async {
+      testWidgets('タブの順序がさがす -> + -> お知らせ -> プロフィールであること',
+          (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -104,13 +105,25 @@ void main() {
 
         final icons = <IconData>[];
         for (final item in tabBar.items) {
-          final iconWidget = (item.icon as Padding).child! as Icon;
-          icons.add(iconWidget.icon!);
+          final iconWidget = (item.icon as Padding).child;
+          if (iconWidget is Icon) {
+            icons.add(iconWidget.icon!);
+          } else {
+            final iconFinder = find.descendant(
+              of: find.byWidget(item.icon),
+              matching: find.byType(Icon),
+            );
+            if (iconFinder.evaluate().isNotEmpty) {
+              final icon = tester.widget<Icon>(iconFinder.first);
+              icons.add(icon.icon!);
+            }
+          }
         }
 
         expect(icons[0], equals(CupertinoIcons.search));
         expect(icons[1], equals(CupertinoIcons.plus));
-        expect(icons[2], equals(CupertinoIcons.person));
+        expect(icons[2], equals(CupertinoIcons.bell));
+        expect(icons[3], equals(CupertinoIcons.person));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -188,7 +201,50 @@ void main() {
           find.byType(CupertinoTabBar),
         );
 
-        expect(tabBar.currentIndex, equals(2));
+        // プロフィールタブは index 3（さがす:0, +:1, お知らせ:2, プロフィール:3）
+        expect(tabBar.currentIndex, equals(3));
+
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump(const Duration(seconds: 1));
+        container.dispose();
+        resetViewport(tester);
+      });
+
+      testWidgets('お知らせタブに遷移できること', (tester) async {
+        setLargeViewport(tester);
+
+        final container = createTestContainer();
+
+        await container.read(authStateProvider.notifier).login(
+              userId: 'user-123',
+              email: 'test@example.com',
+              token: 'test-token',
+              refreshToken: 'test-refresh-token',
+            );
+
+        await tester.pumpWidget(
+          ProviderScope(
+            parent: container,
+            child: MaterialApp.router(
+              theme: AppTheme.theme,
+              routerConfig: container.read(appRouterProvider),
+            ),
+          ),
+        );
+        await tester.pump();
+        tester.takeException();
+
+        container.read(appRouterProvider).go(AppRoutes.notificationsTab);
+        await tester.pump();
+        tester.takeException();
+
+        final currentLocation = container
+            .read(appRouterProvider)
+            .routerDelegate
+            .currentConfiguration
+            .uri
+            .path;
+        expect(currentLocation, equals(AppRoutes.notificationsTab));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));

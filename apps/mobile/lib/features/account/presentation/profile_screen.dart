@@ -26,6 +26,7 @@ import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dar
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
+import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -100,6 +101,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget _buildProfileView(BuildContext context, UserProfile profile) {
     final theme = Theme.of(context);
     final booksState = ref.watch(profileBooksNotifierProvider);
+    final followCounts = ref.watch(followCountsNotifierProvider(profile.id));
 
     return Scaffold(
       appBar: AppBar(
@@ -125,6 +127,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               profile: profile,
               onEditProfile: () => context.push(AppRoutes.accountEdit),
               onShareProfile: () {},
+              followingCount: followCounts.valueOrNull?.followingCount ?? 0,
+              followerCount: followCounts.valueOrNull?.followerCount ?? 0,
+              onFollowingTap: () => context.push(
+                AppRoutes.followList(
+                  userId: profile.id,
+                  type: 'following',
+                ),
+              ),
+              onFollowersTap: () => context.push(
+                AppRoutes.followList(
+                  userId: profile.id,
+                  type: 'followers',
+                ),
+              ),
             ),
           ),
           SliverPersistentHeader(
