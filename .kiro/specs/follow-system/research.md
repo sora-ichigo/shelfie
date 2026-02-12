@@ -15,9 +15,10 @@
 - **Sources Consulted**: PostgreSQL ドキュメント、ソーシャルグラフ設計パターン
 - **Findings**:
   - **follow_requests テーブル**: sender_id, receiver_id, status (pending/approved/rejected), created_at, updated_at で管理。UNIQUE(sender_id, receiver_id) で重複防止
-  - **follows テーブル**: user_id_a, user_id_b, created_at で双方向関係を表現。user_id_a < user_id_b の CHECK 制約 + UNIQUE(user_id_a, user_id_b) で正規化・重複防止
+  - **follows テーブル**: follower_id, followee_id, created_at で一方向関係を表現。UNIQUE(follower_id, followee_id) で同方向の重複防止。CHECK(follower_id != followee_id) で自己フォロー防止
+  - A→BとB→Aは独立したレコードとして管理（Instagram/X 型）
   - フォロー数は follows テーブルの COUNT で取得。初期スコープではカウンタキャッシュ不要（ユーザー規模が限定的）
-- **Implications**: follows テーブルのクエリ時は `WHERE user_id_a = ? OR user_id_b = ?` で検索するが、両カラムにインデックスを張ることでパフォーマンスを担保
+- **Implications**: follows テーブルのクエリは方向付き（`WHERE follower_id = ?` / `WHERE followee_id = ?`）で OR 条件不要。旧モデルよりクエリ効率が向上
 
 ### 通知データモデル（お知らせタブ）
 - **Context**: アプリ内通知履歴の永続化方式
@@ -69,16 +70,16 @@
 
 ## Design Decisions
 
-### Decision: 双方向フォロー関係のデータモデル
+### Decision: 一方向フォロー関係のデータモデル
 
-- **Context**: 承認制フォローの関係データをどう格納するか
+- **Context**: Instagram/X 型の一方向フォローモデルの関係データをどう格納するか
 - **Alternatives Considered**:
-  1. 2行方式（A→B, B→A の2レコード）: クエリが単純だが、整合性維持が複雑
-  2. 1行正規化方式（user_id_a < user_id_b の1レコード）: 整合性が自然に保たれるがクエリにやや工夫が必要
-- **Selected Approach**: 1行正規化方式
-- **Rationale**: CHECK 制約と UNIQUE 制約で重複をDBレベルで完全防止。データ整合性が最優先
-- **Trade-offs**: クエリ時に `OR` 条件が必要だが、両カラムへのインデックスで性能を担保
-- **Follow-up**: ユーザー規模拡大時にカウンタキャッシュの導入を検討
+  1. 1行正規化方式（user_id_a < user_id_b の1レコード）: 双方向前提。一方向フォローを表現不可能
+  2. 方向付き2行方式（follower_id, followee_id）: A→BとB→Aを独立レコードで管理。一方向フォローを自然に表現
+- **Selected Approach**: 方向付き2行方式（follower_id, followee_id）
+- **Rationale**: Instagram/X 型の一方向フォローモデルを実現するには方向付きが必須。クエリも `WHERE follower_id = ?`（フォロー中一覧）/ `WHERE followee_id = ?`（フォロワー一覧）と単純で、OR 条件が不要になりパフォーマンスも向上
+- **Trade-offs**: 相互フォロー時に2レコード必要。しかしストレージコストは無視できるレベル
+- **Follow-up**: 既存データのマイグレーション（旧 user_id_a/user_id_b → 新 follower_id/followee_id）が必要
 
 ### Decision: お知らせ機能の Feature 分離
 

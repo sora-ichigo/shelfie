@@ -1,22 +1,23 @@
 {
   "feature_name": "follow-system",
   "created_at": "2026-02-12T06:32:18Z",
-  "updated_at": "2026-02-12T16:00:00Z",
+  "updated_at": "2026-02-13T07:30:00Z",
   "language": "ja",
   "phase": "tasks-generated",
   "approvals": {
     "requirements": {
       "generated": true,
-      "approved": true
+      "approved": false
     },
     "design": {
       "generated": true,
-      "approved": true
+      "approved": false
     },
     "tasks": {
       "generated": true,
-      "approved": false
+      "approved": true
     }
   },
-  "ready_for_implementation": false
+  "ready_for_implementation": false,
+  "notes": "Phase 2: 双方向フォローモデルから Instagram/X 型の一方向フォローモデルへ移行。follows テーブルを (user_id_a, user_id_b) 正規化から (follower_id, followee_id) 方向付きモデルに変更。"
 }

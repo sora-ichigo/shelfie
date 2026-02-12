@@ -2,14 +2,14 @@
 
 ## Overview
 
-本機能は、Shelfie アプリケーションに承認制フォローシステムを導入する。ユーザーが招待リンクを通じて他ユーザーにフォローリクエストを送信し、相手が承認した場合にのみ双方向のフォロー関係が成立する。フォロー関係のあるユーザー同士のみが互いの本棚を閲覧でき、プライベートな友人ネットワーク（Phase 2）を実現する。
+本機能は、Shelfie アプリケーションに承認制の一方向フォローシステムを導入する。ユーザーが招待リンクを通じて他ユーザーにフォローリクエストを送信し、相手が承認した場合に送信者から受信者への一方向のフォロー関係が成立する。Instagram や X（Twitter）と同様に、相互フォローは自動では成立せず、双方がそれぞれ個別にフォローする必要がある。自分がフォローしているユーザーの本棚のみ閲覧でき、プライベートな友人ネットワーク（Phase 2）を実現する。
 
 本機能はバックエンド（GraphQL API）、モバイルアプリ（Flutter）、Webアプリ（Next.js）の3レイヤーにまたがる。プッシュ通知（既存 NotificationService 活用）とアプリ内通知（お知らせタブ新設）により、フォロー関連イベントをユーザーに通知する。
 
 ### Goals
 
-- 承認制フォローリクエストの送信・承認・拒否・解除の完全なライフサイクルを実装する
-- フォロー関係に基づくプロフィール閲覧のアクセス制御を実現する
+- 承認制の一方向フォローリクエストの送信・承認・拒否・解除の完全なライフサイクルを実装する
+- 一方向フォロー関係に基づくプロフィール閲覧のアクセス制御を実現する（自分がフォローしている相手のみフル情報表示）
 - 招待リンク（Universal Links / App Links）によるユーザー発見・フォロー導線を構築する
 - アプリ内通知（お知らせタブ）とプッシュ通知でフォロー関連イベントを通知する
 - 既存アーキテクチャパターン（Feature Module、Version Provider、Result 型）に完全に準拠する
@@ -152,12 +152,12 @@ sequenceDiagram
     GQL->>FollowSvc: approveRequest(requestId, userId)
     Note over FollowSvc: トランザクション開始
     FollowSvc->>FollowSvc: follow_requests UPDATE (approved)
-    FollowSvc->>FollowSvc: follows INSERT (user_id_a < user_id_b)
-    Note over FollowSvc: トランザクション終了
+    FollowSvc->>FollowSvc: follows INSERT (follower_id=sender, followee_id=receiver)
+    Note over FollowSvc: トランザクション終了（一方向フォローのみ成立）
     FollowSvc->>NotifSvc: createNotification(follow_request_approved)
     FollowSvc-->>GQL: Result ok
     GQL-->>App: FollowRequest
-    App->>App: リクエスト一覧から削除、フォロー数更新
+    App->>App: リクエスト一覧から削除、フォロー数更新、フォローバック導線表示
 ```
 
 ### 招待リンクフロー
@@ -270,10 +270,10 @@ interface FollowRepository {
     status: FollowRequestStatus,
   ): Promise<FollowRequest>;
 
-  // フォロー関係
-  createFollow(userIdA: number, userIdB: number): Promise<Follow>;
-  deleteFollow(userIdA: number, userIdB: number): Promise<void>;
-  findFollow(userId1: number, userId2: number): Promise<Follow | null>;
+  // フォロー関係（方向付き）
+  createFollow(followerId: number, followeeId: number): Promise<Follow>;
+  deleteFollow(followerId: number, followeeId: number): Promise<void>;
+  findFollow(followerId: number, followeeId: number): Promise<Follow | null>;
   findFollowing(
     userId: number,
     cursor: number | null,
@@ -291,12 +291,12 @@ interface FollowRepository {
 
 - Preconditions: DB 接続が確立されていること
 - Postconditions: トランザクション外の操作は各メソッド単位で完結
-- Invariants: follows テーブルの user_id_a < user_id_b 制約は createFollow 内で保証
+- Invariants: follows テーブルは (follower_id, followee_id) の方向付きモデル。自己フォロー防止は CHECK 制約で保証
 
 **Implementation Notes**
-- Integration: `createFollow` は引数の大小比較を行い、常に user_id_a < user_id_b で INSERT する
+- Integration: `createFollow(followerId, followeeId)` は引数をそのまま方向付きで INSERT する（正規化不要）
 - Validation: UNIQUE 制約違反は Drizzle のエラーとして伝播し、Service 層でハンドリング
-- Risks: OR 条件クエリのパフォーマンス → 両カラムに個別インデックスを設定
+- Performance: `findFollowing` は `WHERE follower_id = ?`、`findFollowers` は `WHERE followee_id = ?` の単純クエリ。OR 条件不要
 
 #### NotificationRepository
 
@@ -346,7 +346,7 @@ interface NotificationRepository {
 **Responsibilities & Constraints**
 - フォローリクエスト送信時のバリデーション（自分自身、既存フォロー、既存リクエスト）
 - 承認時のトランザクション管理（request 更新 + follow 作成を原子的に実行）
-- フォロー解除時の双方向削除
+- フォロー解除時の一方向削除（指定方向のみ削除、逆方向は維持）
 - 承認/送信時のアプリ内通知作成とプッシュ通知送信
 
 **Dependencies**
@@ -394,7 +394,7 @@ interface FollowService {
   getFollowStatus(
     userId: number,
     targetUserId: number,
-  ): Promise<FollowStatus>;
+  ): Promise<{ outgoing: FollowStatus; incoming: FollowStatus }>;
 
   getFollowCounts(
     userId: number,
@@ -404,10 +404,10 @@ interface FollowService {
 
 - Preconditions: senderId / userId は認証済みユーザーの ID
 - Postconditions: sendRequest 成功後、アプリ内通知レコードが作成され、プッシュ通知が送信される（プッシュ通知失敗はリクエスト作成に影響しない）
-- Invariants: フォロー関係は常に双方向。片方のみの関係は存在しない
+- Invariants: フォロー関係は一方向。承認により送信者→受信者のフォローのみ成立。逆方向は別途フォローリクエストが必要
 
 **Implementation Notes**
-- Integration: approveRequest はトランザクション内で follow_requests UPDATE と follows INSERT を原子的に実行
+- Integration: approveRequest はトランザクション内で follow_requests UPDATE と follows INSERT（sender→receiver の一方向）を原子的に実行
 - Validation: sendRequest は自分自身チェック → 既存フォローチェック → 既存リクエストチェック の順序で検証
 - Risks: プッシュ通知送信の失敗がレスポンスレイテンシに影響する可能性 → 通知送信は非同期（fire-and-forget）で実行し、エラーはログに記録
 
@@ -500,8 +500,7 @@ enum FollowRequestStatus {
 
 enum FollowStatus {
   NONE
-  PENDING_SENT
-  PENDING_RECEIVED
+  PENDING
   FOLLOWING
 }
 
@@ -520,7 +519,8 @@ type FollowCounts {
 
 type UserProfile {
   user: User!
-  followStatus: FollowStatus!
+  outgoingFollowStatus: FollowStatus!
+  incomingFollowStatus: FollowStatus!
   followCounts: FollowCounts!
   isOwnProfile: Boolean!
 }
@@ -535,7 +535,7 @@ type UserProfile {
 | following | userId: Int!, cursor: Int, limit: Int | [User!]! | loggedIn | フォロー中ユーザー一覧 |
 | followers | userId: Int!, cursor: Int, limit: Int | [User!]! | loggedIn | フォロワー一覧 |
 | followCounts | userId: Int! | FollowCounts! | loggedIn | フォロー数・フォロワー数 |
-| userProfile | handle: String! | UserProfile | loggedIn | ハンドルでユーザープロフィール取得 |
+| userProfile | handle: String! | UserProfile | loggedIn | ハンドルでユーザープロフィール取得（outgoing/incoming の2方向ステータスを返す） |
 
 **Mutations**:
 
@@ -722,7 +722,7 @@ ShelfVersion / BookListVersion と同じパターンで、フォロー関連の�
 
 ##### State Management
 
-- State model: `AsyncValue<FollowStatus>` -- ターゲットユーザーとのフォロー状態
+- State model: `AsyncValue<({FollowStatusType outgoing, FollowStatusType incoming})>` -- ターゲットユーザーとの双方向フォロー状態
 - Persistence: メモリのみ（API から都度取得）
 - Concurrency: 重複操作防止（isLoading 中は操作無効化）
 
@@ -828,10 +828,14 @@ UI コンポーネントは既存のデザインシステム（Material 3 ダー
 
 #### UserProfileScreen (他ユーザープロフィール画面)
 
-- フォロー状態に応じた表示切替（フル表示 / 制限付き表示）
-- フォロー状態に応じたアクションボタン（フォローリクエスト送信 / リクエスト送信済み / フォロー解除）
+- outgoingFollowStatus に基づく表示切替（FOLLOWING → フル表示 / それ以外 → 制限付き表示）
+- outgoing/incoming の組み合わせに応じたアクションボタン:
+  - outgoing=NONE, incoming=NONE → 「フォローリクエスト送信」
+  - outgoing=NONE, incoming=FOLLOWING → 「フォローバックする」
+  - outgoing=PENDING → 「リクエスト送信済み」（キャンセル可能）
+  - outgoing=FOLLOWING → 「フォロー中」（フォロー解除可能）
 - 自分のプロフィール場合はアクションボタン非表示
-- Requirements: 7.3, 7.5, 7.6, 8.1-8.5
+- Requirements: 7.3, 7.5, 7.6, 8.1-8.6
 
 #### ProfileHeader 拡張
 
@@ -906,8 +910,8 @@ erDiagram
 
     Follow {
         int id PK
-        int userIdA FK
-        int userIdB FK
+        int followerId FK
+        int followeeId FK
         datetime createdAt
     }
 
@@ -922,10 +926,11 @@ erDiagram
 ```
 
 **Business Rules & Invariants**:
-- FollowRequest: 同一ペアの pending リクエストは1件のみ存在可能
-- Follow: user_id_a < user_id_b で正規化。同一ペアの関係は1件のみ
-- FollowRequest が approved になると Follow レコードが作成される（トランザクション）
-- unfollow 時は Follow レコードのみ削除。FollowRequest はそのまま残る（履歴として）
+- FollowRequest: 同一方向の pending リクエストは1件のみ存在可能
+- Follow: (follower_id, followee_id) の方向付きモデル。A→BとB→Aは独立したレコード
+- FollowRequest が approved になると、送信者→受信者の一方向 Follow レコードが作成される（トランザクション）。受信者→送信者のフォローは自動では成立しない
+- unfollow 時は指定方向の Follow レコードのみ削除。逆方向のフォロー関係には影響しない
+- FollowRequest はそのまま残る（履歴として）
 - Notification: Follow Feature のイベントに応じて自動作成
 
 ### Physical Data Model
@@ -960,19 +965,21 @@ CREATE INDEX idx_follow_requests_sender
 ```sql
 CREATE TABLE follows (
   id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  user_id_a   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  user_id_b   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  follower_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  followee_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
-  CONSTRAINT uq_follow UNIQUE (user_id_a, user_id_b),
-  CONSTRAINT chk_ordered CHECK (user_id_a < user_id_b)
+  CONSTRAINT uq_follow UNIQUE (follower_id, followee_id),
+  CONSTRAINT chk_no_self_follow CHECK (follower_id != followee_id)
 );
 
-CREATE INDEX idx_follows_user_a ON follows (user_id_a);
-CREATE INDEX idx_follows_user_b ON follows (user_id_b);
+CREATE INDEX idx_follows_follower ON follows (follower_id);
+CREATE INDEX idx_follows_followee ON follows (followee_id);
 ```
 
-- user_id_a < user_id_b の CHECK 制約で正規化を保証
-- 両カラムに個別インデックスを設定し、`WHERE user_id_a = ? OR user_id_b = ?` クエリを高速化
+- 方向付きモデル: `(follower_id, followee_id)` で一方向フォローを表現。A→BとB→Aは別レコード
+- UNIQUE(follower_id, followee_id) で同方向の重複を防止
+- CHECK 制約で自分自身へのフォローを防止
+- 各カラムに個別インデックスを設定（フォロー中一覧: `WHERE follower_id = ?`、フォロワー一覧: `WHERE followee_id = ?`）
 - ON DELETE CASCADE でユーザー削除時に自動削除
 
 #### notifications テーブル
@@ -1024,15 +1031,15 @@ export const follows = pgTable(
   "follows",
   {
     id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-    userIdA: integer("user_id_a").notNull().references(() => users.id, { onDelete: "cascade" }),
-    userIdB: integer("user_id_b").notNull().references(() => users.id, { onDelete: "cascade" }),
+    followerId: integer("follower_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    followeeId: integer("followee_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => [
-    unique("uq_follow").on(table.userIdA, table.userIdB),
-    index("idx_follows_user_a").on(table.userIdA),
-    index("idx_follows_user_b").on(table.userIdB),
-    check("chk_ordered", sql`${table.userIdA} < ${table.userIdB}`),
+    unique("uq_follow").on(table.followerId, table.followeeId),
+    index("idx_follows_follower").on(table.followerId),
+    index("idx_follows_followee").on(table.followeeId),
+    check("chk_no_self_follow", sql`${table.followerId} != ${table.followeeId}`),
   ],
 );
 
@@ -1082,8 +1089,8 @@ class UserSummary with _$UserSummary {
   }) = _UserSummary;
 }
 
-// FollowStatus
-enum FollowStatusType { none, pendingSent, pendingReceived, following }
+// FollowStatus（一方向の状態）
+enum FollowStatusType { none, pending, following }
 
 // FollowCounts
 @freezed
@@ -1099,7 +1106,8 @@ class FollowCounts with _$FollowCounts {
 class UserProfileModel with _$UserProfileModel {
   const factory UserProfileModel({
     required UserSummary user,
-    required FollowStatusType followStatus,
+    required FollowStatusType outgoingFollowStatus,
+    required FollowStatusType incomingFollowStatus,
     required FollowCounts followCounts,
     required bool isOwnProfile,
     // フォロー中の場合のみ表示される追加情報
@@ -1193,7 +1201,7 @@ enum NotificationType { followRequestReceived, followRequestApproved }
 
 ## Performance & Scalability
 
-- **フォロー数取得**: follows テーブルの COUNT クエリ。user_id_a / user_id_b のインデックスにより O(log n)。ユーザー数万規模では十分な性能
+- **フォロー数取得**: follows テーブルの COUNT クエリ。follower_id / followee_id の個別インデックスにより O(log n)。OR 条件不要で旧モデルよりクエリ効率が向上。ユーザー数万規模では十分な性能
 - **通知一覧**: recipient_id + created_at DESC インデックスによるカーソルベースページネーション。O(log n + k)（k = limit）
 - **未読件数**: recipient_id + is_read 複合インデックスによる COUNT。O(log n)
 - **将来の最適化**: ユーザー規模拡大時にフォロー数のカウンタキャッシュ（users テーブルに following_count / follower_count カラム追加）を検討
