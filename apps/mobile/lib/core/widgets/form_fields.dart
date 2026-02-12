@@ -43,6 +43,7 @@ InputDecoration _buildInputDecoration({
 class LabeledTextField extends StatelessWidget {
   const LabeledTextField({
     required this.label,
+    this.labelIcon,
     this.controller,
     this.hintText,
     this.errorText,
@@ -58,6 +59,7 @@ class LabeledTextField extends StatelessWidget {
   });
 
   final String label;
+  final Widget? labelIcon;
   final TextEditingController? controller;
   final String? hintText;
   final String? errorText;
@@ -78,11 +80,17 @@ class LabeledTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+        Row(
+          children: [
+            if (labelIcon != null) ...[
+              labelIcon!,
+              const SizedBox(width: AppSpacing.xxs),
+            ],
+            Text(
+              label,
+              style: theme.textTheme.titleSmall,
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.xs),
         TextField(

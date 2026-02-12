@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/form_fields.dart';
@@ -72,6 +73,33 @@ class ProfileEditForm extends StatelessWidget {
         const SizedBox(height: AppSpacing.lg),
         LabeledTextField(
           label: 'Instagram',
+          labelIcon: SizedBox(
+            height: 16,
+            width: 16,
+            child: ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+                colors: [
+                  // ignore: avoid_direct_colors
+                  Color(0xFFFFD735),
+                  // ignore: avoid_direct_colors
+                  Color(0xFFFF5D21),
+                  // ignore: avoid_direct_colors
+                  Color(0xFFFF30C4),
+                  // ignore: avoid_direct_colors
+                  Color(0xFF741AFA),
+                ],
+                stops: [0.0, 0.35, 0.65, 1.0],
+              ).createShader(bounds),
+              child: const FaIcon(
+                FontAwesomeIcons.instagram,
+                size: 16,
+                // ignore: avoid_direct_colors
+                color: Colors.white,
+              ),
+            ),
+          ),
           controller: instagramHandleController,
           onChanged: onInstagramHandleChanged,
           errorText: instagramHandleError,
