@@ -23,6 +23,10 @@ class AccountNotifier extends _$AccountNotifier {
     );
   }
 
+  void setProfile(UserProfile profile) {
+    state = AsyncData(profile);
+  }
+
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => _fetchProfile());

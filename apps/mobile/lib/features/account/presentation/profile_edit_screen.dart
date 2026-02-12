@@ -88,7 +88,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           loading: () {},
           uploading: (_) {},
           success: (profile) {
-            ref.read(accountNotifierProvider.notifier).refresh();
+            ref.read(accountNotifierProvider.notifier).setProfile(profile);
             widget.onSaveSuccess();
           },
           error: (message, field) {
@@ -105,6 +105,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     final isLoading = editState is ProfileEditStateLoading ||
         editState is ProfileEditStateUploading;
     final isSaveEnabled = formNotifier.isValid && !isLoading;
+    final showErrors = formState.hasChanges;
 
     return Scaffold(
       body: SafeArea(
@@ -142,11 +143,15 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           onBioChanged: formNotifier.updateBio,
                           onInstagramHandleChanged:
                               formNotifier.updateInstagramHandle,
-                          nameError: formNotifier.nameError,
-                          handleError: formNotifier.handleError,
-                          bioError: formNotifier.bioError,
-                          instagramHandleError:
-                              formNotifier.instagramHandleError,
+                          nameError:
+                              showErrors ? formNotifier.nameError : null,
+                          handleError:
+                              showErrors ? formNotifier.handleError : null,
+                          bioError:
+                              showErrors ? formNotifier.bioError : null,
+                          instagramHandleError: showErrors
+                              ? formNotifier.instagramHandleError
+                              : null,
                         ),
                       ],
                     ),

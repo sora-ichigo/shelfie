@@ -103,17 +103,19 @@ class ProfileHeader extends StatelessWidget {
                         width: 16,
                         child: ShaderMask(
                           shaderCallback: (bounds) => const LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
                             colors: [
                               // ignore: avoid_direct_colors
-                              Color(0xFFFDF497),
+                              Color(0xFFFFD735),
                               // ignore: avoid_direct_colors
-                              Color(0xFFFD5949),
+                              Color(0xFFFF5D21),
                               // ignore: avoid_direct_colors
-                              Color(0xFFD6249F),
+                              Color(0xFFFF30C4),
                               // ignore: avoid_direct_colors
-                              Color(0xFF285AEB),
+                              Color(0xFF741AFA),
                             ],
-                            stops: [0.0, 0.35, 0.55, 0.9],
+                            stops: [0.0, 0.35, 0.65, 1.0],
                           ).createShader(bounds),
                           child: const FaIcon(
                             FontAwesomeIcons.instagram,
@@ -144,6 +146,7 @@ class ProfileHeader extends StatelessWidget {
                   count: '${profile.bookCount}',
                   label: '冊登録',
                   theme: theme,
+                  appColors: appColors,
                 ),
                 const SizedBox(width: AppSpacing.xs),
                 _StatItem(
