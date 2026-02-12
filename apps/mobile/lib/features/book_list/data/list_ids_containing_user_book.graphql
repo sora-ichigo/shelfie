@@ -1,0 +1,5 @@
+query ListIdsContainingUserBook($userBookId: Int!) {
+  listIdsContainingUserBook(userBookId: $userBookId) {
+    listIds
+  }
+}

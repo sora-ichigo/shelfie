@@ -21,6 +21,7 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/create_book_list_modal.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
@@ -34,31 +35,23 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  ProfileTab _selectedTab = ProfileTab.bookShelf;
-  final _scrollController = ScrollController();
-  bool _bookListLoaded = false;
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _tabController = TabController(
+      length: ProfileTab.values.length,
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      final booksState = ref.read(profileBooksNotifierProvider);
-      if (booksState.hasMore && !booksState.isLoadingMore) {
-        ref.read(profileBooksNotifierProvider.notifier).loadMore();
-      }
-    }
   }
 
   @override
@@ -125,9 +118,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
             child: ProfileHeader(
               profile: profile,
@@ -138,25 +130,53 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SliverPersistentHeader(
             pinned: true,
             delegate: _TabBarDelegate(
-              child: ProfileTabBar(
-                selectedTab: _selectedTab,
-                onTabChanged: (tab) {
-                  setState(() => _selectedTab = tab);
-                  if (tab == ProfileTab.bookList && !_bookListLoaded) {
-                    _bookListLoaded = true;
-                    ref.read(bookListNotifierProvider.notifier).loadLists();
-                  }
-                },
+              child: ListenableBuilder(
+                listenable: _tabController.animation!,
+                builder: (context, _) => ProfileTabBar(
+                  selectedTab: ProfileTab
+                      .values[_tabController.animation!.value.round()],
+                  onTabChanged: (tab) =>
+                      _tabController.animateTo(tab.index),
+                ),
               ),
               backgroundColor: theme.scaffoldBackgroundColor,
             ),
           ),
-          if (_selectedTab == ProfileTab.bookShelf)
-            ..._buildBookShelfSlivers(booksState)
-          else
-            ..._buildBookListSlivers(),
         ],
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildBookShelfTab(booksState),
+            _buildBookListTab(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildBookShelfTab(ProfileBooksState booksState) {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification.metrics.pixels >=
+            notification.metrics.maxScrollExtent - 200) {
+          final state = ref.read(profileBooksNotifierProvider);
+          if (state.hasMore && !state.isLoadingMore) {
+            ref.read(profileBooksNotifierProvider.notifier).loadMore();
+          }
+        }
+        return false;
+      },
+      child: CustomScrollView(
+        key: const PageStorageKey('bookShelf'),
+        slivers: _buildBookShelfSlivers(booksState),
+      ),
+    );
+  }
+
+  Widget _buildBookListTab() {
+    return CustomScrollView(
+      key: const PageStorageKey('bookList'),
+      slivers: _buildBookListSlivers(),
     );
   }
 
@@ -251,6 +271,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final appColors = Theme.of(context).extension<AppColors>()!;
     final bookListState = ref.watch(bookListNotifierProvider);
 
+    if (bookListState is BookListInitial) {
+      Future.microtask(() {
+        if (mounted) {
+          ref.read(bookListNotifierProvider.notifier).loadLists();
+        }
+      });
+    }
+
     final actionBar = SliverPersistentHeader(
       pinned: true,
       delegate: _FilterBarDelegate(
@@ -266,7 +294,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 icon: Icons.add,
                 color: appColors.textSecondary,
                 semanticLabel: 'リストを作成',
-                onTap: () => context.push(AppRoutes.bookListCreate),
+                onTap: _onCreateBookList,
               ),
             ],
           ),
@@ -294,7 +322,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       BookListLoaded(lists: final lists) when lists.isEmpty => [
         SliverFillRemaining(
           child: NoBookListsMessage(
-            onCreateListPressed: () => context.push(AppRoutes.bookListCreate),
+            onCreateListPressed: _onCreateBookList,
           ),
         ),
       ],
@@ -321,6 +349,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
       ],
     };
+  }
+
+  Future<void> _onCreateBookList() async {
+    final bookListState = ref.read(bookListNotifierProvider);
+    final existingCount =
+        bookListState is BookListLoaded ? bookListState.lists.length : 0;
+    final bookList = await showCreateBookListModal(
+      context: context,
+      existingCount: existingCount,
+    );
+    if (bookList != null && mounted) {
+      await context.push(AppRoutes.bookListDetail(listId: bookList.id));
+    }
   }
 
   void _onBookTap(ShelfBookItem book) {

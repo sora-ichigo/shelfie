@@ -68,6 +68,7 @@ export interface BookListRepository {
     newPosition: number,
   ): Promise<void>;
   getMaxPositionForList(listId: number): Promise<number>;
+  findListIdsContainingUserBook(userBookId: number): Promise<number[]>;
 }
 
 export function createBookListRepository(
@@ -260,6 +261,14 @@ export function createBookListRepository(
         .from(bookListItems)
         .where(eq(bookListItems.listId, listId));
       return result[0]?.maxPosition ?? -1;
+    },
+
+    async findListIdsContainingUserBook(userBookId: number): Promise<number[]> {
+      const result = await db
+        .selectDistinct({ listId: bookListItems.listId })
+        .from(bookListItems)
+        .where(eq(bookListItems.userBookId, userBookId));
+      return result.map((r) => r.listId);
     },
   };
 }

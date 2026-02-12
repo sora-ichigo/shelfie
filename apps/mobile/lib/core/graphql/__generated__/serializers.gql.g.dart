@@ -111,6 +111,10 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GGetUploadCredentialsData_getUploadCredentials__base.serializer)
       ..add(GGetUploadCredentialsReq.serializer)
       ..add(GGetUploadCredentialsVars.serializer)
+      ..add(GListIdsContainingUserBookData.serializer)
+      ..add(GListIdsContainingUserBookData_listIdsContainingUserBook.serializer)
+      ..add(GListIdsContainingUserBookReq.serializer)
+      ..add(GListIdsContainingUserBookVars.serializer)
       ..add(GLoginUserData.serializer)
       ..add(GLoginUserData_loginUser__asAuthError.serializer)
       ..add(GLoginUserData_loginUser__asMutationLoginUserSuccess.serializer)
@@ -393,7 +397,10 @@ Serializers _$serializers = (Serializers().toBuilder()
           () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
-          () => ListBuilder<String>()))
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(int)]),
+          () => ListBuilder<int>()))
     .build();
 
 // ignore_for_file: deprecated_member_use_from_same_package,type=lint

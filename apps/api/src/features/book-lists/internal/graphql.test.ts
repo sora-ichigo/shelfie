@@ -30,6 +30,7 @@ function createMockBookListService(): BookListService {
     addBookToList: vi.fn(),
     removeBookFromList: vi.fn(),
     reorderBookInList: vi.fn(),
+    getListIdsContainingUserBook: vi.fn(),
   };
 }
 
@@ -457,6 +458,64 @@ describe("BookLists GraphQL", () => {
             {} as never,
           ),
         ).rejects.toThrow("You are not allowed to access this book list");
+      });
+    });
+
+    describe("listIdsContainingUserBook", () => {
+      it("should return list IDs when authenticated", async () => {
+        const schema = buildSchemaWithQueries();
+
+        vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
+          ok({
+            id: 1,
+            firebaseUid: "test-firebase-uid",
+            email: "test@example.com",
+            name: null,
+            avatarUrl: null,
+            bio: null,
+            instagramHandle: null,
+            handle: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }),
+        );
+        vi.mocked(
+          bookListService.getListIdsContainingUserBook,
+        ).mockResolvedValue(ok([1, 3, 5]));
+
+        const queryType = schema.getQueryType();
+        const field = queryType?.getFields().listIdsContainingUserBook;
+
+        const result = await field?.resolve?.(
+          {},
+          { userBookId: 42 },
+          createAuthenticatedContext(),
+          {} as never,
+        );
+
+        expect(result).toEqual({ listIds: [1, 3, 5] });
+      });
+
+      it("should throw error when not authenticated", async () => {
+        const schema = buildSchemaWithQueries();
+
+        const queryType = schema.getQueryType();
+        const field = queryType?.getFields().listIdsContainingUserBook;
+
+        let error: Error | null = null;
+        try {
+          await field?.resolve?.(
+            {},
+            { userBookId: 42 },
+            createUnauthenticatedContext(),
+            {} as never,
+          );
+        } catch (e) {
+          error = e as Error;
+        }
+
+        expect(error).toBeDefined();
+        expect(error?.message).toContain("Not authorized");
       });
     });
   });

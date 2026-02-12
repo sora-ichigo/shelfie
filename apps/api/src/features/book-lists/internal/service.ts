@@ -130,6 +130,10 @@ export interface BookListService {
   reorderBookInList(
     input: ReorderBookInput,
   ): Promise<Result<void, BookListErrors>>;
+  getListIdsContainingUserBook(
+    userId: number,
+    userBookId: number,
+  ): Promise<Result<number[], BookListErrors>>;
 }
 
 export function createBookListService(
@@ -715,6 +719,51 @@ export function createBookListService(
             feature: "book-lists",
             listId: String(listId),
             itemId: String(itemId),
+          },
+        );
+
+        return err({
+          code: "DATABASE_ERROR",
+          message:
+            error instanceof Error
+              ? error.message
+              : "Unknown database error occurred",
+        });
+      }
+    },
+
+    async getListIdsContainingUserBook(
+      userId: number,
+      userBookId: number,
+    ): Promise<Result<number[], BookListErrors>> {
+      try {
+        const userBook = await bookShelfRepository.findUserBookById(userBookId);
+
+        if (userBook === null) {
+          return err({
+            code: "LIST_NOT_FOUND",
+            message: "User book not found",
+          });
+        }
+
+        if (userBook.userId !== userId) {
+          return err({
+            code: "FORBIDDEN",
+            message: "You can only query your own books",
+          });
+        }
+
+        const listIds =
+          await repository.findListIdsContainingUserBook(userBookId);
+        return ok(listIds);
+      } catch (error) {
+        logger.error(
+          "Database error while fetching list IDs containing user book",
+          error instanceof Error ? error : new Error(String(error)),
+          {
+            feature: "book-lists",
+            userId: String(userId),
+            userBookId: String(userBookId),
           },
         );
 

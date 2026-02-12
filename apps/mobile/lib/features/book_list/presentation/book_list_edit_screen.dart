@@ -1,10 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
-import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
@@ -14,25 +13,11 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
-import 'package:shelfie/features/book_list/presentation/widgets/book_selector_modal.dart';
-import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 
 class BookListEditScreen extends ConsumerStatefulWidget {
-  const BookListEditScreen({
-    this.existingList,
-    this.listId,
-    this.autoOpenBookSelector = true,
-    super.key,
-  });
+  const BookListEditScreen({required this.listId, super.key});
 
-  final BookList? existingList;
-
-  final int? listId;
-
-  /// 新規作成時に自動で本選択モーダルを開くかどうか
-  final bool autoOpenBookSelector;
-
-  bool get isEditing => existingList != null || listId != null;
+  final int listId;
 
   @override
   ConsumerState<BookListEditScreen> createState() => _BookListEditScreenState();
@@ -48,34 +33,20 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   bool _isSaving = false;
   String? _titleError;
   BookList? _loadedList;
-  final List<ShelfBookItem> _selectedBooks = [];
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(
-      text: widget.existingList?.title ?? '',
-    );
-    _descriptionController = TextEditingController(
-      text: widget.existingList?.description ?? '',
-    );
+    _titleController = TextEditingController();
+    _descriptionController = TextEditingController();
     _titleController.addListener(_onTitleChanged);
-
-    if (widget.listId != null && widget.existingList == null) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       _loadListData();
-    }
-
-    if (!widget.isEditing && widget.autoOpenBookSelector) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _onAddBooksPressed();
-      });
-    }
+    });
   }
 
   void _loadListData() {
-    ref
-        .read(bookListDetailNotifierProvider(widget.listId!).notifier)
-        .loadDetail();
+    ref.read(bookListDetailNotifierProvider(widget.listId).notifier).loadDetail();
   }
 
   @override
@@ -98,29 +69,17 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
 
   bool get _canSave => _titleController.text.isNotEmpty && !_isSaving;
 
-  int? get _currentListId => widget.listId ?? widget.existingList?.id;
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
+    final detailState = ref.watch(bookListDetailNotifierProvider(widget.listId));
 
-    if (widget.listId != null && widget.existingList == null) {
-      final detailState =
-          ref.watch(bookListDetailNotifierProvider(widget.listId!));
-
-      return switch (detailState) {
-        BookListDetailInitial() ||
-        BookListDetailLoading() =>
-          _buildLoadingScreen(),
-        BookListDetailLoaded(:final list) =>
-          _buildEditForm(theme, appColors, list),
-        BookListDetailError(:final failure) =>
-          _buildErrorScreen(failure.userMessage),
-      };
-    }
-
-    return _buildEditForm(theme, appColors, null);
+    return switch (detailState) {
+      BookListDetailInitial() || BookListDetailLoading() => _buildLoadingScreen(),
+      BookListDetailLoaded(:final list) => _buildEditForm(theme, appColors, list),
+      BookListDetailError(:final failure) => _buildErrorScreen(failure.userMessage),
+    };
   }
 
   Widget _buildLoadingScreen() {
@@ -163,9 +122,8 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     );
   }
 
-  Widget _buildEditForm(
-      ThemeData theme, AppColors appColors, BookListDetail? loadedDetail) {
-    if (loadedDetail != null && _loadedList == null) {
+  Widget _buildEditForm(ThemeData theme, AppColors appColors, BookListDetail loadedDetail) {
+    if (_loadedList == null) {
       _loadedList = BookList(
         id: loadedDetail.id,
         title: loadedDetail.title,
@@ -184,7 +142,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
             Column(
               children: [
                 EditScreenHeader(
-                  title: widget.isEditing ? 'リスト編集' : '新しいリスト',
+                  title: 'リスト編集',
                   onClose: () => Navigator.of(context).pop(),
                   onSave: _onSave,
                   isSaveEnabled: _canSave,
@@ -197,17 +155,11 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          if (!widget.isEditing) ...[
-                            _buildBookSection(theme, appColors),
-                            const SizedBox(height: AppSpacing.xl),
-                          ],
                           _buildTitleField(),
                           const SizedBox(height: AppSpacing.md),
                           _buildDescriptionField(),
-                          if (widget.isEditing) ...[
-                            const SizedBox(height: AppSpacing.xl),
-                            _buildDeleteButton(appColors),
-                          ],
+                          const SizedBox(height: AppSpacing.xl),
+                          _buildDeleteButton(appColors),
                         ],
                       ),
                     ),
@@ -250,80 +202,6 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     );
   }
 
-  Widget _buildBookSection(ThemeData theme, AppColors appColors) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '本（${_selectedBooks.length}冊）',
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        if (_selectedBooks.isEmpty)
-          _BookSectionEmptyCard(
-            appColors: appColors,
-            theme: theme,
-            onAddPressed: _onAddBooksPressed,
-          )
-        else
-          _buildSelectedBooksList(theme, appColors),
-      ],
-    );
-  }
-
-  Widget _buildSelectedBooksList(ThemeData theme, AppColors appColors) {
-    return Column(
-      children: [
-        ..._selectedBooks.map(
-          (book) => Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-            child: _SelectedBookListTile(
-              book: book,
-              appColors: appColors,
-              theme: theme,
-              onRemove: () => _onRemoveBook(book),
-            ),
-          ),
-        ),
-        TextButton.icon(
-          onPressed: _onAddBooksPressed,
-          icon: Icon(Icons.add, color: appColors.primary),
-          label: Text(
-            '本を追加',
-            style: TextStyle(color: appColors.primary),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _onAddBooksPressed() {
-    showBookSelectorModal(
-      context: context,
-      existingUserBookIds: const [],
-      initialSelectedUserBookIds:
-          _selectedBooks.map((b) => b.userBookId).toList(),
-      onBookSelected: (book) {
-        setState(() {
-          _selectedBooks.add(book);
-        });
-      },
-      onBookRemoved: (book) {
-        setState(() {
-          _selectedBooks.removeWhere((b) => b.userBookId == book.userBookId);
-        });
-      },
-    );
-  }
-
-  void _onRemoveBook(ShelfBookItem book) {
-    setState(() {
-      _selectedBooks.removeWhere((b) => b.userBookId == book.userBookId);
-    });
-  }
-
   Widget _buildDeleteButton(AppColors appColors) {
     return TextButton(
       onPressed: _isSaving ? null : _onDelete,
@@ -343,38 +221,20 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     final title = _titleController.text.trim();
     final description = _descriptionController.text.trim();
 
-    final listId = _currentListId;
-    final result = widget.isEditing && listId != null
-        ? await repository.updateBookList(
-            listId: listId,
-            title: title,
-            description: description.isEmpty ? null : description,
-          )
-        : await repository.createBookList(
-            title: title,
-            description: description.isEmpty ? null : description,
-          );
+    final result = await repository.updateBookList(
+      listId: widget.listId,
+      title: title,
+      description: description.isEmpty ? null : description,
+    );
 
     if (!mounted) return;
 
     await result.fold(
       (failure) async {
         setState(() => _isSaving = false);
-        AppSnackBar.show(
-          context,
-          message: failure.userMessage,
-          type: AppSnackBarType.error,
-        );
+        AppSnackBar.show(context, message: failure.userMessage, type: AppSnackBarType.error);
       },
       (bookList) async {
-        if (!widget.isEditing && _selectedBooks.isNotEmpty) {
-          for (final book in _selectedBooks) {
-            await repository.addBookToList(
-              listId: bookList.id,
-              userBookId: book.userBookId,
-            );
-          }
-        }
         if (mounted) {
           ref.read(bookListVersionProvider.notifier).increment();
           if (mounted) {
@@ -386,9 +246,6 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
   }
 
   Future<void> _onDelete() async {
-    final listId = _currentListId;
-    if (listId == null) return;
-
     final dialogResult = await showOkCancelAlertDialog(
       context: context,
       title: 'リストを削除',
@@ -403,7 +260,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
     setState(() => _isSaving = true);
 
     final repository = ref.read(bookListRepositoryProvider);
-    final result = await repository.deleteBookList(listId: listId);
+    final result = await repository.deleteBookList(listId: widget.listId);
 
     if (!mounted) return;
 
@@ -420,157 +277,6 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
         ref.read(bookListVersionProvider.notifier).increment();
         Navigator.of(context).pop(null);
       },
-    );
-  }
-}
-
-class _BookSectionEmptyCard extends StatelessWidget {
-  const _BookSectionEmptyCard({
-    required this.appColors,
-    required this.theme,
-    required this.onAddPressed,
-  });
-
-  final AppColors appColors;
-  final ThemeData theme;
-  final VoidCallback onAddPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: AppSpacing.all(AppSpacing.xl),
-      decoration: BoxDecoration(
-        color: appColors.surface,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: appColors.surfaceElevated,
-            ),
-            child: Icon(
-              Icons.add,
-              size: 32,
-              color: appColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            'このリストに本を追加しましょう',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          TextButton(
-            onPressed: onAddPressed,
-            child: Text(
-              '本を追加',
-              style: const TextStyle(color: Color(0xFF00D5BE)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SelectedBookListTile extends StatelessWidget {
-  const _SelectedBookListTile({
-    required this.book,
-    required this.appColors,
-    required this.theme,
-    required this.onRemove,
-  });
-
-  final ShelfBookItem book;
-  final AppColors appColors;
-  final ThemeData theme;
-  final VoidCallback onRemove;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      decoration: BoxDecoration(
-        color: appColors.surface,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.sm),
-            child: SizedBox(
-              width: 36,
-              height: 54,
-              child: book.hasCoverImage
-                  ? CachedNetworkImage(
-                      imageUrl: book.coverImageUrl!,
-                      fit: BoxFit.cover,
-                      placeholder: (_, __) =>
-                          ColoredBox(color: appColors.surface),
-                      errorWidget: (_, __, ___) =>
-                          _CoverPlaceholder(appColors: appColors),
-                    )
-                  : _CoverPlaceholder(appColors: appColors),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  book.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium,
-                ),
-                Text(
-                  book.authorsDisplay,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.close,
-              color: appColors.textSecondary,
-            ),
-            onPressed: onRemove,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CoverPlaceholder extends StatelessWidget {
-  const _CoverPlaceholder({required this.appColors});
-
-  final AppColors appColors;
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: appColors.textSecondary.withOpacity(0.1),
-      child: Center(
-        child: Icon(
-          Icons.book,
-          size: 20,
-          color: appColors.textSecondary,
-        ),
-      ),
     );
   }
 }

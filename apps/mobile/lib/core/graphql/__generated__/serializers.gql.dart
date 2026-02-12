@@ -214,6 +214,14 @@ import 'package:shelfie/features/book_list/data/__generated__/delete_book_list.r
     show GDeleteBookListReq;
 import 'package:shelfie/features/book_list/data/__generated__/delete_book_list.var.gql.dart'
     show GDeleteBookListVars;
+import 'package:shelfie/features/book_list/data/__generated__/list_ids_containing_user_book.data.gql.dart'
+    show
+        GListIdsContainingUserBookData,
+        GListIdsContainingUserBookData_listIdsContainingUserBook;
+import 'package:shelfie/features/book_list/data/__generated__/list_ids_containing_user_book.req.gql.dart'
+    show GListIdsContainingUserBookReq;
+import 'package:shelfie/features/book_list/data/__generated__/list_ids_containing_user_book.var.gql.dart'
+    show GListIdsContainingUserBookVars;
 import 'package:shelfie/features/book_list/data/__generated__/my_book_lists.data.gql.dart'
     show
         GMyBookListsData,
@@ -528,6 +536,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GGetUploadCredentialsData_getUploadCredentials__base,
   GGetUploadCredentialsReq,
   GGetUploadCredentialsVars,
+  GListIdsContainingUserBookData,
+  GListIdsContainingUserBookData_listIdsContainingUserBook,
+  GListIdsContainingUserBookReq,
+  GListIdsContainingUserBookVars,
   GLoginUserData,
   GLoginUserData_loginUser__asAuthError,
   GLoginUserData_loginUser__asMutationLoginUserSuccess,

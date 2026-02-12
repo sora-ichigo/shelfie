@@ -21,6 +21,7 @@ function createMockRepository(): BookListRepository & {
   mockUpdateBookListItemPosition: ReturnType<typeof vi.fn>;
   mockReorderBookListItems: ReturnType<typeof vi.fn>;
   mockGetMaxPositionForList: ReturnType<typeof vi.fn>;
+  mockFindListIdsContainingUserBook: ReturnType<typeof vi.fn>;
 } {
   const mockCreateBookList = vi.fn();
   const mockFindBookListById = vi.fn();
@@ -34,6 +35,7 @@ function createMockRepository(): BookListRepository & {
   const mockUpdateBookListItemPosition = vi.fn();
   const mockReorderBookListItems = vi.fn();
   const mockGetMaxPositionForList = vi.fn();
+  const mockFindListIdsContainingUserBook = vi.fn();
 
   return {
     createBookList: mockCreateBookList,
@@ -49,6 +51,7 @@ function createMockRepository(): BookListRepository & {
     updateBookListItemPosition: mockUpdateBookListItemPosition,
     reorderBookListItems: mockReorderBookListItems,
     getMaxPositionForList: mockGetMaxPositionForList,
+    findListIdsContainingUserBook: mockFindListIdsContainingUserBook,
     mockCreateBookList,
     mockFindBookListById,
     mockFindBookListsByUserId,
@@ -61,6 +64,7 @@ function createMockRepository(): BookListRepository & {
     mockUpdateBookListItemPosition,
     mockReorderBookListItems,
     mockGetMaxPositionForList,
+    mockFindListIdsContainingUserBook,
   };
 }
 
@@ -1222,6 +1226,116 @@ describe("BookListService", () => {
         expect(result.error.code).toBe("FORBIDDEN");
       }
       expect(mockRepository.mockReorderBookListItems).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("getListIdsContainingUserBook", () => {
+    it("should return list IDs when user owns the book", async () => {
+      const mockRepository = createMockRepository();
+      const mockBookShelfRepository = createMockBookShelfRepository();
+      const mockLogger = createMockLogger();
+
+      const userBook: UserBook = {
+        id: 50,
+        userId: 100,
+        externalId: "ext-1",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "google",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
+      };
+      mockBookShelfRepository.mockFindUserBookById.mockResolvedValue(userBook);
+      mockRepository.mockFindListIdsContainingUserBook.mockResolvedValue([
+        1, 3, 5,
+      ]);
+
+      const service = createBookListService(
+        mockRepository,
+        mockBookShelfRepository,
+        mockLogger,
+      );
+
+      const result = await service.getListIdsContainingUserBook(100, 50);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toEqual([1, 3, 5]);
+      }
+    });
+
+    it("should return error when user book not found", async () => {
+      const mockRepository = createMockRepository();
+      const mockBookShelfRepository = createMockBookShelfRepository();
+      const mockLogger = createMockLogger();
+
+      mockBookShelfRepository.mockFindUserBookById.mockResolvedValue(null);
+
+      const service = createBookListService(
+        mockRepository,
+        mockBookShelfRepository,
+        mockLogger,
+      );
+
+      const result = await service.getListIdsContainingUserBook(100, 999);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("LIST_NOT_FOUND");
+      }
+    });
+
+    it("should return FORBIDDEN when user does not own the book", async () => {
+      const mockRepository = createMockRepository();
+      const mockBookShelfRepository = createMockBookShelfRepository();
+      const mockLogger = createMockLogger();
+
+      const userBook: UserBook = {
+        id: 50,
+        userId: 200,
+        externalId: "ext-1",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        source: "google",
+        addedAt: new Date(),
+        readingStatus: "reading",
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        rating: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
+      };
+      mockBookShelfRepository.mockFindUserBookById.mockResolvedValue(userBook);
+
+      const service = createBookListService(
+        mockRepository,
+        mockBookShelfRepository,
+        mockLogger,
+      );
+
+      const result = await service.getListIdsContainingUserBook(100, 50);
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("FORBIDDEN");
+      }
     });
   });
 });

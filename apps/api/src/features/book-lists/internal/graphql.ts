@@ -105,6 +105,20 @@ function createMyBookListsResultRef(builder: Builder) {
   return builder.objectRef<BookListSummaryResult>("MyBookListsResult");
 }
 
+interface ListIdsContainingUserBookResult {
+  listIds: number[];
+}
+
+type ListIdsContainingUserBookResultRef = ReturnType<
+  typeof createListIdsContainingUserBookResultRef
+>;
+
+function createListIdsContainingUserBookResultRef(builder: Builder) {
+  return builder.objectRef<ListIdsContainingUserBookResult>(
+    "ListIdsContainingUserBookResult",
+  );
+}
+
 let BookListRef: BookListObjectRef;
 let BookListItemRef: BookListItemObjectRef;
 let BookListDetailUserBookRef: BookListDetailUserBookRef;
@@ -115,6 +129,7 @@ let CreateBookListInputRef: CreateBookListInputRef;
 let UpdateBookListInputRef: UpdateBookListInputRef;
 let MyBookListsInputRef: MyBookListsInputRef;
 let MyBookListsResultRef: MyBookListsResultRef;
+let ListIdsContainingUserBookResultRef: ListIdsContainingUserBookResultRef;
 
 export function registerBookListsTypes(
   builder: Builder,
@@ -130,6 +145,8 @@ export function registerBookListsTypes(
   UpdateBookListInputRef = createUpdateBookListInputRef(builder);
   MyBookListsInputRef = createMyBookListsInputRef(builder);
   MyBookListsResultRef = createMyBookListsResultRef(builder);
+  ListIdsContainingUserBookResultRef =
+    createListIdsContainingUserBookResultRef(builder);
 
   BookListRef.implement({
     description: "A book list created by a user",
@@ -397,6 +414,16 @@ export function registerBookListsTypes(
       }),
     }),
   });
+
+  ListIdsContainingUserBookResultRef.implement({
+    description: "Result containing list IDs that contain a specific user book",
+    fields: (t) => ({
+      listIds: t.exposeIntList("listIds", {
+        description: "List IDs containing the user book",
+        nullable: false,
+      }),
+    }),
+  });
 }
 
 export function registerBookListsQueries(
@@ -455,6 +482,53 @@ export function registerBookListsQueries(
         }
 
         return result.data;
+      },
+    }),
+    listIdsContainingUserBook: t.field({
+      type: ListIdsContainingUserBookResultRef,
+      nullable: false,
+      description: "Get list IDs that contain a specific user book",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userBookId: t.arg.int({ required: true }),
+      },
+      resolve: async (
+        _parent,
+        args,
+        context,
+      ): Promise<ListIdsContainingUserBookResult> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        const userResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!userResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const result = await bookListService.getListIdsContainingUserBook(
+          userResult.data.id,
+          args.userBookId,
+        );
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return { listIds: result.data };
       },
     }),
     bookListDetail: t.field({

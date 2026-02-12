@@ -1168,6 +1168,25 @@ const ImageUploadError = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const ListIdsContainingUserBookResult = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'ListIdsContainingUserBookResult'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'listIds'),
+      directives: [],
+      args: [],
+      type: _i1.ListTypeNode(
+        type: _i1.NamedTypeNode(
+          name: _i1.NameNode(value: 'Int'),
+          isNonNull: true,
+        ),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
 const LoginResult = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'LoginResult'),
   directives: [],
@@ -1794,34 +1813,6 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'updateThoughts'),
-      directives: [],
-      args: [
-        _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'thoughts'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-            name: _i1.NameNode(value: 'String'),
-            isNonNull: true,
-          ),
-          defaultValue: null,
-        ),
-        _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'userBookId'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-            name: _i1.NameNode(value: 'Int'),
-            isNonNull: true,
-          ),
-          defaultValue: null,
-        ),
-      ],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'UserBook'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'updateReadingStatus'),
       directives: [],
       args: [
@@ -1858,6 +1849,34 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
           directives: [],
           type: _i1.NamedTypeNode(
             name: _i1.NameNode(value: 'DateTime'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        ),
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'userBookId'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'Int'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        ),
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'UserBook'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'updateThoughts'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'thoughts'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'String'),
             isNonNull: true,
           ),
           defaultValue: null,
@@ -2518,6 +2537,25 @@ const Query = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'String'),
         isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'listIdsContainingUserBook'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'userBookId'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'Int'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'ListIdsContainingUserBookResult'),
+        isNonNull: true,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3214,20 +3252,20 @@ const User = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: false,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'handle'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
         isNonNull: false,
       ),
     ),
@@ -3535,6 +3573,7 @@ const document = _i1.DocumentNode(definitions: [
   DeleteAccountResult,
   DeviceToken,
   ImageUploadError,
+  ListIdsContainingUserBookResult,
   LoginResult,
   LoginUserInput,
   MeResult,
