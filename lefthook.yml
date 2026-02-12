@@ -1,0 +1,15 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: api-typecheck
+      glob: "apps/api/**/*"
+      run: pnpm api typecheck
+    - name: api-biome
+      glob: "apps/api/**/*"
+      run: pnpm check
+    - name: mobile-analyze
+      glob: "apps/mobile/**/*"
+      run: cd apps/mobile && flutter analyze
+    - name: mobile-custom-lint
+      glob: "apps/mobile/**/*"
+      run: cd apps/mobile && dart run custom_lint
