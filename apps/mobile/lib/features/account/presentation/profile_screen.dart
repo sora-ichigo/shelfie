@@ -38,7 +38,6 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   ProfileTab _selectedTab = ProfileTab.bookShelf;
   final _scrollController = ScrollController();
-  bool _bookListLoaded = false;
 
   @override
   void initState() {
@@ -141,13 +140,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             delegate: _TabBarDelegate(
               child: ProfileTabBar(
                 selectedTab: _selectedTab,
-                onTabChanged: (tab) {
-                  setState(() => _selectedTab = tab);
-                  if (tab == ProfileTab.bookList && !_bookListLoaded) {
-                    _bookListLoaded = true;
-                    ref.read(bookListNotifierProvider.notifier).loadLists();
-                  }
-                },
+                onTabChanged: (tab) => setState(() => _selectedTab = tab),
               ),
               backgroundColor: theme.scaffoldBackgroundColor,
             ),
@@ -251,6 +244,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   List<Widget> _buildBookListSlivers() {
     final appColors = Theme.of(context).extension<AppColors>()!;
     final bookListState = ref.watch(bookListNotifierProvider);
+
+    if (bookListState is BookListInitial) {
+      Future.microtask(() {
+        if (mounted) {
+          ref.read(bookListNotifierProvider.notifier).loadLists();
+        }
+      });
+    }
 
     final actionBar = SliverPersistentHeader(
       pinned: true,
