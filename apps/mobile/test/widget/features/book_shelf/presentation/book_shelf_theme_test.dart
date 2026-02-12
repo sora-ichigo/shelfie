@@ -161,6 +161,7 @@ void main() {
             child: SearchFilterBar(
               sortOption: SortOption.addedAtDesc,
               onSortChanged: (_) {},
+              onBookTap: (_) {},
             ),
           ),
         );

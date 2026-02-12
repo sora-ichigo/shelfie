@@ -145,6 +145,8 @@ class _BookShelfScreenState extends ConsumerState<BookShelfScreen>
                           child: SearchFilterBar(
                             sortOption: ref.watch(sortOptionNotifierProvider),
                             onSortChanged: _onSortChanged,
+                            onBookTap: _onBookTap,
+                            onBookLongPress: _onBookLongPress,
                           ),
                         ),
                       )

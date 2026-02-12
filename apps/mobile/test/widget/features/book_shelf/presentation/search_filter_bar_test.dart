@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 
@@ -8,6 +9,7 @@ void main() {
   Widget buildSearchFilterBar({
     SortOption sortOption = SortOption.addedAtDesc,
     void Function(SortOption)? onSortChanged,
+    void Function(ShelfBookItem)? onBookTap,
   }) {
     return MaterialApp(
       theme: AppTheme.dark(),
@@ -15,6 +17,7 @@ void main() {
         body: SearchFilterBar(
           sortOption: sortOption,
           onSortChanged: onSortChanged ?? (_) {},
+          onBookTap: onBookTap ?? (_) {},
         ),
       ),
     );
@@ -78,6 +81,23 @@ void main() {
           matching: find.byType(Stack),
         );
         expect(sortButtonFinder, findsOneWidget);
+      });
+    });
+
+    group('検索ボタン', () {
+      testWidgets('検索ボタンが表示される', (tester) async {
+        await tester.pumpWidget(buildSearchFilterBar());
+
+        expect(find.byIcon(Icons.search), findsOneWidget);
+      });
+
+      testWidgets('検索ボタンがソートボタンの左に配置される', (tester) async {
+        await tester.pumpWidget(buildSearchFilterBar());
+
+        final searchCenter = tester.getCenter(find.byIcon(Icons.search));
+        final sortCenter = tester.getCenter(find.byIcon(Icons.tune));
+
+        expect(searchCenter.dx, lessThan(sortCenter.dx));
       });
     });
 

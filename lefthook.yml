@@ -9,7 +9,7 @@ pre-commit:
       run: pnpm check
     - name: mobile-analyze
       glob: "apps/mobile/**/*"
-      run: cd apps/mobile && flutter analyze
+      run: unset GIT_DIR GIT_WORK_TREE && cd apps/mobile && flutter analyze
     - name: mobile-custom-lint
       glob: "apps/mobile/**/*"
-      run: cd apps/mobile && dart run custom_lint
+      run: unset GIT_DIR GIT_WORK_TREE && cd apps/mobile && dart run custom_lint
