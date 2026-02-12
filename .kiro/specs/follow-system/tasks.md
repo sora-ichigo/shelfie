@@ -3,7 +3,7 @@
 ## Task List
 
 - [ ] 1. データベーススキーマとマイグレーションの作成
-- [ ] 1.1 follow_requests テーブルと follows テーブルの Drizzle スキーマを定義する
+- [x] 1.1 follow_requests テーブルと follows テーブルの Drizzle スキーマを定義する
   - follow_requests テーブル（id, sender_id, receiver_id, status, created_at, updated_at）を定義する
   - follows テーブル（id, user_id_a, user_id_b, created_at）を定義する
   - UNIQUE 制約、CHECK 制約（自己フォロー防止、user_id_a < user_id_b の正規化）を設定する
@@ -13,7 +13,7 @@
   - マイグレーションを生成・適用する
   - _Requirements: 9.1, 9.2, 9.3_
 
-- [ ] 1.2 (P) notifications テーブルの Drizzle スキーマを定義する
+- [x] 1.2 (P) notifications テーブルの Drizzle スキーマを定義する
   - notifications テーブル（id, recipient_id, sender_id, type, is_read, created_at）を定義する
   - users テーブルへの外部キー（ON DELETE CASCADE）を設定する
   - recipient_id + is_read、recipient_id + created_at DESC のインデックスを作成する
