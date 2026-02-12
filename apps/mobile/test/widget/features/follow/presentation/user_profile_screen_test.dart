@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
 import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_counts.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
@@ -255,6 +256,94 @@ void main() {
         expect(find.text('フォロー'), findsNothing);
         expect(find.text('フォロー解除'), findsNothing);
         expect(find.text('リクエスト送信済み'), findsNothing);
+      });
+    });
+
+    group('タブバー', () {
+      testWidgets('本棚とブックリストのタブが表示される', (tester) async {
+        final profile = _createProfile(
+          followStatus: FollowStatusType.none,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        expect(find.byType(ProfileTabBar), findsOneWidget);
+        expect(find.text('本棚'), findsOneWidget);
+        expect(find.text('ブックリスト'), findsOneWidget);
+      });
+
+      testWidgets('フォロー中でもタブバーが表示される', (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          followStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData(FollowStatusType.following));
+        await tester.pump();
+
+        expect(find.byType(ProfileTabBar), findsOneWidget);
+        expect(find.text('本棚'), findsOneWidget);
+        expect(find.text('ブックリスト'), findsOneWidget);
+      });
+
+      testWidgets('フォローしていない場合、本棚タブにフォロー誘導メッセージが表示される',
+          (tester) async {
+        final profile = _createProfile(
+          followStatus: FollowStatusType.none,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+
+      testWidgets('リクエスト送信済みの場合もフォロー誘導メッセージが表示される',
+          (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          followStatus: FollowStatusType.pendingSent,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData(FollowStatusType.pendingSent));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+
+      testWidgets('ブックリストタブに切り替えるとフォロー誘導メッセージが表示される',
+          (tester) async {
+        final profile = _createProfile(
+          followStatus: FollowStatusType.none,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        await tester.tap(find.text('ブックリスト'));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+
+      testWidgets('フォロー中の場合はフォロー誘導メッセージが表示されない',
+          (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          followStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData(FollowStatusType.following));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsNothing);
       });
     });
   });
