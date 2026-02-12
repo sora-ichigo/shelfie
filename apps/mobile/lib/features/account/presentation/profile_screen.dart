@@ -35,30 +35,23 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  ProfileTab _selectedTab = ProfileTab.bookShelf;
-  final _scrollController = ScrollController();
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _tabController = TabController(
+      length: ProfileTab.values.length,
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      final booksState = ref.read(profileBooksNotifierProvider);
-      if (booksState.hasMore && !booksState.isLoadingMore) {
-        ref.read(profileBooksNotifierProvider.notifier).loadMore();
-      }
-    }
   }
 
   @override
@@ -125,9 +118,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
             child: ProfileHeader(
               profile: profile,
@@ -138,19 +130,53 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SliverPersistentHeader(
             pinned: true,
             delegate: _TabBarDelegate(
-              child: ProfileTabBar(
-                selectedTab: _selectedTab,
-                onTabChanged: (tab) => setState(() => _selectedTab = tab),
+              child: ListenableBuilder(
+                listenable: _tabController.animation!,
+                builder: (context, _) => ProfileTabBar(
+                  selectedTab: ProfileTab
+                      .values[_tabController.animation!.value.round()],
+                  onTabChanged: (tab) =>
+                      _tabController.animateTo(tab.index),
+                ),
               ),
               backgroundColor: theme.scaffoldBackgroundColor,
             ),
           ),
-          if (_selectedTab == ProfileTab.bookShelf)
-            ..._buildBookShelfSlivers(booksState)
-          else
-            ..._buildBookListSlivers(),
         ],
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildBookShelfTab(booksState),
+            _buildBookListTab(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildBookShelfTab(ProfileBooksState booksState) {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification.metrics.pixels >=
+            notification.metrics.maxScrollExtent - 200) {
+          final state = ref.read(profileBooksNotifierProvider);
+          if (state.hasMore && !state.isLoadingMore) {
+            ref.read(profileBooksNotifierProvider.notifier).loadMore();
+          }
+        }
+        return false;
+      },
+      child: CustomScrollView(
+        key: const PageStorageKey('bookShelf'),
+        slivers: _buildBookShelfSlivers(booksState),
+      ),
+    );
+  }
+
+  Widget _buildBookListTab() {
+    return CustomScrollView(
+      key: const PageStorageKey('bookList'),
+      slivers: _buildBookListSlivers(),
     );
   }
 
