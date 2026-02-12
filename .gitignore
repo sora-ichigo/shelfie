@@ -50,6 +50,10 @@ apps/mobile/.metadata
 # PostgreSQL socket directory
 apps/api/tmp/
 
+# Lefthook
+.lefthook/
+lefthook-local.yml
+
 # Misc
 *.local
 .cache/
