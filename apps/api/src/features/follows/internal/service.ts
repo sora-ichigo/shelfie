@@ -238,6 +238,21 @@ export function createFollowService(
       }
 
       await repository.deleteRequest(request.id);
+
+      notificationAppService
+        .deleteNotification({
+          senderId,
+          recipientId: receiverId,
+          type: "follow_request_received",
+        })
+        .catch((error) => {
+          logger.error(
+            "Failed to delete app notification for cancelled follow request",
+            error instanceof Error ? error : undefined,
+            { senderId: String(senderId), receiverId: String(receiverId) },
+          );
+        });
+
       return ok(undefined);
     },
 

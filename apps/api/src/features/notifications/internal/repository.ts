@@ -26,6 +26,11 @@ export interface NotificationRepository {
   ): Promise<NotificationWithSender[]>;
   countUnreadByRecipient(recipientId: number): Promise<number>;
   markAsReadByRecipient(recipientId: number): Promise<void>;
+  deleteBySenderAndType(
+    senderId: number,
+    recipientId: number,
+    type: string,
+  ): Promise<void>;
 }
 
 export function createNotificationRepository(
@@ -82,6 +87,22 @@ export function createNotificationRepository(
           and(
             eq(notifications.recipientId, recipientId),
             eq(notifications.isRead, false),
+          ),
+        );
+    },
+
+    async deleteBySenderAndType(
+      senderId: number,
+      recipientId: number,
+      type: string,
+    ): Promise<void> {
+      await db
+        .delete(notifications)
+        .where(
+          and(
+            eq(notifications.senderId, senderId),
+            eq(notifications.recipientId, recipientId),
+            eq(notifications.type, type),
           ),
         );
     },

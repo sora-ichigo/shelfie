@@ -34,6 +34,7 @@ function createMockNotificationRepository(): NotificationRepository {
     findByRecipient: vi.fn(),
     countUnreadByRecipient: vi.fn(),
     markAsReadByRecipient: vi.fn(),
+    deleteBySenderAndType: vi.fn(),
   };
 }
 

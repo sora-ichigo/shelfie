@@ -43,6 +43,7 @@ function createMockNotificationAppService(): NotificationAppService {
     getNotifications: vi.fn(),
     getUnreadCount: vi.fn(),
     markAllAsRead: vi.fn(),
+    deleteNotification: vi.fn().mockResolvedValue(undefined),
   };
 }
 
@@ -644,6 +645,68 @@ describe("FollowService", () => {
       if (!result.success) {
         expect(result.error.code).toBe("REQUEST_ALREADY_PROCESSED");
       }
+    });
+
+    it("should delete follow_request_received notification on cancel", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        pendingRequest,
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.cancelFollowRequest(1, 2);
+
+      expect(notifService.deleteNotification).toHaveBeenCalledWith({
+        senderId: 1,
+        recipientId: 2,
+        type: "follow_request_received",
+      });
+    });
+
+    it("should not fail cancel when notification deletion fails", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        pendingRequest,
+      );
+      vi.mocked(notifService.deleteNotification).mockRejectedValue(
+        new Error("DB error"),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.cancelFollowRequest(1, 2);
+
+      expect(result.success).toBe(true);
+      expect(logger.error).toHaveBeenCalled();
     });
   });
 

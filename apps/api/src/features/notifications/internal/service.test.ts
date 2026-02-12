@@ -13,6 +13,7 @@ function createMockRepository(): NotificationRepository {
     findByRecipient: vi.fn(),
     countUnreadByRecipient: vi.fn(),
     markAsReadByRecipient: vi.fn(),
+    deleteBySenderAndType: vi.fn(),
   };
 }
 
@@ -190,6 +191,26 @@ describe("NotificationAppService", () => {
       await service.markAllAsRead(2);
 
       expect(mockRepo.markAsReadByRecipient).toHaveBeenCalledWith(2);
+    });
+  });
+
+  describe("deleteNotification", () => {
+    it("should delete notification by sender, recipient and type", async () => {
+      const mockRepo = createMockRepository();
+      vi.mocked(mockRepo.deleteBySenderAndType).mockResolvedValue(undefined);
+
+      const service = createNotificationAppService(mockRepo);
+      await service.deleteNotification({
+        senderId: 3,
+        recipientId: 2,
+        type: "follow_request_received",
+      });
+
+      expect(mockRepo.deleteBySenderAndType).toHaveBeenCalledWith(
+        3,
+        2,
+        "follow_request_received",
+      );
     });
   });
 });
