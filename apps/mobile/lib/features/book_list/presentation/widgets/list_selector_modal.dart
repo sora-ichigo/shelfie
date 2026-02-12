@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
+import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/create_book_list_modal.dart';
 
 Future<void> showListSelectorModal({
   required BuildContext context,
@@ -82,34 +87,26 @@ class _ListSelectorModalContentState
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return InkWell(
-      onTap: _onCreateNewList,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: AppSpacing.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: appColors.primary,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(8),
+    return FilledButton.icon(
+      onPressed: _onCreateNewList,
+      icon: Icon(Icons.add, color: appColors.background),
+      label: Text(
+        '新しいリストを作成',
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: appColors.background,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              color: appColors.primary,
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Text(
-              '新しいリストを作成',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.primary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+      ),
+      style: FilledButton.styleFrom(
+        backgroundColor: appColors.textPrimary,
+        foregroundColor: appColors.background,
+        minimumSize: const Size(double.infinity, 0),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.full),
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xl,
+          vertical: AppSpacing.sm,
         ),
       ),
     );
@@ -192,9 +189,46 @@ class _ListSelectorModalContentState
     );
   }
 
-  void _onCreateNewList() {
-    Navigator.of(context).pop();
-    // TODO(shelfie): Navigate to create list screen
+  Future<void> _onCreateNewList() async {
+    final state = ref.read(bookListNotifierProvider);
+    final existingCount = switch (state) {
+      BookListLoaded(:final lists) => lists.length,
+      _ => 0,
+    };
+
+    final bookList = await showCreateBookListModal(
+      context: context,
+      existingCount: existingCount,
+    );
+
+    if (bookList == null || !mounted) return;
+
+    final repository = ref.read(bookListRepositoryProvider);
+    final result = await repository.addBookToList(
+      listId: bookList.id,
+      userBookId: widget.userBookId,
+    );
+
+    if (!mounted) return;
+
+    result.fold(
+      (failure) {
+        AppSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AppSnackBarType.error,
+        );
+      },
+      (_) {
+        ref.read(bookListVersionProvider.notifier).increment();
+        AppSnackBar.show(
+          context,
+          message: 'リストに追加しました',
+          type: AppSnackBarType.success,
+        );
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   void _onListTap(BookListSummary list) {

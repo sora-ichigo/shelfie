@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
@@ -224,6 +225,198 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('リストに追加'), findsNothing);
+      });
+    });
+
+    group('create new list', () {
+      testWidgets('opens create book list modal when tapped', (tester) async {
+        await tester.pumpWidget(buildTestWidget(
+          userBookId: 1,
+          lists: [createSummary()],
+        ));
+        await tester.pump();
+
+        await tester.tap(find.text('Show Modal'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('新しいリストを作成'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('ブックリストを作成'), findsOneWidget);
+      });
+
+      testWidgets('adds book to newly created list', (tester) async {
+        final createdList = BookList(
+          id: 99,
+          title: 'ブックリスト#2',
+          createdAt: now,
+          updatedAt: now,
+        );
+
+        when(() => mockRepository.createBookList(
+              title: any(named: 'title'),
+              description: any(named: 'description'),
+            )).thenAnswer((_) async => right(createdList));
+
+        when(() => mockRepository.addBookToList(
+              listId: 99,
+              userBookId: 42,
+            )).thenAnswer(
+          (_) async => right(BookListItem(
+            id: 1,
+            position: 0,
+            addedAt: now,
+          )),
+        );
+
+        await tester.pumpWidget(buildTestWidget(
+          userBookId: 42,
+          lists: [createSummary()],
+        ));
+        await tester.pump();
+
+        await tester.tap(find.text('Show Modal'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('新しいリストを作成'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('作成する'));
+        await tester.pumpAndSettle();
+
+        verify(() => mockRepository.addBookToList(
+              listId: 99,
+              userBookId: 42,
+            )).called(1);
+      });
+
+      testWidgets('shows success snackbar after adding book to list',
+          (tester) async {
+        final createdList = BookList(
+          id: 99,
+          title: 'ブックリスト#2',
+          createdAt: now,
+          updatedAt: now,
+        );
+
+        when(() => mockRepository.createBookList(
+              title: any(named: 'title'),
+              description: any(named: 'description'),
+            )).thenAnswer((_) async => right(createdList));
+
+        when(() => mockRepository.addBookToList(
+              listId: any(named: 'listId'),
+              userBookId: any(named: 'userBookId'),
+            )).thenAnswer(
+          (_) async => right(BookListItem(
+            id: 1,
+            position: 0,
+            addedAt: now,
+          )),
+        );
+
+        await tester.pumpWidget(buildTestWidget(
+          userBookId: 42,
+          lists: [createSummary()],
+        ));
+        await tester.pump();
+
+        await tester.tap(find.text('Show Modal'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('新しいリストを作成'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('作成する'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('リストに追加しました'), findsOneWidget);
+      });
+
+      testWidgets('closes list selector modal on success', (tester) async {
+        final createdList = BookList(
+          id: 99,
+          title: 'ブックリスト#2',
+          createdAt: now,
+          updatedAt: now,
+        );
+
+        when(() => mockRepository.createBookList(
+              title: any(named: 'title'),
+              description: any(named: 'description'),
+            )).thenAnswer((_) async => right(createdList));
+
+        when(() => mockRepository.addBookToList(
+              listId: any(named: 'listId'),
+              userBookId: any(named: 'userBookId'),
+            )).thenAnswer(
+          (_) async => right(BookListItem(
+            id: 1,
+            position: 0,
+            addedAt: now,
+          )),
+        );
+
+        await tester.pumpWidget(buildTestWidget(
+          userBookId: 42,
+          lists: [createSummary()],
+        ));
+        await tester.pump();
+
+        await tester.tap(find.text('Show Modal'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('リストに追加'), findsOneWidget);
+
+        await tester.tap(find.text('新しいリストを作成'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('作成する'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('リストに追加'), findsNothing);
+      });
+
+      testWidgets('shows error snackbar when adding book fails',
+          (tester) async {
+        final createdList = BookList(
+          id: 99,
+          title: 'ブックリスト#2',
+          createdAt: now,
+          updatedAt: now,
+        );
+
+        when(() => mockRepository.createBookList(
+              title: any(named: 'title'),
+              description: any(named: 'description'),
+            )).thenAnswer((_) async => right(createdList));
+
+        when(() => mockRepository.addBookToList(
+              listId: any(named: 'listId'),
+              userBookId: any(named: 'userBookId'),
+            )).thenAnswer(
+          (_) async => left(const ServerFailure(
+            message: 'Server error',
+            code: 'INTERNAL_ERROR',
+          )),
+        );
+
+        await tester.pumpWidget(buildTestWidget(
+          userBookId: 42,
+          lists: [createSummary()],
+        ));
+        await tester.pump();
+
+        await tester.tap(find.text('Show Modal'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('新しいリストを作成'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('作成する'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('サーバーエラーが発生しました'), findsOneWidget);
       });
     });
   });
