@@ -179,6 +179,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         .update(option);
                     ref.invalidate(profileBooksNotifierProvider);
                   },
+                  onBookTap: _onBookTap,
+                  onBookLongPress: _onBookLongPress,
                 ),
               ],
             ),

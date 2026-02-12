@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/core/widgets/icon_tap_area.dart';
+import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/shelf_search_bottom_sheet.dart';
 
-/// フィルターバーコンポーネント
-///
-/// 本棚画面で使用するソートボタンを配置する。
 class SearchFilterBar extends StatelessWidget {
   const SearchFilterBar({
     required this.sortOption,
     required this.onSortChanged,
+    required this.onBookTap,
+    this.onBookLongPress,
     super.key,
   });
 
   final SortOption sortOption;
   final void Function(SortOption) onSortChanged;
+  final void Function(ShelfBookItem book) onBookTap;
+  final void Function(ShelfBookItem book)? onBookLongPress;
 
   Future<void> _showSortBottomSheet(BuildContext context) async {
     final appColors = Theme.of(context).extension<AppColors>()!;
@@ -39,14 +42,30 @@ class SearchFilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
-    return _FilterIconButton(
-      icon: Icons.tune,
-      isActive: sortOption != SortOption.defaultOption,
-      semanticLabel: sortOption != SortOption.defaultOption
-          ? '並び替え（${sortOption.displayName}）'
-          : '並び替え',
-      color: appColors.textSecondary,
-      onTap: () => _showSortBottomSheet(context),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _FilterIconButton(
+          icon: Icons.search,
+          isActive: false,
+          semanticLabel: '検索',
+          color: appColors.textSecondary,
+          onTap: () => showShelfSearchBottomSheet(
+            context: context,
+            onBookTap: onBookTap,
+            onBookLongPress: onBookLongPress,
+          ),
+        ),
+        _FilterIconButton(
+          icon: Icons.tune,
+          isActive: sortOption != SortOption.defaultOption,
+          semanticLabel: sortOption != SortOption.defaultOption
+              ? '並び替え（${sortOption.displayName}）'
+              : '並び替え',
+          color: appColors.textSecondary,
+          onTap: () => _showSortBottomSheet(context),
+        ),
+      ],
     );
   }
 }
