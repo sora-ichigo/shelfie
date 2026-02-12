@@ -34,6 +34,7 @@ function createMockDb() {
 
   const mockQuery = {
     select: vi.fn().mockReturnThis(),
+    selectDistinct: vi.fn().mockReturnThis(),
     from: vi.fn().mockReturnThis(),
     where: whereFn,
     orderBy: orderByFn,
@@ -394,6 +395,32 @@ describe("BookListRepository", () => {
       const result = await repository.getMaxPositionForList(10);
 
       expect(result).toBe(-1);
+    });
+  });
+
+  describe("findListIdsContainingUserBook", () => {
+    it("should return list IDs containing the given user book", async () => {
+      const { query, setResults } = createMockDb();
+      setResults([{ listId: 1 }, { listId: 3 }]);
+
+      const repo = createBookListRepository(
+        query as unknown as Parameters<typeof createBookListRepository>[0],
+      );
+      const result = await repo.findListIdsContainingUserBook(100);
+
+      expect(result).toEqual([1, 3]);
+    });
+
+    it("should return empty array when user book is not in any list", async () => {
+      const { query, setResults } = createMockDb();
+      setResults([]);
+
+      const repo = createBookListRepository(
+        query as unknown as Parameters<typeof createBookListRepository>[0],
+      );
+      const result = await repo.findListIdsContainingUserBook(999);
+
+      expect(result).toEqual([]);
     });
   });
 

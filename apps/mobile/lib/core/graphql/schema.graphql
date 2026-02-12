@@ -336,6 +336,12 @@ type ImageUploadError {
   message: String
 }
 
+"""Result containing list IDs that contain a specific user book"""
+type ListIdsContainingUserBookResult {
+  """List IDs containing the user book"""
+  listIds: [Int!]!
+}
+
 """Result of successful login"""
 type LoginResult {
   """Firebase ID token for API authentication"""
@@ -421,14 +427,14 @@ type Mutation {
   """Update the reading note of a book in the user's shelf"""
   updateReadingNote(note: String!, userBookId: Int!): UserBook!
 
-  """Update the thoughts of a book in the user's shelf"""
-  updateThoughts(thoughts: String!, userBookId: Int!): UserBook!
-
   """Update the reading status of a book in the user's shelf"""
   updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
 
   """Update the start date of a book in the user's shelf"""
   updateStartedAt(startedAt: DateTime!, userBookId: Int!): UserBook!
+
+  """Update the thoughts of a book in the user's shelf"""
+  updateThoughts(thoughts: String!, userBookId: Int!): UserBook!
 }
 
 union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
@@ -542,6 +548,9 @@ type Query {
   """署名付きアップロードパラメータを取得"""
   getUploadCredentials: QueryGetUploadCredentialsResult
   health: String
+
+  """Get list IDs that contain a specific user book"""
+  listIdsContainingUserBook(userBookId: Int!): ListIdsContainingUserBookResult!
 
   """Get the currently authenticated user"""
   me: MeResult!
@@ -742,11 +751,11 @@ type User {
   """The email address of the user"""
   email: String
 
-  """The unique identifier of the user"""
-  id: Int
-
   """The user's unique handle"""
   handle: String
+
+  """The unique identifier of the user"""
+  id: Int
 
   """The user's Instagram handle"""
   instagramHandle: String

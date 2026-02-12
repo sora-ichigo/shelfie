@@ -10,12 +10,12 @@ import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
 import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/create_book_list_modal.dart';
 
 Future<void> showListSelectorModal({
   required BuildContext context,
   required int userBookId,
-  required void Function(int listId) onListSelected,
 }) async {
   final appColors = Theme.of(context).extension<AppColors>()!;
 
@@ -26,7 +26,6 @@ Future<void> showListSelectorModal({
     backgroundColor: appColors.surface,
     builder: (context) => _ListSelectorModalContent(
       userBookId: userBookId,
-      onListSelected: onListSelected,
     ),
   );
 }
@@ -34,11 +33,9 @@ Future<void> showListSelectorModal({
 class _ListSelectorModalContent extends ConsumerStatefulWidget {
   const _ListSelectorModalContent({
     required this.userBookId,
-    required this.onListSelected,
   });
 
   final int userBookId;
-  final void Function(int listId) onListSelected;
 
   @override
   ConsumerState<_ListSelectorModalContent> createState() =>
@@ -47,12 +44,35 @@ class _ListSelectorModalContent extends ConsumerStatefulWidget {
 
 class _ListSelectorModalContentState
     extends ConsumerState<_ListSelectorModalContent> {
+  Set<int> _addedListIds = {};
+  final Set<int> _addingListIds = {};
+  final Set<int> _removingListIds = {};
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       ref.read(bookListNotifierProvider.notifier).loadLists();
+      _loadAddedListIds();
     });
+  }
+
+  Future<void> _loadAddedListIds() async {
+    final repository = ref.read(bookListRepositoryProvider);
+    final result = await repository.getListIdsContainingUserBook(
+      userBookId: widget.userBookId,
+    );
+
+    if (!mounted) return;
+
+    result.fold(
+      (_) {},
+      (listIds) {
+        setState(() {
+          _addedListIds = listIds.toSet();
+        });
+      },
+    );
   }
 
   @override
@@ -181,9 +201,16 @@ class _ListSelectorModalContentState
       itemCount: lists.length,
       itemBuilder: (context, index) {
         final list = lists[index];
+        final isInList = _addedListIds.contains(list.id);
+        final isAdding = _addingListIds.contains(list.id);
+        final isRemoving = _removingListIds.contains(list.id);
         return _ListItem(
           list: list,
-          onTap: () => _onListTap(list),
+          isInList: isInList,
+          isAdding: isAdding,
+          isRemoving: isRemoving,
+          onTap: isInList ? null : () => _onAddToList(list),
+          onRemove: isInList ? () => _onRemoveFromList(list) : null,
         );
       },
     );
@@ -221,30 +248,114 @@ class _ListSelectorModalContentState
       },
       (_) {
         ref.read(bookListVersionProvider.notifier).increment();
+        setState(() {
+          _addedListIds.add(bookList.id);
+        });
         AppSnackBar.show(
           context,
           message: 'リストに追加しました',
           type: AppSnackBarType.success,
         );
-        Navigator.of(context).pop();
+        ref.read(bookListNotifierProvider.notifier).loadLists();
       },
     );
   }
 
-  void _onListTap(BookListSummary list) {
-    widget.onListSelected(list.id);
-    Navigator.of(context).pop();
+  Future<void> _onAddToList(BookListSummary list) async {
+    setState(() {
+      _addingListIds.add(list.id);
+    });
+
+    final repository = ref.read(bookListRepositoryProvider);
+    final result = await repository.addBookToList(
+      listId: list.id,
+      userBookId: widget.userBookId,
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _addingListIds.remove(list.id);
+    });
+
+    result.fold(
+      (failure) {
+        AppSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AppSnackBarType.error,
+        );
+      },
+      (_) {
+        ref.read(bookListVersionProvider.notifier).increment();
+        setState(() {
+          _addedListIds.add(list.id);
+        });
+        AppSnackBar.show(
+          context,
+          message: '「${list.title}」に追加しました',
+          type: AppSnackBarType.success,
+        );
+      },
+    );
+  }
+
+  Future<void> _onRemoveFromList(BookListSummary list) async {
+    setState(() {
+      _removingListIds.add(list.id);
+    });
+
+    final repository = ref.read(bookListRepositoryProvider);
+    final result = await repository.removeBookFromList(
+      listId: list.id,
+      userBookId: widget.userBookId,
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _removingListIds.remove(list.id);
+    });
+
+    result.fold(
+      (failure) {
+        AppSnackBar.show(
+          context,
+          message: failure.userMessage,
+          type: AppSnackBarType.error,
+        );
+      },
+      (_) {
+        ref.read(bookListVersionProvider.notifier).increment();
+        setState(() {
+          _addedListIds.remove(list.id);
+        });
+        AppSnackBar.show(
+          context,
+          message: '「${list.title}」から削除しました',
+          type: AppSnackBarType.success,
+        );
+      },
+    );
   }
 }
 
 class _ListItem extends StatelessWidget {
   const _ListItem({
     required this.list,
-    required this.onTap,
+    required this.isInList,
+    required this.isAdding,
+    required this.isRemoving,
+    this.onTap,
+    this.onRemove,
   });
 
   final BookListSummary list;
-  final VoidCallback onTap;
+  final bool isInList;
+  final bool isAdding;
+  final bool isRemoving;
+  final VoidCallback? onTap;
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +374,7 @@ class _ListItem extends StatelessWidget {
         child: list.coverImages.isNotEmpty
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: _buildCoverCollage(list.coverImages, appColors),
+                child: CoverCollage(coverImages: list.coverImages),
               )
             : Center(
                 child: Icon(
@@ -286,20 +397,47 @@ class _ListItem extends StatelessWidget {
           color: appColors.textSecondary,
         ),
       ),
-      trailing: Icon(
-        Icons.add_circle_outline,
-        color: appColors.primary,
-      ),
+      trailing: _buildTrailing(appColors),
     );
   }
 
-  Widget _buildCoverCollage(List<String> images, AppColors appColors) {
-    return ColoredBox(
-      color: appColors.surface,
-      child: Icon(
-        Icons.collections_bookmark,
-        color: appColors.textSecondary,
-      ),
-    );
+  Widget _buildTrailing(AppColors appColors) {
+    if (isAdding || isRemoving) {
+      return const SizedBox(
+        width: 48,
+        height: 48,
+        child: Center(
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    if (isInList) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: appColors.primary,
+          ),
+          const SizedBox(width: 4),
+          IconButton(
+            onPressed: onRemove,
+            icon: Icon(
+              Icons.close,
+              size: 20,
+              color: appColors.textSecondary,
+            ),
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      );
+    }
+
+    return const Icon(Icons.add_circle_outline);
   }
 }

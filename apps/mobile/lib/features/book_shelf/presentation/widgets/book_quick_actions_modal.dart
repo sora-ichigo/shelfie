@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shelfie/core/state/book_list_version.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -17,7 +16,6 @@ import 'package:shelfie/core/widgets/base_bottom_sheet.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_detail/presentation/utils/reading_status_color.dart';
 import 'package:shelfie/features/book_detail/presentation/widgets/reading_note_modal.dart';
-import 'package:shelfie/features/book_list/data/book_list_repository.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/list_selector_modal.dart';
 import 'package:shelfie/features/book_shelf/application/status_section_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
@@ -402,39 +400,9 @@ class _BookQuickActionsModalContentState
   }
 
   void _onAddToListTap() {
-    final repository = ref.read(bookListRepositoryProvider);
-    final userBookId = widget.book.userBookId;
-
     showListSelectorModal(
       context: context,
-      userBookId: userBookId,
-      onListSelected: (listId) async {
-        final result = await repository.addBookToList(
-          listId: listId,
-          userBookId: userBookId,
-        );
-
-        if (!mounted) return;
-
-        result.fold(
-          (failure) {
-            AppSnackBar.show(
-              context,
-              message: failure.userMessage,
-              type: AppSnackBarType.error,
-            );
-          },
-          (_) {
-            ref.read(bookListVersionProvider.notifier).increment();
-            AppSnackBar.show(
-              context,
-              message: 'リストに追加しました',
-              type: AppSnackBarType.success,
-            );
-            Navigator.pop(context);
-          },
-        );
-      },
+      userBookId: widget.book.userBookId,
     );
   }
 
