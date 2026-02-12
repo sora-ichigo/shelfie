@@ -4,16 +4,23 @@ import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
+import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
+import 'package:shelfie/core/widgets/icon_tap_area.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/application/profile_books_notifier.dart';
 import 'package:shelfie/features/account/application/profile_books_state.dart';
 import 'package:shelfie/features/account/application/reading_status_counts_notifier.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
+import 'package:shelfie/features/account/presentation/widgets/no_book_lists_message.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_book_card.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
 import 'package:shelfie/features/account/presentation/widgets/reading_status_chips.dart';
+import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
+import 'package:shelfie/features/book_list/application/book_list_state.dart';
+import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
@@ -30,6 +37,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   ProfileTab _selectedTab = ProfileTab.bookShelf;
   final _scrollController = ScrollController();
+  bool _bookListLoaded = false;
 
   @override
   void initState() {
@@ -132,7 +140,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             delegate: _TabBarDelegate(
               child: ProfileTabBar(
                 selectedTab: _selectedTab,
-                onTabChanged: (tab) => setState(() => _selectedTab = tab),
+                onTabChanged: (tab) {
+                  setState(() => _selectedTab = tab);
+                  if (tab == ProfileTab.bookList && !_bookListLoaded) {
+                    _bookListLoaded = true;
+                    ref.read(bookListNotifierProvider.notifier).loadLists();
+                  }
+                },
               ),
               backgroundColor: theme.scaffoldBackgroundColor,
             ),
@@ -140,7 +154,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           if (_selectedTab == ProfileTab.bookShelf)
             ..._buildBookShelfSlivers(booksState)
           else
-            SliverToBoxAdapter(child: _BookListTab()),
+            ..._buildBookListSlivers(),
         ],
       ),
     );
@@ -231,6 +245,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     ];
   }
 
+  List<Widget> _buildBookListSlivers() {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final bookListState = ref.watch(bookListNotifierProvider);
+
+    final actionBar = SliverPersistentHeader(
+      pinned: true,
+      delegate: _FilterBarDelegate(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.xxs,
+            horizontal: AppSpacing.md,
+          ),
+          child: Row(
+            children: [
+              const Spacer(),
+              IconTapArea(
+                icon: Icons.add,
+                color: appColors.textSecondary,
+                semanticLabel: 'リストを作成',
+                onTap: () => context.push(AppRoutes.bookListCreate),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+    );
+
+    return switch (bookListState) {
+      BookListInitial() || BookListLoading() => [
+        const SliverFillRemaining(
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ],
+      BookListError() => [
+        SliverFillRemaining(
+          child: Center(
+            child: Text(
+              'エラーが発生しました',
+              style: TextStyle(color: appColors.textSecondary),
+            ),
+          ),
+        ),
+      ],
+      BookListLoaded(lists: final lists) when lists.isEmpty => [
+        SliverFillRemaining(
+          child: NoBookListsMessage(
+            onCreateListPressed: () => context.push(AppRoutes.bookListCreate),
+          ),
+        ),
+      ],
+      BookListLoaded(lists: final lists) => [
+        actionBar,
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          sliver: SliverGrid(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: AppSpacing.xl,
+              mainAxisSpacing: AppSpacing.md,
+              childAspectRatio: 0.85,
+            ),
+            delegate: SliverChildBuilderDelegate((context, index) {
+              final list = lists[index];
+              return _BookListGridItem(
+                summary: list,
+                onTap: () =>
+                    context.push(AppRoutes.bookListDetail(listId: list.id)),
+              );
+            }, childCount: lists.length),
+          ),
+        ),
+      ],
+    };
+  }
+
   void _onBookTap(ShelfBookItem book) {
     context.push(
       AppRoutes.bookDetail(bookId: book.externalId, source: book.source),
@@ -295,7 +385,10 @@ class _FilterBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return ColoredBox(color: backgroundColor, child: Align(child: child));
+    return ColoredBox(
+      color: backgroundColor,
+      child: Align(child: child),
+    );
   }
 
   @override
@@ -304,24 +397,46 @@ class _FilterBarDelegate extends SliverPersistentHeaderDelegate {
       backgroundColor != oldDelegate.backgroundColor;
 }
 
-class _BookListTab extends StatelessWidget {
+class _BookListGridItem extends StatelessWidget {
+  const _BookListGridItem({required this.summary, required this.onTap});
+
+  final BookListSummary summary;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
-    return Center(
+    return GestureDetector(
+      onTap: onTap,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.construction_outlined,
-            size: 48,
-            color: appColors.textSecondary,
+          AspectRatio(
+            aspectRatio: 1,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              child: summary.coverImages.isEmpty
+                  ? ColoredBox(
+                      color: appColors.surface,
+                      child: Center(
+                        child: Icon(
+                          Icons.collections_bookmark,
+                          size: 32,
+                          color: appColors.textSecondary,
+                        ),
+                      ),
+                    )
+                  : CoverCollage(coverImages: summary.coverImages),
+            ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.xxs),
           Text(
-            'ブックリストは準備中です',
-            style: TextStyle(color: appColors.textSecondary),
+            summary.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.titleSmall,
           ),
         ],
       ),
