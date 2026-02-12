@@ -1,0 +1,15 @@
+query UserBookLists($userId: Int!, $input: MyBookListsInput) {
+  userBookLists(userId: $userId, input: $input) {
+    items {
+      id
+      title
+      description
+      bookCount
+      coverImages
+      createdAt
+      updatedAt
+    }
+    totalCount
+    hasMore
+  }
+}

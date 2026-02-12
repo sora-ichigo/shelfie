@@ -15,6 +15,8 @@ import 'package:shelfie/features/book_search/data/book_search_repository.dart'
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.data.gql.dart';
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.req.gql.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.data.gql.dart';
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.req.gql.dart';
 
 part 'book_shelf_repository.g.dart';
 
@@ -48,6 +50,13 @@ abstract class BookShelfRepository {
     int? limit,
     int? offset,
     GReadingStatus? readingStatus,
+  });
+
+  /// 他ユーザーの本棚を取得
+  Future<Either<Failure, MyShelfResult>> getUserShelf({
+    required int userId,
+    int? limit,
+    int? offset,
   });
 }
 
@@ -92,6 +101,96 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
     } catch (e) {
       return left(UnexpectedFailure(message: e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, MyShelfResult>> getUserShelf({
+    required int userId,
+    int? limit,
+    int? offset,
+  }) async {
+    final request = GUserShelfReq(
+      (b) => b
+        ..fetchPolicy = FetchPolicy.NetworkOnly
+        ..vars.userId = userId
+        ..vars.input = GMyShelfInput(
+          (i) => i
+            ..limit = limit ?? defaultPageSize
+            ..offset = offset ?? 0,
+        ).toBuilder(),
+    );
+
+    try {
+      final response = await client.request(request).first;
+      return _handleUserShelfResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Either<Failure, MyShelfResult> _handleUserShelfResponse(
+    OperationResponse<GUserShelfData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      final errorMessage = error?.message ?? 'Failed to fetch shelf';
+      final extensions = error?.extensions;
+      final code = extensions?['code'] as String?;
+
+      if (code == 'UNAUTHENTICATED') {
+        return left(AuthFailure(message: errorMessage));
+      }
+      if (code == 'FORBIDDEN') {
+        return left(ForbiddenFailure(message: errorMessage));
+      }
+
+      return left(
+        ServerFailure(
+          message: errorMessage,
+          code: code ?? 'GRAPHQL_ERROR',
+        ),
+      );
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(
+          message: 'No data received',
+          code: 'NO_DATA',
+        ),
+      );
+    }
+
+    final result = data.userShelf;
+    final items = <ShelfBookItem>[];
+
+    for (final item in result.items) {
+      items.add(
+        ShelfBookItem(
+          userBookId: item.id,
+          externalId: item.externalId,
+          title: item.title,
+          authors: item.authors.toList(),
+          source: _mapBookSource(item.source.name),
+          addedAt: item.addedAt,
+          coverImageUrl: item.coverImageUrl,
+        ),
+      );
+    }
+
+    return right(
+      MyShelfResult(
+        items: items,
+        entries: const {},
+        totalCount: result.totalCount,
+        hasMore: result.hasMore,
+      ),
+    );
   }
 
   Either<Failure, MyShelfResult> _handleResponse(

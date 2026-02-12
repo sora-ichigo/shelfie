@@ -705,8 +705,14 @@ type Query {
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
 
+  """Get another user's book lists (requires following)"""
+  userBookLists(input: MyBookListsInput, userId: Int!): MyBookListsResult!
+
   """Get a user's profile by handle"""
   userProfile(handle: String!): UserProfile
+
+  """Get another user's book shelf (requires following)"""
+  userShelf(input: MyShelfInput, userId: Int!): MyShelfResult!
 }
 
 union QueryGetUploadCredentialsResult = ImageUploadError | QueryGetUploadCredentialsSuccess

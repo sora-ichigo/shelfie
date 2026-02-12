@@ -28,6 +28,8 @@ import 'package:shelfie/features/book_list/data/__generated__/reorder_book_in_li
 import 'package:shelfie/features/book_list/data/__generated__/update_book_list.data.gql.dart';
 import 'package:shelfie/features/book_list/data/__generated__/update_book_list.req.gql.dart';
 import 'package:shelfie/features/book_list/domain/book_list.dart';
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.data.gql.dart';
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.req.gql.dart';
 
 part 'book_list_repository.g.dart';
 
@@ -74,6 +76,13 @@ abstract class BookListRepository {
 
   Future<Either<Failure, List<int>>> getListIdsContainingUserBook({
     required int userBookId,
+  });
+
+  /// 他ユーザーのブックリスト一覧を取得
+  Future<Either<Failure, MyBookListsResult>> getUserBookLists({
+    required int userId,
+    int? limit,
+    int? offset,
   });
 }
 
@@ -524,6 +533,71 @@ class BookListRepositoryImpl implements BookListRepository {
     }
 
     return right(data.listIdsContainingUserBook.listIds.toList());
+  }
+
+  @override
+  Future<Either<Failure, MyBookListsResult>> getUserBookLists({
+    required int userId,
+    int? limit,
+    int? offset,
+  }) async {
+    final request = GUserBookListsReq(
+      (b) => b
+        ..fetchPolicy = FetchPolicy.NetworkOnly
+        ..vars.userId = userId
+        ..vars.input = GMyBookListsInput(
+          (i) => i
+            ..limit = limit
+            ..offset = offset,
+        ).toBuilder(),
+    );
+
+    try {
+      final response = await client.request(request).first;
+      return _handleUserBookListsResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Either<Failure, MyBookListsResult> _handleUserBookListsResponse(
+    OperationResponse<GUserBookListsData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      return left(_mapGraphQLError(response.graphqlErrors));
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(
+        const ServerFailure(message: 'No data received', code: 'NO_DATA'),
+      );
+    }
+
+    final result = data.userBookLists;
+    return right(
+      MyBookListsResult(
+        items: result.items
+            .map(
+              (item) => BookListSummary(
+                id: item.id,
+                title: item.title,
+                description: item.description,
+                bookCount: item.bookCount,
+                coverImages: item.coverImages.toList(),
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt,
+              ),
+            )
+            .toList(),
+        totalCount: result.totalCount,
+        hasMore: result.hasMore,
+      ),
+    );
   }
 
   Failure _mapGraphQLError(List<GraphQLError>? errors) {

@@ -43,6 +43,15 @@ class MockBookShelfRepository implements BookShelfRepository {
     }
     return right(nextResult!);
   }
+
+  @override
+  Future<Either<Failure, MyShelfResult>> getUserShelf({
+    required int userId,
+    int? limit,
+    int? offset,
+  }) async {
+    throw UnimplementedError();
+  }
 }
 
 MyShelfResult createMockResult({

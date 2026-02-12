@@ -307,12 +307,22 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GUpdateThoughtsData_updateThoughts.serializer)
       ..add(GUpdateThoughtsReq.serializer)
       ..add(GUpdateThoughtsVars.serializer)
+      ..add(GUserBookListsData.serializer)
+      ..add(GUserBookListsData_userBookLists.serializer)
+      ..add(GUserBookListsData_userBookLists_items.serializer)
+      ..add(GUserBookListsReq.serializer)
+      ..add(GUserBookListsVars.serializer)
       ..add(GUserProfileData.serializer)
       ..add(GUserProfileData_userProfile.serializer)
       ..add(GUserProfileData_userProfile_followCounts.serializer)
       ..add(GUserProfileData_userProfile_user.serializer)
       ..add(GUserProfileReq.serializer)
       ..add(GUserProfileVars.serializer)
+      ..add(GUserShelfData.serializer)
+      ..add(GUserShelfData_userShelf.serializer)
+      ..add(GUserShelfData_userShelf_items.serializer)
+      ..add(GUserShelfReq.serializer)
+      ..add(GUserShelfVars.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GBookListDetailData_bookListDetail_items)]),
@@ -350,6 +360,20 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),
           () => ListBuilder<GSearchBooksData_searchBooks_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GUserBookListsData_userBookLists_items)]),
+          () => ListBuilder<GUserBookListsData_userBookLists_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GUserShelfData_userShelf_items)]),
+          () => ListBuilder<GUserShelfData_userShelf_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => ListBuilder<String>())

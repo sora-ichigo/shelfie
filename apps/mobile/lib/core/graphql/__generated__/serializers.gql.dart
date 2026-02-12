@@ -369,6 +369,15 @@ import 'package:shelfie/features/follow/data/__generated__/unfollow.req.gql.dart
     show GUnfollowReq;
 import 'package:shelfie/features/follow/data/__generated__/unfollow.var.gql.dart'
     show GUnfollowVars;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.data.gql.dart'
+    show
+        GUserBookListsData,
+        GUserBookListsData_userBookLists,
+        GUserBookListsData_userBookLists_items;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.req.gql.dart'
+    show GUserBookListsReq;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.var.gql.dart'
+    show GUserBookListsVars;
 import 'package:shelfie/features/follow/data/__generated__/user_profile.data.gql.dart'
     show
         GUserProfileData,
@@ -379,6 +388,15 @@ import 'package:shelfie/features/follow/data/__generated__/user_profile.req.gql.
     show GUserProfileReq;
 import 'package:shelfie/features/follow/data/__generated__/user_profile.var.gql.dart'
     show GUserProfileVars;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.data.gql.dart'
+    show
+        GUserShelfData,
+        GUserShelfData_userShelf,
+        GUserShelfData_userShelf_items;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.req.gql.dart'
+    show GUserShelfReq;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.var.gql.dart'
+    show GUserShelfVars;
 import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
     show
         GLoginUserData_loginUser,
@@ -715,11 +733,21 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUpdateThoughtsData_updateThoughts,
   GUpdateThoughtsReq,
   GUpdateThoughtsVars,
+  GUserBookListsData,
+  GUserBookListsData_userBookLists,
+  GUserBookListsData_userBookLists_items,
+  GUserBookListsReq,
+  GUserBookListsVars,
   GUserProfileData,
   GUserProfileData_userProfile,
   GUserProfileData_userProfile_followCounts,
   GUserProfileData_userProfile_user,
   GUserProfileReq,
   GUserProfileVars,
+  GUserShelfData,
+  GUserShelfData_userShelf,
+  GUserShelfData_userShelf_items,
+  GUserShelfReq,
+  GUserShelfVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

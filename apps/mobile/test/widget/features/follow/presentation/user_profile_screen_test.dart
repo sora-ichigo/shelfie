@@ -4,6 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
 import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
+import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
+import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_counts.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
@@ -50,6 +52,23 @@ class FakeFollowRequestNotifier extends FollowRequestNotifier {
   }
 }
 
+class FakeUserProfileBooksNotifier extends UserProfileBooksNotifier {
+  @override
+  UserProfileBooksState build(int userId) {
+    return const UserProfileBooksState();
+  }
+}
+
+class FakeUserProfileBookListsNotifier extends UserProfileBookListsNotifier {
+  @override
+  UserProfileBookListsState build(int userId) {
+    return const UserProfileBookListsState();
+  }
+
+  @override
+  Future<void> loadLists() async {}
+}
+
 UserProfileModel _createProfile({
   int userId = 10,
   String name = 'TestUser',
@@ -93,6 +112,10 @@ void main() {
       overrides: [
         followRequestNotifierProvider(profile.user.id)
             .overrideWith(() => fakeNotifier),
+        userProfileBooksNotifierProvider(profile.user.id)
+            .overrideWith(() => FakeUserProfileBooksNotifier()),
+        userProfileBookListsNotifierProvider(profile.user.id)
+            .overrideWith(() => FakeUserProfileBookListsNotifier()),
       ],
       child: MaterialApp(
         theme: AppTheme.theme,

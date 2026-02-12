@@ -1,0 +1,19 @@
+query UserShelf($userId: Int!, $input: MyShelfInput) {
+  userShelf(userId: $userId, input: $input) {
+    items {
+      id
+      externalId
+      title
+      authors
+      coverImageUrl
+      readingStatus
+      source
+      addedAt
+      startedAt
+      completedAt
+      rating
+    }
+    totalCount
+    hasMore
+  }
+}
