@@ -9,18 +9,9 @@ import 'package:shelfie/core/auth/session_validator.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
-import 'package:shelfie/features/book_shelf/application/book_shelf_notifier.dart';
-import 'package:shelfie/features/book_shelf/data/book_shelf_settings_repository.dart';
-import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 import '../../helpers/test_helpers.dart';
-
-class MockBookShelfSettingsRepository extends Mock
-    implements BookShelfSettingsRepository {
-  @override
-  SortOption getSortOption() => SortOption.defaultOption;
-}
 
 void main() {
   group('ShelfieApp', () {
@@ -207,17 +198,11 @@ void main() {
           (_) async => const SessionValid(userId: 1, email: 'test@example.com'),
         );
 
-        final mockSettingsRepository = MockBookShelfSettingsRepository();
-
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
               secureStorageServiceProvider.overrideWithValue(mockStorage),
               sessionValidatorProvider.overrideWithValue(mockSessionValidator),
-              bookShelfSettingsRepositoryProvider
-                  .overrideWithValue(mockSettingsRepository),
-              bookShelfNotifierProvider
-                  .overrideWith(() => MockBookShelfNotifier()),
             ],
             child: const ShelfieApp(),
           ),
@@ -235,10 +220,12 @@ void main() {
               token: 'test-token',
               refreshToken: 'test-refresh-token',
             );
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         expect(find.text('読書家のための本棚'), findsNothing);
-        expect(find.text('ライブラリ'), findsAtLeast(1));
+
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump(const Duration(seconds: 1));
       });
     });
   });

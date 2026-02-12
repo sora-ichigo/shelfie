@@ -38,7 +38,7 @@ void main() {
 
   group('MainShell', () {
     group('CupertinoTabBar', () {
-      testWidgets('CupertinoTabBar に 4 タブ表示されること', (tester) async {
+      testWidgets('CupertinoTabBar に 3 タブ表示されること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -66,7 +66,7 @@ void main() {
           find.byType(CupertinoTabBar),
         );
 
-        expect(tabBar.items.length, equals(4));
+        expect(tabBar.items.length, equals(3));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -74,8 +74,7 @@ void main() {
         resetViewport(tester);
       });
 
-      testWidgets('タブの順序がライブラリ -> さがす -> + -> プロフィールであること',
-          (tester) async {
+      testWidgets('タブの順序がさがす -> + -> プロフィールであること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -109,10 +108,9 @@ void main() {
           icons.add(iconWidget.icon!);
         }
 
-        expect(icons[0], equals(CupertinoIcons.collections));
-        expect(icons[1], equals(CupertinoIcons.search));
-        expect(icons[2], equals(CupertinoIcons.plus));
-        expect(icons[3], equals(CupertinoIcons.person));
+        expect(icons[0], equals(CupertinoIcons.search));
+        expect(icons[1], equals(CupertinoIcons.plus));
+        expect(icons[2], equals(CupertinoIcons.person));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));
@@ -162,7 +160,7 @@ void main() {
         resetViewport(tester);
       });
 
-      testWidgets('ホームタブが初期選択されていること', (tester) async {
+      testWidgets('プロフィールタブが初期選択されていること', (tester) async {
         setLargeViewport(tester);
 
         final container = createTestContainer();
@@ -190,7 +188,7 @@ void main() {
           find.byType(CupertinoTabBar),
         );
 
-        expect(tabBar.currentIndex, equals(0));
+        expect(tabBar.currentIndex, equals(2));
 
         await tester.pumpWidget(const SizedBox.shrink());
         await tester.pump(const Duration(seconds: 1));

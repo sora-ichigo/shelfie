@@ -133,7 +133,6 @@ void main() {
         expect(AppRoutes.welcome, '/welcome');
         expect(AppRoutes.login, '/auth/login');
         expect(AppRoutes.register, '/auth/register');
-        expect(AppRoutes.homeTab, '/home');
         expect(AppRoutes.searchTab, '/search');
         expect(AppRoutes.account, '/account');
         expect(AppRoutes.error, '/error');

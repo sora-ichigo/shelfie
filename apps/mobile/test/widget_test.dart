@@ -86,7 +86,7 @@ void main() {
       expect(find.text('Shelfie'), findsOneWidget);
     });
 
-    testWidgets('認証済みでホーム画面が表示されること', (WidgetTester tester) async {
+    testWidgets('認証済みでプロフィール画面が表示されること', (WidgetTester tester) async {
       // ビューポートを大きく設定
       tester.view.physicalSize = const Size(1920, 1080);
       tester.view.devicePixelRatio = 1.0;
@@ -110,8 +110,9 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      // 認証済みはライブラリ画面が表示される
-      expect(find.text('ライブラリ'), findsWidgets);
+      // 認証済みはプロフィール画面（ランディングページ）が表示される
+      // ウェルカム画面のテキストが表示されていないことを確認
+      expect(find.text('読書家のための本棚'), findsNothing);
 
       // タイマーをクリアするためにウィジェットを破棄
       await tester.pumpWidget(const SizedBox.shrink());

@@ -28,7 +28,6 @@ import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart'
 import 'package:shelfie/features/book_search/presentation/search_screen.dart'
     show SearchScreen, searchAutoFocusProvider;
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
-import 'package:shelfie/features/book_shelf/presentation/book_shelf_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
@@ -50,9 +49,6 @@ abstract final class AppRoutes {
 
   /// 新規登録画面
   static const register = '/auth/register';
-
-  /// ホームタブ
-  static const homeTab = '/home';
 
   /// 検索タブ
   static const searchTab = '/search';
@@ -216,7 +212,6 @@ String? guardRoute({
   if (isGuest) {
     final isGuestAllowed =
         currentLocation == '/' ||
-        currentLocation == AppRoutes.homeTab ||
         currentLocation == AppRoutes.searchTab ||
         currentLocation == AppRoutes.isbnScan ||
         currentLocation.startsWith('/books/') ||
@@ -389,22 +384,6 @@ List<RouteBase> _buildRoutes() {
       branches: [
         StatefulShellBranch(
           routes: [
-            // ホーム（本棚）
-            GoRoute(
-              path: AppRoutes.home,
-              pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: BookShelfScreen()),
-            ),
-            GoRoute(
-              path: AppRoutes.homeTab,
-              pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: BookShelfScreen()),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            // 検索
             GoRoute(
               path: AppRoutes.searchTab,
               pageBuilder: (context, state) =>
@@ -414,7 +393,11 @@ List<RouteBase> _buildRoutes() {
         ),
         StatefulShellBranch(
           routes: [
-            // プロフィール
+            GoRoute(
+              path: AppRoutes.home,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileScreen()),
+            ),
             GoRoute(
               path: AppRoutes.profileTab,
               pageBuilder: (context, state) =>
@@ -476,7 +459,7 @@ class _MainShell extends ConsumerWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const int _addButtonIndex = 2;
+  static const int _addButtonIndex = 1;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -538,17 +521,6 @@ class _MainShell extends ConsumerWidget {
             backgroundColor: appColors.background,
             border: const Border(),
             items: [
-              const BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Icon(CupertinoIcons.collections, size: 24),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Icon(CupertinoIcons.collections_solid, size: 24),
-                ),
-                label: '',
-              ),
               BottomNavigationBarItem(
                 icon: const Padding(
                   padding: EdgeInsets.only(top: 16),
