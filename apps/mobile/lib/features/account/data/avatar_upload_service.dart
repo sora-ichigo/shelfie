@@ -158,6 +158,9 @@ class AvatarUploadService {
   Future<Either<Failure, UserProfile>> uploadAndUpdateProfile({
     required XFile file,
     required String name,
+    String? bio,
+    String? instagramHandle,
+    String? handle,
     void Function(double progress)? onProgress,
   }) async {
     if (_repository == null) {
@@ -196,6 +199,9 @@ class AvatarUploadService {
     return _repository.updateProfile(
       name: name,
       avatarUrl: avatarUrl,
+      bio: bio,
+      instagramHandle: instagramHandle,
+      handle: handle,
     );
   }
 

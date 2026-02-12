@@ -33,6 +33,9 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
+  late final TextEditingController _handleController;
+  late final TextEditingController _bioController;
+  late final TextEditingController _instagramHandleController;
 
   @override
   void initState() {
@@ -42,6 +45,15 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     );
     _emailController = TextEditingController(
       text: widget.initialProfile.email,
+    );
+    _handleController = TextEditingController(
+      text: widget.initialProfile.handle ?? '',
+    );
+    _bioController = TextEditingController(
+      text: widget.initialProfile.bio ?? '',
+    );
+    _instagramHandleController = TextEditingController(
+      text: widget.initialProfile.instagramHandle ?? '',
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -55,6 +67,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _handleController.dispose();
+    _bioController.dispose();
+    _instagramHandleController.dispose();
     super.dispose();
   }
 
@@ -118,8 +133,20 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         ProfileEditForm(
                           nameController: _nameController,
                           emailController: _emailController,
+                          handleController: _handleController,
+                          bioController: _bioController,
+                          instagramHandleController:
+                              _instagramHandleController,
                           onNameChanged: formNotifier.updateName,
+                          onHandleChanged: formNotifier.updateHandle,
+                          onBioChanged: formNotifier.updateBio,
+                          onInstagramHandleChanged:
+                              formNotifier.updateInstagramHandle,
                           nameError: formNotifier.nameError,
+                          handleError: formNotifier.handleError,
+                          bioError: formNotifier.bioError,
+                          instagramHandleError:
+                              formNotifier.instagramHandleError,
                         ),
                       ],
                     ),

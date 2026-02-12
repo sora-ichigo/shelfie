@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProfileFormData {
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  String get handle => throw _privateConstructorUsedError;
+  String get bio => throw _privateConstructorUsedError;
+  String get instagramHandle => throw _privateConstructorUsedError;
   XFile? get pendingAvatarImage => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
@@ -35,7 +38,13 @@ abstract class $ProfileFormDataCopyWith<$Res> {
       _$ProfileFormDataCopyWithImpl<$Res, ProfileFormData>;
   @useResult
   $Res call(
-      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
+      {String name,
+      String email,
+      String handle,
+      String bio,
+      String instagramHandle,
+      XFile? pendingAvatarImage,
+      bool hasChanges});
 }
 
 /// @nodoc
@@ -55,6 +64,9 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
   $Res call({
     Object? name = null,
     Object? email = null,
+    Object? handle = null,
+    Object? bio = null,
+    Object? instagramHandle = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -66,6 +78,18 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      handle: null == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String,
+      instagramHandle: null == instagramHandle
+          ? _value.instagramHandle
+          : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
@@ -88,7 +112,13 @@ abstract class _$$ProfileFormDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, String email, XFile? pendingAvatarImage, bool hasChanges});
+      {String name,
+      String email,
+      String handle,
+      String bio,
+      String instagramHandle,
+      XFile? pendingAvatarImage,
+      bool hasChanges});
 }
 
 /// @nodoc
@@ -106,6 +136,9 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? email = null,
+    Object? handle = null,
+    Object? bio = null,
+    Object? instagramHandle = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -117,6 +150,18 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      handle: null == handle
+          ? _value.handle
+          : handle // ignore: cast_nullable_to_non_nullable
+              as String,
+      bio: null == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String,
+      instagramHandle: null == instagramHandle
+          ? _value.instagramHandle
+          : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
@@ -136,6 +181,9 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   const _$ProfileFormDataImpl(
       {this.name = '',
       this.email = '',
+      this.handle = '',
+      this.bio = '',
+      this.instagramHandle = '',
       this.pendingAvatarImage,
       this.hasChanges = false});
 
@@ -146,6 +194,15 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   @JsonKey()
   final String email;
   @override
+  @JsonKey()
+  final String handle;
+  @override
+  @JsonKey()
+  final String bio;
+  @override
+  @JsonKey()
+  final String instagramHandle;
+  @override
   final XFile? pendingAvatarImage;
   @override
   @JsonKey()
@@ -153,7 +210,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
 
   @override
   String toString() {
-    return 'ProfileFormData(name: $name, email: $email, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
+    return 'ProfileFormData(name: $name, email: $email, handle: $handle, bio: $bio, instagramHandle: $instagramHandle, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
   }
 
   @override
@@ -163,6 +220,10 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
             other is _$ProfileFormDataImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.handle, handle) || other.handle == handle) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.instagramHandle, instagramHandle) ||
+                other.instagramHandle == instagramHandle) &&
             (identical(other.pendingAvatarImage, pendingAvatarImage) ||
                 other.pendingAvatarImage == pendingAvatarImage) &&
             (identical(other.hasChanges, hasChanges) ||
@@ -170,8 +231,8 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, email, pendingAvatarImage, hasChanges);
+  int get hashCode => Object.hash(runtimeType, name, email, handle, bio,
+      instagramHandle, pendingAvatarImage, hasChanges);
 
   /// Create a copy of ProfileFormData
   /// with the given fields replaced by the non-null parameter values.
@@ -187,6 +248,9 @@ abstract class _ProfileFormData implements ProfileFormData {
   const factory _ProfileFormData(
       {final String name,
       final String email,
+      final String handle,
+      final String bio,
+      final String instagramHandle,
       final XFile? pendingAvatarImage,
       final bool hasChanges}) = _$ProfileFormDataImpl;
 
@@ -194,6 +258,12 @@ abstract class _ProfileFormData implements ProfileFormData {
   String get name;
   @override
   String get email;
+  @override
+  String get handle;
+  @override
+  String get bio;
+  @override
+  String get instagramHandle;
   @override
   XFile? get pendingAvatarImage;
   @override
