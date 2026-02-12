@@ -492,13 +492,6 @@ List<RouteBase> _buildRoutes() {
       },
     ),
 
-    // リスト作成画面（タブバーなし）
-    GoRoute(
-      path: AppRoutes.bookListCreate,
-      pageBuilder: (context, state) =>
-          const CupertinoPage(child: BookListEditScreen()),
-    ),
-
     // ISBN スキャン画面（タブバーなし）
     GoRoute(
       path: AppRoutes.isbnScan,
