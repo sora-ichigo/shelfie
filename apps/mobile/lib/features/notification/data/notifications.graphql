@@ -1,0 +1,14 @@
+query Notifications($cursor: Int, $limit: Int) {
+  notifications(cursor: $cursor, limit: $limit) {
+    id
+    sender {
+      id
+      name
+      avatarUrl
+      handle
+    }
+    type
+    isRead
+    createdAt
+  }
+}

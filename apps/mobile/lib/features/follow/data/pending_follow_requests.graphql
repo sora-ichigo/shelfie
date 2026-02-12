@@ -1,0 +1,9 @@
+query PendingFollowRequests($cursor: Int, $limit: Int) {
+  pendingFollowRequests(cursor: $cursor, limit: $limit) {
+    id
+    senderId
+    receiverId
+    status
+    createdAt
+  }
+}

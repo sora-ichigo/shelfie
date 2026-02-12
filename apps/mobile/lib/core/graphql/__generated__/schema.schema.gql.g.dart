@@ -93,6 +93,86 @@ final BuiltSet<GBookSource> _$gBookSourceValues =
   _$gBookSourceRAKUTEN,
 ]);
 
+const GFollowRequestStatus _$gFollowRequestStatusAPPROVED =
+    const GFollowRequestStatus._('APPROVED');
+const GFollowRequestStatus _$gFollowRequestStatusPENDING =
+    const GFollowRequestStatus._('PENDING');
+const GFollowRequestStatus _$gFollowRequestStatusREJECTED =
+    const GFollowRequestStatus._('REJECTED');
+
+GFollowRequestStatus _$gFollowRequestStatusValueOf(String name) {
+  switch (name) {
+    case 'APPROVED':
+      return _$gFollowRequestStatusAPPROVED;
+    case 'PENDING':
+      return _$gFollowRequestStatusPENDING;
+    case 'REJECTED':
+      return _$gFollowRequestStatusREJECTED;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<GFollowRequestStatus> _$gFollowRequestStatusValues =
+    BuiltSet<GFollowRequestStatus>(const <GFollowRequestStatus>[
+  _$gFollowRequestStatusAPPROVED,
+  _$gFollowRequestStatusPENDING,
+  _$gFollowRequestStatusREJECTED,
+]);
+
+const GFollowStatus _$gFollowStatusFOLLOWING =
+    const GFollowStatus._('FOLLOWING');
+const GFollowStatus _$gFollowStatusNONE = const GFollowStatus._('NONE');
+const GFollowStatus _$gFollowStatusPENDING_RECEIVED =
+    const GFollowStatus._('PENDING_RECEIVED');
+const GFollowStatus _$gFollowStatusPENDING_SENT =
+    const GFollowStatus._('PENDING_SENT');
+
+GFollowStatus _$gFollowStatusValueOf(String name) {
+  switch (name) {
+    case 'FOLLOWING':
+      return _$gFollowStatusFOLLOWING;
+    case 'NONE':
+      return _$gFollowStatusNONE;
+    case 'PENDING_RECEIVED':
+      return _$gFollowStatusPENDING_RECEIVED;
+    case 'PENDING_SENT':
+      return _$gFollowStatusPENDING_SENT;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<GFollowStatus> _$gFollowStatusValues =
+    BuiltSet<GFollowStatus>(const <GFollowStatus>[
+  _$gFollowStatusFOLLOWING,
+  _$gFollowStatusNONE,
+  _$gFollowStatusPENDING_RECEIVED,
+  _$gFollowStatusPENDING_SENT,
+]);
+
+const GNotificationType _$gNotificationTypeFOLLOW_REQUEST_APPROVED =
+    const GNotificationType._('FOLLOW_REQUEST_APPROVED');
+const GNotificationType _$gNotificationTypeFOLLOW_REQUEST_RECEIVED =
+    const GNotificationType._('FOLLOW_REQUEST_RECEIVED');
+
+GNotificationType _$gNotificationTypeValueOf(String name) {
+  switch (name) {
+    case 'FOLLOW_REQUEST_APPROVED':
+      return _$gNotificationTypeFOLLOW_REQUEST_APPROVED;
+    case 'FOLLOW_REQUEST_RECEIVED':
+      return _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
+    default:
+      throw ArgumentError(name);
+  }
+}
+
+final BuiltSet<GNotificationType> _$gNotificationTypeValues =
+    BuiltSet<GNotificationType>(const <GNotificationType>[
+  _$gNotificationTypeFOLLOW_REQUEST_APPROVED,
+  _$gNotificationTypeFOLLOW_REQUEST_RECEIVED,
+]);
+
 const GReadingStatus _$gReadingStatusBACKLOG =
     const GReadingStatus._('BACKLOG');
 const GReadingStatus _$gReadingStatusCOMPLETED =
@@ -199,8 +279,14 @@ Serializer<GChangePasswordInput> _$gChangePasswordInputSerializer =
     _$GChangePasswordInputSerializer();
 Serializer<GCreateBookListInput> _$gCreateBookListInputSerializer =
     _$GCreateBookListInputSerializer();
+Serializer<GFollowRequestStatus> _$gFollowRequestStatusSerializer =
+    _$GFollowRequestStatusSerializer();
+Serializer<GFollowStatus> _$gFollowStatusSerializer =
+    _$GFollowStatusSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     _$GLoginUserInputSerializer();
+Serializer<GNotificationType> _$gNotificationTypeSerializer =
+    _$GNotificationTypeSerializer();
 Serializer<GMyBookListsInput> _$gMyBookListsInputSerializer =
     _$GMyBookListsInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
@@ -499,6 +585,41 @@ class _$GCreateBookListInputSerializer
   }
 }
 
+class _$GFollowRequestStatusSerializer
+    implements PrimitiveSerializer<GFollowRequestStatus> {
+  @override
+  final Iterable<Type> types = const <Type>[GFollowRequestStatus];
+  @override
+  final String wireName = 'GFollowRequestStatus';
+
+  @override
+  Object serialize(Serializers serializers, GFollowRequestStatus object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GFollowRequestStatus deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GFollowRequestStatus.valueOf(serialized as String);
+}
+
+class _$GFollowStatusSerializer implements PrimitiveSerializer<GFollowStatus> {
+  @override
+  final Iterable<Type> types = const <Type>[GFollowStatus];
+  @override
+  final String wireName = 'GFollowStatus';
+
+  @override
+  Object serialize(Serializers serializers, GFollowStatus object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GFollowStatus deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GFollowStatus.valueOf(serialized as String);
+}
+
 class _$GLoginUserInputSerializer
     implements StructuredSerializer<GLoginUserInput> {
   @override
@@ -546,6 +667,24 @@ class _$GLoginUserInputSerializer
 
     return result.build();
   }
+}
+
+class _$GNotificationTypeSerializer
+    implements PrimitiveSerializer<GNotificationType> {
+  @override
+  final Iterable<Type> types = const <Type>[GNotificationType];
+  @override
+  final String wireName = 'GNotificationType';
+
+  @override
+  Object serialize(Serializers serializers, GNotificationType object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GNotificationType deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GNotificationType.valueOf(serialized as String);
 }
 
 class _$GMyBookListsInputSerializer

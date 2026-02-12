@@ -1,0 +1,19 @@
+query UserProfile($handle: String!) {
+  userProfile(handle: $handle) {
+    user {
+      id
+      name
+      avatarUrl
+      handle
+      bio
+      bookCount
+      instagramHandle
+    }
+    followStatus
+    followCounts {
+      followingCount
+      followerCount
+    }
+    isOwnProfile
+  }
+}

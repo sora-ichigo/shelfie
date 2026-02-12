@@ -73,6 +73,24 @@ type AuthErrorResult {
   retryable: Boolean
 }
 
+"""An in-app notification"""
+type AppNotification {
+  """When the notification was created"""
+  createdAt: DateTime!
+
+  """The unique identifier of the notification"""
+  id: Int!
+
+  """Whether the notification has been read"""
+  isRead: Boolean!
+
+  """The user who triggered the notification"""
+  sender: User!
+
+  """The type of notification"""
+  type: NotificationType!
+}
+
 """A book from the search results"""
 type Book {
   """The authors of the book"""
@@ -306,6 +324,48 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Follow counts for a user"""
+type FollowCounts {
+  """Number of followers"""
+  followerCount: Int!
+
+  """Number of users being followed"""
+  followingCount: Int!
+}
+
+"""A follow request between users"""
+type FollowRequest {
+  """When the request was created"""
+  createdAt: DateTime!
+
+  """The unique identifier of the follow request"""
+  id: Int!
+
+  """The user who received the request"""
+  receiverId: Int!
+
+  """The user who sent the request"""
+  senderId: Int!
+
+  """The current status of the request"""
+  status: FollowRequestStatus!
+}
+
+"""Status of a follow request"""
+enum FollowRequestStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+"""Follow relationship status between two users"""
+enum FollowStatus {
+  FOLLOWING
+  NONE
+  PENDING_RECEIVED
+  PENDING_SENT
+}
+
 """Result of account deletion"""
 type DeleteAccountResult {
   """Whether the account was deleted successfully"""
@@ -360,9 +420,18 @@ input LoginUserInput {
 """Result of me query - either User or AuthErrorResult"""
 union MeResult = AuthErrorResult | User
 
+union MutationApproveFollowRequestResult = MutationApproveFollowRequestSuccess | ValidationError
+
+type MutationApproveFollowRequestSuccess {
+  data: FollowRequest!
+}
+
 type Mutation {
   """Add a book to a book list"""
   addBookToList(listId: Int!, userBookId: Int!): BookListDetailItem!
+
+  """Approve a follow request"""
+  approveFollowRequest(requestId: Int!): MutationApproveFollowRequestResult
 
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
@@ -382,11 +451,17 @@ type Mutation {
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
 
+  """Mark all notifications as read"""
+  markNotificationsAsRead: Boolean
+
   """Refresh ID token using refresh token"""
   refreshToken(input: RefreshTokenInput!): MutationRefreshTokenResult
 
   """Register a device token for push notifications"""
   registerDeviceToken(input: RegisterDeviceTokenInput!): DeviceToken
+
+  """Reject a follow request"""
+  rejectFollowRequest(requestId: Int!): MutationRejectFollowRequestResult
 
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
@@ -400,8 +475,14 @@ type Mutation {
   """Reorder a book within a book list"""
   reorderBookInList(itemId: Int!, listId: Int!, newPosition: Int!): Boolean!
 
+  """Send a follow request to another user"""
+  sendFollowRequest(receiverId: Int!): MutationSendFollowRequestResult
+
   """Send password reset email to the specified address"""
   sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
+
+  """Unfollow a user"""
+  unfollow(targetUserId: Int!): MutationUnfollowResult
 
   """Unregister a device token"""
   unregisterDeviceToken(input: UnregisterDeviceTokenInput!): Boolean
@@ -455,10 +536,22 @@ type MutationRefreshTokenSuccess {
   data: RefreshTokenResult!
 }
 
+union MutationRejectFollowRequestResult = MutationRejectFollowRequestSuccess | ValidationError
+
+type MutationRejectFollowRequestSuccess {
+  data: FollowRequest!
+}
+
 union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
 
 type MutationRegisterUserSuccess {
   data: LoginResult!
+}
+
+union MutationSendFollowRequestResult = MutationSendFollowRequestSuccess | ValidationError
+
+type MutationSendFollowRequestSuccess {
+  data: FollowRequest!
 }
 
 union MutationSendPasswordResetEmailResult = AuthError | MutationSendPasswordResetEmailSuccess
@@ -469,8 +562,20 @@ type MutationSendPasswordResetEmailSuccess {
 
 union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
 
+union MutationUnfollowResult = MutationUnfollowSuccess | ValidationError
+
+type MutationUnfollowSuccess {
+  data: Boolean!
+}
+
 type MutationUpdateProfileSuccess {
   data: User!
+}
+
+"""Type of notification"""
+enum NotificationType {
+  FOLLOW_REQUEST_APPROVED
+  FOLLOW_REQUEST_RECEIVED
 }
 
 """Input for querying user's book lists with pagination"""
@@ -539,6 +644,15 @@ type Query {
   """Get detailed information about a specific book list"""
   bookListDetail(listId: Int!): BookListDetail!
 
+  """Get follow counts for a user"""
+  followCounts(userId: Int!): FollowCounts!
+
+  """Get followers of a user"""
+  followers(cursor: Int, limit: Int, userId: Int!): [User!]!
+
+  """Get users that a user is following"""
+  following(cursor: Int, limit: Int, userId: Int!): [User!]!
+
   """署名付きアップロードパラメータを取得"""
   getUploadCredentials: QueryGetUploadCredentialsResult
   health: String
@@ -552,14 +666,29 @@ type Query {
   """Get books in the user's shelf with pagination, sorting, and search"""
   myShelf(input: MyShelfInput): MyShelfResult!
 
+  """Get notifications for the current user"""
+  notifications(cursor: Int, limit: Int): [AppNotification!]!
+
+  """Get count of pending follow requests"""
+  pendingFollowRequestCount: Int!
+
+  """Get pending follow requests for the current user"""
+  pendingFollowRequests(cursor: Int, limit: Int): [FollowRequest!]!
+
   """Search for a book by ISBN"""
   searchBookByISBN(isbn: String!): Book
 
   """Search for books by keyword (matches title, author, etc.)"""
   searchBooks(limit: Int, offset: Int, query: String!): SearchBooksResult!
 
+  """Get count of unread notifications"""
+  unreadNotificationCount: Int!
+
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
+
+  """Get a user's profile by handle"""
+  userProfile(handle: String!): UserProfile
 }
 
 union QueryGetUploadCredentialsResult = ImageUploadError | QueryGetUploadCredentialsSuccess
@@ -813,6 +942,21 @@ type UserBook {
 
   """The title of the book"""
   title: String!
+}
+
+"""A user's profile with follow information"""
+type UserProfile {
+  """Follow counts for this user"""
+  followCounts: FollowCounts!
+
+  """Follow status between the current user and this user"""
+  followStatus: FollowStatus!
+
+  """Whether this is the current user's own profile"""
+  isOwnProfile: Boolean!
+
+  """The user"""
+  user: User!
 }
 
 """Validation error for user input"""

@@ -1,0 +1,17 @@
+mutation SendFollowRequest($receiverId: Int!) {
+  sendFollowRequest(receiverId: $receiverId) {
+    ... on MutationSendFollowRequestSuccess {
+      data {
+        id
+        senderId
+        receiverId
+        status
+        createdAt
+      }
+    }
+    ... on ValidationError {
+      message
+      code
+    }
+  }
+}

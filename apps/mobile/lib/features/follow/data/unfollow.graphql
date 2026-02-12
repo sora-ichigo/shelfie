@@ -1,0 +1,11 @@
+mutation Unfollow($targetUserId: Int!) {
+  unfollow(targetUserId: $targetUserId) {
+    ... on MutationUnfollowSuccess {
+      data
+    }
+    ... on ValidationError {
+      message
+      code
+    }
+  }
+}

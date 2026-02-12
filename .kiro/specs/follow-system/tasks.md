@@ -98,7 +98,7 @@
   - _Requirements: 1.1, 2.1, 2.2, 4.1, 8.1, 8.3, 9.4, 11.1, 13.2, 13.3, 13.5_
 
 - [ ] 5. モバイル ドメインモデルとリポジトリの実装
-- [ ] 5.1 (P) フォロー関連のドメインモデルを定義する
+- [x] 5.1 (P) フォロー関連のドメインモデルを定義する
   - freezed で FollowRequestModel（id, sender, receiver, status, createdAt）を定義する
   - FollowRequestStatus enum（pending, approved, rejected）を定義する
   - UserSummary モデル（id, name, avatarUrl, handle）を定義する（既存モデルがあれば再利用を検討）
@@ -110,7 +110,7 @@
   - build_runner でコード生成を実行する
   - _Requirements: 1.1, 3.3, 5.3, 8.1, 8.3, 12.3_
 
-- [ ] 5.2 (P) フォロー関連の GraphQL オペレーションファイルを作成する
+- [x] 5.2 (P) フォロー関連の GraphQL オペレーションファイルを作成する
   - sendFollowRequest, approveFollowRequest, rejectFollowRequest, unfollow の Mutation を定義する
   - pendingFollowRequests, pendingFollowRequestCount, following, followers, followCounts, userProfile の Query を定義する
   - notifications, unreadNotificationCount の Query を定義する
@@ -118,7 +118,7 @@
   - Ferry のコード生成を実行して型安全なリクエストクラスを生成する
   - _Requirements: 1.1, 2.1, 3.5, 4.1, 5.4, 6.1, 8.1, 12.2, 12.6_
 
-- [ ] 5.3 FollowMobileRepository を実装する（タスク 5.1, 5.2 の完了が前提）
+- [x] 5.3 FollowMobileRepository を実装する（タスク 5.1, 5.2 の完了が前提）
   - Ferry Client を使用したフォローリクエスト送信・承認・拒否・解除の実装
   - 受信リクエスト一覧・件数取得の実装（ページネーション対応）
   - フォロー中ユーザー一覧・フォロワー一覧の取得（ページネーション対応）
@@ -131,7 +131,7 @@
   - ユニットテストを作成する
   - _Requirements: 1.1, 2.1, 3.5, 4.1, 5.4, 6.1, 8.1_
 
-- [ ] 5.4 (P) NotificationMobileRepository を実装する（タスク 5.1, 5.2 の完了が前提）
+- [x] 5.4 (P) NotificationMobileRepository を実装する（タスク 5.1, 5.2 の完了が前提）
   - Ferry Client を使用した通知一覧取得（ページネーション対応）の実装
   - 未読件数の取得の実装
   - 一括既読更新の実装
