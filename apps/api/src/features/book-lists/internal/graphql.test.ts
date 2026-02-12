@@ -6,6 +6,7 @@ import type {
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { err, ok } from "../../../errors/result.js";
 import { createTestBuilder } from "../../../graphql/builder.js";
+import type { FollowService } from "../../follows/index.js";
 import type { UserService } from "../../users/index.js";
 import {
   registerBookListsMutations,
@@ -49,6 +50,18 @@ function createMockUserService(): UserService {
     createUserWithFirebase: vi.fn(),
     updateProfile: vi.fn(),
     deleteAccount: vi.fn(),
+  };
+}
+
+function createMockFollowService(): FollowService {
+  return {
+    sendRequest: vi.fn(),
+    approveRequest: vi.fn(),
+    rejectRequest: vi.fn(),
+    unfollow: vi.fn(),
+    cancelFollowRequest: vi.fn(),
+    getFollowStatus: vi.fn(),
+    getFollowCounts: vi.fn(),
   };
 }
 
@@ -912,6 +925,125 @@ describe("BookLists GraphQL", () => {
 
         expect(result).toBe(true);
       });
+    });
+  });
+
+  describe("userBookLists query", () => {
+    let bookListService: BookListService;
+    let userService: UserService;
+    let followService: FollowService;
+
+    beforeEach(() => {
+      bookListService = createMockBookListService();
+      userService = createMockUserService();
+      followService = createMockFollowService();
+    });
+
+    function buildSchemaWithUserBookLists() {
+      const builder = createTestBuilder();
+      registerBookListsTypes(builder, createMockBookShelfRepository());
+
+      builder.queryType({});
+      registerBookListsQueries(
+        builder,
+        bookListService,
+        userService,
+        followService,
+      );
+
+      return builder.toSchema();
+    }
+
+    it("should return book lists when user is following the target", async () => {
+      const schema = buildSchemaWithUserBookLists();
+      const mockSummaries: BookListSummary[] = [
+        {
+          id: 1,
+          title: "Target's Reading List",
+          description: "Books they want to read",
+          bookCount: 3,
+          coverImages: ["http://example.com/cover1.jpg"],
+          createdAt: new Date("2026-01-01"),
+          updatedAt: new Date("2026-01-01"),
+        },
+      ];
+
+      vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          firebaseUid: "test-firebase-uid",
+          email: "test@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+      vi.mocked(followService.getFollowStatus).mockResolvedValue("FOLLOWING");
+      vi.mocked(bookListService.getUserBookLists).mockResolvedValue(
+        ok({ items: mockSummaries, totalCount: 1, hasMore: false }),
+      );
+
+      const queryType = schema.getQueryType();
+      const userBookListsField = queryType?.getFields().userBookLists;
+
+      expect(userBookListsField).toBeDefined();
+
+      const result = await userBookListsField?.resolve?.(
+        {},
+        { userId: 200, input: { limit: 20, offset: 0 } },
+        createAuthenticatedContext(),
+        {} as never,
+      );
+
+      expect(followService.getFollowStatus).toHaveBeenCalledWith(100, 200);
+      expect(bookListService.getUserBookLists).toHaveBeenCalledWith({
+        userId: 200,
+        limit: 20,
+        offset: 0,
+      });
+      expect(result).toMatchObject({
+        items: mockSummaries,
+        totalCount: 1,
+        hasMore: false,
+      });
+    });
+
+    it("should throw FORBIDDEN error when user is not following the target", async () => {
+      const schema = buildSchemaWithUserBookLists();
+
+      vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          firebaseUid: "test-firebase-uid",
+          email: "test@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+      vi.mocked(followService.getFollowStatus).mockResolvedValue("NONE");
+
+      const queryType = schema.getQueryType();
+      const userBookListsField = queryType?.getFields().userBookLists;
+
+      await expect(
+        userBookListsField?.resolve?.(
+          {},
+          { userId: 200 },
+          createAuthenticatedContext(),
+          {} as never,
+        ),
+      ).rejects.toThrow();
+
+      expect(bookListService.getUserBookLists).not.toHaveBeenCalled();
     });
   });
 });

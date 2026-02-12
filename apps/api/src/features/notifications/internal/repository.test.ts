@@ -24,6 +24,7 @@ function createMockDb() {
     "values",
     "update",
     "set",
+    "delete",
     "innerJoin",
     "leftJoin",
   ];
@@ -96,6 +97,7 @@ describe("NotificationRepository", () => {
       expect(typeof repository.findByRecipient).toBe("function");
       expect(typeof repository.countUnreadByRecipient).toBe("function");
       expect(typeof repository.markAsReadByRecipient).toBe("function");
+      expect(typeof repository.deleteBySenderAndType).toBe("function");
     });
   });
 
@@ -205,6 +207,18 @@ describe("NotificationRepository", () => {
       await repository.markAsReadByRecipient(2);
 
       expect(mockDb.query.update).toHaveBeenCalled();
+    });
+  });
+
+  describe("deleteBySenderAndType", () => {
+    it("should delete notifications matching sender, recipient and type", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createNotificationRepository(mockDb.query as never);
+      await repository.deleteBySenderAndType(3, 2, "follow_request_received");
+
+      expect(mockDb.query.delete).toHaveBeenCalled();
     });
   });
 });

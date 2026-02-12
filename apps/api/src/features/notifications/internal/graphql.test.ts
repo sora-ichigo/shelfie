@@ -32,6 +32,7 @@ function createMockService(): NotificationAppService {
     getNotifications: vi.fn(),
     getUnreadCount: vi.fn(),
     markAllAsRead: vi.fn(),
+    deleteNotification: vi.fn(),
   };
 }
 

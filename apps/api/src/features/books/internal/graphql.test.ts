@@ -7,6 +7,7 @@ import type {
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { err, ok } from "../../../errors/result.js";
 import { createTestBuilder } from "../../../graphql/builder.js";
+import type { FollowService } from "../../follows/index.js";
 import type { UserService } from "../../users/index.js";
 import type { BookSearchService } from "./book-search-service.js";
 import type { BookShelfService } from "./book-shelf-service.js";
@@ -49,6 +50,18 @@ function createMockUserService(): UserService {
     createUserWithFirebase: vi.fn(),
     updateProfile: vi.fn(),
     deleteAccount: vi.fn(),
+  };
+}
+
+function createMockFollowService(): FollowService {
+  return {
+    sendRequest: vi.fn(),
+    approveRequest: vi.fn(),
+    rejectRequest: vi.fn(),
+    unfollow: vi.fn(),
+    cancelFollowRequest: vi.fn(),
+    getFollowStatus: vi.fn(),
+    getFollowCounts: vi.fn(),
   };
 }
 
@@ -3039,5 +3052,157 @@ describe("BooksGraphQL Resolver Behavior", () => {
         ),
       ).rejects.toThrow("Database connection failed");
     });
+  });
+});
+
+describe("userShelf query", () => {
+  it("should return shelf data when user is following the target", async () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const mockFollowService = createMockFollowService();
+
+    const mockUserBooks = [
+      {
+        id: 1,
+        userId: 200,
+        externalId: "book-1",
+        title: "Test Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
+        rating: null,
+        source: "rakuten" as const,
+      },
+    ];
+
+    const mockResult = {
+      items: mockUserBooks,
+      totalCount: 1,
+      hasMore: false,
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+      ok({
+        id: 100,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
+    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue("FOLLOWING");
+    vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+      ok(mockResult),
+    );
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+      mockFollowService,
+    );
+
+    const schema = builder.toSchema();
+    const queryType = schema.getQueryType();
+    const userShelfField = queryType?.getFields().userShelf;
+
+    expect(userShelfField).toBeDefined();
+
+    const result = await userShelfField?.resolve?.(
+      {},
+      { userId: 200, input: { limit: 20, offset: 0 } },
+      {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      },
+      {} as never,
+    );
+
+    expect(mockFollowService.getFollowStatus).toHaveBeenCalledWith(100, 200);
+    expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+      200,
+      { limit: 20, offset: 0 },
+    );
+    expect(result).toEqual(mockResult);
+  });
+
+  it("should throw FORBIDDEN error when user is not following the target", async () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const mockFollowService = createMockFollowService();
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+      ok({
+        id: 100,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
+    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue("NONE");
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+      mockFollowService,
+    );
+
+    const schema = builder.toSchema();
+    const queryType = schema.getQueryType();
+    const userShelfField = queryType?.getFields().userShelf;
+
+    await expect(
+      userShelfField?.resolve?.(
+        {},
+        { userId: 200 },
+        {
+          requestId: "test",
+          user: {
+            uid: "firebase-uid",
+            email: "test@example.com",
+            emailVerified: true,
+          },
+        },
+        {} as never,
+      ),
+    ).rejects.toThrow();
+
+    expect(mockShelfService.getUserBooksWithPagination).not.toHaveBeenCalled();
   });
 });

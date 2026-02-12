@@ -38,6 +38,10 @@ export interface FollowService {
     userId: number,
     targetUserId: number,
   ): Promise<Result<void, FollowServiceErrors>>;
+  cancelFollowRequest(
+    senderId: number,
+    receiverId: number,
+  ): Promise<Result<void, FollowServiceErrors>>;
   getFollowStatus(userId: number, targetUserId: number): Promise<FollowStatus>;
   getFollowCounts(
     userId: number,
@@ -209,6 +213,55 @@ export function createFollowService(
       }
 
       await repository.deleteFollow(userId, targetUserId);
+
+      const existingRequest = await repository.findRequestBySenderAndReceiver(
+        userId,
+        targetUserId,
+      );
+      if (existingRequest) {
+        await repository.deleteRequest(existingRequest.id);
+      }
+
+      return ok(undefined);
+    },
+
+    async cancelFollowRequest(
+      senderId: number,
+      receiverId: number,
+    ): Promise<Result<void, FollowServiceErrors>> {
+      const request = await repository.findRequestBySenderAndReceiver(
+        senderId,
+        receiverId,
+      );
+      if (!request) {
+        return err({
+          code: "REQUEST_NOT_FOUND",
+          message: "Follow request not found",
+        });
+      }
+      if (request.status !== "pending") {
+        return err({
+          code: "REQUEST_ALREADY_PROCESSED",
+          message: "Follow request has already been processed",
+        });
+      }
+
+      await repository.deleteRequest(request.id);
+
+      notificationAppService
+        .deleteNotification({
+          senderId,
+          recipientId: receiverId,
+          type: "follow_request_received",
+        })
+        .catch((error) => {
+          logger.error(
+            "Failed to delete app notification for cancelled follow request",
+            error instanceof Error ? error : undefined,
+            { senderId: String(senderId), receiverId: String(receiverId) },
+          );
+        });
+
       return ok(undefined);
     },
 

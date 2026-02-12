@@ -111,11 +111,9 @@ builder.queryType({
 
 registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);
-registerBooksQueries(builder, bookSearchService, bookShelfService, userService);
 registerBooksMutations(builder, bookShelfService, userService);
 registerUserMutations(builder, userService);
 registerImageUploadQueries(builder);
-registerBookListsQueries(builder, bookListService, userService);
 registerBookListsMutations(builder, bookListService, userService);
 
 const deviceTokenRepository = createDeviceTokenRepository(db);
@@ -160,6 +158,14 @@ const followService = createFollowService(
   pushNotificationService,
   logger,
 );
+registerBooksQueries(
+  builder,
+  bookSearchService,
+  bookShelfService,
+  userService,
+  followService,
+);
+registerBookListsQueries(builder, bookListService, userService, followService);
 registerFollowQueries(builder, followService, followRepository, userService);
 registerFollowMutations(builder, followService, userService);
 

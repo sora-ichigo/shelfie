@@ -28,7 +28,15 @@ import 'package:shelfie/features/book_search/presentation/isbn_scan_screen.dart'
 import 'package:shelfie/features/book_search/presentation/search_screen.dart'
     show SearchScreen, searchAutoFocusProvider;
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
+import 'package:shelfie/features/follow/data/follow_repository.dart';
+import 'package:shelfie/features/follow/domain/follow_list_type.dart';
+import 'package:shelfie/features/follow/domain/user_profile_model.dart';
+import 'package:shelfie/features/follow/presentation/follow_list_screen.dart';
+import 'package:shelfie/features/follow/presentation/follow_request_list_screen.dart';
+import 'package:shelfie/features/follow/presentation/user_profile_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
+import 'package:shelfie/features/notification/application/unread_notification_count.dart';
+import 'package:shelfie/features/notification/presentation/notification_screen.dart';
 import 'package:shelfie/features/registration/presentation/registration_screen.dart';
 import 'package:shelfie/features/welcome/presentation/welcome_screen.dart';
 
@@ -88,6 +96,19 @@ abstract final class AppRoutes {
 
   /// リスト編集画面パスを生成
   static String bookListEdit({required int listId}) => '/lists/$listId/edit';
+
+  /// お知らせタブ
+  static const notificationsTab = '/notifications';
+
+  /// フォローリクエスト一覧画面
+  static const followRequests = '/follow-requests';
+
+  /// フォロー/フォロワー一覧画面パスを生成
+  static String followList({required int userId, required String type}) =>
+      '/users/$userId/$type';
+
+  /// 他ユーザープロフィール画面パスを生成
+  static String userProfile({required String handle}) => '/u/$handle';
 }
 
 /// 本詳細画面のパラメータ
@@ -213,6 +234,7 @@ String? guardRoute({
         currentLocation == AppRoutes.isbnScan ||
         currentLocation.startsWith('/books/') ||
         currentLocation == AppRoutes.profileTab ||
+        currentLocation == AppRoutes.notificationsTab ||
         currentLocation == AppRoutes.account ||
         isWelcomeRoute ||
         isAuthRoute;
@@ -391,6 +413,15 @@ List<RouteBase> _buildRoutes() {
         StatefulShellBranch(
           routes: [
             GoRoute(
+              path: AppRoutes.notificationsTab,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: NotificationScreen()),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
               path: AppRoutes.home,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: ProfileScreen()),
@@ -403,6 +434,62 @@ List<RouteBase> _buildRoutes() {
           ],
         ),
       ],
+    ),
+
+    // フォローリクエスト一覧画面（タブバーなし）
+    GoRoute(
+      path: AppRoutes.followRequests,
+      pageBuilder: (context, state) =>
+          const CupertinoPage(child: FollowRequestListScreen()),
+    ),
+
+    // フォロー/フォロワー一覧画面（タブバーなし）
+    GoRoute(
+      path: '/users/:userId/following',
+      pageBuilder: (context, state) {
+        final userId =
+            int.tryParse(state.pathParameters['userId'] ?? '0') ?? 0;
+        return CupertinoPage(
+          child: FollowListScreen(
+            userId: userId,
+            listType: FollowListType.following,
+            onUserTap: (user) {
+              if (user.handle != null) {
+                context.push(AppRoutes.userProfile(handle: user.handle!));
+              }
+            },
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/users/:userId/followers',
+      pageBuilder: (context, state) {
+        final userId =
+            int.tryParse(state.pathParameters['userId'] ?? '0') ?? 0;
+        return CupertinoPage(
+          child: FollowListScreen(
+            userId: userId,
+            listType: FollowListType.followers,
+            onUserTap: (user) {
+              if (user.handle != null) {
+                context.push(AppRoutes.userProfile(handle: user.handle!));
+              }
+            },
+          ),
+        );
+      },
+    ),
+
+    // 他ユーザープロフィール画面（タブバーなし）
+    GoRoute(
+      path: '/u/:handle',
+      pageBuilder: (context, state) {
+        final handle = state.pathParameters['handle'] ?? '';
+        return CupertinoPage(
+          child: _UserProfileByHandleScreen(handle: handle),
+        );
+      },
     ),
 
     // ISBN スキャン画面（タブバーなし）
@@ -444,6 +531,7 @@ List<RouteBase> _buildRoutes() {
 /// メインシェル（タブバー）
 ///
 /// ShellRoute のビルダーとして使用され、CupertinoTabBar によるナビゲーションを提供する。
+/// タブ構成: [検索(0), +追加(1:特殊), お知らせ(2), プロフィール(3)]
 class _MainShell extends ConsumerWidget {
   const _MainShell({required this.navigationShell});
 
@@ -458,6 +546,7 @@ class _MainShell extends ConsumerWidget {
         ? branchIndex + 1
         : branchIndex;
     final appColors = Theme.of(context).extension<AppColors>()!;
+    final unreadCount = ref.watch(unreadNotificationCountProvider);
 
     void onTap(int index) {
       if (index == _addButtonIndex) {
@@ -489,6 +578,8 @@ class _MainShell extends ConsumerWidget {
         initialLocation: branch == navigationShell.currentIndex,
       );
     }
+
+    final badgeCount = unreadCount.valueOrNull ?? 0;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
@@ -532,6 +623,26 @@ class _MainShell extends ConsumerWidget {
                 ),
                 label: '',
               ),
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: _BellIcon(
+                    icon: CupertinoIcons.bell,
+                    badgeCount: badgeCount,
+                    appColors: appColors,
+                  ),
+                ),
+                activeIcon: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: _BellIcon(
+                    icon: CupertinoIcons.bell_fill,
+                    badgeCount: badgeCount,
+                    appColors: appColors,
+                    isActive: true,
+                  ),
+                ),
+                label: '',
+              ),
               const BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(top: 16),
@@ -549,6 +660,113 @@ class _MainShell extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _BellIcon extends StatelessWidget {
+  const _BellIcon({
+    required this.icon,
+    required this.badgeCount,
+    required this.appColors,
+    this.isActive = false,
+  });
+
+  final IconData icon;
+  final int badgeCount;
+  final AppColors appColors;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Icon(
+          icon,
+          shadows: isActive
+              ? [Shadow(blurRadius: 3, color: appColors.textPrimary)]
+              : null,
+        ),
+        if (badgeCount > 0)
+          Positioned(
+            right: -6,
+            top: -4,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+              decoration: BoxDecoration(
+                color: appColors.destructive,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              constraints: const BoxConstraints(minWidth: 16, minHeight: 14),
+              child: Text(
+                badgeCount > 99 ? '99+' : '$badgeCount',
+                style: TextStyle(
+                  color: appColors.textPrimary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// handle からユーザープロフィールを取得して表示するラッパー
+class _UserProfileByHandleScreen extends ConsumerWidget {
+  const _UserProfileByHandleScreen({required this.handle});
+
+  final String handle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+    final profileAsync = ref.watch(_userProfileByHandleProvider(handle));
+
+    return profileAsync.when(
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, _) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: theme.scaffoldBackgroundColor,
+          surfaceTintColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+        ),
+        body: Center(
+          child: Text(
+            'ユーザーが見つかりません',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: appColors.textSecondary,
+            ),
+          ),
+        ),
+      ),
+      data: (profile) => UserProfileScreen(
+        profile: profile,
+        onFollowingTap: () => context.push(
+          AppRoutes.followList(userId: profile.user.id, type: 'following'),
+        ),
+        onFollowersTap: () => context.push(
+          AppRoutes.followList(userId: profile.user.id, type: 'followers'),
+        ),
+      ),
+    );
+  }
+}
+
+@riverpod
+Future<UserProfileModel> _userProfileByHandle(
+  Ref ref,
+  String handle,
+) async {
+  final repo = ref.read(followRepositoryProvider);
+  final result = await repo.getUserProfile(handle: handle);
+  return result.fold(
+    (failure) => throw failure,
+    (profile) => profile,
+  );
 }
 
 /// プレースホルダー: エラー画面

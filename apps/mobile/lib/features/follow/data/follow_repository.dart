@@ -10,6 +10,8 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.data.gql.dart';
 import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.req.gql.dart';
+import 'package:shelfie/features/follow/data/__generated__/cancel_follow_request.data.gql.dart';
+import 'package:shelfie/features/follow/data/__generated__/cancel_follow_request.req.gql.dart';
 import 'package:shelfie/features/follow/data/__generated__/follow_counts.data.gql.dart';
 import 'package:shelfie/features/follow/data/__generated__/follow_counts.req.gql.dart';
 import 'package:shelfie/features/follow/data/__generated__/followers.data.gql.dart';
@@ -123,6 +125,27 @@ class FollowRepository {
     try {
       final response = await client.request(request).first;
       return _handleUnfollowResponse(response);
+    } on SocketException {
+      return left(const NetworkFailure(message: 'No internet connection'));
+    } on TimeoutException {
+      return left(const NetworkFailure(message: 'Request timeout'));
+    } catch (e) {
+      return left(UnexpectedFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, void>> cancelFollowRequest({
+    required int targetUserId,
+  }) async {
+    final request = GCancelFollowRequestReq(
+      (b) => b
+        ..vars.targetUserId = targetUserId
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
+    );
+
+    try {
+      final response = await client.request(request).first;
+      return _handleCancelFollowRequestResponse(response);
     } on SocketException {
       return left(const NetworkFailure(message: 'No internet connection'));
     } on TimeoutException {
@@ -420,6 +443,45 @@ class FollowRepository {
     }
 
     if (result is GUnfollowData_unfollow__asMutationUnfollowSuccess) {
+      return right(null);
+    }
+
+    return left(const ServerFailure(
+      message: 'Unexpected response type',
+      code: 'UNEXPECTED_TYPE',
+    ));
+  }
+
+  Either<Failure, void> _handleCancelFollowRequestResponse(
+    OperationResponse<GCancelFollowRequestData, dynamic> response,
+  ) {
+    if (response.hasErrors) {
+      final error = response.graphqlErrors?.firstOrNull;
+      return left(ServerFailure(
+        message: error?.message ?? 'Failed to cancel follow request',
+        code: 'GRAPHQL_ERROR',
+      ));
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return left(const ServerFailure(
+        message: 'No data received',
+        code: 'NO_DATA',
+      ));
+    }
+
+    final result = data.cancelFollowRequest;
+
+    if (result
+        is GCancelFollowRequestData_cancelFollowRequest__asValidationError) {
+      return left(ValidationFailure(
+        message: result.message ?? 'バリデーションエラーが発生しました',
+      ));
+    }
+
+    if (result
+        is GCancelFollowRequestData_cancelFollowRequest__asMutationCancelFollowRequestSuccess) {
       return right(null);
     }
 

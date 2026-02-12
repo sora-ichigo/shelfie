@@ -4,6 +4,7 @@ import type {
   AuthenticatedContext,
   Builder,
 } from "../../../graphql/builder.js";
+import type { FollowService } from "../../follows/index.js";
 import type { UserService } from "../../users/index.js";
 import type {
   BookListDetailItem,
@@ -430,6 +431,7 @@ export function registerBookListsQueries(
   builder: Builder,
   bookListService: BookListService,
   userService: UserService,
+  followService?: FollowService,
 ): void {
   builder.queryFields((t) => ({
     myBookLists: t.field({
@@ -564,6 +566,77 @@ export function registerBookListsQueries(
           args.listId,
           userResult.data.id,
         );
+
+        if (!result.success) {
+          throw new GraphQLError(result.error.message, {
+            extensions: { code: result.error.code },
+          });
+        }
+
+        return result.data;
+      },
+    }),
+    userBookLists: t.field({
+      type: MyBookListsResultRef,
+      nullable: false,
+      description: "Get book lists of another user (requires following)",
+      authScopes: {
+        loggedIn: true,
+      },
+      args: {
+        userId: t.arg.int({ required: true }),
+        input: t.arg({
+          type: MyBookListsInputRef,
+          required: false,
+        }),
+      },
+      resolve: async (
+        _parent,
+        args,
+        context,
+      ): Promise<BookListSummaryResult> => {
+        const authenticatedContext = context as AuthenticatedContext;
+
+        if (!authenticatedContext.user?.uid) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
+        }
+
+        if (!followService) {
+          throw new GraphQLError("Service unavailable", {
+            extensions: { code: "INTERNAL_ERROR" },
+          });
+        }
+
+        const currentUserResult = await userService.getUserByFirebaseUid(
+          authenticatedContext.user.uid,
+        );
+
+        if (!currentUserResult.success) {
+          throw new GraphQLError("User not found", {
+            extensions: { code: "USER_NOT_FOUND" },
+          });
+        }
+
+        const status = await followService.getFollowStatus(
+          currentUserResult.data.id,
+          args.userId,
+        );
+
+        if (status !== "FOLLOWING") {
+          throw new GraphQLError(
+            "You must follow this user to view their book lists",
+            { extensions: { code: "FORBIDDEN" } },
+          );
+        }
+
+        const input = args.input ?? {};
+        const result = await bookListService.getUserBookLists({
+          userId: args.userId,
+          limit: input.limit ?? undefined,
+          offset: input.offset ?? undefined,
+        });
 
         if (!result.success) {
           throw new GraphQLError(result.error.message, {

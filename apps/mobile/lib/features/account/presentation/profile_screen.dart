@@ -26,6 +26,7 @@ import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dar
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
+import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/routing/app_router.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -66,7 +67,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, _) =>
           Scaffold(body: Center(child: Text('エラーが発生しました: $error'))),
-      data: (profile) => _buildProfileView(context, profile),
+      data: _buildProfileView,
     );
   }
 
@@ -97,9 +98,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     );
   }
 
-  Widget _buildProfileView(BuildContext context, UserProfile profile) {
+  Widget _buildProfileView(UserProfile profile) {
     final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
     final booksState = ref.watch(profileBooksNotifierProvider);
+    final followCounts = ref.watch(followCountsNotifierProvider(profile.id));
 
     return Scaffold(
       appBar: AppBar(
@@ -122,9 +125,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverToBoxAdapter(
             child: ProfileHeader(
-              profile: profile,
-              onEditProfile: () => context.push(AppRoutes.accountEdit),
-              onShareProfile: () {},
+              name: profile.name,
+              avatarUrl: profile.avatarUrl,
+              handle: profile.handle,
+              bio: profile.bio,
+              instagramHandle: profile.instagramHandle,
+              bookCount: profile.bookCount,
+              followingCount: followCounts.valueOrNull?.followingCount ?? 0,
+              followerCount: followCounts.valueOrNull?.followerCount ?? 0,
+              onFollowingTap: () => context.push(
+                AppRoutes.followList(
+                  userId: profile.id,
+                  type: 'following',
+                ),
+              ),
+              onFollowersTap: () => context.push(
+                AppRoutes.followList(
+                  userId: profile.id,
+                  type: 'followers',
+                ),
+              ),
+              actionButtons: _buildEditShareButtons(appColors, theme),
             ),
           ),
           SliverPersistentHeader(
@@ -362,6 +383,58 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     if (bookList != null && mounted) {
       await context.push(AppRoutes.bookListDetail(listId: bookList.id));
     }
+  }
+
+  Widget _buildEditShareButtons(AppColors appColors, ThemeData theme) {
+    return Row(
+      children: [
+        Expanded(
+          child: FilledButton(
+            onPressed: () => context.push(AppRoutes.accountEdit),
+            style: FilledButton.styleFrom(
+              backgroundColor: appColors.surfaceElevated,
+              foregroundColor: appColors.textPrimary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'プロフィールを編集',
+              style: theme.textTheme.labelMedium,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.xs),
+        Expanded(
+          child: FilledButton(
+            onPressed: () {},
+            style: FilledButton.styleFrom(
+              backgroundColor: appColors.surfaceElevated,
+              foregroundColor: appColors.textPrimary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'プロフィールをシェア',
+              style: theme.textTheme.labelMedium,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void _onBookTap(ShelfBookItem book) {

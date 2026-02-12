@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/auth/guest_login_prompt.dart';
@@ -12,6 +14,7 @@ import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:shelfie/features/account/presentation/widgets/account_menu_section.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_card.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({
@@ -130,6 +133,8 @@ class AccountScreen extends ConsumerWidget {
               ),
             ],
           ),
+          if (kDebugMode)
+            ..._buildDevMenu(context),
           if (!isGuest) ...[
             const SizedBox(height: AppSpacing.xl),
             _LogoutButton(onLogout: onLogout),
@@ -138,6 +143,63 @@ class AccountScreen extends ConsumerWidget {
           ],
           const SizedBox(height: AppSpacing.xl),
           const _AppInfoFooter(),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildDevMenu(BuildContext context) {
+    return [
+      const SizedBox(height: AppSpacing.lg),
+      AccountMenuSection(
+        title: '開発者メニュー',
+        items: [
+          AccountMenuItem(
+            title: 'ユーザープロフィールを開く',
+            onTap: () => _showHandleInputDialog(context),
+            icon: Icons.bug_report_outlined,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  void _showHandleInputDialog(BuildContext context) {
+    final controller = TextEditingController();
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('ユーザープロフィールを開く'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: 'ハンドル名を入力',
+            prefixText: '@',
+          ),
+          onSubmitted: (value) {
+            final handle = value.trim();
+            if (handle.isNotEmpty) {
+              Navigator.of(dialogContext).pop();
+              context.push(AppRoutes.userProfile(handle: handle));
+            }
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              final handle = controller.text.trim();
+              if (handle.isNotEmpty) {
+                Navigator.of(dialogContext).pop();
+                context.push(AppRoutes.userProfile(handle: handle));
+              }
+            },
+            child: const Text('開く'),
+          ),
         ],
       ),
     );

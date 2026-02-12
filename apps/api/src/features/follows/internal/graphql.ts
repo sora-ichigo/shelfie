@@ -365,5 +365,35 @@ export function registerFollowMutations(
         return true;
       },
     }),
+
+    cancelFollowRequest: t.field({
+      type: "Boolean",
+      description: "Cancel a pending follow request",
+      errors: { types: [ValidationError] },
+      authScopes: { loggedIn: true },
+      args: {
+        targetUserId: t.arg.int({ required: true }),
+      },
+      resolve: async (_parent, { targetUserId }, context) => {
+        if (!context.user || !userService) {
+          throw new ValidationError("認証が必要です");
+        }
+        const userResult = await userService.getUserByFirebaseUid(
+          context.user.uid,
+        );
+        if (!userResult.success) {
+          throw new ValidationError("ユーザーが見つかりません");
+        }
+
+        const result = await followService.cancelFollowRequest(
+          userResult.data.id,
+          targetUserId,
+        );
+        if (!result.success) {
+          throw new ValidationError(result.error.message);
+        }
+        return true;
+      },
+    }),
   }));
 }

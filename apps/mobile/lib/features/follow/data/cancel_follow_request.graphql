@@ -1,0 +1,11 @@
+mutation CancelFollowRequest($targetUserId: Int!) {
+  cancelFollowRequest(targetUserId: $targetUserId) {
+    ... on MutationCancelFollowRequestSuccess {
+      data
+    }
+    ... on ValidationError {
+      message
+      code
+    }
+  }
+}

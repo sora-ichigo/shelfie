@@ -25,6 +25,12 @@ export type NotificationServiceErrors = {
   message: string;
 };
 
+export interface DeleteNotificationInput {
+  senderId: number;
+  recipientId: number;
+  type: NotificationType;
+}
+
 export interface NotificationAppService {
   createNotification(
     input: CreateNotificationInput,
@@ -36,6 +42,7 @@ export interface NotificationAppService {
   ): Promise<NotificationWithSender[]>;
   getUnreadCount(recipientId: number): Promise<number>;
   markAllAsRead(recipientId: number): Promise<void>;
+  deleteNotification(input: DeleteNotificationInput): Promise<void>;
 }
 
 export function createNotificationAppService(
@@ -82,6 +89,14 @@ export function createNotificationAppService(
 
     async markAllAsRead(recipientId: number): Promise<void> {
       return repository.markAsReadByRecipient(recipientId);
+    },
+
+    async deleteNotification(input: DeleteNotificationInput): Promise<void> {
+      await repository.deleteBySenderAndType(
+        input.senderId,
+        input.recipientId,
+        input.type,
+      );
     },
   };
 }

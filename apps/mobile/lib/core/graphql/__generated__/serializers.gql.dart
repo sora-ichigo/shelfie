@@ -291,6 +291,17 @@ import 'package:shelfie/features/follow/data/__generated__/approve_follow_reques
     show GApproveFollowRequestReq;
 import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.var.gql.dart'
     show GApproveFollowRequestVars;
+import 'package:shelfie/features/follow/data/__generated__/cancel_follow_request.data.gql.dart'
+    show
+        GCancelFollowRequestData_cancelFollowRequest,
+        GCancelFollowRequestData,
+        GCancelFollowRequestData_cancelFollowRequest__asMutationCancelFollowRequestSuccess,
+        GCancelFollowRequestData_cancelFollowRequest__asValidationError,
+        GCancelFollowRequestData_cancelFollowRequest__base;
+import 'package:shelfie/features/follow/data/__generated__/cancel_follow_request.req.gql.dart'
+    show GCancelFollowRequestReq;
+import 'package:shelfie/features/follow/data/__generated__/cancel_follow_request.var.gql.dart'
+    show GCancelFollowRequestVars;
 import 'package:shelfie/features/follow/data/__generated__/follow_counts.data.gql.dart'
     show GFollowCountsData, GFollowCountsData_followCounts;
 import 'package:shelfie/features/follow/data/__generated__/follow_counts.req.gql.dart'
@@ -358,6 +369,15 @@ import 'package:shelfie/features/follow/data/__generated__/unfollow.req.gql.dart
     show GUnfollowReq;
 import 'package:shelfie/features/follow/data/__generated__/unfollow.var.gql.dart'
     show GUnfollowVars;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.data.gql.dart'
+    show
+        GUserBookListsData,
+        GUserBookListsData_userBookLists,
+        GUserBookListsData_userBookLists_items;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.req.gql.dart'
+    show GUserBookListsReq;
+import 'package:shelfie/features/follow/data/__generated__/user_book_lists.var.gql.dart'
+    show GUserBookListsVars;
 import 'package:shelfie/features/follow/data/__generated__/user_profile.data.gql.dart'
     show
         GUserProfileData,
@@ -368,6 +388,15 @@ import 'package:shelfie/features/follow/data/__generated__/user_profile.req.gql.
     show GUserProfileReq;
 import 'package:shelfie/features/follow/data/__generated__/user_profile.var.gql.dart'
     show GUserProfileVars;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.data.gql.dart'
+    show
+        GUserShelfData,
+        GUserShelfData_userShelf,
+        GUserShelfData_userShelf_items;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.req.gql.dart'
+    show GUserShelfReq;
+import 'package:shelfie/features/follow/data/__generated__/user_shelf.var.gql.dart'
+    show GUserShelfVars;
 import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
     show
         GLoginUserData_loginUser,
@@ -434,6 +463,7 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
   ..add(GApproveFollowRequestData_approveFollowRequest.serializer)
+  ..add(GCancelFollowRequestData_cancelFollowRequest.serializer)
   ..add(GChangePasswordData_changePassword.serializer)
   ..add(GDeleteAccountData_deleteAccount.serializer)
   ..add(GGetMeData_me.serializer)
@@ -480,6 +510,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GBookListDetailReq,
   GBookListDetailVars,
   GBookSource,
+  GCancelFollowRequestData,
+  GCancelFollowRequestData_cancelFollowRequest__asMutationCancelFollowRequestSuccess,
+  GCancelFollowRequestData_cancelFollowRequest__asValidationError,
+  GCancelFollowRequestData_cancelFollowRequest__base,
+  GCancelFollowRequestReq,
+  GCancelFollowRequestVars,
   GChangePasswordData,
   GChangePasswordData_changePassword__asAuthError,
   GChangePasswordData_changePassword__asMutationChangePasswordSuccess,
@@ -697,11 +733,21 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUpdateThoughtsData_updateThoughts,
   GUpdateThoughtsReq,
   GUpdateThoughtsVars,
+  GUserBookListsData,
+  GUserBookListsData_userBookLists,
+  GUserBookListsData_userBookLists_items,
+  GUserBookListsReq,
+  GUserBookListsVars,
   GUserProfileData,
   GUserProfileData_userProfile,
   GUserProfileData_userProfile_followCounts,
   GUserProfileData_userProfile_user,
   GUserProfileReq,
   GUserProfileVars,
+  GUserShelfData,
+  GUserShelfData_userShelf,
+  GUserShelfData_userShelf_items,
+  GUserShelfReq,
+  GUserShelfVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

@@ -17,6 +17,7 @@ function createMockFollowRepository(): FollowRepository {
     findPendingRequestsByReceiver: vi.fn(),
     countPendingRequestsByReceiver: vi.fn(),
     updateRequestStatus: vi.fn(),
+    deleteRequest: vi.fn(),
     createFollow: vi.fn(),
     deleteFollow: vi.fn(),
     findFollow: vi.fn(),
@@ -33,6 +34,7 @@ function createMockNotificationRepository(): NotificationRepository {
     findByRecipient: vi.fn(),
     countUnreadByRecipient: vi.fn(),
     markAsReadByRecipient: vi.fn(),
+    deleteBySenderAndType: vi.fn(),
   };
 }
 
