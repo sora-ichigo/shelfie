@@ -154,7 +154,6 @@ void main() {
       });
 
       test('各タブのルートが定義されている', () {
-        expect(AppRoutes.homeTab, '/home');
         expect(AppRoutes.searchTab, '/search');
         expect(AppRoutes.account, '/account');
       });

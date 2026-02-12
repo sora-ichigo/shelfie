@@ -96,12 +96,6 @@ void main() {
         expect(result, isNull);
       });
 
-      test('ゲスト + /home -> リダイレクトなし', () {
-        when(() => mockState.matchedLocation).thenReturn('/home');
-        final result = guardRoute(authState: guestState, state: mockState);
-        expect(result, isNull);
-      });
-
       test('ゲスト + /search -> リダイレクトなし', () {
         when(() => mockState.matchedLocation).thenReturn('/search');
         final result = guardRoute(authState: guestState, state: mockState);
