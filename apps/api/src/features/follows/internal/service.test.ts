@@ -16,6 +16,7 @@ function createMockFollowRepository(): FollowRepository {
     findPendingRequestsByReceiver: vi.fn(),
     countPendingRequestsByReceiver: vi.fn(),
     updateRequestStatus: vi.fn(),
+    deleteRequest: vi.fn(),
     createFollow: vi.fn(),
     deleteFollow: vi.fn(),
     findFollow: vi.fn(),
@@ -592,7 +593,7 @@ describe("FollowService", () => {
       const result = await service.cancelFollowRequest(1, 2);
 
       expect(result.success).toBe(true);
-      expect(repo.updateRequestStatus).toHaveBeenCalledWith(5, "rejected");
+      expect(repo.deleteRequest).toHaveBeenCalledWith(5);
     });
 
     it("should return error when no pending request exists", async () => {

@@ -237,7 +237,7 @@ export function createFollowService(
         });
       }
 
-      await repository.updateRequestStatus(request.id, "rejected");
+      await repository.deleteRequest(request.id);
       return ok(undefined);
     },
 

@@ -39,6 +39,7 @@ export interface FollowRepository {
     id: number,
     status: FollowRequestStatus,
   ): Promise<FollowRequest>;
+  deleteRequest(id: number): Promise<void>;
   createFollow(userIdA: number, userIdB: number): Promise<Follow>;
   deleteFollow(userIdA: number, userIdB: number): Promise<void>;
   findFollow(userId1: number, userId2: number): Promise<Follow | null>;
@@ -184,6 +185,10 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
         .where(eq(followRequests.id, id))
         .returning();
       return result[0];
+    },
+
+    async deleteRequest(id: number): Promise<void> {
+      await db.delete(followRequests).where(eq(followRequests.id, id));
     },
 
     async createFollow(userIdA: number, userIdB: number): Promise<Follow> {
