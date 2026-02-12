@@ -7,11 +7,7 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 /// ドラッグハンドル、タイトル、コンテンツを統一されたスタイルで表示する。
 /// アプリ内の全てのボトムシートで使用することで、一貫したUIを提供する。
 class BaseBottomSheet extends StatelessWidget {
-  const BaseBottomSheet({
-    required this.child,
-    this.title,
-    super.key,
-  });
+  const BaseBottomSheet({required this.child, this.title, super.key});
 
   /// ボトムシートのタイトル（省略可）
   final String? title;
@@ -23,8 +19,6 @@ class BaseBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final appColors = theme.extension<AppColors>()!;
-
     return SafeArea(
       child: Padding(
         padding: AppSpacing.all(AppSpacing.md),
@@ -34,13 +28,7 @@ class BaseBottomSheet extends StatelessWidget {
             _buildDragHandle(theme),
             const SizedBox(height: AppSpacing.md),
             if (title != null) ...[
-              Text(
-                title!,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: appColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(title!, style: theme.textTheme.titleLarge),
               const SizedBox(height: AppSpacing.lg),
             ],
             child,

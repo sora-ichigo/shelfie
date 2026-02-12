@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -17,9 +19,8 @@ Future<BookList?> showCreateBookListModal({
     isScrollControlled: true,
     useRootNavigator: true,
     backgroundColor: appColors.surface,
-    builder: (context) => _CreateBookListModalContent(
-      existingCount: existingCount,
-    ),
+    builder: (context) =>
+        _CreateBookListModalContent(existingCount: existingCount),
   );
 }
 
@@ -41,8 +42,11 @@ class _CreateBookListModalContentState
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: 'ブックリスト#${widget.existingCount + 1}',
+    final initialText = 'ブックリスト#${widget.existingCount + 1}';
+    _controller = TextEditingController(text: initialText);
+    _controller.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: initialText.length,
     );
   }
 
@@ -93,36 +97,130 @@ class _CreateBookListModalContentState
         title: 'ブックリストを作成',
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'ブックリストに名前をつけてください',
-              style: theme.textTheme.bodyMedium?.copyWith(
+              style: theme.textTheme.bodyLarge?.copyWith(
                 color: appColors.textSecondary,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            TextFormField(
-              controller: _controller,
-              autofocus: true,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _isValid ? _onSubmit : null,
-                child: _isSubmitting
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: appColors.textPrimary,
-                        ),
-                      )
-                    : const Text('作成する'),
+            const SizedBox(height: AppSpacing.xs),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1,
               ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final hintString = 'ブックリスト#${widget.existingCount + 1}';
+                  final isEmpty = _controller.text.isEmpty;
+                  final baseStyle = theme.textTheme.headlineSmall!;
+                  final baseFontSize = baseStyle.fontSize!;
+                  const minFontSize = 14.0;
+                  const contentPadding = 8.0;
+                  final availableWidth =
+                      constraints.maxWidth - contentPadding * 2;
+
+                  var fontSize = baseFontSize;
+                  var hintPadding = contentPadding;
+
+                  if (isEmpty) {
+                    final tp = TextPainter(
+                      text: TextSpan(text: hintString, style: baseStyle),
+                      textDirection: TextDirection.ltr,
+                    )..layout();
+                    hintPadding = math.max(
+                      contentPadding,
+                      (constraints.maxWidth - tp.width) / 2,
+                    );
+                  } else {
+                    final tp = TextPainter(
+                      text: TextSpan(text: _controller.text, style: baseStyle),
+                      textDirection: TextDirection.ltr,
+                    )..layout();
+                    if (tp.width > availableWidth) {
+                      fontSize = math.max(
+                        minFontSize,
+                        baseFontSize * (availableWidth / tp.width),
+                      );
+                    }
+                  }
+
+                  final textStyle = baseStyle.copyWith(fontSize: fontSize);
+
+                  return TextFormField(
+                    controller: _controller,
+                    autofocus: true,
+                    maxLength: 36,
+                    textAlign: isEmpty ? TextAlign.left : TextAlign.center,
+                    style: textStyle,
+                    decoration: InputDecoration(
+                      hintText: isEmpty ? hintString : null,
+                      hintStyle: baseStyle.copyWith(
+                        color: appColors.textSecondary,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: isEmpty ? hintPadding : contentPadding,
+                      ),
+                      border: UnderlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                        borderSide: BorderSide(
+                          color: appColors.border,
+                          width: 0.5,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                        borderSide: BorderSide(
+                          color: appColors.border,
+                          width: 0.5,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                        borderSide: BorderSide(
+                          color: appColors.primary,
+                          width: 0.5,
+                        ),
+                      ),
+                    ),
+                    onChanged: (_) => setState(() {}),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            FilledButton(
+              onPressed: _isValid ? _onSubmit : null,
+              style: FilledButton.styleFrom(
+                backgroundColor: appColors.textPrimary,
+                foregroundColor: appColors.background,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9999),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 32,
+                ),
+              ),
+              child: _isSubmitting
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: appColors.textPrimary,
+                      ),
+                    )
+                  : Text(
+                      '作成する',
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: appColors.background,
+                      ),
+                    ),
             ),
           ],
         ),
