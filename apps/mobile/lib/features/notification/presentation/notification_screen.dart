@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/time_ago.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
-import 'package:shelfie/features/follow/data/follow_repository.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
 import 'package:shelfie/features/notification/domain/notification_type.dart';
-import 'package:shelfie/routing/app_router.dart';
 
 class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
@@ -22,8 +19,6 @@ class NotificationScreen extends ConsumerStatefulWidget {
 
 class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   final _scrollController = ScrollController();
-  int _pendingRequestCount = 0;
-  bool _pendingRequestCountLoaded = false;
 
   @override
   void initState() {
@@ -44,23 +39,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     final notifier = ref.read(notificationListNotifierProvider.notifier);
     await notifier.loadInitial();
     await notifier.markAsRead();
-    await _loadPendingRequestCount();
-  }
-
-  Future<void> _loadPendingRequestCount() async {
-    final followRepo = ref.read(followRepositoryProvider);
-    final result = await followRepo.getPendingRequestCount();
-    result.fold(
-      (_) {},
-      (count) {
-        if (mounted) {
-          setState(() {
-            _pendingRequestCount = count;
-            _pendingRequestCountLoaded = true;
-          });
-        }
-      },
-    );
   }
 
   void _onScroll() {
@@ -117,7 +95,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           ),
         ),
         data: (notifications) {
-          if (notifications.isEmpty && _pendingRequestCountLoaded) {
+          if (notifications.isEmpty) {
             return _buildEmptyState(theme, appColors);
           }
           return _buildNotificationList(
@@ -157,102 +135,14 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     ThemeData theme,
     AppColors appColors,
   ) {
-    final hasFollowRequests =
-        _pendingRequestCountLoaded && _pendingRequestCount > 0;
-    final itemCount =
-        notifications.length + (hasFollowRequests ? 1 : 0);
-
     return ListView.builder(
       controller: _scrollController,
-      itemCount: itemCount,
+      itemCount: notifications.length,
       itemBuilder: (context, index) {
-        if (hasFollowRequests && index == 0) {
-          return _FollowRequestBanner(
-            count: _pendingRequestCount,
-            onTap: () => context.push(AppRoutes.followRequests),
-          );
-        }
-        final notifIndex = hasFollowRequests ? index - 1 : index;
         return _NotificationTile(
-          notification: notifications[notifIndex],
+          notification: notifications[index],
         );
       },
-    );
-  }
-}
-
-class _FollowRequestBanner extends StatelessWidget {
-  const _FollowRequestBanner({
-    required this.count,
-    required this.onTap,
-  });
-
-  final int count;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: appColors.border, width: 0.5),
-          ),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: appColors.primary,
-              child: Icon(
-                CupertinoIcons.person_add,
-                size: 20,
-                color: appColors.textPrimary,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Text(
-                'フォローリクエスト',
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.xs,
-                vertical: AppSpacing.xxs,
-              ),
-              decoration: BoxDecoration(
-                color: appColors.primary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '$count',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Icon(
-              CupertinoIcons.chevron_right,
-              size: 16,
-              color: appColors.textSecondary,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
