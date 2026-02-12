@@ -195,7 +195,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(6));
     });
 
     testWidgets('calls onClose when back button is tapped', (tester) async {
