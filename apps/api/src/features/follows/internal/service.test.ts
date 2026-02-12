@@ -615,6 +615,58 @@ describe("FollowService", () => {
       expect(repo.deleteFollow).toHaveBeenCalledWith(1, 2);
     });
 
+    it("should delete follow_request record when unfollowing", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const approvedRequest = createMockFollowRequest({
+        id: 10,
+        senderId: 1,
+        receiverId: 2,
+        status: "approved",
+      });
+
+      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.deleteFollow).mockResolvedValue(undefined);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        approvedRequest,
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.unfollow(1, 2);
+
+      expect(result.success).toBe(true);
+      expect(repo.deleteRequest).toHaveBeenCalledWith(10);
+    });
+
+    it("should succeed even when no follow_request record exists", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.deleteFollow).mockResolvedValue(undefined);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.unfollow(1, 2);
+
+      expect(result.success).toBe(true);
+      expect(repo.deleteRequest).not.toHaveBeenCalled();
+    });
+
     it("should return error when not following", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();

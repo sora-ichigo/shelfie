@@ -216,6 +216,15 @@ export function createFollowService(
       }
 
       await repository.deleteFollow(userId, targetUserId);
+
+      const existingRequest = await repository.findRequestBySenderAndReceiver(
+        userId,
+        targetUserId,
+      );
+      if (existingRequest) {
+        await repository.deleteRequest(existingRequest.id);
+      }
+
       return ok(undefined);
     },
 
