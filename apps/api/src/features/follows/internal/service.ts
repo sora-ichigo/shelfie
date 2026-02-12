@@ -103,14 +103,11 @@ export function createFollowService(
         senderId,
         receiverId,
       );
-      if (existingRequest) {
-        if (existingRequest.status === "pending") {
-          return err({
-            code: "REQUEST_ALREADY_SENT",
-            message: "Follow request already sent",
-          });
-        }
-        await repository.deleteRequest(existingRequest.id);
+      if (existingRequest && existingRequest.status === "pending") {
+        return err({
+          code: "REQUEST_ALREADY_SENT",
+          message: "Follow request already sent",
+        });
       }
 
       const request = await repository.createRequest({
