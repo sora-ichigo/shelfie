@@ -163,3 +163,24 @@ output "ios_config_plist" {
   value       = module.firebase_auth.ios_config_plist
   sensitive   = true
 }
+
+# =============================================================================
+# Google Play Publisher
+# =============================================================================
+
+module "google_play_publisher" {
+  source = "../../modules/google-play-publisher"
+
+  project_id = var.project_id
+}
+
+output "google_play_publisher_service_account_email" {
+  description = "Google Play publisher service account email"
+  value       = module.google_play_publisher.service_account_email
+}
+
+output "google_play_publisher_service_account_key_json" {
+  description = "Google Play publisher service account key (base64-encoded JSON)"
+  value       = module.google_play_publisher.service_account_key_json
+  sensitive   = true
+}
