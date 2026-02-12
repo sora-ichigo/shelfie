@@ -1,3 +1,4 @@
+import admin from "firebase-admin";
 import { createFirebaseAuthAdapter } from "../auth/index.js";
 import { config } from "../config/index.js";
 import { getDb } from "../db/index.js";
@@ -27,13 +28,29 @@ import {
 import {
   createDeviceTokenRepository,
   createDeviceTokenService,
+  createFCMAdapter,
+  createNotificationService,
   registerDeviceTokenMutations,
   registerDeviceTokenTypes,
 } from "../features/device-tokens/index.js";
 import {
+  createFollowRepository,
+  createFollowService,
+  registerFollowMutations,
+  registerFollowQueries,
+  registerFollowTypes,
+} from "../features/follows/index.js";
+import {
   registerImageUploadQueries,
   registerImageUploadTypes,
 } from "../features/image-upload/index.js";
+import {
+  createNotificationAppService,
+  createNotificationRepository,
+  registerNotificationMutations,
+  registerNotificationQueries,
+  registerNotificationTypes,
+} from "../features/notifications/index.js";
 import {
   createUserRepository,
   createUserService,
@@ -81,6 +98,8 @@ registerBooksTypes(builder);
 registerImageUploadTypes(builder);
 registerBookListsTypes(builder, bookShelfRepository);
 registerDeviceTokenTypes(builder);
+registerNotificationTypes(builder);
+registerFollowTypes(builder);
 
 builder.queryType({
   fields: (t) => ({
@@ -102,6 +121,47 @@ registerBookListsMutations(builder, bookListService, userService);
 const deviceTokenRepository = createDeviceTokenRepository(db);
 const deviceTokenService = createDeviceTokenService(deviceTokenRepository);
 registerDeviceTokenMutations(builder, deviceTokenService, userService);
+
+const notificationRepository = createNotificationRepository(db);
+const notificationAppService = createNotificationAppService(
+  notificationRepository,
+);
+registerNotificationQueries(builder, notificationAppService, userService);
+registerNotificationMutations(builder, notificationAppService, userService);
+
+const followRepository = createFollowRepository(db);
+let pushNotificationService: ReturnType<typeof createNotificationService>;
+try {
+  const messaging = admin.messaging();
+  const fcmAdapter = createFCMAdapter(messaging);
+  pushNotificationService = createNotificationService(
+    deviceTokenRepository,
+    fcmAdapter,
+    logger,
+  );
+} catch {
+  logger.warn("Firebase Messaging not available, push notifications disabled");
+  pushNotificationService = {
+    sendNotification: async () => ({
+      success: true as const,
+      data: {
+        totalTargets: 0,
+        successCount: 0,
+        failureCount: 0,
+        invalidTokensRemoved: 0,
+        failures: [],
+      },
+    }),
+  };
+}
+const followService = createFollowService(
+  followRepository,
+  notificationAppService,
+  pushNotificationService,
+  logger,
+);
+registerFollowQueries(builder, followService, followRepository, userService);
+registerFollowMutations(builder, followService, userService);
 
 export function buildSchema() {
   return builder.toSchema();

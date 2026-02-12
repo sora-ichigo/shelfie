@@ -15,7 +15,7 @@
     "check": "biome check .",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
-    "prepare": "lefthook install --force"
+    "prepare": "command -v lefthook >/dev/null 2>&1 && lefthook install --force || true"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

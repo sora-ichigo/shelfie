@@ -140,6 +140,43 @@ abstract class GCreateBookListInput
       );
 }
 
+class GFollowRequestStatus extends EnumClass {
+  const GFollowRequestStatus._(String name) : super(name);
+
+  static const GFollowRequestStatus APPROVED = _$gFollowRequestStatusAPPROVED;
+
+  static const GFollowRequestStatus PENDING = _$gFollowRequestStatusPENDING;
+
+  static const GFollowRequestStatus REJECTED = _$gFollowRequestStatusREJECTED;
+
+  static Serializer<GFollowRequestStatus> get serializer =>
+      _$gFollowRequestStatusSerializer;
+
+  static BuiltSet<GFollowRequestStatus> get values =>
+      _$gFollowRequestStatusValues;
+
+  static GFollowRequestStatus valueOf(String name) =>
+      _$gFollowRequestStatusValueOf(name);
+}
+
+class GFollowStatus extends EnumClass {
+  const GFollowStatus._(String name) : super(name);
+
+  static const GFollowStatus FOLLOWING = _$gFollowStatusFOLLOWING;
+
+  static const GFollowStatus NONE = _$gFollowStatusNONE;
+
+  static const GFollowStatus PENDING_RECEIVED = _$gFollowStatusPENDING_RECEIVED;
+
+  static const GFollowStatus PENDING_SENT = _$gFollowStatusPENDING_SENT;
+
+  static Serializer<GFollowStatus> get serializer => _$gFollowStatusSerializer;
+
+  static BuiltSet<GFollowStatus> get values => _$gFollowStatusValues;
+
+  static GFollowStatus valueOf(String name) => _$gFollowStatusValueOf(name);
+}
+
 abstract class GLoginUserInput
     implements Built<GLoginUserInput, GLoginUserInputBuilder> {
   GLoginUserInput._();
@@ -162,6 +199,24 @@ abstract class GLoginUserInput
         GLoginUserInput.serializer,
         json,
       );
+}
+
+class GNotificationType extends EnumClass {
+  const GNotificationType._(String name) : super(name);
+
+  static const GNotificationType FOLLOW_REQUEST_APPROVED =
+      _$gNotificationTypeFOLLOW_REQUEST_APPROVED;
+
+  static const GNotificationType FOLLOW_REQUEST_RECEIVED =
+      _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
+
+  static Serializer<GNotificationType> get serializer =>
+      _$gNotificationTypeSerializer;
+
+  static BuiltSet<GNotificationType> get values => _$gNotificationTypeValues;
+
+  static GNotificationType valueOf(String name) =>
+      _$gNotificationTypeValueOf(name);
 }
 
 abstract class GMyBookListsInput
@@ -459,6 +514,10 @@ const Map<String, Set<String>> possibleTypesMap = {
     'AuthErrorResult',
     'User',
   },
+  'MutationApproveFollowRequestResult': {
+    'MutationApproveFollowRequestSuccess',
+    'ValidationError',
+  },
   'MutationChangePasswordResult': {
     'AuthError',
     'MutationChangePasswordSuccess',
@@ -475,9 +534,17 @@ const Map<String, Set<String>> possibleTypesMap = {
     'AuthError',
     'MutationRefreshTokenSuccess',
   },
+  'MutationRejectFollowRequestResult': {
+    'MutationRejectFollowRequestSuccess',
+    'ValidationError',
+  },
   'MutationRegisterUserResult': {
     'AuthError',
     'MutationRegisterUserSuccess',
+  },
+  'MutationSendFollowRequestResult': {
+    'MutationSendFollowRequestSuccess',
+    'ValidationError',
   },
   'MutationSendPasswordResetEmailResult': {
     'AuthError',
@@ -485,6 +552,10 @@ const Map<String, Set<String>> possibleTypesMap = {
   },
   'MutationUpdateProfileResult': {
     'MutationUpdateProfileSuccess',
+    'ValidationError',
+  },
+  'MutationUnfollowResult': {
+    'MutationUnfollowSuccess',
     'ValidationError',
   },
   'QueryGetUploadCredentialsResult': {

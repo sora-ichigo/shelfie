@@ -36,9 +36,12 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart'
         GBookSource,
         GChangePasswordInput,
         GCreateBookListInput,
+        GFollowRequestStatus,
+        GFollowStatus,
         GLoginUserInput,
         GMyBookListsInput,
         GMyShelfInput,
+        GNotificationType,
         GReadingStatus,
         GRefreshTokenInput,
         GRegisterDeviceTokenInput,
@@ -268,6 +271,95 @@ import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginate
     show GMyShelfPaginatedReq;
 import 'package:shelfie/features/book_shelf/data/__generated__/my_shelf_paginated.var.gql.dart'
     show GMyShelfPaginatedVars;
+import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.data.gql.dart'
+    show
+        GApproveFollowRequestData_approveFollowRequest,
+        GApproveFollowRequestData,
+        GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess,
+        GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data,
+        GApproveFollowRequestData_approveFollowRequest__asValidationError,
+        GApproveFollowRequestData_approveFollowRequest__base;
+import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.req.gql.dart'
+    show GApproveFollowRequestReq;
+import 'package:shelfie/features/follow/data/__generated__/approve_follow_request.var.gql.dart'
+    show GApproveFollowRequestVars;
+import 'package:shelfie/features/follow/data/__generated__/follow_counts.data.gql.dart'
+    show GFollowCountsData, GFollowCountsData_followCounts;
+import 'package:shelfie/features/follow/data/__generated__/follow_counts.req.gql.dart'
+    show GFollowCountsReq;
+import 'package:shelfie/features/follow/data/__generated__/follow_counts.var.gql.dart'
+    show GFollowCountsVars;
+import 'package:shelfie/features/follow/data/__generated__/followers.data.gql.dart'
+    show GFollowersData, GFollowersData_followers;
+import 'package:shelfie/features/follow/data/__generated__/followers.req.gql.dart'
+    show GFollowersReq;
+import 'package:shelfie/features/follow/data/__generated__/followers.var.gql.dart'
+    show GFollowersVars;
+import 'package:shelfie/features/follow/data/__generated__/following.data.gql.dart'
+    show GFollowingData, GFollowingData_following;
+import 'package:shelfie/features/follow/data/__generated__/following.req.gql.dart'
+    show GFollowingReq;
+import 'package:shelfie/features/follow/data/__generated__/following.var.gql.dart'
+    show GFollowingVars;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_request_count.data.gql.dart'
+    show GPendingFollowRequestCountData;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_request_count.req.gql.dart'
+    show GPendingFollowRequestCountReq;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_request_count.var.gql.dart'
+    show GPendingFollowRequestCountVars;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_requests.data.gql.dart'
+    show
+        GPendingFollowRequestsData,
+        GPendingFollowRequestsData_pendingFollowRequests;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_requests.req.gql.dart'
+    show GPendingFollowRequestsReq;
+import 'package:shelfie/features/follow/data/__generated__/pending_follow_requests.var.gql.dart'
+    show GPendingFollowRequestsVars;
+import 'package:shelfie/features/follow/data/__generated__/reject_follow_request.data.gql.dart'
+    show
+        GRejectFollowRequestData_rejectFollowRequest,
+        GRejectFollowRequestData,
+        GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess,
+        GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data,
+        GRejectFollowRequestData_rejectFollowRequest__asValidationError,
+        GRejectFollowRequestData_rejectFollowRequest__base;
+import 'package:shelfie/features/follow/data/__generated__/reject_follow_request.req.gql.dart'
+    show GRejectFollowRequestReq;
+import 'package:shelfie/features/follow/data/__generated__/reject_follow_request.var.gql.dart'
+    show GRejectFollowRequestVars;
+import 'package:shelfie/features/follow/data/__generated__/send_follow_request.data.gql.dart'
+    show
+        GSendFollowRequestData_sendFollowRequest,
+        GSendFollowRequestData,
+        GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess,
+        GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess_data,
+        GSendFollowRequestData_sendFollowRequest__asValidationError,
+        GSendFollowRequestData_sendFollowRequest__base;
+import 'package:shelfie/features/follow/data/__generated__/send_follow_request.req.gql.dart'
+    show GSendFollowRequestReq;
+import 'package:shelfie/features/follow/data/__generated__/send_follow_request.var.gql.dart'
+    show GSendFollowRequestVars;
+import 'package:shelfie/features/follow/data/__generated__/unfollow.data.gql.dart'
+    show
+        GUnfollowData_unfollow,
+        GUnfollowData,
+        GUnfollowData_unfollow__asMutationUnfollowSuccess,
+        GUnfollowData_unfollow__asValidationError,
+        GUnfollowData_unfollow__base;
+import 'package:shelfie/features/follow/data/__generated__/unfollow.req.gql.dart'
+    show GUnfollowReq;
+import 'package:shelfie/features/follow/data/__generated__/unfollow.var.gql.dart'
+    show GUnfollowVars;
+import 'package:shelfie/features/follow/data/__generated__/user_profile.data.gql.dart'
+    show
+        GUserProfileData,
+        GUserProfileData_userProfile,
+        GUserProfileData_userProfile_followCounts,
+        GUserProfileData_userProfile_user;
+import 'package:shelfie/features/follow/data/__generated__/user_profile.req.gql.dart'
+    show GUserProfileReq;
+import 'package:shelfie/features/follow/data/__generated__/user_profile.var.gql.dart'
+    show GUserProfileVars;
 import 'package:shelfie/features/login/data/__generated__/login_user.data.gql.dart'
     show
         GLoginUserData_loginUser,
@@ -281,6 +373,27 @@ import 'package:shelfie/features/login/data/__generated__/login_user.req.gql.dar
     show GLoginUserReq;
 import 'package:shelfie/features/login/data/__generated__/login_user.var.gql.dart'
     show GLoginUserVars;
+import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.data.gql.dart'
+    show GMarkNotificationsAsReadData;
+import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.req.gql.dart'
+    show GMarkNotificationsAsReadReq;
+import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.var.gql.dart'
+    show GMarkNotificationsAsReadVars;
+import 'package:shelfie/features/notification/data/__generated__/notifications.data.gql.dart'
+    show
+        GNotificationsData,
+        GNotificationsData_notifications,
+        GNotificationsData_notifications_sender;
+import 'package:shelfie/features/notification/data/__generated__/notifications.req.gql.dart'
+    show GNotificationsReq;
+import 'package:shelfie/features/notification/data/__generated__/notifications.var.gql.dart'
+    show GNotificationsVars;
+import 'package:shelfie/features/notification/data/__generated__/unread_notification_count.data.gql.dart'
+    show GUnreadNotificationCountData;
+import 'package:shelfie/features/notification/data/__generated__/unread_notification_count.req.gql.dart'
+    show GUnreadNotificationCountReq;
+import 'package:shelfie/features/notification/data/__generated__/unread_notification_count.var.gql.dart'
+    show GUnreadNotificationCountVars;
 import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.data.gql.dart'
     show GRegisterDeviceTokenData, GRegisterDeviceTokenData_registerDeviceToken;
 import 'package:shelfie/features/push_notification/data/__generated__/register_device_token.req.gql.dart'
@@ -312,6 +425,7 @@ part 'serializers.gql.g.dart';
 final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(OperationSerializer())
   ..add(Iso8601DateTimeSerializer())
+  ..add(GApproveFollowRequestData_approveFollowRequest.serializer)
   ..add(GChangePasswordData_changePassword.serializer)
   ..add(GDeleteAccountData_deleteAccount.serializer)
   ..add(GGetMeData_me.serializer)
@@ -320,7 +434,10 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..add(GLoginUserData_loginUser.serializer)
   ..add(GRefreshTokenData_refreshToken.serializer)
   ..add(GRegisterUserData_registerUser.serializer)
+  ..add(GRejectFollowRequestData_rejectFollowRequest.serializer)
+  ..add(GSendFollowRequestData_sendFollowRequest.serializer)
   ..add(GSendPasswordResetEmailData_sendPasswordResetEmail.serializer)
+  ..add(GUnfollowData_unfollow.serializer)
   ..add(GUpdateProfileData_updateProfile.serializer)
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
@@ -334,6 +451,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAddBookToShelfData_addBookToShelf,
   GAddBookToShelfReq,
   GAddBookToShelfVars,
+  GApproveFollowRequestData,
+  GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess,
+  GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data,
+  GApproveFollowRequestData_approveFollowRequest__asValidationError,
+  GApproveFollowRequestData_approveFollowRequest__base,
+  GApproveFollowRequestReq,
+  GApproveFollowRequestVars,
   GAuthErrorCode,
   GBookDetailData,
   GBookDetailData_bookDetail,
@@ -371,6 +495,20 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GDeleteBookListData,
   GDeleteBookListReq,
   GDeleteBookListVars,
+  GFollowCountsData,
+  GFollowCountsData_followCounts,
+  GFollowCountsReq,
+  GFollowCountsVars,
+  GFollowRequestStatus,
+  GFollowStatus,
+  GFollowersData,
+  GFollowersData_followers,
+  GFollowersReq,
+  GFollowersVars,
+  GFollowingData,
+  GFollowingData_following,
+  GFollowingReq,
+  GFollowingVars,
   GGetMeData,
   GGetMeData_me__asAuthErrorResult,
   GGetMeData_me__asUser,
@@ -399,6 +537,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserInput,
   GLoginUserReq,
   GLoginUserVars,
+  GMarkNotificationsAsReadData,
+  GMarkNotificationsAsReadReq,
+  GMarkNotificationsAsReadVars,
   GMyBookListsData,
   GMyBookListsData_myBookLists,
   GMyBookListsData_myBookLists_items,
@@ -416,6 +557,19 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMyShelfPaginatedVars,
   GMyShelfReq,
   GMyShelfVars,
+  GNotificationType,
+  GNotificationsData,
+  GNotificationsData_notifications,
+  GNotificationsData_notifications_sender,
+  GNotificationsReq,
+  GNotificationsVars,
+  GPendingFollowRequestCountData,
+  GPendingFollowRequestCountReq,
+  GPendingFollowRequestCountVars,
+  GPendingFollowRequestsData,
+  GPendingFollowRequestsData_pendingFollowRequests,
+  GPendingFollowRequestsReq,
+  GPendingFollowRequestsVars,
   GReadingStatus,
   GRefreshTokenData,
   GRefreshTokenData_refreshToken__asAuthError,
@@ -439,6 +593,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GRegisterUserInput,
   GRegisterUserReq,
   GRegisterUserVars,
+  GRejectFollowRequestData,
+  GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess,
+  GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data,
+  GRejectFollowRequestData_rejectFollowRequest__asValidationError,
+  GRejectFollowRequestData_rejectFollowRequest__base,
+  GRejectFollowRequestReq,
+  GRejectFollowRequestVars,
   GRemoveBookFromListData,
   GRemoveBookFromListReq,
   GRemoveBookFromListVars,
@@ -457,6 +618,13 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSearchBooksData_searchBooks_items,
   GSearchBooksReq,
   GSearchBooksVars,
+  GSendFollowRequestData,
+  GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess,
+  GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess_data,
+  GSendFollowRequestData_sendFollowRequest__asValidationError,
+  GSendFollowRequestData_sendFollowRequest__base,
+  GSendFollowRequestReq,
+  GSendFollowRequestVars,
   GSendPasswordResetEmailData,
   GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError,
   GSendPasswordResetEmailData_sendPasswordResetEmail__asMutationSendPasswordResetEmailSuccess,
@@ -467,6 +635,15 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GSendPasswordResetEmailVars,
   GShelfSortField,
   GSortOrder,
+  GUnfollowData,
+  GUnfollowData_unfollow__asMutationUnfollowSuccess,
+  GUnfollowData_unfollow__asValidationError,
+  GUnfollowData_unfollow__base,
+  GUnfollowReq,
+  GUnfollowVars,
+  GUnreadNotificationCountData,
+  GUnreadNotificationCountReq,
+  GUnreadNotificationCountVars,
   GUnregisterDeviceTokenData,
   GUnregisterDeviceTokenInput,
   GUnregisterDeviceTokenReq,
@@ -508,5 +685,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUpdateThoughtsData_updateThoughts,
   GUpdateThoughtsReq,
   GUpdateThoughtsVars,
+  GUserProfileData,
+  GUserProfileData_userProfile,
+  GUserProfileData_userProfile_followCounts,
+  GUserProfileData_userProfile_user,
+  GUserProfileReq,
+  GUserProfileVars,
 ])
 final Serializers serializers = _serializersBuilder.build();

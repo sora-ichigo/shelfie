@@ -18,6 +18,18 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GAddBookToShelfData_addBookToShelf.serializer)
       ..add(GAddBookToShelfReq.serializer)
       ..add(GAddBookToShelfVars.serializer)
+      ..add(GApproveFollowRequestData.serializer)
+      ..add(
+          GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess
+              .serializer)
+      ..add(
+          GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data
+              .serializer)
+      ..add(GApproveFollowRequestData_approveFollowRequest__asValidationError
+          .serializer)
+      ..add(GApproveFollowRequestData_approveFollowRequest__base.serializer)
+      ..add(GApproveFollowRequestReq.serializer)
+      ..add(GApproveFollowRequestVars.serializer)
       ..add(GAuthErrorCode.serializer)
       ..add(GBookDetailData.serializer)
       ..add(GBookDetailData_bookDetail.serializer)
@@ -61,6 +73,20 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GDeleteBookListData.serializer)
       ..add(GDeleteBookListReq.serializer)
       ..add(GDeleteBookListVars.serializer)
+      ..add(GFollowCountsData.serializer)
+      ..add(GFollowCountsData_followCounts.serializer)
+      ..add(GFollowCountsReq.serializer)
+      ..add(GFollowCountsVars.serializer)
+      ..add(GFollowRequestStatus.serializer)
+      ..add(GFollowStatus.serializer)
+      ..add(GFollowersData.serializer)
+      ..add(GFollowersData_followers.serializer)
+      ..add(GFollowersReq.serializer)
+      ..add(GFollowersVars.serializer)
+      ..add(GFollowingData.serializer)
+      ..add(GFollowingData_following.serializer)
+      ..add(GFollowingReq.serializer)
+      ..add(GFollowingVars.serializer)
       ..add(GGetMeData.serializer)
       ..add(GGetMeData_me__asAuthErrorResult.serializer)
       ..add(GGetMeData_me__asUser.serializer)
@@ -96,6 +122,9 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GLoginUserInput.serializer)
       ..add(GLoginUserReq.serializer)
       ..add(GLoginUserVars.serializer)
+      ..add(GMarkNotificationsAsReadData.serializer)
+      ..add(GMarkNotificationsAsReadReq.serializer)
+      ..add(GMarkNotificationsAsReadVars.serializer)
       ..add(GMyBookListsData.serializer)
       ..add(GMyBookListsData_myBookLists.serializer)
       ..add(GMyBookListsData_myBookLists_items.serializer)
@@ -113,6 +142,19 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GMyShelfPaginatedVars.serializer)
       ..add(GMyShelfReq.serializer)
       ..add(GMyShelfVars.serializer)
+      ..add(GNotificationType.serializer)
+      ..add(GNotificationsData.serializer)
+      ..add(GNotificationsData_notifications.serializer)
+      ..add(GNotificationsData_notifications_sender.serializer)
+      ..add(GNotificationsReq.serializer)
+      ..add(GNotificationsVars.serializer)
+      ..add(GPendingFollowRequestCountData.serializer)
+      ..add(GPendingFollowRequestCountReq.serializer)
+      ..add(GPendingFollowRequestCountVars.serializer)
+      ..add(GPendingFollowRequestsData.serializer)
+      ..add(GPendingFollowRequestsData_pendingFollowRequests.serializer)
+      ..add(GPendingFollowRequestsReq.serializer)
+      ..add(GPendingFollowRequestsVars.serializer)
       ..add(GReadingStatus.serializer)
       ..add(GRefreshTokenData.serializer)
       ..add(GRefreshTokenData_refreshToken__asAuthError.serializer)
@@ -142,6 +184,18 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GRegisterUserInput.serializer)
       ..add(GRegisterUserReq.serializer)
       ..add(GRegisterUserVars.serializer)
+      ..add(GRejectFollowRequestData.serializer)
+      ..add(
+          GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess
+              .serializer)
+      ..add(
+          GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data
+              .serializer)
+      ..add(GRejectFollowRequestData_rejectFollowRequest__asValidationError
+          .serializer)
+      ..add(GRejectFollowRequestData_rejectFollowRequest__base.serializer)
+      ..add(GRejectFollowRequestReq.serializer)
+      ..add(GRejectFollowRequestVars.serializer)
       ..add(GRemoveBookFromListData.serializer)
       ..add(GRemoveBookFromListReq.serializer)
       ..add(GRemoveBookFromListVars.serializer)
@@ -160,6 +214,18 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GSearchBooksData_searchBooks_items.serializer)
       ..add(GSearchBooksReq.serializer)
       ..add(GSearchBooksVars.serializer)
+      ..add(GSendFollowRequestData.serializer)
+      ..add(
+          GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess
+              .serializer)
+      ..add(
+          GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess_data
+              .serializer)
+      ..add(GSendFollowRequestData_sendFollowRequest__asValidationError
+          .serializer)
+      ..add(GSendFollowRequestData_sendFollowRequest__base.serializer)
+      ..add(GSendFollowRequestReq.serializer)
+      ..add(GSendFollowRequestVars.serializer)
       ..add(GSendPasswordResetEmailData.serializer)
       ..add(GSendPasswordResetEmailData_sendPasswordResetEmail__asAuthError
           .serializer)
@@ -175,6 +241,15 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GSendPasswordResetEmailVars.serializer)
       ..add(GShelfSortField.serializer)
       ..add(GSortOrder.serializer)
+      ..add(GUnfollowData.serializer)
+      ..add(GUnfollowData_unfollow__asMutationUnfollowSuccess.serializer)
+      ..add(GUnfollowData_unfollow__asValidationError.serializer)
+      ..add(GUnfollowData_unfollow__base.serializer)
+      ..add(GUnfollowReq.serializer)
+      ..add(GUnfollowVars.serializer)
+      ..add(GUnreadNotificationCountData.serializer)
+      ..add(GUnreadNotificationCountReq.serializer)
+      ..add(GUnreadNotificationCountVars.serializer)
       ..add(GUnregisterDeviceTokenData.serializer)
       ..add(GUnregisterDeviceTokenInput.serializer)
       ..add(GUnregisterDeviceTokenReq.serializer)
@@ -219,10 +294,24 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(GUpdateThoughtsData_updateThoughts.serializer)
       ..add(GUpdateThoughtsReq.serializer)
       ..add(GUpdateThoughtsVars.serializer)
+      ..add(GUserProfileData.serializer)
+      ..add(GUserProfileData_userProfile.serializer)
+      ..add(GUserProfileData_userProfile_followCounts.serializer)
+      ..add(GUserProfileData_userProfile_user.serializer)
+      ..add(GUserProfileReq.serializer)
+      ..add(GUserProfileVars.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GBookListDetailData_bookListDetail_items)]),
           () => ListBuilder<GBookListDetailData_bookListDetail_items>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(GFollowersData_followers)]),
+          () => ListBuilder<GFollowersData_followers>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(GFollowingData_following)]),
+          () => ListBuilder<GFollowingData_following>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GMyBookListsData_myBookLists_items)]),
@@ -235,6 +324,15 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType(GMyShelfPaginatedData_myShelf_items)]),
           () => ListBuilder<GMyShelfPaginatedData_myShelf_items>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(GNotificationsData_notifications)]),
+          () => ListBuilder<GNotificationsData_notifications>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(GPendingFollowRequestsData_pendingFollowRequests)
+          ]),
+          () => ListBuilder<GPendingFollowRequestsData_pendingFollowRequests>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(GSearchBooksData_searchBooks_items)]),

@@ -1,0 +1,6 @@
+query FollowCounts($userId: Int!) {
+  followCounts(userId: $userId) {
+    followingCount
+    followerCount
+  }
+}

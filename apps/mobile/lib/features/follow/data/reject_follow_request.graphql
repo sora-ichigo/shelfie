@@ -1,0 +1,17 @@
+mutation RejectFollowRequest($requestId: Int!) {
+  rejectFollowRequest(requestId: $requestId) {
+    ... on MutationRejectFollowRequestSuccess {
+      data {
+        id
+        senderId
+        receiverId
+        status
+        createdAt
+      }
+    }
+    ... on ValidationError {
+      message
+      code
+    }
+  }
+}
