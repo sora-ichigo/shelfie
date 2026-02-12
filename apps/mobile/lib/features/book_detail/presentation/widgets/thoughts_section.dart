@@ -23,7 +23,24 @@ class ThoughtsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('感想', style: theme.textTheme.titleMedium),
+        Row(
+          children: [
+            Text('感想', style: theme.textTheme.titleMedium),
+            const SizedBox(width: AppSpacing.xs),
+            Icon(
+              Icons.public,
+              size: 16,
+              color: theme.extension<AppColors>()!.textSecondary,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              'フォロワーに公開されます',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.extension<AppColors>()!.textSecondary,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: AppSpacing.sm),
         _buildThoughtsContent(context),
         if (shelfEntry.thoughtsUpdatedAt != null) ...[

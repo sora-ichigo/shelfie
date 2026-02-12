@@ -23,7 +23,24 @@ class ReadingNoteSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('自分メモ', style: theme.textTheme.titleMedium),
+        Row(
+          children: [
+            Text('自分メモ', style: theme.textTheme.titleMedium),
+            const SizedBox(width: AppSpacing.xs),
+            Icon(
+              Icons.lock,
+              size: 16,
+              color: theme.extension<AppColors>()!.textSecondary,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              '自分のみ見ることができます',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.extension<AppColors>()!.textSecondary,
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: AppSpacing.sm),
         _buildNoteContent(context),
         if (shelfEntry.noteUpdatedAt != null) ...[

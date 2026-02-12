@@ -187,14 +187,14 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                               : null,
                         ),
                         const SizedBox(height: AppSpacing.lg),
-                        ReadingNoteSection(
-                          shelfEntry: shelfEntry,
-                          onNoteTap: _onNoteTap,
-                        ),
-                        const SizedBox(height: AppSpacing.lg),
                         ThoughtsSection(
                           shelfEntry: shelfEntry,
                           onThoughtsTap: _onThoughtsTap,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        ReadingNoteSection(
+                          shelfEntry: shelfEntry,
+                          onNoteTap: _onNoteTap,
                         ),
                       ],
                     )
