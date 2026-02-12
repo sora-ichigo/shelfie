@@ -5,7 +5,7 @@
 - **Discovery Scope**: Complex Integration（新規フォロー機能 + 通知基盤拡張 + Web中間ページ + ディープリンク）
 - **Key Findings**:
   - 既存の NotificationService / FCMAdapter をそのまま活用してフォローリクエスト通知を実装可能
-  - 双方向フォロー関係は follows テーブル1行で表現し、正規化された user_id_a < user_id_b 制約で重複を防止
+  - 一方向フォロー関係は follows テーブルの (follower_id, followee_id) 方向付きモデルで表現。A→BとB→Aは独立レコード
   - Universal Links / App Links は既存 Next.js Web アプリに `.well-known` 静的ファイルを追加するだけで対応可能
 
 ## Research Log

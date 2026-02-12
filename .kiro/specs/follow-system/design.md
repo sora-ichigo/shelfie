@@ -177,10 +177,10 @@ sequenceDiagram
     alt アプリインストール済み
         Web->>App: Universal Links / App Links で起動
         App->>GQL: getUserByHandle(handle)
-        alt フォロー関係あり
+        alt 自分がフォローしている
             App->>App: フルプロフィール画面表示
-        else フォロー関係なし
-            App->>App: 制限付きプロフィール + フォローリクエストボタン
+        else 自分がフォローしていない
+            App->>App: 制限付きプロフィール + フォローリクエスト/フォローバックボタン
         end
     else アプリ未インストール
         Web->>Web: 中間ページ表示（ストアリンク）
@@ -198,7 +198,7 @@ sequenceDiagram
 | 5.1-5.4 | フォロー/フォロワー一覧 | FollowListScreen, FollowListNotifier, FollowRepository | getFollowers, getFollowing | - |
 | 6.1-6.3 | フォロー数表示 | ProfileHeader, AccountNotifier, FollowRepository | getFollowCounts | - |
 | 7.1-7.6 | 招待リンク | InviteProfileScreen, WebLandingPage, WellKnownFiles | getUserByHandle | 招待リンクフロー |
-| 8.1-8.5 | プロフィール閲覧制御 | UserProfileScreen, FollowService, UserGraphQL | getProfile, getFollowStatus | - |
+| 8.1-8.6 | プロフィール閲覧制御 | UserProfileScreen, FollowService, UserGraphQL | getProfile, getFollowStatus | - |
 | 9.1-9.5 | データ管理 | FollowRepository, follow_requests table, follows table | - | - |
 | 10.1-10.6 | エラーハンドリング | 全 Notifier, ErrorView | Failure 型 | - |
 | 11.1-11.4 | プッシュ通知 | FollowService, PushNotificationService | sendNotification | 送信フロー |
@@ -241,7 +241,7 @@ sequenceDiagram
 **Responsibilities & Constraints**
 - follow_requests テーブルと follows テーブルの CRUD 操作
 - ページネーション付きクエリ（カーソルベース）
-- follows テーブルの user_id_a < user_id_b 正規化はアプリケーション層で保証
+- follows テーブルは (follower_id, followee_id) の方向付きモデル。正規化不要
 
 **Dependencies**
 - External: PostgreSQL / Drizzle ORM -- データ永続化 (P0)
@@ -1196,7 +1196,7 @@ enum NotificationType { followRequestReceived, followRequestApproved }
 - 全 GraphQL Query/Mutation に `authScopes: { loggedIn: true }` を適用
 - フォローリクエストの承認/拒否は receiver 本人のみ実行可能（Service 層で検証）
 - フォロー解除は当事者のみ実行可能
-- プロフィール閲覧のアクセス制御: フォロー関係がない場合は制限付き情報のみ返却（handle, name, avatarUrl のみ）
+- プロフィール閲覧のアクセス制御: 自分がフォローしていない場合は制限付き情報のみ返却（handle, name, avatarUrl のみ）
 - 招待リンクの handle は公開情報。制限付きプロフィールのみ表示されるためプライバシーリスクは限定的
 
 ## Performance & Scalability
