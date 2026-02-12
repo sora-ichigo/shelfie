@@ -22,7 +22,7 @@
   - _Requirements: 13.1, 13.5_
 
 - [ ] 2. Follow Feature の API バックエンド実装
-- [ ] 2.1 FollowRepository を実装する
+- [x] 2.1 FollowRepository を実装する
   - フォローリクエストの作成・検索・ステータス更新の CRUD 操作を実装する
   - sender_id + receiver_id の組み合わせによるリクエスト検索を実装する
   - receiver_id による pending リクエスト一覧取得（カーソルベースページネーション）を実装する
@@ -33,7 +33,7 @@
   - 各操作のユニットテストを作成する（UNIQUE 制約違反、CHECK 制約違反を含む）
   - _Requirements: 9.1, 9.2, 9.3, 9.5_
 
-- [ ] 2.2 FollowService を実装する（タスク 2.1 の完了が前提）
+- [x] 2.2 FollowService を実装する（タスク 2.1 の完了が前提）
   - フォローリクエスト送信のバリデーション（自分自身チェック、既存フォローチェック、既存リクエストチェック）を実装する
   - フォローリクエスト送信成功時にアプリ内通知レコードを作成し、プッシュ通知を非同期送信する
   - フォローリクエスト承認をトランザクションで実装する（request ステータス更新 + follow 関係作成を原子的に実行）
@@ -48,7 +48,7 @@
   - 全バリデーションパスのユニットテストを作成する
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 2.5, 4.1, 4.2, 4.4, 8.1, 8.3, 11.1, 11.2, 11.4, 13.2, 13.3_
 
-- [ ] 2.3 FollowGraphQL（型定義・Query・Mutation リゾルバ）を実装する（タスク 2.2 の完了が前提）
+- [x] 2.3 FollowGraphQL（型定義・Query・Mutation リゾルバ）を実装する（タスク 2.2 の完了が前提）
   - Pothos で FollowRequest, FollowStatus, FollowCounts, UserProfile の GraphQL 型を定義する
   - sendFollowRequest, approveFollowRequest, rejectFollowRequest, unfollow の各 Mutation を実装する
   - pendingFollowRequests, pendingFollowRequestCount, following, followers, followCounts, userProfile の各 Query を実装する
@@ -60,7 +60,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.5, 4.1, 4.4, 5.1, 5.2, 5.4, 6.1, 8.1, 8.2, 8.3, 8.4, 8.5_
 
 - [ ] 3. Notification Feature の API バックエンド実装
-- [ ] 3.1 (P) NotificationRepository を実装する（タスク 1.2 の完了が前提）
+- [x] 3.1 (P) NotificationRepository を実装する（タスク 1.2 の完了が前提）
   - 通知レコードの作成を実装する
   - 受信者IDによる通知一覧取得（カーソルベースページネーション、created_at 降順）を実装する
   - 未読件数のカウント取得を実装する
@@ -68,7 +68,7 @@
   - ユニットテストを作成する
   - _Requirements: 13.1, 13.4_
 
-- [ ] 3.2 NotificationAppService を実装する（タスク 3.1 の完了が前提）
+- [x] 3.2 NotificationAppService を実装する（タスク 3.1 の完了が前提）
   - 通知作成（種別: follow_request_received, follow_request_approved）のロジックを実装する
   - 通知一覧取得（ページネーション付き）を実装する
   - 未読件数の取得を実装する
@@ -77,7 +77,7 @@
   - ユニットテストを作成する
   - _Requirements: 12.2, 12.5, 12.7, 13.1, 13.2, 13.3, 13.4_
 
-- [ ] 3.3 NotificationGraphQL（型定義・Query・Mutation リゾルバ）を実装する（タスク 3.2 の完了が前提）
+- [x] 3.3 NotificationGraphQL（型定義・Query・Mutation リゾルバ）を実装する（タスク 3.2 の完了が前提）
   - Pothos で AppNotification, NotificationType の GraphQL 型を定義する
   - notifications Query（ページネーション付き通知一覧）を実装する
   - unreadNotificationCount Query（未読件数）を実装する
@@ -89,7 +89,7 @@
   - _Requirements: 12.2, 12.5, 12.6, 12.7, 12.8, 13.4_
 
 - [ ] 4. API 統合テスト
-- [ ] 4.1 フォローシステムのエンドツーエンド統合テストを作成する（タスク 2.3, 3.3 の完了が前提）
+- [x] 4.1 フォローシステムのエンドツーエンド統合テストを作成する（タスク 2.3, 3.3 の完了が前提）
   - フォローリクエスト送信 → 承認 → フォロー関係成立 → フォロー解除の完全フローをテストする
   - フォローリクエスト送信 → 通知レコード作成の連携フローをテストする
   - フォローリクエスト承認 → 送信者向け通知レコード作成の連携フローをテストする
