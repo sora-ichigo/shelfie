@@ -139,8 +139,11 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       controller: _scrollController,
       itemCount: notifications.length,
       itemBuilder: (context, index) {
+        final notification = notifications[index];
         return _NotificationTile(
-          notification: notifications[index],
+          notification: notification,
+          onApprove: () {},
+          onReject: () {},
         );
       },
     );
@@ -148,9 +151,15 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 }
 
 class _NotificationTile extends StatelessWidget {
-  const _NotificationTile({required this.notification});
+  const _NotificationTile({
+    required this.notification,
+    this.onApprove,
+    this.onReject,
+  });
 
   final NotificationModel notification;
+  final VoidCallback? onApprove;
+  final VoidCallback? onReject;
 
   @override
   Widget build(BuildContext context) {
@@ -164,48 +173,79 @@ class _NotificationTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: notification.isRead ? null : appColors.surface,
-        border: Border(
-          bottom: BorderSide(color: appColors.border, width: 0.5),
-        ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UserAvatar(
             avatarUrl: notification.sender.avatarUrl,
-            radius: 20,
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    style: theme.textTheme.bodyMedium,
-                    children: [
-                      TextSpan(
-                        text: notification.sender.name ?? notification.sender.handle ?? '',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      TextSpan(
-                        text: 'さんが${_notificationText(notification.type)}',
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xxs),
-                Text(
-                  formatTimeAgo(notification.createdAt),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
+            radius: 18,
           ),
           const SizedBox(width: AppSpacing.xs),
-          _NotificationTypeIcon(type: notification.type),
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: appColors.textPrimary,
+                ),
+                children: [
+                  TextSpan(
+                    text: notification.sender.name ??
+                        notification.sender.handle ??
+                        '',
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  TextSpan(text: _notificationText(notification.type)),
+                  TextSpan(
+                    text: formatTimeAgo(notification.createdAt),
+                    style: TextStyle(color: appColors.textSecondary),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (notification.type ==
+              NotificationType.followRequestReceived) ...[
+            const SizedBox(width: AppSpacing.xs),
+            TextButton(
+              onPressed: onApprove,
+              style: TextButton.styleFrom(
+                backgroundColor: appColors.primary,
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppSpacing.xxs,
+                  horizontal: AppSpacing.md,
+                ),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSpacing.xs),
+                ),
+              ),
+              child: Text(
+                '承認',
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: appColors.textPrimary,
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            TextButton(
+              onPressed: onReject,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: AppSpacing.xxs,
+                  horizontal: AppSpacing.md,
+                ),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                '削除',
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: appColors.textPrimary,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -213,31 +253,10 @@ class _NotificationTile extends StatelessWidget {
 
   String _notificationText(NotificationType type) {
     return switch (type) {
-      NotificationType.followRequestReceived => 'フォローリクエストが届きました',
-      NotificationType.followRequestApproved => 'フォローリクエストを承認しました',
+      NotificationType.followRequestReceived =>
+        ' からフォローリクエストがありました。',
+      NotificationType.followRequestApproved =>
+        ' がフォローリクエストを承認しました。',
     };
-  }
-}
-
-class _NotificationTypeIcon extends StatelessWidget {
-  const _NotificationTypeIcon({required this.type});
-
-  final NotificationType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final (icon, color) = switch (type) {
-      NotificationType.followRequestReceived => (
-        CupertinoIcons.person_add,
-        appColors.primary,
-      ),
-      NotificationType.followRequestApproved => (
-        CupertinoIcons.checkmark_circle,
-        appColors.success,
-      ),
-    };
-
-    return Icon(icon, size: 20, color: color);
   }
 }

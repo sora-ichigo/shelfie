@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -89,7 +88,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.textContaining('フォローリクエストが届きました'),
+        find.textContaining('からフォローリクエストがありました'),
         findsOneWidget,
       );
     });
@@ -104,7 +103,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.textContaining('フォローリクエストを承認しました'),
+        find.textContaining('がフォローリクエストを承認しました'),
         findsOneWidget,
       );
     });
@@ -147,7 +146,7 @@ void main() {
       expect(find.byType(ErrorWidget).evaluate().isEmpty, isTrue);
     });
 
-    testWidgets('通知種別に応じたアイコンを表示すること', (tester) async {
+    testWidgets('followRequestReceived に承認・削除ボタンを表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right(testNotifications));
       when(() => mockNotificationRepo.markAllAsRead())
@@ -156,8 +155,8 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(CupertinoIcons.person_add), findsOneWidget);
-      expect(find.byIcon(CupertinoIcons.checkmark_circle), findsOneWidget);
+      expect(find.text('承認'), findsOneWidget);
+      expect(find.text('削除'), findsOneWidget);
     });
   });
 }
