@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
+import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
 import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
@@ -24,6 +25,8 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
+  ProfileTab _selectedTab = ProfileTab.bookShelf;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +44,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     final followState = ref.watch(
         followRequestNotifierProvider(widget.profile.user.id));
     final currentStatus = followState.valueOrNull ?? widget.profile.followStatus;
+    final isFollowing = currentStatus == FollowStatusType.following;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,28 +57,67 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
         surfaceTintColor: Colors.transparent,
         scrolledUnderElevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: AppSpacing.md),
-            ProfileHeader(
-              name: widget.profile.user.name,
-              avatarUrl: widget.profile.user.avatarUrl,
-              handle: widget.profile.user.handle,
-              bio: widget.profile.bio,
-              instagramHandle: widget.profile.instagramHandle,
-              bookCount: widget.profile.bookCount ?? 0,
-              followingCount: widget.profile.followCounts.followingCount,
-              followerCount: widget.profile.followCounts.followerCount,
-              onFollowingTap: widget.onFollowingTap,
-              onFollowersTap: widget.onFollowersTap,
-              actionButtons: widget.profile.isOwnProfile
-                  ? null
-                  : _buildActionButton(appColors, theme, currentStatus),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: AppSpacing.md),
+                ProfileHeader(
+                  name: widget.profile.user.name,
+                  avatarUrl: widget.profile.user.avatarUrl,
+                  handle: widget.profile.user.handle,
+                  bio: widget.profile.bio,
+                  instagramHandle: widget.profile.instagramHandle,
+                  bookCount: widget.profile.bookCount ?? 0,
+                  followingCount: widget.profile.followCounts.followingCount,
+                  followerCount: widget.profile.followCounts.followerCount,
+                  onFollowingTap: widget.onFollowingTap,
+                  onFollowersTap: widget.onFollowersTap,
+                  actionButtons: widget.profile.isOwnProfile
+                      ? null
+                      : _buildActionButton(appColors, theme, currentStatus),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _TabBarDelegate(
+              child: ProfileTabBar(
+                selectedTab: _selectedTab,
+                onTabChanged: (tab) => setState(() => _selectedTab = tab),
+              ),
+              backgroundColor: theme.scaffoldBackgroundColor,
+            ),
+          ),
+          if (!isFollowing)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _selectedTab == ProfileTab.bookShelf
+                          ? Icons.grid_view_rounded
+                          : Icons.library_books_rounded,
+                      size: 64,
+                      color: appColors.textSecondary,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      'フォローすると見られます',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: appColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -182,4 +225,31 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       ],
     );
   }
+}
+
+class _TabBarDelegate extends SliverPersistentHeaderDelegate {
+  _TabBarDelegate({required this.child, required this.backgroundColor});
+
+  final Widget child;
+  final Color backgroundColor;
+
+  @override
+  double get minExtent => 56;
+
+  @override
+  double get maxExtent => 56;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(color: backgroundColor, child: child);
+  }
+
+  @override
+  bool shouldRebuild(_TabBarDelegate oldDelegate) =>
+      child != oldDelegate.child ||
+      backgroundColor != oldDelegate.backgroundColor;
 }
