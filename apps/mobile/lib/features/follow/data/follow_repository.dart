@@ -244,7 +244,9 @@ class FollowRepository {
     required int userId,
   }) async {
     final request = GFollowCountsReq(
-      (b) => b..vars.userId = userId,
+      (b) => b
+        ..vars.userId = userId
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
     );
 
     try {
