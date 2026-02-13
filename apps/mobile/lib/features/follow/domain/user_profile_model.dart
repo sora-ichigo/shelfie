@@ -10,7 +10,8 @@ part 'user_profile_model.freezed.dart';
 class UserProfileModel with _$UserProfileModel {
   const factory UserProfileModel({
     required UserSummary user,
-    required FollowStatusType followStatus,
+    required FollowStatusType outgoingFollowStatus,
+    required FollowStatusType incomingFollowStatus,
     required FollowCounts followCounts,
     required bool isOwnProfile,
     String? bio,

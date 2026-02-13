@@ -123,6 +123,7 @@ final BuiltSet<GFollowRequestStatus> _$gFollowRequestStatusValues =
 const GFollowStatus _$gFollowStatusFOLLOWING =
     const GFollowStatus._('FOLLOWING');
 const GFollowStatus _$gFollowStatusNONE = const GFollowStatus._('NONE');
+const GFollowStatus _$gFollowStatusPENDING = const GFollowStatus._('PENDING');
 const GFollowStatus _$gFollowStatusPENDING_RECEIVED =
     const GFollowStatus._('PENDING_RECEIVED');
 const GFollowStatus _$gFollowStatusPENDING_SENT =
@@ -134,6 +135,8 @@ GFollowStatus _$gFollowStatusValueOf(String name) {
       return _$gFollowStatusFOLLOWING;
     case 'NONE':
       return _$gFollowStatusNONE;
+    case 'PENDING':
+      return _$gFollowStatusPENDING;
     case 'PENDING_RECEIVED':
       return _$gFollowStatusPENDING_RECEIVED;
     case 'PENDING_SENT':
@@ -147,6 +150,7 @@ final BuiltSet<GFollowStatus> _$gFollowStatusValues =
     BuiltSet<GFollowStatus>(const <GFollowStatus>[
   _$gFollowStatusFOLLOWING,
   _$gFollowStatusNONE,
+  _$gFollowStatusPENDING,
   _$gFollowStatusPENDING_RECEIVED,
   _$gFollowStatusPENDING_SENT,
 ]);

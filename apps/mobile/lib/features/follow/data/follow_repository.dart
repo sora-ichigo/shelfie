@@ -665,7 +665,8 @@ class FollowRepository {
         avatarUrl: profile.user.avatarUrl,
         handle: profile.user.handle,
       ),
-      followStatus: _mapFollowStatus(profile.followStatus),
+      outgoingFollowStatus: _mapFollowStatus(profile.outgoingFollowStatus),
+      incomingFollowStatus: _mapFollowStatus(profile.incomingFollowStatus),
       followCounts: FollowCounts(
         followingCount: profile.followCounts.followingCount,
         followerCount: profile.followCounts.followerCount,
@@ -717,8 +718,7 @@ class FollowRepository {
   FollowStatusType _mapFollowStatus(GFollowStatus status) {
     return switch (status) {
       GFollowStatus.NONE => FollowStatusType.none,
-      GFollowStatus.PENDING_SENT => FollowStatusType.pendingSent,
-      GFollowStatus.PENDING_RECEIVED => FollowStatusType.pendingReceived,
+      GFollowStatus.PENDING => FollowStatusType.pending,
       GFollowStatus.FOLLOWING => FollowStatusType.following,
       _ => FollowStatusType.none,
     };

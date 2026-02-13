@@ -365,6 +365,7 @@ enum FollowRequestStatus {
 enum FollowStatus {
   FOLLOWING
   NONE
+  PENDING
   PENDING_RECEIVED
   PENDING_SENT
 }
@@ -976,11 +977,14 @@ type UserProfile {
   """Follow counts for this user"""
   followCounts: FollowCounts!
 
-  """Follow status between the current user and this user"""
-  followStatus: FollowStatus!
+  """Incoming follow status (target user -> current user)"""
+  incomingFollowStatus: FollowStatus!
 
   """Whether this is the current user's own profile"""
   isOwnProfile: Boolean!
+
+  """Outgoing follow status (current user -> target user)"""
+  outgoingFollowStatus: FollowStatus!
 
   """The user"""
   user: User!

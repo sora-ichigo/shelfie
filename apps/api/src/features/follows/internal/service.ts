@@ -7,6 +7,7 @@ import type { FollowRepository } from "./repository.js";
 
 export type FollowStatus =
   | "NONE"
+  | "PENDING"
   | "PENDING_SENT"
   | "PENDING_RECEIVED"
   | "FOLLOWING";
@@ -42,7 +43,10 @@ export interface FollowService {
     senderId: number,
     receiverId: number,
   ): Promise<Result<void, FollowServiceErrors>>;
-  getFollowStatus(userId: number, targetUserId: number): Promise<FollowStatus>;
+  getFollowStatus(
+    userId: number,
+    targetUserId: number,
+  ): Promise<{ outgoing: FollowStatus; incoming: FollowStatus }>;
   getFollowCounts(
     userId: number,
   ): Promise<{ followingCount: number; followerCount: number }>;
@@ -272,29 +276,37 @@ export function createFollowService(
     async getFollowStatus(
       userId: number,
       targetUserId: number,
-    ): Promise<FollowStatus> {
-      const existingFollow = await repository.findFollow(userId, targetUserId);
-      if (existingFollow) {
-        return "FOLLOWING";
+    ): Promise<{ outgoing: FollowStatus; incoming: FollowStatus }> {
+      const outgoingFollow = await repository.findFollow(userId, targetUserId);
+      const incomingFollow = await repository.findFollow(targetUserId, userId);
+
+      let outgoing: FollowStatus = "NONE";
+      if (outgoingFollow) {
+        outgoing = "FOLLOWING";
+      } else {
+        const sentRequest = await repository.findRequestBySenderAndReceiver(
+          userId,
+          targetUserId,
+        );
+        if (sentRequest && sentRequest.status === "pending") {
+          outgoing = "PENDING";
+        }
       }
 
-      const sentRequest = await repository.findRequestBySenderAndReceiver(
-        userId,
-        targetUserId,
-      );
-      if (sentRequest && sentRequest.status === "pending") {
-        return "PENDING_SENT";
+      let incoming: FollowStatus = "NONE";
+      if (incomingFollow) {
+        incoming = "FOLLOWING";
+      } else {
+        const receivedRequest = await repository.findRequestBySenderAndReceiver(
+          targetUserId,
+          userId,
+        );
+        if (receivedRequest && receivedRequest.status === "pending") {
+          incoming = "PENDING";
+        }
       }
 
-      const receivedRequest = await repository.findRequestBySenderAndReceiver(
-        targetUserId,
-        userId,
-      );
-      if (receivedRequest && receivedRequest.status === "pending") {
-        return "PENDING_RECEIVED";
-      }
-
-      return "NONE";
+      return { outgoing, incoming };
     },
 
     async getFollowCounts(

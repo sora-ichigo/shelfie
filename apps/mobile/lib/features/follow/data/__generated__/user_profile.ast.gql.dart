@@ -89,7 +89,14 @@ const UserProfile = _i1.OperationDefinitionNode(
           ]),
         ),
         _i1.FieldNode(
-          name: _i1.NameNode(value: 'followStatus'),
+          name: _i1.NameNode(value: 'outgoingFollowStatus'),
+          alias: null,
+          arguments: [],
+          directives: [],
+          selectionSet: null,
+        ),
+        _i1.FieldNode(
+          name: _i1.NameNode(value: 'incomingFollowStatus'),
           alias: null,
           arguments: [],
           directives: [],

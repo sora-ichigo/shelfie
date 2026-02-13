@@ -15,6 +15,8 @@ import 'package:shelfie/features/follow/domain/user_summary.dart';
 
 class MockFollowRepository extends Mock implements FollowRepository {}
 
+typedef FollowState = ({FollowStatusType outgoing, FollowStatusType incoming});
+
 void main() {
   late ProviderContainer container;
   late MockFollowRepository mockRepository;
@@ -51,25 +53,45 @@ void main() {
 
   group('FollowRequestNotifier', () {
     group('initial state', () {
-      test('should start with AsyncData(FollowStatusType.none)', () {
+      test('should start with AsyncData of (outgoing: none, incoming: none)', () {
         final state = container.read(followRequestNotifierProvider(targetUserId));
-        expect(state, const AsyncData(FollowStatusType.none));
+        expect(state, isA<AsyncData<FollowState>>());
+        final data = state.value!;
+        expect(data.outgoing, FollowStatusType.none);
+        expect(data.incoming, FollowStatusType.none);
       });
     });
 
     group('setStatus', () {
-      test('should update state to the given status', () {
+      test('should update outgoing and incoming separately', () {
         container
             .read(followRequestNotifierProvider(targetUserId).notifier)
-            .setStatus(FollowStatusType.following);
+            .setStatus(
+              outgoing: FollowStatusType.following,
+              incoming: FollowStatusType.none,
+            );
 
         final state = container.read(followRequestNotifierProvider(targetUserId));
-        expect(state, const AsyncData(FollowStatusType.following));
+        expect(state.value!.outgoing, FollowStatusType.following);
+        expect(state.value!.incoming, FollowStatusType.none);
+      });
+
+      test('should update both outgoing and incoming', () {
+        container
+            .read(followRequestNotifierProvider(targetUserId).notifier)
+            .setStatus(
+              outgoing: FollowStatusType.following,
+              incoming: FollowStatusType.following,
+            );
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.following);
+        expect(state.value!.incoming, FollowStatusType.following);
       });
     });
 
     group('sendFollowRequest', () {
-      test('should optimistically set state to pendingSent', () async {
+      test('should optimistically set outgoing to pending', () async {
         when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
             .thenAnswer((_) async => right(createFollowRequest()));
 
@@ -78,10 +100,28 @@ void main() {
 
         final future = notifier.sendFollowRequest();
 
-        expect(
-          container.read(followRequestNotifierProvider(targetUserId)),
-          const AsyncData(FollowStatusType.pendingSent),
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.pending);
+
+        await future;
+      });
+
+      test('should preserve incoming status when sending follow request', () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer((_) async => right(createFollowRequest()));
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.following,
         );
+
+        final future = notifier.sendFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.pending);
+        expect(state.value!.incoming, FollowStatusType.following);
 
         await future;
       });
@@ -108,14 +148,16 @@ void main() {
 
         final notifier = container
             .read(followRequestNotifierProvider(targetUserId).notifier);
-        notifier.setStatus(FollowStatusType.none);
+        notifier.setStatus(
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.none,
+        );
 
         await notifier.sendFollowRequest();
 
-        expect(
-          container.read(followRequestNotifierProvider(targetUserId)),
-          const AsyncData(FollowStatusType.none),
-        );
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
+        expect(state.value!.incoming, FollowStatusType.none);
       });
 
       test('should not increment FollowVersion on failure', () async {
@@ -153,23 +195,83 @@ void main() {
       });
     });
 
+    group('follow-back scenario', () {
+      test('should set outgoing to pending while keeping incoming as following', () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer((_) async => right(createFollowRequest()));
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.following,
+        );
+
+        await notifier.sendFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.pending);
+        expect(state.value!.incoming, FollowStatusType.following);
+      });
+
+      test('should rollback only outgoing on failure during follow-back', () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer(
+          (_) async =>
+              left(const NetworkFailure(message: 'No internet connection')),
+        );
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.following,
+        );
+
+        await notifier.sendFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
+        expect(state.value!.incoming, FollowStatusType.following);
+      });
+    });
+
     group('unfollow', () {
-      test('should optimistically set state to none', () async {
+      test('should optimistically set outgoing to none', () async {
         when(() => mockRepository.unfollow(targetUserId: targetUserId))
             .thenAnswer((_) async => right(null));
 
         final notifier = container
             .read(followRequestNotifierProvider(targetUserId).notifier);
-        notifier.setStatus(FollowStatusType.following);
+        notifier.setStatus(
+          outgoing: FollowStatusType.following,
+          incoming: FollowStatusType.none,
+        );
 
         final future = notifier.unfollow();
 
-        expect(
-          container.read(followRequestNotifierProvider(targetUserId)),
-          const AsyncData(FollowStatusType.none),
-        );
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
 
         await future;
+      });
+
+      test('should preserve incoming status when unfollowing', () async {
+        when(() => mockRepository.unfollow(targetUserId: targetUserId))
+            .thenAnswer((_) async => right(null));
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.following,
+          incoming: FollowStatusType.following,
+        );
+
+        await notifier.unfollow();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
+        expect(state.value!.incoming, FollowStatusType.following);
       });
 
       test('should increment FollowVersion on success', () async {
@@ -178,7 +280,10 @@ void main() {
 
         final notifier = container
             .read(followRequestNotifierProvider(targetUserId).notifier);
-        notifier.setStatus(FollowStatusType.following);
+        notifier.setStatus(
+          outgoing: FollowStatusType.following,
+          incoming: FollowStatusType.none,
+        );
 
         final versionBefore = container.read(followVersionProvider);
         await notifier.unfollow();
@@ -195,14 +300,16 @@ void main() {
 
         final notifier = container
             .read(followRequestNotifierProvider(targetUserId).notifier);
-        notifier.setStatus(FollowStatusType.following);
+        notifier.setStatus(
+          outgoing: FollowStatusType.following,
+          incoming: FollowStatusType.following,
+        );
 
         await notifier.unfollow();
 
-        expect(
-          container.read(followRequestNotifierProvider(targetUserId)),
-          const AsyncData(FollowStatusType.following),
-        );
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.following);
+        expect(state.value!.incoming, FollowStatusType.following);
       });
 
       test('should prevent duplicate operations', () async {
@@ -212,7 +319,10 @@ void main() {
 
         final notifier = container
             .read(followRequestNotifierProvider(targetUserId).notifier);
-        notifier.setStatus(FollowStatusType.following);
+        notifier.setStatus(
+          outgoing: FollowStatusType.following,
+          incoming: FollowStatusType.none,
+        );
 
         unawaited(notifier.unfollow());
         unawaited(notifier.unfollow());
@@ -222,6 +332,66 @@ void main() {
 
         verify(() => mockRepository.unfollow(targetUserId: targetUserId))
             .called(1);
+      });
+    });
+
+    group('cancelFollowRequest', () {
+      test('should optimistically set outgoing to none', () async {
+        when(() => mockRepository.cancelFollowRequest(targetUserId: targetUserId))
+            .thenAnswer((_) async => right(null));
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.pending,
+          incoming: FollowStatusType.none,
+        );
+
+        final future = notifier.cancelFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
+
+        await future;
+      });
+
+      test('should preserve incoming status when cancelling', () async {
+        when(() => mockRepository.cancelFollowRequest(targetUserId: targetUserId))
+            .thenAnswer((_) async => right(null));
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.pending,
+          incoming: FollowStatusType.following,
+        );
+
+        await notifier.cancelFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.none);
+        expect(state.value!.incoming, FollowStatusType.following);
+      });
+
+      test('should rollback state on failure', () async {
+        when(() => mockRepository.cancelFollowRequest(targetUserId: targetUserId))
+            .thenAnswer(
+          (_) async =>
+              left(const NetworkFailure(message: 'No internet connection')),
+        );
+
+        final notifier = container
+            .read(followRequestNotifierProvider(targetUserId).notifier);
+        notifier.setStatus(
+          outgoing: FollowStatusType.pending,
+          incoming: FollowStatusType.following,
+        );
+
+        await notifier.cancelFollowRequest();
+
+        final state = container.read(followRequestNotifierProvider(targetUserId));
+        expect(state.value!.outgoing, FollowStatusType.pending);
+        expect(state.value!.incoming, FollowStatusType.following);
       });
     });
   });

@@ -624,7 +624,7 @@ export function registerBookListsQueries(
           args.userId,
         );
 
-        if (status !== "FOLLOWING") {
+        if (status.outgoing !== "FOLLOWING") {
           throw new GraphQLError(
             "You must follow this user to view their book lists",
             { extensions: { code: "FORBIDDEN" } },

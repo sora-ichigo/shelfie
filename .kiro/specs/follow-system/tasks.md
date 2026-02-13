@@ -46,11 +46,11 @@
 - [x] 8.1 ボトムナビゲーションにお知らせタブを追加する
 - [x] 8.2 フォロー関連画面のルーティングを設定する
 
-### Phase 2: 一方向フォローモデルへの移行
+### Phase 2: 一方向フォローモデルへの移行（完了済み）
 
-- [ ] M. 一方向フォローモデルへの移行（follows テーブルの方向付きモデル化）
+- [x] M. 一方向フォローモデルへの移行（follows テーブルの方向付きモデル化）
 
-- [ ] M.1 follows テーブルの Drizzle スキーマを方向付きモデルに変更する
+- [x] M.1 follows テーブルの Drizzle スキーマを方向付きモデルに変更する
   - `user_id_a` / `user_id_b` カラムを `follower_id` / `followee_id` に変更する
   - `CHECK(user_id_a < user_id_b)` 制約を `CHECK(follower_id != followee_id)` に変更する
   - `UNIQUE(user_id_a, user_id_b)` を `UNIQUE(follower_id, followee_id)` に変更する
@@ -58,7 +58,7 @@
   - マイグレーションを生成する（既存データの変換: 旧 1 レコード → 新 2 レコード（双方向だったため））
   - _Requirements: 9.2, 9.3_
 
-- [ ] M.2 FollowRepository を一方向フォローモデルに対応させる（タスク M.1 の完了が前提）
+- [x] M.2 FollowRepository を一方向フォローモデルに対応させる（タスク M.1 の完了が前提）
   - `createFollow(followerId, followeeId)` に変更する（正規化ロジック削除）
   - `deleteFollow(followerId, followeeId)` を方向付き削除に変更する
   - `findFollow(followerId, followeeId)` を方向付き検索に変更する
@@ -68,7 +68,7 @@
   - 既存テストを更新する
   - _Requirements: 9.2, 9.5_
 
-- [ ] M.3 FollowService を一方向フォローモデルに対応させる（タスク M.2 の完了が前提）
+- [x] M.3 FollowService を一方向フォローモデルに対応させる（タスク M.2 の完了が前提）
   - `approveRequest`: `createFollow(sender, receiver)` のみ呼び出す（一方向フォロー成立）
   - `unfollow(userId, targetUserId)`: `deleteFollow(userId, targetUserId)` のみ削除する（逆方向は維持）
   - `getFollowStatus` を `{ outgoing: FollowStatus, incoming: FollowStatus }` を返すように変更する
@@ -78,37 +78,37 @@
   - 既存テストを更新し、一方向フォローの振る舞いを検証する新テストを追加する
   - _Requirements: 2.1, 2.3, 4.1, 4.2_
 
-- [ ] M.4 FollowGraphQL の型定義とリゾルバを更新する（タスク M.3 の完了が前提）
+- [x] M.4 FollowGraphQL の型定義とリゾルバを更新する（タスク M.3 の完了が前提）
   - `FollowStatus` enum を `NONE | PENDING | FOLLOWING` に変更する（PENDING_SENT / PENDING_RECEIVED を削除）
   - `UserProfile` 型に `outgoingFollowStatus` と `incomingFollowStatus` を追加する（旧 `followStatus` を置き換え）
   - `userProfile` Query のリゾルバを更新する
   - 既存テストを更新する
   - _Requirements: 8.1, 8.4, 8.5_
 
-- [ ] M.5 API 統合テストを一方向フォローモデルに対応させる（タスク M.4 の完了が前提）
+- [x] M.5 API 統合テストを一方向フォローモデルに対応させる（タスク M.4 の完了が前提）
   - 承認後に一方向フォローのみ成立することを検証するテストを追加する
   - フォロー解除が逆方向のフォローに影響しないことを検証するテストを追加する
   - 相互フォロー（双方がリクエスト → 承認）のフローをテストする
   - プロフィール閲覧制御が outgoing 方向に基づくことをテストする（自分がフォローしている場合のみフル表示）
   - _Requirements: 2.1, 4.1, 8.1, 8.3_
 
-- [ ] M.6 モバイルのドメインモデルを一方向フォローモデルに対応させる（タスク M.4 の完了が前提）
+- [x] M.6 モバイルのドメインモデルを一方向フォローモデルに対応させる（タスク M.4 の完了が前提）
   - `FollowStatusType` enum を `{ none, pending, following }` に変更する（pendingSent / pendingReceived を削除）
   - `UserProfileModel` の `followStatus` を `outgoingFollowStatus` / `incomingFollowStatus` の2フィールドに変更する
   - build_runner でコード再生成する
   - _Requirements: 8.1, 8.4_
 
-- [ ] M.7 (P) モバイルの GraphQL オペレーションを更新する（タスク M.4 の完了が前提）
+- [x] M.7 (P) モバイルの GraphQL オペレーションを更新する（タスク M.4 の完了が前提）
   - `userProfile` クエリの `followStatus` を `outgoingFollowStatus` / `incomingFollowStatus` に変更する
   - Ferry のコード生成を再実行する
   - _Requirements: 8.1_
 
-- [ ] M.8 FollowMobileRepository のレスポンス変換を更新する（タスク M.6, M.7 の完了が前提）
+- [x] M.8 FollowMobileRepository のレスポンス変換を更新する（タスク M.6, M.7 の完了が前提）
   - `getUserProfile` のレスポンス変換で `outgoingFollowStatus` / `incomingFollowStatus` をマッピングする
   - 既存テストを更新する
   - _Requirements: 8.1_
 
-- [ ] M.9 FollowRequestNotifier を一方向フォローモデルに対応させる（タスク M.8 の完了が前提）
+- [x] M.9 FollowRequestNotifier を一方向フォローモデルに対応させる（タスク M.8 の完了が前提）
   - 状態モデルを `(outgoing: FollowStatusType, incoming: FollowStatusType)` に変更する
   - フォローリクエスト送信: outgoing を `pending` に更新する
   - フォロー解除: outgoing を `none` に更新する（incoming は維持）
@@ -117,7 +117,7 @@
   - 既存テストを更新する
   - _Requirements: 1.5, 4.3, 10.1, 10.3_
 
-- [ ] M.10 他ユーザープロフィール画面のアクションボタンを更新する（タスク M.9 の完了が前提）
+- [x] M.10 他ユーザープロフィール画面のアクションボタンを更新する（タスク M.9 の完了が前提）
   - outgoing/incoming の組み合わせに応じたボタン表示ロジックを実装する:
     - outgoing=NONE, incoming=NONE → 「フォローする」ボタン
     - outgoing=NONE, incoming=FOLLOWING → 「フォローバックする」ボタン

@@ -284,6 +284,7 @@ class _NotificationTile extends StatelessWidget {
           ),
         ),
       ],
+      FollowStatusType.pending ||
       FollowStatusType.pendingSent => [
         const SizedBox(width: AppSpacing.xs),
         _DisabledButton(

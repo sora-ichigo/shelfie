@@ -83,8 +83,8 @@ function createMockFollowRequest(
 function createMockFollow(overrides: Partial<Follow> = {}): Follow {
   return {
     id: 1,
-    userIdA: 1,
-    userIdB: 2,
+    followerId: 1,
+    followeeId: 2,
     createdAt: new Date("2026-01-01T00:00:00Z"),
     ...overrides,
   };
@@ -176,7 +176,7 @@ describe("Follow System Integration", () => {
         approvedRequest,
       );
       vi.mocked(followRepo.createFollow).mockResolvedValue(
-        createMockFollow({ id: 1, userIdA: 1, userIdB: 2 }),
+        createMockFollow({ id: 1, followerId: 1, followeeId: 2 }),
       );
       vi.mocked(notifRepo.create).mockResolvedValue(
         createMockNotification({
@@ -194,6 +194,7 @@ describe("Follow System Integration", () => {
       }
 
       expect(followRepo.createFollow).toHaveBeenCalledWith(1, 2);
+      expect(followRepo.createFollow).toHaveBeenCalledTimes(1);
 
       // 非同期通知が発行されるのを待つ
       await new Promise((resolve) => setTimeout(resolve, 10));
@@ -204,18 +205,27 @@ describe("Follow System Integration", () => {
         type: "follow_request_approved",
       });
 
-      // Step 3: フォロー関係の存在確認
-      vi.mocked(followRepo.findFollow).mockResolvedValue(
-        createMockFollow({ id: 1, userIdA: 1, userIdB: 2 }),
-      );
+      // Step 3: フォロー関係の存在確認（一方向: 1→2 のみ）
+      vi.mocked(followRepo.findFollow)
+        .mockResolvedValueOnce(
+          createMockFollow({ id: 1, followerId: 1, followeeId: 2 }),
+        )
+        .mockResolvedValueOnce(null);
 
       const followStatus = await followService.getFollowStatus(1, 2);
-      expect(followStatus).toBe("FOLLOWING");
+      expect(followStatus).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "NONE",
+      });
 
       // Step 4: フォロー解除
+      vi.mocked(followRepo.findFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
       const unfollowResult = await followService.unfollow(1, 2);
       expect(unfollowResult.success).toBe(true);
       expect(followRepo.deleteFollow).toHaveBeenCalledWith(1, 2);
+      expect(followRepo.deleteFollow).toHaveBeenCalledTimes(1);
 
       // Step 5: フォロー解除後の状態確認
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
@@ -224,7 +234,10 @@ describe("Follow System Integration", () => {
       );
 
       const statusAfterUnfollow = await followService.getFollowStatus(1, 2);
-      expect(statusAfterUnfollow).toBe("NONE");
+      expect(statusAfterUnfollow).toEqual({
+        outgoing: "NONE",
+        incoming: "NONE",
+      });
     });
   });
 
@@ -340,7 +353,7 @@ describe("Follow System Integration", () => {
         }),
       );
       vi.mocked(followRepo.createFollow).mockResolvedValue(
-        createMockFollow({ userIdA: 10, userIdB: 20 }),
+        createMockFollow({ followerId: 10, followeeId: 20 }),
       );
       vi.mocked(notifRepo.create).mockResolvedValue(
         createMockNotification({
@@ -442,8 +455,8 @@ describe("Follow System Integration", () => {
     });
   });
 
-  describe("フォロー状態の遷移確認", () => {
-    it("should transition through all follow states correctly", async () => {
+  describe("フォロー状態の遷移確認（一方向モデル）", () => {
+    it("should return outgoing/incoming status independently", async () => {
       const followRepo = createMockFollowRepository();
       const notifRepo = createMockNotificationRepository();
       const pushService = createMockPushNotificationService();
@@ -457,14 +470,17 @@ describe("Follow System Integration", () => {
         logger,
       );
 
-      // NONE 状態
+      // NONE 状態（双方なし）
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
       vi.mocked(followRepo.findRequestBySenderAndReceiver).mockResolvedValue(
         null,
       );
-      expect(await followService.getFollowStatus(1, 2)).toBe("NONE");
+      expect(await followService.getFollowStatus(1, 2)).toEqual({
+        outgoing: "NONE",
+        incoming: "NONE",
+      });
 
-      // PENDING_SENT 状態（ユーザー1がユーザー2に送信）
+      // outgoing PENDING 状態（ユーザー1がユーザー2にリクエスト送信）
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
       vi.mocked(followRepo.findRequestBySenderAndReceiver)
         .mockResolvedValueOnce(
@@ -475,9 +491,12 @@ describe("Follow System Integration", () => {
           }),
         )
         .mockResolvedValueOnce(null);
-      expect(await followService.getFollowStatus(1, 2)).toBe("PENDING_SENT");
+      expect(await followService.getFollowStatus(1, 2)).toEqual({
+        outgoing: "PENDING",
+        incoming: "NONE",
+      });
 
-      // PENDING_RECEIVED 状態（ユーザー2がユーザー1に送信）
+      // incoming PENDING 状態（ユーザー2がユーザー1にリクエスト送信）
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
       vi.mocked(followRepo.findRequestBySenderAndReceiver).mockReset();
       vi.mocked(followRepo.findRequestBySenderAndReceiver)
@@ -489,15 +508,143 @@ describe("Follow System Integration", () => {
             status: "pending",
           }),
         );
-      expect(await followService.getFollowStatus(1, 2)).toBe(
-        "PENDING_RECEIVED",
+      expect(await followService.getFollowStatus(1, 2)).toEqual({
+        outgoing: "NONE",
+        incoming: "PENDING",
+      });
+
+      // outgoing FOLLOWING 状態（1→2 のみ）
+      vi.mocked(followRepo.findFollow)
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 1, followeeId: 2 }),
+        )
+        .mockResolvedValueOnce(null);
+      expect(await followService.getFollowStatus(1, 2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "NONE",
+      });
+
+      // 相互 FOLLOWING 状態
+      vi.mocked(followRepo.findFollow)
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 1, followeeId: 2 }),
+        )
+        .mockResolvedValueOnce(
+          createMockFollow({ id: 2, followerId: 2, followeeId: 1 }),
+        );
+      expect(await followService.getFollowStatus(1, 2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "FOLLOWING",
+      });
+    });
+
+    it("should not affect reverse follow when unfollowing", async () => {
+      const followRepo = createMockFollowRepository();
+      const notifRepo = createMockNotificationRepository();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      const notificationAppService = createNotificationAppService(notifRepo);
+      const followService = createFollowService(
+        followRepo,
+        notificationAppService,
+        pushService,
+        logger,
       );
 
-      // FOLLOWING 状態
+      // 1→2 のフォローが存在する状態でフォロー解除
       vi.mocked(followRepo.findFollow).mockResolvedValue(
-        createMockFollow({ userIdA: 1, userIdB: 2 }),
+        createMockFollow({ followerId: 1, followeeId: 2 }),
       );
-      expect(await followService.getFollowStatus(1, 2)).toBe("FOLLOWING");
+      vi.mocked(followRepo.findRequestBySenderAndReceiver).mockResolvedValue(
+        null,
+      );
+      const result = await followService.unfollow(1, 2);
+      expect(result.success).toBe(true);
+
+      // deleteFollow は 1→2 方向のみ呼ばれる
+      expect(followRepo.deleteFollow).toHaveBeenCalledWith(1, 2);
+      expect(followRepo.deleteFollow).toHaveBeenCalledTimes(1);
+    });
+
+    it("should complete mutual follow flow (both request and approve)", async () => {
+      const followRepo = createMockFollowRepository();
+      const notifRepo = createMockNotificationRepository();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      const notificationAppService = createNotificationAppService(notifRepo);
+      const followService = createFollowService(
+        followRepo,
+        notificationAppService,
+        pushService,
+        logger,
+      );
+
+      // Step 1: ユーザー1→2 のリクエスト送信
+      vi.mocked(followRepo.findFollow).mockResolvedValue(null);
+      vi.mocked(followRepo.findRequestBySenderAndReceiver).mockResolvedValue(
+        null,
+      );
+      vi.mocked(followRepo.createRequest).mockResolvedValue(
+        createMockFollowRequest({ id: 1, senderId: 1, receiverId: 2 }),
+      );
+      vi.mocked(notifRepo.create).mockResolvedValue(createMockNotification());
+
+      const send1 = await followService.sendRequest(1, 2);
+      expect(send1.success).toBe(true);
+
+      // Step 2: 承認 → 1→2 の一方向フォロー成立
+      vi.mocked(followRepo.findRequestById).mockResolvedValue(
+        createMockFollowRequest({ id: 1, senderId: 1, receiverId: 2 }),
+      );
+      vi.mocked(followRepo.updateRequestStatus).mockResolvedValue(
+        createMockFollowRequest({
+          id: 1,
+          senderId: 1,
+          receiverId: 2,
+          status: "approved",
+        }),
+      );
+      vi.mocked(followRepo.createFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
+
+      const approve1 = await followService.approveRequest(1, 2);
+      expect(approve1.success).toBe(true);
+      expect(followRepo.createFollow).toHaveBeenCalledWith(1, 2);
+
+      // Step 3: ユーザー2→1 のリクエスト送信（フォローバック）
+      vi.mocked(followRepo.findFollow).mockResolvedValue(null);
+      vi.mocked(followRepo.findRequestBySenderAndReceiver).mockResolvedValue(
+        null,
+      );
+      vi.mocked(followRepo.createRequest).mockResolvedValue(
+        createMockFollowRequest({ id: 2, senderId: 2, receiverId: 1 }),
+      );
+
+      const send2 = await followService.sendRequest(2, 1);
+      expect(send2.success).toBe(true);
+
+      // Step 4: 承認 → 2→1 の一方向フォロー成立 → 相互フォロー
+      vi.mocked(followRepo.findRequestById).mockResolvedValue(
+        createMockFollowRequest({ id: 2, senderId: 2, receiverId: 1 }),
+      );
+      vi.mocked(followRepo.updateRequestStatus).mockResolvedValue(
+        createMockFollowRequest({
+          id: 2,
+          senderId: 2,
+          receiverId: 1,
+          status: "approved",
+        }),
+      );
+      vi.mocked(followRepo.createFollow).mockResolvedValue(
+        createMockFollow({ id: 2, followerId: 2, followeeId: 1 }),
+      );
+
+      const approve2 = await followService.approveRequest(2, 1);
+      expect(approve2.success).toBe(true);
+      expect(followRepo.createFollow).toHaveBeenCalledWith(2, 1);
     });
   });
 

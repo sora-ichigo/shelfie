@@ -47,7 +47,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(followRequestNotifierProvider(_userId).notifier)
-          .setStatus(widget.profile.followStatus);
+          .setStatus(
+            outgoing: widget.profile.outgoingFollowStatus,
+            incoming: widget.profile.incomingFollowStatus,
+          );
     });
   }
 
@@ -72,10 +75,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final followState = ref.watch(
-        followRequestNotifierProvider(_userId));
-    final currentStatus = followState.valueOrNull ?? widget.profile.followStatus;
-    final isFollowing = currentStatus == FollowStatusType.following;
+    final followState = ref.watch(followRequestNotifierProvider(_userId));
+    final currentStatus = followState.valueOrNull ??
+        (
+          outgoing: widget.profile.outgoingFollowStatus,
+          incoming: widget.profile.incomingFollowStatus,
+        );
+    final isFollowing = currentStatus.outgoing == FollowStatusType.following;
 
     return Scaffold(
       appBar: AppBar(
@@ -314,7 +320,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   }
 
   Widget _buildActionButton(
-      AppColors appColors, ThemeData theme, FollowStatusType status) {
+      AppColors appColors, ThemeData theme, FollowDirectionalStatus status) {
     final shareButton = Expanded(
       child: FilledButton(
         onPressed: () {},
@@ -338,8 +344,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       ),
     );
 
-    final followButton = switch (status) {
-      FollowStatusType.none => Expanded(
+    final followButton = switch (status.outgoing) {
+      FollowStatusType.none ||
+      FollowStatusType.pendingReceived => Expanded(
           child: FilledButton(
             onPressed: () => ref
                 .read(followRequestNotifierProvider(widget.profile.user.id)
@@ -358,9 +365,15 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text('フォロー', style: theme.textTheme.labelMedium),
+            child: Text(
+              status.incoming == FollowStatusType.following
+                  ? 'フォローバック'
+                  : 'フォロー',
+              style: theme.textTheme.labelMedium,
+            ),
           ),
         ),
+      FollowStatusType.pending ||
       FollowStatusType.pendingSent => Expanded(
           child: FilledButton(
             onPressed: () => ref
@@ -405,7 +418,6 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
             child: Text('フォロー解除', style: theme.textTheme.labelMedium),
           ),
         ),
-      FollowStatusType.pendingReceived => const SizedBox.shrink(),
     };
 
     return Row(

@@ -83,15 +83,16 @@ describe("Follow GraphQL Types", () => {
       expect(enumType?.name).toBe("FollowStatus");
     });
 
-    it("should have NONE, PENDING_SENT, PENDING_RECEIVED, FOLLOWING values", () => {
+    it("should have NONE, PENDING, FOLLOWING values", () => {
       const schema = buildTestSchema();
       const enumType = schema.getType("FollowStatus") as GraphQLEnumType;
       const values = enumType.getValues().map((v) => v.name);
 
       expect(values).toContain("NONE");
-      expect(values).toContain("PENDING_SENT");
-      expect(values).toContain("PENDING_RECEIVED");
+      expect(values).toContain("PENDING");
       expect(values).toContain("FOLLOWING");
+      expect(values).not.toContain("PENDING_SENT");
+      expect(values).not.toContain("PENDING_RECEIVED");
     });
   });
 
@@ -154,9 +155,15 @@ describe("Follow GraphQL Types", () => {
       expect(type?.name).toBe("UserProfile");
     });
 
-    it("should have followStatus field", () => {
+    it("should have outgoingFollowStatus field", () => {
       const schema = buildTestSchema();
-      const field = getField(schema, "UserProfile", "followStatus");
+      const field = getField(schema, "UserProfile", "outgoingFollowStatus");
+      expect(field).toBeDefined();
+    });
+
+    it("should have incomingFollowStatus field", () => {
+      const schema = buildTestSchema();
+      const field = getField(schema, "UserProfile", "incomingFollowStatus");
       expect(field).toBeDefined();
     });
 

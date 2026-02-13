@@ -983,7 +983,10 @@ describe("BookLists GraphQL", () => {
           updatedAt: new Date(),
         }),
       );
-      vi.mocked(followService.getFollowStatus).mockResolvedValue("FOLLOWING");
+      vi.mocked(followService.getFollowStatus).mockResolvedValue({
+        outgoing: "FOLLOWING",
+        incoming: "NONE",
+      });
       vi.mocked(bookListService.getUserBookLists).mockResolvedValue(
         ok({ items: mockSummaries, totalCount: 1, hasMore: false }),
       );
@@ -1030,7 +1033,10 @@ describe("BookLists GraphQL", () => {
           updatedAt: new Date(),
         }),
       );
-      vi.mocked(followService.getFollowStatus).mockResolvedValue("NONE");
+      vi.mocked(followService.getFollowStatus).mockResolvedValue({
+        outgoing: "NONE",
+        incoming: "NONE",
+      });
 
       const queryType = schema.getQueryType();
       const userBookListsField = queryType?.getFields().userBookLists;
