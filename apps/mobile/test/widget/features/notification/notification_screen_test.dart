@@ -44,6 +44,7 @@ void main() {
     required String handle,
     required NotificationType type,
     required FollowStatusType followStatus,
+    int? followRequestId,
     bool isRead = false,
   }) {
     return NotificationModel(
@@ -56,6 +57,7 @@ void main() {
       ),
       type: type,
       followStatus: followStatus,
+      followRequestId: followRequestId,
       isRead: isRead,
       createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
     );
@@ -72,6 +74,7 @@ void main() {
       ),
       type: NotificationType.followRequestReceived,
       followStatus: FollowStatusType.pendingReceived,
+      followRequestId: 100,
       isRead: false,
       createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
     ),
@@ -85,6 +88,7 @@ void main() {
       ),
       type: NotificationType.followRequestApproved,
       followStatus: FollowStatusType.none,
+      followRequestId: null,
       isRead: true,
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
     ),
@@ -193,7 +197,7 @@ void main() {
       expect(find.text('削除'), findsOneWidget);
     });
 
-    testWidgets('following でフォロー中ボタン（非活性）を表示すること', (tester) async {
+    testWidgets('following でフォロー中ボタンを表示し、タップ可能であること', (tester) async {
       final notification = createNotification(
         id: 2,
         name: 'ユーザーB',
@@ -210,15 +214,44 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('フォロー中'), findsOneWidget);
+      final button = find.text('フォロー中');
+      expect(button, findsOneWidget);
+
+      final textButton = find.ancestor(
+        of: button,
+        matching: find.byType(TextButton),
+      );
+      final widget = tester.widget<TextButton>(textButton);
+      expect(widget.onPressed, isNotNull);
     });
 
-    testWidgets('none + followRequestReceived でフォローバックボタンを表示すること',
+    testWidgets('followedBy + followRequestReceived でフォローバックボタンを表示すること',
         (tester) async {
       final notification = createNotification(
         id: 3,
         name: 'ユーザーC',
         handle: 'user_c',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.followedBy,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.text('フォローバック'), findsOneWidget);
+    });
+
+    testWidgets('none + followRequestReceived でボタンを表示しないこと',
+        (tester) async {
+      final notification = createNotification(
+        id: 6,
+        name: 'ユーザーF',
+        handle: 'user_f',
         type: NotificationType.followRequestReceived,
         followStatus: FollowStatusType.none,
       );
@@ -231,7 +264,7 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('フォローバック'), findsOneWidget);
+      expect(find.byType(TextButton), findsNothing);
     });
 
     testWidgets('none + followRequestApproved でフォローボタンを表示すること',
@@ -255,7 +288,7 @@ void main() {
       expect(find.text('フォロー'), findsOneWidget);
     });
 
-    testWidgets('pendingSent でリクエスト済みボタン（非活性）を表示すること', (tester) async {
+    testWidgets('pendingSent でリクエスト済みボタンを表示し、タップ可能であること', (tester) async {
       final notification = createNotification(
         id: 5,
         name: 'ユーザーE',
@@ -272,7 +305,15 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('リクエスト済み'), findsOneWidget);
+      final button = find.text('リクエスト済み');
+      expect(button, findsOneWidget);
+
+      final textButton = find.ancestor(
+        of: button,
+        matching: find.byType(TextButton),
+      );
+      final widget = tester.widget<TextButton>(textButton);
+      expect(widget.onPressed, isNotNull);
     });
   });
 }

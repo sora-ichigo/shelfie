@@ -168,6 +168,7 @@ class NotificationRepository {
       ),
       type: _mapNotificationType(notification.type),
       followStatus: _mapFollowStatus(notification.followStatus),
+      followRequestId: notification.followRequestId,
       isRead: notification.isRead,
       createdAt: notification.createdAt,
     );
@@ -189,6 +190,7 @@ class NotificationRepository {
       GFollowStatus.PENDING_SENT => FollowStatusType.pendingSent,
       GFollowStatus.PENDING_RECEIVED => FollowStatusType.pendingReceived,
       GFollowStatus.FOLLOWING => FollowStatusType.following,
+      GFollowStatus.FOLLOWED_BY => FollowStatusType.followedBy,
       _ => FollowStatusType.none,
     };
   }

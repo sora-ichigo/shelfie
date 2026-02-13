@@ -28,6 +28,7 @@ void main() {
       ),
       type: NotificationType.followRequestReceived,
       followStatus: FollowStatusType.pendingReceived,
+      followRequestId: null,
       isRead: isRead,
       createdAt: DateTime(2024, 1, id),
     );

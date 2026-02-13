@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/time_ago.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
+import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
 import 'package:shelfie/features/notification/domain/notification_type.dart';
+import 'package:shelfie/routing/app_router.dart';
 
 class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
@@ -143,8 +146,30 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         final notification = notifications[index];
         return _NotificationTile(
           notification: notification,
-          onApprove: () {},
-          onReject: () {},
+          onApprove: notification.followRequestId != null
+              ? () => ref
+                  .read(followRequestNotifierProvider(notification.sender.id)
+                      .notifier)
+                  .approveRequest(notification.followRequestId!)
+              : null,
+          onReject: notification.followRequestId != null
+              ? () => ref
+                  .read(followRequestNotifierProvider(notification.sender.id)
+                      .notifier)
+                  .rejectRequest(notification.followRequestId!)
+              : null,
+          onFollow: () => ref
+              .read(followRequestNotifierProvider(notification.sender.id)
+                  .notifier)
+              .sendFollowRequest(),
+          onUnfollow: () => ref
+              .read(followRequestNotifierProvider(notification.sender.id)
+                  .notifier)
+              .unfollow(),
+          onCancelRequest: () => ref
+              .read(followRequestNotifierProvider(notification.sender.id)
+                  .notifier)
+              .cancelFollowRequest(),
         );
       },
     );
@@ -156,26 +181,40 @@ class _NotificationTile extends StatelessWidget {
     required this.notification,
     this.onApprove,
     this.onReject,
+    this.onFollow,
+    this.onUnfollow,
+    this.onCancelRequest,
   });
 
   final NotificationModel notification;
   final VoidCallback? onApprove;
   final VoidCallback? onReject;
+  final VoidCallback? onFollow;
+  final VoidCallback? onUnfollow;
+  final VoidCallback? onCancelRequest;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: notification.isRead ? null : appColors.surface,
-      ),
-      child: Row(
+    return GestureDetector(
+      onTap: () {
+        final handle = notification.sender.handle;
+        if (handle != null) {
+          context.push(AppRoutes.userProfile(handle: handle));
+        }
+      },
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: notification.isRead ? null : appColors.surface,
+        ),
+        child: Row(
         children: [
           UserAvatar(
             avatarUrl: notification.sender.avatarUrl,
@@ -207,33 +246,31 @@ class _NotificationTile extends StatelessWidget {
           ..._buildActionButtons(theme, appColors),
         ],
       ),
+      ),
     );
   }
 
   List<Widget> _buildActionButtons(ThemeData theme, AppColors appColors) {
+    return switch (notification.type) {
+      NotificationType.followRequestReceived =>
+        _buildFollowRequestReceivedButtons(theme, appColors),
+      NotificationType.followRequestApproved =>
+        _buildFollowRequestApprovedButtons(theme, appColors),
+    };
+  }
+
+  List<Widget> _buildFollowRequestReceivedButtons(
+    ThemeData theme,
+    AppColors appColors,
+  ) {
     return switch (notification.followStatus) {
       FollowStatusType.pendingReceived => [
         const SizedBox(width: AppSpacing.xs),
-        TextButton(
+        _PrimaryButton(
+          label: '承認',
           onPressed: onApprove,
-          style: TextButton.styleFrom(
-            backgroundColor: appColors.primary,
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.xxs,
-              horizontal: AppSpacing.md,
-            ),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSpacing.xs),
-            ),
-          ),
-          child: Text(
-            '承認',
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: appColors.textPrimary,
-            ),
-          ),
+          appColors: appColors,
+          theme: theme,
         ),
         const SizedBox(width: AppSpacing.xs),
         TextButton(
@@ -256,43 +293,63 @@ class _NotificationTile extends StatelessWidget {
       ],
       FollowStatusType.following => [
         const SizedBox(width: AppSpacing.xs),
-        _DisabledButton(label: 'フォロー中', theme: theme, appColors: appColors),
+        _SecondaryButton(
+          label: 'フォロー中',
+          onPressed: onUnfollow,
+          appColors: appColors,
+          theme: theme,
+        ),
       ],
-      FollowStatusType.none => [
+      FollowStatusType.followedBy => [
         const SizedBox(width: AppSpacing.xs),
-        TextButton(
-          onPressed: () {},
-          style: TextButton.styleFrom(
-            backgroundColor: appColors.primary,
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.xxs,
-              horizontal: AppSpacing.md,
-            ),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSpacing.xs),
-            ),
-          ),
-          child: Text(
-            notification.type == NotificationType.followRequestReceived
-                ? 'フォローバック'
-                : 'フォロー',
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: appColors.textPrimary,
-            ),
-          ),
+        _PrimaryButton(
+          label: 'フォローバック',
+          onPressed: onFollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.none ||
+      FollowStatusType.pending ||
+      FollowStatusType.pendingSent => [],
+    };
+  }
+
+  List<Widget> _buildFollowRequestApprovedButtons(
+    ThemeData theme,
+    AppColors appColors,
+  ) {
+    return switch (notification.followStatus) {
+      FollowStatusType.following => [
+        const SizedBox(width: AppSpacing.xs),
+        _SecondaryButton(
+          label: 'フォロー中',
+          onPressed: onUnfollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.none ||
+      FollowStatusType.followedBy => [
+        const SizedBox(width: AppSpacing.xs),
+        _PrimaryButton(
+          label: 'フォロー',
+          onPressed: onFollow,
+          appColors: appColors,
+          theme: theme,
         ),
       ],
       FollowStatusType.pending ||
       FollowStatusType.pendingSent => [
         const SizedBox(width: AppSpacing.xs),
-        _DisabledButton(
+        _SecondaryButton(
           label: 'リクエスト済み',
-          theme: theme,
+          onPressed: onCancelRequest,
           appColors: appColors,
+          theme: theme,
         ),
       ],
+      FollowStatusType.pendingReceived => [],
     };
   }
 
@@ -305,22 +362,25 @@ class _NotificationTile extends StatelessWidget {
   }
 }
 
-class _DisabledButton extends StatelessWidget {
-  const _DisabledButton({
+class _PrimaryButton extends StatelessWidget {
+  const _PrimaryButton({
     required this.label,
-    required this.theme,
+    required this.onPressed,
     required this.appColors,
+    required this.theme,
   });
 
   final String label;
-  final ThemeData theme;
+  final VoidCallback? onPressed;
   final AppColors appColors;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: null,
+      onPressed: onPressed,
       style: TextButton.styleFrom(
+        backgroundColor: appColors.primary,
         padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.xxs,
           horizontal: AppSpacing.md,
@@ -334,7 +394,46 @@ class _DisabledButton extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelLarge?.copyWith(
-          color: appColors.textSecondary,
+          color: appColors.textPrimary,
+        ),
+      ),
+    );
+  }
+}
+
+class _SecondaryButton extends StatelessWidget {
+  const _SecondaryButton({
+    required this.label,
+    required this.onPressed,
+    required this.appColors,
+    required this.theme,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final AppColors appColors;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: appColors.surface,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.xxs,
+          horizontal: AppSpacing.md,
+        ),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.xs),
+        ),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: appColors.textPrimary,
         ),
       ),
     );

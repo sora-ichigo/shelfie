@@ -120,6 +120,8 @@ final BuiltSet<GFollowRequestStatus> _$gFollowRequestStatusValues =
   _$gFollowRequestStatusREJECTED,
 ]);
 
+const GFollowStatus _$gFollowStatusFOLLOWED_BY =
+    const GFollowStatus._('FOLLOWED_BY');
 const GFollowStatus _$gFollowStatusFOLLOWING =
     const GFollowStatus._('FOLLOWING');
 const GFollowStatus _$gFollowStatusNONE = const GFollowStatus._('NONE');
@@ -131,6 +133,8 @@ const GFollowStatus _$gFollowStatusPENDING_SENT =
 
 GFollowStatus _$gFollowStatusValueOf(String name) {
   switch (name) {
+    case 'FOLLOWED_BY':
+      return _$gFollowStatusFOLLOWED_BY;
     case 'FOLLOWING':
       return _$gFollowStatusFOLLOWING;
     case 'NONE':
@@ -148,6 +152,7 @@ GFollowStatus _$gFollowStatusValueOf(String name) {
 
 final BuiltSet<GFollowStatus> _$gFollowStatusValues =
     BuiltSet<GFollowStatus>(const <GFollowStatus>[
+  _$gFollowStatusFOLLOWED_BY,
   _$gFollowStatusFOLLOWING,
   _$gFollowStatusNONE,
   _$gFollowStatusPENDING,

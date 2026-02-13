@@ -26,6 +26,44 @@ class FollowRequestNotifier extends _$FollowRequestNotifier {
     state = AsyncData((outgoing: outgoing, incoming: incoming));
   }
 
+  Future<void> approveRequest(int requestId) async {
+    if (_isOperating) return;
+    _isOperating = true;
+
+    final previous = state;
+    final current = state.value!;
+    state = AsyncData((outgoing: current.outgoing, incoming: FollowStatusType.following));
+
+    final repo = ref.read(followRepositoryProvider);
+    final result = await repo.approveFollowRequest(requestId: requestId);
+
+    result.fold(
+      (failure) => state = previous,
+      (_) => ref.read(followVersionProvider.notifier).increment(),
+    );
+
+    _isOperating = false;
+  }
+
+  Future<void> rejectRequest(int requestId) async {
+    if (_isOperating) return;
+    _isOperating = true;
+
+    final previous = state;
+    final current = state.value!;
+    state = AsyncData((outgoing: current.outgoing, incoming: FollowStatusType.none));
+
+    final repo = ref.read(followRepositoryProvider);
+    final result = await repo.rejectFollowRequest(requestId: requestId);
+
+    result.fold(
+      (failure) => state = previous,
+      (_) => ref.read(followVersionProvider.notifier).increment(),
+    );
+
+    _isOperating = false;
+  }
+
   Future<void> sendFollowRequest() async {
     if (_isOperating) return;
     _isOperating = true;

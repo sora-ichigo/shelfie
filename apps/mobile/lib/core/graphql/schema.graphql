@@ -78,6 +78,9 @@ type AppNotification {
   """When the notification was created"""
   createdAt: DateTime!
 
+  """The ID of the pending follow request (if any)"""
+  followRequestId: Int
+
   """The follow status between the recipient and the sender"""
   followStatus: FollowStatus!
 
@@ -363,6 +366,7 @@ enum FollowRequestStatus {
 
 """Follow relationship status between two users"""
 enum FollowStatus {
+  FOLLOWED_BY
   FOLLOWING
   NONE
   PENDING

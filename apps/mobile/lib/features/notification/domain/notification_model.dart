@@ -13,6 +13,7 @@ class NotificationModel with _$NotificationModel {
     required UserSummary sender,
     required NotificationType type,
     required FollowStatusType followStatus,
+    required int? followRequestId,
     required bool isRead,
     required DateTime createdAt,
   }) = _NotificationModel;

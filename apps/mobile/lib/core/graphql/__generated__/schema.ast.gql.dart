@@ -245,6 +245,15 @@ const AppNotification = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'followRequestId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'followStatus'),
       directives: [],
       args: [],
@@ -1075,6 +1084,10 @@ const FollowStatus = _i1.EnumTypeDefinitionNode(
   name: _i1.NameNode(value: 'FollowStatus'),
   directives: [],
   values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOWED_BY'),
+      directives: [],
+    ),
     _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'FOLLOWING'),
       directives: [],

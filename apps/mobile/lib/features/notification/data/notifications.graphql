@@ -9,6 +9,7 @@ query Notifications($cursor: Int, $limit: Int) {
     }
     type
     followStatus
+    followRequestId
     isRead
     createdAt
   }

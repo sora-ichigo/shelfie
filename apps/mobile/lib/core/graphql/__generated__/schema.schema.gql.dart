@@ -162,6 +162,8 @@ class GFollowRequestStatus extends EnumClass {
 class GFollowStatus extends EnumClass {
   const GFollowStatus._(String name) : super(name);
 
+  static const GFollowStatus FOLLOWED_BY = _$gFollowStatusFOLLOWED_BY;
+
   static const GFollowStatus FOLLOWING = _$gFollowStatusFOLLOWING;
 
   static const GFollowStatus NONE = _$gFollowStatusNONE;

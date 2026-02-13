@@ -20,6 +20,7 @@ void main() {
         sender: sender,
         type: NotificationType.followRequestReceived,
         followStatus: FollowStatusType.pendingReceived,
+        followRequestId: 100,
         isRead: false,
         createdAt: createdAt,
       );
@@ -37,6 +38,7 @@ void main() {
         sender: sender,
         type: NotificationType.followRequestReceived,
         followStatus: FollowStatusType.pendingReceived,
+        followRequestId: null,
         isRead: false,
         createdAt: createdAt,
       );
@@ -56,6 +58,7 @@ void main() {
         sender: sender,
         type: NotificationType.followRequestApproved,
         followStatus: FollowStatusType.following,
+        followRequestId: null,
         isRead: true,
         createdAt: createdAt,
       );
@@ -64,6 +67,7 @@ void main() {
         sender: sender,
         type: NotificationType.followRequestApproved,
         followStatus: FollowStatusType.following,
+        followRequestId: null,
         isRead: true,
         createdAt: createdAt,
       );

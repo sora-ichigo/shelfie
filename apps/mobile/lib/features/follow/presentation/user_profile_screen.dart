@@ -346,7 +346,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
 
     final followButton = switch (status.outgoing) {
       FollowStatusType.none ||
-      FollowStatusType.pendingReceived => Expanded(
+      FollowStatusType.pendingReceived ||
+      FollowStatusType.followedBy => Expanded(
           child: FilledButton(
             onPressed: () => ref
                 .read(followRequestNotifierProvider(widget.profile.user.id)

@@ -59,6 +59,7 @@ abstract class GNotificationsData_notifications
   GNotificationsData_notifications_sender get sender;
   _i2.GNotificationType get type;
   _i2.GFollowStatus get followStatus;
+  int? get followRequestId;
   bool get isRead;
   DateTime get createdAt;
   static Serializer<GNotificationsData_notifications> get serializer =>
