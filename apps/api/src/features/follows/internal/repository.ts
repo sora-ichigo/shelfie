@@ -65,6 +65,10 @@ export interface FollowRepository {
     receiverId: number,
     senderIds: number[],
   ): Promise<Set<number>>;
+  findPendingReceivedRequestIdsBatch(
+    receiverId: number,
+    senderIds: number[],
+  ): Promise<Map<number, number>>;
 }
 
 export function createFollowRepository(db: NodePgDatabase): FollowRepository {
@@ -356,6 +360,26 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
         );
 
       return new Set(result.map((r) => r.senderId));
+    },
+
+    async findPendingReceivedRequestIdsBatch(
+      receiverId: number,
+      senderIds: number[],
+    ): Promise<Map<number, number>> {
+      if (senderIds.length === 0) return new Map();
+
+      const result = await db
+        .select()
+        .from(followRequests)
+        .where(
+          and(
+            eq(followRequests.receiverId, receiverId),
+            inArray(followRequests.senderId, senderIds),
+            eq(followRequests.status, "pending"),
+          ),
+        );
+
+      return new Map(result.map((r) => [r.senderId, r.id]));
     },
   };
 }

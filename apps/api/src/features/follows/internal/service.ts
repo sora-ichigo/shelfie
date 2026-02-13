@@ -55,6 +55,10 @@ export interface FollowService {
     userId: number,
     targetUserIds: number[],
   ): Promise<Map<number, FollowStatus>>;
+  getFollowRequestIdBatch(
+    recipientId: number,
+    senderIds: number[],
+  ): Promise<Map<number, number | null>>;
 }
 
 export function createFollowService(
@@ -345,6 +349,22 @@ export function createFollowService(
         } else {
           result.set(targetId, "NONE");
         }
+      }
+      return result;
+    },
+
+    async getFollowRequestIdBatch(
+      recipientId: number,
+      senderIds: number[],
+    ): Promise<Map<number, number | null>> {
+      const idMap = await repository.findPendingReceivedRequestIdsBatch(
+        recipientId,
+        senderIds,
+      );
+
+      const result = new Map<number, number | null>();
+      for (const senderId of senderIds) {
+        result.set(senderId, idMap.get(senderId) ?? null);
       }
       return result;
     },

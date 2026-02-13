@@ -28,6 +28,7 @@ function createMockFollowRepository(): FollowRepository {
     findFollowersBatch: vi.fn(),
     findPendingSentRequestsBatch: vi.fn(),
     findPendingReceivedRequestsBatch: vi.fn(),
+    findPendingReceivedRequestIdsBatch: vi.fn(),
   };
 }
 
@@ -1046,6 +1047,58 @@ describe("FollowService", () => {
       expect(repo.findFollowersBatch).toHaveBeenCalledWith(1, [2, 3]);
       expect(repo.findPendingSentRequestsBatch).toHaveBeenCalledWith(1, [2, 3]);
       expect(repo.findPendingReceivedRequestsBatch).toHaveBeenCalledWith(
+        1,
+        [2, 3],
+      );
+    });
+  });
+
+  describe("getFollowRequestIdBatch", () => {
+    it("should return request IDs for pending received requests", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findPendingReceivedRequestIdsBatch).mockResolvedValue(
+        new Map([
+          [2, 100],
+          [4, 200],
+        ]),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowRequestIdBatch(1, [2, 3, 4]);
+
+      expect(result.get(2)).toBe(100);
+      expect(result.get(3)).toBeNull();
+      expect(result.get(4)).toBe(200);
+    });
+
+    it("should call repository with correct arguments", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findPendingReceivedRequestIdsBatch).mockResolvedValue(
+        new Map(),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.getFollowRequestIdBatch(1, [2, 3]);
+
+      expect(repo.findPendingReceivedRequestIdsBatch).toHaveBeenCalledWith(
         1,
         [2, 3],
       );

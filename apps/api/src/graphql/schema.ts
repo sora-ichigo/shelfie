@@ -47,6 +47,7 @@ import {
 import {
   createNotificationAppService,
   createNotificationRepository,
+  registerNotificationFollowRequestIdField,
   registerNotificationFollowStatusField,
   registerNotificationMutations,
   registerNotificationQueries,
@@ -170,6 +171,7 @@ registerBookListsQueries(builder, bookListService, userService, followService);
 registerFollowQueries(builder, followService, followRepository, userService);
 registerFollowMutations(builder, followService, userService);
 registerNotificationFollowStatusField(builder, followService);
+registerNotificationFollowRequestIdField(builder, followService);
 
 export function buildSchema() {
   return builder.toSchema();

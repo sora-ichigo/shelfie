@@ -41,6 +41,7 @@ function createFollowStatusEnumRef(builder: Builder) {
       "PENDING_SENT",
       "PENDING_RECEIVED",
       "FOLLOWING",
+      "FOLLOWED_BY",
     ] as const,
   });
 }

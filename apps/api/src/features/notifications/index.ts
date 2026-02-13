@@ -1,4 +1,5 @@
 export {
+  registerNotificationFollowRequestIdField,
   registerNotificationFollowStatusField,
   registerNotificationMutations,
   registerNotificationQueries,

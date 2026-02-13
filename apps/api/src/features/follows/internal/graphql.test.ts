@@ -24,6 +24,7 @@ function createMockFollowService(): FollowService {
     getFollowStatus: vi.fn(),
     getFollowCounts: vi.fn(),
     getFollowStatusBatch: vi.fn(),
+    getFollowRequestIdBatch: vi.fn(),
   };
 }
 

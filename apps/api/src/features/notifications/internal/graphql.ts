@@ -141,6 +141,36 @@ export function registerNotificationFollowStatusField(
   );
 }
 
+export function registerNotificationFollowRequestIdField(
+  builder: Builder,
+  followService: FollowService,
+): void {
+  builder.objectField(AppNotificationRef, "followRequestId", (t) =>
+    t.loadable({
+      type: "Int",
+      nullable: true,
+      load: async (keys: string[]) => {
+        const parsed = keys.map((k) => {
+          const [recipientId, senderId] = k.split(":").map(Number);
+          return { recipientId, senderId };
+        });
+        const recipientId = parsed[0].recipientId;
+        const senderIds = parsed.map((p) => p.senderId);
+        const idMap = await followService.getFollowRequestIdBatch(
+          recipientId,
+          senderIds,
+        );
+        return keys.map((k) => {
+          const senderId = Number(k.split(":")[1]);
+          return idMap.get(senderId) ?? null;
+        });
+      },
+      resolve: (parent) =>
+        `${parent.notification.recipientId}:${parent.notification.senderId}`,
+    }),
+  );
+}
+
 export function registerNotificationMutations(
   builder: Builder,
   notificationService: NotificationAppService,
