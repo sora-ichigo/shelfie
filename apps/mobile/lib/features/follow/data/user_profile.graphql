@@ -9,7 +9,8 @@ query UserProfile($handle: String!) {
       bookCount
       instagramHandle
     }
-    followStatus
+    outgoingFollowStatus
+    incomingFollowStatus
     followCounts {
       followingCount
       followerCount

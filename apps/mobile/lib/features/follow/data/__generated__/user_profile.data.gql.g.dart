@@ -93,8 +93,11 @@ class _$GUserProfileData_userProfileSerializer
       'user',
       serializers.serialize(object.user,
           specifiedType: const FullType(GUserProfileData_userProfile_user)),
-      'followStatus',
-      serializers.serialize(object.followStatus,
+      'outgoingFollowStatus',
+      serializers.serialize(object.outgoingFollowStatus,
+          specifiedType: const FullType(_i2.GFollowStatus)),
+      'incomingFollowStatus',
+      serializers.serialize(object.incomingFollowStatus,
           specifiedType: const FullType(_i2.GFollowStatus)),
       'followCounts',
       serializers.serialize(object.followCounts,
@@ -130,8 +133,13 @@ class _$GUserProfileData_userProfileSerializer
                       const FullType(GUserProfileData_userProfile_user))!
               as GUserProfileData_userProfile_user);
           break;
-        case 'followStatus':
-          result.followStatus = serializers.deserialize(value,
+        case 'outgoingFollowStatus':
+          result.outgoingFollowStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GFollowStatus))!
+              as _i2.GFollowStatus;
+          break;
+        case 'incomingFollowStatus':
+          result.incomingFollowStatus = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GFollowStatus))!
               as _i2.GFollowStatus;
           break;
@@ -448,7 +456,9 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
   @override
   final GUserProfileData_userProfile_user user;
   @override
-  final _i2.GFollowStatus followStatus;
+  final _i2.GFollowStatus outgoingFollowStatus;
+  @override
+  final _i2.GFollowStatus incomingFollowStatus;
   @override
   final GUserProfileData_userProfile_followCounts followCounts;
   @override
@@ -461,7 +471,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
   _$GUserProfileData_userProfile._(
       {required this.G__typename,
       required this.user,
-      required this.followStatus,
+      required this.outgoingFollowStatus,
+      required this.incomingFollowStatus,
       required this.followCounts,
       required this.isOwnProfile})
       : super._();
@@ -480,7 +491,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
     return other is GUserProfileData_userProfile &&
         G__typename == other.G__typename &&
         user == other.user &&
-        followStatus == other.followStatus &&
+        outgoingFollowStatus == other.outgoingFollowStatus &&
+        incomingFollowStatus == other.incomingFollowStatus &&
         followCounts == other.followCounts &&
         isOwnProfile == other.isOwnProfile;
   }
@@ -490,7 +502,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
     var _$hash = 0;
     _$hash = $jc(_$hash, G__typename.hashCode);
     _$hash = $jc(_$hash, user.hashCode);
-    _$hash = $jc(_$hash, followStatus.hashCode);
+    _$hash = $jc(_$hash, outgoingFollowStatus.hashCode);
+    _$hash = $jc(_$hash, incomingFollowStatus.hashCode);
     _$hash = $jc(_$hash, followCounts.hashCode);
     _$hash = $jc(_$hash, isOwnProfile.hashCode);
     _$hash = $jf(_$hash);
@@ -502,7 +515,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
     return (newBuiltValueToStringHelper(r'GUserProfileData_userProfile')
           ..add('G__typename', G__typename)
           ..add('user', user)
-          ..add('followStatus', followStatus)
+          ..add('outgoingFollowStatus', outgoingFollowStatus)
+          ..add('incomingFollowStatus', incomingFollowStatus)
           ..add('followCounts', followCounts)
           ..add('isOwnProfile', isOwnProfile))
         .toString();
@@ -525,10 +539,15 @@ class GUserProfileData_userProfileBuilder
   set user(GUserProfileData_userProfile_userBuilder? user) =>
       _$this._user = user;
 
-  _i2.GFollowStatus? _followStatus;
-  _i2.GFollowStatus? get followStatus => _$this._followStatus;
-  set followStatus(_i2.GFollowStatus? followStatus) =>
-      _$this._followStatus = followStatus;
+  _i2.GFollowStatus? _outgoingFollowStatus;
+  _i2.GFollowStatus? get outgoingFollowStatus => _$this._outgoingFollowStatus;
+  set outgoingFollowStatus(_i2.GFollowStatus? outgoingFollowStatus) =>
+      _$this._outgoingFollowStatus = outgoingFollowStatus;
+
+  _i2.GFollowStatus? _incomingFollowStatus;
+  _i2.GFollowStatus? get incomingFollowStatus => _$this._incomingFollowStatus;
+  set incomingFollowStatus(_i2.GFollowStatus? incomingFollowStatus) =>
+      _$this._incomingFollowStatus = incomingFollowStatus;
 
   GUserProfileData_userProfile_followCountsBuilder? _followCounts;
   GUserProfileData_userProfile_followCountsBuilder get followCounts =>
@@ -551,7 +570,8 @@ class GUserProfileData_userProfileBuilder
     if ($v != null) {
       _G__typename = $v.G__typename;
       _user = $v.user.toBuilder();
-      _followStatus = $v.followStatus;
+      _outgoingFollowStatus = $v.outgoingFollowStatus;
+      _incomingFollowStatus = $v.incomingFollowStatus;
       _followCounts = $v.followCounts.toBuilder();
       _isOwnProfile = $v.isOwnProfile;
       _$v = null;
@@ -580,8 +600,14 @@ class GUserProfileData_userProfileBuilder
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GUserProfileData_userProfile', 'G__typename'),
             user: user.build(),
-            followStatus: BuiltValueNullFieldError.checkNotNull(
-                followStatus, r'GUserProfileData_userProfile', 'followStatus'),
+            outgoingFollowStatus: BuiltValueNullFieldError.checkNotNull(
+                outgoingFollowStatus,
+                r'GUserProfileData_userProfile',
+                'outgoingFollowStatus'),
+            incomingFollowStatus: BuiltValueNullFieldError.checkNotNull(
+                incomingFollowStatus,
+                r'GUserProfileData_userProfile',
+                'incomingFollowStatus'),
             followCounts: followCounts.build(),
             isOwnProfile: BuiltValueNullFieldError.checkNotNull(
                 isOwnProfile, r'GUserProfileData_userProfile', 'isOwnProfile'),

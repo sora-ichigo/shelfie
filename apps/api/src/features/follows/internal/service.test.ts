@@ -72,10 +72,6 @@ function createMockLogger(): LoggerService {
   };
 }
 
-function _createMockTransactionDb(): unknown {
-  return {};
-}
-
 const now = new Date();
 
 function createMockFollowRequest(
@@ -95,8 +91,8 @@ function createMockFollowRequest(
 function createMockFollow(overrides: Partial<Follow> = {}): Follow {
   return {
     id: 1,
-    userIdA: 1,
-    userIdB: 2,
+    followerId: 1,
+    followeeId: 2,
     createdAt: now,
     ...overrides,
   };
@@ -129,6 +125,28 @@ describe("FollowService", () => {
         expect(result.data.receiverId).toBe(2);
         expect(result.data.status).toBe("pending");
       }
+    });
+
+    it("should check outgoing follow only (not bidirectional)", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const mockRequest = createMockFollowRequest();
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+      vi.mocked(repo.createRequest).mockResolvedValue(mockRequest);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.sendRequest(1, 2);
+
+      expect(repo.findFollow).toHaveBeenCalledWith(1, 2);
     });
 
     it("should create app notification on success", async () => {
@@ -203,13 +221,15 @@ describe("FollowService", () => {
       }
     });
 
-    it("should return error when already following", async () => {
+    it("should return error when already following (outgoing direction)", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
       const logger = createMockLogger();
 
-      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.findFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
 
       const service = createFollowService(
         repo,
@@ -278,7 +298,7 @@ describe("FollowService", () => {
   });
 
   describe("approveRequest", () => {
-    it("should approve request and create follow relationship", async () => {
+    it("should approve request and create one-directional follow (sender→receiver only)", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -297,7 +317,7 @@ describe("FollowService", () => {
       vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
       vi.mocked(repo.updateRequestStatus).mockResolvedValue(approvedRequest);
       vi.mocked(repo.createFollow).mockResolvedValue(
-        createMockFollow({ userIdA: 2, userIdB: 3 }),
+        createMockFollow({ followerId: 3, followeeId: 2 }),
       );
 
       const service = createFollowService(
@@ -313,6 +333,7 @@ describe("FollowService", () => {
         expect(result.data.status).toBe("approved");
       }
       expect(repo.createFollow).toHaveBeenCalledWith(3, 2);
+      expect(repo.createFollow).toHaveBeenCalledTimes(1);
     });
 
     it("should create notification for sender on approval", async () => {
@@ -520,13 +541,15 @@ describe("FollowService", () => {
   });
 
   describe("unfollow", () => {
-    it("should unfollow successfully", async () => {
+    it("should unfollow only in specified direction (userId→targetUserId)", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
       const logger = createMockLogger();
 
-      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.findFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
       vi.mocked(repo.deleteFollow).mockResolvedValue(undefined);
 
       const service = createFollowService(
@@ -539,6 +562,7 @@ describe("FollowService", () => {
 
       expect(result.success).toBe(true);
       expect(repo.deleteFollow).toHaveBeenCalledWith(1, 2);
+      expect(repo.deleteFollow).toHaveBeenCalledTimes(1);
     });
 
     it("should delete follow_request record when unfollowing", async () => {
@@ -553,7 +577,9 @@ describe("FollowService", () => {
         status: "approved",
       });
 
-      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.findFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
       vi.mocked(repo.deleteFollow).mockResolvedValue(undefined);
       vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
         approvedRequest,
@@ -577,7 +603,9 @@ describe("FollowService", () => {
       const pushService = createMockPushNotificationService();
       const logger = createMockLogger();
 
-      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.findFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
       vi.mocked(repo.deleteFollow).mockResolvedValue(undefined);
       vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
 
@@ -763,13 +791,18 @@ describe("FollowService", () => {
   });
 
   describe("getFollowStatus", () => {
-    it("should return FOLLOWING when follow exists", async () => {
+    it("should return outgoing FOLLOWING and incoming NONE", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
       const logger = createMockLogger();
 
-      vi.mocked(repo.findFollow).mockResolvedValue(createMockFollow());
+      vi.mocked(repo.findFollow)
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 1, followeeId: 2 }),
+        )
+        .mockResolvedValueOnce(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
 
       const service = createFollowService(
         repo,
@@ -779,10 +812,34 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toBe("FOLLOWING");
+      expect(result).toEqual({ outgoing: "FOLLOWING", incoming: "NONE" });
     });
 
-    it("should return PENDING_SENT when sent request exists", async () => {
+    it("should return outgoing NONE and incoming FOLLOWING", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollow)
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 2, followeeId: 1 }),
+        );
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowStatus(1, 2);
+
+      expect(result).toEqual({ outgoing: "NONE", incoming: "FOLLOWING" });
+    });
+
+    it("should return outgoing PENDING when sent request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -807,10 +864,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toBe("PENDING_SENT");
+      expect(result).toEqual({ outgoing: "PENDING", incoming: "NONE" });
     });
 
-    it("should return PENDING_RECEIVED when received request exists", async () => {
+    it("should return incoming PENDING when received request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -835,10 +892,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toBe("PENDING_RECEIVED");
+      expect(result).toEqual({ outgoing: "NONE", incoming: "PENDING" });
     });
 
-    it("should return NONE when no relationship exists", async () => {
+    it("should return both NONE when no relationship exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -855,7 +912,32 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toBe("NONE");
+      expect(result).toEqual({ outgoing: "NONE", incoming: "NONE" });
+    });
+
+    it("should return mutual FOLLOWING when both directions exist", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollow)
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 1, followeeId: 2 }),
+        )
+        .mockResolvedValueOnce(
+          createMockFollow({ followerId: 2, followeeId: 1 }),
+        );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowStatus(1, 2);
+
+      expect(result).toEqual({ outgoing: "FOLLOWING", incoming: "FOLLOWING" });
     });
   });
 

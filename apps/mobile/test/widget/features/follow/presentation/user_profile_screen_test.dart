@@ -15,25 +15,28 @@ import 'package:shelfie/features/follow/presentation/user_profile_screen.dart';
 import '../../../../helpers/test_helpers.dart';
 
 class FakeFollowRequestNotifier extends FollowRequestNotifier {
-  AsyncValue<FollowStatusType> _state =
-      const AsyncData(FollowStatusType.none);
+  AsyncValue<FollowDirectionalStatus> _state =
+      const AsyncData((outgoing: FollowStatusType.none, incoming: FollowStatusType.none));
   bool sendFollowRequestCalled = false;
   bool cancelFollowRequestCalled = false;
   bool unfollowCalled = false;
 
-  void setState(AsyncValue<FollowStatusType> value) {
+  void setState(AsyncValue<FollowDirectionalStatus> value) {
     _state = value;
     state = value;
   }
 
   @override
-  AsyncValue<FollowStatusType> build(int targetUserId) {
+  AsyncValue<FollowDirectionalStatus> build(int targetUserId) {
     return _state;
   }
 
   @override
-  void setStatus(FollowStatusType status) {
-    state = AsyncData(status);
+  void setStatus({
+    required FollowStatusType outgoing,
+    required FollowStatusType incoming,
+  }) {
+    state = AsyncData((outgoing: outgoing, incoming: incoming));
   }
 
   @override
@@ -73,7 +76,8 @@ UserProfileModel _createProfile({
   int userId = 10,
   String name = 'TestUser',
   String handle = 'testuser',
-  FollowStatusType followStatus = FollowStatusType.none,
+  FollowStatusType outgoingFollowStatus = FollowStatusType.none,
+  FollowStatusType incomingFollowStatus = FollowStatusType.none,
   bool isOwnProfile = false,
   String? bio,
   int? bookCount,
@@ -87,7 +91,8 @@ UserProfileModel _createProfile({
       avatarUrl: null,
       handle: handle,
     ),
-    followStatus: followStatus,
+    outgoingFollowStatus: outgoingFollowStatus,
+    incomingFollowStatus: incomingFollowStatus,
     followCounts: FollowCounts(
       followingCount: followingCount,
       followerCount: followerCount,
@@ -134,10 +139,11 @@ void main() {
       expect(find.text('@testuser'), findsOneWidget);
     });
 
-    group('フォロー関係なし', () {
+    group('outgoing=NONE, incoming=NONE', () {
       testWidgets('プロフィール情報が表示される', (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.none,
           bio: 'I love reading!',
           bookCount: 42,
         );
@@ -152,9 +158,10 @@ void main() {
         expect(find.text('3 '), findsOneWidget);
       });
 
-      testWidgets('フォローリクエスト送信ボタンが表示される', (tester) async {
+      testWidgets('フォローボタンが表示される', (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -162,10 +169,11 @@ void main() {
         expect(find.text('フォロー'), findsOneWidget);
       });
 
-      testWidgets('フォローリクエスト送信ボタンタップで sendFollowRequest が呼ばれる',
+      testWidgets('フォローボタンタップで sendFollowRequest が呼ばれる',
           (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -177,17 +185,72 @@ void main() {
       });
     });
 
-    group('リクエスト送信済み', () {
-      testWidgets('リクエスト送信済み状態が表示される', (tester) async {
+    group('outgoing=NONE, incoming=FOLLOWING (フォローバック)', () {
+      testWidgets('フォローバックするボタンが表示される', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.pendingSent,
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.following,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.pendingSent));
+            const AsyncData((outgoing: FollowStatusType.none, incoming: FollowStatusType.following)));
+        await tester.pump();
+
+        expect(find.text('フォローバック'), findsOneWidget);
+      });
+
+      testWidgets('フォローバックボタンタップで sendFollowRequest が呼ばれる',
+          (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData((outgoing: FollowStatusType.none, incoming: FollowStatusType.following)));
+        await tester.pump();
+
+        await tester.tap(find.text('フォローバック'));
+        await tester.pump();
+
+        expect(fakeNotifier.sendFollowRequestCalled, isTrue);
+      });
+
+      testWidgets('フォローバック状態でもコンテンツは制限付き表示', (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.none,
+          incomingFollowStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData((outgoing: FollowStatusType.none, incoming: FollowStatusType.following)));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+    });
+
+    group('outgoing=PENDING (リクエスト送信済み)', () {
+      testWidgets('リクエスト送信済み状態が表示される', (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.pending,
+          incomingFollowStatus: FollowStatusType.none,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData((outgoing: FollowStatusType.pending, incoming: FollowStatusType.none)));
         await tester.pump();
 
         expect(find.text('リクエスト送信済み'), findsOneWidget);
@@ -196,13 +259,14 @@ void main() {
       testWidgets('リクエスト送信済みボタンタップで cancelFollowRequest が呼ばれる', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.pendingSent,
+          outgoingFollowStatus: FollowStatusType.pending,
+          incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.pendingSent));
+            const AsyncData((outgoing: FollowStatusType.pending, incoming: FollowStatusType.none)));
         await tester.pump();
 
         await tester.tap(find.text('リクエスト送信済み'));
@@ -212,11 +276,12 @@ void main() {
       });
     });
 
-    group('フォロー関係あり', () {
+    group('outgoing=FOLLOWING (フォロー中)', () {
       testWidgets('フルプロフィールが表示される', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.following,
+          outgoingFollowStatus: FollowStatusType.following,
+          incomingFollowStatus: FollowStatusType.none,
           bio: 'I love reading!',
           bookCount: 42,
         );
@@ -224,7 +289,7 @@ void main() {
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.following));
+            const AsyncData((outgoing: FollowStatusType.following, incoming: FollowStatusType.none)));
         await tester.pump();
 
         expect(find.text('TestUser'), findsOneWidget);
@@ -236,13 +301,14 @@ void main() {
       testWidgets('フォロー解除ボタンが表示される', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.following,
+          outgoingFollowStatus: FollowStatusType.following,
+          incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.following));
+            const AsyncData((outgoing: FollowStatusType.following, incoming: FollowStatusType.none)));
         await tester.pump();
 
         expect(find.text('フォロー解除'), findsOneWidget);
@@ -251,13 +317,14 @@ void main() {
       testWidgets('フォロー解除ボタンタップで unfollow が呼ばれる', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.following,
+          outgoingFollowStatus: FollowStatusType.following,
+          incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.following));
+            const AsyncData((outgoing: FollowStatusType.following, incoming: FollowStatusType.none)));
         await tester.pump();
 
         await tester.tap(find.text('フォロー解除'));
@@ -265,13 +332,31 @@ void main() {
 
         expect(fakeNotifier.unfollowCalled, isTrue);
       });
+
+      testWidgets('フォロー中の場合はフォロー誘導メッセージが表示されない',
+          (tester) async {
+        fakeNotifier = FakeFollowRequestNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.following,
+          incomingFollowStatus: FollowStatusType.none,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.setState(
+            const AsyncData((outgoing: FollowStatusType.following, incoming: FollowStatusType.none)));
+        await tester.pump();
+
+        expect(find.text('フォローすると見られます'), findsNothing);
+      });
     });
 
     group('自分のプロフィール', () {
       testWidgets('フォロー操作ボタンが非表示', (tester) async {
         final profile = _createProfile(
           isOwnProfile: true,
-          followStatus: FollowStatusType.following,
+          outgoingFollowStatus: FollowStatusType.following,
+          incomingFollowStatus: FollowStatusType.following,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -279,13 +364,14 @@ void main() {
         expect(find.text('フォロー'), findsNothing);
         expect(find.text('フォロー解除'), findsNothing);
         expect(find.text('リクエスト送信済み'), findsNothing);
+        expect(find.text('フォローバック'), findsNothing);
       });
     });
 
     group('タブバー', () {
       testWidgets('本棚とブックリストのタブが表示される', (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -298,13 +384,13 @@ void main() {
       testWidgets('フォロー中でもタブバーが表示される', (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.following,
+          outgoingFollowStatus: FollowStatusType.following,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.following));
+            const AsyncData((outgoing: FollowStatusType.following, incoming: FollowStatusType.none)));
         await tester.pump();
 
         expect(find.byType(ProfileTabBar), findsOneWidget);
@@ -315,7 +401,7 @@ void main() {
       testWidgets('フォローしていない場合、本棚タブにフォロー誘導メッセージが表示される',
           (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -327,13 +413,13 @@ void main() {
           (tester) async {
         fakeNotifier = FakeFollowRequestNotifier();
         final profile = _createProfile(
-          followStatus: FollowStatusType.pendingSent,
+          outgoingFollowStatus: FollowStatusType.pending,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.setState(
-            const AsyncData(FollowStatusType.pendingSent));
+            const AsyncData((outgoing: FollowStatusType.pending, incoming: FollowStatusType.none)));
         await tester.pump();
 
         expect(find.text('フォローすると見られます'), findsOneWidget);
@@ -342,7 +428,7 @@ void main() {
       testWidgets('ブックリストタブに切り替えるとフォロー誘導メッセージが表示される',
           (tester) async {
         final profile = _createProfile(
-          followStatus: FollowStatusType.none,
+          outgoingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
@@ -351,22 +437,6 @@ void main() {
         await tester.pump();
 
         expect(find.text('フォローすると見られます'), findsOneWidget);
-      });
-
-      testWidgets('フォロー中の場合はフォロー誘導メッセージが表示されない',
-          (tester) async {
-        fakeNotifier = FakeFollowRequestNotifier();
-        final profile = _createProfile(
-          followStatus: FollowStatusType.following,
-        );
-        await tester.pumpWidget(buildSubject(profile: profile));
-        await tester.pump();
-
-        fakeNotifier.setState(
-            const AsyncData(FollowStatusType.following));
-        await tester.pump();
-
-        expect(find.text('フォローすると見られます'), findsNothing);
       });
     });
   });

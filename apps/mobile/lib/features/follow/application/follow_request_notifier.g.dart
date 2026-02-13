@@ -7,7 +7,7 @@ part of 'follow_request_notifier.dart';
 // **************************************************************************
 
 String _$followRequestNotifierHash() =>
-    r'edf1e0b58abf1315bcec92b346b0122541290a1e';
+    r'dee81da51d6cb0b59f3c49ffa606328072abded8';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 }
 
 abstract class _$FollowRequestNotifier
-    extends BuildlessAutoDisposeNotifier<AsyncValue<FollowStatusType>> {
+    extends BuildlessAutoDisposeNotifier<AsyncValue<FollowDirectionalStatus>> {
   late final int targetUserId;
 
-  AsyncValue<FollowStatusType> build(
+  AsyncValue<FollowDirectionalStatus> build(
     int targetUserId,
   );
 }
@@ -44,7 +44,8 @@ abstract class _$FollowRequestNotifier
 const followRequestNotifierProvider = FollowRequestNotifierFamily();
 
 /// See also [FollowRequestNotifier].
-class FollowRequestNotifierFamily extends Family<AsyncValue<FollowStatusType>> {
+class FollowRequestNotifierFamily
+    extends Family<AsyncValue<FollowDirectionalStatus>> {
   /// See also [FollowRequestNotifier].
   const FollowRequestNotifierFamily();
 
@@ -83,7 +84,7 @@ class FollowRequestNotifierFamily extends Family<AsyncValue<FollowStatusType>> {
 
 /// See also [FollowRequestNotifier].
 class FollowRequestNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    FollowRequestNotifier, AsyncValue<FollowStatusType>> {
+    FollowRequestNotifier, AsyncValue<FollowDirectionalStatus>> {
   /// See also [FollowRequestNotifier].
   FollowRequestNotifierProvider(
     int targetUserId,
@@ -114,7 +115,7 @@ class FollowRequestNotifierProvider extends AutoDisposeNotifierProviderImpl<
   final int targetUserId;
 
   @override
-  AsyncValue<FollowStatusType> runNotifierBuild(
+  AsyncValue<FollowDirectionalStatus> runNotifierBuild(
     covariant FollowRequestNotifier notifier,
   ) {
     return notifier.build(
@@ -140,7 +141,7 @@ class FollowRequestNotifierProvider extends AutoDisposeNotifierProviderImpl<
 
   @override
   AutoDisposeNotifierProviderElement<FollowRequestNotifier,
-      AsyncValue<FollowStatusType>> createElement() {
+      AsyncValue<FollowDirectionalStatus>> createElement() {
     return _FollowRequestNotifierProviderElement(this);
   }
 
@@ -162,14 +163,14 @@ class FollowRequestNotifierProvider extends AutoDisposeNotifierProviderImpl<
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 mixin FollowRequestNotifierRef
-    on AutoDisposeNotifierProviderRef<AsyncValue<FollowStatusType>> {
+    on AutoDisposeNotifierProviderRef<AsyncValue<FollowDirectionalStatus>> {
   /// The parameter `targetUserId` of this provider.
   int get targetUserId;
 }
 
 class _FollowRequestNotifierProviderElement
     extends AutoDisposeNotifierProviderElement<FollowRequestNotifier,
-        AsyncValue<FollowStatusType>> with FollowRequestNotifierRef {
+        AsyncValue<FollowDirectionalStatus>> with FollowRequestNotifierRef {
   _FollowRequestNotifierProviderElement(super.provider);
 
   @override

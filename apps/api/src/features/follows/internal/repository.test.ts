@@ -66,8 +66,8 @@ function createMockFollowRequest(
 function createMockFollow(overrides: Partial<Follow> = {}): Follow {
   return {
     id: 1,
-    userIdA: 1,
-    userIdB: 2,
+    followerId: 1,
+    followeeId: 2,
     createdAt: now,
     ...overrides,
   };
@@ -229,61 +229,51 @@ describe("FollowRepository", () => {
   });
 
   describe("createFollow", () => {
-    it("should return created follow with normalized ids (a < b)", async () => {
+    it("should insert with followerId and followeeId directly (no normalization)", async () => {
       const mockDb = createMockDb();
-      const mockFollow = createMockFollow({ userIdA: 1, userIdB: 2 });
-      mockDb.setResults([mockFollow]);
-
-      const repository = createFollowRepository(mockDb.query as never);
-      const result = await repository.createFollow(1, 2);
-
-      expect(result).toEqual(mockFollow);
-      expect(result.userIdA).toBeLessThan(result.userIdB);
-    });
-
-    it("should normalize user ids when first is larger", async () => {
-      const mockDb = createMockDb();
-      const mockFollow = createMockFollow({ userIdA: 2, userIdB: 5 });
+      const mockFollow = createMockFollow({ followerId: 5, followeeId: 2 });
       mockDb.setResults([mockFollow]);
 
       const repository = createFollowRepository(mockDb.query as never);
       const result = await repository.createFollow(5, 2);
 
-      expect(mockDb.query.values).toHaveBeenCalled();
       expect(result).toEqual(mockFollow);
+      expect(result.followerId).toBe(5);
+      expect(result.followeeId).toBe(2);
+    });
+
+    it("should not normalize user ids (larger follower is allowed)", async () => {
+      const mockDb = createMockDb();
+      const mockFollow = createMockFollow({ followerId: 10, followeeId: 3 });
+      mockDb.setResults([mockFollow]);
+
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.createFollow(10, 3);
+
+      expect(result.followerId).toBe(10);
+      expect(result.followeeId).toBe(3);
     });
   });
 
   describe("deleteFollow", () => {
-    it("should call delete with normalized ids", async () => {
+    it("should delete with directional ids (no normalization)", async () => {
       const mockDb = createMockDb();
       const repository = createFollowRepository(mockDb.query as never);
 
-      await repository.deleteFollow(1, 2);
+      await repository.deleteFollow(5, 2);
 
       expect(mockDb.query.delete).toHaveBeenCalled();
     });
   });
 
   describe("findFollow", () => {
-    it("should return follow when found", async () => {
+    it("should find follow with directional ids", async () => {
       const mockDb = createMockDb();
-      const mockFollow = createMockFollow();
+      const mockFollow = createMockFollow({ followerId: 1, followeeId: 2 });
       mockDb.setResults([mockFollow]);
 
       const repository = createFollowRepository(mockDb.query as never);
       const result = await repository.findFollow(1, 2);
-
-      expect(result).toEqual(mockFollow);
-    });
-
-    it("should return follow when ids are in reverse order", async () => {
-      const mockDb = createMockDb();
-      const mockFollow = createMockFollow({ userIdA: 1, userIdB: 2 });
-      mockDb.setResults([mockFollow]);
-
-      const repository = createFollowRepository(mockDb.query as never);
-      const result = await repository.findFollow(2, 1);
 
       expect(result).toEqual(mockFollow);
     });

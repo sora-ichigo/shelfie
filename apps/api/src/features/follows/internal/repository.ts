@@ -1,4 +1,4 @@
-import { and, count, desc, eq, lt, or, sql } from "drizzle-orm";
+import { and, count, desc, eq, lt, sql } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type FollowRequest,
@@ -40,9 +40,9 @@ export interface FollowRepository {
     status: FollowRequestStatus,
   ): Promise<FollowRequest>;
   deleteRequest(id: number): Promise<void>;
-  createFollow(userIdA: number, userIdB: number): Promise<Follow>;
-  deleteFollow(userIdA: number, userIdB: number): Promise<void>;
-  findFollow(userId1: number, userId2: number): Promise<Follow | null>;
+  createFollow(followerId: number, followeeId: number): Promise<Follow>;
+  deleteFollow(followerId: number, followeeId: number): Promise<void>;
+  findFollow(followerId: number, followeeId: number): Promise<Follow | null>;
   findFollowing(
     userId: number,
     cursor: number | null,
@@ -58,14 +58,14 @@ export interface FollowRepository {
 }
 
 export function createFollowRepository(db: NodePgDatabase): FollowRepository {
-  async function findFollowUsers(
+  async function findFollowUsersBy(
+    filterColumn: "followerId" | "followeeId",
+    otherColumn: "followerId" | "followeeId",
     userId: number,
     cursor: number | null,
     limit: number,
   ): Promise<FollowWithUser[]> {
-    const conditions = [
-      or(eq(follows.userIdA, userId), eq(follows.userIdB, userId)),
-    ];
+    const conditions = [eq(follows[filterColumn], userId)];
     if (cursor !== null) {
       conditions.push(lt(follows.id, cursor));
     }
@@ -79,9 +79,7 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
 
     if (followResults.length === 0) return [];
 
-    const otherUserIds = followResults.map((f) =>
-      f.userIdA === userId ? f.userIdB : f.userIdA,
-    );
+    const otherUserIds = followResults.map((f) => f[otherColumn]);
 
     const userResults = await db
       .select()
@@ -99,8 +97,7 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
 
     return followResults
       .map((f) => {
-        const otherUserId = f.userIdA === userId ? f.userIdB : f.userIdA;
-        const user = userMap.get(otherUserId);
+        const user = userMap.get(f[otherColumn]);
         if (!user) return null;
         return {
           followId: f.id,
@@ -191,42 +188,77 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
       await db.delete(followRequests).where(eq(followRequests.id, id));
     },
 
-    async createFollow(userIdA: number, userIdB: number): Promise<Follow> {
-      const [a, b] =
-        userIdA < userIdB ? [userIdA, userIdB] : [userIdB, userIdA];
+    async createFollow(
+      followerId: number,
+      followeeId: number,
+    ): Promise<Follow> {
       const result = await db
         .insert(follows)
-        .values({ userIdA: a, userIdB: b })
+        .values({ followerId, followeeId })
         .returning();
       return result[0];
     },
 
-    async deleteFollow(userIdA: number, userIdB: number): Promise<void> {
-      const [a, b] =
-        userIdA < userIdB ? [userIdA, userIdB] : [userIdB, userIdA];
+    async deleteFollow(followerId: number, followeeId: number): Promise<void> {
       await db
         .delete(follows)
-        .where(and(eq(follows.userIdA, a), eq(follows.userIdB, b)));
+        .where(
+          and(
+            eq(follows.followerId, followerId),
+            eq(follows.followeeId, followeeId),
+          ),
+        );
     },
 
-    async findFollow(userId1: number, userId2: number): Promise<Follow | null> {
-      const [a, b] =
-        userId1 < userId2 ? [userId1, userId2] : [userId2, userId1];
+    async findFollow(
+      followerId: number,
+      followeeId: number,
+    ): Promise<Follow | null> {
       const result = await db
         .select()
         .from(follows)
-        .where(and(eq(follows.userIdA, a), eq(follows.userIdB, b)));
+        .where(
+          and(
+            eq(follows.followerId, followerId),
+            eq(follows.followeeId, followeeId),
+          ),
+        );
       return result[0] ?? null;
     },
 
-    findFollowing: findFollowUsers,
-    findFollowers: findFollowUsers,
+    async findFollowing(
+      userId: number,
+      cursor: number | null,
+      limit: number,
+    ): Promise<FollowWithUser[]> {
+      return findFollowUsersBy(
+        "followerId",
+        "followeeId",
+        userId,
+        cursor,
+        limit,
+      );
+    },
+
+    async findFollowers(
+      userId: number,
+      cursor: number | null,
+      limit: number,
+    ): Promise<FollowWithUser[]> {
+      return findFollowUsersBy(
+        "followeeId",
+        "followerId",
+        userId,
+        cursor,
+        limit,
+      );
+    },
 
     async countFollowing(userId: number): Promise<number> {
       const result = await db
         .select({ count: count() })
         .from(follows)
-        .where(or(eq(follows.userIdA, userId), eq(follows.userIdB, userId)));
+        .where(eq(follows.followerId, userId));
       return result[0]?.count ?? 0;
     },
 
@@ -234,7 +266,7 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
       const result = await db
         .select({ count: count() })
         .from(follows)
-        .where(or(eq(follows.userIdA, userId), eq(follows.userIdB, userId)));
+        .where(eq(follows.followeeId, userId));
       return result[0]?.count ?? 0;
     },
   };

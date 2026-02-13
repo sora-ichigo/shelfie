@@ -1075,11 +1075,7 @@ const FollowStatus = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING_RECEIVED'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING_SENT'),
+      name: _i1.NameNode(value: 'PENDING'),
       directives: [],
     ),
   ],
@@ -3590,7 +3586,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'followStatus'),
+      name: _i1.NameNode(value: 'incomingFollowStatus'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(
@@ -3604,6 +3600,15 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'outgoingFollowStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowStatus'),
         isNonNull: true,
       ),
     ),

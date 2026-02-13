@@ -17,7 +17,8 @@ void main() {
     test('すべてのフィールドを持つインスタンスを作成できる', () {
       final profile = UserProfileModel(
         user: user,
-        followStatus: FollowStatusType.following,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
         bio: '自己紹介テキスト',
@@ -26,7 +27,8 @@ void main() {
       );
 
       expect(profile.user, equals(user));
-      expect(profile.followStatus, equals(FollowStatusType.following));
+      expect(profile.outgoingFollowStatus, equals(FollowStatusType.following));
+      expect(profile.incomingFollowStatus, equals(FollowStatusType.none));
       expect(profile.followCounts, equals(followCounts));
       expect(profile.isOwnProfile, isFalse);
       expect(profile.bio, equals('自己紹介テキスト'));
@@ -37,7 +39,8 @@ void main() {
     test('optional フィールドは null を許容する', () {
       final profile = UserProfileModel(
         user: user,
-        followStatus: FollowStatusType.none,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: true,
       );
@@ -47,34 +50,55 @@ void main() {
       expect(profile.bookCount, isNull);
     });
 
-    test('copyWith で followStatus を変更できる', () {
+    test('copyWith で outgoingFollowStatus を変更できる', () {
       final original = UserProfileModel(
         user: user,
-        followStatus: FollowStatusType.none,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
       );
 
       final updated = original.copyWith(
-        followStatus: FollowStatusType.pendingSent,
+        outgoingFollowStatus: FollowStatusType.pending,
       );
 
       expect(updated.user, equals(original.user));
-      expect(updated.followStatus, equals(FollowStatusType.pendingSent));
+      expect(updated.outgoingFollowStatus, equals(FollowStatusType.pending));
+      expect(updated.incomingFollowStatus, equals(FollowStatusType.none));
       expect(updated.followCounts, equals(original.followCounts));
       expect(updated.isOwnProfile, equals(original.isOwnProfile));
+    });
+
+    test('copyWith で incomingFollowStatus を変更できる', () {
+      final original = UserProfileModel(
+        user: user,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.none,
+        followCounts: followCounts,
+        isOwnProfile: false,
+      );
+
+      final updated = original.copyWith(
+        incomingFollowStatus: FollowStatusType.following,
+      );
+
+      expect(updated.outgoingFollowStatus, equals(FollowStatusType.none));
+      expect(updated.incomingFollowStatus, equals(FollowStatusType.following));
     });
 
     test('同じ値を持つインスタンスは等価である', () {
       final profile1 = UserProfileModel(
         user: user,
-        followStatus: FollowStatusType.following,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
       );
       final profile2 = UserProfileModel(
         user: user,
-        followStatus: FollowStatusType.following,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
       );

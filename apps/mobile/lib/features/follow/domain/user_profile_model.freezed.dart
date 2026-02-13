@@ -17,7 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UserProfileModel {
   UserSummary get user => throw _privateConstructorUsedError;
-  FollowStatusType get followStatus => throw _privateConstructorUsedError;
+  FollowStatusType get outgoingFollowStatus =>
+      throw _privateConstructorUsedError;
+  FollowStatusType get incomingFollowStatus =>
+      throw _privateConstructorUsedError;
   FollowCounts get followCounts => throw _privateConstructorUsedError;
   bool get isOwnProfile => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
@@ -39,7 +42,8 @@ abstract class $UserProfileModelCopyWith<$Res> {
   @useResult
   $Res call(
       {UserSummary user,
-      FollowStatusType followStatus,
+      FollowStatusType outgoingFollowStatus,
+      FollowStatusType incomingFollowStatus,
       FollowCounts followCounts,
       bool isOwnProfile,
       String? bio,
@@ -66,7 +70,8 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
   @override
   $Res call({
     Object? user = null,
-    Object? followStatus = null,
+    Object? outgoingFollowStatus = null,
+    Object? incomingFollowStatus = null,
     Object? followCounts = null,
     Object? isOwnProfile = null,
     Object? bio = freezed,
@@ -78,9 +83,13 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserSummary,
-      followStatus: null == followStatus
-          ? _value.followStatus
-          : followStatus // ignore: cast_nullable_to_non_nullable
+      outgoingFollowStatus: null == outgoingFollowStatus
+          ? _value.outgoingFollowStatus
+          : outgoingFollowStatus // ignore: cast_nullable_to_non_nullable
+              as FollowStatusType,
+      incomingFollowStatus: null == incomingFollowStatus
+          ? _value.incomingFollowStatus
+          : incomingFollowStatus // ignore: cast_nullable_to_non_nullable
               as FollowStatusType,
       followCounts: null == followCounts
           ? _value.followCounts
@@ -136,7 +145,8 @@ abstract class _$$UserProfileModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {UserSummary user,
-      FollowStatusType followStatus,
+      FollowStatusType outgoingFollowStatus,
+      FollowStatusType incomingFollowStatus,
       FollowCounts followCounts,
       bool isOwnProfile,
       String? bio,
@@ -163,7 +173,8 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? user = null,
-    Object? followStatus = null,
+    Object? outgoingFollowStatus = null,
+    Object? incomingFollowStatus = null,
     Object? followCounts = null,
     Object? isOwnProfile = null,
     Object? bio = freezed,
@@ -175,9 +186,13 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserSummary,
-      followStatus: null == followStatus
-          ? _value.followStatus
-          : followStatus // ignore: cast_nullable_to_non_nullable
+      outgoingFollowStatus: null == outgoingFollowStatus
+          ? _value.outgoingFollowStatus
+          : outgoingFollowStatus // ignore: cast_nullable_to_non_nullable
+              as FollowStatusType,
+      incomingFollowStatus: null == incomingFollowStatus
+          ? _value.incomingFollowStatus
+          : incomingFollowStatus // ignore: cast_nullable_to_non_nullable
               as FollowStatusType,
       followCounts: null == followCounts
           ? _value.followCounts
@@ -208,7 +223,8 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
 class _$UserProfileModelImpl implements _UserProfileModel {
   const _$UserProfileModelImpl(
       {required this.user,
-      required this.followStatus,
+      required this.outgoingFollowStatus,
+      required this.incomingFollowStatus,
       required this.followCounts,
       required this.isOwnProfile,
       this.bio,
@@ -218,7 +234,9 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   @override
   final UserSummary user;
   @override
-  final FollowStatusType followStatus;
+  final FollowStatusType outgoingFollowStatus;
+  @override
+  final FollowStatusType incomingFollowStatus;
   @override
   final FollowCounts followCounts;
   @override
@@ -232,7 +250,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
 
   @override
   String toString() {
-    return 'UserProfileModel(user: $user, followStatus: $followStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, bio: $bio, instagramHandle: $instagramHandle, bookCount: $bookCount)';
+    return 'UserProfileModel(user: $user, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, bio: $bio, instagramHandle: $instagramHandle, bookCount: $bookCount)';
   }
 
   @override
@@ -241,8 +259,10 @@ class _$UserProfileModelImpl implements _UserProfileModel {
         (other.runtimeType == runtimeType &&
             other is _$UserProfileModelImpl &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.followStatus, followStatus) ||
-                other.followStatus == followStatus) &&
+            (identical(other.outgoingFollowStatus, outgoingFollowStatus) ||
+                other.outgoingFollowStatus == outgoingFollowStatus) &&
+            (identical(other.incomingFollowStatus, incomingFollowStatus) ||
+                other.incomingFollowStatus == incomingFollowStatus) &&
             (identical(other.followCounts, followCounts) ||
                 other.followCounts == followCounts) &&
             (identical(other.isOwnProfile, isOwnProfile) ||
@@ -255,8 +275,16 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, followStatus, followCounts,
-      isOwnProfile, bio, instagramHandle, bookCount);
+  int get hashCode => Object.hash(
+      runtimeType,
+      user,
+      outgoingFollowStatus,
+      incomingFollowStatus,
+      followCounts,
+      isOwnProfile,
+      bio,
+      instagramHandle,
+      bookCount);
 
   /// Create a copy of UserProfileModel
   /// with the given fields replaced by the non-null parameter values.
@@ -271,7 +299,8 @@ class _$UserProfileModelImpl implements _UserProfileModel {
 abstract class _UserProfileModel implements UserProfileModel {
   const factory _UserProfileModel(
       {required final UserSummary user,
-      required final FollowStatusType followStatus,
+      required final FollowStatusType outgoingFollowStatus,
+      required final FollowStatusType incomingFollowStatus,
       required final FollowCounts followCounts,
       required final bool isOwnProfile,
       final String? bio,
@@ -281,7 +310,9 @@ abstract class _UserProfileModel implements UserProfileModel {
   @override
   UserSummary get user;
   @override
-  FollowStatusType get followStatus;
+  FollowStatusType get outgoingFollowStatus;
+  @override
+  FollowStatusType get incomingFollowStatus;
   @override
   FollowCounts get followCounts;
   @override
