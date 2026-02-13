@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
@@ -314,6 +315,61 @@ void main() {
       );
       final widget = tester.widget<TextButton>(textButton);
       expect(widget.onPressed, isNotNull);
+    });
+
+    testWidgets('FollowState が更新されると表示が追従すること', (tester) async {
+      final notification = createNotification(
+        id: 1,
+        name: 'ユーザーA',
+        handle: 'user_a',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
+        followRequestId: 100,
+      );
+      final senderId = notification.sender.id;
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      late ProviderContainer container;
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            notificationRepositoryProvider
+                .overrideWithValue(mockNotificationRepo),
+          ],
+          child: Builder(
+            builder: (context) {
+              return MaterialApp(
+                theme: AppTheme.theme,
+                home: Consumer(
+                  builder: (context, ref, _) {
+                    container = ProviderScope.containerOf(context);
+                    return const NotificationScreen();
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('承認'), findsOneWidget);
+      expect(find.text('削除'), findsOneWidget);
+
+      container.read(followStateProvider.notifier).registerStatus(
+            userId: senderId,
+            outgoing: FollowStatusType.none,
+            incoming: FollowStatusType.following,
+          );
+      await tester.pump();
+
+      expect(find.text('承認'), findsNothing);
+      expect(find.text('削除'), findsNothing);
+      expect(find.text('フォローバック'), findsOneWidget);
     });
   });
 }

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/time_ago.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
-import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
@@ -42,7 +42,56 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   Future<void> _loadData() async {
     final notifier = ref.read(notificationListNotifierProvider.notifier);
     await notifier.loadInitial();
+    if (!mounted) return;
+    final state = ref.read(notificationListNotifierProvider);
+    state.whenData(_registerFollowStates);
     await notifier.markAsRead();
+  }
+
+  void _registerFollowStates(List<NotificationModel> notifications) {
+    final followState = ref.read(followStateProvider);
+    final notifier = ref.read(followStateProvider.notifier);
+
+    for (final notification in notifications) {
+      final userId = notification.sender.id;
+      if (followState.containsKey(userId)) continue;
+
+      final (outgoing, incoming) =
+          _flatToDirectional(notification.followStatus);
+      notifier.registerStatus(
+        userId: userId,
+        outgoing: outgoing,
+        incoming: incoming,
+      );
+    }
+  }
+
+  static (FollowStatusType, FollowStatusType) _flatToDirectional(
+    FollowStatusType flat,
+  ) {
+    return switch (flat) {
+      FollowStatusType.pendingReceived => (
+          FollowStatusType.none,
+          FollowStatusType.pendingReceived,
+        ),
+      FollowStatusType.following => (
+          FollowStatusType.following,
+          FollowStatusType.none,
+        ),
+      FollowStatusType.pendingSent ||
+      FollowStatusType.pending => (
+          FollowStatusType.pending,
+          FollowStatusType.none,
+        ),
+      FollowStatusType.followedBy => (
+          FollowStatusType.none,
+          FollowStatusType.following,
+        ),
+      FollowStatusType.none => (
+          FollowStatusType.none,
+          FollowStatusType.none,
+        ),
+    };
   }
 
   void _onScroll() {
@@ -60,6 +109,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final notificationState = ref.watch(notificationListNotifierProvider);
+    final followState = ref.watch(followStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -104,6 +154,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           }
           return _buildNotificationList(
             notifications,
+            followState,
             theme,
             appColors,
           );
@@ -136,6 +187,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
   Widget _buildNotificationList(
     List<NotificationModel> notifications,
+    Map<int, FollowDirectionalStatus> followState,
     ThemeData theme,
     AppColors appColors,
   ) {
@@ -144,41 +196,62 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       itemCount: notifications.length,
       itemBuilder: (context, index) {
         final notification = notifications[index];
+        final status = followState[notification.sender.id];
+        final displayStatus = status != null
+            ? _deriveDisplayStatus(status)
+            : notification.followStatus;
+
         return _NotificationTile(
           notification: notification,
+          displayStatus: displayStatus,
           onApprove: notification.followRequestId != null
-              ? () => ref
-                  .read(followRequestNotifierProvider(notification.sender.id)
-                      .notifier)
-                  .approveRequest(notification.followRequestId!)
+              ? () => ref.read(followStateProvider.notifier).approveRequest(
+                    userId: notification.sender.id,
+                    requestId: notification.followRequestId!,
+                  )
               : null,
           onReject: notification.followRequestId != null
-              ? () => ref
-                  .read(followRequestNotifierProvider(notification.sender.id)
-                      .notifier)
-                  .rejectRequest(notification.followRequestId!)
+              ? () => ref.read(followStateProvider.notifier).rejectRequest(
+                    userId: notification.sender.id,
+                    requestId: notification.followRequestId!,
+                  )
               : null,
           onFollow: () => ref
-              .read(followRequestNotifierProvider(notification.sender.id)
-                  .notifier)
-              .sendFollowRequest(),
+              .read(followStateProvider.notifier)
+              .sendFollowRequest(userId: notification.sender.id),
           onUnfollow: () => ref
-              .read(followRequestNotifierProvider(notification.sender.id)
-                  .notifier)
-              .unfollow(),
+              .read(followStateProvider.notifier)
+              .unfollow(userId: notification.sender.id),
           onCancelRequest: () => ref
-              .read(followRequestNotifierProvider(notification.sender.id)
-                  .notifier)
-              .cancelFollowRequest(),
+              .read(followStateProvider.notifier)
+              .cancelFollowRequest(userId: notification.sender.id),
         );
       },
     );
+  }
+
+  static FollowStatusType _deriveDisplayStatus(FollowDirectionalStatus status) {
+    if (status.incoming == FollowStatusType.pendingReceived) {
+      return FollowStatusType.pendingReceived;
+    }
+    if (status.outgoing == FollowStatusType.following) {
+      return FollowStatusType.following;
+    }
+    if (status.outgoing == FollowStatusType.pending ||
+        status.outgoing == FollowStatusType.pendingSent) {
+      return FollowStatusType.pendingSent;
+    }
+    if (status.incoming == FollowStatusType.following) {
+      return FollowStatusType.followedBy;
+    }
+    return FollowStatusType.none;
   }
 }
 
 class _NotificationTile extends StatelessWidget {
   const _NotificationTile({
     required this.notification,
+    required this.displayStatus,
     this.onApprove,
     this.onReject,
     this.onFollow,
@@ -187,6 +260,7 @@ class _NotificationTile extends StatelessWidget {
   });
 
   final NotificationModel notification;
+  final FollowStatusType displayStatus;
   final VoidCallback? onApprove;
   final VoidCallback? onReject;
   final VoidCallback? onFollow;
@@ -215,37 +289,37 @@ class _NotificationTile extends StatelessWidget {
           color: notification.isRead ? null : appColors.surface,
         ),
         child: Row(
-        children: [
-          UserAvatar(
-            avatarUrl: notification.sender.avatarUrl,
-            radius: 18,
-          ),
-          const SizedBox(width: AppSpacing.xs),
-          Expanded(
-            child: Text.rich(
-              TextSpan(
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textPrimary,
+          children: [
+            UserAvatar(
+              avatarUrl: notification.sender.avatarUrl,
+              radius: 18,
+            ),
+            const SizedBox(width: AppSpacing.xs),
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: appColors.textPrimary,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: notification.sender.name ??
+                          notification.sender.handle ??
+                          '',
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(text: _notificationText(notification.type)),
+                    TextSpan(
+                      text: formatTimeAgo(notification.createdAt),
+                      style: TextStyle(color: appColors.textSecondary),
+                    ),
+                  ],
                 ),
-                children: [
-                  TextSpan(
-                    text: notification.sender.name ??
-                        notification.sender.handle ??
-                        '',
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                  TextSpan(text: _notificationText(notification.type)),
-                  TextSpan(
-                    text: formatTimeAgo(notification.createdAt),
-                    style: TextStyle(color: appColors.textSecondary),
-                  ),
-                ],
               ),
             ),
-          ),
-          ..._buildActionButtons(theme, appColors),
-        ],
-      ),
+            ..._buildActionButtons(theme, appColors),
+          ],
+        ),
       ),
     );
   }
@@ -263,7 +337,7 @@ class _NotificationTile extends StatelessWidget {
     ThemeData theme,
     AppColors appColors,
   ) {
-    return switch (notification.followStatus) {
+    return switch (displayStatus) {
       FollowStatusType.pendingReceived => [
         const SizedBox(width: AppSpacing.xs),
         _PrimaryButton(
@@ -319,7 +393,7 @@ class _NotificationTile extends StatelessWidget {
     ThemeData theme,
     AppColors appColors,
   ) {
-    return switch (notification.followStatus) {
+    return switch (displayStatus) {
       FollowStatusType.following => [
         const SizedBox(width: AppSpacing.xs),
         _SecondaryButton(

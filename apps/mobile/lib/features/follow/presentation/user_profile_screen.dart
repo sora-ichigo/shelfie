@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -10,7 +11,6 @@ import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.da
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
@@ -45,9 +45,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(followRequestNotifierProvider(_userId).notifier)
-          .setStatus(
+      ref.read(followStateProvider.notifier).registerStatus(
+            userId: _userId,
             outgoing: widget.profile.outgoingFollowStatus,
             incoming: widget.profile.incomingFollowStatus,
           );
@@ -75,12 +74,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final followState = ref.watch(followRequestNotifierProvider(_userId));
-    final currentStatus = followState.valueOrNull ??
-        (
-          outgoing: widget.profile.outgoingFollowStatus,
-          incoming: widget.profile.incomingFollowStatus,
-        );
+    final currentStatus =
+        ref.watch(followStateProvider.select((s) => s[_userId])) ??
+            (
+              outgoing: widget.profile.outgoingFollowStatus,
+              incoming: widget.profile.incomingFollowStatus,
+            );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following;
 
     return Scaffold(
@@ -350,9 +349,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       FollowStatusType.followedBy => Expanded(
           child: FilledButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .sendFollowRequest(),
+                .read(followStateProvider.notifier)
+                .sendFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.primary,
               foregroundColor: appColors.textPrimary,
@@ -378,9 +376,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       FollowStatusType.pendingSent => Expanded(
           child: FilledButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .cancelFollowRequest(),
+                .read(followStateProvider.notifier)
+                .cancelFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.surfaceElevated,
               foregroundColor: appColors.textSecondary,
@@ -400,9 +397,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       FollowStatusType.following => Expanded(
           child: OutlinedButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .unfollow(),
+                .read(followStateProvider.notifier)
+                .unfollow(userId: _userId),
             style: OutlinedButton.styleFrom(
               foregroundColor: appColors.destructive,
               minimumSize: Size.zero,
