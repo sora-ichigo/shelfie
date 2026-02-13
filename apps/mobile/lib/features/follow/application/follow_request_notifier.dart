@@ -5,20 +5,25 @@ import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 
 part 'follow_request_notifier.g.dart';
 
+typedef FollowDirectionalStatus = ({FollowStatusType outgoing, FollowStatusType incoming});
+
 @riverpod
 class FollowRequestNotifier extends _$FollowRequestNotifier {
   late int _targetUserId;
   bool _isOperating = false;
 
   @override
-  AsyncValue<FollowStatusType> build(int targetUserId) {
+  AsyncValue<FollowDirectionalStatus> build(int targetUserId) {
     _targetUserId = targetUserId;
     _isOperating = false;
-    return const AsyncData(FollowStatusType.none);
+    return const AsyncData((outgoing: FollowStatusType.none, incoming: FollowStatusType.none));
   }
 
-  void setStatus(FollowStatusType status) {
-    state = AsyncData(status);
+  void setStatus({
+    required FollowStatusType outgoing,
+    required FollowStatusType incoming,
+  }) {
+    state = AsyncData((outgoing: outgoing, incoming: incoming));
   }
 
   Future<void> sendFollowRequest() async {
@@ -26,7 +31,8 @@ class FollowRequestNotifier extends _$FollowRequestNotifier {
     _isOperating = true;
 
     final previous = state;
-    state = const AsyncData(FollowStatusType.pendingSent);
+    final current = state.value!;
+    state = AsyncData((outgoing: FollowStatusType.pending, incoming: current.incoming));
 
     final repo = ref.read(followRepositoryProvider);
     final result = await repo.sendFollowRequest(receiverId: _targetUserId);
@@ -44,7 +50,8 @@ class FollowRequestNotifier extends _$FollowRequestNotifier {
     _isOperating = true;
 
     final previous = state;
-    state = const AsyncData(FollowStatusType.none);
+    final current = state.value!;
+    state = AsyncData((outgoing: FollowStatusType.none, incoming: current.incoming));
 
     final repo = ref.read(followRepositoryProvider);
     final result = await repo.cancelFollowRequest(targetUserId: _targetUserId);
@@ -62,7 +69,8 @@ class FollowRequestNotifier extends _$FollowRequestNotifier {
     _isOperating = true;
 
     final previous = state;
-    state = const AsyncData(FollowStatusType.none);
+    final current = state.value!;
+    state = AsyncData((outgoing: FollowStatusType.none, incoming: current.incoming));
 
     final repo = ref.read(followRepositoryProvider);
     final result = await repo.unfollow(targetUserId: _targetUserId);

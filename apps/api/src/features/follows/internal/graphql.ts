@@ -13,7 +13,8 @@ interface FollowCountsData {
 
 interface UserProfileData {
   user: User;
-  followStatus: FollowStatus;
+  outgoingFollowStatus: FollowStatus;
+  incomingFollowStatus: FollowStatus;
   followCounts: FollowCountsData;
   isOwnProfile: boolean;
 }
@@ -34,7 +35,7 @@ function createFollowRequestStatusEnumRef(builder: Builder) {
 
 function createFollowStatusEnumRef(builder: Builder) {
   return builder.enumType("FollowStatus", {
-    values: ["NONE", "PENDING_SENT", "PENDING_RECEIVED", "FOLLOWING"] as const,
+    values: ["NONE", "PENDING", "FOLLOWING"] as const,
   });
 }
 
@@ -90,9 +91,13 @@ export function registerFollowTypes(builder: Builder): void {
         type: UserRef,
         resolve: (parent) => parent.user,
       }),
-      followStatus: t.field({
+      outgoingFollowStatus: t.field({
         type: FollowStatusRef,
-        resolve: (parent) => parent.followStatus,
+        resolve: (parent) => parent.outgoingFollowStatus,
+      }),
+      incomingFollowStatus: t.field({
+        type: FollowStatusRef,
+        resolve: (parent) => parent.incomingFollowStatus,
       }),
       followCounts: t.field({
         type: FollowCountsRef,
@@ -225,8 +230,8 @@ export function registerFollowQueries(
         if (!targetUser) return null;
 
         const isOwnProfile = currentUserResult.data.id === targetUser.id;
-        const followStatus = isOwnProfile
-          ? ("NONE" as const)
+        const { outgoing, incoming } = isOwnProfile
+          ? { outgoing: "NONE" as const, incoming: "NONE" as const }
           : await followService.getFollowStatus(
               currentUserResult.data.id,
               targetUser.id,
@@ -235,7 +240,8 @@ export function registerFollowQueries(
 
         return {
           user: targetUser,
-          followStatus,
+          outgoingFollowStatus: outgoing,
+          incomingFollowStatus: incoming,
           followCounts,
           isOwnProfile,
         };

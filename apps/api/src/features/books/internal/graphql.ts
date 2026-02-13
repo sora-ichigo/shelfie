@@ -833,7 +833,7 @@ export function registerBooksQueries(
           args.userId,
         );
 
-        if (status !== "FOLLOWING") {
+        if (status.outgoing !== "FOLLOWING") {
           throw new GraphQLError(
             "You must follow this user to view their shelf",
             { extensions: { code: "FORBIDDEN" } },

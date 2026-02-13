@@ -3,9 +3,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { beforeEach, describe, expect, it } from "vitest";
 import { getGlobalTestPool } from "../../../vitest.setup.js";
 import {
+  FOLLOWS_FOLLOWEE_INDEX_NAME,
+  FOLLOWS_FOLLOWER_INDEX_NAME,
   FOLLOWS_UNIQUE_NAME,
-  FOLLOWS_USER_A_INDEX_NAME,
-  FOLLOWS_USER_B_INDEX_NAME,
   type Follow,
   follows,
   type NewFollow,
@@ -29,16 +29,16 @@ describe("follows schema", () => {
       expect(idColumn.primary).toBe(true);
     });
 
-    it("should have user_id_a column as non-null integer", () => {
-      const userIdAColumn = follows.userIdA;
-      expect(userIdAColumn.name).toBe("user_id_a");
-      expect(userIdAColumn.notNull).toBe(true);
+    it("should have follower_id column as non-null integer", () => {
+      const followerIdColumn = follows.followerId;
+      expect(followerIdColumn.name).toBe("follower_id");
+      expect(followerIdColumn.notNull).toBe(true);
     });
 
-    it("should have user_id_b column as non-null integer", () => {
-      const userIdBColumn = follows.userIdB;
-      expect(userIdBColumn.name).toBe("user_id_b");
-      expect(userIdBColumn.notNull).toBe(true);
+    it("should have followee_id column as non-null integer", () => {
+      const followeeIdColumn = follows.followeeId;
+      expect(followeeIdColumn.name).toBe("followee_id");
+      expect(followeeIdColumn.notNull).toBe(true);
     });
 
     it("should have created_at column with default now", () => {
@@ -50,16 +50,16 @@ describe("follows schema", () => {
   });
 
   describe("index definitions", () => {
-    it("should have unique constraint name constant for user_id_a and user_id_b", () => {
+    it("should have unique constraint name constant for follower_id and followee_id", () => {
       expect(FOLLOWS_UNIQUE_NAME).toBe("uq_follow");
     });
 
-    it("should have user_a index name constant", () => {
-      expect(FOLLOWS_USER_A_INDEX_NAME).toBe("idx_follows_user_a");
+    it("should have follower index name constant", () => {
+      expect(FOLLOWS_FOLLOWER_INDEX_NAME).toBe("idx_follows_follower");
     });
 
-    it("should have user_b index name constant", () => {
-      expect(FOLLOWS_USER_B_INDEX_NAME).toBe("idx_follows_user_b");
+    it("should have followee index name constant", () => {
+      expect(FOLLOWS_FOLLOWEE_INDEX_NAME).toBe("idx_follows_followee");
     });
   });
 
@@ -67,32 +67,32 @@ describe("follows schema", () => {
     it("should infer Follow type for select operations", () => {
       const follow: Follow = {
         id: 1,
-        userIdA: 5,
-        userIdB: 10,
+        followerId: 5,
+        followeeId: 10,
         createdAt: new Date(),
       };
 
       expect(follow.id).toBe(1);
-      expect(follow.userIdA).toBe(5);
-      expect(follow.userIdB).toBe(10);
+      expect(follow.followerId).toBe(5);
+      expect(follow.followeeId).toBe(10);
       expect(follow.createdAt).toBeInstanceOf(Date);
     });
 
     it("should infer NewFollow type for insert operations (id should be optional)", () => {
       const newFollow: NewFollow = {
-        userIdA: 5,
-        userIdB: 10,
+        followerId: 5,
+        followeeId: 10,
       };
 
-      expect(newFollow.userIdA).toBe(5);
-      expect(newFollow.userIdB).toBe(10);
+      expect(newFollow.followerId).toBe(5);
+      expect(newFollow.followeeId).toBe(10);
       expect("id" in newFollow).toBe(false);
     });
 
     it("should allow createdAt to be optional in NewFollow", () => {
       const newFollow: NewFollow = {
-        userIdA: 5,
-        userIdB: 10,
+        followerId: 5,
+        followeeId: 10,
       };
 
       expect(newFollow.createdAt).toBeUndefined();
@@ -132,87 +132,89 @@ describe("follows schema", () => {
       userCId = userC.id;
     });
 
-    it("should create a follow relationship", async () => {
+    it("should create a follow relationship (A follows B)", async () => {
       const db = getDb();
       const [follow] = await db
         .insert(follows)
         .values({
-          userIdA: userAId,
-          userIdB: userBId,
+          followerId: userAId,
+          followeeId: userBId,
         })
         .returning();
 
       expect(follow.id).toBe(1);
-      expect(follow.userIdA).toBe(userAId);
-      expect(follow.userIdB).toBe(userBId);
+      expect(follow.followerId).toBe(userAId);
+      expect(follow.followeeId).toBe(userBId);
       expect(follow.createdAt).toBeInstanceOf(Date);
     });
 
-    it("should enforce unique constraint on user_id_a and user_id_b", async () => {
+    it("should allow reverse follow relationship (B follows A)", async () => {
       const db = getDb();
-      await db.insert(follows).values({ userIdA: userAId, userIdB: userBId });
-
-      await expect(
-        db.insert(follows).values({ userIdA: userAId, userIdB: userBId }),
-      ).rejects.toThrow();
-    });
-
-    it("should enforce CHECK constraint that user_id_a < user_id_b", async () => {
-      const db = getDb();
-      const larger = Math.max(userAId, userBId);
-      const smaller = Math.min(userAId, userBId);
-
-      await expect(
-        db.insert(follows).values({ userIdA: larger, userIdB: smaller }),
-      ).rejects.toThrow();
-    });
-
-    it("should reject user_id_a equal to user_id_b", async () => {
-      const db = getDb();
-      await expect(
-        db.insert(follows).values({ userIdA: userAId, userIdB: userAId }),
-      ).rejects.toThrow();
-    });
-
-    it("should allow multiple follow relationships for same user", async () => {
-      const db = getDb();
-      const smallerAB = Math.min(userAId, userBId);
-      const largerAB = Math.max(userAId, userBId);
-      const smallerAC = Math.min(userAId, userCId);
-      const largerAC = Math.max(userAId, userCId);
-
       await db
         .insert(follows)
-        .values({ userIdA: smallerAB, userIdB: largerAB });
-      await db
+        .values({ followerId: userAId, followeeId: userBId });
+      const [reverseFollow] = await db
         .insert(follows)
-        .values({ userIdA: smallerAC, userIdB: largerAC });
+        .values({ followerId: userBId, followeeId: userAId })
+        .returning();
+
+      expect(reverseFollow.followerId).toBe(userBId);
+      expect(reverseFollow.followeeId).toBe(userAId);
 
       const allFollows = await db.select().from(follows);
       expect(allFollows).toHaveLength(2);
     });
 
-    it("should cascade delete when user_a is deleted", async () => {
+    it("should enforce unique constraint on same direction (follower_id, followee_id)", async () => {
       const db = getDb();
-      const smaller = Math.min(userAId, userBId);
-      const larger = Math.max(userAId, userBId);
+      await db
+        .insert(follows)
+        .values({ followerId: userAId, followeeId: userBId });
 
-      await db.insert(follows).values({ userIdA: smaller, userIdB: larger });
+      await expect(
+        db.insert(follows).values({ followerId: userAId, followeeId: userBId }),
+      ).rejects.toThrow();
+    });
 
-      await db.delete(users).where(sql`id = ${smaller}`);
+    it("should enforce CHECK constraint that follower_id != followee_id (no self-follow)", async () => {
+      const db = getDb();
+      await expect(
+        db.insert(follows).values({ followerId: userAId, followeeId: userAId }),
+      ).rejects.toThrow();
+    });
+
+    it("should allow multiple follow relationships for same user", async () => {
+      const db = getDb();
+      await db
+        .insert(follows)
+        .values({ followerId: userAId, followeeId: userBId });
+      await db
+        .insert(follows)
+        .values({ followerId: userAId, followeeId: userCId });
+
+      const allFollows = await db.select().from(follows);
+      expect(allFollows).toHaveLength(2);
+    });
+
+    it("should cascade delete when follower is deleted", async () => {
+      const db = getDb();
+      await db
+        .insert(follows)
+        .values({ followerId: userAId, followeeId: userBId });
+
+      await db.delete(users).where(sql`id = ${userAId}`);
 
       const allFollows = await db.select().from(follows);
       expect(allFollows).toHaveLength(0);
     });
 
-    it("should cascade delete when user_b is deleted", async () => {
+    it("should cascade delete when followee is deleted", async () => {
       const db = getDb();
-      const smaller = Math.min(userAId, userBId);
-      const larger = Math.max(userAId, userBId);
+      await db
+        .insert(follows)
+        .values({ followerId: userAId, followeeId: userBId });
 
-      await db.insert(follows).values({ userIdA: smaller, userIdB: larger });
-
-      await db.delete(users).where(sql`id = ${larger}`);
+      await db.delete(users).where(sql`id = ${userBId}`);
 
       const allFollows = await db.select().from(follows);
       expect(allFollows).toHaveLength(0);

@@ -646,7 +646,7 @@ void main() {
   });
 
   group('getUserProfile', () {
-    test('成功時に UserProfileModel を返す', () async {
+    test('成功時に UserProfileModel を返す（outgoing/incoming マッピング）', () async {
       final userProfileData = GUserProfileData_userProfile(
         (b) => b
           ..user.id = 1
@@ -656,7 +656,8 @@ void main() {
           ..user.bio = 'Hello'
           ..user.bookCount = 5
           ..user.instagramHandle = 'test_insta'
-          ..followStatus = GFollowStatus.FOLLOWING
+          ..outgoingFollowStatus = GFollowStatus.FOLLOWING
+          ..incomingFollowStatus = GFollowStatus.NONE
           ..followCounts.followingCount = 10
           ..followCounts.followerCount = 20
           ..isOwnProfile = false,
@@ -683,13 +684,53 @@ void main() {
       expect(profile.user.id, 1);
       expect(profile.user.name, 'Test User');
       expect(profile.user.handle, 'testuser');
-      expect(profile.followStatus, FollowStatusType.following);
+      expect(profile.outgoingFollowStatus, FollowStatusType.following);
+      expect(profile.incomingFollowStatus, FollowStatusType.none);
       expect(profile.followCounts.followingCount, 10);
       expect(profile.followCounts.followerCount, 20);
       expect(profile.isOwnProfile, false);
       expect(profile.bio, 'Hello');
       expect(profile.instagramHandle, 'test_insta');
       expect(profile.bookCount, 5);
+    });
+
+    test('incoming が FOLLOWING の場合フォローバック状態を正しくマッピングする', () async {
+      final userProfileData = GUserProfileData_userProfile(
+        (b) => b
+          ..user.id = 1
+          ..user.name = 'Test'
+          ..user.avatarUrl = null
+          ..user.handle = 'test'
+          ..user.bio = null
+          ..user.bookCount = 0
+          ..user.instagramHandle = null
+          ..outgoingFollowStatus = GFollowStatus.NONE
+          ..incomingFollowStatus = GFollowStatus.FOLLOWING
+          ..followCounts.followingCount = 0
+          ..followCounts.followerCount = 0
+          ..isOwnProfile = false,
+      );
+      final responseData = GUserProfileData(
+        (b) => b..userProfile.replace(userProfileData),
+      );
+      final response =
+          OperationResponse<GUserProfileData, GUserProfileVars>(
+        operationRequest: GUserProfileReq(
+          (b) => b..vars.handle = 'test',
+        ),
+        data: responseData,
+      );
+
+      when(() => mockClient.request(any<GUserProfileReq>()))
+          .thenAnswer((_) => Stream.value(response));
+
+      final result = await repository.getUserProfile(handle: 'test');
+
+      expect(result.isRight(), true);
+      final profile =
+          result.getOrElse((_) => throw Exception('Expected Right'));
+      expect(profile.outgoingFollowStatus, FollowStatusType.none);
+      expect(profile.incomingFollowStatus, FollowStatusType.following);
     });
 
     test('userProfile が null の場合 NotFoundFailure を返す', () async {
@@ -719,8 +760,7 @@ void main() {
     test('GFollowStatus のマッピングが正しい', () async {
       for (final entry in {
         GFollowStatus.NONE: FollowStatusType.none,
-        GFollowStatus.PENDING_SENT: FollowStatusType.pendingSent,
-        GFollowStatus.PENDING_RECEIVED: FollowStatusType.pendingReceived,
+        GFollowStatus.PENDING: FollowStatusType.pending,
         GFollowStatus.FOLLOWING: FollowStatusType.following,
       }.entries) {
         final userProfileData = GUserProfileData_userProfile(
@@ -732,7 +772,8 @@ void main() {
             ..user.bio = null
             ..user.bookCount = 0
             ..user.instagramHandle = null
-            ..followStatus = entry.key
+            ..outgoingFollowStatus = entry.key
+            ..incomingFollowStatus = GFollowStatus.NONE
             ..followCounts.followingCount = 0
             ..followCounts.followerCount = 0
             ..isOwnProfile = false,
@@ -757,7 +798,7 @@ void main() {
         final profile =
             result.getOrElse((_) => throw Exception('Expected Right'));
         expect(
-          profile.followStatus,
+          profile.outgoingFollowStatus,
           entry.value,
           reason: '${entry.key} should map to ${entry.value}',
         );

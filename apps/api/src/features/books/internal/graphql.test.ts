@@ -3106,7 +3106,10 @@ describe("userShelf query", () => {
         updatedAt: new Date(),
       }),
     );
-    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue("FOLLOWING");
+    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue({
+      outgoing: "FOLLOWING",
+      incoming: "NONE",
+    });
     vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
       ok(mockResult),
     );
@@ -3170,7 +3173,10 @@ describe("userShelf query", () => {
         updatedAt: new Date(),
       }),
     );
-    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue("NONE");
+    vi.mocked(mockFollowService.getFollowStatus).mockResolvedValue({
+      outgoing: "NONE",
+      incoming: "NONE",
+    });
 
     const builder = createTestBuilder();
     registerBooksTypes(builder);
