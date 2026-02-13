@@ -334,12 +334,12 @@ export function createFollowService(
 
       const result = new Map<number, FollowStatus>();
       for (const targetId of targetUserIds) {
-        if (followingSet.has(targetId)) {
+        if (pendingReceivedSet.has(targetId)) {
+          result.set(targetId, "PENDING_RECEIVED");
+        } else if (followingSet.has(targetId)) {
           result.set(targetId, "FOLLOWING");
         } else if (pendingSentSet.has(targetId)) {
           result.set(targetId, "PENDING_SENT");
-        } else if (pendingReceivedSet.has(targetId)) {
-          result.set(targetId, "PENDING_RECEIVED");
         } else if (followersSet.has(targetId)) {
           result.set(targetId, "FOLLOWED_BY");
         } else {
