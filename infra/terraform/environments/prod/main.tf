@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "~> 7.0"
     }
+    vercel = {
+      source  = "vercel/vercel"
+      version = "~> 4.0"
+    }
   }
 }
 
@@ -23,6 +27,10 @@ provider "google-beta" {
   region                = var.region
   user_project_override = true
   billing_project       = var.project_id
+}
+
+provider "vercel" {
+  api_token = var.vercel_api_token
 }
 
 module "api_cloud_run" {
@@ -183,4 +191,27 @@ output "google_play_publisher_service_account_key_json" {
   description = "Google Play publisher service account key (base64-encoded JSON)"
   value       = module.google_play_publisher.service_account_key_json
   sensitive   = true
+}
+
+# =============================================================================
+# Vercel Web
+# =============================================================================
+
+module "vercel_web" {
+  source = "../../modules/vercel-web"
+
+  project_name      = "shelfie-web"
+  github_repo       = "${var.github_owner}/${var.github_repo}"
+  production_branch = "master"
+  root_directory    = "apps/web"
+}
+
+output "vercel_web_project_id" {
+  description = "Vercel Web project ID"
+  value       = module.vercel_web.project_id
+}
+
+output "vercel_web_default_domain" {
+  description = "Vercel Web default domain URL"
+  value       = module.vercel_web.default_domain
 }

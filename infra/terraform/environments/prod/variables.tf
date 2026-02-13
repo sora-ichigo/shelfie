@@ -136,3 +136,13 @@ variable "github_repo" {
   description = "GitHub repository name"
   type        = string
 }
+
+# =============================================================================
+# Vercel Configuration
+# =============================================================================
+
+variable "vercel_api_token" {
+  description = "Vercel API token for authentication"
+  type        = string
+  sensitive   = true
+}
