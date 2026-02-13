@@ -155,6 +155,22 @@ void main() {
         final result = guardRoute(authState: guestState, state: mockState);
         expect(result, isNull);
       });
+
+      test('ゲスト + /u/somehandle -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/u/somehandle');
+        final result = guardRoute(authState: guestState, state: mockState);
+        expect(result, isNull);
+      });
+    });
+
+    group('ディープリンク（未認証）', () {
+      const unauthState = AuthStateData();
+
+      test('未認証 + /u/somehandle -> リダイレクトなし', () {
+        when(() => mockState.matchedLocation).thenReturn('/u/somehandle');
+        final result = guardRoute(authState: unauthState, state: mockState);
+        expect(result, isNull);
+      });
     });
   });
 }

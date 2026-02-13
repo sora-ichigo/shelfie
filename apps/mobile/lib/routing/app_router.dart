@@ -220,6 +220,7 @@ String? guardRoute({
   final currentLocation = state.matchedLocation;
   final isAuthRoute = currentLocation.startsWith('/auth');
   final isWelcomeRoute = currentLocation == AppRoutes.welcome;
+  final isPublicProfileRoute = currentLocation.startsWith('/u/');
 
   // 認証済みかつ（認証ルート または ウェルカム） -> ホームへ
   if (isAuthenticated && (isAuthRoute || isWelcomeRoute)) {
@@ -236,6 +237,7 @@ String? guardRoute({
         currentLocation == AppRoutes.profileTab ||
         currentLocation == AppRoutes.notificationsTab ||
         currentLocation == AppRoutes.account ||
+        isPublicProfileRoute ||
         isWelcomeRoute ||
         isAuthRoute;
 
@@ -246,7 +248,8 @@ String? guardRoute({
   }
 
   // 未認証かつ認証ルートでもウェルカムでもない -> ウェルカム画面へ
-  if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute) {
+  if (!isAuthenticated && !isAuthRoute && !isWelcomeRoute &&
+      !isPublicProfileRoute) {
     return AppRoutes.welcome;
   }
 
