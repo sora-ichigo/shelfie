@@ -1,10 +1,13 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
+import 'package:shelfie/core/state/follow_version.dart';
 import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/notification/application/unread_notification_count.dart';
 import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
 
 import '../../../helpers/test_helpers.dart';
@@ -418,6 +421,38 @@ void main() {
       await container.read(authStateProvider.notifier).restoreSession();
 
       expect(spy.syncTokenCallCount, equals(0));
+    });
+
+    test('logout 時に FollowVersion がリセットされる', () async {
+      final container = createTestContainer();
+      addTearDown(container.dispose);
+
+      container.read(followVersionProvider.notifier).increment();
+      container.read(followVersionProvider.notifier).increment();
+      expect(container.read(followVersionProvider), equals(2));
+
+      await container.read(authStateProvider.notifier).logout();
+
+      expect(container.read(followVersionProvider), equals(0));
+    });
+
+    test('logout 時に UnreadNotificationCount がリセットされる', () async {
+      final container = createTestContainer();
+      addTearDown(container.dispose);
+
+      container.read(unreadNotificationCountProvider.notifier).state =
+          const AsyncData(5);
+      expect(
+        container.read(unreadNotificationCountProvider),
+        equals(const AsyncData<int>(5)),
+      );
+
+      await container.read(authStateProvider.notifier).logout();
+
+      expect(
+        container.read(unreadNotificationCountProvider),
+        equals(const AsyncData<int>(0)),
+      );
     });
 
     test('logout 時にゲストモードフラグもクリアされる', () async {

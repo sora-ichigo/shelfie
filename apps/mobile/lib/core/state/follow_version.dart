@@ -8,4 +8,6 @@ class FollowVersion extends _$FollowVersion {
   int build() => 0;
 
   void increment() => state++;
+
+  void reset() => state = 0;
 }

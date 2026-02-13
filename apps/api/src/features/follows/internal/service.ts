@@ -133,7 +133,7 @@ export function createFollowService(
           title: "フォローリクエスト",
           body: "新しいフォローリクエストが届きました",
           userIds: [receiverId],
-          data: { type: "follow_request_received" },
+          data: { type: "follow_request_received", route: "/notifications" },
         })
         .catch((error) => {
           logger.error(

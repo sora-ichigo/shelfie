@@ -6,7 +6,7 @@ part of 'follow_version.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$followVersionHash() => r'c109813c3445c9e1ced81c6615e777c2675b3e6a';
+String _$followVersionHash() => r'e994e10dae3be37b2ac9e0bf3105511673d3137c';
 
 /// See also [FollowVersion].
 @ProviderFor(FollowVersion)
