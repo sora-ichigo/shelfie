@@ -25,6 +25,7 @@ function createMockFollowRepository(): FollowRepository {
     countFollowing: vi.fn(),
     countFollowers: vi.fn(),
     findFollowsBatch: vi.fn(),
+    findFollowersBatch: vi.fn(),
     findPendingSentRequestsBatch: vi.fn(),
     findPendingReceivedRequestsBatch: vi.fn(),
   };
@@ -974,6 +975,7 @@ describe("FollowService", () => {
       const logger = createMockLogger();
 
       vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set([2]));
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
       vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(
         new Set([3]),
       );
@@ -995,6 +997,30 @@ describe("FollowService", () => {
       expect(result.get(5)).toBe("NONE");
     });
 
+    it("should return PENDING_RECEIVED when user follows target AND has pending received request", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set([2]));
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingReceivedRequestsBatch).mockResolvedValue(
+        new Set([2]),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowStatusBatch(1, [2]);
+
+      expect(result.get(2)).toBe("PENDING_RECEIVED");
+    });
+
     it("should call all three batch repository methods", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
@@ -1002,6 +1028,7 @@ describe("FollowService", () => {
       const logger = createMockLogger();
 
       vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
       vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(new Set());
       vi.mocked(repo.findPendingReceivedRequestsBatch).mockResolvedValue(
         new Set(),
@@ -1016,6 +1043,7 @@ describe("FollowService", () => {
       await service.getFollowStatusBatch(1, [2, 3]);
 
       expect(repo.findFollowsBatch).toHaveBeenCalledWith(1, [2, 3]);
+      expect(repo.findFollowersBatch).toHaveBeenCalledWith(1, [2, 3]);
       expect(repo.findPendingSentRequestsBatch).toHaveBeenCalledWith(1, [2, 3]);
       expect(repo.findPendingReceivedRequestsBatch).toHaveBeenCalledWith(
         1,

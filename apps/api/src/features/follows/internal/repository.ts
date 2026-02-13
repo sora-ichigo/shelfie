@@ -56,6 +56,7 @@ export interface FollowRepository {
   countFollowing(userId: number): Promise<number>;
   countFollowers(userId: number): Promise<number>;
   findFollowsBatch(userId: number, targetIds: number[]): Promise<Set<number>>;
+  findFollowersBatch(userId: number, targetIds: number[]): Promise<Set<number>>;
   findPendingSentRequestsBatch(
     senderId: number,
     receiverIds: number[],
@@ -296,6 +297,25 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
         );
 
       return new Set(result.map((f) => f.followeeId));
+    },
+
+    async findFollowersBatch(
+      userId: number,
+      targetIds: number[],
+    ): Promise<Set<number>> {
+      if (targetIds.length === 0) return new Set();
+
+      const result = await db
+        .select()
+        .from(follows)
+        .where(
+          and(
+            inArray(follows.followerId, targetIds),
+            eq(follows.followeeId, userId),
+          ),
+        );
+
+      return new Set(result.map((f) => f.followerId));
     },
 
     async findPendingSentRequestsBatch(

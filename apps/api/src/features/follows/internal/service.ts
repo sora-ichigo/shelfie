@@ -10,7 +10,8 @@ export type FollowStatus =
   | "PENDING"
   | "PENDING_SENT"
   | "PENDING_RECEIVED"
-  | "FOLLOWING";
+  | "FOLLOWING"
+  | "FOLLOWED_BY";
 
 export type FollowServiceErrors =
   | { code: "SELF_FOLLOW"; message: string }
@@ -323,9 +324,10 @@ export function createFollowService(
       userId: number,
       targetUserIds: number[],
     ): Promise<Map<number, FollowStatus>> {
-      const [followingSet, pendingSentSet, pendingReceivedSet] =
+      const [followingSet, followersSet, pendingSentSet, pendingReceivedSet] =
         await Promise.all([
           repository.findFollowsBatch(userId, targetUserIds),
+          repository.findFollowersBatch(userId, targetUserIds),
           repository.findPendingSentRequestsBatch(userId, targetUserIds),
           repository.findPendingReceivedRequestsBatch(userId, targetUserIds),
         ]);
@@ -338,6 +340,8 @@ export function createFollowService(
           result.set(targetId, "PENDING_SENT");
         } else if (pendingReceivedSet.has(targetId)) {
           result.set(targetId, "PENDING_RECEIVED");
+        } else if (followersSet.has(targetId)) {
+          result.set(targetId, "FOLLOWED_BY");
         } else {
           result.set(targetId, "NONE");
         }
