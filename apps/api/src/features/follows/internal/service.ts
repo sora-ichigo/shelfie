@@ -46,6 +46,10 @@ export interface FollowService {
   getFollowCounts(
     userId: number,
   ): Promise<{ followingCount: number; followerCount: number }>;
+  getFollowStatusBatch(
+    userId: number,
+    targetUserIds: number[],
+  ): Promise<Map<number, FollowStatus>>;
 }
 
 export function createFollowService(
@@ -301,6 +305,32 @@ export function createFollowService(
         repository.countFollowers(userId),
       ]);
       return { followingCount, followerCount };
+    },
+
+    async getFollowStatusBatch(
+      userId: number,
+      targetUserIds: number[],
+    ): Promise<Map<number, FollowStatus>> {
+      const [followingSet, pendingSentSet, pendingReceivedSet] =
+        await Promise.all([
+          repository.findFollowsBatch(userId, targetUserIds),
+          repository.findPendingSentRequestsBatch(userId, targetUserIds),
+          repository.findPendingReceivedRequestsBatch(userId, targetUserIds),
+        ]);
+
+      const result = new Map<number, FollowStatus>();
+      for (const targetId of targetUserIds) {
+        if (followingSet.has(targetId)) {
+          result.set(targetId, "FOLLOWING");
+        } else if (pendingSentSet.has(targetId)) {
+          result.set(targetId, "PENDING_SENT");
+        } else if (pendingReceivedSet.has(targetId)) {
+          result.set(targetId, "PENDING_RECEIVED");
+        } else {
+          result.set(targetId, "NONE");
+        }
+      }
+      return result;
     },
   };
 }

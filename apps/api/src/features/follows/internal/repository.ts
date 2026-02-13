@@ -1,4 +1,4 @@
-import { and, count, desc, eq, lt, or, sql } from "drizzle-orm";
+import { and, count, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import {
   type FollowRequest,
@@ -55,6 +55,15 @@ export interface FollowRepository {
   ): Promise<FollowWithUser[]>;
   countFollowing(userId: number): Promise<number>;
   countFollowers(userId: number): Promise<number>;
+  findFollowsBatch(userId: number, targetIds: number[]): Promise<Set<number>>;
+  findPendingSentRequestsBatch(
+    senderId: number,
+    receiverIds: number[],
+  ): Promise<Set<number>>;
+  findPendingReceivedRequestsBatch(
+    receiverId: number,
+    senderIds: number[],
+  ): Promise<Set<number>>;
 }
 
 export function createFollowRepository(db: NodePgDatabase): FollowRepository {
@@ -236,6 +245,73 @@ export function createFollowRepository(db: NodePgDatabase): FollowRepository {
         .from(follows)
         .where(or(eq(follows.userIdA, userId), eq(follows.userIdB, userId)));
       return result[0]?.count ?? 0;
+    },
+
+    async findFollowsBatch(
+      userId: number,
+      targetIds: number[],
+    ): Promise<Set<number>> {
+      if (targetIds.length === 0) return new Set();
+
+      const result = await db
+        .select()
+        .from(follows)
+        .where(
+          or(
+            and(
+              eq(follows.userIdA, userId),
+              inArray(follows.userIdB, targetIds),
+            ),
+            and(
+              eq(follows.userIdB, userId),
+              inArray(follows.userIdA, targetIds),
+            ),
+          ),
+        );
+
+      return new Set(
+        result.map((f) => (f.userIdA === userId ? f.userIdB : f.userIdA)),
+      );
+    },
+
+    async findPendingSentRequestsBatch(
+      senderId: number,
+      receiverIds: number[],
+    ): Promise<Set<number>> {
+      if (receiverIds.length === 0) return new Set();
+
+      const result = await db
+        .select()
+        .from(followRequests)
+        .where(
+          and(
+            eq(followRequests.senderId, senderId),
+            inArray(followRequests.receiverId, receiverIds),
+            eq(followRequests.status, "pending"),
+          ),
+        );
+
+      return new Set(result.map((r) => r.receiverId));
+    },
+
+    async findPendingReceivedRequestsBatch(
+      receiverId: number,
+      senderIds: number[],
+    ): Promise<Set<number>> {
+      if (senderIds.length === 0) return new Set();
+
+      const result = await db
+        .select()
+        .from(followRequests)
+        .where(
+          and(
+            eq(followRequests.receiverId, receiverId),
+            inArray(followRequests.senderId, senderIds),
+            eq(followRequests.status, "pending"),
+          ),
+        );
+
+      return new Set(result.map((r) => r.senderId));
     },
   };
 }

@@ -8,6 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
 import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.data.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.req.gql.dart';
@@ -166,6 +167,7 @@ class NotificationRepository {
         handle: notification.sender.handle,
       ),
       type: _mapNotificationType(notification.type),
+      followStatus: _mapFollowStatus(notification.followStatus),
       isRead: notification.isRead,
       createdAt: notification.createdAt,
     );
@@ -178,6 +180,16 @@ class NotificationRepository {
       GNotificationType.FOLLOW_REQUEST_APPROVED =>
         NotificationType.followRequestApproved,
       _ => NotificationType.followRequestReceived,
+    };
+  }
+
+  FollowStatusType _mapFollowStatus(GFollowStatus status) {
+    return switch (status) {
+      GFollowStatus.NONE => FollowStatusType.none,
+      GFollowStatus.PENDING_SENT => FollowStatusType.pendingSent,
+      GFollowStatus.PENDING_RECEIVED => FollowStatusType.pendingReceived,
+      GFollowStatus.FOLLOWING => FollowStatusType.following,
+      _ => FollowStatusType.none,
     };
   }
 }

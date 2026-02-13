@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
 import 'package:shelfie/features/notification/domain/notification_type.dart';
@@ -18,6 +19,7 @@ void main() {
         id: 1,
         sender: sender,
         type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
         isRead: false,
         createdAt: createdAt,
       );
@@ -34,6 +36,7 @@ void main() {
         id: 1,
         sender: sender,
         type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
         isRead: false,
         createdAt: createdAt,
       );
@@ -52,6 +55,7 @@ void main() {
         id: 1,
         sender: sender,
         type: NotificationType.followRequestApproved,
+        followStatus: FollowStatusType.following,
         isRead: true,
         createdAt: createdAt,
       );
@@ -59,6 +63,7 @@ void main() {
         id: 1,
         sender: sender,
         type: NotificationType.followRequestApproved,
+        followStatus: FollowStatusType.following,
         isRead: true,
         createdAt: createdAt,
       );

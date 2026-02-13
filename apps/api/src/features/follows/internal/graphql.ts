@@ -51,7 +51,7 @@ function createUserProfileRef(builder: Builder) {
 }
 
 let FollowRequestStatusRef: FollowRequestStatusEnumRef;
-let FollowStatusRef: FollowStatusEnumRef;
+export let FollowStatusRef: FollowStatusEnumRef;
 let FollowRequestRef: FollowRequestObjectRef;
 let FollowCountsRef: FollowCountsObjectRef;
 let UserProfileRef: UserProfileObjectRef;

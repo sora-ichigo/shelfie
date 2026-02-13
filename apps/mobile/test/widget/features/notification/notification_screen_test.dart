@@ -5,6 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
 import 'package:shelfie/features/notification/data/notification_repository.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
@@ -37,6 +38,29 @@ void main() {
     );
   }
 
+  NotificationModel createNotification({
+    required int id,
+    required String name,
+    required String handle,
+    required NotificationType type,
+    required FollowStatusType followStatus,
+    bool isRead = false,
+  }) {
+    return NotificationModel(
+      id: id,
+      sender: UserSummary(
+        id: id * 10,
+        name: name,
+        avatarUrl: null,
+        handle: handle,
+      ),
+      type: type,
+      followStatus: followStatus,
+      isRead: isRead,
+      createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+    );
+  }
+
   final testNotifications = [
     NotificationModel(
       id: 1,
@@ -47,6 +71,7 @@ void main() {
         handle: 'testuser',
       ),
       type: NotificationType.followRequestReceived,
+      followStatus: FollowStatusType.pendingReceived,
       isRead: false,
       createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
     ),
@@ -59,6 +84,7 @@ void main() {
         handle: 'approved',
       ),
       type: NotificationType.followRequestApproved,
+      followStatus: FollowStatusType.none,
       isRead: true,
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
     ),
@@ -103,7 +129,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.textContaining('がフォローリクエストを承認しました'),
+        find.textContaining('があなたをフォローしました'),
         findsOneWidget,
       );
     });
@@ -146,9 +172,17 @@ void main() {
       expect(find.byType(ErrorWidget).evaluate().isEmpty, isTrue);
     });
 
-    testWidgets('followRequestReceived に承認・削除ボタンを表示すること', (tester) async {
+    testWidgets('pendingReceived で承認・削除ボタンを表示すること', (tester) async {
+      final notification = createNotification(
+        id: 1,
+        name: 'ユーザーA',
+        handle: 'user_a',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
+      );
+
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
-          .thenAnswer((_) async => right(testNotifications));
+          .thenAnswer((_) async => right([notification]));
       when(() => mockNotificationRepo.markAllAsRead())
           .thenAnswer((_) async => right(null));
 
@@ -157,6 +191,88 @@ void main() {
 
       expect(find.text('承認'), findsOneWidget);
       expect(find.text('削除'), findsOneWidget);
+    });
+
+    testWidgets('following でフォロー中ボタン（非活性）を表示すること', (tester) async {
+      final notification = createNotification(
+        id: 2,
+        name: 'ユーザーB',
+        handle: 'user_b',
+        type: NotificationType.followRequestApproved,
+        followStatus: FollowStatusType.following,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.text('フォロー中'), findsOneWidget);
+    });
+
+    testWidgets('none + followRequestReceived でフォローバックボタンを表示すること',
+        (tester) async {
+      final notification = createNotification(
+        id: 3,
+        name: 'ユーザーC',
+        handle: 'user_c',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.none,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.text('フォローバック'), findsOneWidget);
+    });
+
+    testWidgets('none + followRequestApproved でフォローボタンを表示すること',
+        (tester) async {
+      final notification = createNotification(
+        id: 4,
+        name: 'ユーザーD',
+        handle: 'user_d',
+        type: NotificationType.followRequestApproved,
+        followStatus: FollowStatusType.none,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.text('フォロー'), findsOneWidget);
+    });
+
+    testWidgets('pendingSent でリクエスト済みボタン（非活性）を表示すること', (tester) async {
+      final notification = createNotification(
+        id: 5,
+        name: 'ユーザーE',
+        handle: 'user_e',
+        type: NotificationType.followRequestApproved,
+        followStatus: FollowStatusType.pendingSent,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.text('リクエスト済み'), findsOneWidget);
     });
   });
 }

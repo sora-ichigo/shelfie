@@ -1,4 +1,6 @@
 import type { Builder } from "../../../graphql/builder.js";
+import { FollowStatusRef } from "../../follows/internal/graphql.js";
+import type { FollowService } from "../../follows/internal/service.js";
 import { UserRef } from "../../users/internal/graphql.js";
 import type { UserService } from "../../users/internal/service.js";
 import type { NotificationWithSender } from "./repository.js";
@@ -10,7 +12,7 @@ function createAppNotificationRef(builder: Builder) {
   return builder.objectRef<NotificationWithSender>("AppNotification");
 }
 
-let AppNotificationRef: AppNotificationObjectRef;
+export let AppNotificationRef: AppNotificationObjectRef;
 
 export function registerNotificationTypes(builder: Builder): void {
   const NotificationTypeEnum = builder.enumType("NotificationType", {
@@ -107,6 +109,36 @@ export function registerNotificationQueries(
       },
     }),
   }));
+}
+
+export function registerNotificationFollowStatusField(
+  builder: Builder,
+  followService: FollowService,
+): void {
+  builder.objectField(AppNotificationRef, "followStatus", (t) =>
+    t.loadable({
+      type: FollowStatusRef,
+      nullable: false,
+      load: async (keys: string[]) => {
+        const parsed = keys.map((k) => {
+          const [recipientId, senderId] = k.split(":").map(Number);
+          return { recipientId, senderId };
+        });
+        const recipientId = parsed[0].recipientId;
+        const senderIds = parsed.map((p) => p.senderId);
+        const statusMap = await followService.getFollowStatusBatch(
+          recipientId,
+          senderIds,
+        );
+        return keys.map((k) => {
+          const senderId = Number(k.split(":")[1]);
+          return statusMap.get(senderId) ?? "NONE";
+        });
+      },
+      resolve: (parent) =>
+        `${parent.notification.recipientId}:${parent.notification.senderId}`,
+    }),
+  );
 }
 
 export function registerNotificationMutations(

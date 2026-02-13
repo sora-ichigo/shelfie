@@ -95,6 +95,9 @@ class _$GNotificationsData_notificationsSerializer
       'type',
       serializers.serialize(object.type,
           specifiedType: const FullType(_i2.GNotificationType)),
+      'followStatus',
+      serializers.serialize(object.followStatus,
+          specifiedType: const FullType(_i2.GFollowStatus)),
       'isRead',
       serializers.serialize(object.isRead, specifiedType: const FullType(bool)),
       'createdAt',
@@ -135,6 +138,11 @@ class _$GNotificationsData_notificationsSerializer
           result.type = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GNotificationType))!
               as _i2.GNotificationType;
+          break;
+        case 'followStatus':
+          result.followStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GFollowStatus))!
+              as _i2.GFollowStatus;
           break;
         case 'isRead':
           result.isRead = serializers.deserialize(value,
@@ -366,6 +374,8 @@ class _$GNotificationsData_notifications
   @override
   final _i2.GNotificationType type;
   @override
+  final _i2.GFollowStatus followStatus;
+  @override
   final bool isRead;
   @override
   final DateTime createdAt;
@@ -379,6 +389,7 @@ class _$GNotificationsData_notifications
       required this.id,
       required this.sender,
       required this.type,
+      required this.followStatus,
       required this.isRead,
       required this.createdAt})
       : super._();
@@ -399,6 +410,7 @@ class _$GNotificationsData_notifications
         id == other.id &&
         sender == other.sender &&
         type == other.type &&
+        followStatus == other.followStatus &&
         isRead == other.isRead &&
         createdAt == other.createdAt;
   }
@@ -410,6 +422,7 @@ class _$GNotificationsData_notifications
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, sender.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, followStatus.hashCode);
     _$hash = $jc(_$hash, isRead.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jf(_$hash);
@@ -423,6 +436,7 @@ class _$GNotificationsData_notifications
           ..add('id', id)
           ..add('sender', sender)
           ..add('type', type)
+          ..add('followStatus', followStatus)
           ..add('isRead', isRead)
           ..add('createdAt', createdAt))
         .toString();
@@ -453,6 +467,11 @@ class GNotificationsData_notificationsBuilder
   _i2.GNotificationType? get type => _$this._type;
   set type(_i2.GNotificationType? type) => _$this._type = type;
 
+  _i2.GFollowStatus? _followStatus;
+  _i2.GFollowStatus? get followStatus => _$this._followStatus;
+  set followStatus(_i2.GFollowStatus? followStatus) =>
+      _$this._followStatus = followStatus;
+
   bool? _isRead;
   bool? get isRead => _$this._isRead;
   set isRead(bool? isRead) => _$this._isRead = isRead;
@@ -472,6 +491,7 @@ class GNotificationsData_notificationsBuilder
       _id = $v.id;
       _sender = $v.sender.toBuilder();
       _type = $v.type;
+      _followStatus = $v.followStatus;
       _isRead = $v.isRead;
       _createdAt = $v.createdAt;
       _$v = null;
@@ -504,6 +524,8 @@ class GNotificationsData_notificationsBuilder
             sender: sender.build(),
             type: BuiltValueNullFieldError.checkNotNull(
                 type, r'GNotificationsData_notifications', 'type'),
+            followStatus: BuiltValueNullFieldError.checkNotNull(followStatus,
+                r'GNotificationsData_notifications', 'followStatus'),
             isRead: BuiltValueNullFieldError.checkNotNull(
                 isRead, r'GNotificationsData_notifications', 'isRead'),
             createdAt: BuiltValueNullFieldError.checkNotNull(

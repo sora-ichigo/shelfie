@@ -1,4 +1,5 @@
 import SchemaBuilder from "@pothos/core";
+import DataloaderPlugin from "@pothos/plugin-dataloader";
 import ErrorsPlugin from "@pothos/plugin-errors";
 import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 import { DateTimeResolver } from "graphql-scalars";
@@ -31,7 +32,7 @@ export interface SchemaTypes {
 
 function createBuilder() {
   const builder = new SchemaBuilder<SchemaTypes>({
-    plugins: [ScopeAuthPlugin, ErrorsPlugin],
+    plugins: [ScopeAuthPlugin, ErrorsPlugin, DataloaderPlugin],
     scopeAuth: {
       authScopes: (context) => ({
         loggedIn: !!context.user,

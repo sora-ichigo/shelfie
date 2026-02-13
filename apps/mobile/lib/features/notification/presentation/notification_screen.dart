@@ -5,6 +5,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/time_ago.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
 import 'package:shelfie/features/notification/domain/notification_type.dart';
@@ -203,60 +204,138 @@ class _NotificationTile extends StatelessWidget {
               ),
             ),
           ),
-          if (notification.type ==
-              NotificationType.followRequestReceived) ...[
-            const SizedBox(width: AppSpacing.xs),
-            TextButton(
-              onPressed: onApprove,
-              style: TextButton.styleFrom(
-                backgroundColor: appColors.primary,
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppSpacing.xxs,
-                  horizontal: AppSpacing.md,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSpacing.xs),
-                ),
-              ),
-              child: Text(
-                '承認',
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: appColors.textPrimary,
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            TextButton(
-              onPressed: onReject,
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppSpacing.xxs,
-                  horizontal: AppSpacing.md,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                '削除',
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: appColors.textPrimary,
-                ),
-              ),
-            ),
-          ],
+          ..._buildActionButtons(theme, appColors),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildActionButtons(ThemeData theme, AppColors appColors) {
+    return switch (notification.followStatus) {
+      FollowStatusType.pendingReceived => [
+        const SizedBox(width: AppSpacing.xs),
+        TextButton(
+          onPressed: onApprove,
+          style: TextButton.styleFrom(
+            backgroundColor: appColors.primary,
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.md,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSpacing.xs),
+            ),
+          ),
+          child: Text(
+            '承認',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: appColors.textPrimary,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.xs),
+        TextButton(
+          onPressed: onReject,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.md,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: Text(
+            '削除',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: appColors.textPrimary,
+            ),
+          ),
+        ),
+      ],
+      FollowStatusType.following => [
+        const SizedBox(width: AppSpacing.xs),
+        _DisabledButton(label: 'フォロー中', theme: theme, appColors: appColors),
+      ],
+      FollowStatusType.none => [
+        const SizedBox(width: AppSpacing.xs),
+        TextButton(
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            backgroundColor: appColors.primary,
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.md,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSpacing.xs),
+            ),
+          ),
+          child: Text(
+            notification.type == NotificationType.followRequestReceived
+                ? 'フォローバック'
+                : 'フォロー',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: appColors.textPrimary,
+            ),
+          ),
+        ),
+      ],
+      FollowStatusType.pendingSent => [
+        const SizedBox(width: AppSpacing.xs),
+        _DisabledButton(
+          label: 'リクエスト済み',
+          theme: theme,
+          appColors: appColors,
+        ),
+      ],
+    };
   }
 
   String _notificationText(NotificationType type) {
     return switch (type) {
       NotificationType.followRequestReceived =>
         ' からフォローリクエストがありました。',
-      NotificationType.followRequestApproved =>
-        ' がフォローリクエストを承認しました。',
+      NotificationType.followRequestApproved => ' があなたをフォローしました。',
     };
+  }
+}
+
+class _DisabledButton extends StatelessWidget {
+  const _DisabledButton({
+    required this.label,
+    required this.theme,
+    required this.appColors,
+  });
+
+  final String label;
+  final ThemeData theme;
+  final AppColors appColors;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: null,
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.xxs,
+          horizontal: AppSpacing.md,
+        ),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.xs),
+        ),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: appColors.textSecondary,
+        ),
+      ),
+    );
   }
 }

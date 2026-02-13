@@ -25,6 +25,9 @@ function createMockFollowRepository(): FollowRepository {
     findFollowers: vi.fn(),
     countFollowing: vi.fn(),
     countFollowers: vi.fn(),
+    findFollowsBatch: vi.fn(),
+    findPendingSentRequestsBatch: vi.fn(),
+    findPendingReceivedRequestsBatch: vi.fn(),
   };
 }
 
