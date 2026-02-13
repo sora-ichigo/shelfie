@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shelfie/core/state/follow_version.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/storage/secure_storage_service.dart';
+import 'package:shelfie/features/notification/application/unread_notification_count.dart';
 import 'package:shelfie/features/push_notification/application/device_token_notifier.dart';
 
 part 'auth_state.g.dart';
@@ -146,6 +148,8 @@ class AuthState extends _$AuthState {
     await storage.clearAuthData();
     await storage.clearGuestMode();
     ref.read(shelfStateProvider.notifier).clear();
+    ref.read(followVersionProvider.notifier).reset();
+    ref.read(unreadNotificationCountProvider.notifier).reset();
   }
 
   Future<bool> restoreSession() async {

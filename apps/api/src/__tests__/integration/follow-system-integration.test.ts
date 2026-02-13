@@ -157,7 +157,7 @@ describe("Follow System Integration", () => {
       expect(pushService.sendNotification).toHaveBeenCalledWith(
         expect.objectContaining({
           userIds: [2],
-          data: { type: "follow_request_received" },
+          data: { type: "follow_request_received", route: "/notifications" },
         }),
       );
 

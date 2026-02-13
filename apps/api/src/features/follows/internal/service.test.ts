@@ -201,6 +201,34 @@ describe("FollowService", () => {
       );
     });
 
+    it("should include route in push notification data for follow request", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const mockRequest = createMockFollowRequest();
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+      vi.mocked(repo.createRequest).mockResolvedValue(mockRequest);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.sendRequest(1, 2);
+
+      expect(pushService.sendNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            route: "/notifications",
+          }),
+        }),
+      );
+    });
+
     it("should return error for self-follow", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
