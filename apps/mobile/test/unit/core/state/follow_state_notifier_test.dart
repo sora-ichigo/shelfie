@@ -93,6 +93,19 @@ void main() {
         expect(state[targetUserId]?.incoming, FollowStatusType.following);
       });
 
+      test('incoming の pending を pendingReceived に正規化すること', () {
+        container.read(followStateProvider.notifier).registerStatus(
+              userId: targetUserId,
+              outgoing: FollowStatusType.following,
+              incoming: FollowStatusType.pending,
+            );
+
+        final state = container.read(followStateProvider);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.following);
+        expect(
+            state[targetUserId]?.incoming, FollowStatusType.pendingReceived);
+      });
+
       test('複数ユーザーのステータスを独立して管理できること', () {
         final notifier = container.read(followStateProvider.notifier);
         notifier.registerStatus(

@@ -317,6 +317,104 @@ void main() {
       expect(widget.onPressed, isNotNull);
     });
 
+    testWidgets(
+        'フォロー中のユーザーからフォローリクエストが来た場合、承認・削除ボタンを表示すること',
+        (tester) async {
+      final notification = createNotification(
+        id: 1,
+        name: 'ユーザーA',
+        handle: 'user_a',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
+        followRequestId: 100,
+      );
+      final senderId = notification.sender.id;
+
+      when(() =>
+              mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      final container = ProviderContainer(
+        overrides: [
+          notificationRepositoryProvider
+              .overrideWithValue(mockNotificationRepo),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      container.read(followStateProvider.notifier).registerStatus(
+            userId: senderId,
+            outgoing: FollowStatusType.following,
+            incoming: FollowStatusType.none,
+          );
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            theme: AppTheme.theme,
+            home: const NotificationScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('承認'), findsOneWidget);
+      expect(find.text('削除'), findsOneWidget);
+      expect(find.text('フォロー中'), findsNothing);
+    });
+
+    testWidgets(
+        '承認済み(incoming: FOLLOWING)のユーザーに対して古い通知データで承認・削除ボタンに戻らないこと',
+        (tester) async {
+      final notification = createNotification(
+        id: 1,
+        name: 'ユーザーA',
+        handle: 'user_a',
+        type: NotificationType.followRequestReceived,
+        followStatus: FollowStatusType.pendingReceived,
+        followRequestId: 100,
+      );
+      final senderId = notification.sender.id;
+
+      when(() =>
+              mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+      when(() => mockNotificationRepo.markAllAsRead())
+          .thenAnswer((_) async => right(null));
+
+      final container = ProviderContainer(
+        overrides: [
+          notificationRepositoryProvider
+              .overrideWithValue(mockNotificationRepo),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      container.read(followStateProvider.notifier).registerStatus(
+            userId: senderId,
+            outgoing: FollowStatusType.following,
+            incoming: FollowStatusType.following,
+          );
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp(
+            theme: AppTheme.theme,
+            home: const NotificationScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('承認'), findsNothing);
+      expect(find.text('削除'), findsNothing);
+      expect(find.text('フォロー中'), findsOneWidget);
+    });
+
     testWidgets('FollowState が更新されると表示が追従すること', (tester) async {
       final notification = createNotification(
         id: 1,

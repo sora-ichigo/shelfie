@@ -22,7 +22,13 @@ class FollowState extends _$FollowState {
     required FollowStatusType outgoing,
     required FollowStatusType incoming,
   }) {
-    state = {...state, userId: (outgoing: outgoing, incoming: incoming)};
+    final normalizedIncoming = incoming == FollowStatusType.pending
+        ? FollowStatusType.pendingReceived
+        : incoming;
+    state = {
+      ...state,
+      userId: (outgoing: outgoing, incoming: normalizedIncoming),
+    };
   }
 
   Future<void> approveRequest({

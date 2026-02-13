@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
+import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_counts.dart';
@@ -59,6 +60,15 @@ class FakeUserProfileBookListsNotifier extends UserProfileBookListsNotifier {
   Future<void> loadLists() async {}
 }
 
+class FakeFollowCountsNotifier extends FollowCountsNotifier {
+  FakeFollowCountsNotifier(this._counts);
+
+  final FollowCounts _counts;
+
+  @override
+  Future<FollowCounts> build(int userId) async => _counts;
+}
+
 UserProfileModel _createProfile({
   int userId = 10,
   String name = 'TestUser',
@@ -99,10 +109,16 @@ void main() {
     fakeNotifier = FakeFollowStateNotifier();
   });
 
-  Widget buildSubject({required UserProfileModel profile}) {
+  Widget buildSubject({
+    required UserProfileModel profile,
+    FollowCounts? overrideCounts,
+  }) {
+    final counts = overrideCounts ?? profile.followCounts;
     return ProviderScope(
       overrides: [
         followStateProvider.overrideWith(() => fakeNotifier),
+        followCountsNotifierProvider(profile.user.id)
+            .overrideWith(() => FakeFollowCountsNotifier(counts)),
         userProfileBooksNotifierProvider(profile.user.id)
             .overrideWith(() => FakeUserProfileBooksNotifier()),
         userProfileBookListsNotifierProvider(profile.user.id)
@@ -370,6 +386,29 @@ void main() {
         await tester.pump();
 
         expect(find.text('フォローすると見られます'), findsNothing);
+      });
+    });
+
+    group('フォローカウントのリアクティブ更新', () {
+      testWidgets('followCountsNotifierProvider の値が表示に反映される',
+          (tester) async {
+        final profile = _createProfile(
+          followingCount: 5,
+          followerCount: 3,
+        );
+        final overrideCounts = const FollowCounts(
+          followingCount: 10,
+          followerCount: 8,
+        );
+        await tester.pumpWidget(
+          buildSubject(profile: profile, overrideCounts: overrideCounts),
+        );
+        await tester.pump();
+
+        expect(find.text('10 '), findsOneWidget);
+        expect(find.text('8 '), findsOneWidget);
+        expect(find.text('5 '), findsNothing);
+        expect(find.text('3 '), findsNothing);
       });
     });
 

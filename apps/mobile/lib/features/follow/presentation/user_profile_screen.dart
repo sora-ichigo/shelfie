@@ -11,6 +11,7 @@ import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.da
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
@@ -45,11 +46,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(followStateProvider.notifier).registerStatus(
-            userId: _userId,
-            outgoing: widget.profile.outgoingFollowStatus,
-            incoming: widget.profile.incomingFollowStatus,
-          );
+      final existing = ref.read(followStateProvider)[_userId];
+      if (existing == null) {
+        ref.read(followStateProvider.notifier).registerStatus(
+              userId: _userId,
+              outgoing: widget.profile.outgoingFollowStatus,
+              incoming: widget.profile.incomingFollowStatus,
+            );
+      }
     });
   }
 
@@ -81,6 +85,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
               incoming: widget.profile.incomingFollowStatus,
             );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following;
+    final followCounts = ref.watch(followCountsNotifierProvider(_userId));
 
     return Scaffold(
       appBar: AppBar(
@@ -108,8 +113,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   bio: widget.profile.bio,
                   instagramHandle: widget.profile.instagramHandle,
                   bookCount: widget.profile.bookCount ?? 0,
-                  followingCount: widget.profile.followCounts.followingCount,
-                  followerCount: widget.profile.followCounts.followerCount,
+                  followingCount: followCounts.valueOrNull?.followingCount
+                      ?? widget.profile.followCounts.followingCount,
+                  followerCount: followCounts.valueOrNull?.followerCount
+                      ?? widget.profile.followCounts.followerCount,
                   onFollowingTap: widget.onFollowingTap,
                   onFollowersTap: widget.onFollowersTap,
                   actionButtons: widget.profile.isOwnProfile

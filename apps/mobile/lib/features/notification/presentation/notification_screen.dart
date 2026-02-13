@@ -54,7 +54,20 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
     for (final notification in notifications) {
       final userId = notification.sender.id;
-      if (followState.containsKey(userId)) continue;
+      final existing = followState[userId];
+
+      if (existing != null) {
+        if (notification.type == NotificationType.followRequestReceived &&
+            notification.followStatus == FollowStatusType.pendingReceived &&
+            existing.incoming == FollowStatusType.none) {
+          notifier.registerStatus(
+            userId: userId,
+            outgoing: existing.outgoing,
+            incoming: FollowStatusType.pendingReceived,
+          );
+        }
+        continue;
+      }
 
       final (outgoing, incoming) =
           _flatToDirectional(notification.followStatus);
