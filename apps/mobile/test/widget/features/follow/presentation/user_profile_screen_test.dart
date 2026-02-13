@@ -257,7 +257,7 @@ void main() {
       testWidgets('リクエスト送信済み状態が表示される', (tester) async {
         fakeNotifier = FakeFollowStateNotifier();
         final profile = _createProfile(
-          outgoingFollowStatus: FollowStatusType.pending,
+          outgoingFollowStatus: FollowStatusType.pendingSent,
           incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
@@ -265,7 +265,7 @@ void main() {
 
         fakeNotifier.state = {
           profile.user.id: (
-            outgoing: FollowStatusType.pending,
+            outgoing: FollowStatusType.pendingSent,
             incoming: FollowStatusType.none,
           ),
         };
@@ -277,7 +277,7 @@ void main() {
       testWidgets('リクエスト送信済みボタンタップで cancelFollowRequest が呼ばれる', (tester) async {
         fakeNotifier = FakeFollowStateNotifier();
         final profile = _createProfile(
-          outgoingFollowStatus: FollowStatusType.pending,
+          outgoingFollowStatus: FollowStatusType.pendingSent,
           incomingFollowStatus: FollowStatusType.none,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
@@ -285,7 +285,7 @@ void main() {
 
         fakeNotifier.state = {
           profile.user.id: (
-            outgoing: FollowStatusType.pending,
+            outgoing: FollowStatusType.pendingSent,
             incoming: FollowStatusType.none,
           ),
         };
@@ -478,14 +478,14 @@ void main() {
           (tester) async {
         fakeNotifier = FakeFollowStateNotifier();
         final profile = _createProfile(
-          outgoingFollowStatus: FollowStatusType.pending,
+          outgoingFollowStatus: FollowStatusType.pendingSent,
         );
         await tester.pumpWidget(buildSubject(profile: profile));
         await tester.pump();
 
         fakeNotifier.state = {
           profile.user.id: (
-            outgoing: FollowStatusType.pending,
+            outgoing: FollowStatusType.pendingSent,
             incoming: FollowStatusType.none,
           ),
         };

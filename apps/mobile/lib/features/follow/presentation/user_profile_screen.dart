@@ -379,7 +379,6 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
             ),
           ),
         ),
-      FollowStatusType.pending ||
       FollowStatusType.pendingSent => Expanded(
           child: FilledButton(
             onPressed: () => ref

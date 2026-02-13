@@ -22,12 +22,9 @@ class FollowState extends _$FollowState {
     required FollowStatusType outgoing,
     required FollowStatusType incoming,
   }) {
-    final normalizedIncoming = incoming == FollowStatusType.pending
-        ? FollowStatusType.pendingReceived
-        : incoming;
     state = {
       ...state,
-      userId: (outgoing: outgoing, incoming: normalizedIncoming),
+      userId: (outgoing: outgoing, incoming: incoming),
     };
   }
 
@@ -92,7 +89,7 @@ class FollowState extends _$FollowState {
     final previous = current;
     state = {
       ...state,
-      userId: (outgoing: FollowStatusType.pending, incoming: current.incoming),
+      userId: (outgoing: FollowStatusType.pendingSent, incoming: current.incoming),
     };
 
     final repo = ref.read(followRepositoryProvider);

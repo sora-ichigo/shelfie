@@ -93,19 +93,6 @@ void main() {
         expect(state[targetUserId]?.incoming, FollowStatusType.following);
       });
 
-      test('incoming の pending を pendingReceived に正規化すること', () {
-        container.read(followStateProvider.notifier).registerStatus(
-              userId: targetUserId,
-              outgoing: FollowStatusType.following,
-              incoming: FollowStatusType.pending,
-            );
-
-        final state = container.read(followStateProvider);
-        expect(state[targetUserId]?.outgoing, FollowStatusType.following);
-        expect(
-            state[targetUserId]?.incoming, FollowStatusType.pendingReceived);
-      });
-
       test('複数ユーザーのステータスを独立して管理できること', () {
         final notifier = container.read(followStateProvider.notifier);
         notifier.registerStatus(
@@ -276,7 +263,7 @@ void main() {
     });
 
     group('sendFollowRequest', () {
-      test('楽観的に outgoing を pending に更新すること', () async {
+      test('楽観的に outgoing を pendingSent に更新すること', () async {
         when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
             .thenAnswer((_) async => right(createFollowRequest()));
 
@@ -290,7 +277,7 @@ void main() {
         final future = notifier.sendFollowRequest(userId: targetUserId);
 
         final state = container.read(followStateProvider);
-        expect(state[targetUserId]?.outgoing, FollowStatusType.pending);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.pendingSent);
 
         await future;
       });
@@ -309,7 +296,7 @@ void main() {
         final future = notifier.sendFollowRequest(userId: targetUserId);
 
         final state = container.read(followStateProvider);
-        expect(state[targetUserId]?.outgoing, FollowStatusType.pending);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.pendingSent);
         expect(state[targetUserId]?.incoming, FollowStatusType.following);
 
         await future;
@@ -390,7 +377,7 @@ void main() {
         final notifier = container.read(followStateProvider.notifier);
         notifier.registerStatus(
           userId: targetUserId,
-          outgoing: FollowStatusType.pending,
+          outgoing: FollowStatusType.pendingSent,
           incoming: FollowStatusType.none,
         );
 
@@ -410,7 +397,7 @@ void main() {
         final notifier = container.read(followStateProvider.notifier);
         notifier.registerStatus(
           userId: targetUserId,
-          outgoing: FollowStatusType.pending,
+          outgoing: FollowStatusType.pendingSent,
           incoming: FollowStatusType.following,
         );
 
@@ -430,14 +417,14 @@ void main() {
         final notifier = container.read(followStateProvider.notifier);
         notifier.registerStatus(
           userId: targetUserId,
-          outgoing: FollowStatusType.pending,
+          outgoing: FollowStatusType.pendingSent,
           incoming: FollowStatusType.following,
         );
 
         await notifier.cancelFollowRequest(userId: targetUserId);
 
         final state = container.read(followStateProvider);
-        expect(state[targetUserId]?.outgoing, FollowStatusType.pending);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.pendingSent);
         expect(state[targetUserId]?.incoming, FollowStatusType.following);
       });
     });

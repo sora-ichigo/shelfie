@@ -168,8 +168,6 @@ class GFollowStatus extends EnumClass {
 
   static const GFollowStatus NONE = _$gFollowStatusNONE;
 
-  static const GFollowStatus PENDING = _$gFollowStatusPENDING;
-
   static const GFollowStatus PENDING_RECEIVED = _$gFollowStatusPENDING_RECEIVED;
 
   static const GFollowStatus PENDING_SENT = _$gFollowStatusPENDING_SENT;

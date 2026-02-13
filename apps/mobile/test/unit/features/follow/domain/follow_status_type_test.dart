@@ -3,14 +3,17 @@ import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 
 void main() {
   group('FollowStatusType', () {
-    test('3つの値を持つ', () {
-      expect(FollowStatusType.values.length, equals(3));
+    test('5つの値を持つ', () {
+      expect(FollowStatusType.values.length, equals(5));
     });
 
-    test('none, pending, following の値が定義されている', () {
+    test('すべての値が定義されている', () {
       expect(FollowStatusType.values, contains(FollowStatusType.none));
-      expect(FollowStatusType.values, contains(FollowStatusType.pending));
+      expect(FollowStatusType.values, contains(FollowStatusType.pendingSent));
+      expect(
+          FollowStatusType.values, contains(FollowStatusType.pendingReceived));
       expect(FollowStatusType.values, contains(FollowStatusType.following));
+      expect(FollowStatusType.values, contains(FollowStatusType.followedBy));
     });
   });
 }

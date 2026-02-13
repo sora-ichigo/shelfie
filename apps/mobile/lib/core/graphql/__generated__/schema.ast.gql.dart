@@ -1097,10 +1097,6 @@ const FollowStatus = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'PENDING_RECEIVED'),
       directives: [],
     ),

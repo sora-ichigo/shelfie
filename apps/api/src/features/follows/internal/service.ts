@@ -7,7 +7,6 @@ import type { FollowRepository } from "./repository.js";
 
 export type FollowStatus =
   | "NONE"
-  | "PENDING"
   | "PENDING_SENT"
   | "PENDING_RECEIVED"
   | "FOLLOWING"
@@ -294,7 +293,7 @@ export function createFollowService(
           targetUserId,
         );
         if (sentRequest && sentRequest.status === "pending") {
-          outgoing = "PENDING";
+          outgoing = "PENDING_SENT";
         }
       }
 
@@ -307,7 +306,7 @@ export function createFollowService(
           userId,
         );
         if (receivedRequest && receivedRequest.status === "pending") {
-          incoming = "PENDING";
+          incoming = "PENDING_RECEIVED";
         }
       }
 

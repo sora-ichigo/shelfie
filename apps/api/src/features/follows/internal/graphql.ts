@@ -37,7 +37,6 @@ function createFollowStatusEnumRef(builder: Builder) {
   return builder.enumType("FollowStatus", {
     values: [
       "NONE",
-      "PENDING",
       "PENDING_SENT",
       "PENDING_RECEIVED",
       "FOLLOWING",

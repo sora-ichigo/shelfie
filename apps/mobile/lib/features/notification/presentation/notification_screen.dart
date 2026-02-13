@@ -91,9 +91,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           FollowStatusType.following,
           FollowStatusType.none,
         ),
-      FollowStatusType.pendingSent ||
-      FollowStatusType.pending => (
-          FollowStatusType.pending,
+      FollowStatusType.pendingSent => (
+          FollowStatusType.pendingSent,
           FollowStatusType.none,
         ),
       FollowStatusType.followedBy => (
@@ -250,8 +249,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     if (status.outgoing == FollowStatusType.following) {
       return FollowStatusType.following;
     }
-    if (status.outgoing == FollowStatusType.pending ||
-        status.outgoing == FollowStatusType.pendingSent) {
+    if (status.outgoing == FollowStatusType.pendingSent) {
       return FollowStatusType.pendingSent;
     }
     if (status.incoming == FollowStatusType.following) {
@@ -397,7 +395,6 @@ class _NotificationTile extends StatelessWidget {
         ),
       ],
       FollowStatusType.none ||
-      FollowStatusType.pending ||
       FollowStatusType.pendingSent => [],
     };
   }
@@ -426,7 +423,6 @@ class _NotificationTile extends StatelessWidget {
           theme: theme,
         ),
       ],
-      FollowStatusType.pending ||
       FollowStatusType.pendingSent => [
         const SizedBox(width: AppSpacing.xs),
         _SecondaryButton(

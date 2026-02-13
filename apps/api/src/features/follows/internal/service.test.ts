@@ -844,7 +844,7 @@ describe("FollowService", () => {
       expect(result).toEqual({ outgoing: "NONE", incoming: "FOLLOWING" });
     });
 
-    it("should return outgoing PENDING when sent request exists", async () => {
+    it("should return outgoing PENDING_SENT when sent request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -869,10 +869,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toEqual({ outgoing: "PENDING", incoming: "NONE" });
+      expect(result).toEqual({ outgoing: "PENDING_SENT", incoming: "NONE" });
     });
 
-    it("should return incoming PENDING when received request exists", async () => {
+    it("should return incoming PENDING_RECEIVED when received request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -897,7 +897,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toEqual({ outgoing: "NONE", incoming: "PENDING" });
+      expect(result).toEqual({
+        outgoing: "NONE",
+        incoming: "PENDING_RECEIVED",
+      });
     });
 
     it("should return both NONE when no relationship exists", async () => {

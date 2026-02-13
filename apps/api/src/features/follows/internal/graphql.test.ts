@@ -84,16 +84,17 @@ describe("Follow GraphQL Types", () => {
       expect(enumType?.name).toBe("FollowStatus");
     });
 
-    it("should have NONE, PENDING, FOLLOWING values", () => {
+    it("should have NONE, PENDING_SENT, PENDING_RECEIVED, FOLLOWING, FOLLOWED_BY values", () => {
       const schema = buildTestSchema();
       const enumType = schema.getType("FollowStatus") as GraphQLEnumType;
       const values = enumType.getValues().map((v) => v.name);
 
       expect(values).toContain("NONE");
-      expect(values).toContain("PENDING");
+      expect(values).toContain("PENDING_SENT");
+      expect(values).toContain("PENDING_RECEIVED");
       expect(values).toContain("FOLLOWING");
-      expect(values).not.toContain("PENDING_SENT");
-      expect(values).not.toContain("PENDING_RECEIVED");
+      expect(values).toContain("FOLLOWED_BY");
+      expect(values).not.toContain("PENDING");
     });
   });
 

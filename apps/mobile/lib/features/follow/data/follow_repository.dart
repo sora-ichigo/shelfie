@@ -720,8 +720,10 @@ class FollowRepository {
   FollowStatusType _mapFollowStatus(GFollowStatus status) {
     return switch (status) {
       GFollowStatus.NONE => FollowStatusType.none,
-      GFollowStatus.PENDING => FollowStatusType.pending,
+      GFollowStatus.PENDING_SENT => FollowStatusType.pendingSent,
+      GFollowStatus.PENDING_RECEIVED => FollowStatusType.pendingReceived,
       GFollowStatus.FOLLOWING => FollowStatusType.following,
+      GFollowStatus.FOLLOWED_BY => FollowStatusType.followedBy,
       _ => FollowStatusType.none,
     };
   }

@@ -1,1 +1,1 @@
-enum FollowStatusType { none, pending, pendingSent, pendingReceived, following, followedBy }
+enum FollowStatusType { none, pendingSent, pendingReceived, following, followedBy }
