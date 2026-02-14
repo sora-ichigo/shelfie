@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^4.1.4",
@@ -16,6 +17,9 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.1.1",
+    "@graphql-codegen/client-preset": "^5.2.2",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@types/node": "^22.13.4",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fetchUserByHandle } from "./fetch-user.js";
+import { fetchUserByHandle } from "./fetch-user";
 
-vi.mock("./client.js", () => ({
+vi.mock("./client", () => ({
   getClient: vi.fn(),
 }));
 
-import { getClient } from "./client.js";
+import { getClient } from "./client";
 
 describe("fetchUserByHandle", () => {
   beforeEach(() => {
@@ -14,6 +14,7 @@ describe("fetchUserByHandle", () => {
 
   it("should return user data when user exists", async () => {
     const mockUser = {
+      __typename: "User" as const,
       name: "Test User",
       avatarUrl: "https://example.com/avatar.jpg",
       bio: "Book lover",

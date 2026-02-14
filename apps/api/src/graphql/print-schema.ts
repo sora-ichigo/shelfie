@@ -11,11 +11,14 @@ const schema = buildSchema();
 const sortedSchema = lexicographicSortSchema(schema);
 const sdl = printSchema(sortedSchema);
 
-const outputPath = resolve(
+const mobileOutputPath = resolve(
   __dirname,
   "../../../../apps/mobile/lib/core/graphql/schema.graphql",
 );
+const apiOutputPath = resolve(__dirname, "../../schema.graphql");
 
-writeFileSync(outputPath, sdl);
+writeFileSync(mobileOutputPath, sdl);
+writeFileSync(apiOutputPath, sdl);
 
-console.log(`Schema written to ${outputPath}`);
+console.log(`Schema written to ${mobileOutputPath}`);
+console.log(`Schema written to ${apiOutputPath}`);

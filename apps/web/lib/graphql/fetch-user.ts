@@ -1,15 +1,11 @@
-import { getClient } from "./client.js";
-import {
-  USER_BY_HANDLE_QUERY,
-  type UserByHandleData,
-  type UserByHandleVars,
-} from "./queries.js";
+import { getClient } from "./client";
+import { UserByHandleQuery } from "./queries";
 
 export async function fetchUserByHandle(handle: string) {
   try {
     const client = getClient();
-    const { data } = await client.query<UserByHandleData, UserByHandleVars>({
-      query: USER_BY_HANDLE_QUERY,
+    const { data } = await client.query({
+      query: UserByHandleQuery,
       variables: { handle },
     });
     return data?.userByHandle ?? null;

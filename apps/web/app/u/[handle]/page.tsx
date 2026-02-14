@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { fetchUserByHandle } from "../../../lib/graphql/fetch-user";
+import { graphql, useFragment } from "../../../lib/graphql/generated";
+
+export const UserProfilePageFragment = graphql(`
+  fragment UserProfilePage_User on User {
+    name
+    avatarUrl
+    bio
+    handle
+  }
+`);
 
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 const APP_STORE_URL =
@@ -12,7 +22,8 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
-  const user = await fetchUserByHandle(handle);
+  const result = await fetchUserByHandle(handle);
+  const user = useFragment(UserProfilePageFragment, result);
   const displayName = user?.name ?? `@${handle}`;
 
   return {
@@ -29,7 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function UserProfilePage({ params }: Props) {
   const { handle } = await params;
-  const user = await fetchUserByHandle(handle);
+  const result = await fetchUserByHandle(handle);
+  const user = useFragment(UserProfilePageFragment, result);
   const appLink = `shelfie:///u/${handle}`;
 
   const displayName = user?.name ?? handle;
