@@ -138,7 +138,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.textContaining('があなたをフォローしました'),
+        find.textContaining('があなたのフォローリクエストを承認しました'),
         findsOneWidget,
       );
     });

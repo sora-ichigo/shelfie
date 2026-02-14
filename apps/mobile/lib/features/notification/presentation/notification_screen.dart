@@ -415,7 +415,8 @@ class _NotificationTile extends StatelessWidget {
     return switch (type) {
       NotificationType.followRequestReceived =>
         ' からフォローリクエストがありました。',
-      NotificationType.followRequestApproved => ' があなたをフォローしました。',
+      NotificationType.followRequestApproved =>
+        ' があなたのフォローリクエストを承認しました。',
     };
   }
 }
