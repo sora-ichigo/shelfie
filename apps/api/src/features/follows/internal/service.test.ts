@@ -571,6 +571,68 @@ describe("FollowService", () => {
         expect(result.error.code).toBe("REQUEST_ALREADY_PROCESSED");
       }
     });
+
+    it("should delete follow_request_received notification on reject", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+      const rejectedRequest = { ...pendingRequest, status: "rejected" };
+
+      vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
+      vi.mocked(repo.updateRequestStatus).mockResolvedValue(rejectedRequest);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.rejectRequest(5, 2);
+
+      expect(notifService.deleteNotification).toHaveBeenCalledWith({
+        senderId: 1,
+        recipientId: 2,
+        type: "follow_request_received",
+      });
+    });
+
+    it("should not fail reject when notification deletion fails", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+      const rejectedRequest = { ...pendingRequest, status: "rejected" };
+
+      vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
+      vi.mocked(repo.updateRequestStatus).mockResolvedValue(rejectedRequest);
+      vi.mocked(notifService.deleteNotification).mockRejectedValue(
+        new Error("DB error"),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.rejectRequest(5, 2);
+
+      expect(result.success).toBe(true);
+      expect(logger.error).toHaveBeenCalled();
+    });
   });
 
   describe("unfollow", () => {

@@ -146,6 +146,46 @@ void main() {
       });
     });
 
+    group('removeNotification', () {
+      test('should remove notification by id from the list', () async {
+        final notifications = [
+          createNotification(id: 1),
+          createNotification(id: 2),
+          createNotification(id: 3),
+        ];
+        when(() => mockRepository.getNotifications(limit: 20))
+            .thenAnswer((_) async => right(notifications));
+
+        final notifier =
+            container.read(notificationListNotifierProvider.notifier);
+        await notifier.loadInitial();
+
+        notifier.removeNotification(2);
+
+        final state = container.read(notificationListNotifierProvider);
+        expect(state.value, hasLength(2));
+        expect(state.value!.map((n) => n.id), containsAll([1, 3]));
+        expect(state.value!.map((n) => n.id), isNot(contains(2)));
+      });
+
+      test('should do nothing when notification id not found', () async {
+        final notifications = [
+          createNotification(id: 1),
+        ];
+        when(() => mockRepository.getNotifications(limit: 20))
+            .thenAnswer((_) async => right(notifications));
+
+        final notifier =
+            container.read(notificationListNotifierProvider.notifier);
+        await notifier.loadInitial();
+
+        notifier.removeNotification(999);
+
+        final state = container.read(notificationListNotifierProvider);
+        expect(state.value, hasLength(1));
+      });
+    });
+
     group('markAsRead', () {
       test('should call markAllAsRead on repository', () async {
         when(() => mockRepository.getNotifications(limit: 20))

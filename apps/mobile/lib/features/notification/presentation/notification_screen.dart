@@ -198,10 +198,15 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                   )
               : null,
           onReject: notification.followRequestId != null
-              ? () => ref.read(followStateProvider.notifier).rejectRequest(
-                    userId: notification.sender.id,
-                    requestId: notification.followRequestId!,
-                  )
+              ? () {
+                  ref.read(followStateProvider.notifier).rejectRequest(
+                        userId: notification.sender.id,
+                        requestId: notification.followRequestId!,
+                      );
+                  ref
+                      .read(notificationListNotifierProvider.notifier)
+                      .removeNotification(notification.id);
+                }
               : null,
           onFollow: () => ref
               .read(followStateProvider.notifier)

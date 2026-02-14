@@ -66,6 +66,11 @@ class NotificationListNotifier extends _$NotificationListNotifier {
     _isLoadingMore = false;
   }
 
+  void removeNotification(int notificationId) {
+    _items = _items.where((n) => n.id != notificationId).toList();
+    state = AsyncData(List.unmodifiable(_items));
+  }
+
   Future<void> markAsRead() async {
     if (_hasMarkedAsRead) return;
     _hasMarkedAsRead = true;
