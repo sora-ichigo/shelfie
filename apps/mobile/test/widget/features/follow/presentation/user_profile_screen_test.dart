@@ -503,9 +503,37 @@ void main() {
         await tester.pump();
 
         await tester.tap(find.text('ブックリスト'));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+
+      testWidgets('タブをスワイプで切り替えられる', (tester) async {
+        fakeNotifier = FakeFollowStateNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.state = {
+          profile.user.id: (
+            outgoing: FollowStatusType.following,
+            incoming: FollowStatusType.none,
+          ),
+        };
+        await tester.pump();
+
+        expect(find.text('まだ本が登録されていません'), findsOneWidget);
+
+        await tester.fling(
+          find.byType(TabBarView),
+          const Offset(-300, 0),
+          1000,
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('まだブックリストがありません'), findsOneWidget);
       });
     });
   });
