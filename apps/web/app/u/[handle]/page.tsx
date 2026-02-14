@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
-const APP_STORE_URL = "https://apps.apple.com/app/shelfie/id6740080981";
-const PLAY_STORE_URL =
-  "https://play.google.com/store/apps/details?id=app.shelfie.shelfie";
+const APP_STORE_URL =
+  "https://apps.apple.com/jp/app/shelfie-%E8%AA%AD%E6%9B%B8%E8%A8%98%E9%8C%B2-%E6%9C%AC%E6%A3%9A%E7%AE%A1%E7%90%86/id6758423936";
 
 interface Props {
   params: Promise<{ handle: string }>;
@@ -59,15 +58,6 @@ export default async function InvitePage({ params }: Props) {
               <span style={styles.storeBadgeText}>
                 <span style={styles.storeBadgeLabel}>Download on the</span>
                 <span style={styles.storeBadgeName}>App Store</span>
-              </span>
-            </a>
-            <a href={PLAY_STORE_URL} style={styles.storeBadge}>
-              <svg width="20" height="22" viewBox="0 0 512 512" fill="white">
-                <path d="M48 59.49v393a4.33 4.33 0 007.37 3.07L260 256 55.37 56.42A4.33 4.33 0 0048 59.49zM345.8 174L89.22 32.64l-.16-.09c-4.42-2.4-8.62 3.58-5 7.06l201.13 192.32zM84.08 472.39c-3.64 3.48.56 9.46 5 7.06l.16-.09L345.8 338l-60.61-57.95zM449.38 231l-71.65-39.46L310.36 256l67.37 64.43L449.38 281c19.49-10.77 19.49-39.23 0-50z" />
-              </svg>
-              <span style={styles.storeBadgeText}>
-                <span style={styles.storeBadgeLabel}>GET IT ON</span>
-                <span style={styles.storeBadgeName}>Google Play</span>
               </span>
             </a>
           </div>
