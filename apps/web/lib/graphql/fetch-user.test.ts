@@ -49,13 +49,13 @@ describe("fetchUserByHandle", () => {
     expect(result).toBeNull();
   });
 
-  it("should return null when query throws an error", async () => {
+  it("should throw when query throws an error", async () => {
     const mockQuery = vi.fn().mockRejectedValue(new Error("Network error"));
 
     vi.mocked(getClient).mockReturnValue({ query: mockQuery } as never);
 
-    const result = await fetchUserByHandle("testuser");
-
-    expect(result).toBeNull();
+    await expect(fetchUserByHandle("testuser")).rejects.toThrow(
+      "Network error",
+    );
   });
 });

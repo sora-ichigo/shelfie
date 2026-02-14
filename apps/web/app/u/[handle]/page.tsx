@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { fetchUserByHandle } from "../../../lib/graphql/fetch-user";
 import { graphql, useFragment } from "../../../lib/graphql/generated";
 
@@ -24,7 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
   const result = await fetchUserByHandle(handle);
   const user = useFragment(UserProfilePageFragment, result);
-  const displayName = user?.name ?? `@${handle}`;
+
+  if (!user) {
+    return {
+      title: "ユーザーが見つかりません - Shelfie",
+    };
+  }
+
+  const displayName = user.name ?? `@${handle}`;
 
   return {
     title: `${displayName} - Shelfie`,
@@ -42,9 +50,13 @@ export default async function UserProfilePage({ params }: Props) {
   const { handle } = await params;
   const result = await fetchUserByHandle(handle);
   const user = useFragment(UserProfilePageFragment, result);
-  const appLink = `shelfie:///u/${handle}`;
 
-  const displayName = user?.name ?? handle;
+  if (!user) {
+    notFound();
+  }
+
+  const appLink = `shelfie:///u/${handle}`;
+  const displayName = user.name ?? handle;
   const avatarInitial = displayName.charAt(0).toUpperCase();
 
   return (
@@ -56,7 +68,7 @@ export default async function UserProfilePage({ params }: Props) {
         </div>
 
         <div style={styles.profileSection}>
-          {user?.avatarUrl ? (
+          {user.avatarUrl ? (
             <Image
               src={user.avatarUrl}
               alt={displayName}
@@ -71,12 +83,7 @@ export default async function UserProfilePage({ params }: Props) {
           )}
           <h2 style={styles.name}>{displayName}</h2>
           <p style={styles.handle}>@{handle}</p>
-          {user?.bio && <p style={styles.bio}>{user.bio}</p>}
-          {!user && (
-            <p style={styles.description}>
-              アプリで @{handle} さんのプロフィールを見る
-            </p>
-          )}
+          {user.bio && <p style={styles.bio}>{user.bio}</p>}
         </div>
 
         <div style={styles.buttonSection}>
