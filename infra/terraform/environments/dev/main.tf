@@ -182,7 +182,8 @@ module "vercel_web" {
   production_branch = "master"
   root_directory    = "apps/web"
   environment_variables = {
-    APP_URL = "https://shelfie-web-dev.vercel.app"
+    APP_URL              = "https://shelfie-web-dev.vercel.app"
+    NEXT_PUBLIC_API_URL  = "https://shelfie-api-1027788176486.asia-northeast1.run.app/graphql"
   }
 }
 
