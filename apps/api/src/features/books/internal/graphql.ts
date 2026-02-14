@@ -828,16 +828,20 @@ export function registerBooksQueries(
           });
         }
 
-        const status = await followService.getFollowStatus(
-          currentUserResult.data.id,
-          args.userId,
-        );
+        const isOwnProfile = currentUserResult.data.id === args.userId;
 
-        if (status.outgoing !== "FOLLOWING") {
-          throw new GraphQLError(
-            "You must follow this user to view their shelf",
-            { extensions: { code: "FORBIDDEN" } },
+        if (!isOwnProfile) {
+          const status = await followService.getFollowStatus(
+            currentUserResult.data.id,
+            args.userId,
           );
+
+          if (status.outgoing !== "FOLLOWING") {
+            throw new GraphQLError(
+              "You must follow this user to view their shelf",
+              { extensions: { code: "FORBIDDEN" } },
+            );
+          }
         }
 
         const input = args.input ?? {};

@@ -3213,4 +3213,95 @@ describe("userShelf query", () => {
 
     expect(mockShelfService.getUserBooksWithPagination).not.toHaveBeenCalled();
   });
+
+  it("should return shelf data when viewing own profile without follow check", async () => {
+    const mockSearchService = createMockSearchService();
+    const mockShelfService = createMockShelfService();
+    const mockUserService = createMockUserService();
+    const mockFollowService = createMockFollowService();
+
+    const mockUserBooks = [
+      {
+        id: 1,
+        userId: 100,
+        externalId: "book-1",
+        title: "My Book",
+        authors: ["Author"],
+        publisher: null,
+        publishedDate: null,
+        isbn: null,
+        coverImageUrl: null,
+        addedAt: new Date(),
+        readingStatus: "reading" as const,
+        startedAt: null,
+        completedAt: null,
+        note: null,
+        noteUpdatedAt: null,
+        thoughts: null,
+        thoughtsUpdatedAt: null,
+        rating: null,
+        source: "rakuten" as const,
+      },
+    ];
+
+    const mockResult = {
+      items: mockUserBooks,
+      totalCount: 1,
+      hasMore: false,
+    };
+
+    vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
+      ok({
+        id: 100,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
+    vi.mocked(mockShelfService.getUserBooksWithPagination).mockResolvedValue(
+      ok(mockResult),
+    );
+
+    const builder = createTestBuilder();
+    registerBooksTypes(builder);
+    builder.queryType({});
+    registerBooksQueries(
+      builder,
+      mockSearchService,
+      mockShelfService,
+      mockUserService,
+      mockFollowService,
+    );
+
+    const schema = builder.toSchema();
+    const queryType = schema.getQueryType();
+    const userShelfField = queryType?.getFields().userShelf;
+
+    const result = await userShelfField?.resolve?.(
+      {},
+      { userId: 100, input: { limit: 20, offset: 0 } },
+      {
+        requestId: "test",
+        user: {
+          uid: "firebase-uid",
+          email: "test@example.com",
+          emailVerified: true,
+        },
+      },
+      {} as never,
+    );
+
+    expect(mockFollowService.getFollowStatus).not.toHaveBeenCalled();
+    expect(mockShelfService.getUserBooksWithPagination).toHaveBeenCalledWith(
+      100,
+      { limit: 20, offset: 0 },
+    );
+    expect(result).toEqual(mockResult);
+  });
 });

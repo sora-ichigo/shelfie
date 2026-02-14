@@ -619,16 +619,20 @@ export function registerBookListsQueries(
           });
         }
 
-        const status = await followService.getFollowStatus(
-          currentUserResult.data.id,
-          args.userId,
-        );
+        const isOwnProfile = currentUserResult.data.id === args.userId;
 
-        if (status.outgoing !== "FOLLOWING") {
-          throw new GraphQLError(
-            "You must follow this user to view their book lists",
-            { extensions: { code: "FORBIDDEN" } },
+        if (!isOwnProfile) {
+          const status = await followService.getFollowStatus(
+            currentUserResult.data.id,
+            args.userId,
           );
+
+          if (status.outgoing !== "FOLLOWING") {
+            throw new GraphQLError(
+              "You must follow this user to view their book lists",
+              { extensions: { code: "FORBIDDEN" } },
+            );
+          }
         }
 
         const input = args.input ?? {};
