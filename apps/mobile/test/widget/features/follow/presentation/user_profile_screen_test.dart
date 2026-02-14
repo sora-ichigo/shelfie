@@ -61,7 +61,9 @@ class FakeUserProfileBookListsNotifier extends UserProfileBookListsNotifier {
   }
 
   @override
-  Future<void> loadLists() async {}
+  Future<void> loadLists() async {
+    state = UserProfileBookListsState();
+  }
 }
 
 class FakeFollowCountsNotifier extends FollowCountsNotifier {
@@ -555,7 +557,8 @@ void main() {
           const Offset(-300, 0),
           1000,
         );
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
 
         expect(find.text('まだブックリストがありません'), findsOneWidget);
       });
