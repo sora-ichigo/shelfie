@@ -1,5 +1,6 @@
 export {
   registerUserMutations,
+  registerUserQueries,
   registerUserTypes,
   ValidationError,
 } from "./internal/graphql.js";

@@ -157,6 +157,29 @@ export function registerUserTypes(
   });
 }
 
+export function registerUserQueries(
+  builder: Builder,
+  userService: UserService,
+): void {
+  builder.queryFields((t) => ({
+    userByHandle: t.field({
+      type: UserRef,
+      nullable: true,
+      description: "Find a user by their handle",
+      args: {
+        handle: t.arg.string({ required: true }),
+      },
+      resolve: async (_parent, { handle }) => {
+        const result = await userService.getUserByHandle(handle);
+        if (!result.success) {
+          return null;
+        }
+        return result.data;
+      },
+    }),
+  }));
+}
+
 export function registerUserMutations(
   builder: Builder,
   userService: UserService,

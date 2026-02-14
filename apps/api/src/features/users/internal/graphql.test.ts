@@ -1,7 +1,8 @@
 import type { GraphQLField, GraphQLObjectType, GraphQLSchema } from "graphql";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
-import { registerUserTypes } from "./graphql.js";
+import { registerUserQueries, registerUserTypes } from "./graphql.js";
+import type { UserService } from "./service.js";
 
 function getField(
   schema: GraphQLSchema,
@@ -176,6 +177,81 @@ describe("User GraphQL Types", () => {
 
       expect(instagramHandleField).toBeDefined();
       expect(instagramHandleField?.type.toString()).toBe("String");
+    });
+  });
+
+  describe("userByHandle query", () => {
+    it("should register userByHandle query field", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      const mockUserService = {
+        getUserByHandle: vi.fn(),
+      } as unknown as UserService;
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      registerUserQueries(builder, mockUserService);
+
+      const schema = builder.toSchema();
+      const queryType = schema.getType("Query") as GraphQLObjectType;
+      const fields = queryType.getFields();
+
+      expect(fields.userByHandle).toBeDefined();
+    });
+
+    it("should accept handle as required String argument", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      const mockUserService = {
+        getUserByHandle: vi.fn(),
+      } as unknown as UserService;
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      registerUserQueries(builder, mockUserService);
+
+      const schema = builder.toSchema();
+      const queryType = schema.getType("Query") as GraphQLObjectType;
+      const userByHandleField = queryType.getFields().userByHandle;
+      const handleArg = userByHandleField.args.find(
+        (arg) => arg.name === "handle",
+      );
+
+      expect(handleArg).toBeDefined();
+      expect(handleArg?.type.toString()).toBe("String!");
+    });
+
+    it("should return nullable User type", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      const mockUserService = {
+        getUserByHandle: vi.fn(),
+      } as unknown as UserService;
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      registerUserQueries(builder, mockUserService);
+
+      const schema = builder.toSchema();
+      const queryType = schema.getType("Query") as GraphQLObjectType;
+      const userByHandleField = queryType.getFields().userByHandle;
+
+      expect(userByHandleField.type.toString()).toBe("User");
     });
   });
 

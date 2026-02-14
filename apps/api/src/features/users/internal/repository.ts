@@ -8,6 +8,7 @@ export interface UserRepository {
   findById(id: number): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   findByFirebaseUid(firebaseUid: string): Promise<User | null>;
+  findByHandle(handle: string): Promise<User | null>;
   findMany(filter: Partial<User>): Promise<User[]>;
   create(data: NewUser): Promise<User>;
   update(id: number, data: Partial<User>): Promise<User>;
@@ -34,6 +35,14 @@ export function createUserRepository(db: NodePgDatabase): UserRepository {
         .select()
         .from(users)
         .where(eq(users.firebaseUid, firebaseUid));
+      return result[0] ?? null;
+    },
+
+    async findByHandle(handle: string): Promise<User | null> {
+      const result = await db
+        .select()
+        .from(users)
+        .where(eq(users.handle, handle));
       return result[0] ?? null;
     },
 

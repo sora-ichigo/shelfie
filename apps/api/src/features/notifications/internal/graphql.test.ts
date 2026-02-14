@@ -43,6 +43,7 @@ function createMockService(): NotificationAppService {
 function createMockUserService(): UserService {
   return {
     getUserById: vi.fn(),
+    getUserByHandle: vi.fn(),
     createUser: vi.fn(),
     getUsers: vi.fn(),
     getUserByFirebaseUid: vi.fn(),
