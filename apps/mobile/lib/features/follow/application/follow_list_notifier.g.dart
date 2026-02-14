@@ -7,7 +7,7 @@ part of 'follow_list_notifier.dart';
 // **************************************************************************
 
 String _$followListNotifierHash() =>
-    r'dd37c676f1f6af5c8c83238ea7916ba78d546919';
+    r'b67f9153e7f58f8afdaf86126788b9dccff9a70e';
 
 /// Copied from Dart SDK
 class _SystemHash {

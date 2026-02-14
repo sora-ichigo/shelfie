@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/follow_version.dart';
+import 'package:shelfie/core/state/profile_version.dart';
 import 'package:shelfie/features/follow/data/follow_repository.dart';
 import 'package:shelfie/features/follow/domain/follow_list_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
@@ -24,6 +25,9 @@ class FollowListNotifier extends _$FollowListNotifier {
     _isLoadingMore = false;
 
     ref.listen(followVersionProvider, (_, __) {
+      loadInitial();
+    });
+    ref.listen(profileVersionProvider, (_, __) {
       loadInitial();
     });
 

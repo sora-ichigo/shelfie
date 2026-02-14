@@ -32,7 +32,7 @@ final appRouterProvider = Provider<GoRouter>.internal(
 // ignore: unused_element
 typedef AppRouterRef = ProviderRef<GoRouter>;
 String _$userProfileByHandleHash() =>
-    r'c79bd95212777c7f1e95d1560443bb324181e5ab';
+    r'b5937c31fc42204ace47c815747f9f00173e33c9';
 
 /// Copied from Dart SDK
 class _SystemHash {
