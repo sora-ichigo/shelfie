@@ -201,7 +201,8 @@ class FollowRepository {
       (b) => b
         ..vars.userId = userId
         ..vars.cursor = cursor
-        ..vars.limit = limit,
+        ..vars.limit = limit
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
     );
 
     try {
@@ -225,7 +226,8 @@ class FollowRepository {
       (b) => b
         ..vars.userId = userId
         ..vars.cursor = cursor
-        ..vars.limit = limit,
+        ..vars.limit = limit
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
     );
 
     try {
