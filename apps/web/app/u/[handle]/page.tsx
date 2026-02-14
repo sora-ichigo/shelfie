@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
+const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 const APP_STORE_URL = "https://apps.apple.com/app/shelfie/id6740080981";
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=app.shelfie.shelfie";
-const APP_SCHEME = "https://shelfie-web.vercel.app";
 
 interface Props {
   params: Promise<{ handle: string }>;
@@ -18,14 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `@${handle} - Shelfie`,
       description: `@${handle} さんのプロフィールを Shelfie で見る`,
       type: "profile",
-      url: `${APP_SCHEME}/u/${handle}`,
+      url: `${APP_URL}/u/${handle}`,
     },
   };
 }
 
 export default async function InvitePage({ params }: Props) {
   const { handle } = await params;
-  const appLink = `${APP_SCHEME}/u/${handle}`;
+  const appLink = `${APP_URL}/u/${handle}`;
 
   return (
     <main style={styles.container}>
