@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/utils/time_ago.dart';
 import 'package:shelfie/core/widgets/user_avatar.dart';
-import 'package:shelfie/features/follow/data/follow_repository.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/domain/notification_model.dart';
 import 'package:shelfie/features/notification/domain/notification_type.dart';
@@ -22,8 +23,6 @@ class NotificationScreen extends ConsumerStatefulWidget {
 
 class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   final _scrollController = ScrollController();
-  int _pendingRequestCount = 0;
-  bool _pendingRequestCountLoaded = false;
 
   @override
   void initState() {
@@ -43,24 +42,39 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   Future<void> _loadData() async {
     final notifier = ref.read(notificationListNotifierProvider.notifier);
     await notifier.loadInitial();
+    if (!mounted) return;
+    final state = ref.read(notificationListNotifierProvider);
+    state.whenData(_registerFollowStates);
     await notifier.markAsRead();
-    await _loadPendingRequestCount();
   }
 
-  Future<void> _loadPendingRequestCount() async {
-    final followRepo = ref.read(followRepositoryProvider);
-    final result = await followRepo.getPendingRequestCount();
-    result.fold(
-      (_) {},
-      (count) {
-        if (mounted) {
-          setState(() {
-            _pendingRequestCount = count;
-            _pendingRequestCountLoaded = true;
-          });
+  void _registerFollowStates(List<NotificationModel> notifications) {
+    final followState = ref.read(followStateProvider);
+    final notifier = ref.read(followStateProvider.notifier);
+
+    for (final notification in notifications) {
+      final userId = notification.sender.id;
+      final existing = followState[userId];
+
+      if (existing != null) {
+        if (notification.type == NotificationType.followRequestReceived &&
+            notification.incomingFollowStatus == FollowStatusType.pendingReceived &&
+            existing.incoming == FollowStatusType.none) {
+          notifier.registerStatus(
+            userId: userId,
+            outgoing: existing.outgoing,
+            incoming: FollowStatusType.pendingReceived,
+          );
         }
-      },
-    );
+        continue;
+      }
+
+      notifier.registerStatus(
+        userId: userId,
+        outgoing: notification.outgoingFollowStatus,
+        incoming: notification.incomingFollowStatus,
+      );
+    }
   }
 
   void _onScroll() {
@@ -78,6 +92,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final notificationState = ref.watch(notificationListNotifierProvider);
+    final followState = ref.watch(followStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,11 +132,12 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           ),
         ),
         data: (notifications) {
-          if (notifications.isEmpty && _pendingRequestCountLoaded) {
+          if (notifications.isEmpty) {
             return _buildEmptyState(theme, appColors);
           }
           return _buildNotificationList(
             notifications,
+            followState,
             theme,
             appColors,
           );
@@ -154,200 +170,331 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
   Widget _buildNotificationList(
     List<NotificationModel> notifications,
+    Map<int, FollowDirectionalStatus> followState,
     ThemeData theme,
     AppColors appColors,
   ) {
-    final hasFollowRequests =
-        _pendingRequestCountLoaded && _pendingRequestCount > 0;
-    final itemCount =
-        notifications.length + (hasFollowRequests ? 1 : 0);
-
     return ListView.builder(
       controller: _scrollController,
-      itemCount: itemCount,
+      itemCount: notifications.length,
       itemBuilder: (context, index) {
-        if (hasFollowRequests && index == 0) {
-          return _FollowRequestBanner(
-            count: _pendingRequestCount,
-            onTap: () => context.push(AppRoutes.followRequests),
-          );
-        }
-        final notifIndex = hasFollowRequests ? index - 1 : index;
+        final notification = notifications[index];
+        final status = followState[notification.sender.id];
+        final displayStatus = _deriveDisplayStatus(
+          status ??
+              (
+                outgoing: notification.outgoingFollowStatus,
+                incoming: notification.incomingFollowStatus,
+              ),
+        );
+
         return _NotificationTile(
-          notification: notifications[notifIndex],
+          notification: notification,
+          displayStatus: displayStatus,
+          onApprove: notification.followRequestId != null
+              ? () => ref.read(followStateProvider.notifier).approveRequest(
+                    userId: notification.sender.id,
+                    requestId: notification.followRequestId!,
+                  )
+              : null,
+          onReject: notification.followRequestId != null
+              ? () => ref.read(followStateProvider.notifier).rejectRequest(
+                    userId: notification.sender.id,
+                    requestId: notification.followRequestId!,
+                  )
+              : null,
+          onFollow: () => ref
+              .read(followStateProvider.notifier)
+              .sendFollowRequest(userId: notification.sender.id),
+          onUnfollow: () => ref
+              .read(followStateProvider.notifier)
+              .unfollow(userId: notification.sender.id),
+          onCancelRequest: () => ref
+              .read(followStateProvider.notifier)
+              .cancelFollowRequest(userId: notification.sender.id),
         );
       },
     );
   }
+
+  static FollowStatusType _deriveDisplayStatus(FollowDirectionalStatus status) {
+    if (status.incoming == FollowStatusType.pendingReceived) {
+      return FollowStatusType.pendingReceived;
+    }
+    if (status.outgoing == FollowStatusType.following) {
+      return FollowStatusType.following;
+    }
+    if (status.outgoing == FollowStatusType.pendingSent) {
+      return FollowStatusType.pendingSent;
+    }
+    if (status.incoming == FollowStatusType.following) {
+      return FollowStatusType.followedBy;
+    }
+    return FollowStatusType.none;
+  }
 }
 
-class _FollowRequestBanner extends StatelessWidget {
-  const _FollowRequestBanner({
-    required this.count,
-    required this.onTap,
+class _NotificationTile extends StatelessWidget {
+  const _NotificationTile({
+    required this.notification,
+    required this.displayStatus,
+    this.onApprove,
+    this.onReject,
+    this.onFollow,
+    this.onUnfollow,
+    this.onCancelRequest,
   });
 
-  final int count;
-  final VoidCallback onTap;
+  final NotificationModel notification;
+  final FollowStatusType displayStatus;
+  final VoidCallback? onApprove;
+  final VoidCallback? onReject;
+  final VoidCallback? onFollow;
+  final VoidCallback? onUnfollow;
+  final VoidCallback? onCancelRequest;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 
-    return InkWell(
-      onTap: onTap,
+    return GestureDetector(
+      onTap: () {
+        final handle = notification.sender.handle;
+        if (handle != null) {
+          context.push(AppRoutes.userProfile(handle: handle));
+        }
+      },
+      behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: appColors.border, width: 0.5),
-          ),
+          color: notification.isRead ? null : appColors.surface,
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: appColors.primary,
-              child: Icon(
-                CupertinoIcons.person_add,
-                size: 20,
-                color: appColors.textPrimary,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Text(
-                'フォローリクエスト',
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.xs,
-                vertical: AppSpacing.xxs,
-              ),
-              decoration: BoxDecoration(
-                color: appColors.primary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '$count',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            UserAvatar(
+              avatarUrl: notification.sender.avatarUrl,
+              radius: 18,
             ),
             const SizedBox(width: AppSpacing.xs),
-            Icon(
-              CupertinoIcons.chevron_right,
-              size: 16,
-              color: appColors.textSecondary,
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: appColors.textPrimary,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: notification.sender.name ??
+                          notification.sender.handle ??
+                          '',
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(text: _notificationText(notification.type)),
+                    TextSpan(
+                      text: formatTimeAgo(notification.createdAt),
+                      style: TextStyle(color: appColors.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            ..._buildActionButtons(theme, appColors),
           ],
         ),
       ),
     );
   }
-}
 
-class _NotificationTile extends StatelessWidget {
-  const _NotificationTile({required this.notification});
+  List<Widget> _buildActionButtons(ThemeData theme, AppColors appColors) {
+    return switch (notification.type) {
+      NotificationType.followRequestReceived =>
+        _buildFollowRequestReceivedButtons(theme, appColors),
+      NotificationType.followRequestApproved =>
+        _buildFollowRequestApprovedButtons(theme, appColors),
+    };
+  }
 
-  final NotificationModel notification;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        color: notification.isRead ? null : appColors.surface,
-        border: Border(
-          bottom: BorderSide(color: appColors.border, width: 0.5),
+  List<Widget> _buildFollowRequestReceivedButtons(
+    ThemeData theme,
+    AppColors appColors,
+  ) {
+    return switch (displayStatus) {
+      FollowStatusType.pendingReceived => [
+        const SizedBox(width: AppSpacing.xs),
+        _PrimaryButton(
+          label: '承認',
+          onPressed: onApprove,
+          appColors: appColors,
+          theme: theme,
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          UserAvatar(
-            avatarUrl: notification.sender.avatarUrl,
-            radius: 20,
+        const SizedBox(width: AppSpacing.xs),
+        TextButton(
+          onPressed: onReject,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              vertical: AppSpacing.xxs,
+              horizontal: AppSpacing.md,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          const SizedBox(width: AppSpacing.sm),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    style: theme.textTheme.bodyMedium,
-                    children: [
-                      TextSpan(
-                        text: notification.sender.name ?? notification.sender.handle ?? '',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      TextSpan(
-                        text: 'さんが${_notificationText(notification.type)}',
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xxs),
-                Text(
-                  formatTimeAgo(notification.createdAt),
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.textSecondary,
-                  ),
-                ),
-              ],
+          child: Text(
+            '削除',
+            style: theme.textTheme.labelLarge?.copyWith(
+              color: appColors.textPrimary,
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          _NotificationTypeIcon(type: notification.type),
-        ],
-      ),
-    );
+        ),
+      ],
+      FollowStatusType.following => [
+        const SizedBox(width: AppSpacing.xs),
+        _SecondaryButton(
+          label: 'フォロー中',
+          onPressed: onUnfollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.followedBy => [
+        const SizedBox(width: AppSpacing.xs),
+        _PrimaryButton(
+          label: 'フォローバック',
+          onPressed: onFollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.none ||
+      FollowStatusType.pendingSent => [],
+    };
+  }
+
+  List<Widget> _buildFollowRequestApprovedButtons(
+    ThemeData theme,
+    AppColors appColors,
+  ) {
+    return switch (displayStatus) {
+      FollowStatusType.following => [
+        const SizedBox(width: AppSpacing.xs),
+        _SecondaryButton(
+          label: 'フォロー中',
+          onPressed: onUnfollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.none ||
+      FollowStatusType.followedBy => [
+        const SizedBox(width: AppSpacing.xs),
+        _PrimaryButton(
+          label: 'フォロー',
+          onPressed: onFollow,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.pendingSent => [
+        const SizedBox(width: AppSpacing.xs),
+        _SecondaryButton(
+          label: 'リクエスト済み',
+          onPressed: onCancelRequest,
+          appColors: appColors,
+          theme: theme,
+        ),
+      ],
+      FollowStatusType.pendingReceived => [],
+    };
   }
 
   String _notificationText(NotificationType type) {
     return switch (type) {
-      NotificationType.followRequestReceived => 'フォローリクエストが届きました',
-      NotificationType.followRequestApproved => 'フォローリクエストを承認しました',
+      NotificationType.followRequestReceived =>
+        ' からフォローリクエストがありました。',
+      NotificationType.followRequestApproved =>
+        ' がフォローリクエストを承認しました。',
     };
   }
 }
 
-class _NotificationTypeIcon extends StatelessWidget {
-  const _NotificationTypeIcon({required this.type});
+class _PrimaryButton extends StatelessWidget {
+  const _PrimaryButton({
+    required this.label,
+    required this.onPressed,
+    required this.appColors,
+    required this.theme,
+  });
 
-  final NotificationType type;
+  final String label;
+  final VoidCallback? onPressed;
+  final AppColors appColors;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final (icon, color) = switch (type) {
-      NotificationType.followRequestReceived => (
-        CupertinoIcons.person_add,
-        appColors.primary,
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: appColors.primary,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.xxs,
+          horizontal: AppSpacing.md,
+        ),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.xs),
+        ),
       ),
-      NotificationType.followRequestApproved => (
-        CupertinoIcons.checkmark_circle,
-        appColors.success,
+      child: Text(
+        label,
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: appColors.textPrimary,
+        ),
       ),
-    };
+    );
+  }
+}
 
-    return Icon(icon, size: 20, color: color);
+class _SecondaryButton extends StatelessWidget {
+  const _SecondaryButton({
+    required this.label,
+    required this.onPressed,
+    required this.appColors,
+    required this.theme,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final AppColors appColors;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: appColors.surface,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.xxs,
+          horizontal: AppSpacing.md,
+        ),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.xs),
+        ),
+      ),
+      child: Text(
+        label,
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: appColors.textPrimary,
+        ),
+      ),
+    );
   }
 }

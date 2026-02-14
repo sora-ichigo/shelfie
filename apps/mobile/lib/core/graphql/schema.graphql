@@ -78,6 +78,15 @@ type AppNotification {
   """When the notification was created"""
   createdAt: DateTime!
 
+  """The ID of the pending follow request (if any)"""
+  followRequestId: Int
+
+  """Incoming follow status (sender -> recipient)"""
+  incomingFollowStatus: FollowStatus!
+
+  """Outgoing follow status (recipient -> sender)"""
+  outgoingFollowStatus: FollowStatus!
+
   """The unique identifier of the notification"""
   id: Int!
 
@@ -360,9 +369,11 @@ enum FollowRequestStatus {
 
 """Follow relationship status between two users"""
 enum FollowStatus {
+  FOLLOWED_BY
   FOLLOWING
   NONE
-  PENDING
+  PENDING_RECEIVED
+  PENDING_SENT
 }
 
 """Result of account deletion"""

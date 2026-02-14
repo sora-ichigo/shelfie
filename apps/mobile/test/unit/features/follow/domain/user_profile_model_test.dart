@@ -60,11 +60,11 @@ void main() {
       );
 
       final updated = original.copyWith(
-        outgoingFollowStatus: FollowStatusType.pending,
+        outgoingFollowStatus: FollowStatusType.pendingSent,
       );
 
       expect(updated.user, equals(original.user));
-      expect(updated.outgoingFollowStatus, equals(FollowStatusType.pending));
+      expect(updated.outgoingFollowStatus, equals(FollowStatusType.pendingSent));
       expect(updated.incomingFollowStatus, equals(FollowStatusType.none));
       expect(updated.followCounts, equals(original.followCounts));
       expect(updated.isOwnProfile, equals(original.isOwnProfile));

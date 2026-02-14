@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_radius.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
@@ -10,7 +11,7 @@ import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.da
 import 'package:shelfie/features/book_list/domain/book_list.dart';
 import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
-import 'package:shelfie/features/follow/application/follow_request_notifier.dart';
+import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
@@ -45,12 +46,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(followRequestNotifierProvider(_userId).notifier)
-          .setStatus(
-            outgoing: widget.profile.outgoingFollowStatus,
-            incoming: widget.profile.incomingFollowStatus,
-          );
+      final existing = ref.read(followStateProvider)[_userId];
+      if (existing == null) {
+        ref.read(followStateProvider.notifier).registerStatus(
+              userId: _userId,
+              outgoing: widget.profile.outgoingFollowStatus,
+              incoming: widget.profile.incomingFollowStatus,
+            );
+      }
     });
   }
 
@@ -75,13 +78,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final followState = ref.watch(followRequestNotifierProvider(_userId));
-    final currentStatus = followState.valueOrNull ??
-        (
-          outgoing: widget.profile.outgoingFollowStatus,
-          incoming: widget.profile.incomingFollowStatus,
-        );
+    final currentStatus =
+        ref.watch(followStateProvider.select((s) => s[_userId])) ??
+            (
+              outgoing: widget.profile.outgoingFollowStatus,
+              incoming: widget.profile.incomingFollowStatus,
+            );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following;
+    final followCounts = ref.watch(followCountsNotifierProvider(_userId));
 
     return Scaffold(
       appBar: AppBar(
@@ -109,8 +113,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                   bio: widget.profile.bio,
                   instagramHandle: widget.profile.instagramHandle,
                   bookCount: widget.profile.bookCount ?? 0,
-                  followingCount: widget.profile.followCounts.followingCount,
-                  followerCount: widget.profile.followCounts.followerCount,
+                  followingCount: followCounts.valueOrNull?.followingCount
+                      ?? widget.profile.followCounts.followingCount,
+                  followerCount: followCounts.valueOrNull?.followerCount
+                      ?? widget.profile.followCounts.followerCount,
                   onFollowingTap: widget.onFollowingTap,
                   onFollowersTap: widget.onFollowersTap,
                   actionButtons: widget.profile.isOwnProfile
@@ -345,12 +351,13 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     );
 
     final followButton = switch (status.outgoing) {
-      FollowStatusType.none => Expanded(
+      FollowStatusType.none ||
+      FollowStatusType.pendingReceived ||
+      FollowStatusType.followedBy => Expanded(
           child: FilledButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .sendFollowRequest(),
+                .read(followStateProvider.notifier)
+                .sendFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.primary,
               foregroundColor: appColors.textPrimary,
@@ -372,12 +379,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
             ),
           ),
         ),
-      FollowStatusType.pending => Expanded(
+      FollowStatusType.pendingSent => Expanded(
           child: FilledButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .cancelFollowRequest(),
+                .read(followStateProvider.notifier)
+                .cancelFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.surfaceElevated,
               foregroundColor: appColors.textSecondary,
@@ -397,9 +403,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       FollowStatusType.following => Expanded(
           child: OutlinedButton(
             onPressed: () => ref
-                .read(followRequestNotifierProvider(widget.profile.user.id)
-                    .notifier)
-                .unfollow(),
+                .read(followStateProvider.notifier)
+                .unfollow(userId: _userId),
             style: OutlinedButton.styleFrom(
               foregroundColor: appColors.destructive,
               minimumSize: Size.zero,

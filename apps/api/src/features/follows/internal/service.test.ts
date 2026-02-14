@@ -24,6 +24,11 @@ function createMockFollowRepository(): FollowRepository {
     findFollowers: vi.fn(),
     countFollowing: vi.fn(),
     countFollowers: vi.fn(),
+    findFollowsBatch: vi.fn(),
+    findFollowersBatch: vi.fn(),
+    findPendingSentRequestsBatch: vi.fn(),
+    findPendingReceivedRequestsBatch: vi.fn(),
+    findPendingReceivedRequestIdsBatch: vi.fn(),
   };
 }
 
@@ -867,7 +872,7 @@ describe("FollowService", () => {
       expect(result).toEqual({ outgoing: "NONE", incoming: "FOLLOWING" });
     });
 
-    it("should return outgoing PENDING when sent request exists", async () => {
+    it("should return outgoing PENDING_SENT when sent request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -892,10 +897,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toEqual({ outgoing: "PENDING", incoming: "NONE" });
+      expect(result).toEqual({ outgoing: "PENDING_SENT", incoming: "NONE" });
     });
 
-    it("should return incoming PENDING when received request exists", async () => {
+    it("should return incoming PENDING_RECEIVED when received request exists", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -920,7 +925,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatus(1, 2);
 
-      expect(result).toEqual({ outgoing: "NONE", incoming: "PENDING" });
+      expect(result).toEqual({
+        outgoing: "NONE",
+        incoming: "PENDING_RECEIVED",
+      });
     });
 
     it("should return both NONE when no relationship exists", async () => {
@@ -988,6 +996,155 @@ describe("FollowService", () => {
       const result = await service.getFollowCounts(1);
 
       expect(result).toEqual({ followingCount: 10, followerCount: 5 });
+    });
+  });
+
+  describe("getFollowStatusBatch", () => {
+    it("should return correct status for each target user", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set([2]));
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(
+        new Set([3]),
+      );
+      vi.mocked(repo.findPendingReceivedRequestsBatch).mockResolvedValue(
+        new Set([4]),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowStatusBatch(1, [2, 3, 4, 5]);
+
+      expect(result.get(2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "NONE",
+      });
+      expect(result.get(3)).toEqual({
+        outgoing: "PENDING_SENT",
+        incoming: "NONE",
+      });
+      expect(result.get(4)).toEqual({
+        outgoing: "NONE",
+        incoming: "PENDING_RECEIVED",
+      });
+      expect(result.get(5)).toEqual({ outgoing: "NONE", incoming: "NONE" });
+    });
+
+    it("should return both outgoing FOLLOWING and incoming PENDING_RECEIVED when user follows target AND has pending received request", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set([2]));
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingReceivedRequestsBatch).mockResolvedValue(
+        new Set([2]),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowStatusBatch(1, [2]);
+
+      expect(result.get(2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "PENDING_RECEIVED",
+      });
+    });
+
+    it("should call all three batch repository methods", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findFollowsBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findFollowersBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingSentRequestsBatch).mockResolvedValue(new Set());
+      vi.mocked(repo.findPendingReceivedRequestsBatch).mockResolvedValue(
+        new Set(),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.getFollowStatusBatch(1, [2, 3]);
+
+      expect(repo.findFollowsBatch).toHaveBeenCalledWith(1, [2, 3]);
+      expect(repo.findFollowersBatch).toHaveBeenCalledWith(1, [2, 3]);
+      expect(repo.findPendingSentRequestsBatch).toHaveBeenCalledWith(1, [2, 3]);
+      expect(repo.findPendingReceivedRequestsBatch).toHaveBeenCalledWith(
+        1,
+        [2, 3],
+      );
+    });
+  });
+
+  describe("getFollowRequestIdBatch", () => {
+    it("should return request IDs for pending received requests", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findPendingReceivedRequestIdsBatch).mockResolvedValue(
+        new Map([
+          [2, 100],
+          [4, 200],
+        ]),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.getFollowRequestIdBatch(1, [2, 3, 4]);
+
+      expect(result.get(2)).toBe(100);
+      expect(result.get(3)).toBeNull();
+      expect(result.get(4)).toBe(200);
+    });
+
+    it("should call repository with correct arguments", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+
+      vi.mocked(repo.findPendingReceivedRequestIdsBatch).mockResolvedValue(
+        new Map(),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.getFollowRequestIdBatch(1, [2, 3]);
+
+      expect(repo.findPendingReceivedRequestIdsBatch).toHaveBeenCalledWith(
+        1,
+        [2, 3],
+      );
     });
   });
 });

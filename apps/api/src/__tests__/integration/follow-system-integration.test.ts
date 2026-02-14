@@ -25,6 +25,11 @@ function createMockFollowRepository(): FollowRepository {
     findFollowers: vi.fn(),
     countFollowing: vi.fn(),
     countFollowers: vi.fn(),
+    findFollowsBatch: vi.fn(),
+    findFollowersBatch: vi.fn(),
+    findPendingSentRequestsBatch: vi.fn(),
+    findPendingReceivedRequestsBatch: vi.fn(),
+    findPendingReceivedRequestIdsBatch: vi.fn(),
   };
 }
 
@@ -477,7 +482,7 @@ describe("Follow System Integration", () => {
         incoming: "NONE",
       });
 
-      // outgoing PENDING 状態（ユーザー1がユーザー2にリクエスト送信）
+      // outgoing PENDING_SENT 状態（ユーザー1がユーザー2にリクエスト送信）
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
       vi.mocked(followRepo.findRequestBySenderAndReceiver)
         .mockResolvedValueOnce(
@@ -489,11 +494,11 @@ describe("Follow System Integration", () => {
         )
         .mockResolvedValueOnce(null);
       expect(await followService.getFollowStatus(1, 2)).toEqual({
-        outgoing: "PENDING",
+        outgoing: "PENDING_SENT",
         incoming: "NONE",
       });
 
-      // incoming PENDING 状態（ユーザー2がユーザー1にリクエスト送信）
+      // incoming PENDING_RECEIVED 状態（ユーザー2がユーザー1にリクエスト送信）
       vi.mocked(followRepo.findFollow).mockResolvedValue(null);
       vi.mocked(followRepo.findRequestBySenderAndReceiver).mockReset();
       vi.mocked(followRepo.findRequestBySenderAndReceiver)
@@ -507,7 +512,7 @@ describe("Follow System Integration", () => {
         );
       expect(await followService.getFollowStatus(1, 2)).toEqual({
         outgoing: "NONE",
-        incoming: "PENDING",
+        incoming: "PENDING_RECEIVED",
       });
 
       // outgoing FOLLOWING 状態（1→2 のみ）

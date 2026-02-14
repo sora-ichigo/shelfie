@@ -162,11 +162,15 @@ class GFollowRequestStatus extends EnumClass {
 class GFollowStatus extends EnumClass {
   const GFollowStatus._(String name) : super(name);
 
+  static const GFollowStatus FOLLOWED_BY = _$gFollowStatusFOLLOWED_BY;
+
   static const GFollowStatus FOLLOWING = _$gFollowStatusFOLLOWING;
 
   static const GFollowStatus NONE = _$gFollowStatusNONE;
 
-  static const GFollowStatus PENDING = _$gFollowStatusPENDING;
+  static const GFollowStatus PENDING_RECEIVED = _$gFollowStatusPENDING_RECEIVED;
+
+  static const GFollowStatus PENDING_SENT = _$gFollowStatusPENDING_SENT;
 
   static Serializer<GFollowStatus> get serializer => _$gFollowStatusSerializer;
 

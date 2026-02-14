@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
 import 'package:shelfie/features/notification/application/notification_list_notifier.dart';
 import 'package:shelfie/features/notification/data/notification_repository.dart';
@@ -26,6 +27,9 @@ void main() {
         handle: 'user$id',
       ),
       type: NotificationType.followRequestReceived,
+      outgoingFollowStatus: FollowStatusType.none,
+      incomingFollowStatus: FollowStatusType.pendingReceived,
+      followRequestId: null,
       isRead: isRead,
       createdAt: DateTime(2024, 1, id),
     );

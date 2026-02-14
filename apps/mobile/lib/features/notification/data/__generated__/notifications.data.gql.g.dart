@@ -95,13 +95,25 @@ class _$GNotificationsData_notificationsSerializer
       'type',
       serializers.serialize(object.type,
           specifiedType: const FullType(_i2.GNotificationType)),
+      'outgoingFollowStatus',
+      serializers.serialize(object.outgoingFollowStatus,
+          specifiedType: const FullType(_i2.GFollowStatus)),
+      'incomingFollowStatus',
+      serializers.serialize(object.incomingFollowStatus,
+          specifiedType: const FullType(_i2.GFollowStatus)),
       'isRead',
       serializers.serialize(object.isRead, specifiedType: const FullType(bool)),
       'createdAt',
       serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
     ];
-
+    Object? value;
+    value = object.followRequestId;
+    if (value != null) {
+      result
+        ..add('followRequestId')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -135,6 +147,20 @@ class _$GNotificationsData_notificationsSerializer
           result.type = serializers.deserialize(value,
                   specifiedType: const FullType(_i2.GNotificationType))!
               as _i2.GNotificationType;
+          break;
+        case 'outgoingFollowStatus':
+          result.outgoingFollowStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GFollowStatus))!
+              as _i2.GFollowStatus;
+          break;
+        case 'incomingFollowStatus':
+          result.incomingFollowStatus = serializers.deserialize(value,
+                  specifiedType: const FullType(_i2.GFollowStatus))!
+              as _i2.GFollowStatus;
+          break;
+        case 'followRequestId':
+          result.followRequestId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'isRead':
           result.isRead = serializers.deserialize(value,
@@ -366,6 +392,12 @@ class _$GNotificationsData_notifications
   @override
   final _i2.GNotificationType type;
   @override
+  final _i2.GFollowStatus outgoingFollowStatus;
+  @override
+  final _i2.GFollowStatus incomingFollowStatus;
+  @override
+  final int? followRequestId;
+  @override
   final bool isRead;
   @override
   final DateTime createdAt;
@@ -379,6 +411,9 @@ class _$GNotificationsData_notifications
       required this.id,
       required this.sender,
       required this.type,
+      required this.outgoingFollowStatus,
+      required this.incomingFollowStatus,
+      this.followRequestId,
       required this.isRead,
       required this.createdAt})
       : super._();
@@ -399,6 +434,9 @@ class _$GNotificationsData_notifications
         id == other.id &&
         sender == other.sender &&
         type == other.type &&
+        outgoingFollowStatus == other.outgoingFollowStatus &&
+        incomingFollowStatus == other.incomingFollowStatus &&
+        followRequestId == other.followRequestId &&
         isRead == other.isRead &&
         createdAt == other.createdAt;
   }
@@ -410,6 +448,9 @@ class _$GNotificationsData_notifications
     _$hash = $jc(_$hash, id.hashCode);
     _$hash = $jc(_$hash, sender.hashCode);
     _$hash = $jc(_$hash, type.hashCode);
+    _$hash = $jc(_$hash, outgoingFollowStatus.hashCode);
+    _$hash = $jc(_$hash, incomingFollowStatus.hashCode);
+    _$hash = $jc(_$hash, followRequestId.hashCode);
     _$hash = $jc(_$hash, isRead.hashCode);
     _$hash = $jc(_$hash, createdAt.hashCode);
     _$hash = $jf(_$hash);
@@ -423,6 +464,9 @@ class _$GNotificationsData_notifications
           ..add('id', id)
           ..add('sender', sender)
           ..add('type', type)
+          ..add('outgoingFollowStatus', outgoingFollowStatus)
+          ..add('incomingFollowStatus', incomingFollowStatus)
+          ..add('followRequestId', followRequestId)
           ..add('isRead', isRead)
           ..add('createdAt', createdAt))
         .toString();
@@ -453,6 +497,21 @@ class GNotificationsData_notificationsBuilder
   _i2.GNotificationType? get type => _$this._type;
   set type(_i2.GNotificationType? type) => _$this._type = type;
 
+  _i2.GFollowStatus? _outgoingFollowStatus;
+  _i2.GFollowStatus? get outgoingFollowStatus => _$this._outgoingFollowStatus;
+  set outgoingFollowStatus(_i2.GFollowStatus? outgoingFollowStatus) =>
+      _$this._outgoingFollowStatus = outgoingFollowStatus;
+
+  _i2.GFollowStatus? _incomingFollowStatus;
+  _i2.GFollowStatus? get incomingFollowStatus => _$this._incomingFollowStatus;
+  set incomingFollowStatus(_i2.GFollowStatus? incomingFollowStatus) =>
+      _$this._incomingFollowStatus = incomingFollowStatus;
+
+  int? _followRequestId;
+  int? get followRequestId => _$this._followRequestId;
+  set followRequestId(int? followRequestId) =>
+      _$this._followRequestId = followRequestId;
+
   bool? _isRead;
   bool? get isRead => _$this._isRead;
   set isRead(bool? isRead) => _$this._isRead = isRead;
@@ -472,6 +531,9 @@ class GNotificationsData_notificationsBuilder
       _id = $v.id;
       _sender = $v.sender.toBuilder();
       _type = $v.type;
+      _outgoingFollowStatus = $v.outgoingFollowStatus;
+      _incomingFollowStatus = $v.incomingFollowStatus;
+      _followRequestId = $v.followRequestId;
       _isRead = $v.isRead;
       _createdAt = $v.createdAt;
       _$v = null;
@@ -504,6 +566,15 @@ class GNotificationsData_notificationsBuilder
             sender: sender.build(),
             type: BuiltValueNullFieldError.checkNotNull(
                 type, r'GNotificationsData_notifications', 'type'),
+            outgoingFollowStatus: BuiltValueNullFieldError.checkNotNull(
+                outgoingFollowStatus,
+                r'GNotificationsData_notifications',
+                'outgoingFollowStatus'),
+            incomingFollowStatus: BuiltValueNullFieldError.checkNotNull(
+                incomingFollowStatus,
+                r'GNotificationsData_notifications',
+                'incomingFollowStatus'),
+            followRequestId: followRequestId,
             isRead: BuiltValueNullFieldError.checkNotNull(
                 isRead, r'GNotificationsData_notifications', 'isRead'),
             createdAt: BuiltValueNullFieldError.checkNotNull(

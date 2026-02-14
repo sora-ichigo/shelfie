@@ -356,4 +356,87 @@ describe("FollowRepository", () => {
       expect(result).toBe(0);
     });
   });
+
+  describe("findFollowsBatch", () => {
+    it("should return set of followed target ids", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([
+        createMockFollow({ followerId: 1, followeeId: 3 }),
+        createMockFollow({ followerId: 1, followeeId: 5 }),
+      ]);
+
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findFollowsBatch(1, [3, 5, 7]);
+
+      expect(result).toBeInstanceOf(Set);
+      expect(result.has(3)).toBe(true);
+      expect(result.has(5)).toBe(true);
+      expect(result.has(7)).toBe(false);
+    });
+
+    it("should return empty set when no targets", async () => {
+      const mockDb = createMockDb();
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findFollowsBatch(1, []);
+
+      expect(result.size).toBe(0);
+    });
+  });
+
+  describe("findPendingSentRequestsBatch", () => {
+    it("should return set of receiver ids with pending sent requests", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([
+        createMockFollowRequest({
+          senderId: 1,
+          receiverId: 3,
+          status: "pending",
+        }),
+      ]);
+
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findPendingSentRequestsBatch(1, [3, 5]);
+
+      expect(result.has(3)).toBe(true);
+      expect(result.has(5)).toBe(false);
+    });
+
+    it("should return empty set when no targets", async () => {
+      const mockDb = createMockDb();
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findPendingSentRequestsBatch(1, []);
+
+      expect(result.size).toBe(0);
+    });
+  });
+
+  describe("findPendingReceivedRequestsBatch", () => {
+    it("should return set of sender ids with pending received requests", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([
+        createMockFollowRequest({
+          senderId: 3,
+          receiverId: 1,
+          status: "pending",
+        }),
+      ]);
+
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findPendingReceivedRequestsBatch(
+        1,
+        [3, 5],
+      );
+
+      expect(result.has(3)).toBe(true);
+      expect(result.has(5)).toBe(false);
+    });
+
+    it("should return empty set when no targets", async () => {
+      const mockDb = createMockDb();
+      const repository = createFollowRepository(mockDb.query as never);
+      const result = await repository.findPendingReceivedRequestsBatch(1, []);
+
+      expect(result.size).toBe(0);
+    });
+  });
 });

@@ -8,6 +8,9 @@ query Notifications($cursor: Int, $limit: Int) {
       handle
     }
     type
+    outgoingFollowStatus
+    incomingFollowStatus
+    followRequestId
     isRead
     createdAt
   }

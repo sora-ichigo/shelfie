@@ -5,7 +5,12 @@ import type { NotificationService } from "../../device-tokens/index.js";
 import type { NotificationAppService } from "../../notifications/index.js";
 import type { FollowRepository } from "./repository.js";
 
-export type FollowStatus = "NONE" | "PENDING" | "FOLLOWING";
+export type FollowStatus =
+  | "NONE"
+  | "PENDING_SENT"
+  | "PENDING_RECEIVED"
+  | "FOLLOWING"
+  | "FOLLOWED_BY";
 
 export type FollowServiceErrors =
   | { code: "SELF_FOLLOW"; message: string }
@@ -45,6 +50,14 @@ export interface FollowService {
   getFollowCounts(
     userId: number,
   ): Promise<{ followingCount: number; followerCount: number }>;
+  getFollowStatusBatch(
+    userId: number,
+    targetUserIds: number[],
+  ): Promise<Map<number, { outgoing: FollowStatus; incoming: FollowStatus }>>;
+  getFollowRequestIdBatch(
+    recipientId: number,
+    senderIds: number[],
+  ): Promise<Map<number, number | null>>;
 }
 
 export function createFollowService(
@@ -280,7 +293,7 @@ export function createFollowService(
           targetUserId,
         );
         if (sentRequest && sentRequest.status === "pending") {
-          outgoing = "PENDING";
+          outgoing = "PENDING_SENT";
         }
       }
 
@@ -293,7 +306,7 @@ export function createFollowService(
           userId,
         );
         if (receivedRequest && receivedRequest.status === "pending") {
-          incoming = "PENDING";
+          incoming = "PENDING_RECEIVED";
         }
       }
 
@@ -308,6 +321,60 @@ export function createFollowService(
         repository.countFollowers(userId),
       ]);
       return { followingCount, followerCount };
+    },
+
+    async getFollowStatusBatch(
+      userId: number,
+      targetUserIds: number[],
+    ): Promise<
+      Map<number, { outgoing: FollowStatus; incoming: FollowStatus }>
+    > {
+      const [followingSet, followersSet, pendingSentSet, pendingReceivedSet] =
+        await Promise.all([
+          repository.findFollowsBatch(userId, targetUserIds),
+          repository.findFollowersBatch(userId, targetUserIds),
+          repository.findPendingSentRequestsBatch(userId, targetUserIds),
+          repository.findPendingReceivedRequestsBatch(userId, targetUserIds),
+        ]);
+
+      const result = new Map<
+        number,
+        { outgoing: FollowStatus; incoming: FollowStatus }
+      >();
+      for (const targetId of targetUserIds) {
+        let outgoing: FollowStatus = "NONE";
+        if (followingSet.has(targetId)) {
+          outgoing = "FOLLOWING";
+        } else if (pendingSentSet.has(targetId)) {
+          outgoing = "PENDING_SENT";
+        }
+
+        let incoming: FollowStatus = "NONE";
+        if (followersSet.has(targetId)) {
+          incoming = "FOLLOWING";
+        } else if (pendingReceivedSet.has(targetId)) {
+          incoming = "PENDING_RECEIVED";
+        }
+
+        result.set(targetId, { outgoing, incoming });
+      }
+      return result;
+    },
+
+    async getFollowRequestIdBatch(
+      recipientId: number,
+      senderIds: number[],
+    ): Promise<Map<number, number | null>> {
+      const idMap = await repository.findPendingReceivedRequestIdsBatch(
+        recipientId,
+        senderIds,
+      );
+
+      const result = new Map<number, number | null>();
+      for (const senderId of senderIds) {
+        result.set(senderId, idMap.get(senderId) ?? null);
+      }
+      return result;
     },
   };
 }

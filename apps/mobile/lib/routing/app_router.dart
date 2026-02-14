@@ -32,7 +32,6 @@ import 'package:shelfie/features/follow/data/follow_repository.dart';
 import 'package:shelfie/features/follow/domain/follow_list_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
 import 'package:shelfie/features/follow/presentation/follow_list_screen.dart';
-import 'package:shelfie/features/follow/presentation/follow_request_list_screen.dart';
 import 'package:shelfie/features/follow/presentation/user_profile_screen.dart';
 import 'package:shelfie/features/login/presentation/login_screen.dart';
 import 'package:shelfie/features/notification/application/unread_notification_count.dart';
@@ -99,9 +98,6 @@ abstract final class AppRoutes {
 
   /// お知らせタブ
   static const notificationsTab = '/notifications';
-
-  /// フォローリクエスト一覧画面
-  static const followRequests = '/follow-requests';
 
   /// フォロー/フォロワー一覧画面パスを生成
   static String followList({required int userId, required String type}) =>
@@ -437,13 +433,6 @@ List<RouteBase> _buildRoutes() {
           ],
         ),
       ],
-    ),
-
-    // フォローリクエスト一覧画面（タブバーなし）
-    GoRoute(
-      path: AppRoutes.followRequests,
-      pageBuilder: (context, state) =>
-          const CupertinoPage(child: FollowRequestListScreen()),
     ),
 
     // フォロー/フォロワー一覧画面（タブバーなし）

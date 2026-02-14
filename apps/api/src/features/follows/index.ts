@@ -1,4 +1,5 @@
 export {
+  FollowStatusRef,
   registerFollowMutations,
   registerFollowQueries,
   registerFollowTypes,

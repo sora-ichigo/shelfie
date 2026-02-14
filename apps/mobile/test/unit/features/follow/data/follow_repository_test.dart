@@ -760,8 +760,10 @@ void main() {
     test('GFollowStatus のマッピングが正しい', () async {
       for (final entry in {
         GFollowStatus.NONE: FollowStatusType.none,
-        GFollowStatus.PENDING: FollowStatusType.pending,
+        GFollowStatus.PENDING_SENT: FollowStatusType.pendingSent,
+        GFollowStatus.PENDING_RECEIVED: FollowStatusType.pendingReceived,
         GFollowStatus.FOLLOWING: FollowStatusType.following,
+        GFollowStatus.FOLLOWED_BY: FollowStatusType.followedBy,
       }.entries) {
         final userProfileData = GUserProfileData_userProfile(
           (b) => b

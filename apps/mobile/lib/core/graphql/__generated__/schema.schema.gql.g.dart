@@ -120,19 +120,28 @@ final BuiltSet<GFollowRequestStatus> _$gFollowRequestStatusValues =
   _$gFollowRequestStatusREJECTED,
 ]);
 
+const GFollowStatus _$gFollowStatusFOLLOWED_BY =
+    const GFollowStatus._('FOLLOWED_BY');
 const GFollowStatus _$gFollowStatusFOLLOWING =
     const GFollowStatus._('FOLLOWING');
 const GFollowStatus _$gFollowStatusNONE = const GFollowStatus._('NONE');
-const GFollowStatus _$gFollowStatusPENDING = const GFollowStatus._('PENDING');
+const GFollowStatus _$gFollowStatusPENDING_RECEIVED =
+    const GFollowStatus._('PENDING_RECEIVED');
+const GFollowStatus _$gFollowStatusPENDING_SENT =
+    const GFollowStatus._('PENDING_SENT');
 
 GFollowStatus _$gFollowStatusValueOf(String name) {
   switch (name) {
+    case 'FOLLOWED_BY':
+      return _$gFollowStatusFOLLOWED_BY;
     case 'FOLLOWING':
       return _$gFollowStatusFOLLOWING;
     case 'NONE':
       return _$gFollowStatusNONE;
-    case 'PENDING':
-      return _$gFollowStatusPENDING;
+    case 'PENDING_RECEIVED':
+      return _$gFollowStatusPENDING_RECEIVED;
+    case 'PENDING_SENT':
+      return _$gFollowStatusPENDING_SENT;
     default:
       throw ArgumentError(name);
   }
@@ -140,9 +149,11 @@ GFollowStatus _$gFollowStatusValueOf(String name) {
 
 final BuiltSet<GFollowStatus> _$gFollowStatusValues =
     BuiltSet<GFollowStatus>(const <GFollowStatus>[
+  _$gFollowStatusFOLLOWED_BY,
   _$gFollowStatusFOLLOWING,
   _$gFollowStatusNONE,
-  _$gFollowStatusPENDING,
+  _$gFollowStatusPENDING_RECEIVED,
+  _$gFollowStatusPENDING_SENT,
 ]);
 
 const GNotificationType _$gNotificationTypeFOLLOW_REQUEST_APPROVED =

@@ -245,6 +245,33 @@ const AppNotification = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'followRequestId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'incomingFollowStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowStatus'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'outgoingFollowStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowStatus'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'id'),
       directives: [],
       args: [],
@@ -1067,6 +1094,10 @@ const FollowStatus = _i1.EnumTypeDefinitionNode(
   directives: [],
   values: [
     _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOWED_BY'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
       name: _i1.NameNode(value: 'FOLLOWING'),
       directives: [],
     ),
@@ -1075,7 +1106,11 @@ const FollowStatus = _i1.EnumTypeDefinitionNode(
       directives: [],
     ),
     _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING'),
+      name: _i1.NameNode(value: 'PENDING_RECEIVED'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'PENDING_SENT'),
       directives: [],
     ),
   ],

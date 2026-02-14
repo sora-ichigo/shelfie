@@ -35,7 +35,13 @@ function createFollowRequestStatusEnumRef(builder: Builder) {
 
 function createFollowStatusEnumRef(builder: Builder) {
   return builder.enumType("FollowStatus", {
-    values: ["NONE", "PENDING", "FOLLOWING"] as const,
+    values: [
+      "NONE",
+      "PENDING_SENT",
+      "PENDING_RECEIVED",
+      "FOLLOWING",
+      "FOLLOWED_BY",
+    ] as const,
   });
 }
 
@@ -52,7 +58,7 @@ function createUserProfileRef(builder: Builder) {
 }
 
 let FollowRequestStatusRef: FollowRequestStatusEnumRef;
-let FollowStatusRef: FollowStatusEnumRef;
+export let FollowStatusRef: FollowStatusEnumRef;
 let FollowRequestRef: FollowRequestObjectRef;
 let FollowCountsRef: FollowCountsObjectRef;
 let UserProfileRef: UserProfileObjectRef;

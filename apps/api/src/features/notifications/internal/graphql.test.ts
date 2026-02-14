@@ -6,10 +6,14 @@ import type {
 } from "graphql";
 import { describe, expect, it, vi } from "vitest";
 import { createTestBuilder } from "../../../graphql/builder.js";
+import { registerFollowTypes } from "../../follows/internal/graphql.js";
+import type { FollowService } from "../../follows/internal/service.js";
 import { registerUserTypes } from "../../users/internal/graphql.js";
 import type { UserService } from "../../users/internal/service.js";
 import {
+  registerNotificationIncomingFollowStatusField,
   registerNotificationMutations,
+  registerNotificationOutgoingFollowStatusField,
   registerNotificationQueries,
   registerNotificationTypes,
 } from "./graphql.js";
@@ -48,12 +52,28 @@ function createMockUserService(): UserService {
   };
 }
 
+function createMockFollowService(): FollowService {
+  return {
+    sendRequest: vi.fn(),
+    approveRequest: vi.fn(),
+    rejectRequest: vi.fn(),
+    unfollow: vi.fn(),
+    cancelFollowRequest: vi.fn(),
+    getFollowStatus: vi.fn(),
+    getFollowCounts: vi.fn(),
+    getFollowStatusBatch: vi.fn(),
+    getFollowRequestIdBatch: vi.fn(),
+  };
+}
+
 function buildTestSchema(mockService?: NotificationAppService) {
   const builder = createTestBuilder();
   const service = mockService ?? createMockService();
   const userService = createMockUserService();
+  const followService = createMockFollowService();
 
   registerUserTypes(builder);
+  registerFollowTypes(builder);
   registerNotificationTypes(builder);
 
   builder.queryType({
@@ -69,6 +89,8 @@ function buildTestSchema(mockService?: NotificationAppService) {
 
   registerNotificationQueries(builder, service, userService);
   registerNotificationMutations(builder, service, userService);
+  registerNotificationOutgoingFollowStatusField(builder, followService);
+  registerNotificationIncomingFollowStatusField(builder, followService);
 
   return builder.toSchema();
 }
@@ -149,6 +171,22 @@ describe("Notification GraphQL Types", () => {
 
       expect(field).toBeDefined();
       expect(field?.type.toString()).toBe("DateTime!");
+    });
+
+    it("should have outgoingFollowStatus field as FollowStatus!", () => {
+      const schema = buildTestSchema();
+      const field = getField(schema, "AppNotification", "outgoingFollowStatus");
+
+      expect(field).toBeDefined();
+      expect(field?.type.toString()).toBe("FollowStatus!");
+    });
+
+    it("should have incomingFollowStatus field as FollowStatus!", () => {
+      const schema = buildTestSchema();
+      const field = getField(schema, "AppNotification", "incomingFollowStatus");
+
+      expect(field).toBeDefined();
+      expect(field?.type.toString()).toBe("FollowStatus!");
     });
   });
 
