@@ -5,6 +5,7 @@ import 'package:shelfie/features/book_shelf/application/shelf_search_state.dart'
 import 'package:shelfie/features/book_shelf/application/sort_option_notifier.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/follow/application/user_profile_sort_option_notifier.dart';
 
 part 'shelf_search_notifier.g.dart';
 
@@ -17,7 +18,7 @@ class ShelfSearchNotifier extends _$ShelfSearchNotifier {
   String? _currentQuery;
 
   @override
-  ShelfSearchState build() {
+  ShelfSearchState build({int? userId}) {
     return const ShelfSearchState.initial();
   }
 
@@ -52,15 +53,23 @@ class ShelfSearchNotifier extends _$ShelfSearchNotifier {
 
   Future<void> _fetchBooks({bool isLoadMore = false}) async {
     final repository = ref.read(bookShelfRepositoryProvider);
-    final sortOption = ref.read(sortOptionNotifierProvider);
 
-    final result = await repository.getMyShelf(
-      query: _currentQuery,
-      sortBy: sortOption.sortField,
-      sortOrder: sortOption.sortOrder,
-      limit: _pageSize,
-      offset: _currentOffset,
-    );
+    final result = userId != null
+        ? await repository.getUserShelf(
+            userId: userId!,
+            query: _currentQuery,
+            sortBy: ref.read(userProfileSortOptionNotifierProvider(userId!)).sortField,
+            sortOrder: ref.read(userProfileSortOptionNotifierProvider(userId!)).sortOrder,
+            limit: _pageSize,
+            offset: _currentOffset,
+          )
+        : await repository.getMyShelf(
+            query: _currentQuery,
+            sortBy: ref.read(sortOptionNotifierProvider).sortField,
+            sortOrder: ref.read(sortOptionNotifierProvider).sortOrder,
+            limit: _pageSize,
+            offset: _currentOffset,
+          );
 
     result.fold(
       (failure) {
@@ -73,7 +82,9 @@ class ShelfSearchNotifier extends _$ShelfSearchNotifier {
           _allBooks = myShelfResult.items;
         }
 
-        _syncToShelfState(myShelfResult.entries);
+        if (userId == null) {
+          _syncToShelfState(myShelfResult.entries);
+        }
 
         state = ShelfSearchState.loaded(
           books: _allBooks,

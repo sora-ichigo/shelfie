@@ -15,6 +15,7 @@ Future<void> showShelfSearchBottomSheet({
   required BuildContext context,
   required void Function(ShelfBookItem book) onBookTap,
   void Function(ShelfBookItem book)? onBookLongPress,
+  int? userId,
 }) async {
   final appColors = Theme.of(context).extension<AppColors>()!;
 
@@ -26,6 +27,7 @@ Future<void> showShelfSearchBottomSheet({
     builder: (context) => _ShelfSearchBottomSheetContent(
       onBookTap: onBookTap,
       onBookLongPress: onBookLongPress,
+      userId: userId,
     ),
   );
 }
@@ -34,10 +36,12 @@ class _ShelfSearchBottomSheetContent extends ConsumerStatefulWidget {
   const _ShelfSearchBottomSheetContent({
     required this.onBookTap,
     this.onBookLongPress,
+    this.userId,
   });
 
   final void Function(ShelfBookItem book) onBookTap;
   final void Function(ShelfBookItem book)? onBookLongPress;
+  final int? userId;
 
   @override
   ConsumerState<_ShelfSearchBottomSheetContent> createState() =>
@@ -58,7 +62,9 @@ class _ShelfSearchBottomSheetContentState
 
   @override
   Widget build(BuildContext context) {
-    final searchState = ref.watch(shelfSearchNotifierProvider);
+    final searchState = ref.watch(
+      shelfSearchNotifierProvider(userId: widget.userId),
+    );
 
     return DraggableScrollableSheet(
       initialChildSize: 0.7,
@@ -179,7 +185,7 @@ class _ShelfSearchBottomSheetContentState
 
                   if (currentScroll >= threshold) {
                     ref
-                        .read(shelfSearchNotifierProvider.notifier)
+                        .read(shelfSearchNotifierProvider(userId: widget.userId).notifier)
                         .loadMore();
                   }
                   return false;
@@ -215,7 +221,7 @@ class _ShelfSearchBottomSheetContentState
     setState(() {});
     _debounceTimer?.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      ref.read(shelfSearchNotifierProvider.notifier).search(value);
+      ref.read(shelfSearchNotifierProvider(userId: widget.userId).notifier).search(value);
     });
   }
 }

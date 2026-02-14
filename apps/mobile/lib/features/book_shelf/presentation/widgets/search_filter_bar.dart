@@ -12,6 +12,7 @@ class SearchFilterBar extends StatelessWidget {
     required this.onSortChanged,
     required this.onBookTap,
     this.onBookLongPress,
+    this.userId,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class SearchFilterBar extends StatelessWidget {
   final void Function(SortOption) onSortChanged;
   final void Function(ShelfBookItem book) onBookTap;
   final void Function(ShelfBookItem book)? onBookLongPress;
+  final int? userId;
 
   Future<void> _showSortBottomSheet(BuildContext context) async {
     final appColors = Theme.of(context).extension<AppColors>()!;
@@ -54,6 +56,7 @@ class SearchFilterBar extends StatelessWidget {
             context: context,
             onBookTap: onBookTap,
             onBookLongPress: onBookLongPress,
+            userId: userId,
           ),
         ),
         _FilterIconButton(

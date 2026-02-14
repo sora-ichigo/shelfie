@@ -189,6 +189,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                   ref.invalidate(userProfileBooksNotifierProvider(_userId));
                 },
                 onBookTap: _onBookTap,
+                userId: _userId,
               ),
             ],
           ),
