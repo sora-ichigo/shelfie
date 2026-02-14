@@ -55,8 +55,12 @@ abstract class BookShelfRepository {
   /// 他ユーザーの本棚を取得
   Future<Either<Failure, MyShelfResult>> getUserShelf({
     required int userId,
+    String? query,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
+    GReadingStatus? readingStatus,
   });
 }
 
@@ -106,8 +110,12 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
   @override
   Future<Either<Failure, MyShelfResult>> getUserShelf({
     required int userId,
+    String? query,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
+    GReadingStatus? readingStatus,
   }) async {
     final request = GUserShelfReq(
       (b) => b
@@ -115,8 +123,12 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
         ..vars.userId = userId
         ..vars.input = GMyShelfInput(
           (i) => i
+            ..query = query
+            ..sortBy = sortBy
+            ..sortOrder = sortOrder
             ..limit = limit ?? defaultPageSize
-            ..offset = offset ?? 0,
+            ..offset = offset ?? 0
+            ..readingStatus = readingStatus,
         ).toBuilder(),
     );
 
@@ -179,6 +191,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
           source: _mapBookSource(item.source.name),
           addedAt: item.addedAt,
           coverImageUrl: item.coverImageUrl,
+          rating: item.rating,
         ),
       );
     }
@@ -230,7 +243,6 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
     final entries = <String, ShelfEntry>{};
 
     for (final item in result.items) {
-      // 書籍情報
       items.add(
         ShelfBookItem(
           userBookId: item.id,
@@ -240,6 +252,7 @@ class BookShelfRepositoryImpl implements BookShelfRepository {
           source: _mapBookSource(item.source.name),
           addedAt: item.addedAt,
           coverImageUrl: item.coverImageUrl,
+          rating: item.rating,
         ),
       );
 

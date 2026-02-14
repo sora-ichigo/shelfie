@@ -34,6 +34,9 @@ class ShelfBookItem with _$ShelfBookItem {
 
     /// 表紙画像のURL
     String? coverImageUrl,
+
+    /// 評価（他ユーザーの本棚表示時に使用）
+    int? rating,
   }) = _ShelfBookItem;
 
   /// 最初の著者を取得

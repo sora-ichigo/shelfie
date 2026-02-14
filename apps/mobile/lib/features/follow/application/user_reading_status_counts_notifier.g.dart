@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_profile_books_notifier.dart';
+part of 'user_reading_status_counts_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userProfileBooksNotifierHash() =>
-    r'c28c4677501f123ee547e19fe2bb9584594e5c25';
+String _$userReadingStatusCountsNotifierHash() =>
+    r'f892dcc6d15efa0d2b4074477d9c6f5be373645a';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,36 +30,38 @@ class _SystemHash {
   }
 }
 
-abstract class _$UserProfileBooksNotifier
-    extends BuildlessAutoDisposeNotifier<UserProfileBooksState> {
+abstract class _$UserReadingStatusCountsNotifier
+    extends BuildlessAutoDisposeNotifier<Map<ReadingStatus, int>> {
   late final int userId;
 
-  UserProfileBooksState build(
+  Map<ReadingStatus, int> build(
     int userId,
   );
 }
 
-/// See also [UserProfileBooksNotifier].
-@ProviderFor(UserProfileBooksNotifier)
-const userProfileBooksNotifierProvider = UserProfileBooksNotifierFamily();
+/// See also [UserReadingStatusCountsNotifier].
+@ProviderFor(UserReadingStatusCountsNotifier)
+const userReadingStatusCountsNotifierProvider =
+    UserReadingStatusCountsNotifierFamily();
 
-/// See also [UserProfileBooksNotifier].
-class UserProfileBooksNotifierFamily extends Family<UserProfileBooksState> {
-  /// See also [UserProfileBooksNotifier].
-  const UserProfileBooksNotifierFamily();
+/// See also [UserReadingStatusCountsNotifier].
+class UserReadingStatusCountsNotifierFamily
+    extends Family<Map<ReadingStatus, int>> {
+  /// See also [UserReadingStatusCountsNotifier].
+  const UserReadingStatusCountsNotifierFamily();
 
-  /// See also [UserProfileBooksNotifier].
-  UserProfileBooksNotifierProvider call(
+  /// See also [UserReadingStatusCountsNotifier].
+  UserReadingStatusCountsNotifierProvider call(
     int userId,
   ) {
-    return UserProfileBooksNotifierProvider(
+    return UserReadingStatusCountsNotifierProvider(
       userId,
     );
   }
 
   @override
-  UserProfileBooksNotifierProvider getProviderOverride(
-    covariant UserProfileBooksNotifierProvider provider,
+  UserReadingStatusCountsNotifierProvider getProviderOverride(
+    covariant UserReadingStatusCountsNotifierProvider provider,
   ) {
     return call(
       provider.userId,
@@ -78,30 +80,31 @@ class UserProfileBooksNotifierFamily extends Family<UserProfileBooksState> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'userProfileBooksNotifierProvider';
+  String? get name => r'userReadingStatusCountsNotifierProvider';
 }
 
-/// See also [UserProfileBooksNotifier].
-class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    UserProfileBooksNotifier, UserProfileBooksState> {
-  /// See also [UserProfileBooksNotifier].
-  UserProfileBooksNotifierProvider(
+/// See also [UserReadingStatusCountsNotifier].
+class UserReadingStatusCountsNotifierProvider
+    extends AutoDisposeNotifierProviderImpl<UserReadingStatusCountsNotifier,
+        Map<ReadingStatus, int>> {
+  /// See also [UserReadingStatusCountsNotifier].
+  UserReadingStatusCountsNotifierProvider(
     int userId,
   ) : this._internal(
-          () => UserProfileBooksNotifier()..userId = userId,
-          from: userProfileBooksNotifierProvider,
-          name: r'userProfileBooksNotifierProvider',
+          () => UserReadingStatusCountsNotifier()..userId = userId,
+          from: userReadingStatusCountsNotifierProvider,
+          name: r'userReadingStatusCountsNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$userProfileBooksNotifierHash,
-          dependencies: UserProfileBooksNotifierFamily._dependencies,
+                  : _$userReadingStatusCountsNotifierHash,
+          dependencies: UserReadingStatusCountsNotifierFamily._dependencies,
           allTransitiveDependencies:
-              UserProfileBooksNotifierFamily._allTransitiveDependencies,
+              UserReadingStatusCountsNotifierFamily._allTransitiveDependencies,
           userId: userId,
         );
 
-  UserProfileBooksNotifierProvider._internal(
+  UserReadingStatusCountsNotifierProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -114,8 +117,8 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   final int userId;
 
   @override
-  UserProfileBooksState runNotifierBuild(
-    covariant UserProfileBooksNotifier notifier,
+  Map<ReadingStatus, int> runNotifierBuild(
+    covariant UserReadingStatusCountsNotifier notifier,
   ) {
     return notifier.build(
       userId,
@@ -123,10 +126,10 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(UserProfileBooksNotifier Function() create) {
+  Override overrideWith(UserReadingStatusCountsNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: UserProfileBooksNotifierProvider._internal(
+      override: UserReadingStatusCountsNotifierProvider._internal(
         () => create()..userId = userId,
         from: from,
         name: null,
@@ -139,14 +142,15 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<UserProfileBooksNotifier,
-      UserProfileBooksState> createElement() {
-    return _UserProfileBooksNotifierProviderElement(this);
+  AutoDisposeNotifierProviderElement<UserReadingStatusCountsNotifier,
+      Map<ReadingStatus, int>> createElement() {
+    return _UserReadingStatusCountsNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is UserProfileBooksNotifierProvider && other.userId == userId;
+    return other is UserReadingStatusCountsNotifierProvider &&
+        other.userId == userId;
   }
 
   @override
@@ -160,19 +164,19 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin UserProfileBooksNotifierRef
-    on AutoDisposeNotifierProviderRef<UserProfileBooksState> {
+mixin UserReadingStatusCountsNotifierRef
+    on AutoDisposeNotifierProviderRef<Map<ReadingStatus, int>> {
   /// The parameter `userId` of this provider.
   int get userId;
 }
 
-class _UserProfileBooksNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<UserProfileBooksNotifier,
-        UserProfileBooksState> with UserProfileBooksNotifierRef {
-  _UserProfileBooksNotifierProviderElement(super.provider);
+class _UserReadingStatusCountsNotifierProviderElement
+    extends AutoDisposeNotifierProviderElement<UserReadingStatusCountsNotifier,
+        Map<ReadingStatus, int>> with UserReadingStatusCountsNotifierRef {
+  _UserReadingStatusCountsNotifierProviderElement(super.provider);
 
   @override
-  int get userId => (origin as UserProfileBooksNotifierProvider).userId;
+  int get userId => (origin as UserReadingStatusCountsNotifierProvider).userId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

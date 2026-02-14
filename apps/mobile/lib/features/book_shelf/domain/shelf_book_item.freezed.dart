@@ -37,6 +37,9 @@ mixin _$ShelfBookItem {
   /// 表紙画像のURL
   String? get coverImageUrl => throw _privateConstructorUsedError;
 
+  /// 評価（他ユーザーの本棚表示時に使用）
+  int? get rating => throw _privateConstructorUsedError;
+
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -57,7 +60,8 @@ abstract class $ShelfBookItemCopyWith<$Res> {
       List<String> authors,
       BookSource source,
       DateTime addedAt,
-      String? coverImageUrl});
+      String? coverImageUrl,
+      int? rating});
 }
 
 /// @nodoc
@@ -82,6 +86,7 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
     Object? source = null,
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_value.copyWith(
       userBookId: null == userBookId
@@ -112,6 +117,10 @@ class _$ShelfBookItemCopyWithImpl<$Res, $Val extends ShelfBookItem>
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -131,7 +140,8 @@ abstract class _$$ShelfBookItemImplCopyWith<$Res>
       List<String> authors,
       BookSource source,
       DateTime addedAt,
-      String? coverImageUrl});
+      String? coverImageUrl,
+      int? rating});
 }
 
 /// @nodoc
@@ -154,6 +164,7 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
     Object? source = null,
     Object? addedAt = null,
     Object? coverImageUrl = freezed,
+    Object? rating = freezed,
   }) {
     return _then(_$ShelfBookItemImpl(
       userBookId: null == userBookId
@@ -184,6 +195,10 @@ class __$$ShelfBookItemImplCopyWithImpl<$Res>
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -198,7 +213,8 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
       required final List<String> authors,
       this.source = BookSource.rakuten,
       required this.addedAt,
-      this.coverImageUrl})
+      this.coverImageUrl,
+      this.rating})
       : _authors = authors,
         super._();
 
@@ -238,9 +254,13 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
   @override
   final String? coverImageUrl;
 
+  /// 評価（他ユーザーの本棚表示時に使用）
+  @override
+  final int? rating;
+
   @override
   String toString() {
-    return 'ShelfBookItem(userBookId: $userBookId, externalId: $externalId, title: $title, authors: $authors, source: $source, addedAt: $addedAt, coverImageUrl: $coverImageUrl)';
+    return 'ShelfBookItem(userBookId: $userBookId, externalId: $externalId, title: $title, authors: $authors, source: $source, addedAt: $addedAt, coverImageUrl: $coverImageUrl, rating: $rating)';
   }
 
   @override
@@ -257,7 +277,8 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
             (identical(other.source, source) || other.source == source) &&
             (identical(other.addedAt, addedAt) || other.addedAt == addedAt) &&
             (identical(other.coverImageUrl, coverImageUrl) ||
-                other.coverImageUrl == coverImageUrl));
+                other.coverImageUrl == coverImageUrl) &&
+            (identical(other.rating, rating) || other.rating == rating));
   }
 
   @override
@@ -269,7 +290,8 @@ class _$ShelfBookItemImpl extends _ShelfBookItem {
       const DeepCollectionEquality().hash(_authors),
       source,
       addedAt,
-      coverImageUrl);
+      coverImageUrl,
+      rating);
 
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.
@@ -288,7 +310,8 @@ abstract class _ShelfBookItem extends ShelfBookItem {
       required final List<String> authors,
       final BookSource source,
       required final DateTime addedAt,
-      final String? coverImageUrl}) = _$ShelfBookItemImpl;
+      final String? coverImageUrl,
+      final int? rating}) = _$ShelfBookItemImpl;
   const _ShelfBookItem._() : super._();
 
   /// ユーザーの本棚エントリID
@@ -318,6 +341,10 @@ abstract class _ShelfBookItem extends ShelfBookItem {
   /// 表紙画像のURL
   @override
   String? get coverImageUrl;
+
+  /// 評価（他ユーザーの本棚表示時に使用）
+  @override
+  int? get rating;
 
   /// Create a copy of ShelfBookItem
   /// with the given fields replaced by the non-null parameter values.

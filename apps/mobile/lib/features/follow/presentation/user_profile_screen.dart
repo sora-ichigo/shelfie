@@ -6,10 +6,14 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_content_view.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
+import 'package:shelfie/features/account/presentation/widgets/reading_status_chips.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
 import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
+import 'package:shelfie/features/follow/application/user_profile_sort_option_notifier.dart';
+import 'package:shelfie/features/follow/application/user_reading_status_counts_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -150,6 +154,45 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           }
         },
         onBookTap: _onBookTap,
+        filterBar: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.xxs,
+            horizontal: AppSpacing.md,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: ReadingStatusChips(
+                  selectedFilter: booksState.selectedFilter,
+                  counts: ref.watch(
+                    userReadingStatusCountsNotifierProvider(_userId),
+                  ),
+                  onFilterChanged: (filter) {
+                    ref
+                        .read(
+                          userProfileBooksNotifierProvider(_userId).notifier,
+                        )
+                        .setFilter(filter);
+                  },
+                ),
+              ),
+              SearchFilterBar(
+                sortOption: ref.watch(
+                  userProfileSortOptionNotifierProvider(_userId),
+                ),
+                onSortChanged: (option) {
+                  ref
+                      .read(
+                        userProfileSortOptionNotifierProvider(_userId).notifier,
+                      )
+                      .update(option);
+                  ref.invalidate(userProfileBooksNotifierProvider(_userId));
+                },
+                onBookTap: _onBookTap,
+              ),
+            ],
+          ),
+        ),
         bookLists: bookListsState.lists,
         isBookListsLoading: bookListsState.isLoading,
         isBookListsError: bookListsState.error != null,

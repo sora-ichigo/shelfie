@@ -1,7 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/error/failure.dart';
+import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
+import 'package:shelfie/features/follow/application/user_profile_sort_option_notifier.dart';
 
 part 'user_profile_books_notifier.g.dart';
 
@@ -12,6 +15,7 @@ class UserProfileBooksState {
     this.isLoadingMore = false,
     this.hasMore = false,
     this.totalCount = 0,
+    this.selectedFilter,
     this.error,
   });
 
@@ -20,6 +24,7 @@ class UserProfileBooksState {
   final bool isLoadingMore;
   final bool hasMore;
   final int totalCount;
+  final ReadingStatus? selectedFilter;
   final Failure? error;
 
   bool get canLoadMore => hasMore && !isLoadingMore;
@@ -30,6 +35,7 @@ class UserProfileBooksState {
     bool? isLoadingMore,
     bool? hasMore,
     int? totalCount,
+    ReadingStatus? Function()? selectedFilter,
     Failure? error,
   }) {
     return UserProfileBooksState(
@@ -38,9 +44,20 @@ class UserProfileBooksState {
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasMore: hasMore ?? this.hasMore,
       totalCount: totalCount ?? this.totalCount,
+      selectedFilter:
+          selectedFilter != null ? selectedFilter() : this.selectedFilter,
       error: error,
     );
   }
+}
+
+GReadingStatus _toGReadingStatus(ReadingStatus status) {
+  return switch (status) {
+    ReadingStatus.reading => GReadingStatus.READING,
+    ReadingStatus.backlog => GReadingStatus.BACKLOG,
+    ReadingStatus.completed => GReadingStatus.COMPLETED,
+    ReadingStatus.interested => GReadingStatus.INTERESTED,
+  };
 }
 
 @riverpod
@@ -63,18 +80,41 @@ class UserProfileBooksNotifier extends _$UserProfileBooksNotifier {
     await _fetchBooks(isLoadMore: true);
   }
 
+  Future<void> setFilter(ReadingStatus? filter) async {
+    if (state.selectedFilter == filter) return;
+    _currentOffset = 0;
+    _allBooks = [];
+    state = state.copyWith(
+      selectedFilter: () => filter,
+      books: [],
+    );
+    await _fetchBooks();
+  }
+
   Future<void> _fetchBooks({bool isLoadMore = false}) async {
     final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(userProfileSortOptionNotifierProvider(userId));
+    final filter = state.selectedFilter;
+
+    if (!isLoadMore) {
+      state = state.copyWith(isLoading: true);
+    }
 
     final result = await repository.getUserShelf(
       userId: userId,
+      readingStatus: filter != null ? _toGReadingStatus(filter) : null,
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
       limit: _pageSize,
       offset: _currentOffset,
     );
 
     result.fold(
       (failure) {
-        state = UserProfileBooksState(error: failure);
+        state = UserProfileBooksState(
+          selectedFilter: state.selectedFilter,
+          error: failure,
+        );
       },
       (shelfResult) {
         if (isLoadMore) {
@@ -87,6 +127,7 @@ class UserProfileBooksNotifier extends _$UserProfileBooksNotifier {
           books: _allBooks,
           hasMore: shelfResult.hasMore,
           totalCount: shelfResult.totalCount,
+          selectedFilter: state.selectedFilter,
         );
       },
     );
