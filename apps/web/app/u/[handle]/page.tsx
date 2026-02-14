@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function InvitePage({ params }: Props) {
   const { handle } = await params;
-  const appLink = `${APP_URL}/u/${handle}`;
+  const appLink = `shelfie:///u/${handle}`;
 
   return (
     <main style={styles.container}>
