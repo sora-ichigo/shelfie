@@ -11,8 +11,9 @@ import type { FollowService } from "../../follows/internal/service.js";
 import { registerUserTypes } from "../../users/internal/graphql.js";
 import type { UserService } from "../../users/internal/service.js";
 import {
-  registerNotificationFollowStatusField,
+  registerNotificationIncomingFollowStatusField,
   registerNotificationMutations,
+  registerNotificationOutgoingFollowStatusField,
   registerNotificationQueries,
   registerNotificationTypes,
 } from "./graphql.js";
@@ -88,7 +89,8 @@ function buildTestSchema(mockService?: NotificationAppService) {
 
   registerNotificationQueries(builder, service, userService);
   registerNotificationMutations(builder, service, userService);
-  registerNotificationFollowStatusField(builder, followService);
+  registerNotificationOutgoingFollowStatusField(builder, followService);
+  registerNotificationIncomingFollowStatusField(builder, followService);
 
   return builder.toSchema();
 }
@@ -171,9 +173,17 @@ describe("Notification GraphQL Types", () => {
       expect(field?.type.toString()).toBe("DateTime!");
     });
 
-    it("should have followStatus field as FollowStatus!", () => {
+    it("should have outgoingFollowStatus field as FollowStatus!", () => {
       const schema = buildTestSchema();
-      const field = getField(schema, "AppNotification", "followStatus");
+      const field = getField(schema, "AppNotification", "outgoingFollowStatus");
+
+      expect(field).toBeDefined();
+      expect(field?.type.toString()).toBe("FollowStatus!");
+    });
+
+    it("should have incomingFollowStatus field as FollowStatus!", () => {
+      const schema = buildTestSchema();
+      const field = getField(schema, "AppNotification", "incomingFollowStatus");
 
       expect(field).toBeDefined();
       expect(field?.type.toString()).toBe("FollowStatus!");

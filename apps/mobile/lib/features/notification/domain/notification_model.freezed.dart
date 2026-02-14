@@ -19,7 +19,10 @@ mixin _$NotificationModel {
   int get id => throw _privateConstructorUsedError;
   UserSummary get sender => throw _privateConstructorUsedError;
   NotificationType get type => throw _privateConstructorUsedError;
-  FollowStatusType get followStatus => throw _privateConstructorUsedError;
+  FollowStatusType get outgoingFollowStatus =>
+      throw _privateConstructorUsedError;
+  FollowStatusType get incomingFollowStatus =>
+      throw _privateConstructorUsedError;
   int? get followRequestId => throw _privateConstructorUsedError;
   bool get isRead => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -41,7 +44,8 @@ abstract class $NotificationModelCopyWith<$Res> {
       {int id,
       UserSummary sender,
       NotificationType type,
-      FollowStatusType followStatus,
+      FollowStatusType outgoingFollowStatus,
+      FollowStatusType incomingFollowStatus,
       int? followRequestId,
       bool isRead,
       DateTime createdAt});
@@ -67,7 +71,8 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
     Object? id = null,
     Object? sender = null,
     Object? type = null,
-    Object? followStatus = null,
+    Object? outgoingFollowStatus = null,
+    Object? incomingFollowStatus = null,
     Object? followRequestId = freezed,
     Object? isRead = null,
     Object? createdAt = null,
@@ -85,9 +90,13 @@ class _$NotificationModelCopyWithImpl<$Res, $Val extends NotificationModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as NotificationType,
-      followStatus: null == followStatus
-          ? _value.followStatus
-          : followStatus // ignore: cast_nullable_to_non_nullable
+      outgoingFollowStatus: null == outgoingFollowStatus
+          ? _value.outgoingFollowStatus
+          : outgoingFollowStatus // ignore: cast_nullable_to_non_nullable
+              as FollowStatusType,
+      incomingFollowStatus: null == incomingFollowStatus
+          ? _value.incomingFollowStatus
+          : incomingFollowStatus // ignore: cast_nullable_to_non_nullable
               as FollowStatusType,
       followRequestId: freezed == followRequestId
           ? _value.followRequestId
@@ -127,7 +136,8 @@ abstract class _$$NotificationModelImplCopyWith<$Res>
       {int id,
       UserSummary sender,
       NotificationType type,
-      FollowStatusType followStatus,
+      FollowStatusType outgoingFollowStatus,
+      FollowStatusType incomingFollowStatus,
       int? followRequestId,
       bool isRead,
       DateTime createdAt});
@@ -152,7 +162,8 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? sender = null,
     Object? type = null,
-    Object? followStatus = null,
+    Object? outgoingFollowStatus = null,
+    Object? incomingFollowStatus = null,
     Object? followRequestId = freezed,
     Object? isRead = null,
     Object? createdAt = null,
@@ -170,9 +181,13 @@ class __$$NotificationModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as NotificationType,
-      followStatus: null == followStatus
-          ? _value.followStatus
-          : followStatus // ignore: cast_nullable_to_non_nullable
+      outgoingFollowStatus: null == outgoingFollowStatus
+          ? _value.outgoingFollowStatus
+          : outgoingFollowStatus // ignore: cast_nullable_to_non_nullable
+              as FollowStatusType,
+      incomingFollowStatus: null == incomingFollowStatus
+          ? _value.incomingFollowStatus
+          : incomingFollowStatus // ignore: cast_nullable_to_non_nullable
               as FollowStatusType,
       followRequestId: freezed == followRequestId
           ? _value.followRequestId
@@ -197,7 +212,8 @@ class _$NotificationModelImpl implements _NotificationModel {
       {required this.id,
       required this.sender,
       required this.type,
-      required this.followStatus,
+      required this.outgoingFollowStatus,
+      required this.incomingFollowStatus,
       required this.followRequestId,
       required this.isRead,
       required this.createdAt});
@@ -209,7 +225,9 @@ class _$NotificationModelImpl implements _NotificationModel {
   @override
   final NotificationType type;
   @override
-  final FollowStatusType followStatus;
+  final FollowStatusType outgoingFollowStatus;
+  @override
+  final FollowStatusType incomingFollowStatus;
   @override
   final int? followRequestId;
   @override
@@ -219,7 +237,7 @@ class _$NotificationModelImpl implements _NotificationModel {
 
   @override
   String toString() {
-    return 'NotificationModel(id: $id, sender: $sender, type: $type, followStatus: $followStatus, followRequestId: $followRequestId, isRead: $isRead, createdAt: $createdAt)';
+    return 'NotificationModel(id: $id, sender: $sender, type: $type, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followRequestId: $followRequestId, isRead: $isRead, createdAt: $createdAt)';
   }
 
   @override
@@ -230,8 +248,10 @@ class _$NotificationModelImpl implements _NotificationModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.followStatus, followStatus) ||
-                other.followStatus == followStatus) &&
+            (identical(other.outgoingFollowStatus, outgoingFollowStatus) ||
+                other.outgoingFollowStatus == outgoingFollowStatus) &&
+            (identical(other.incomingFollowStatus, incomingFollowStatus) ||
+                other.incomingFollowStatus == incomingFollowStatus) &&
             (identical(other.followRequestId, followRequestId) ||
                 other.followRequestId == followRequestId) &&
             (identical(other.isRead, isRead) || other.isRead == isRead) &&
@@ -240,8 +260,16 @@ class _$NotificationModelImpl implements _NotificationModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, sender, type, followStatus,
-      followRequestId, isRead, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      sender,
+      type,
+      outgoingFollowStatus,
+      incomingFollowStatus,
+      followRequestId,
+      isRead,
+      createdAt);
 
   /// Create a copy of NotificationModel
   /// with the given fields replaced by the non-null parameter values.
@@ -258,7 +286,8 @@ abstract class _NotificationModel implements NotificationModel {
       {required final int id,
       required final UserSummary sender,
       required final NotificationType type,
-      required final FollowStatusType followStatus,
+      required final FollowStatusType outgoingFollowStatus,
+      required final FollowStatusType incomingFollowStatus,
       required final int? followRequestId,
       required final bool isRead,
       required final DateTime createdAt}) = _$NotificationModelImpl;
@@ -270,7 +299,9 @@ abstract class _NotificationModel implements NotificationModel {
   @override
   NotificationType get type;
   @override
-  FollowStatusType get followStatus;
+  FollowStatusType get outgoingFollowStatus;
+  @override
+  FollowStatusType get incomingFollowStatus;
   @override
   int? get followRequestId;
   @override

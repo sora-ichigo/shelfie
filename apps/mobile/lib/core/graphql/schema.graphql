@@ -81,8 +81,11 @@ type AppNotification {
   """The ID of the pending follow request (if any)"""
   followRequestId: Int
 
-  """The follow status between the recipient and the sender"""
-  followStatus: FollowStatus!
+  """Incoming follow status (sender -> recipient)"""
+  incomingFollowStatus: FollowStatus!
+
+  """Outgoing follow status (recipient -> sender)"""
+  outgoingFollowStatus: FollowStatus!
 
   """The unique identifier of the notification"""
   id: Int!

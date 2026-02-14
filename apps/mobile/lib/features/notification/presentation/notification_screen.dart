@@ -58,7 +58,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
 
       if (existing != null) {
         if (notification.type == NotificationType.followRequestReceived &&
-            notification.followStatus == FollowStatusType.pendingReceived &&
+            notification.incomingFollowStatus == FollowStatusType.pendingReceived &&
             existing.incoming == FollowStatusType.none) {
           notifier.registerStatus(
             userId: userId,
@@ -69,41 +69,12 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         continue;
       }
 
-      final (outgoing, incoming) =
-          _flatToDirectional(notification.followStatus);
       notifier.registerStatus(
         userId: userId,
-        outgoing: outgoing,
-        incoming: incoming,
+        outgoing: notification.outgoingFollowStatus,
+        incoming: notification.incomingFollowStatus,
       );
     }
-  }
-
-  static (FollowStatusType, FollowStatusType) _flatToDirectional(
-    FollowStatusType flat,
-  ) {
-    return switch (flat) {
-      FollowStatusType.pendingReceived => (
-          FollowStatusType.none,
-          FollowStatusType.pendingReceived,
-        ),
-      FollowStatusType.following => (
-          FollowStatusType.following,
-          FollowStatusType.none,
-        ),
-      FollowStatusType.pendingSent => (
-          FollowStatusType.pendingSent,
-          FollowStatusType.none,
-        ),
-      FollowStatusType.followedBy => (
-          FollowStatusType.none,
-          FollowStatusType.following,
-        ),
-      FollowStatusType.none => (
-          FollowStatusType.none,
-          FollowStatusType.none,
-        ),
-    };
   }
 
   void _onScroll() {
@@ -209,9 +180,13 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
       itemBuilder: (context, index) {
         final notification = notifications[index];
         final status = followState[notification.sender.id];
-        final displayStatus = status != null
-            ? _deriveDisplayStatus(status)
-            : notification.followStatus;
+        final displayStatus = _deriveDisplayStatus(
+          status ??
+              (
+                outgoing: notification.outgoingFollowStatus,
+                incoming: notification.incomingFollowStatus,
+              ),
+        );
 
         return _NotificationTile(
           notification: notification,

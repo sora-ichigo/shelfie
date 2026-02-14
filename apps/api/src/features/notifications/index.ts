@@ -1,7 +1,8 @@
 export {
   registerNotificationFollowRequestIdField,
-  registerNotificationFollowStatusField,
+  registerNotificationIncomingFollowStatusField,
   registerNotificationMutations,
+  registerNotificationOutgoingFollowStatusField,
   registerNotificationQueries,
   registerNotificationTypes,
 } from "./internal/graphql.js";

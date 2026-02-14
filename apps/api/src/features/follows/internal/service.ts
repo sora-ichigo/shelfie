@@ -53,7 +53,7 @@ export interface FollowService {
   getFollowStatusBatch(
     userId: number,
     targetUserIds: number[],
-  ): Promise<Map<number, FollowStatus>>;
+  ): Promise<Map<number, { outgoing: FollowStatus; incoming: FollowStatus }>>;
   getFollowRequestIdBatch(
     recipientId: number,
     senderIds: number[],
@@ -326,7 +326,9 @@ export function createFollowService(
     async getFollowStatusBatch(
       userId: number,
       targetUserIds: number[],
-    ): Promise<Map<number, FollowStatus>> {
+    ): Promise<
+      Map<number, { outgoing: FollowStatus; incoming: FollowStatus }>
+    > {
       const [followingSet, followersSet, pendingSentSet, pendingReceivedSet] =
         await Promise.all([
           repository.findFollowsBatch(userId, targetUserIds),
@@ -335,19 +337,26 @@ export function createFollowService(
           repository.findPendingReceivedRequestsBatch(userId, targetUserIds),
         ]);
 
-      const result = new Map<number, FollowStatus>();
+      const result = new Map<
+        number,
+        { outgoing: FollowStatus; incoming: FollowStatus }
+      >();
       for (const targetId of targetUserIds) {
-        if (pendingReceivedSet.has(targetId)) {
-          result.set(targetId, "PENDING_RECEIVED");
-        } else if (followingSet.has(targetId)) {
-          result.set(targetId, "FOLLOWING");
+        let outgoing: FollowStatus = "NONE";
+        if (followingSet.has(targetId)) {
+          outgoing = "FOLLOWING";
         } else if (pendingSentSet.has(targetId)) {
-          result.set(targetId, "PENDING_SENT");
-        } else if (followersSet.has(targetId)) {
-          result.set(targetId, "FOLLOWED_BY");
-        } else {
-          result.set(targetId, "NONE");
+          outgoing = "PENDING_SENT";
         }
+
+        let incoming: FollowStatus = "NONE";
+        if (followersSet.has(targetId)) {
+          incoming = "FOLLOWING";
+        } else if (pendingReceivedSet.has(targetId)) {
+          incoming = "PENDING_RECEIVED";
+        }
+
+        result.set(targetId, { outgoing, incoming });
       }
       return result;
     },

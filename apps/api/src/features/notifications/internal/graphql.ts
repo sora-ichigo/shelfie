@@ -111,11 +111,11 @@ export function registerNotificationQueries(
   }));
 }
 
-export function registerNotificationFollowStatusField(
+export function registerNotificationOutgoingFollowStatusField(
   builder: Builder,
   followService: FollowService,
 ): void {
-  builder.objectField(AppNotificationRef, "followStatus", (t) =>
+  builder.objectField(AppNotificationRef, "outgoingFollowStatus", (t) =>
     t.loadable({
       type: FollowStatusRef,
       nullable: false,
@@ -132,7 +132,37 @@ export function registerNotificationFollowStatusField(
         );
         return keys.map((k) => {
           const senderId = Number(k.split(":")[1]);
-          return statusMap.get(senderId) ?? "NONE";
+          return statusMap.get(senderId)?.outgoing ?? "NONE";
+        });
+      },
+      resolve: (parent) =>
+        `${parent.notification.recipientId}:${parent.notification.senderId}`,
+    }),
+  );
+}
+
+export function registerNotificationIncomingFollowStatusField(
+  builder: Builder,
+  followService: FollowService,
+): void {
+  builder.objectField(AppNotificationRef, "incomingFollowStatus", (t) =>
+    t.loadable({
+      type: FollowStatusRef,
+      nullable: false,
+      load: async (keys: string[]) => {
+        const parsed = keys.map((k) => {
+          const [recipientId, senderId] = k.split(":").map(Number);
+          return { recipientId, senderId };
+        });
+        const recipientId = parsed[0].recipientId;
+        const senderIds = parsed.map((p) => p.senderId);
+        const statusMap = await followService.getFollowStatusBatch(
+          recipientId,
+          senderIds,
+        );
+        return keys.map((k) => {
+          const senderId = Number(k.split(":")[1]);
+          return statusMap.get(senderId)?.incoming ?? "NONE";
         });
       },
       resolve: (parent) =>

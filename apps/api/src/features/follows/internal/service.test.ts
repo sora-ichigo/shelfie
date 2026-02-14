@@ -995,13 +995,22 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatusBatch(1, [2, 3, 4, 5]);
 
-      expect(result.get(2)).toBe("FOLLOWING");
-      expect(result.get(3)).toBe("PENDING_SENT");
-      expect(result.get(4)).toBe("PENDING_RECEIVED");
-      expect(result.get(5)).toBe("NONE");
+      expect(result.get(2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "NONE",
+      });
+      expect(result.get(3)).toEqual({
+        outgoing: "PENDING_SENT",
+        incoming: "NONE",
+      });
+      expect(result.get(4)).toEqual({
+        outgoing: "NONE",
+        incoming: "PENDING_RECEIVED",
+      });
+      expect(result.get(5)).toEqual({ outgoing: "NONE", incoming: "NONE" });
     });
 
-    it("should return PENDING_RECEIVED when user follows target AND has pending received request", async () => {
+    it("should return both outgoing FOLLOWING and incoming PENDING_RECEIVED when user follows target AND has pending received request", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
@@ -1022,7 +1031,10 @@ describe("FollowService", () => {
       );
       const result = await service.getFollowStatusBatch(1, [2]);
 
-      expect(result.get(2)).toBe("PENDING_RECEIVED");
+      expect(result.get(2)).toEqual({
+        outgoing: "FOLLOWING",
+        incoming: "PENDING_RECEIVED",
+      });
     });
 
     it("should call all three batch repository methods", async () => {

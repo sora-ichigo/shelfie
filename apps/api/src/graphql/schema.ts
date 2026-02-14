@@ -48,8 +48,9 @@ import {
   createNotificationAppService,
   createNotificationRepository,
   registerNotificationFollowRequestIdField,
-  registerNotificationFollowStatusField,
+  registerNotificationIncomingFollowStatusField,
   registerNotificationMutations,
+  registerNotificationOutgoingFollowStatusField,
   registerNotificationQueries,
   registerNotificationTypes,
 } from "../features/notifications/index.js";
@@ -170,7 +171,8 @@ registerBooksQueries(
 registerBookListsQueries(builder, bookListService, userService, followService);
 registerFollowQueries(builder, followService, followRepository, userService);
 registerFollowMutations(builder, followService, userService);
-registerNotificationFollowStatusField(builder, followService);
+registerNotificationOutgoingFollowStatusField(builder, followService);
+registerNotificationIncomingFollowStatusField(builder, followService);
 registerNotificationFollowRequestIdField(builder, followService);
 
 export function buildSchema() {

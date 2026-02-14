@@ -44,7 +44,8 @@ void main() {
     required String name,
     required String handle,
     required NotificationType type,
-    required FollowStatusType followStatus,
+    required FollowStatusType outgoingFollowStatus,
+    required FollowStatusType incomingFollowStatus,
     int? followRequestId,
     bool isRead = false,
   }) {
@@ -57,7 +58,8 @@ void main() {
         handle: handle,
       ),
       type: type,
-      followStatus: followStatus,
+      outgoingFollowStatus: outgoingFollowStatus,
+      incomingFollowStatus: incomingFollowStatus,
       followRequestId: followRequestId,
       isRead: isRead,
       createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
@@ -74,7 +76,8 @@ void main() {
         handle: 'testuser',
       ),
       type: NotificationType.followRequestReceived,
-      followStatus: FollowStatusType.pendingReceived,
+      outgoingFollowStatus: FollowStatusType.none,
+      incomingFollowStatus: FollowStatusType.pendingReceived,
       followRequestId: 100,
       isRead: false,
       createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
@@ -88,7 +91,8 @@ void main() {
         handle: 'approved',
       ),
       type: NotificationType.followRequestApproved,
-      followStatus: FollowStatusType.none,
+      outgoingFollowStatus: FollowStatusType.none,
+      incomingFollowStatus: FollowStatusType.none,
       followRequestId: null,
       isRead: true,
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
@@ -183,7 +187,8 @@ void main() {
         name: 'ユーザーA',
         handle: 'user_a',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.pendingReceived,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.pendingReceived,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -204,7 +209,8 @@ void main() {
         name: 'ユーザーB',
         handle: 'user_b',
         type: NotificationType.followRequestApproved,
-        followStatus: FollowStatusType.following,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.none,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -233,7 +239,8 @@ void main() {
         name: 'ユーザーC',
         handle: 'user_c',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.followedBy,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.following,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -254,7 +261,8 @@ void main() {
         name: 'ユーザーF',
         handle: 'user_f',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.none,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.none,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -275,7 +283,8 @@ void main() {
         name: 'ユーザーD',
         handle: 'user_d',
         type: NotificationType.followRequestApproved,
-        followStatus: FollowStatusType.none,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.none,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -295,7 +304,8 @@ void main() {
         name: 'ユーザーE',
         handle: 'user_e',
         type: NotificationType.followRequestApproved,
-        followStatus: FollowStatusType.pendingSent,
+        outgoingFollowStatus: FollowStatusType.pendingSent,
+        incomingFollowStatus: FollowStatusType.none,
       );
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
@@ -325,7 +335,8 @@ void main() {
         name: 'ユーザーA',
         handle: 'user_a',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.pendingReceived,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.pendingReceived,
         followRequestId: 100,
       );
       final senderId = notification.sender.id;
@@ -374,7 +385,8 @@ void main() {
         name: 'ユーザーA',
         handle: 'user_a',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.pendingReceived,
+        outgoingFollowStatus: FollowStatusType.following,
+        incomingFollowStatus: FollowStatusType.pendingReceived,
         followRequestId: 100,
       );
       final senderId = notification.sender.id;
@@ -421,7 +433,8 @@ void main() {
         name: 'ユーザーA',
         handle: 'user_a',
         type: NotificationType.followRequestReceived,
-        followStatus: FollowStatusType.pendingReceived,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.pendingReceived,
         followRequestId: 100,
       );
       final senderId = notification.sender.id;
