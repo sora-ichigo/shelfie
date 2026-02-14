@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const APP_STORE_URL = "https://apps.apple.com/app/shelfie/id6740080981";
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=app.shelfie.shelfie";
-const APP_SCHEME = "https://shelfie.app";
+const APP_SCHEME = "https://shelfie-web.vercel.app";
 
 interface Props {
   params: Promise<{ handle: string }>;
