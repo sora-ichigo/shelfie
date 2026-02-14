@@ -1,0 +1,943 @@
+"""Input for adding a book to the shelf"""
+input AddBookInput {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book"""
+  externalId: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The initial reading status of the book (defaults to backlog)"""
+  readingStatus: ReadingStatus
+
+  """The source of the book data (rakuten or google)"""
+  source: BookSource!
+
+  """The title of the book"""
+  title: String!
+}
+
+type AppNotification {
+  createdAt: DateTime!
+  followRequestId: Int
+  id: Int!
+  incomingFollowStatus: FollowStatus!
+  isRead: Boolean!
+  outgoingFollowStatus: FollowStatus!
+  sender: User!
+  type: NotificationType!
+}
+
+"""Error object for authentication operations"""
+type AuthError {
+  """Error code"""
+  code: AuthErrorCode
+
+  """Field that caused the error, if applicable"""
+  field: String
+
+  """Human-readable error message"""
+  message: String
+
+  """Whether the operation can be retried"""
+  retryable: Boolean
+}
+
+"""Error codes for authentication operations"""
+enum AuthErrorCode {
+  EMAIL_ALREADY_EXISTS
+  INTERNAL_ERROR
+  INVALID_CREDENTIALS
+  INVALID_EMAIL
+  INVALID_PASSWORD
+  INVALID_TOKEN
+  NETWORK_ERROR
+  TOKEN_EXPIRED
+  UNAUTHENTICATED
+  USER_NOT_FOUND
+  WEAK_PASSWORD
+}
+
+"""Error object for query results"""
+type AuthErrorResult {
+  """Error code"""
+  code: AuthErrorCode
+
+  """Field that caused the error, if applicable"""
+  field: String
+
+  """Human-readable error message"""
+  message: String
+
+  """Whether the operation can be retried"""
+  retryable: Boolean
+}
+
+"""A book from the search results"""
+type Book {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The unique identifier of the book"""
+  id: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The source of the book data (rakuten or google)"""
+  source: BookSource!
+
+  """The title of the book"""
+  title: String!
+}
+
+"""Detailed information about a book"""
+type BookDetail {
+  """The Amazon URL for the book"""
+  amazonUrl: String
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The categories/genres of the book"""
+  categories: [String!]
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The description of the book"""
+  description: String
+
+  """The Google Books URL for the book (deprecated, use rakutenBooksUrl)"""
+  googleBooksUrl: String @deprecated(reason: "Use rakutenBooksUrl instead")
+
+  """The unique identifier of the book"""
+  id: String!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """The number of pages in the book"""
+  pageCount: Int
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The Rakuten Books URL for the book"""
+  rakutenBooksUrl: String
+
+  """The title of the book"""
+  title: String!
+
+  """The user's reading record for this book (if added to shelf)"""
+  userBook: UserBook
+}
+
+"""A book list created by a user"""
+type BookList {
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
+"""Detailed information about a book list including items"""
+type BookListDetail {
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The items in the book list"""
+  items: [BookListDetailItem!]!
+
+  """Statistics for the book list"""
+  stats: BookListDetailStats!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
+"""An item in a book list with user book details"""
+type BookListDetailItem {
+  """When the book was added to the list"""
+  addedAt: DateTime!
+
+  """The unique identifier of the book list item"""
+  id: Int!
+
+  """The position of the item in the list"""
+  position: Int!
+
+  """The user book details (loaded on demand)"""
+  userBook: BookListDetailUserBook
+}
+
+"""Statistics for a book list"""
+type BookListDetailStats {
+  """Total number of books in the list"""
+  bookCount: Int!
+
+  """Number of completed books in the list"""
+  completedCount: Int!
+
+  """Cover images of books in the list (up to 4)"""
+  coverImages: [String!]!
+}
+
+"""User book information in a book list detail"""
+type BookListDetailUserBook {
+  """The authors of the book"""
+  authors: [String!]!
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book (Google Books or Rakuten)"""
+  externalId: String!
+
+  """The unique identifier of the user book"""
+  id: Int!
+
+  """The reading status of the book"""
+  readingStatus: String!
+
+  """The source of the book (google or rakuten)"""
+  source: String!
+
+  """The title of the book"""
+  title: String!
+}
+
+"""Summary information about a book list"""
+type BookListSummary {
+  """The number of books in the list"""
+  bookCount: Int!
+
+  """Cover images of books in the list (up to 4)"""
+  coverImages: [String!]!
+
+  """When the book list was created"""
+  createdAt: DateTime!
+
+  """The description of the book list"""
+  description: String
+
+  """The unique identifier of the book list"""
+  id: Int!
+
+  """The title of the book list"""
+  title: String!
+
+  """When the book list was last updated"""
+  updatedAt: DateTime!
+}
+
+"""Source of the book data"""
+enum BookSource {
+  """Google Books API"""
+  GOOGLE
+
+  """Rakuten Books API"""
+  RAKUTEN
+}
+
+"""Input for password change"""
+input ChangePasswordInput {
+  """Current password"""
+  currentPassword: String!
+
+  """User email address"""
+  email: String!
+
+  """New password"""
+  newPassword: String!
+}
+
+"""Result of successful password change"""
+type ChangePasswordResult {
+  """New Firebase ID token"""
+  idToken: String!
+
+  """New refresh token"""
+  refreshToken: String!
+}
+
+"""Input for creating a new book list"""
+input CreateBookListInput {
+  """The description of the book list"""
+  description: String
+
+  """The title of the book list"""
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""Result of account deletion"""
+type DeleteAccountResult {
+  """Whether the account was deleted successfully"""
+  success: Boolean
+}
+
+"""A device token for push notifications"""
+type DeviceToken {
+  """When the device token was registered"""
+  createdAt: DateTime
+
+  """The unique identifier of the device token"""
+  id: Int
+
+  """The platform of the device (ios or android)"""
+  platform: String
+
+  """The user who owns this device token"""
+  userId: Int
+}
+
+type FollowCounts {
+  followerCount: Int
+  followingCount: Int
+}
+
+type FollowRequest {
+  createdAt: DateTime
+  id: Int
+  receiverId: Int
+  senderId: Int
+  status: FollowRequestStatus
+}
+
+enum FollowRequestStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+enum FollowStatus {
+  FOLLOWED_BY
+  FOLLOWING
+  NONE
+  PENDING_RECEIVED
+  PENDING_SENT
+}
+
+"""画像アップロードサービスのエラー"""
+type ImageUploadError {
+  """エラーコード"""
+  code: String
+
+  """エラーメッセージ"""
+  message: String
+}
+
+"""Result containing list IDs that contain a specific user book"""
+type ListIdsContainingUserBookResult {
+  """List IDs containing the user book"""
+  listIds: [Int!]!
+}
+
+"""Result of successful login"""
+type LoginResult {
+  """Firebase ID token for API authentication"""
+  idToken: String!
+
+  """Firebase refresh token for obtaining new ID tokens"""
+  refreshToken: String!
+
+  """Logged in user"""
+  user: User!
+}
+
+"""Input for user login"""
+input LoginUserInput {
+  """Email address"""
+  email: String!
+
+  """Password"""
+  password: String!
+}
+
+"""Result of me query - either User or AuthErrorResult"""
+union MeResult = AuthErrorResult | User
+
+type Mutation {
+  """Add a book to a book list"""
+  addBookToList(listId: Int!, userBookId: Int!): BookListDetailItem!
+
+  """Add a book to the user's shelf"""
+  addBookToShelf(bookInput: AddBookInput!): UserBook!
+  approveFollowRequest(requestId: Int!): MutationApproveFollowRequestResult
+
+  """Cancel a pending follow request"""
+  cancelFollowRequest(targetUserId: Int!): MutationCancelFollowRequestResult
+
+  """Change user password after verifying current password"""
+  changePassword(input: ChangePasswordInput!): MutationChangePasswordResult
+
+  """Create a new book list"""
+  createBookList(input: CreateBookListInput!): BookList!
+
+  """Delete the currently authenticated user's account"""
+  deleteAccount: MutationDeleteAccountResult
+
+  """Delete a book list"""
+  deleteBookList(listId: Int!): Boolean!
+
+  """Login with email and password"""
+  loginUser(input: LoginUserInput!): MutationLoginUserResult
+  markNotificationsAsRead: Boolean
+
+  """Refresh ID token using refresh token"""
+  refreshToken(input: RefreshTokenInput!): MutationRefreshTokenResult
+
+  """Register a device token for push notifications"""
+  registerDeviceToken(input: RegisterDeviceTokenInput!): DeviceToken
+
+  """Register a new user with email and password"""
+  registerUser(input: RegisterUserInput!): MutationRegisterUserResult
+  rejectFollowRequest(requestId: Int!): MutationRejectFollowRequestResult
+
+  """Remove a book from a book list"""
+  removeBookFromList(listId: Int!, userBookId: Int!): Boolean!
+
+  """Remove a book from the user's shelf"""
+  removeFromShelf(userBookId: Int!): Boolean!
+
+  """Reorder a book within a book list"""
+  reorderBookInList(itemId: Int!, listId: Int!, newPosition: Int!): Boolean!
+  sendFollowRequest(receiverId: Int!): MutationSendFollowRequestResult
+
+  """Send password reset email to the specified address"""
+  sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
+  unfollow(targetUserId: Int!): MutationUnfollowResult
+
+  """Unregister a device token"""
+  unregisterDeviceToken(input: UnregisterDeviceTokenInput!): Boolean
+
+  """Update an existing book list"""
+  updateBookList(input: UpdateBookListInput!): BookList!
+
+  """Update the rating of a book in the user's shelf"""
+  updateBookRating(rating: Int, userBookId: Int!): UserBook!
+
+  """Update the completion date of a book in the user's shelf"""
+  updateCompletedAt(completedAt: DateTime!, userBookId: Int!): UserBook!
+
+  """Update the current user's profile"""
+  updateProfile(input: UpdateProfileInput!): MutationUpdateProfileResult
+
+  """Update the reading note of a book in the user's shelf"""
+  updateReadingNote(note: String!, userBookId: Int!): UserBook!
+
+  """Update the reading status of a book in the user's shelf"""
+  updateReadingStatus(status: ReadingStatus!, userBookId: Int!): UserBook!
+
+  """Update the start date of a book in the user's shelf"""
+  updateStartedAt(startedAt: DateTime!, userBookId: Int!): UserBook!
+
+  """Update the thoughts of a book in the user's shelf"""
+  updateThoughts(thoughts: String!, userBookId: Int!): UserBook!
+}
+
+union MutationApproveFollowRequestResult = MutationApproveFollowRequestSuccess | ValidationError
+
+type MutationApproveFollowRequestSuccess {
+  data: FollowRequest!
+}
+
+union MutationCancelFollowRequestResult = MutationCancelFollowRequestSuccess | ValidationError
+
+type MutationCancelFollowRequestSuccess {
+  data: Boolean!
+}
+
+union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
+
+type MutationChangePasswordSuccess {
+  data: ChangePasswordResult!
+}
+
+union MutationDeleteAccountResult = AuthError | MutationDeleteAccountSuccess
+
+type MutationDeleteAccountSuccess {
+  data: DeleteAccountResult!
+}
+
+union MutationLoginUserResult = AuthError | MutationLoginUserSuccess
+
+type MutationLoginUserSuccess {
+  data: LoginResult!
+}
+
+union MutationRefreshTokenResult = AuthError | MutationRefreshTokenSuccess
+
+type MutationRefreshTokenSuccess {
+  data: RefreshTokenResult!
+}
+
+union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
+
+type MutationRegisterUserSuccess {
+  data: LoginResult!
+}
+
+union MutationRejectFollowRequestResult = MutationRejectFollowRequestSuccess | ValidationError
+
+type MutationRejectFollowRequestSuccess {
+  data: FollowRequest!
+}
+
+union MutationSendFollowRequestResult = MutationSendFollowRequestSuccess | ValidationError
+
+type MutationSendFollowRequestSuccess {
+  data: FollowRequest!
+}
+
+union MutationSendPasswordResetEmailResult = AuthError | MutationSendPasswordResetEmailSuccess
+
+type MutationSendPasswordResetEmailSuccess {
+  data: SendPasswordResetEmailResult!
+}
+
+union MutationUnfollowResult = MutationUnfollowSuccess | ValidationError
+
+type MutationUnfollowSuccess {
+  data: Boolean!
+}
+
+union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
+
+type MutationUpdateProfileSuccess {
+  data: User!
+}
+
+"""Input for querying user's book lists with pagination"""
+input MyBookListsInput {
+  """Number of items to return (default: 20)"""
+  limit: Int
+
+  """Number of items to skip (default: 0)"""
+  offset: Int
+}
+
+"""Result of user's book lists query with pagination info"""
+type MyBookListsResult {
+  """Whether there are more book lists to fetch"""
+  hasMore: Boolean!
+
+  """List of book list summaries"""
+  items: [BookListSummary!]!
+
+  """Total number of book lists"""
+  totalCount: Int!
+}
+
+"""Input for querying user's book shelf"""
+input MyShelfInput {
+  """Number of items to return (default: 20)"""
+  limit: Int
+
+  """Number of items to skip (default: 0)"""
+  offset: Int
+
+  """Search query to filter books by title or author"""
+  query: String
+
+  """Filter books by reading status"""
+  readingStatus: ReadingStatus
+
+  """Field to sort by"""
+  sortBy: ShelfSortField
+
+  """Sort order direction"""
+  sortOrder: SortOrder
+}
+
+"""Result of user's book shelf query"""
+type MyShelfResult {
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+
+  """List of books in the shelf"""
+  items: [UserBook!]!
+
+  """Total number of books matching the query"""
+  totalCount: Int!
+}
+
+enum NotificationType {
+  FOLLOW_REQUEST_APPROVED
+  FOLLOW_REQUEST_RECEIVED
+}
+
+type Query {
+  """Get detailed information about a book by ID"""
+  bookDetail(
+    bookId: String!
+
+    """The source of the book (rakuten or google)"""
+    source: BookSource!
+  ): BookDetail!
+
+  """Get detailed information about a specific book list"""
+  bookListDetail(listId: Int!): BookListDetail!
+  followCounts(userId: Int!): FollowCounts
+  followers(cursor: Int, limit: Int = 20, userId: Int!): [User!]
+  following(cursor: Int, limit: Int = 20, userId: Int!): [User!]
+
+  """署名付きアップロードパラメータを取得"""
+  getUploadCredentials: QueryGetUploadCredentialsResult
+  health: String
+
+  """Get list IDs that contain a specific user book"""
+  listIdsContainingUserBook(userBookId: Int!): ListIdsContainingUserBookResult!
+
+  """Get the currently authenticated user"""
+  me: MeResult!
+
+  """Get all book lists created by the authenticated user"""
+  myBookLists(input: MyBookListsInput): MyBookListsResult!
+
+  """Get books in the user's shelf with pagination, sorting, and search"""
+  myShelf(input: MyShelfInput): MyShelfResult!
+  notifications(cursor: Int, limit: Int): [AppNotification!]!
+  pendingFollowRequestCount: Int
+  pendingFollowRequests(cursor: Int, limit: Int = 20): [FollowRequest!]
+
+  """Search for a book by ISBN"""
+  searchBookByISBN(isbn: String!): Book
+
+  """Search for books by keyword (matches title, author, etc.)"""
+  searchBooks(limit: Int, offset: Int, query: String!): SearchBooksResult!
+  unreadNotificationCount: Int!
+
+  """Get the user's reading record for a book by external ID"""
+  userBookByExternalId(externalId: String!): UserBook
+
+  """Get book lists of another user (requires following)"""
+  userBookLists(input: MyBookListsInput, userId: Int!): MyBookListsResult!
+
+  """Find a user by their handle"""
+  userByHandle(handle: String!): User
+  userProfile(handle: String!): UserProfile
+
+  """Get books in another user's shelf (requires following)"""
+  userShelf(input: MyShelfInput, userId: Int!): MyShelfResult!
+}
+
+union QueryGetUploadCredentialsResult = ImageUploadError | QueryGetUploadCredentialsSuccess
+
+type QueryGetUploadCredentialsSuccess {
+  data: UploadCredentials!
+}
+
+"""Reading status of a book in the user's shelf"""
+enum ReadingStatus {
+  """Unread (backlog)"""
+  BACKLOG
+
+  """Finished reading"""
+  COMPLETED
+  DROP @deprecated(reason: "Use INTERESTED instead. DROP is ignored.")
+
+  """Interested in reading"""
+  INTERESTED
+
+  """Currently reading"""
+  READING
+}
+
+"""Input for token refresh"""
+input RefreshTokenInput {
+  """Refresh token"""
+  refreshToken: String!
+}
+
+"""Result of successful token refresh"""
+type RefreshTokenResult {
+  """New Firebase ID token"""
+  idToken: String!
+
+  """New refresh token"""
+  refreshToken: String!
+}
+
+"""Input for registering a device token"""
+input RegisterDeviceTokenInput {
+  """Device platform (ios or android)"""
+  platform: String!
+
+  """FCM device token"""
+  token: String!
+}
+
+"""Input for user registration"""
+input RegisterUserInput {
+  """Email address"""
+  email: String!
+
+  """Password"""
+  password: String!
+}
+
+"""Search results containing a list of books"""
+type SearchBooksResult {
+  """Whether there are more books to fetch"""
+  hasMore: Boolean!
+
+  """The list of books found"""
+  items: [Book!]!
+
+  """The total number of books found"""
+  totalCount: Int!
+}
+
+"""Input for password reset email"""
+input SendPasswordResetEmailInput {
+  """Email address to send reset link"""
+  email: String!
+}
+
+"""Result of password reset email request"""
+type SendPasswordResetEmailResult {
+  """Whether the email was sent successfully"""
+  success: Boolean
+}
+
+"""Sort field for books in shelf"""
+enum ShelfSortField {
+  """Sort by date added to shelf"""
+  ADDED_AT
+
+  """Sort by author name"""
+  AUTHOR
+
+  """Sort by completion date"""
+  COMPLETED_AT
+
+  """Sort by publication date"""
+  PUBLISHED_DATE
+
+  """Sort by rating"""
+  RATING
+
+  """Sort by book title"""
+  TITLE
+}
+
+"""Sort order direction"""
+enum SortOrder {
+  """Ascending order"""
+  ASC
+
+  """Descending order"""
+  DESC
+}
+
+"""Input for unregistering a device token"""
+input UnregisterDeviceTokenInput {
+  """FCM device token"""
+  token: String!
+}
+
+"""Input for updating an existing book list"""
+input UpdateBookListInput {
+  """The new description of the book list"""
+  description: String
+
+  """The ID of the book list to update"""
+  listId: Int!
+
+  """The new title of the book list"""
+  title: String
+}
+
+"""Input for updating user profile"""
+input UpdateProfileInput {
+  """User avatar image URL"""
+  avatarUrl: String
+
+  """User bio text"""
+  bio: String
+
+  """User unique handle"""
+  handle: String
+
+  """User Instagram handle"""
+  instagramHandle: String
+
+  """User display name"""
+  name: String!
+}
+
+"""署名付きアップロードパラメータ"""
+type UploadCredentials {
+  """有効期限（Unix timestamp）"""
+  expire: Int
+
+  """ImageKit Public Key"""
+  publicKey: String
+
+  """HMAC-SHA1署名"""
+  signature: String
+
+  """一意のアップロードトークン"""
+  token: String
+
+  """アップロードエンドポイントURL"""
+  uploadEndpoint: String
+}
+
+"""A user in the system"""
+type User {
+  """The URL of the user's avatar image (128x128)"""
+  avatarUrl: String
+
+  """The user's bio"""
+  bio: String
+
+  """The number of books in the user's shelf"""
+  bookCount: Int!
+
+  """When the user was created"""
+  createdAt: DateTime
+
+  """The email address of the user"""
+  email: String
+
+  """The user's unique handle"""
+  handle: String
+
+  """The unique identifier of the user"""
+  id: Int
+
+  """The user's Instagram handle"""
+  instagramHandle: String
+
+  """The display name of the user"""
+  name: String
+
+  """When the user was last updated"""
+  updatedAt: DateTime
+}
+
+"""A book in the user's shelf"""
+type UserBook {
+  """When the book was added to the shelf"""
+  addedAt: DateTime!
+
+  """The authors of the book"""
+  authors: [String!]!
+
+  """When the book was marked as completed"""
+  completedAt: DateTime
+
+  """The cover image URL of the book"""
+  coverImageUrl: String
+
+  """The external ID of the book"""
+  externalId: String!
+
+  """The unique identifier of the user book"""
+  id: Int!
+
+  """The ISBN of the book"""
+  isbn: String
+
+  """User's reading note for the book"""
+  note: String
+
+  """When the note was last updated"""
+  noteUpdatedAt: DateTime
+
+  """The publication date of the book"""
+  publishedDate: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """User's rating for the book (1-5)"""
+  rating: Int
+
+  """The reading status of the book"""
+  readingStatus: ReadingStatus!
+
+  """The source of the book data (rakuten or google)"""
+  source: BookSource!
+
+  """When the book was started reading"""
+  startedAt: DateTime
+
+  """User's thoughts/review for the book"""
+  thoughts: String
+
+  """When the thoughts were last updated"""
+  thoughtsUpdatedAt: DateTime
+
+  """The title of the book"""
+  title: String!
+}
+
+type UserProfile {
+  followCounts: FollowCounts
+  incomingFollowStatus: FollowStatus
+  isOwnProfile: Boolean
+  outgoingFollowStatus: FollowStatus
+  user: User
+}
+
+"""Validation error for user input"""
+type ValidationError {
+  """Error code"""
+  code: String
+
+  """Field that caused the error, if applicable"""
+  field: String
+
+  """Human-readable error message"""
+  message: String
+}

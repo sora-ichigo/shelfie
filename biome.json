@@ -27,7 +27,9 @@
       "!**/build",
       "!**/coverage",
       "!**/apps/mobile",
-      "!**/.terraform"
+      "!**/.terraform",
+      "!**/generated",
+      "!**/schema.graphql"
     ]
   }
 }

@@ -8,6 +8,7 @@ function createMockRepository(): UserRepository {
     findById: vi.fn(),
     findByEmail: vi.fn(),
     findByFirebaseUid: vi.fn(),
+    findByHandle: vi.fn(),
     findMany: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
@@ -50,6 +51,47 @@ describe("UserService", () => {
 
       const service = createUserService(mockRepo);
       const result = await service.getUserById({ id: 999 });
+
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.code).toBe("USER_NOT_FOUND");
+      }
+    });
+  });
+
+  describe("getUserByHandle", () => {
+    it("should return user when found by handle", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        bio: "Hello",
+        instagramHandle: null,
+        handle: "testuser",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findByHandle).mockResolvedValue(mockUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.getUserByHandle("testuser");
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.handle).toBe("testuser");
+        expect(result.data.name).toBe("Test User");
+      }
+    });
+
+    it("should return error when user not found by handle", async () => {
+      const mockRepo = createMockRepository();
+      vi.mocked(mockRepo.findByHandle).mockResolvedValue(null);
+
+      const service = createUserService(mockRepo);
+      const result = await service.getUserByHandle("nonexistent");
 
       expect(result.success).toBe(false);
       if (!result.success) {

@@ -58,6 +58,7 @@ import {
   createUserRepository,
   createUserService,
   registerUserMutations,
+  registerUserQueries,
   registerUserTypes,
 } from "../features/users/index.js";
 import { logger } from "../logger/index.js";
@@ -116,6 +117,7 @@ registerAuthMutations(builder, authService);
 registerAuthQueries(builder, authService);
 registerBooksMutations(builder, bookShelfService, userService);
 registerUserMutations(builder, userService);
+registerUserQueries(builder, userService);
 registerImageUploadQueries(builder);
 registerBookListsMutations(builder, bookListService, userService);
 

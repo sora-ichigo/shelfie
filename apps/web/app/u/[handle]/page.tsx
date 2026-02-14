@@ -1,4 +1,17 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { fetchUserByHandle } from "../../../lib/graphql/fetch-user";
+import { graphql, useFragment } from "../../../lib/graphql/generated";
+
+export const UserProfilePageFragment = graphql(`
+  fragment UserProfilePage_User on User {
+    name
+    avatarUrl
+    bio
+    handle
+  }
+`);
 
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 const APP_STORE_URL =
@@ -10,21 +23,41 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = await params;
+  const result = await fetchUserByHandle(handle);
+  const user = useFragment(UserProfilePageFragment, result);
+
+  if (!user) {
+    return {
+      title: "ユーザーが見つかりません - Shelfie",
+    };
+  }
+
+  const displayName = user.name ?? `@${handle}`;
+
   return {
-    title: `@${handle} - Shelfie`,
-    description: `@${handle} さんのプロフィールを Shelfie で見る`,
+    title: `${displayName} - Shelfie`,
+    description: `${displayName} さんのプロフィールを Shelfie で見る`,
     openGraph: {
-      title: `@${handle} - Shelfie`,
-      description: `@${handle} さんのプロフィールを Shelfie で見る`,
+      title: `${displayName} - Shelfie`,
+      description: `${displayName} さんのプロフィールを Shelfie で見る`,
       type: "profile",
       url: `${APP_URL}/u/${handle}`,
     },
   };
 }
 
-export default async function InvitePage({ params }: Props) {
+export default async function UserProfilePage({ params }: Props) {
   const { handle } = await params;
+  const result = await fetchUserByHandle(handle);
+  const user = useFragment(UserProfilePageFragment, result);
+
+  if (!user) {
+    notFound();
+  }
+
   const appLink = `shelfie:///u/${handle}`;
+  const displayName = user.name ?? handle;
+  const avatarInitial = displayName.charAt(0).toUpperCase();
 
   return (
     <main style={styles.container}>
@@ -35,15 +68,22 @@ export default async function InvitePage({ params }: Props) {
         </div>
 
         <div style={styles.profileSection}>
-          <div style={styles.avatar}>
-            <span style={styles.avatarText}>
-              {handle.charAt(0).toUpperCase()}
-            </span>
-          </div>
-          <h2 style={styles.handle}>@{handle}</h2>
-          <p style={styles.description}>
-            アプリで @{handle} さんのプロフィールを見る
-          </p>
+          {user.avatarUrl ? (
+            <Image
+              src={user.avatarUrl}
+              alt={displayName}
+              width={80}
+              height={80}
+              style={styles.avatarImage}
+            />
+          ) : (
+            <div style={styles.avatar}>
+              <span style={styles.avatarText}>{avatarInitial}</span>
+            </div>
+          )}
+          <h2 style={styles.name}>{displayName}</h2>
+          <p style={styles.handle}>@{handle}</p>
+          {user.bio && <p style={styles.bio}>{user.bio}</p>}
         </div>
 
         <div style={styles.buttonSection}>
@@ -118,16 +158,35 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     margin: "0 auto 12px auto",
   },
+  avatarImage: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    objectFit: "cover" as const,
+    margin: "0 auto 12px auto",
+    display: "block",
+  },
   avatarText: {
     fontSize: "32px",
     fontWeight: "600",
     color: "#ffffff",
   },
-  handle: {
+  name: {
     fontSize: "20px",
     fontWeight: "600",
     color: "#ffffff",
+    margin: "0 0 4px 0",
+  },
+  handle: {
+    fontSize: "14px",
+    color: "#888888",
     margin: "0 0 8px 0",
+  },
+  bio: {
+    fontSize: "14px",
+    color: "#cccccc",
+    margin: "0",
+    lineHeight: "1.5",
   },
   description: {
     fontSize: "14px",

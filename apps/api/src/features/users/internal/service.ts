@@ -36,6 +36,7 @@ export interface DeleteAccountInput {
 
 export interface UserService {
   getUserById(input: GetUserInput): Promise<Result<User, UserServiceErrors>>;
+  getUserByHandle(handle: string): Promise<Result<User, UserServiceErrors>>;
   createUser(input: CreateUserInput): Promise<Result<User, UserServiceErrors>>;
   getUsers(): Promise<Result<User[], DomainError>>;
   getUserByFirebaseUid(
@@ -62,6 +63,19 @@ export function createUserService(repository: UserRepository): UserService {
         return err({
           code: "USER_NOT_FOUND",
           message: `User with id ${input.id} not found`,
+        });
+      }
+      return ok(user);
+    },
+
+    async getUserByHandle(
+      handle: string,
+    ): Promise<Result<User, UserServiceErrors>> {
+      const user = await repository.findByHandle(handle);
+      if (!user) {
+        return err({
+          code: "USER_NOT_FOUND",
+          message: `User with handle ${handle} not found`,
         });
       }
       return ok(user);

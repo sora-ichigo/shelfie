@@ -39,6 +39,7 @@ describe("UserRepository", () => {
       expect(typeof repository.findById).toBe("function");
       expect(typeof repository.findByEmail).toBe("function");
       expect(typeof repository.findByFirebaseUid).toBe("function");
+      expect(typeof repository.findByHandle).toBe("function");
       expect(typeof repository.findMany).toBe("function");
       expect(typeof repository.create).toBe("function");
       expect(typeof repository.update).toBe("function");
@@ -75,6 +76,40 @@ describe("UserRepository", () => {
 
       const repository = createUserRepository(mockDb.query as never);
       const result = await repository.findByFirebaseUid("non-existent-uid");
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("findByHandle", () => {
+    it("should return user when found by handle", async () => {
+      const mockDb = createMockDb();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-12345",
+        name: "Test User",
+        avatarUrl: null,
+        bio: "Hello",
+        instagramHandle: null,
+        handle: "testuser",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      mockDb.setResults([mockUser]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByHandle("testuser");
+
+      expect(result).toEqual(mockUser);
+    });
+
+    it("should return null when user not found by handle", async () => {
+      const mockDb = createMockDb();
+      mockDb.setResults([]);
+
+      const repository = createUserRepository(mockDb.query as never);
+      const result = await repository.findByHandle("nonexistent");
 
       expect(result).toBeNull();
     });
