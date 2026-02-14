@@ -1,5 +1,6 @@
 [copy]
 	include = infra/terraform/environments/dev/.envrc
+	include = infra/terraform/environments/prod/.envrc
 	include = apps/api/.env
 	include = apps/api/.env.test.local
 
