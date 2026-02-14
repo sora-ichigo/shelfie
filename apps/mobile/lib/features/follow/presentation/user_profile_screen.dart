@@ -69,7 +69,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
               outgoing: widget.profile.outgoingFollowStatus,
               incoming: widget.profile.incomingFollowStatus,
             );
-    final isFollowing = currentStatus.outgoing == FollowStatusType.following;
+    final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
+        widget.profile.isOwnProfile;
 
     if (isFollowing &&
         _tabController.index == 1 &&
@@ -91,7 +92,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
               outgoing: widget.profile.outgoingFollowStatus,
               incoming: widget.profile.incomingFollowStatus,
             );
-    final isFollowing = currentStatus.outgoing == FollowStatusType.following;
+    final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
+        widget.profile.isOwnProfile;
     final followCounts = ref.watch(followCountsNotifierProvider(_userId));
 
     final booksState =
@@ -130,7 +132,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
               onFollowingTap: widget.onFollowingTap,
               onFollowersTap: widget.onFollowersTap,
               actionButtons: widget.profile.isOwnProfile
-                  ? null
+                  ? _buildEditShareButtons(appColors, theme)
                   : _buildActionButton(appColors, theme, currentStatus),
             ),
           ],
@@ -158,6 +160,58 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   void _onBookTap(ShelfBookItem book) {
     context.push(
       AppRoutes.bookDetail(bookId: book.externalId, source: book.source),
+    );
+  }
+
+  Widget _buildEditShareButtons(AppColors appColors, ThemeData theme) {
+    return Row(
+      children: [
+        Expanded(
+          child: FilledButton(
+            onPressed: () => context.push(AppRoutes.accountEdit),
+            style: FilledButton.styleFrom(
+              backgroundColor: appColors.surfaceElevated,
+              foregroundColor: appColors.textPrimary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'プロフィールを編集',
+              style: theme.textTheme.labelMedium,
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.xs),
+        Expanded(
+          child: FilledButton(
+            onPressed: () {},
+            style: FilledButton.styleFrom(
+              backgroundColor: appColors.surfaceElevated,
+              foregroundColor: appColors.textPrimary,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'プロフィールをシェア',
+              style: theme.textTheme.labelMedium,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
