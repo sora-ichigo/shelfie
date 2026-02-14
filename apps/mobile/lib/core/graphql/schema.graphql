@@ -28,17 +28,6 @@ input AddBookInput {
   title: String!
 }
 
-type AppNotification {
-  createdAt: DateTime!
-  followRequestId: Int
-  id: Int!
-  incomingFollowStatus: FollowStatus!
-  isRead: Boolean!
-  outgoingFollowStatus: FollowStatus!
-  sender: User!
-  type: NotificationType!
-}
-
 """Error object for authentication operations"""
 type AuthError {
   """Error code"""
@@ -82,6 +71,33 @@ type AuthErrorResult {
 
   """Whether the operation can be retried"""
   retryable: Boolean
+}
+
+"""An in-app notification"""
+type AppNotification {
+  """When the notification was created"""
+  createdAt: DateTime!
+
+  """The ID of the pending follow request (if any)"""
+  followRequestId: Int
+
+  """Incoming follow status (sender -> recipient)"""
+  incomingFollowStatus: FollowStatus!
+
+  """Outgoing follow status (recipient -> sender)"""
+  outgoingFollowStatus: FollowStatus!
+
+  """The unique identifier of the notification"""
+  id: Int!
+
+  """Whether the notification has been read"""
+  isRead: Boolean!
+
+  """The user who triggered the notification"""
+  sender: User!
+
+  """The type of notification"""
+  type: NotificationType!
 }
 
 """A book from the search results"""
@@ -317,6 +333,49 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+"""Follow counts for a user"""
+type FollowCounts {
+  """Number of followers"""
+  followerCount: Int!
+
+  """Number of users being followed"""
+  followingCount: Int!
+}
+
+"""A follow request between users"""
+type FollowRequest {
+  """When the request was created"""
+  createdAt: DateTime!
+
+  """The unique identifier of the follow request"""
+  id: Int!
+
+  """The user who received the request"""
+  receiverId: Int!
+
+  """The user who sent the request"""
+  senderId: Int!
+
+  """The current status of the request"""
+  status: FollowRequestStatus!
+}
+
+"""Status of a follow request"""
+enum FollowRequestStatus {
+  APPROVED
+  PENDING
+  REJECTED
+}
+
+"""Follow relationship status between two users"""
+enum FollowStatus {
+  FOLLOWED_BY
+  FOLLOWING
+  NONE
+  PENDING_RECEIVED
+  PENDING_SENT
+}
+
 """Result of account deletion"""
 type DeleteAccountResult {
   """Whether the account was deleted successfully"""
@@ -336,33 +395,6 @@ type DeviceToken {
 
   """The user who owns this device token"""
   userId: Int
-}
-
-type FollowCounts {
-  followerCount: Int
-  followingCount: Int
-}
-
-type FollowRequest {
-  createdAt: DateTime
-  id: Int
-  receiverId: Int
-  senderId: Int
-  status: FollowRequestStatus
-}
-
-enum FollowRequestStatus {
-  APPROVED
-  PENDING
-  REJECTED
-}
-
-enum FollowStatus {
-  FOLLOWED_BY
-  FOLLOWING
-  NONE
-  PENDING_RECEIVED
-  PENDING_SENT
 }
 
 """画像アップロードサービスのエラー"""
@@ -404,13 +436,27 @@ input LoginUserInput {
 """Result of me query - either User or AuthErrorResult"""
 union MeResult = AuthErrorResult | User
 
+union MutationApproveFollowRequestResult = MutationApproveFollowRequestSuccess | ValidationError
+
+type MutationApproveFollowRequestSuccess {
+  data: FollowRequest!
+}
+
+union MutationCancelFollowRequestResult = MutationCancelFollowRequestSuccess | ValidationError
+
+type MutationCancelFollowRequestSuccess {
+  data: Boolean!
+}
+
 type Mutation {
   """Add a book to a book list"""
   addBookToList(listId: Int!, userBookId: Int!): BookListDetailItem!
 
+  """Approve a follow request"""
+  approveFollowRequest(requestId: Int!): MutationApproveFollowRequestResult
+
   """Add a book to the user's shelf"""
   addBookToShelf(bookInput: AddBookInput!): UserBook!
-  approveFollowRequest(requestId: Int!): MutationApproveFollowRequestResult
 
   """Cancel a pending follow request"""
   cancelFollowRequest(targetUserId: Int!): MutationCancelFollowRequestResult
@@ -429,6 +475,8 @@ type Mutation {
 
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
+
+  """Mark all notifications as read"""
   markNotificationsAsRead: Boolean
 
   """Refresh ID token using refresh token"""
@@ -437,9 +485,11 @@ type Mutation {
   """Register a device token for push notifications"""
   registerDeviceToken(input: RegisterDeviceTokenInput!): DeviceToken
 
+  """Reject a follow request"""
+  rejectFollowRequest(requestId: Int!): MutationRejectFollowRequestResult
+
   """Register a new user with email and password"""
   registerUser(input: RegisterUserInput!): MutationRegisterUserResult
-  rejectFollowRequest(requestId: Int!): MutationRejectFollowRequestResult
 
   """Remove a book from a book list"""
   removeBookFromList(listId: Int!, userBookId: Int!): Boolean!
@@ -449,10 +499,14 @@ type Mutation {
 
   """Reorder a book within a book list"""
   reorderBookInList(itemId: Int!, listId: Int!, newPosition: Int!): Boolean!
+
+  """Send a follow request to another user"""
   sendFollowRequest(receiverId: Int!): MutationSendFollowRequestResult
 
   """Send password reset email to the specified address"""
   sendPasswordResetEmail(input: SendPasswordResetEmailInput!): MutationSendPasswordResetEmailResult
+
+  """Unfollow a user"""
   unfollow(targetUserId: Int!): MutationUnfollowResult
 
   """Unregister a device token"""
@@ -483,18 +537,6 @@ type Mutation {
   updateThoughts(thoughts: String!, userBookId: Int!): UserBook!
 }
 
-union MutationApproveFollowRequestResult = MutationApproveFollowRequestSuccess | ValidationError
-
-type MutationApproveFollowRequestSuccess {
-  data: FollowRequest!
-}
-
-union MutationCancelFollowRequestResult = MutationCancelFollowRequestSuccess | ValidationError
-
-type MutationCancelFollowRequestSuccess {
-  data: Boolean!
-}
-
 union MutationChangePasswordResult = AuthError | MutationChangePasswordSuccess
 
 type MutationChangePasswordSuccess {
@@ -519,16 +561,16 @@ type MutationRefreshTokenSuccess {
   data: RefreshTokenResult!
 }
 
-union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
-
-type MutationRegisterUserSuccess {
-  data: LoginResult!
-}
-
 union MutationRejectFollowRequestResult = MutationRejectFollowRequestSuccess | ValidationError
 
 type MutationRejectFollowRequestSuccess {
   data: FollowRequest!
+}
+
+union MutationRegisterUserResult = AuthError | MutationRegisterUserSuccess
+
+type MutationRegisterUserSuccess {
+  data: LoginResult!
 }
 
 union MutationSendFollowRequestResult = MutationSendFollowRequestSuccess | ValidationError
@@ -543,16 +585,22 @@ type MutationSendPasswordResetEmailSuccess {
   data: SendPasswordResetEmailResult!
 }
 
+union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
+
 union MutationUnfollowResult = MutationUnfollowSuccess | ValidationError
 
 type MutationUnfollowSuccess {
   data: Boolean!
 }
 
-union MutationUpdateProfileResult = MutationUpdateProfileSuccess | ValidationError
-
 type MutationUpdateProfileSuccess {
   data: User!
+}
+
+"""Type of notification"""
+enum NotificationType {
+  FOLLOW_REQUEST_APPROVED
+  FOLLOW_REQUEST_RECEIVED
 }
 
 """Input for querying user's book lists with pagination"""
@@ -609,11 +657,6 @@ type MyShelfResult {
   totalCount: Int!
 }
 
-enum NotificationType {
-  FOLLOW_REQUEST_APPROVED
-  FOLLOW_REQUEST_RECEIVED
-}
-
 type Query {
   """Get detailed information about a book by ID"""
   bookDetail(
@@ -625,9 +668,15 @@ type Query {
 
   """Get detailed information about a specific book list"""
   bookListDetail(listId: Int!): BookListDetail!
-  followCounts(userId: Int!): FollowCounts
-  followers(cursor: Int, limit: Int = 20, userId: Int!): [User!]
-  following(cursor: Int, limit: Int = 20, userId: Int!): [User!]
+
+  """Get follow counts for a user"""
+  followCounts(userId: Int!): FollowCounts!
+
+  """Get followers of a user"""
+  followers(cursor: Int, limit: Int, userId: Int!): [User!]!
+
+  """Get users that a user is following"""
+  following(cursor: Int, limit: Int, userId: Int!): [User!]!
 
   """署名付きアップロードパラメータを取得"""
   getUploadCredentials: QueryGetUploadCredentialsResult
@@ -644,28 +693,35 @@ type Query {
 
   """Get books in the user's shelf with pagination, sorting, and search"""
   myShelf(input: MyShelfInput): MyShelfResult!
+
+  """Get notifications for the current user"""
   notifications(cursor: Int, limit: Int): [AppNotification!]!
-  pendingFollowRequestCount: Int
-  pendingFollowRequests(cursor: Int, limit: Int = 20): [FollowRequest!]
+
+  """Get count of pending follow requests"""
+  pendingFollowRequestCount: Int!
+
+  """Get pending follow requests for the current user"""
+  pendingFollowRequests(cursor: Int, limit: Int): [FollowRequest!]!
 
   """Search for a book by ISBN"""
   searchBookByISBN(isbn: String!): Book
 
   """Search for books by keyword (matches title, author, etc.)"""
   searchBooks(limit: Int, offset: Int, query: String!): SearchBooksResult!
+
+  """Get count of unread notifications"""
   unreadNotificationCount: Int!
 
   """Get the user's reading record for a book by external ID"""
   userBookByExternalId(externalId: String!): UserBook
 
-  """Get book lists of another user (requires following)"""
+  """Get another user's book lists (requires following)"""
   userBookLists(input: MyBookListsInput, userId: Int!): MyBookListsResult!
 
-  """Find a user by their handle"""
-  userByHandle(handle: String!): User
+  """Get a user's profile by handle"""
   userProfile(handle: String!): UserProfile
 
-  """Get books in another user's shelf (requires following)"""
+  """Get another user's book shelf (requires following)"""
   userShelf(input: MyShelfInput, userId: Int!): MyShelfResult!
 }
 
@@ -922,12 +978,22 @@ type UserBook {
   title: String!
 }
 
+"""A user's profile with follow information"""
 type UserProfile {
-  followCounts: FollowCounts
-  incomingFollowStatus: FollowStatus
-  isOwnProfile: Boolean
-  outgoingFollowStatus: FollowStatus
-  user: User
+  """Follow counts for this user"""
+  followCounts: FollowCounts!
+
+  """Incoming follow status (target user -> current user)"""
+  incomingFollowStatus: FollowStatus!
+
+  """Whether this is the current user's own profile"""
+  isOwnProfile: Boolean!
+
+  """Outgoing follow status (current user -> target user)"""
+  outgoingFollowStatus: FollowStatus!
+
+  """The user"""
+  user: User!
 }
 
 """Validation error for user input"""
