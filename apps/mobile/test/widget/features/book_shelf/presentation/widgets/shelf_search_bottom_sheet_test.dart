@@ -12,7 +12,7 @@ class FakeShelfSearchNotifier extends ShelfSearchNotifier {
   ShelfSearchState _state = const ShelfSearchState.initial();
 
   @override
-  ShelfSearchState build() => _state;
+  ShelfSearchState build({int? userId}) => _state;
 
   void setState(ShelfSearchState newState) {
     _state = newState;
@@ -59,7 +59,7 @@ void main() {
   }) {
     return ProviderScope(
       overrides: [
-        shelfSearchNotifierProvider.overrideWith(() => fakeNotifier),
+        shelfSearchNotifierProvider().overrideWith(() => fakeNotifier),
       ],
       child: MaterialApp(
         theme: AppTheme.dark(),

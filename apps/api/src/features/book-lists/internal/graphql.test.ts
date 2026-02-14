@@ -1054,5 +1054,60 @@ describe("BookLists GraphQL", () => {
 
       expect(bookListService.getUserBookLists).not.toHaveBeenCalled();
     });
+
+    it("should return book lists when viewing own profile without follow check", async () => {
+      const schema = buildSchemaWithUserBookLists();
+      const mockSummaries: BookListSummary[] = [
+        {
+          id: 1,
+          title: "My Reading List",
+          description: "Books I want to read",
+          bookCount: 5,
+          coverImages: ["http://example.com/cover1.jpg"],
+          createdAt: new Date("2026-01-01"),
+          updatedAt: new Date("2026-01-01"),
+        },
+      ];
+
+      vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
+        ok({
+          id: 100,
+          firebaseUid: "test-firebase-uid",
+          email: "test@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+      vi.mocked(bookListService.getUserBookLists).mockResolvedValue(
+        ok({ items: mockSummaries, totalCount: 1, hasMore: false }),
+      );
+
+      const queryType = schema.getQueryType();
+      const userBookListsField = queryType?.getFields().userBookLists;
+
+      const result = await userBookListsField?.resolve?.(
+        {},
+        { userId: 100, input: { limit: 20, offset: 0 } },
+        createAuthenticatedContext(),
+        {} as never,
+      );
+
+      expect(followService.getFollowStatus).not.toHaveBeenCalled();
+      expect(bookListService.getUserBookLists).toHaveBeenCalledWith({
+        userId: 100,
+        limit: 20,
+        offset: 0,
+      });
+      expect(result).toMatchObject({
+        items: mockSummaries,
+        totalCount: 1,
+        hasMore: false,
+      });
+    });
   });
 });

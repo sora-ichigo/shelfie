@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shelfie/core/state/profile_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/core/widgets/app_snack_bar.dart';
 import 'package:shelfie/core/widgets/edit_screen_header.dart';
 import 'package:shelfie/core/widgets/loading_indicator.dart';
-import 'package:shelfie/features/account/application/account_notifier.dart';
 import 'package:shelfie/features/account/application/profile_edit_notifier.dart';
 import 'package:shelfie/features/account/application/profile_form_state.dart';
 import 'package:shelfie/features/account/data/image_picker_service.dart';
@@ -88,7 +88,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           loading: () {},
           uploading: (_) {},
           success: (profile) {
-            ref.read(accountNotifierProvider.notifier).setProfile(profile);
+            ref.read(profileVersionProvider.notifier).increment();
             widget.onSaveSuccess();
           },
           error: (message, field) {

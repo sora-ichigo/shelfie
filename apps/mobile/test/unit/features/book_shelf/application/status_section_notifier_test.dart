@@ -47,8 +47,12 @@ class MockBookShelfRepository implements BookShelfRepository {
   @override
   Future<Either<Failure, MyShelfResult>> getUserShelf({
     required int userId,
+    String? query,
+    GShelfSortField? sortBy,
+    GSortOrder? sortOrder,
     int? limit,
     int? offset,
+    GReadingStatus? readingStatus,
   }) async {
     throw UnimplementedError();
   }

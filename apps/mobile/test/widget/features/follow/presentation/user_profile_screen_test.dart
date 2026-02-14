@@ -4,9 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shelfie/core/state/follow_state_notifier.dart';
 import 'package:shelfie/core/theme/app_theme.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_tab_bar.dart';
+import 'package:shelfie/features/book_detail/domain/reading_status.dart';
+import 'package:shelfie/features/book_shelf/domain/sort_option.dart';
 import 'package:shelfie/features/follow/application/follow_counts_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_book_lists_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
+import 'package:shelfie/features/follow/application/user_profile_sort_option_notifier.dart';
+import 'package:shelfie/features/follow/application/user_reading_status_counts_notifier.dart';
 import 'package:shelfie/features/follow/domain/follow_counts.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
@@ -57,7 +61,9 @@ class FakeUserProfileBookListsNotifier extends UserProfileBookListsNotifier {
   }
 
   @override
-  Future<void> loadLists() async {}
+  Future<void> loadLists() async {
+    state = UserProfileBookListsState();
+  }
 }
 
 class FakeFollowCountsNotifier extends FollowCountsNotifier {
@@ -67,6 +73,22 @@ class FakeFollowCountsNotifier extends FollowCountsNotifier {
 
   @override
   Future<FollowCounts> build(int userId) async => _counts;
+}
+
+class FakeUserReadingStatusCountsNotifier
+    extends UserReadingStatusCountsNotifier {
+  @override
+  Map<ReadingStatus, int> build(int userId) {
+    return {};
+  }
+}
+
+class FakeUserProfileSortOptionNotifier
+    extends UserProfileSortOptionNotifier {
+  @override
+  SortOption build(int userId) {
+    return SortOption.addedAtDesc;
+  }
 }
 
 UserProfileModel _createProfile({
@@ -123,6 +145,10 @@ void main() {
             .overrideWith(() => FakeUserProfileBooksNotifier()),
         userProfileBookListsNotifierProvider(profile.user.id)
             .overrideWith(() => FakeUserProfileBookListsNotifier()),
+        userReadingStatusCountsNotifierProvider(profile.user.id)
+            .overrideWith(() => FakeUserReadingStatusCountsNotifier()),
+        userProfileSortOptionNotifierProvider(profile.user.id)
+            .overrideWith(() => FakeUserProfileSortOptionNotifier()),
       ],
       child: MaterialApp(
         theme: AppTheme.theme,
@@ -503,9 +529,38 @@ void main() {
         await tester.pump();
 
         await tester.tap(find.text('ブックリスト'));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         expect(find.text('フォローすると見られます'), findsOneWidget);
+      });
+
+      testWidgets('タブをスワイプで切り替えられる', (tester) async {
+        fakeNotifier = FakeFollowStateNotifier();
+        final profile = _createProfile(
+          outgoingFollowStatus: FollowStatusType.following,
+        );
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        fakeNotifier.state = {
+          profile.user.id: (
+            outgoing: FollowStatusType.following,
+            incoming: FollowStatusType.none,
+          ),
+        };
+        await tester.pump();
+
+        expect(find.text('まだ本が登録されていません'), findsOneWidget);
+
+        await tester.fling(
+          find.byType(TabBarView),
+          const Offset(-300, 0),
+          1000,
+        );
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+
+        expect(find.text('まだブックリストがありません'), findsOneWidget);
       });
     });
   });

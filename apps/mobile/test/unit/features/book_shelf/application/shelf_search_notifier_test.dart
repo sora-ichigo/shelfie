@@ -111,7 +111,7 @@ void main() {
   group('ShelfSearchNotifier', () {
     group('build (initialization)', () {
       test('初期状態は initial', () {
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchInitial>());
       });
     });
@@ -119,11 +119,11 @@ void main() {
     group('search', () {
       test('空文字の場合は initial 状態のまま（API不発火）', () async {
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
 
         await notifier.search('');
 
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchInitial>());
         verifyNever(
           () => mockRepository.getMyShelf(
@@ -155,10 +155,10 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('Flutter');
 
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchLoaded>());
         final loaded = state as ShelfSearchLoaded;
         expect(loaded.books.length, 1);
@@ -181,10 +181,10 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('error');
 
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchError>());
       });
 
@@ -202,7 +202,7 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('first');
         await notifier.search('second');
 
@@ -231,11 +231,11 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('Flutter');
         await notifier.search('');
 
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchInitial>());
       });
     });
@@ -286,11 +286,11 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('test');
         await notifier.loadMore();
 
-        final state = container.read(shelfSearchNotifierProvider);
+        final state = container.read(shelfSearchNotifierProvider());
         expect(state, isA<ShelfSearchLoaded>());
         final loaded = state as ShelfSearchLoaded;
         expect(loaded.books.length, 2);
@@ -298,7 +298,7 @@ void main() {
 
       test('initial 状態では loadMore しない', () async {
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.loadMore();
 
         verifyNever(
@@ -328,7 +328,7 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('test');
 
         // Reset call count
@@ -378,7 +378,7 @@ void main() {
         );
 
         final notifier =
-            container.read(shelfSearchNotifierProvider.notifier);
+            container.read(shelfSearchNotifierProvider().notifier);
         await notifier.search('test');
 
         verify(

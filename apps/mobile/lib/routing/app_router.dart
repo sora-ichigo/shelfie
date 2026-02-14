@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/auth/auth_state.dart';
 import 'package:shelfie/core/constants/legal_urls.dart';
+import 'package:shelfie/core/state/profile_version.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/widgets/add_book_bottom_sheet.dart';
 import 'package:shelfie/features/account/application/account_notifier.dart';
@@ -753,6 +754,7 @@ Future<UserProfileModel> _userProfileByHandle(
   Ref ref,
   String handle,
 ) async {
+  ref.watch(profileVersionProvider);
   final repo = ref.read(followRepositoryProvider);
   final result = await repo.getUserProfile(handle: handle);
   return result.fold(

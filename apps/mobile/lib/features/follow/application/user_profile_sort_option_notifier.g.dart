@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_profile_books_notifier.dart';
+part of 'user_profile_sort_option_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userProfileBooksNotifierHash() =>
-    r'c28c4677501f123ee547e19fe2bb9584594e5c25';
+String _$userProfileSortOptionNotifierHash() =>
+    r'd3415b19ce70a0aaf70415cee116c868d38d8b04';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,36 +30,37 @@ class _SystemHash {
   }
 }
 
-abstract class _$UserProfileBooksNotifier
-    extends BuildlessAutoDisposeNotifier<UserProfileBooksState> {
+abstract class _$UserProfileSortOptionNotifier
+    extends BuildlessAutoDisposeNotifier<SortOption> {
   late final int userId;
 
-  UserProfileBooksState build(
+  SortOption build(
     int userId,
   );
 }
 
-/// See also [UserProfileBooksNotifier].
-@ProviderFor(UserProfileBooksNotifier)
-const userProfileBooksNotifierProvider = UserProfileBooksNotifierFamily();
+/// See also [UserProfileSortOptionNotifier].
+@ProviderFor(UserProfileSortOptionNotifier)
+const userProfileSortOptionNotifierProvider =
+    UserProfileSortOptionNotifierFamily();
 
-/// See also [UserProfileBooksNotifier].
-class UserProfileBooksNotifierFamily extends Family<UserProfileBooksState> {
-  /// See also [UserProfileBooksNotifier].
-  const UserProfileBooksNotifierFamily();
+/// See also [UserProfileSortOptionNotifier].
+class UserProfileSortOptionNotifierFamily extends Family<SortOption> {
+  /// See also [UserProfileSortOptionNotifier].
+  const UserProfileSortOptionNotifierFamily();
 
-  /// See also [UserProfileBooksNotifier].
-  UserProfileBooksNotifierProvider call(
+  /// See also [UserProfileSortOptionNotifier].
+  UserProfileSortOptionNotifierProvider call(
     int userId,
   ) {
-    return UserProfileBooksNotifierProvider(
+    return UserProfileSortOptionNotifierProvider(
       userId,
     );
   }
 
   @override
-  UserProfileBooksNotifierProvider getProviderOverride(
-    covariant UserProfileBooksNotifierProvider provider,
+  UserProfileSortOptionNotifierProvider getProviderOverride(
+    covariant UserProfileSortOptionNotifierProvider provider,
   ) {
     return call(
       provider.userId,
@@ -78,30 +79,31 @@ class UserProfileBooksNotifierFamily extends Family<UserProfileBooksState> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'userProfileBooksNotifierProvider';
+  String? get name => r'userProfileSortOptionNotifierProvider';
 }
 
-/// See also [UserProfileBooksNotifier].
-class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
-    UserProfileBooksNotifier, UserProfileBooksState> {
-  /// See also [UserProfileBooksNotifier].
-  UserProfileBooksNotifierProvider(
+/// See also [UserProfileSortOptionNotifier].
+class UserProfileSortOptionNotifierProvider
+    extends AutoDisposeNotifierProviderImpl<UserProfileSortOptionNotifier,
+        SortOption> {
+  /// See also [UserProfileSortOptionNotifier].
+  UserProfileSortOptionNotifierProvider(
     int userId,
   ) : this._internal(
-          () => UserProfileBooksNotifier()..userId = userId,
-          from: userProfileBooksNotifierProvider,
-          name: r'userProfileBooksNotifierProvider',
+          () => UserProfileSortOptionNotifier()..userId = userId,
+          from: userProfileSortOptionNotifierProvider,
+          name: r'userProfileSortOptionNotifierProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$userProfileBooksNotifierHash,
-          dependencies: UserProfileBooksNotifierFamily._dependencies,
+                  : _$userProfileSortOptionNotifierHash,
+          dependencies: UserProfileSortOptionNotifierFamily._dependencies,
           allTransitiveDependencies:
-              UserProfileBooksNotifierFamily._allTransitiveDependencies,
+              UserProfileSortOptionNotifierFamily._allTransitiveDependencies,
           userId: userId,
         );
 
-  UserProfileBooksNotifierProvider._internal(
+  UserProfileSortOptionNotifierProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -114,8 +116,8 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   final int userId;
 
   @override
-  UserProfileBooksState runNotifierBuild(
-    covariant UserProfileBooksNotifier notifier,
+  SortOption runNotifierBuild(
+    covariant UserProfileSortOptionNotifier notifier,
   ) {
     return notifier.build(
       userId,
@@ -123,10 +125,10 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(UserProfileBooksNotifier Function() create) {
+  Override overrideWith(UserProfileSortOptionNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: UserProfileBooksNotifierProvider._internal(
+      override: UserProfileSortOptionNotifierProvider._internal(
         () => create()..userId = userId,
         from: from,
         name: null,
@@ -139,14 +141,15 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<UserProfileBooksNotifier,
-      UserProfileBooksState> createElement() {
-    return _UserProfileBooksNotifierProviderElement(this);
+  AutoDisposeNotifierProviderElement<UserProfileSortOptionNotifier, SortOption>
+      createElement() {
+    return _UserProfileSortOptionNotifierProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is UserProfileBooksNotifierProvider && other.userId == userId;
+    return other is UserProfileSortOptionNotifierProvider &&
+        other.userId == userId;
   }
 
   @override
@@ -160,19 +163,19 @@ class UserProfileBooksNotifierProvider extends AutoDisposeNotifierProviderImpl<
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin UserProfileBooksNotifierRef
-    on AutoDisposeNotifierProviderRef<UserProfileBooksState> {
+mixin UserProfileSortOptionNotifierRef
+    on AutoDisposeNotifierProviderRef<SortOption> {
   /// The parameter `userId` of this provider.
   int get userId;
 }
 
-class _UserProfileBooksNotifierProviderElement
-    extends AutoDisposeNotifierProviderElement<UserProfileBooksNotifier,
-        UserProfileBooksState> with UserProfileBooksNotifierRef {
-  _UserProfileBooksNotifierProviderElement(super.provider);
+class _UserProfileSortOptionNotifierProviderElement
+    extends AutoDisposeNotifierProviderElement<UserProfileSortOptionNotifier,
+        SortOption> with UserProfileSortOptionNotifierRef {
+  _UserProfileSortOptionNotifierProviderElement(super.provider);
 
   @override
-  int get userId => (origin as UserProfileBooksNotifierProvider).userId;
+  int get userId => (origin as UserProfileSortOptionNotifierProvider).userId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
