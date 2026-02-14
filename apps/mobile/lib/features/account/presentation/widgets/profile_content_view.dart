@@ -156,7 +156,9 @@ class ProfileContentView extends StatelessWidget {
             child: filterBar!,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
-        ),
+        )
+      else
+        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
       if (isBooksLoading)
         const SliverFillRemaining(
           child: Center(child: CircularProgressIndicator()),
