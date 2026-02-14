@@ -66,7 +66,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   }
 
   void _onTabChanged() {
-    if (!_tabController.indexIsChanging) return;
+    if (_tabController.index != 1 || _bookListLoaded) return;
     final currentStatus =
         ref.read(followStateProvider)[_userId] ??
             (
@@ -76,9 +76,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
     final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
         widget.profile.isOwnProfile;
 
-    if (isFollowing &&
-        _tabController.index == 1 &&
-        !_bookListLoaded) {
+    if (isFollowing) {
       _bookListLoaded = true;
       ref
           .read(userProfileBookListsNotifierProvider(_userId).notifier)
@@ -195,7 +193,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           ),
         ),
         bookLists: bookListsState.lists,
-        isBookListsLoading: bookListsState.isLoading,
+        isBookListsLoading: bookListsState.isLoading || !_bookListLoaded,
         isBookListsError: bookListsState.error != null,
       ),
     );

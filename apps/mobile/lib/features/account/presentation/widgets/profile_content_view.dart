@@ -264,7 +264,9 @@ class ProfileContentView extends StatelessWidget {
             child: bookListActionBar!,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
-        ),
+        )
+      else
+        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
       SliverPadding(
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
         sliver: SliverGrid(
