@@ -25,3 +25,12 @@ resource "vercel_project_domain" "this" {
   project_id = vercel_project.this.id
   domain     = var.domain
 }
+
+resource "vercel_project_environment_variable" "this" {
+  for_each = var.environment_variables
+
+  project_id = vercel_project.this.id
+  key        = each.key
+  value      = each.value
+  target     = ["production", "preview"]
+}

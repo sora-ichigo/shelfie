@@ -31,3 +31,9 @@ variable "domain" {
   type        = string
   default     = null
 }
+
+variable "environment_variables" {
+  description = "Environment variables to set on the Vercel project"
+  type        = map(string)
+  default     = {}
+}
