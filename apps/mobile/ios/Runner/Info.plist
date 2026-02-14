@@ -52,6 +52,19 @@
 		<false/>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Viewer</string>
+				<key>CFBundleURLName</key>
+				<string>app.shelfie.shelfie</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>shelfie</string>
+				</array>
+			</dict>
+		</array>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>instagram</string>

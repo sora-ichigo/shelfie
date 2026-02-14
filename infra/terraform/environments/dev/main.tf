@@ -181,6 +181,9 @@ module "vercel_web" {
   github_repo       = "${var.github_owner}/${var.github_repo}"
   production_branch = "master"
   root_directory    = "apps/web"
+  environment_variables = {
+    APP_URL = "https://shelfie-web-dev.vercel.app"
+  }
 }
 
 output "vercel_web_project_id" {
