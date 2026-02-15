@@ -219,24 +219,37 @@ export function registerFollowQueries(
     userProfile: t.field({
       type: UserProfileRef,
       nullable: true,
-      authScopes: { loggedIn: true },
       args: {
         handle: t.arg.string({ required: true }),
       },
       resolve: async (_parent, { handle }, context) => {
-        if (!context.user || !userService) {
-          throw new Error("Authentication required");
+        if (!userService) {
+          throw new Error("Service not available");
         }
+
+        const targetUserResult = await userService.getUserByHandle(handle);
+        if (!targetUserResult.success) return null;
+        const targetUser = targetUserResult.data;
+
+        if (!context.user) {
+          if (!targetUser.isPublic) return null;
+
+          const followCounts = await followService.getFollowCounts(
+            targetUser.id,
+          );
+          return {
+            user: targetUser,
+            outgoingFollowStatus: "NONE" as const,
+            incomingFollowStatus: "NONE" as const,
+            followCounts,
+            isOwnProfile: false,
+          };
+        }
+
         const currentUserResult = await userService.getUserByFirebaseUid(
           context.user.uid,
         );
         if (!currentUserResult.success) throw new Error("User not found");
-
-        const usersResult = await userService.getUsers();
-        if (!usersResult.success) return null;
-
-        const targetUser = usersResult.data.find((u) => u.handle === handle);
-        if (!targetUser) return null;
 
         const isOwnProfile = currentUserResult.data.id === targetUser.id;
         const { outgoing, incoming } = isOwnProfile
