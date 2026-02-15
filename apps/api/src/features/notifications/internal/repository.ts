@@ -25,7 +25,7 @@ export interface NotificationRepository {
     limit: number,
   ): Promise<NotificationWithSender[]>;
   countUnreadByRecipient(recipientId: number): Promise<number>;
-  markAsReadByRecipient(recipientId: number): Promise<void>;
+  markAsReadById(notificationId: number, recipientId: number): Promise<void>;
   deleteBySenderAndType(
     senderId: number,
     recipientId: number,
@@ -79,12 +79,16 @@ export function createNotificationRepository(
       return Number(result[0]?.count ?? 0);
     },
 
-    async markAsReadByRecipient(recipientId: number): Promise<void> {
+    async markAsReadById(
+      notificationId: number,
+      recipientId: number,
+    ): Promise<void> {
       await db
         .update(notifications)
         .set({ isRead: true })
         .where(
           and(
+            eq(notifications.id, notificationId),
             eq(notifications.recipientId, recipientId),
             eq(notifications.isRead, false),
           ),

@@ -12,7 +12,7 @@ function createMockRepository(): NotificationRepository {
     create: vi.fn(),
     findByRecipient: vi.fn(),
     countUnreadByRecipient: vi.fn(),
-    markAsReadByRecipient: vi.fn(),
+    markAsReadById: vi.fn(),
     deleteBySenderAndType: vi.fn(),
   };
 }
@@ -182,15 +182,15 @@ describe("NotificationAppService", () => {
     });
   });
 
-  describe("markAllAsRead", () => {
-    it("should mark all notifications as read", async () => {
+  describe("markAsRead", () => {
+    it("should mark a specific notification as read", async () => {
       const mockRepo = createMockRepository();
-      vi.mocked(mockRepo.markAsReadByRecipient).mockResolvedValue(undefined);
+      vi.mocked(mockRepo.markAsReadById).mockResolvedValue(undefined);
 
       const service = createNotificationAppService(mockRepo);
-      await service.markAllAsRead(2);
+      await service.markAsRead(1, 2);
 
-      expect(mockRepo.markAsReadByRecipient).toHaveBeenCalledWith(2);
+      expect(mockRepo.markAsReadById).toHaveBeenCalledWith(1, 2);
     });
   });
 

@@ -47,7 +47,7 @@ function createMockNotificationAppService(): NotificationAppService {
     }),
     getNotifications: vi.fn(),
     getUnreadCount: vi.fn(),
-    markAllAsRead: vi.fn(),
+    markAsRead: vi.fn(),
     deleteNotification: vi.fn().mockResolvedValue(undefined),
   };
 }
@@ -303,6 +303,43 @@ describe("FollowService", () => {
       }
     });
 
+    it("should delete rejected request and create new one", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const rejectedRequest = createMockFollowRequest({
+        id: 10,
+        senderId: 1,
+        receiverId: 2,
+        status: "rejected",
+      });
+      const newRequest = createMockFollowRequest({
+        id: 11,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(
+        rejectedRequest,
+      );
+      vi.mocked(repo.createRequest).mockResolvedValue(newRequest);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.sendRequest(1, 2);
+
+      expect(result.success).toBe(true);
+      expect(repo.deleteRequest).toHaveBeenCalledWith(10);
+      expect(repo.createRequest).toHaveBeenCalled();
+    });
+
     it("should not fail request creation when push notification fails", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
@@ -474,19 +511,18 @@ describe("FollowService", () => {
   });
 
   describe("rejectRequest", () => {
-    it("should reject request successfully", async () => {
+    it("should reject request successfully by deleting the record", async () => {
       const repo = createMockFollowRepository();
       const notifService = createMockNotificationAppService();
       const pushService = createMockPushNotificationService();
       const logger = createMockLogger();
       const pendingRequest = createMockFollowRequest({
+        id: 5,
         receiverId: 2,
         status: "pending",
       });
-      const rejectedRequest = { ...pendingRequest, status: "rejected" };
 
       vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
-      vi.mocked(repo.updateRequestStatus).mockResolvedValue(rejectedRequest);
 
       const service = createFollowService(
         repo,
@@ -494,9 +530,10 @@ describe("FollowService", () => {
         pushService,
         logger,
       );
-      const result = await service.rejectRequest(1, 2);
+      const result = await service.rejectRequest(5, 2);
 
       expect(result.success).toBe(true);
+      expect(repo.deleteRequest).toHaveBeenCalledWith(5);
       if (result.success) {
         expect(result.data.status).toBe("rejected");
       }
@@ -570,6 +607,64 @@ describe("FollowService", () => {
       if (!result.success) {
         expect(result.error.code).toBe("REQUEST_ALREADY_PROCESSED");
       }
+    });
+
+    it("should delete follow_request_received notification on reject", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      await service.rejectRequest(5, 2);
+
+      expect(notifService.deleteNotification).toHaveBeenCalledWith({
+        senderId: 1,
+        recipientId: 2,
+        type: "follow_request_received",
+      });
+    });
+
+    it("should not fail reject when notification deletion fails", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const pendingRequest = createMockFollowRequest({
+        id: 5,
+        senderId: 1,
+        receiverId: 2,
+        status: "pending",
+      });
+
+      vi.mocked(repo.findRequestById).mockResolvedValue(pendingRequest);
+      vi.mocked(notifService.deleteNotification).mockRejectedValue(
+        new Error("DB error"),
+      );
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+      );
+      const result = await service.rejectRequest(5, 2);
+
+      expect(result.success).toBe(true);
+      expect(logger.error).toHaveBeenCalled();
     });
   });
 

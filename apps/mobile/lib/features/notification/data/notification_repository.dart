@@ -10,8 +10,8 @@ import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
 import 'package:shelfie/core/network/ferry_client.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_summary.dart';
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.data.gql.dart';
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.req.gql.dart';
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.data.gql.dart';
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.req.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/notifications.data.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/notifications.req.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/unread_notification_count.data.gql.dart';
@@ -69,14 +69,16 @@ class NotificationRepository {
     }
   }
 
-  Future<Either<Failure, void>> markAllAsRead() async {
-    final request = GMarkNotificationsAsReadReq(
-      (b) => b..fetchPolicy = FetchPolicy.NetworkOnly,
+  Future<Either<Failure, void>> markAsRead(int notificationId) async {
+    final request = GMarkNotificationAsReadReq(
+      (b) => b
+        ..vars.notificationId = notificationId
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
     );
 
     try {
       final response = await client.request(request).first;
-      return _handleMarkAllAsReadResponse(response);
+      return _handleMarkAsReadResponse(response);
     } on SocketException {
       return left(const NetworkFailure(message: 'No internet connection'));
     } on TimeoutException {
@@ -126,13 +128,13 @@ class NotificationRepository {
     return right(data.unreadNotificationCount);
   }
 
-  Either<Failure, void> _handleMarkAllAsReadResponse(
-    OperationResponse<GMarkNotificationsAsReadData, dynamic> response,
+  Either<Failure, void> _handleMarkAsReadResponse(
+    OperationResponse<GMarkNotificationAsReadData, dynamic> response,
   ) {
     if (response.hasErrors) {
       final error = response.graphqlErrors?.firstOrNull;
       final errorMessage =
-          error?.message ?? 'Failed to mark notifications as read';
+          error?.message ?? 'Failed to mark notification as read';
       return left(ServerFailure(message: errorMessage, code: 'GRAPHQL_ERROR'));
     }
 
@@ -143,13 +145,13 @@ class NotificationRepository {
       );
     }
 
-    if (data.markNotificationsAsRead ?? false) {
+    if (data.markNotificationAsRead ?? false) {
       return right(null);
     }
 
     return left(
       const ServerFailure(
-        message: 'Failed to mark notifications as read',
+        message: 'Failed to mark notification as read',
         code: 'MARK_READ_FAILED',
       ),
     );

@@ -1,33 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mark_notifications_as_read.req.gql.dart';
+part of 'mark_notification_as_read.req.gql.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<GMarkNotificationsAsReadReq>
-    _$gMarkNotificationsAsReadReqSerializer =
-    _$GMarkNotificationsAsReadReqSerializer();
+Serializer<GMarkNotificationAsReadReq> _$gMarkNotificationAsReadReqSerializer =
+    _$GMarkNotificationAsReadReqSerializer();
 
-class _$GMarkNotificationsAsReadReqSerializer
-    implements StructuredSerializer<GMarkNotificationsAsReadReq> {
+class _$GMarkNotificationAsReadReqSerializer
+    implements StructuredSerializer<GMarkNotificationAsReadReq> {
   @override
   final Iterable<Type> types = const [
-    GMarkNotificationsAsReadReq,
-    _$GMarkNotificationsAsReadReq
+    GMarkNotificationAsReadReq,
+    _$GMarkNotificationAsReadReq
   ];
   @override
-  final String wireName = 'GMarkNotificationsAsReadReq';
+  final String wireName = 'GMarkNotificationAsReadReq';
 
   @override
   Iterable<Object?> serialize(
-      Serializers serializers, GMarkNotificationsAsReadReq object,
+      Serializers serializers, GMarkNotificationAsReadReq object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'vars',
       serializers.serialize(object.vars,
-          specifiedType: const FullType(_i3.GMarkNotificationsAsReadVars)),
+          specifiedType: const FullType(_i3.GMarkNotificationAsReadVars)),
       'operation',
       serializers.serialize(object.operation,
           specifiedType: const FullType(_i4.Operation)),
@@ -48,7 +47,7 @@ class _$GMarkNotificationsAsReadReqSerializer
       result
         ..add('optimisticResponse')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(_i2.GMarkNotificationsAsReadData)));
+            specifiedType: const FullType(_i2.GMarkNotificationAsReadData)));
     }
     value = object.updateCacheHandlerKey;
     if (value != null) {
@@ -76,10 +75,10 @@ class _$GMarkNotificationsAsReadReqSerializer
   }
 
   @override
-  GMarkNotificationsAsReadReq deserialize(
+  GMarkNotificationAsReadReq deserialize(
       Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = GMarkNotificationsAsReadReqBuilder();
+    final result = GMarkNotificationAsReadReqBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -90,8 +89,8 @@ class _$GMarkNotificationsAsReadReqSerializer
         case 'vars':
           result.vars.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(_i3.GMarkNotificationsAsReadVars))!
-              as _i3.GMarkNotificationsAsReadVars);
+                      const FullType(_i3.GMarkNotificationAsReadVars))!
+              as _i3.GMarkNotificationAsReadVars);
           break;
         case 'operation':
           result.operation = serializers.deserialize(value,
@@ -104,8 +103,8 @@ class _$GMarkNotificationsAsReadReqSerializer
         case 'optimisticResponse':
           result.optimisticResponse.replace(serializers.deserialize(value,
                   specifiedType:
-                      const FullType(_i2.GMarkNotificationsAsReadData))!
-              as _i2.GMarkNotificationsAsReadData);
+                      const FullType(_i2.GMarkNotificationAsReadData))!
+              as _i2.GMarkNotificationAsReadData);
           break;
         case 'updateCacheHandlerKey':
           result.updateCacheHandlerKey = serializers.deserialize(value,
@@ -134,19 +133,19 @@ class _$GMarkNotificationsAsReadReqSerializer
   }
 }
 
-class _$GMarkNotificationsAsReadReq extends GMarkNotificationsAsReadReq {
+class _$GMarkNotificationAsReadReq extends GMarkNotificationAsReadReq {
   @override
-  final _i3.GMarkNotificationsAsReadVars vars;
+  final _i3.GMarkNotificationAsReadVars vars;
   @override
   final _i4.Operation operation;
   @override
   final String? requestId;
   @override
-  final _i2.GMarkNotificationsAsReadData? Function(
-          _i2.GMarkNotificationsAsReadData?, _i2.GMarkNotificationsAsReadData?)?
+  final _i2.GMarkNotificationAsReadData? Function(
+          _i2.GMarkNotificationAsReadData?, _i2.GMarkNotificationAsReadData?)?
       updateResult;
   @override
-  final _i2.GMarkNotificationsAsReadData? optimisticResponse;
+  final _i2.GMarkNotificationAsReadData? optimisticResponse;
   @override
   final String? updateCacheHandlerKey;
   @override
@@ -158,11 +157,11 @@ class _$GMarkNotificationsAsReadReq extends GMarkNotificationsAsReadReq {
   @override
   final _i4.Context? context;
 
-  factory _$GMarkNotificationsAsReadReq(
-          [void Function(GMarkNotificationsAsReadReqBuilder)? updates]) =>
-      (GMarkNotificationsAsReadReqBuilder()..update(updates))._build();
+  factory _$GMarkNotificationAsReadReq(
+          [void Function(GMarkNotificationAsReadReqBuilder)? updates]) =>
+      (GMarkNotificationAsReadReqBuilder()..update(updates))._build();
 
-  _$GMarkNotificationsAsReadReq._(
+  _$GMarkNotificationAsReadReq._(
       {required this.vars,
       required this.operation,
       this.requestId,
@@ -175,19 +174,19 @@ class _$GMarkNotificationsAsReadReq extends GMarkNotificationsAsReadReq {
       this.context})
       : super._();
   @override
-  GMarkNotificationsAsReadReq rebuild(
-          void Function(GMarkNotificationsAsReadReqBuilder) updates) =>
+  GMarkNotificationAsReadReq rebuild(
+          void Function(GMarkNotificationAsReadReqBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  GMarkNotificationsAsReadReqBuilder toBuilder() =>
-      GMarkNotificationsAsReadReqBuilder()..replace(this);
+  GMarkNotificationAsReadReqBuilder toBuilder() =>
+      GMarkNotificationAsReadReqBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     final dynamic _$dynamicOther = other;
-    return other is GMarkNotificationsAsReadReq &&
+    return other is GMarkNotificationAsReadReq &&
         vars == other.vars &&
         operation == other.operation &&
         requestId == other.requestId &&
@@ -219,7 +218,7 @@ class _$GMarkNotificationsAsReadReq extends GMarkNotificationsAsReadReq {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'GMarkNotificationsAsReadReq')
+    return (newBuiltValueToStringHelper(r'GMarkNotificationAsReadReq')
           ..add('vars', vars)
           ..add('operation', operation)
           ..add('requestId', requestId)
@@ -234,17 +233,15 @@ class _$GMarkNotificationsAsReadReq extends GMarkNotificationsAsReadReq {
   }
 }
 
-class GMarkNotificationsAsReadReqBuilder
+class GMarkNotificationAsReadReqBuilder
     implements
-        Builder<GMarkNotificationsAsReadReq,
-            GMarkNotificationsAsReadReqBuilder> {
-  _$GMarkNotificationsAsReadReq? _$v;
+        Builder<GMarkNotificationAsReadReq, GMarkNotificationAsReadReqBuilder> {
+  _$GMarkNotificationAsReadReq? _$v;
 
-  _i3.GMarkNotificationsAsReadVarsBuilder? _vars;
-  _i3.GMarkNotificationsAsReadVarsBuilder get vars =>
-      _$this._vars ??= _i3.GMarkNotificationsAsReadVarsBuilder();
-  set vars(_i3.GMarkNotificationsAsReadVarsBuilder? vars) =>
-      _$this._vars = vars;
+  _i3.GMarkNotificationAsReadVarsBuilder? _vars;
+  _i3.GMarkNotificationAsReadVarsBuilder get vars =>
+      _$this._vars ??= _i3.GMarkNotificationAsReadVarsBuilder();
+  set vars(_i3.GMarkNotificationAsReadVarsBuilder? vars) => _$this._vars = vars;
 
   _i4.Operation? _operation;
   _i4.Operation? get operation => _$this._operation;
@@ -254,24 +251,24 @@ class GMarkNotificationsAsReadReqBuilder
   String? get requestId => _$this._requestId;
   set requestId(String? requestId) => _$this._requestId = requestId;
 
-  _i2.GMarkNotificationsAsReadData? Function(
-          _i2.GMarkNotificationsAsReadData?, _i2.GMarkNotificationsAsReadData?)?
+  _i2.GMarkNotificationAsReadData? Function(
+          _i2.GMarkNotificationAsReadData?, _i2.GMarkNotificationAsReadData?)?
       _updateResult;
-  _i2.GMarkNotificationsAsReadData? Function(
-          _i2.GMarkNotificationsAsReadData?, _i2.GMarkNotificationsAsReadData?)?
+  _i2.GMarkNotificationAsReadData? Function(
+          _i2.GMarkNotificationAsReadData?, _i2.GMarkNotificationAsReadData?)?
       get updateResult => _$this._updateResult;
   set updateResult(
-          _i2.GMarkNotificationsAsReadData? Function(
-                  _i2.GMarkNotificationsAsReadData?,
-                  _i2.GMarkNotificationsAsReadData?)?
+          _i2.GMarkNotificationAsReadData? Function(
+                  _i2.GMarkNotificationAsReadData?,
+                  _i2.GMarkNotificationAsReadData?)?
               updateResult) =>
       _$this._updateResult = updateResult;
 
-  _i2.GMarkNotificationsAsReadDataBuilder? _optimisticResponse;
-  _i2.GMarkNotificationsAsReadDataBuilder get optimisticResponse =>
-      _$this._optimisticResponse ??= _i2.GMarkNotificationsAsReadDataBuilder();
+  _i2.GMarkNotificationAsReadDataBuilder? _optimisticResponse;
+  _i2.GMarkNotificationAsReadDataBuilder get optimisticResponse =>
+      _$this._optimisticResponse ??= _i2.GMarkNotificationAsReadDataBuilder();
   set optimisticResponse(
-          _i2.GMarkNotificationsAsReadDataBuilder? optimisticResponse) =>
+          _i2.GMarkNotificationAsReadDataBuilder? optimisticResponse) =>
       _$this._optimisticResponse = optimisticResponse;
 
   String? _updateCacheHandlerKey;
@@ -300,11 +297,11 @@ class GMarkNotificationsAsReadReqBuilder
   _i4.Context? get context => _$this._context;
   set context(_i4.Context? context) => _$this._context = context;
 
-  GMarkNotificationsAsReadReqBuilder() {
-    GMarkNotificationsAsReadReq._initializeBuilder(this);
+  GMarkNotificationAsReadReqBuilder() {
+    GMarkNotificationAsReadReq._initializeBuilder(this);
   }
 
-  GMarkNotificationsAsReadReqBuilder get _$this {
+  GMarkNotificationAsReadReqBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _vars = $v.vars.toBuilder();
@@ -323,26 +320,26 @@ class GMarkNotificationsAsReadReqBuilder
   }
 
   @override
-  void replace(GMarkNotificationsAsReadReq other) {
-    _$v = other as _$GMarkNotificationsAsReadReq;
+  void replace(GMarkNotificationAsReadReq other) {
+    _$v = other as _$GMarkNotificationAsReadReq;
   }
 
   @override
-  void update(void Function(GMarkNotificationsAsReadReqBuilder)? updates) {
+  void update(void Function(GMarkNotificationAsReadReqBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  GMarkNotificationsAsReadReq build() => _build();
+  GMarkNotificationAsReadReq build() => _build();
 
-  _$GMarkNotificationsAsReadReq _build() {
-    _$GMarkNotificationsAsReadReq _$result;
+  _$GMarkNotificationAsReadReq _build() {
+    _$GMarkNotificationAsReadReq _$result;
     try {
       _$result = _$v ??
-          _$GMarkNotificationsAsReadReq._(
+          _$GMarkNotificationAsReadReq._(
             vars: vars.build(),
             operation: BuiltValueNullFieldError.checkNotNull(
-                operation, r'GMarkNotificationsAsReadReq', 'operation'),
+                operation, r'GMarkNotificationAsReadReq', 'operation'),
             requestId: requestId,
             updateResult: updateResult,
             optimisticResponse: _optimisticResponse?.build(),
@@ -351,7 +348,7 @@ class GMarkNotificationsAsReadReqBuilder
             fetchPolicy: fetchPolicy,
             executeOnListen: BuiltValueNullFieldError.checkNotNull(
                 executeOnListen,
-                r'GMarkNotificationsAsReadReq',
+                r'GMarkNotificationAsReadReq',
                 'executeOnListen'),
             context: context,
           );
@@ -365,7 +362,7 @@ class GMarkNotificationsAsReadReqBuilder
         _optimisticResponse?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
-            r'GMarkNotificationsAsReadReq', _$failedField, e.toString());
+            r'GMarkNotificationAsReadReq', _$failedField, e.toString());
       }
       rethrow;
     }
