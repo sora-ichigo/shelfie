@@ -124,6 +124,7 @@ abstract class GGetMyProfileData_me__asUser
   String? get bio;
   String? get instagramHandle;
   String? get handle;
+  String? get shareUrl;
   static Serializer<GGetMyProfileData_me__asUser> get serializer =>
       _$gGetMyProfileDataMeAsUserSerializer;
 

@@ -6,6 +6,7 @@ import 'package:shelfie/core/theme/app_colors.dart';
 import 'package:shelfie/core/theme/app_spacing.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_content_view.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
+import 'package:shelfie/features/account/presentation/widgets/profile_share_bottom_sheet.dart';
 import 'package:shelfie/features/account/presentation/widgets/reading_status_chips.dart';
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/features/book_shelf/presentation/widgets/search_filter_bar.dart';
@@ -206,6 +207,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   }
 
   Widget _buildEditShareButtons(AppColors appColors, ThemeData theme) {
+    final shareUrl = widget.profile.shareUrl;
     return Row(
       children: [
         Expanded(
@@ -233,7 +235,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
         const SizedBox(width: AppSpacing.xs),
         Expanded(
           child: FilledButton(
-            onPressed: () {},
+            onPressed: shareUrl != null
+                ? () => showProfileShareBottomSheet(
+                      context: context,
+                      shareUrl: shareUrl,
+                    )
+                : null,
             style: FilledButton.styleFrom(
               backgroundColor: appColors.surfaceElevated,
               foregroundColor: appColors.textPrimary,
@@ -259,9 +266,15 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
 
   Widget _buildActionButton(
       AppColors appColors, ThemeData theme, FollowDirectionalStatus status) {
+    final shareUrl = widget.profile.shareUrl;
     final shareButton = Expanded(
       child: FilledButton(
-        onPressed: () {},
+        onPressed: shareUrl != null
+            ? () => showProfileShareBottomSheet(
+                  context: context,
+                  shareUrl: shareUrl,
+                )
+            : null,
         style: FilledButton.styleFrom(
           backgroundColor: appColors.surfaceElevated,
           foregroundColor: appColors.textPrimary,

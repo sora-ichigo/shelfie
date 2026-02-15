@@ -21,7 +21,7 @@ abstract class GFollowingData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  BuiltList<GFollowingData_following> get following;
+  BuiltList<GFollowingData_following>? get following;
   static Serializer<GFollowingData> get serializer =>
       _$gFollowingDataSerializer;
 

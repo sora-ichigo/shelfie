@@ -23,7 +23,7 @@ abstract class GPendingFollowRequestCountData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get pendingFollowRequestCount;
+  int? get pendingFollowRequestCount;
   static Serializer<GPendingFollowRequestCountData> get serializer =>
       _$gPendingFollowRequestCountDataSerializer;
 

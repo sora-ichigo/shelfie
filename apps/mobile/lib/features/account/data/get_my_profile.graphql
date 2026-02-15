@@ -10,6 +10,7 @@ query GetMyProfile {
       bio
       instagramHandle
       handle
+      shareUrl
     }
     ... on AuthErrorResult {
       code

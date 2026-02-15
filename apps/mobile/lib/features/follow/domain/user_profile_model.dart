@@ -16,6 +16,7 @@ class UserProfileModel with _$UserProfileModel {
     required bool isOwnProfile,
     String? bio,
     String? instagramHandle,
+    String? shareUrl,
     int? bookCount,
   }) = _UserProfileModel;
 }

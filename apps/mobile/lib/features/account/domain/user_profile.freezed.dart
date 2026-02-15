@@ -24,6 +24,7 @@ mixin _$UserProfile {
   int get bookCount => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get instagramHandle => throw _privateConstructorUsedError;
+  String? get shareUrl => throw _privateConstructorUsedError;
   int? get readingStartYear => throw _privateConstructorUsedError;
   int? get readingStartMonth => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $UserProfileCopyWith<$Res> {
       int bookCount,
       String? bio,
       String? instagramHandle,
+      String? shareUrl,
       int? readingStartYear,
       int? readingStartMonth,
       DateTime createdAt});
@@ -78,6 +80,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? bookCount = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
+    Object? shareUrl = freezed,
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
@@ -115,6 +118,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       readingStartYear: freezed == readingStartYear
           ? _value.readingStartYear
           : readingStartYear // ignore: cast_nullable_to_non_nullable
@@ -148,6 +155,7 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       int bookCount,
       String? bio,
       String? instagramHandle,
+      String? shareUrl,
       int? readingStartYear,
       int? readingStartMonth,
       DateTime createdAt});
@@ -174,6 +182,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? bookCount = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
+    Object? shareUrl = freezed,
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
@@ -211,6 +220,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       readingStartYear: freezed == readingStartYear
           ? _value.readingStartYear
           : readingStartYear // ignore: cast_nullable_to_non_nullable
@@ -239,6 +252,7 @@ class _$UserProfileImpl implements _UserProfile {
       required this.bookCount,
       required this.bio,
       required this.instagramHandle,
+      required this.shareUrl,
       required this.readingStartYear,
       required this.readingStartMonth,
       required this.createdAt});
@@ -260,6 +274,8 @@ class _$UserProfileImpl implements _UserProfile {
   @override
   final String? instagramHandle;
   @override
+  final String? shareUrl;
+  @override
   final int? readingStartYear;
   @override
   final int? readingStartMonth;
@@ -268,7 +284,7 @@ class _$UserProfileImpl implements _UserProfile {
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
   }
 
   @override
@@ -287,6 +303,8 @@ class _$UserProfileImpl implements _UserProfile {
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.instagramHandle, instagramHandle) ||
                 other.instagramHandle == instagramHandle) &&
+            (identical(other.shareUrl, shareUrl) ||
+                other.shareUrl == shareUrl) &&
             (identical(other.readingStartYear, readingStartYear) ||
                 other.readingStartYear == readingStartYear) &&
             (identical(other.readingStartMonth, readingStartMonth) ||
@@ -306,6 +324,7 @@ class _$UserProfileImpl implements _UserProfile {
       bookCount,
       bio,
       instagramHandle,
+      shareUrl,
       readingStartYear,
       readingStartMonth,
       createdAt);
@@ -329,6 +348,7 @@ abstract class _UserProfile implements UserProfile {
       required final int bookCount,
       required final String? bio,
       required final String? instagramHandle,
+      required final String? shareUrl,
       required final int? readingStartYear,
       required final int? readingStartMonth,
       required final DateTime createdAt}) = _$UserProfileImpl;
@@ -349,6 +369,8 @@ abstract class _UserProfile implements UserProfile {
   String? get bio;
   @override
   String? get instagramHandle;
+  @override
+  String? get shareUrl;
   @override
   int? get readingStartYear;
   @override

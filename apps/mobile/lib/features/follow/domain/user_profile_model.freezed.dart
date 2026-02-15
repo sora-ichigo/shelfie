@@ -25,6 +25,7 @@ mixin _$UserProfileModel {
   bool get isOwnProfile => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get instagramHandle => throw _privateConstructorUsedError;
+  String? get shareUrl => throw _privateConstructorUsedError;
   int? get bookCount => throw _privateConstructorUsedError;
 
   /// Create a copy of UserProfileModel
@@ -48,6 +49,7 @@ abstract class $UserProfileModelCopyWith<$Res> {
       bool isOwnProfile,
       String? bio,
       String? instagramHandle,
+      String? shareUrl,
       int? bookCount});
 
   $UserSummaryCopyWith<$Res> get user;
@@ -76,6 +78,7 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
     Object? isOwnProfile = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
+    Object? shareUrl = freezed,
     Object? bookCount = freezed,
   }) {
     return _then(_value.copyWith(
@@ -106,6 +109,10 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
       instagramHandle: freezed == instagramHandle
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       bookCount: freezed == bookCount
           ? _value.bookCount
@@ -151,6 +158,7 @@ abstract class _$$UserProfileModelImplCopyWith<$Res>
       bool isOwnProfile,
       String? bio,
       String? instagramHandle,
+      String? shareUrl,
       int? bookCount});
 
   @override
@@ -179,6 +187,7 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
     Object? isOwnProfile = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
+    Object? shareUrl = freezed,
     Object? bookCount = freezed,
   }) {
     return _then(_$UserProfileModelImpl(
@@ -210,6 +219,10 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       bookCount: freezed == bookCount
           ? _value.bookCount
           : bookCount // ignore: cast_nullable_to_non_nullable
@@ -229,6 +242,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       required this.isOwnProfile,
       this.bio,
       this.instagramHandle,
+      this.shareUrl,
       this.bookCount});
 
   @override
@@ -246,11 +260,13 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   @override
   final String? instagramHandle;
   @override
+  final String? shareUrl;
+  @override
   final int? bookCount;
 
   @override
   String toString() {
-    return 'UserProfileModel(user: $user, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, bio: $bio, instagramHandle: $instagramHandle, bookCount: $bookCount)';
+    return 'UserProfileModel(user: $user, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, bookCount: $bookCount)';
   }
 
   @override
@@ -270,6 +286,8 @@ class _$UserProfileModelImpl implements _UserProfileModel {
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.instagramHandle, instagramHandle) ||
                 other.instagramHandle == instagramHandle) &&
+            (identical(other.shareUrl, shareUrl) ||
+                other.shareUrl == shareUrl) &&
             (identical(other.bookCount, bookCount) ||
                 other.bookCount == bookCount));
   }
@@ -284,6 +302,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       isOwnProfile,
       bio,
       instagramHandle,
+      shareUrl,
       bookCount);
 
   /// Create a copy of UserProfileModel
@@ -305,6 +324,7 @@ abstract class _UserProfileModel implements UserProfileModel {
       required final bool isOwnProfile,
       final String? bio,
       final String? instagramHandle,
+      final String? shareUrl,
       final int? bookCount}) = _$UserProfileModelImpl;
 
   @override
@@ -321,6 +341,8 @@ abstract class _UserProfileModel implements UserProfileModel {
   String? get bio;
   @override
   String? get instagramHandle;
+  @override
+  String? get shareUrl;
   @override
   int? get bookCount;
 

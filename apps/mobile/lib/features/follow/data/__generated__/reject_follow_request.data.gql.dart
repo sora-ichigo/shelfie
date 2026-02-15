@@ -174,11 +174,11 @@ abstract class GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFol
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get id;
-  int get senderId;
-  int get receiverId;
-  _i3.GFollowRequestStatus get status;
-  DateTime get createdAt;
+  int? get id;
+  int? get senderId;
+  int? get receiverId;
+  _i3.GFollowRequestStatus? get status;
+  DateTime? get createdAt;
   static Serializer<
           GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data>
       get serializer =>

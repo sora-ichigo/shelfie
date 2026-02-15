@@ -25,12 +25,16 @@ class _$GFollowingDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'following',
-      serializers.serialize(object.following,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(GFollowingData_following)])),
     ];
-
+    Object? value;
+    value = object.following;
+    if (value != null) {
+      result
+        ..add('following')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(GFollowingData_following)])));
+    }
     return result;
   }
 
@@ -156,13 +160,12 @@ class _$GFollowingData extends GFollowingData {
   @override
   final String G__typename;
   @override
-  final BuiltList<GFollowingData_following> following;
+  final BuiltList<GFollowingData_following>? following;
 
   factory _$GFollowingData([void Function(GFollowingDataBuilder)? updates]) =>
       (GFollowingDataBuilder()..update(updates))._build();
 
-  _$GFollowingData._({required this.G__typename, required this.following})
-      : super._();
+  _$GFollowingData._({required this.G__typename, this.following}) : super._();
   @override
   GFollowingData rebuild(void Function(GFollowingDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -218,7 +221,7 @@ class GFollowingDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _following = $v.following.toBuilder();
+      _following = $v.following?.toBuilder();
       _$v = null;
     }
     return this;
@@ -244,13 +247,13 @@ class GFollowingDataBuilder
           _$GFollowingData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GFollowingData', 'G__typename'),
-            following: following.build(),
+            following: _following?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'following';
-        following.build();
+        _following?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'GFollowingData', _$failedField, e.toString());
