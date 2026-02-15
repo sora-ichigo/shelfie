@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/account/application/profile_books_state.dart';
@@ -22,11 +23,52 @@ GReadingStatus _toGReadingStatus(ReadingStatus status) {
 
 @riverpod
 class ProfileBooksNotifier extends _$ProfileBooksNotifier {
+  ProfileBooksState? _cachedState;
+
+  void _emit(ProfileBooksState newState) {
+    _cachedState = newState;
+    state = newState;
+  }
+
   @override
   ProfileBooksState build() {
     ref.watch(shelfVersionProvider);
+
+    ref.listen<Map<String, ShelfEntry>>(
+      shelfStateProvider,
+      (previous, next) => _syncWithShelfState(previous, next),
+    );
+
+    final cached = _cachedState;
+    if (cached != null) {
+      Future.microtask(refresh);
+      return cached;
+    }
+
     Future.microtask(_loadBooks);
     return const ProfileBooksState(isLoading: true);
+  }
+
+  void _syncWithShelfState(
+    Map<String, ShelfEntry>? previous,
+    Map<String, ShelfEntry> next,
+  ) {
+    if (previous == null) return;
+    final filter = state.selectedFilter;
+    if (filter == null) return;
+
+    final updatedBooks = state.books.where((book) {
+      final entry = next[book.externalId];
+      if (entry == null) return true;
+      return entry.readingStatus == filter;
+    }).toList();
+
+    if (updatedBooks.length != state.books.length) {
+      _emit(state.copyWith(
+        books: updatedBooks,
+        totalCount: state.totalCount - (state.books.length - updatedBooks.length),
+      ));
+    }
   }
 
   Future<void> _loadBooks() async {
@@ -34,7 +76,7 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
     final sortOption = ref.read(sortOptionNotifierProvider);
     final filter = state.selectedFilter;
 
-    state = state.copyWith(isLoading: true, error: null);
+    _emit(state.copyWith(isLoading: true, error: null));
 
     final result = await repository.getMyShelf(
       readingStatus: filter != null ? _toGReadingStatus(filter) : null,
@@ -45,22 +87,22 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
     );
 
     result.fold(
-      (failure) => state = state.copyWith(
+      (failure) => _emit(state.copyWith(
         isLoading: false,
         error: failure.message,
-      ),
+      )),
       (data) {
         final shelfNotifier = ref.read(shelfStateProvider.notifier);
         for (final entry in data.entries.entries) {
           shelfNotifier.registerEntry(entry.value);
         }
 
-        state = state.copyWith(
+        _emit(state.copyWith(
           books: data.items,
           totalCount: data.totalCount,
           hasMore: data.hasMore,
           isLoading: false,
-        );
+        ));
       },
     );
   }
@@ -68,7 +110,7 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
   Future<void> loadMore() async {
     if (state.isLoadingMore || !state.hasMore) return;
 
-    state = state.copyWith(isLoadingMore: true);
+    _emit(state.copyWith(isLoadingMore: true));
 
     final repository = ref.read(bookShelfRepositoryProvider);
     final sortOption = ref.read(sortOptionNotifierProvider);
@@ -83,18 +125,18 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
     );
 
     result.fold(
-      (failure) => state = state.copyWith(isLoadingMore: false),
+      (failure) => _emit(state.copyWith(isLoadingMore: false)),
       (data) {
         final shelfNotifier = ref.read(shelfStateProvider.notifier);
         for (final entry in data.entries.entries) {
           shelfNotifier.registerEntry(entry.value);
         }
 
-        state = state.copyWith(
+        _emit(state.copyWith(
           books: [...state.books, ...data.items],
           hasMore: data.hasMore,
           isLoadingMore: false,
-        );
+        ));
       },
     );
   }
@@ -113,25 +155,25 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
     );
 
     result.fold(
-      (failure) => state = state.copyWith(error: failure.message),
+      (failure) => _emit(state.copyWith(error: failure.message)),
       (data) {
         final shelfNotifier = ref.read(shelfStateProvider.notifier);
         for (final entry in data.entries.entries) {
           shelfNotifier.registerEntry(entry.value);
         }
 
-        state = state.copyWith(
+        _emit(state.copyWith(
           books: data.items,
           totalCount: data.totalCount,
           hasMore: data.hasMore,
-        );
+        ));
       },
     );
   }
 
   Future<void> setFilter(ReadingStatus? filter) async {
     if (state.selectedFilter == filter) return;
-    state = state.copyWith(selectedFilter: filter, books: []);
+    _emit(state.copyWith(selectedFilter: filter, books: []));
     await _loadBooks();
   }
 }

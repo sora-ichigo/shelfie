@@ -26,7 +26,7 @@ class ProfileBookCard extends ConsumerWidget {
     final shelfEntry = ref.watch(
       shelfStateProvider.select((s) => s[book.externalId]),
     );
-    final rating = book.rating ?? shelfEntry?.rating ?? 0;
+    final rating = shelfEntry?.rating ?? book.rating ?? 0;
 
     return InkWell(
       onTap: onTap,

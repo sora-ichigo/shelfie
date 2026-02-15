@@ -163,6 +163,12 @@ void main() {
         );
         addTearDown(container.dispose);
 
+        // listen でプロバイダを維持
+        container.listen(
+          accountNotifierProvider,
+          (_, __) {},
+          fireImmediately: true,
+        );
         await container.read(accountNotifierProvider.future);
         verify(() => mockRepository.getMyProfile()).called(1);
 
@@ -172,7 +178,9 @@ void main() {
         );
 
         container.read(shelfVersionProvider.notifier).increment();
-        await container.read(accountNotifierProvider.future);
+
+        // build() はキャッシュを即座に返し、バックグラウンドで再取得する
+        await Future<void>.delayed(Duration.zero);
 
         verify(() => mockRepository.getMyProfile()).called(1);
         final state = container.read(accountNotifierProvider);

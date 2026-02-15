@@ -8,10 +8,19 @@ part 'account_notifier.g.dart';
 
 @riverpod
 class AccountNotifier extends _$AccountNotifier {
+  UserProfile? _cachedProfile;
+
   @override
-  Future<UserProfile> build() async {
+  FutureOr<UserProfile> build() {
     ref.watch(shelfVersionProvider);
     ref.watch(profileVersionProvider);
+
+    final cached = _cachedProfile;
+    if (cached != null) {
+      Future.microtask(_silentRefresh);
+      return cached;
+    }
+
     return _fetchProfile();
   }
 
@@ -21,11 +30,22 @@ class AccountNotifier extends _$AccountNotifier {
 
     return result.fold(
       (failure) => throw failure,
-      (profile) => profile,
+      (profile) {
+        _cachedProfile = profile;
+        return profile;
+      },
     );
   }
 
+  Future<void> _silentRefresh() async {
+    try {
+      final profile = await _fetchProfile();
+      state = AsyncData(profile);
+    } catch (_) {}
+  }
+
   void setProfile(UserProfile profile) {
+    _cachedProfile = profile;
     state = AsyncData(profile);
   }
 
