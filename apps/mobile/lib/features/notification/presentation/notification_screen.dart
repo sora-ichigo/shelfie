@@ -208,9 +208,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                       .removeNotification(notification.id);
                 }
               : null,
-          onFollow: () => ref
-              .read(followStateProvider.notifier)
-              .sendFollowRequest(userId: notification.sender.id),
         );
       },
     );
@@ -239,14 +236,12 @@ class _NotificationTile extends StatelessWidget {
     required this.displayStatus,
     this.onApprove,
     this.onReject,
-    this.onFollow,
   });
 
   final NotificationModel notification;
   final FollowStatusType displayStatus;
   final VoidCallback? onApprove;
   final VoidCallback? onReject;
-  final VoidCallback? onFollow;
 
   @override
   Widget build(BuildContext context) {
@@ -306,80 +301,36 @@ class _NotificationTile extends StatelessWidget {
   }
 
   List<Widget> _buildActionButtons(ThemeData theme, AppColors appColors) {
-    return switch (notification.type) {
-      NotificationType.followRequestReceived =>
-        _buildFollowRequestReceivedButtons(theme, appColors),
-      NotificationType.followRequestApproved =>
-        _buildFollowRequestApprovedButtons(theme, appColors),
-    };
-  }
+    if (notification.type != NotificationType.followRequestReceived) return [];
+    if (displayStatus != FollowStatusType.pendingReceived) return [];
 
-  List<Widget> _buildFollowRequestReceivedButtons(
-    ThemeData theme,
-    AppColors appColors,
-  ) {
-    return switch (displayStatus) {
-      FollowStatusType.pendingReceived => [
-        const SizedBox(width: AppSpacing.xs),
-        _PrimaryButton(
-          label: '承認',
-          onPressed: onApprove,
-          appColors: appColors,
-          theme: theme,
-        ),
-        const SizedBox(width: AppSpacing.xs),
-        TextButton(
-          onPressed: onReject,
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSpacing.xxs,
-              horizontal: AppSpacing.md,
-            ),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    return [
+      const SizedBox(width: AppSpacing.xs),
+      _PrimaryButton(
+        label: '承認',
+        onPressed: onApprove,
+        appColors: appColors,
+        theme: theme,
+      ),
+      const SizedBox(width: AppSpacing.xs),
+      TextButton(
+        onPressed: onReject,
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.xxs,
+            horizontal: AppSpacing.md,
           ),
-          child: Text(
-            '削除',
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: appColors.textPrimary,
-            ),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: Text(
+          '削除',
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: appColors.textPrimary,
           ),
         ),
-      ],
-      FollowStatusType.followedBy => [
-        const SizedBox(width: AppSpacing.xs),
-        _PrimaryButton(
-          label: 'フォローバック',
-          onPressed: onFollow,
-          appColors: appColors,
-          theme: theme,
-        ),
-      ],
-      FollowStatusType.none ||
-      FollowStatusType.following ||
-      FollowStatusType.pendingSent => [],
-    };
-  }
-
-  List<Widget> _buildFollowRequestApprovedButtons(
-    ThemeData theme,
-    AppColors appColors,
-  ) {
-    return switch (displayStatus) {
-      FollowStatusType.none ||
-      FollowStatusType.followedBy => [
-        const SizedBox(width: AppSpacing.xs),
-        _PrimaryButton(
-          label: 'フォロー',
-          onPressed: onFollow,
-          appColors: appColors,
-          theme: theme,
-        ),
-      ],
-      FollowStatusType.following ||
-      FollowStatusType.pendingSent ||
-      FollowStatusType.pendingReceived => [],
-    };
+      ),
+    ];
   }
 
   String _notificationText(NotificationType type) {

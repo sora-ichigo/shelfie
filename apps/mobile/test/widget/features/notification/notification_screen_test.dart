@@ -224,7 +224,7 @@ void main() {
       expect(find.byType(TextButton), findsNothing);
     });
 
-    testWidgets('followedBy + followRequestReceived でフォローバックボタンを表示すること',
+    testWidgets('followedBy + followRequestReceived でボタンを表示しないこと',
         (tester) async {
       final notification = createNotification(
         id: 3,
@@ -243,7 +243,7 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('フォローバック'), findsOneWidget);
+      expect(find.byType(TextButton), findsNothing);
     });
 
     testWidgets('none + followRequestReceived でボタンを表示しないこと',
@@ -268,7 +268,7 @@ void main() {
       expect(find.byType(TextButton), findsNothing);
     });
 
-    testWidgets('none + followRequestApproved でフォローボタンを表示すること',
+    testWidgets('none + followRequestApproved でボタンを表示しないこと',
         (tester) async {
       final notification = createNotification(
         id: 4,
@@ -287,7 +287,7 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('フォロー'), findsOneWidget);
+      expect(find.byType(TextButton), findsNothing);
     });
 
     testWidgets('pendingSent でボタンを表示しないこと', (tester) async {
@@ -464,7 +464,7 @@ void main() {
 
       expect(find.text('承認'), findsNothing);
       expect(find.text('削除'), findsNothing);
-      expect(find.text('フォローバック'), findsOneWidget);
+      expect(find.byType(TextButton), findsNothing);
     });
   });
 }
