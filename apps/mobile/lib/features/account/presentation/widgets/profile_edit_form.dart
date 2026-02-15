@@ -134,7 +134,7 @@ class ProfileEditForm extends StatelessWidget {
                 ? '誰でもプロフィールと本棚を閲覧でき、フォローリクエストなしでフォローできます'
                 : 'フォロワーのみがプロフィールと本棚を閲覧できます',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors?.textSecondary,
+              color: colors?.textSecondaryLegacy,
             ),
           ),
           value: isPublic,
