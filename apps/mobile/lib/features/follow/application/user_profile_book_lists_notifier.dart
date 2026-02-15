@@ -28,6 +28,24 @@ class UserProfileBookListsNotifier extends _$UserProfileBookListsNotifier {
     return const UserProfileBookListsState();
   }
 
+  Future<void> refresh() async {
+    final repository = ref.read(bookListRepositoryProvider);
+    final result = await repository.getUserBookLists(userId: userId);
+
+    result.fold(
+      (failure) {
+        state = UserProfileBookListsState(error: failure);
+      },
+      (bookListsResult) {
+        state = UserProfileBookListsState(
+          lists: bookListsResult.items,
+          totalCount: bookListsResult.totalCount,
+          hasMore: bookListsResult.hasMore,
+        );
+      },
+    );
+  }
+
   Future<void> loadLists() async {
     state = const UserProfileBookListsState(isLoading: true);
 

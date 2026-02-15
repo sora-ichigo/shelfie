@@ -77,6 +77,14 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     }
   }
 
+  Future<void> _onRefresh() async {
+    final notifier = ref.read(notificationListNotifierProvider.notifier);
+    await notifier.refresh();
+    if (!mounted) return;
+    final state = ref.read(notificationListNotifierProvider);
+    state.whenData(_registerFollowStates);
+  }
+
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
@@ -133,13 +141,26 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         ),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return _buildEmptyState(theme, appColors);
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverFillRemaining(
+                    child: _buildEmptyState(theme, appColors),
+                  ),
+                ],
+              ),
+            );
           }
-          return _buildNotificationList(
-            notifications,
-            followState,
-            theme,
-            appColors,
+          return RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: _buildNotificationList(
+              notifications,
+              followState,
+              theme,
+              appColors,
+            ),
           );
         },
       ),

@@ -99,6 +99,36 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
     );
   }
 
+  Future<void> refresh() async {
+    final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(sortOptionNotifierProvider);
+    final filter = state.selectedFilter;
+
+    final result = await repository.getMyShelf(
+      readingStatus: filter != null ? _toGReadingStatus(filter) : null,
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
+      limit: _pageSize,
+      offset: 0,
+    );
+
+    result.fold(
+      (failure) => state = state.copyWith(error: failure.message),
+      (data) {
+        final shelfNotifier = ref.read(shelfStateProvider.notifier);
+        for (final entry in data.entries.entries) {
+          shelfNotifier.registerEntry(entry.value);
+        }
+
+        state = state.copyWith(
+          books: data.items,
+          totalCount: data.totalCount,
+          hasMore: data.hasMore,
+        );
+      },
+    );
+  }
+
   Future<void> setFilter(ReadingStatus? filter) async {
     if (state.selectedFilter == filter) return;
     state = state.copyWith(selectedFilter: filter, books: []);

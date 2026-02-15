@@ -7,7 +7,7 @@ part of 'user_reading_status_counts_notifier.dart';
 // **************************************************************************
 
 String _$userReadingStatusCountsNotifierHash() =>
-    r'f892dcc6d15efa0d2b4074477d9c6f5be373645a';
+    r'59872bd298d3f2ed4aa63230d52dd500459154e2';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -28,6 +28,10 @@ class BookListNotifier extends _$BookListNotifier {
     await _fetchLists();
   }
 
+  Future<void> refreshSilently() async {
+    await _fetchLists();
+  }
+
   Future<void> _fetchLists() async {
     final repository = ref.read(bookListRepositoryProvider);
     final result = await repository.getMyBookLists();

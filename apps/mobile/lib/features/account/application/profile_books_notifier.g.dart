@@ -7,7 +7,7 @@ part of 'profile_books_notifier.dart';
 // **************************************************************************
 
 String _$profileBooksNotifierHash() =>
-    r'17b7bba34983a75507cb51c64a245dd64666e373';
+    r'4f3b9d74f3e7266fb3cc68431abfb4312da7d637';
 
 /// See also [ProfileBooksNotifier].
 @ProviderFor(ProfileBooksNotifier)

@@ -29,6 +29,7 @@ class ProfileContentView extends StatelessWidget {
     this.emptyBookListWidget,
     this.onBookLongPress,
     this.showNotFollowingPlaceholder = false,
+    this.onRefresh,
     super.key,
   });
 
@@ -49,12 +50,13 @@ class ProfileContentView extends StatelessWidget {
   final Widget? emptyBookListWidget;
   final ValueChanged<ShelfBookItem>? onBookLongPress;
   final bool showNotFollowingPlaceholder;
+  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return NestedScrollView(
+    final nestedScrollView = NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverToBoxAdapter(child: header),
         SliverPersistentHeader(
@@ -82,6 +84,15 @@ class ProfileContentView extends StatelessWidget {
               ],
             ),
     );
+
+    if (onRefresh != null) {
+      return RefreshIndicator(
+        onRefresh: onRefresh!,
+        child: nestedScrollView,
+      );
+    }
+
+    return nestedScrollView;
   }
 
   Widget _buildNotFollowingPlaceholder(BuildContext context) {

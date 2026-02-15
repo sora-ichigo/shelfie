@@ -127,6 +127,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         ],
       ),
       body: ProfileContentView(
+        onRefresh: () => _onRefresh(profile),
         tabController: _tabController,
         header: ProfileHeader(
           name: profile.name,
@@ -223,6 +224,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _onRefresh(UserProfile profile) async {
+    ref.invalidate(accountNotifierProvider);
+    ref.invalidate(followCountsNotifierProvider(profile.id));
+    await Future.wait([
+      ref.read(profileBooksNotifierProvider.notifier).refresh(),
+      ref.read(readingStatusCountsNotifierProvider.notifier).refresh(),
+      ref.read(bookListNotifierProvider.notifier).refreshSilently(),
+      ref.read(accountNotifierProvider.future),
+    ]);
   }
 
   Future<void> _onCreateBookList() async {

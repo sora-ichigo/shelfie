@@ -85,6 +85,20 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
     }
   }
 
+  Future<void> _onRefresh() async {
+    ref.invalidate(followCountsNotifierProvider(_userId));
+    await Future.wait([
+      ref.read(userProfileBooksNotifierProvider(_userId).notifier).refresh(),
+      ref
+          .read(userProfileBookListsNotifierProvider(_userId).notifier)
+          .refresh(),
+      ref
+          .read(userReadingStatusCountsNotifierProvider(_userId).notifier)
+          .refresh(),
+      ref.read(followCountsNotifierProvider(_userId).future),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -116,6 +130,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
         scrolledUnderElevation: 0,
       ),
       body: ProfileContentView(
+        onRefresh: _onRefresh,
         tabController: _tabController,
         header: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
