@@ -19,6 +19,7 @@ environment_variables = {
   FIREBASE_WEB_API_KEY  = "AIzaSyArNAv_mVB9Q9PeGBqSslhuJn04FcF_BZo"
   SENTRY_DSN            = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
   SENTRY_ENVIRONMENT    = "dev"
+  APP_URL               = "https://shelfie-web-dev.vercel.app"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
