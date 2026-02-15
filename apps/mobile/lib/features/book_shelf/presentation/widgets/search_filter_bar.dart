@@ -29,7 +29,7 @@ class SearchFilterBar extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      backgroundColor: appColors.surface,
+      backgroundColor: appColors.surfaceLegacy,
       builder: (context) => _SortBottomSheet(
         currentOption: sortOption,
       ),
@@ -51,7 +51,7 @@ class SearchFilterBar extends StatelessWidget {
           icon: Icons.search,
           isActive: false,
           semanticLabel: '検索',
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
           onTap: () => showShelfSearchBottomSheet(
             context: context,
             onBookTap: onBookTap,
@@ -65,7 +65,7 @@ class SearchFilterBar extends StatelessWidget {
           semanticLabel: sortOption != SortOption.defaultOption
               ? '並び替え（${sortOption.displayName}）'
               : '並び替え',
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
           onTap: () => _showSortBottomSheet(context),
         ),
       ],
@@ -171,8 +171,8 @@ class _OptionTile extends StatelessWidget {
       leading: Icon(
         isSelected ? Icons.check_circle : Icons.circle_outlined,
         color: isSelected
-            ? appColors.primary
-            : appColors.textSecondary,
+            ? appColors.primaryLegacy
+            : appColors.textSecondaryLegacy,
       ),
       title: Text(
         label,

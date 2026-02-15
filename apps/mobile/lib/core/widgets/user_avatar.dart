@@ -52,11 +52,11 @@ class _DefaultAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.primaryLegacy,
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors.background,
+        color: colors.backgroundLegacy,
       ),
     );
   }
@@ -73,11 +73,11 @@ class _LoadingAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors.surface,
+      backgroundColor: colors.surfaceLegacy,
       child: Icon(
         Icons.person,
         size: radius,
-        color: colors.textSecondary,
+        color: colors.textSecondaryLegacy,
       ),
     );
   }
@@ -115,7 +115,7 @@ class _ImageAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: colors.surface,
+      backgroundColor: colors.surfaceLegacy,
       backgroundImage: imageProvider,
     );
   }

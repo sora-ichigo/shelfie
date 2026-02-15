@@ -12,7 +12,7 @@ InputDecoration _buildInputDecoration({
     hintText: hintText,
     suffixIcon: suffixIcon,
     filled: true,
-    fillColor: colors.surface,
+    fillColor: colors.surfaceLegacy,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: BorderSide.none,
@@ -20,13 +20,13 @@ InputDecoration _buildInputDecoration({
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: errorText != null
-          ? BorderSide(color: colors.destructive, width: 1)
+          ? BorderSide(color: colors.destructiveLegacy, width: 1)
           : BorderSide.none,
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppSpacing.xs),
       borderSide: BorderSide(
-        color: errorText != null ? colors.destructive : colors.primary,
+        color: errorText != null ? colors.destructiveLegacy : colors.primaryLegacy,
         width: 2,
       ),
     ),
@@ -105,7 +105,7 @@ class LabeledTextField extends StatelessWidget {
           style: enabled
               ? null
               : theme.textTheme.bodyLarge?.copyWith(
-                  color: colors.textSecondary,
+                  color: colors.textSecondaryLegacy,
                 ),
           decoration: _buildInputDecoration(
             colors: colors,
@@ -119,7 +119,7 @@ class LabeledTextField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.destructive,
+              color: colors.destructiveLegacy,
             ),
           ),
         ],
@@ -178,7 +178,7 @@ class EmailField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.destructive,
+              color: colors.destructiveLegacy,
             ),
           ),
         ],
@@ -245,7 +245,7 @@ class PasswordField extends StatelessWidget {
             suffixIcon: IconButton(
               icon: Icon(
                 isObscured ? Icons.visibility_off : Icons.visibility,
-                color: colors.textSecondary,
+                color: colors.textSecondaryLegacy,
               ),
               onPressed: onToggleVisibility,
             ),
@@ -256,7 +256,7 @@ class PasswordField extends StatelessWidget {
           Text(
             errorText!,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.destructive,
+              color: colors.destructiveLegacy,
             ),
           ),
         ],

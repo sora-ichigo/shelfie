@@ -25,10 +25,10 @@ class LoginSubmitButton extends ConsumerWidget {
       child: FilledButton(
         onPressed: isEnabled ? onPressed : null,
         style: FilledButton.styleFrom(
-          backgroundColor: appColors.textPrimary,
-          disabledBackgroundColor: appColors.textPrimary.withOpacity(0.5),
-          foregroundColor: appColors.overlay,
-          disabledForegroundColor: appColors.overlay.withOpacity(0.5),
+          backgroundColor: appColors.textPrimaryLegacy,
+          disabledBackgroundColor: appColors.textPrimaryLegacy.withOpacity(0.5),
+          foregroundColor: appColors.overlayLegacy,
+          disabledForegroundColor: appColors.overlayLegacy.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.xl),
           ),
@@ -36,7 +36,7 @@ class LoginSubmitButton extends ConsumerWidget {
         child: Text(
           'ログイン',
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: isEnabled ? appColors.overlay : appColors.overlay.withOpacity(0.5),
+                color: isEnabled ? appColors.overlayLegacy : appColors.overlayLegacy.withOpacity(0.5),
               ),
         ),
       ),

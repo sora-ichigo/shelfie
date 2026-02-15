@@ -18,7 +18,7 @@ Future<BookList?> showCreateBookListModal({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) =>
         _CreateBookListModalContent(existingCount: existingCount),
   );
@@ -102,7 +102,7 @@ class _CreateBookListModalContentState
             Text(
               'ブックリストに名前をつけてください',
               style: theme.textTheme.bodyLarge?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
@@ -157,7 +157,7 @@ class _CreateBookListModalContentState
                     decoration: InputDecoration(
                       hintText: isEmpty ? hintString : null,
                       hintStyle: baseStyle.copyWith(
-                        color: appColors.textSecondary,
+                        color: appColors.textSecondaryLegacy,
                       ),
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 8,
@@ -166,21 +166,21 @@ class _CreateBookListModalContentState
                       border: UnderlineInputBorder(
                         borderRadius: BorderRadius.zero,
                         borderSide: BorderSide(
-                          color: appColors.border,
+                          color: appColors.borderLegacy,
                           width: 0.5,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderRadius: BorderRadius.zero,
                         borderSide: BorderSide(
-                          color: appColors.border,
+                          color: appColors.borderLegacy,
                           width: 0.5,
                         ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderRadius: BorderRadius.zero,
                         borderSide: BorderSide(
-                          color: appColors.primary,
+                          color: appColors.primaryLegacy,
                           width: 0.5,
                         ),
                       ),
@@ -194,8 +194,8 @@ class _CreateBookListModalContentState
             FilledButton(
               onPressed: _isValid ? _onSubmit : null,
               style: FilledButton.styleFrom(
-                backgroundColor: appColors.textPrimary,
-                foregroundColor: appColors.background,
+                backgroundColor: appColors.textPrimaryLegacy,
+                foregroundColor: appColors.backgroundLegacy,
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 shape: RoundedRectangleBorder(
@@ -212,13 +212,13 @@ class _CreateBookListModalContentState
                       width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: appColors.textPrimary,
+                        color: appColors.textPrimaryLegacy,
                       ),
                     )
                   : Text(
                       '作成する',
                       style: theme.textTheme.labelLarge?.copyWith(
-                        color: appColors.background,
+                        color: appColors.backgroundLegacy,
                       ),
                     ),
             ),

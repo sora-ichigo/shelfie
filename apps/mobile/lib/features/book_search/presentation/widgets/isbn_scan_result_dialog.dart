@@ -37,7 +37,7 @@ class ISBNScanResultDialog extends ConsumerStatefulWidget {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      backgroundColor: appColors.surface,
+      backgroundColor: appColors.surfaceLegacy,
       builder: (context) => ISBNScanResultDialog(isbn: isbn),
     );
   }
@@ -219,7 +219,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             Icon(
               Icons.search_off,
               size: 48,
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
@@ -283,7 +283,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: appColors.textSecondary,
+                    color: appColors.textSecondaryLegacy,
                   ),
                 ),
               ],
@@ -296,12 +296,12 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.surfaceElevated,
+      color: appColors.surfaceElevatedLegacy,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );
@@ -314,7 +314,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -364,10 +364,10 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         decoration: BoxDecoration(
           color: isSelected
               ? statusColor.withOpacity(0.15)
-              : appColors.surface,
+              : appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : appColors.border,
+            color: isSelected ? statusColor : appColors.borderLegacy,
           ),
         ),
         child: Center(
@@ -375,7 +375,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : appColors.textSecondary,
+              color: isSelected ? statusColor : appColors.textSecondaryLegacy,
             ),
           ),
         ),
@@ -391,7 +391,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -416,8 +416,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.star
-                      : appColors.textSecondary.withOpacity(0.4),
+                      ? appColors.starLegacy
+                      : appColors.textSecondaryLegacy.withOpacity(0.4),
                 ),
               ),
             );
@@ -458,8 +458,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
               onPressed:
                   _isAddingToShelf ? null : () => Navigator.pop(context, false),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
-                foregroundColor: theme.extension<AppColors>()!.textPrimary,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevatedLegacy,
+                foregroundColor: theme.extension<AppColors>()!.textPrimaryLegacy,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppRadius.lg),
                 ),
@@ -474,7 +474,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
             height: 48,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: appColors.primary,
+                color: appColors.primaryLegacy,
                 borderRadius: BorderRadius.circular(AppRadius.lg),
               ),
               child: ElevatedButton(
@@ -483,8 +483,8 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                   disabledBackgroundColor: Colors.transparent,
-                  foregroundColor: appColors.textPrimary,
-                  disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
+                  foregroundColor: appColors.textPrimaryLegacy,
+                  disabledForegroundColor: appColors.textPrimaryLegacy.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                   ),
@@ -495,7 +495,7 @@ class _ISBNScanResultDialogState extends ConsumerState<ISBNScanResultDialog> {
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: appColors.textPrimary,
+                          color: appColors.textPrimaryLegacy,
                         ),
                       )
                     : const Text('登録'),

@@ -30,13 +30,13 @@ class ReadingNoteSection extends StatelessWidget {
             Icon(
               Icons.lock,
               size: 16,
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
             ),
             const SizedBox(width: 2),
             Text(
               '自分のみ見ることができます',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.extension<AppColors>()!.textSecondary,
+                color: theme.extension<AppColors>()!.textSecondaryLegacy,
               ),
             ),
           ],
@@ -48,7 +48,7 @@ class ReadingNoteSection extends StatelessWidget {
           Text(
             '最終更新: ${_formatDateTime(shelfEntry.noteUpdatedAt!)}',
             style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
             ),
           ),
         ],
@@ -67,9 +67,9 @@ class ReadingNoteSection extends StatelessWidget {
         width: double.infinity,
         padding: AppSpacing.all(AppSpacing.sm),
         decoration: BoxDecoration(
-          color: appColors.surface,
+          color: appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: appColors.border),
+          border: Border.all(color: appColors.borderLegacy),
         ),
         child: Row(
           children: [
@@ -77,12 +77,12 @@ class ReadingNoteSection extends StatelessWidget {
               child: Text(
                 shelfEntry.hasNote ? shelfEntry.note! : '自分用のメモを書く...',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: shelfEntry.hasNote ? null : appColors.textSecondary,
+                  color: shelfEntry.hasNote ? null : appColors.textSecondaryLegacy,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            Icon(Icons.chevron_right, color: appColors.textSecondary),
+            Icon(Icons.chevron_right, color: appColors.textSecondaryLegacy),
           ],
         ),
       ),

@@ -576,23 +576,23 @@ class _MainShell extends ConsumerWidget {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
-        systemNavigationBarColor: appColors.background,
+        systemNavigationBarColor: appColors.backgroundLegacy,
       ),
       child: Scaffold(
         body: navigationShell,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            color: appColors.background,
+            color: appColors.backgroundLegacy,
             border: Border(
-              top: BorderSide(color: appColors.border, width: 0.5),
+              top: BorderSide(color: appColors.borderLegacy, width: 0.5),
             ),
           ),
           child: CupertinoTabBar(
             currentIndex: tabBarIndex,
             onTap: onTap,
-            activeColor: appColors.textPrimary,
-            inactiveColor: appColors.textSecondary,
-            backgroundColor: appColors.background,
+            activeColor: appColors.textPrimaryLegacy,
+            inactiveColor: appColors.textSecondaryLegacy,
+            backgroundColor: appColors.backgroundLegacy,
             border: const Border(),
             items: [
               BottomNavigationBarItem(
@@ -604,7 +604,7 @@ class _MainShell extends ConsumerWidget {
                   padding: const EdgeInsets.only(top: 16),
                   child: Icon(
                     CupertinoIcons.search,
-                    shadows: [Shadow(blurRadius: 3, color: appColors.textPrimary)],
+                    shadows: [Shadow(blurRadius: 3, color: appColors.textPrimaryLegacy)],
                   ),
                 ),
                 label: '',
@@ -676,7 +676,7 @@ class _BellIcon extends StatelessWidget {
         Icon(
           icon,
           shadows: isActive
-              ? [Shadow(blurRadius: 3, color: appColors.textPrimary)]
+              ? [Shadow(blurRadius: 3, color: appColors.textPrimaryLegacy)]
               : null,
         ),
         if (badgeCount > 0)
@@ -686,14 +686,14 @@ class _BellIcon extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
-                color: appColors.destructive,
+                color: appColors.destructiveLegacy,
                 borderRadius: BorderRadius.circular(8),
               ),
               constraints: const BoxConstraints(minWidth: 16, minHeight: 14),
               child: Text(
                 badgeCount > 99 ? '99+' : '$badgeCount',
                 style: TextStyle(
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
@@ -731,7 +731,7 @@ class _UserProfileByHandleScreen extends ConsumerWidget {
           child: Text(
             'ユーザーが見つかりません',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
         ),

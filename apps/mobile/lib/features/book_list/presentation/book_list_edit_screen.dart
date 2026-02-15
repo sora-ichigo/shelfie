@@ -169,7 +169,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
             ),
             if (_isSaving)
               ColoredBox(
-                color: appColors.overlay.withOpacity(0.3),
+                color: appColors.overlayLegacy.withOpacity(0.3),
                 child: const LoadingIndicator(fullScreen: true),
               ),
           ],
@@ -207,7 +207,7 @@ class _BookListEditScreenState extends ConsumerState<BookListEditScreen> {
       onPressed: _isSaving ? null : _onDelete,
       child: Text(
         'リストを削除',
-        style: TextStyle(color: appColors.destructive),
+        style: TextStyle(color: appColors.destructiveLegacy),
       ),
     );
   }

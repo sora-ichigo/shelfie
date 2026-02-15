@@ -72,7 +72,7 @@ class BookInfoSection extends StatelessWidget {
         Text(
           bookDetail.authors.join(', '),
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.extension<AppColors>()!.textSecondary,
+            color: theme.extension<AppColors>()!.textSecondaryLegacy,
           ),
           textAlign: TextAlign.center,
           maxLines: 2,
@@ -100,16 +100,16 @@ class BookInfoSection extends StatelessWidget {
       height: 44,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: appColors.primary,
+          color: appColors.primaryLegacy,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton.icon(
           onPressed: onAddToShelfPressed,
-          icon: Icon(Icons.add, color: appColors.textPrimary, size: 20),
+          icon: Icon(Icons.add, color: appColors.textPrimaryLegacy, size: 20),
           label: Text(
             'マイライブラリに追加',
             style: theme.textTheme.labelLarge?.copyWith(
-              color: appColors.textPrimary,
+              color: appColors.textPrimaryLegacy,
             ),
           ),
           style: ElevatedButton.styleFrom(
@@ -130,7 +130,7 @@ class BookInfoSection extends StatelessWidget {
       height: 44,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: theme.extension<AppColors>()!.surfaceElevated,
+          color: theme.extension<AppColors>()!.surfaceElevatedLegacy,
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Center(
@@ -152,15 +152,15 @@ class BookInfoSection extends StatelessWidget {
       height: 44,
       child: ElevatedButton.icon(
         onPressed: onRemoveFromShelfPressed,
-        icon: Icon(Icons.remove, color: appColors.destructive, size: 20),
+        icon: Icon(Icons.remove, color: appColors.destructiveLegacy, size: 20),
         label: Text(
           'マイライブラリから削除',
           style: theme.textTheme.labelLarge?.copyWith(
-            color: appColors.destructive,
+            color: appColors.destructiveLegacy,
           ),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: appColors.surface,
+          backgroundColor: appColors.surfaceLegacy,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -182,18 +182,18 @@ class BookInfoSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: appColors.overlay.withOpacity(0.5),
+            color: appColors.overlayLegacy.withOpacity(0.5),
             blurRadius: 30,
             spreadRadius: 2,
             offset: const Offset(12, 16),
           ),
           BoxShadow(
-            color: appColors.overlay.withOpacity(0.3),
+            color: appColors.overlayLegacy.withOpacity(0.3),
             blurRadius: 12,
             offset: const Offset(6, 8),
           ),
           BoxShadow(
-            color: appColors.overlay.withOpacity(0.15),
+            color: appColors.overlayLegacy.withOpacity(0.15),
             blurRadius: 4,
             offset: const Offset(2, 3),
           ),
@@ -279,7 +279,7 @@ class BookInfoSection extends StatelessWidget {
             child: Text(
               label,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.extension<AppColors>()!.textSecondary,
+                color: theme.extension<AppColors>()!.textSecondaryLegacy,
               ),
             ),
           ),
@@ -304,7 +304,7 @@ class BookInfoSection extends StatelessWidget {
             child: Text(
               'ジャンル',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
           ),
@@ -320,17 +320,17 @@ class BookInfoSection extends StatelessWidget {
                         vertical: AppSpacing.xs,
                       ),
                       decoration: BoxDecoration(
-                        color: appColors.primary.withOpacity(0.15),
+                        color: appColors.primaryLegacy.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: appColors.primary.withOpacity(0.4),
+                          color: appColors.primaryLegacy.withOpacity(0.4),
                           width: 1,
                         ),
                       ),
                       child: Text(
                         category,
                         style: theme.textTheme.labelMedium?.copyWith(
-                          color: appColors.primary,
+                          color: appColors.primaryLegacy,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -353,7 +353,7 @@ class BookInfoSection extends StatelessWidget {
         Text(
           _stripHtmlTags(bookDetail.description!),
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.extension<AppColors>()!.textSecondary,
+            color: theme.extension<AppColors>()!.textSecondaryLegacy,
           ),
         ),
       ],
@@ -443,10 +443,10 @@ class BookInfoSection extends StatelessWidget {
     final appColors = theme.extension<AppColors>()!;
 
     return Material(
-      color: appColors.surface,
+      color: appColors.surfaceLegacy,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: appColors.border),
+        side: BorderSide(color: appColors.borderLegacy),
       ),
       child: InkWell(
         onTap: onLinkTap != null ? () => onLinkTap!(url) : null,
@@ -458,7 +458,7 @@ class BookInfoSection extends StatelessWidget {
             children: [
               Text(label, style: theme.textTheme.labelLarge),
               const SizedBox(width: AppSpacing.xs),
-              Icon(Icons.open_in_new, size: 16, color: appColors.textSecondary),
+              Icon(Icons.open_in_new, size: 16, color: appColors.textSecondaryLegacy),
             ],
           ),
         ),
@@ -480,13 +480,13 @@ class _CoverPlaceholder extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: appColors.surfaceElevated,
+        color: appColors.surfaceElevatedLegacy,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
         Icons.book,
         size: height * 0.25,
-        color: appColors.textSecondary,
+        color: appColors.textSecondaryLegacy,
       ),
     );
   }

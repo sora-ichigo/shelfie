@@ -16,7 +16,7 @@ void main() {
 
       final icon = tester.widget<Icon>(find.byIcon(Icons.search_off));
       expect(icon.size, 64);
-      expect(icon.color, AppColors.dark.inactive);
+      expect(icon.color, AppColors.dark.inactiveLegacy);
     });
 
     testWidgets('タイトルが表示される', (tester) async {
@@ -25,7 +25,7 @@ void main() {
       );
 
       final text = tester.widget<Text>(find.text('検索結果がありません'));
-      expect(text.style?.color, AppColors.dark.textPrimary);
+      expect(text.style?.color, AppColors.dark.textPrimaryLegacy);
     });
 
     testWidgets('query を埋め込んだメッセージが表示される', (tester) async {
@@ -36,7 +36,7 @@ void main() {
       final text = tester.widget<Text>(
         find.text('「Flutter入門」に一致する書籍が見つかりませんでした。'),
       );
-      expect(text.style?.color, AppColors.dark.textSecondary);
+      expect(text.style?.color, AppColors.dark.textSecondaryLegacy);
     });
 
     testWidgets('アイコン→タイトル→メッセージの順に表示される', (tester) async {

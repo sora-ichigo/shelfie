@@ -20,7 +20,7 @@ void main() {
         find.byIcon(Icons.library_books_rounded),
       );
       expect(icon.size, 64);
-      expect(icon.color, AppColors.dark.textSecondary);
+      expect(icon.color, AppColors.dark.textSecondaryLegacy);
     });
 
     testWidgets('タイトルが表示される', (tester) async {

@@ -23,7 +23,7 @@ Future<void> showShelfSearchBottomSheet({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _ShelfSearchBottomSheetContent(
       onBookTap: onBookTap,
       onBookLongPress: onBookLongPress,
@@ -115,7 +115,7 @@ class _ShelfSearchBottomSheetContentState
               )
             : null,
         filled: true,
-        fillColor: theme.extension<AppColors>()!.surfaceElevated,
+        fillColor: theme.extension<AppColors>()!.surfaceElevatedLegacy,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSpacing.sm),
           borderSide: BorderSide.none,
@@ -138,7 +138,7 @@ class _ShelfSearchBottomSheetContentState
           child: Text(
             'タイトルや著者名で検索できます',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
         ),
@@ -149,7 +149,7 @@ class _ShelfSearchBottomSheetContentState
           child: Text(
             'エラーが発生しました',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.destructive,
+              color: appColors.destructiveLegacy,
             ),
           ),
         ),
@@ -162,13 +162,13 @@ class _ShelfSearchBottomSheetContentState
                     Icon(
                       Icons.search_off,
                       size: 48,
-                      color: appColors.textSecondary,
+                      color: appColors.textSecondaryLegacy,
                     ),
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       '本が見つかりません',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: appColors.textSecondary,
+                        color: appColors.textSecondaryLegacy,
                       ),
                     ),
                   ],
@@ -261,14 +261,14 @@ class _SearchResultItem extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: theme.textTheme.bodySmall?.copyWith(
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
       trailing: onLongPress != null
           ? IconButton(
               icon: Icon(
                 Icons.more_vert,
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
               onPressed: onLongPress,
               visualDensity: VisualDensity.compact,
@@ -300,12 +300,12 @@ class _SearchResultItem extends StatelessWidget {
       width: _imageWidth,
       height: _imageHeight,
       decoration: BoxDecoration(
-        color: appColors.surfaceElevated,
+        color: appColors.surfaceElevatedLegacy,
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,
-        color: appColors.textSecondary,
+        color: appColors.textSecondaryLegacy,
       ),
     );
   }

@@ -24,13 +24,13 @@ class WelcomeBackground extends StatelessWidget {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return ColoredBox(
-                  color: appColors.background,
+                  color: appColors.backgroundLegacy,
                 );
               },
             ),
           ),
           ColoredBox(
-            color: appColors.overlay.withOpacity(0.54),
+            color: appColors.overlayLegacy.withOpacity(0.54),
           ),
         ],
       ),

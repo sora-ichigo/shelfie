@@ -55,7 +55,7 @@ class ErrorView extends StatelessWidget {
           Text(
             failure.userMessage,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             textAlign: centered ? TextAlign.center : TextAlign.start,
           ),
@@ -88,14 +88,14 @@ class ErrorView extends StatelessWidget {
 
   Color _getIconColor(ThemeData theme, AppColors appColors) {
     return failure.when(
-      network: (_) => appColors.warning,
-      server: (_, __, ___) => appColors.destructive,
-      auth: (_) => appColors.warning,
-      validation: (_, __) => appColors.warning,
-      unexpected: (_, __) => appColors.destructive,
-      notFound: (_) => appColors.warning,
-      forbidden: (_) => appColors.destructive,
-      duplicateBook: (_) => appColors.info,
+      network: (_) => appColors.warningLegacy,
+      server: (_, __, ___) => appColors.destructiveLegacy,
+      auth: (_) => appColors.warningLegacy,
+      validation: (_, __) => appColors.warningLegacy,
+      unexpected: (_, __) => appColors.destructiveLegacy,
+      notFound: (_) => appColors.warningLegacy,
+      forbidden: (_) => appColors.destructiveLegacy,
+      duplicateBook: (_) => appColors.infoLegacy,
     );
   }
 }

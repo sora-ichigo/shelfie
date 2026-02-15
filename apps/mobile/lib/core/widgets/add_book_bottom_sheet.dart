@@ -14,7 +14,7 @@ Future<AddBookOption?> showAddBookBottomSheet({
   return showModalBottomSheet<AddBookOption>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _AddBookBottomSheetContent(
       onSearchSelected: () {
         Navigator.pop(context, AddBookOption.search);
@@ -81,7 +81,7 @@ class _OptionTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
-      tileColor: colors?.surface,
+      tileColor: colors?.surfaceLegacy,
     );
   }
 }

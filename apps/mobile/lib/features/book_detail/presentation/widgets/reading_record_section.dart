@@ -126,17 +126,17 @@ class ReadingRecordSection extends StatelessWidget {
 
     final border = switch (position) {
       _RowPosition.first || _RowPosition.middle => Border(
-        left: BorderSide(color: appColors.border),
-        right: BorderSide(color: appColors.border),
-        top: BorderSide(color: appColors.border),
+        left: BorderSide(color: appColors.borderLegacy),
+        right: BorderSide(color: appColors.borderLegacy),
+        top: BorderSide(color: appColors.borderLegacy),
       ),
-      _RowPosition.last => Border.all(color: appColors.border),
+      _RowPosition.last => Border.all(color: appColors.borderLegacy),
     };
 
     final content = Container(
       padding: AppSpacing.all(AppSpacing.sm),
       decoration: BoxDecoration(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
         borderRadius: borderRadius,
         border: border,
       ),
@@ -146,7 +146,7 @@ class ReadingRecordSection extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
           Row(
@@ -157,7 +157,7 @@ class ReadingRecordSection extends StatelessWidget {
                 Text(value, style: theme.textTheme.bodyMedium),
               if (onTap != null && showChevron) ...[
                 const SizedBox(width: AppSpacing.xs),
-                Icon(Icons.chevron_right, color: appColors.textSecondary),
+                Icon(Icons.chevron_right, color: appColors.textSecondaryLegacy),
               ],
             ],
           ),
@@ -200,7 +200,7 @@ class ReadingRecordSection extends StatelessWidget {
       return Text(
         '未評価',
         style: theme.textTheme.bodyMedium?.copyWith(
-          color: appColors.textSecondary.withOpacity(0.6),
+          color: appColors.textSecondaryLegacy.withOpacity(0.6),
         ),
       );
     }
@@ -212,7 +212,7 @@ class ReadingRecordSection extends StatelessWidget {
         return Icon(
           isFilled ? Icons.star_rounded : Icons.star_border_rounded,
           size: 18,
-          color: isFilled ? appColors.star : appColors.inactive,
+          color: isFilled ? appColors.starLegacy : appColors.inactiveLegacy,
         );
       }),
     );
@@ -224,7 +224,7 @@ class ReadingRecordSection extends StatelessWidget {
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: appColors.surface,
+      backgroundColor: appColors.surfaceLegacy,
       builder: (context) => _DatePickerSheet(
         title: '読了日を変更',
         initialDate: initialDate,
@@ -245,7 +245,7 @@ class ReadingRecordSection extends StatelessWidget {
     final selectedDate = await showModalBottomSheet<DateTime>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: appColorsForPicker.surface,
+      backgroundColor: appColorsForPicker.surfaceLegacy,
       builder: (context) => _DatePickerSheet(
         title: shelfEntry.startedAt != null ? '読書開始日を変更' : '読書開始日を設定',
         initialDate: initialDate,
@@ -321,8 +321,8 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: appColors.textPrimary.withOpacity(0.1),
-                      foregroundColor: appColors.textPrimary,
+                      backgroundColor: appColors.textPrimaryLegacy.withOpacity(0.1),
+                      foregroundColor: appColors.textPrimaryLegacy,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AppRadius.lg),
                       ),
@@ -337,7 +337,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                   height: 48,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: appColors.primary,
+                      color: appColors.primaryLegacy,
                       borderRadius: BorderRadius.circular(AppRadius.lg),
                     ),
                     child: ElevatedButton(
@@ -345,7 +345,7 @@ class _DatePickerSheetState extends State<_DatePickerSheet> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        foregroundColor: appColors.textPrimary,
+                        foregroundColor: appColors.textPrimaryLegacy,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.lg),
                         ),

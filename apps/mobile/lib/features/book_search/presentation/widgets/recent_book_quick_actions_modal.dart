@@ -26,7 +26,7 @@ Future<void> showRecentBookQuickActionsModal({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _RecentBookQuickActionsModalContent(
       book: book,
       onAddToShelf: onAddToShelf,
@@ -60,7 +60,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
         children: [
           _buildBookInfo(theme, appColors),
           const SizedBox(height: AppSpacing.lg),
-          Divider(color: appColors.border),
+          Divider(color: appColors.borderLegacy),
           const SizedBox(height: AppSpacing.sm),
           if (isInShelf)
             _buildRemoveAction(context, theme, appColors)
@@ -110,7 +110,7 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
             ],
@@ -122,12 +122,12 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.surfaceElevated,
+      color: appColors.surfaceElevatedLegacy,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );
@@ -154,14 +154,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.add_circle_outline,
-              color: appColors.textPrimary,
+              color: appColors.textPrimaryLegacy,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリに追加',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.textPrimary,
+                color: appColors.textPrimaryLegacy,
               ),
             ),
           ],
@@ -191,14 +191,14 @@ class _RecentBookQuickActionsModalContent extends ConsumerWidget {
           children: [
             Icon(
               Icons.delete_outline,
-              color: appColors.destructive,
+              color: appColors.destructiveLegacy,
               size: AppIconSize.base,
             ),
             const SizedBox(width: AppSpacing.md),
             Text(
               'マイライブラリから削除',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.destructive,
+                color: appColors.destructiveLegacy,
               ),
             ),
           ],

@@ -63,9 +63,9 @@ class ProfileBookCard extends ConsumerWidget {
 
   Widget _buildPlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.surfaceElevated,
+      color: appColors.surfaceElevatedLegacy,
       child: Center(
-        child: Icon(Icons.book, size: 32, color: appColors.textSecondary),
+        child: Icon(Icons.book, size: 32, color: appColors.textSecondaryLegacy),
       ),
     );
   }
@@ -78,7 +78,7 @@ class ProfileBookCard extends ConsumerWidget {
         return Icon(
           Icons.star_rounded,
           size: 18,
-          color: isFilled ? appColors.star : appColors.inactive,
+          color: isFilled ? appColors.starLegacy : appColors.inactiveLegacy,
         );
       }),
     );

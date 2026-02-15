@@ -161,7 +161,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             ),
             if (isLoading)
               ColoredBox(
-                color: appColors.overlay.withOpacity(0.3),
+                color: appColors.overlayLegacy.withOpacity(0.3),
                 child: const LoadingIndicator(fullScreen: true),
               ),
           ],

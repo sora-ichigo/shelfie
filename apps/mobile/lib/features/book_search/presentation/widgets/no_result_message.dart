@@ -21,13 +21,13 @@ class NoResultMessage extends StatelessWidget {
             Icon(
               Icons.search_off,
               size: 64,
-              color: appColors.inactive,
+              color: appColors.inactiveLegacy,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               '検索結果がありません',
               style: theme.textTheme.titleLarge?.copyWith(
-                color: appColors.textPrimary,
+                color: appColors.textPrimaryLegacy,
               ),
               textAlign: TextAlign.center,
             ),
@@ -35,7 +35,7 @@ class NoResultMessage extends StatelessWidget {
             Text(
               '「$query」に一致する書籍が見つかりませんでした。',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
               textAlign: TextAlign.center,
             ),

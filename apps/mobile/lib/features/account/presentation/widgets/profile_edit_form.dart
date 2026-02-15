@@ -115,7 +115,7 @@ class ProfileEditForm extends StatelessWidget {
         Text(
           'アカウントのメールアドレスは変更できません',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary,
+            color: colors?.textSecondaryLegacy,
           ),
         ),
       ],

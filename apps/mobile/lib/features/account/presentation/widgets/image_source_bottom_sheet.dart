@@ -13,7 +13,7 @@ Future<void> showImageSourceBottomSheet({
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _ImageSourceBottomSheetContent(
       onCameraSelected: () {
         Navigator.pop(context);
@@ -83,7 +83,7 @@ class _OptionTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSpacing.sm),
       ),
-      tileColor: colors?.surface,
+      tileColor: colors?.surfaceLegacy,
     );
   }
 }

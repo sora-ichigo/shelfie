@@ -133,7 +133,7 @@ void main() {
     group('scaffoldBackgroundColor', () {
       test('scaffoldBackgroundColor はブランド背景色である', () {
         final theme = AppTheme.dark();
-        expect(theme.scaffoldBackgroundColor, equals(AppColors.dark.background));
+        expect(theme.scaffoldBackgroundColor, equals(AppColors.dark.backgroundLegacy));
       });
     });
 
@@ -179,9 +179,9 @@ void main() {
               builder: (context) {
                 final appColors = Theme.of(context).extension<AppColors>();
                 expect(appColors, isNotNull);
-                expect(appColors!.success, isA<Color>());
-                expect(appColors.warning, isA<Color>());
-                expect(appColors.info, isA<Color>());
+                expect(appColors!.successLegacy, isA<Color>());
+                expect(appColors.warningLegacy, isA<Color>());
+                expect(appColors.infoLegacy, isA<Color>());
                 return const SizedBox();
               },
             ),
@@ -209,46 +209,46 @@ void main() {
       test('AppColors.lerp が正しく動作すること', () {
         const base = AppColors.dark;
         final target = base.copyWith(
-          success: const Color(0xFF00FF00),
-          warning: const Color(0xFFFF0000),
-          info: const Color(0xFF0000FF),
+          successLegacy: const Color(0xFF00FF00),
+          warningLegacy: const Color(0xFFFF0000),
+          infoLegacy: const Color(0xFF0000FF),
         );
 
         final mid = base.lerp(target, 0.5);
 
         expect(mid, isA<AppColors>());
-        expect(mid.success, isNot(equals(base.success)));
-        expect(mid.success, isNot(equals(target.success)));
+        expect(mid.successLegacy, isNot(equals(base.successLegacy)));
+        expect(mid.successLegacy, isNot(equals(target.successLegacy)));
       });
 
       test('lerp(0.0) は元の値を返すこと', () {
         const base = AppColors.dark;
         final target = base.copyWith(
-          success: const Color(0xFF00FF00),
-          warning: const Color(0xFFFF0000),
-          info: const Color(0xFF0000FF),
+          successLegacy: const Color(0xFF00FF00),
+          warningLegacy: const Color(0xFFFF0000),
+          infoLegacy: const Color(0xFF0000FF),
         );
 
         final result = base.lerp(target, 0.0);
 
-        expect(result.success, equals(base.success));
-        expect(result.warning, equals(base.warning));
-        expect(result.info, equals(base.info));
+        expect(result.successLegacy, equals(base.successLegacy));
+        expect(result.warningLegacy, equals(base.warningLegacy));
+        expect(result.infoLegacy, equals(base.infoLegacy));
       });
 
       test('lerp(1.0) は対象の値を返すこと', () {
         const base = AppColors.dark;
         final target = base.copyWith(
-          success: const Color(0xFF00FF00),
-          warning: const Color(0xFFFF0000),
-          info: const Color(0xFF0000FF),
+          successLegacy: const Color(0xFF00FF00),
+          warningLegacy: const Color(0xFFFF0000),
+          infoLegacy: const Color(0xFF0000FF),
         );
 
         final result = base.lerp(target, 1.0);
 
-        expect(result.success, equals(target.success));
-        expect(result.warning, equals(target.warning));
-        expect(result.info, equals(target.info));
+        expect(result.successLegacy, equals(target.successLegacy));
+        expect(result.warningLegacy, equals(target.warningLegacy));
+        expect(result.infoLegacy, equals(target.infoLegacy));
       });
     });
   });

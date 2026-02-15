@@ -230,13 +230,13 @@ class _LogoutButton extends StatelessWidget {
       child: ElevatedButton.icon(
         onPressed: onLogout,
         style: ElevatedButton.styleFrom(
-          backgroundColor: appColors.textPrimary.withOpacity(0.1),
-          foregroundColor: appColors.textPrimary,
+          backgroundColor: appColors.textPrimaryLegacy.withOpacity(0.1),
+          foregroundColor: appColors.textPrimaryLegacy,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: Icon(Icons.logout, size: 20, color: appColors.textPrimary),
+        icon: Icon(Icons.logout, size: 20, color: appColors.textPrimaryLegacy),
         label: const Text('ログアウト'),
       ),
     );
@@ -258,7 +258,7 @@ class _DeleteAccountButton extends StatelessWidget {
       child: TextButton(
         onPressed: onDeleteAccount,
         style: TextButton.styleFrom(
-          foregroundColor: appColors.destructive,
+          foregroundColor: appColors.destructiveLegacy,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -305,14 +305,14 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
           Text(
             'Shelfie $_version',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
             'Shelfie',
             style: theme.textTheme.headlineMedium?.copyWith(
-              color: appColors.primary,
+              color: appColors.primaryLegacy,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -320,14 +320,14 @@ class _AppInfoFooterState extends State<_AppInfoFooter> {
           Text(
             '読書家のための本棚',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
             '© ${DateTime.now().year} sora ichigo',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
         ],

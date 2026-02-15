@@ -16,7 +16,7 @@ Future<void> showProfileShareBottomSheet({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _ProfileShareBottomSheetContent(shareUrl: shareUrl),
   );
 }
@@ -51,8 +51,8 @@ class _ProfileShareBottomSheetContent extends StatelessWidget {
                     );
                   }
                 },
-                backgroundColor: appColors.surfaceElevated,
-                foregroundColor: appColors.textPrimary,
+                backgroundColor: appColors.surfaceElevatedLegacy,
+                foregroundColor: appColors.textPrimaryLegacy,
               ),
               const SizedBox(width: AppSpacing.lg),
               _ActionIcon(
@@ -68,8 +68,8 @@ class _ProfileShareBottomSheetContent extends StatelessWidget {
                     sharePositionOrigin: sharePositionOrigin,
                   );
                 },
-                backgroundColor: appColors.surfaceElevated,
-                foregroundColor: appColors.textPrimary,
+                backgroundColor: appColors.surfaceElevatedLegacy,
+                foregroundColor: appColors.textPrimaryLegacy,
               ),
             ],
           ),
@@ -125,7 +125,7 @@ class _ActionIcon extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
               fontSize: 11,
             ),
           ),

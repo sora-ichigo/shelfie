@@ -26,7 +26,7 @@ Future<void> showShareCardBottomSheet({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: Theme.of(context).extension<AppColors>()!.surface,
+    backgroundColor: Theme.of(context).extension<AppColors>()!.surfaceLegacy,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -92,7 +92,7 @@ class _ShareCardBottomSheetState extends ConsumerState<_ShareCardBottomSheet> {
                   ),
                   if (_isProcessing)
                     Positioned.fill(
-                      child: ColoredBox(color: appColors.overlay.withOpacity(0.3)),
+                      child: ColoredBox(color: appColors.overlayLegacy.withOpacity(0.3)),
                     ),
                 ],
               ),
@@ -328,14 +328,14 @@ class _StyleSelector extends StatelessWidget {
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.card,
           onTap: () => onStyleChanged(ShareCardStyle.card),
-          color: accentColor ?? appColors.surface,
+          color: accentColor ?? appColors.surfaceLegacy,
           hasInnerCircle: true,
         ),
         const SizedBox(width: AppSpacing.sm),
         _StyleButton(
           isSelected: selectedStyle == ShareCardStyle.simple,
           onTap: () => onStyleChanged(ShareCardStyle.simple),
-          color: accentColor ?? appColors.surface,
+          color: accentColor ?? appColors.surfaceLegacy,
         ),
       ],
     );
@@ -365,7 +365,7 @@ class _StyleButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: isSelected
-              ? Border.all(color: Theme.of(context).extension<AppColors>()!.textPrimary, width: 2.5)
+              ? Border.all(color: Theme.of(context).extension<AppColors>()!.textPrimaryLegacy, width: 2.5)
               : null,
         ),
         child: Container(
@@ -377,7 +377,7 @@ class _StyleButton extends StatelessWidget {
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
-                      color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.4),
+                      color: Theme.of(context).extension<AppColors>()!.overlayLegacy.withOpacity(0.4),
                     ),
                   ),
                 )
@@ -464,8 +464,8 @@ class _ActionBar extends StatelessWidget {
           label: '画像を保存',
           isLoading: isSaving,
           onPressed: onSave,
-          backgroundColor: appColors.surfaceElevated,
-          foregroundColor: appColors.textPrimary,
+          backgroundColor: appColors.surfaceElevatedLegacy,
+          foregroundColor: appColors.textPrimaryLegacy,
         ),
         const SizedBox(width: AppSpacing.lg),
         _ActionIcon(
@@ -473,8 +473,8 @@ class _ActionBar extends StatelessWidget {
           label: 'さらに見る',
           isLoading: isSharingOther,
           onPressed: onShareOther,
-          backgroundColor: appColors.surfaceElevated,
-          foregroundColor: appColors.textPrimary,
+          backgroundColor: appColors.surfaceElevatedLegacy,
+          foregroundColor: appColors.textPrimaryLegacy,
         ),
       ],
     );
@@ -548,7 +548,7 @@ class _ActionIcon extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.extension<AppColors>()!.textSecondary,
+                color: theme.extension<AppColors>()!.textSecondaryLegacy,
                 fontSize: 11,
               ),
             ),

@@ -38,11 +38,11 @@ class RegistrationHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: appColors.primary,
+                backgroundColor: appColors.primaryLegacy,
                 child: Icon(
                   Icons.email_outlined,
                   size: 40,
-                  color: appColors.background,
+                  color: appColors.backgroundLegacy,
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -56,7 +56,7 @@ class RegistrationHeader extends StatelessWidget {
               Text(
                 'アカウントを作成して始めましょう',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
               if (onLoginPressed != null) ...[
@@ -64,8 +64,8 @@ class RegistrationHeader extends StatelessWidget {
                 _LoginLink(
                   onTap: onLoginPressed!,
                   textStyle: theme.textTheme.bodyMedium,
-                  mutedColor: appColors.textSecondary,
-                  accentColor: appColors.primary,
+                  mutedColor: appColors.textSecondaryLegacy,
+                  accentColor: appColors.primaryLegacy,
                 ),
               ],
             ],
@@ -112,10 +112,10 @@ class _LoginLinkState extends State<_LoginLink> {
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
     final baseStyle = widget.textStyle?.copyWith(
-      color: widget.mutedColor ?? appColors.textSecondary,
+      color: widget.mutedColor ?? appColors.textSecondaryLegacy,
     );
     final linkStyle = widget.textStyle?.copyWith(
-      color: widget.accentColor ?? appColors.primary,
+      color: widget.accentColor ?? appColors.primaryLegacy,
     );
 
     return RichText(

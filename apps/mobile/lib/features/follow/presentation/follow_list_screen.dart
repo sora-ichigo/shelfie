@@ -97,12 +97,12 @@ class _FollowListScreenState extends ConsumerState<FollowListScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.error_outline, size: 48, color: appColors.textSecondary),
+          Icon(Icons.error_outline, size: 48, color: appColors.textSecondaryLegacy),
           const SizedBox(height: AppSpacing.sm),
           Text(
             'エラーが発生しました',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -125,7 +125,7 @@ class _FollowListScreenState extends ConsumerState<FollowListScreen> {
       child: Text(
         _emptyMessage,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
       ),
     );
@@ -181,7 +181,7 @@ class _UserListItem extends StatelessWidget {
                     Text(
                       '@${user.handle}',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: appColors.textSecondary,
+                        color: appColors.textSecondaryLegacy,
                       ),
                     ),
                 ],
