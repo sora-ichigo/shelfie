@@ -198,6 +198,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   ) {
     return ListView.builder(
       controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       itemCount: notifications.length,
       itemBuilder: (context, index) {
         final notification = notifications[index];
