@@ -26,7 +26,7 @@ class NotificationListNotifier extends _$NotificationListNotifier {
 
   Future<void> refresh() async {
     _items = [];
-    _hasMore = true;
+    _hasMore = false;
     _hasMarkedAsRead = false;
 
     final repo = ref.read(notificationRepositoryProvider);
