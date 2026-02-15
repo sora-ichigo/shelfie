@@ -25,7 +25,9 @@ export const notifications = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").notNull(),
     isRead: boolean("is_read").notNull().default(false),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (table) => [
     index(NOTIFICATIONS_RECIPIENT_READ_INDEX_NAME).on(
