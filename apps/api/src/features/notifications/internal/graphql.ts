@@ -207,13 +207,16 @@ export function registerNotificationMutations(
   userService: UserService,
 ): void {
   builder.mutationFields((t) => ({
-    markNotificationsAsRead: t.boolean({
+    markNotificationAsRead: t.boolean({
       authScopes: {
         loggedIn: true,
       },
-      resolve: async (_parent, _args, context) => {
+      args: {
+        notificationId: t.arg.int({ required: true }),
+      },
+      resolve: async (_parent, { notificationId }, context) => {
         const userId = await resolveUserId(context, userService);
-        await notificationService.markAllAsRead(userId);
+        await notificationService.markAsRead(notificationId, userId);
         return true;
       },
     }),

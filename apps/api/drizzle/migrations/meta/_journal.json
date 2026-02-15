@@ -113,6 +113,13 @@
       "when": 1771024800000,
       "tag": "0015_follows_directional_model",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1739588400000,
+      "tag": "0016_notifications-timestamp-with-timezone",
+      "breakpoints": true
     }
   ]
 }

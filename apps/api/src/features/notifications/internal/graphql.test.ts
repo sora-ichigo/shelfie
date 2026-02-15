@@ -35,7 +35,7 @@ function createMockService(): NotificationAppService {
     createNotification: vi.fn(),
     getNotifications: vi.fn(),
     getUnreadCount: vi.fn(),
-    markAllAsRead: vi.fn(),
+    markAsRead: vi.fn(),
     deleteNotification: vi.fn(),
   };
 }
@@ -226,12 +226,23 @@ describe("Notification GraphQL Types", () => {
   });
 
   describe("Mutations", () => {
-    it("should register markNotificationsAsRead mutation", () => {
+    it("should register markNotificationAsRead mutation", () => {
       const schema = buildTestSchema();
       const mutationType = schema.getMutationType();
       const fields = mutationType?.getFields();
 
-      expect(fields?.markNotificationsAsRead).toBeDefined();
+      expect(fields?.markNotificationAsRead).toBeDefined();
+    });
+
+    it("markNotificationAsRead should have notificationId arg as Int!", () => {
+      const schema = buildTestSchema();
+      const mutationType = schema.getMutationType();
+      const field = mutationType?.getFields().markNotificationAsRead;
+      const args = field?.args;
+      const notificationIdArg = args?.find((a) => a.name === "notificationId");
+
+      expect(notificationIdArg).toBeDefined();
+      expect(notificationIdArg?.type.toString()).toBe("Int!");
     });
   });
 });

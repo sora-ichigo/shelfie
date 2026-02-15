@@ -10,14 +10,12 @@ class NotificationListNotifier extends _$NotificationListNotifier {
   List<NotificationModel> _items = [];
   bool _hasMore = true;
   bool _isLoadingMore = false;
-  bool _hasMarkedAsRead = false;
 
   @override
   AsyncValue<List<NotificationModel>> build() {
     _items = [];
     _hasMore = true;
     _isLoadingMore = false;
-    _hasMarkedAsRead = false;
     return const AsyncLoading();
   }
 
@@ -27,7 +25,6 @@ class NotificationListNotifier extends _$NotificationListNotifier {
   Future<void> refresh() async {
     _items = [];
     _hasMore = false;
-    _hasMarkedAsRead = false;
 
     final repo = ref.read(notificationRepositoryProvider);
     final result = await repo.getNotifications(limit: _pageSize);
@@ -46,7 +43,6 @@ class NotificationListNotifier extends _$NotificationListNotifier {
     state = const AsyncLoading();
     _items = [];
     _hasMore = true;
-    _hasMarkedAsRead = false;
 
     final repo = ref.read(notificationRepositoryProvider);
     final result = await repo.getNotifications(limit: _pageSize);
@@ -84,11 +80,23 @@ class NotificationListNotifier extends _$NotificationListNotifier {
     _isLoadingMore = false;
   }
 
-  Future<void> markAsRead() async {
-    if (_hasMarkedAsRead) return;
-    _hasMarkedAsRead = true;
+  void removeNotification(int notificationId) {
+    _items = _items.where((n) => n.id != notificationId).toList();
+    state = AsyncData(List.unmodifiable(_items));
+  }
+
+  Future<void> markAsReadById(int notificationId) async {
+    final index = _items.indexWhere((n) => n.id == notificationId);
+    if (index != -1 && !_items[index].isRead) {
+      _items = [
+        ..._items.sublist(0, index),
+        _items[index].copyWith(isRead: true),
+        ..._items.sublist(index + 1),
+      ];
+      state = AsyncData(List.unmodifiable(_items));
+    }
 
     final repo = ref.read(notificationRepositoryProvider);
-    await repo.markAllAsRead();
+    await repo.markAsRead(notificationId);
   }
 }

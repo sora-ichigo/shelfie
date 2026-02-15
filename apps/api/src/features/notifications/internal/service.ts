@@ -41,7 +41,7 @@ export interface NotificationAppService {
     limit: number,
   ): Promise<NotificationWithSender[]>;
   getUnreadCount(recipientId: number): Promise<number>;
-  markAllAsRead(recipientId: number): Promise<void>;
+  markAsRead(notificationId: number, recipientId: number): Promise<void>;
   deleteNotification(input: DeleteNotificationInput): Promise<void>;
 }
 
@@ -87,8 +87,11 @@ export function createNotificationAppService(
       return repository.countUnreadByRecipient(recipientId);
     },
 
-    async markAllAsRead(recipientId: number): Promise<void> {
-      return repository.markAsReadByRecipient(recipientId);
+    async markAsRead(
+      notificationId: number,
+      recipientId: number,
+    ): Promise<void> {
+      return repository.markAsReadById(notificationId, recipientId);
     },
 
     async deleteNotification(input: DeleteNotificationInput): Promise<void> {

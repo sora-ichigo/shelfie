@@ -122,6 +122,10 @@ export function createFollowService(
         });
       }
 
+      if (existingRequest) {
+        await repository.deleteRequest(existingRequest.id);
+      }
+
       const request = await repository.createRequest({
         senderId,
         receiverId,
@@ -205,11 +209,23 @@ export function createFollowService(
         return validation;
       }
 
-      const updatedRequest = await repository.updateRequestStatus(
-        requestId,
-        "rejected",
-      );
-      return ok(updatedRequest);
+      await repository.deleteRequest(requestId);
+
+      notificationAppService
+        .deleteNotification({
+          senderId: validation.data.senderId,
+          recipientId: userId,
+          type: "follow_request_received",
+        })
+        .catch((error) => {
+          logger.error(
+            "Failed to delete app notification for rejected follow request",
+            error instanceof Error ? error : undefined,
+            { requestId: String(requestId), userId: String(userId) },
+          );
+        });
+
+      return ok({ ...validation.data, status: "rejected" });
     },
 
     async unfollow(

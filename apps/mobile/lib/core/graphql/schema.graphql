@@ -429,7 +429,9 @@ type Mutation {
 
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
-  markNotificationsAsRead: Boolean
+
+  """Mark a specific notification as read"""
+  markNotificationAsRead(notificationId: Int!): Boolean
 
   """Refresh ID token using refresh token"""
   refreshToken(input: RefreshTokenInput!): MutationRefreshTokenResult
