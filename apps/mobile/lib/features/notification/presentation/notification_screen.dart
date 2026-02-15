@@ -76,6 +76,14 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     }
   }
 
+  Future<void> _onRefresh() async {
+    final notifier = ref.read(notificationListNotifierProvider.notifier);
+    await notifier.refresh();
+    if (!mounted) return;
+    final state = ref.read(notificationListNotifierProvider);
+    state.whenData(_registerFollowStates);
+  }
+
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
@@ -132,7 +140,18 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         ),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return _buildEmptyState(theme, appColors);
+            return CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              slivers: [
+                CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _buildEmptyState(theme, appColors),
+                ),
+              ],
+            );
           }
           return _buildNotificationList(
             notifications,
@@ -173,59 +192,67 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     ThemeData theme,
     AppColors appColors,
   ) {
-    return ListView.builder(
+    return CustomScrollView(
       controller: _scrollController,
-      itemCount: notifications.length,
-      itemBuilder: (context, index) {
-        final notification = notifications[index];
-        final status = followState[notification.sender.id];
-        final displayStatus = _deriveDisplayStatus(
-          status ??
-              (
-                outgoing: notification.outgoingFollowStatus,
-                incoming: notification.incomingFollowStatus,
-              ),
-        );
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      slivers: [
+        CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+        SliverList.builder(
+          itemCount: notifications.length,
+          itemBuilder: (context, index) {
+            final notification = notifications[index];
+            final status = followState[notification.sender.id];
+            final displayStatus = _deriveDisplayStatus(
+              status ??
+                  (
+                    outgoing: notification.outgoingFollowStatus,
+                    incoming: notification.incomingFollowStatus,
+                  ),
+            );
 
-        return _NotificationTile(
-          notification: notification,
-          displayStatus: displayStatus,
-          onTap: () {
-            ref
-                .read(notificationListNotifierProvider.notifier)
-                .markAsReadById(notification.id);
-            final handle = notification.sender.handle;
-            if (handle != null) {
-              context.push(AppRoutes.userProfile(handle: handle));
-            }
+            return _NotificationTile(
+              notification: notification,
+              displayStatus: displayStatus,
+              onTap: () {
+                ref
+                    .read(notificationListNotifierProvider.notifier)
+                    .markAsReadById(notification.id);
+                final handle = notification.sender.handle;
+                if (handle != null) {
+                  context.push(AppRoutes.userProfile(handle: handle));
+                }
+              },
+              onApprove: notification.followRequestId != null
+                  ? () {
+                      ref
+                          .read(notificationListNotifierProvider.notifier)
+                          .markAsReadById(notification.id);
+                      ref.read(followStateProvider.notifier).approveRequest(
+                            userId: notification.sender.id,
+                            requestId: notification.followRequestId!,
+                          );
+                    }
+                  : null,
+              onReject: notification.followRequestId != null
+                  ? () {
+                      ref
+                          .read(notificationListNotifierProvider.notifier)
+                          .markAsReadById(notification.id);
+                      ref.read(followStateProvider.notifier).rejectRequest(
+                            userId: notification.sender.id,
+                            requestId: notification.followRequestId!,
+                          );
+                      ref
+                          .read(notificationListNotifierProvider.notifier)
+                          .removeNotification(notification.id);
+                    }
+                  : null,
+            );
           },
-          onApprove: notification.followRequestId != null
-              ? () {
-                  ref
-                      .read(notificationListNotifierProvider.notifier)
-                      .markAsReadById(notification.id);
-                  ref.read(followStateProvider.notifier).approveRequest(
-                        userId: notification.sender.id,
-                        requestId: notification.followRequestId!,
-                      );
-                }
-              : null,
-          onReject: notification.followRequestId != null
-              ? () {
-                  ref
-                      .read(notificationListNotifierProvider.notifier)
-                      .markAsReadById(notification.id);
-                  ref.read(followStateProvider.notifier).rejectRequest(
-                        userId: notification.sender.id,
-                        requestId: notification.followRequestId!,
-                      );
-                  ref
-                      .read(notificationListNotifierProvider.notifier)
-                      .removeNotification(notification.id);
-                }
-              : null,
-        );
-      },
+        ),
+      ],
     );
   }
 

@@ -15,6 +15,10 @@ class ReadingStatusCountsNotifier extends _$ReadingStatusCountsNotifier {
     return {};
   }
 
+  Future<void> refresh() async {
+    await _loadCounts();
+  }
+
   Future<void> _loadCounts() async {
     final repository = ref.read(bookShelfRepositoryProvider);
 

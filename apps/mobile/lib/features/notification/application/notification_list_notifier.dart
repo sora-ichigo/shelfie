@@ -22,6 +22,23 @@ class NotificationListNotifier extends _$NotificationListNotifier {
   bool get hasMore => _hasMore;
   bool get isLoadingMore => _isLoadingMore;
 
+  Future<void> refresh() async {
+    _items = [];
+    _hasMore = false;
+
+    final repo = ref.read(notificationRepositoryProvider);
+    final result = await repo.getNotifications(limit: _pageSize);
+
+    result.fold(
+      (failure) => state = AsyncError(failure, StackTrace.current),
+      (notifications) {
+        _items = notifications;
+        _hasMore = notifications.length >= _pageSize;
+        state = AsyncData(List.unmodifiable(_items));
+      },
+    );
+  }
+
   Future<void> loadInitial() async {
     state = const AsyncLoading();
     _items = [];

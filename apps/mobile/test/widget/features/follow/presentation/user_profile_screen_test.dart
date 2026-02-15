@@ -534,7 +534,7 @@ void main() {
         expect(find.text('フォローすると見られます'), findsOneWidget);
       });
 
-      testWidgets('タブをスワイプで切り替えられる', (tester) async {
+      testWidgets('タブをタップで切り替えられる', (tester) async {
         fakeNotifier = FakeFollowStateNotifier();
         final profile = _createProfile(
           outgoingFollowStatus: FollowStatusType.following,
@@ -552,13 +552,8 @@ void main() {
 
         expect(find.text('まだ本が登録されていません'), findsOneWidget);
 
-        await tester.fling(
-          find.byType(TabBarView),
-          const Offset(-300, 0),
-          1000,
-        );
-        await tester.pump();
-        await tester.pump(const Duration(seconds: 1));
+        await tester.tap(find.text('ブックリスト'));
+        await tester.pumpAndSettle();
 
         expect(find.text('まだブックリストがありません'), findsOneWidget);
       });

@@ -80,6 +80,42 @@ class UserProfileBooksNotifier extends _$UserProfileBooksNotifier {
     await _fetchBooks(isLoadMore: true);
   }
 
+  Future<void> refresh() async {
+    _currentOffset = 0;
+    _allBooks = [];
+
+    final repository = ref.read(bookShelfRepositoryProvider);
+    final sortOption = ref.read(userProfileSortOptionNotifierProvider(userId));
+    final filter = state.selectedFilter;
+
+    final result = await repository.getUserShelf(
+      userId: userId,
+      readingStatus: filter != null ? _toGReadingStatus(filter) : null,
+      sortBy: sortOption.sortField,
+      sortOrder: sortOption.sortOrder,
+      limit: _pageSize,
+      offset: 0,
+    );
+
+    result.fold(
+      (failure) {
+        state = UserProfileBooksState(
+          selectedFilter: state.selectedFilter,
+          error: failure,
+        );
+      },
+      (shelfResult) {
+        _allBooks = shelfResult.items;
+        state = UserProfileBooksState(
+          books: _allBooks,
+          hasMore: shelfResult.hasMore,
+          totalCount: shelfResult.totalCount,
+          selectedFilter: state.selectedFilter,
+        );
+      },
+    );
+  }
+
   Future<void> setFilter(ReadingStatus? filter) async {
     if (state.selectedFilter == filter) return;
     _currentOffset = 0;
