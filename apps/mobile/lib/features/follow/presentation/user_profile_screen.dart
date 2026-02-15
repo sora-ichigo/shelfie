@@ -343,7 +343,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           child: FilledButton(
             onPressed: () => ref
                 .read(followStateProvider.notifier)
-                .sendFollowRequest(userId: _userId),
+                .sendFollowRequest(
+                    userId: _userId, isTargetPublic: _profile.isPublic),
             style: FilledButton.styleFrom(
               backgroundColor: appColors.primaryLegacy,
               foregroundColor: appColors.textPrimaryLegacy,

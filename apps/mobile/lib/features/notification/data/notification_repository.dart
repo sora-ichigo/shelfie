@@ -184,6 +184,7 @@ class NotificationRepository {
         NotificationType.followRequestReceived,
       GNotificationType.FOLLOW_REQUEST_APPROVED =>
         NotificationType.followRequestApproved,
+      GNotificationType.NEW_FOLLOWER => NotificationType.newFollower,
       _ => NotificationType.followRequestReceived,
     };
   }

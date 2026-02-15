@@ -29,7 +29,10 @@ class FakeFollowStateNotifier extends FollowState {
   Map<int, FollowDirectionalStatus> build() => {};
 
   @override
-  Future<void> sendFollowRequest({required int userId}) async {
+  Future<void> sendFollowRequest({
+    required int userId,
+    bool isTargetPublic = false,
+  }) async {
     sendFollowRequestCalled = true;
     lastUserId = userId;
   }

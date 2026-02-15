@@ -81,7 +81,10 @@ class FollowState extends _$FollowState {
     _operatingUsers.remove(userId);
   }
 
-  Future<void> sendFollowRequest({required int userId}) async {
+  Future<void> sendFollowRequest({
+    required int userId,
+    bool isTargetPublic = false,
+  }) async {
     final current = state[userId];
     if (current == null) return;
     if (_operatingUsers.contains(userId)) return;
@@ -90,7 +93,12 @@ class FollowState extends _$FollowState {
     final previous = current;
     state = {
       ...state,
-      userId: (outgoing: FollowStatusType.pendingSent, incoming: current.incoming),
+      userId: (
+        outgoing: isTargetPublic
+            ? FollowStatusType.following
+            : FollowStatusType.pendingSent,
+        incoming: current.incoming,
+      ),
     };
 
     final repo = ref.read(followRepositoryProvider);
