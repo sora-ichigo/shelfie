@@ -22,7 +22,7 @@ class NoBookListsMessage extends StatelessWidget {
             Icon(
               Icons.library_books_rounded,
               size: 64,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             const SizedBox(height: AppSpacing.md),
             Text('リストを作成してみましょう', style: theme.textTheme.titleMedium),
@@ -30,7 +30,7 @@ class NoBookListsMessage extends StatelessWidget {
             Text(
               'お気に入りの本をまとめて、\nリストを作りましょう',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
               textAlign: TextAlign.center,
             ),
@@ -38,8 +38,8 @@ class NoBookListsMessage extends StatelessWidget {
             FilledButton(
               onPressed: onCreateListPressed,
               style: FilledButton.styleFrom(
-                backgroundColor: appColors.textPrimary,
-                foregroundColor: appColors.background,
+                backgroundColor: appColors.textPrimaryLegacy,
+                foregroundColor: appColors.backgroundLegacy,
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 shape: RoundedRectangleBorder(
@@ -53,7 +53,7 @@ class NoBookListsMessage extends StatelessWidget {
               child: Text(
                 'リストを作成する',
                 style: theme.textTheme.labelLarge?.copyWith(
-                  color: appColors.background,
+                  color: appColors.backgroundLegacy,
                 ),
               ),
             ),

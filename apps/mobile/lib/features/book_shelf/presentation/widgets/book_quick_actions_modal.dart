@@ -35,7 +35,7 @@ Future<void> showBookQuickActionsModal({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _BookQuickActionsModalContent(
       book: book,
       shelfEntry: shelfEntry,
@@ -81,7 +81,7 @@ class _BookQuickActionsModalContentState
           const SizedBox(height: AppSpacing.lg),
           _buildRatingSection(theme, appColors, entry),
           const SizedBox(height: AppSpacing.md),
-          Divider(color: appColors.border),
+          Divider(color: appColors.borderLegacy),
           const SizedBox(height: AppSpacing.sm),
           _buildActionList(theme, appColors, entry),
         ],
@@ -140,7 +140,7 @@ class _BookQuickActionsModalContentState
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: appColors.textSecondary,
+                    color: appColors.textSecondaryLegacy,
                   ),
                 ),
               ],
@@ -153,12 +153,12 @@ class _BookQuickActionsModalContentState
 
   Widget _buildImagePlaceholder(AppColors appColors) {
     return ColoredBox(
-      color: appColors.surfaceElevated,
+      color: appColors.surfaceElevatedLegacy,
       child: Center(
         child: Icon(
           Icons.book,
           size: AppIconSize.base,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );
@@ -175,7 +175,7 @@ class _BookQuickActionsModalContentState
         Text(
           '読書状態',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -219,10 +219,10 @@ class _BookQuickActionsModalContentState
         decoration: BoxDecoration(
           color: isSelected
               ? statusColor.withOpacity(0.15)
-              : appColors.surface,
+              : appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
-            color: isSelected ? statusColor : appColors.border,
+            color: isSelected ? statusColor : appColors.borderLegacy,
           ),
         ),
         child: Center(
@@ -230,7 +230,7 @@ class _BookQuickActionsModalContentState
             status.displayName,
             style: theme.textTheme.labelSmall?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : appColors.textSecondary,
+              color: isSelected ? statusColor : appColors.textSecondaryLegacy,
             ),
           ),
         ),
@@ -278,7 +278,7 @@ class _BookQuickActionsModalContentState
         Text(
           '評価',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -297,8 +297,8 @@ class _BookQuickActionsModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: 32.0,
                   color: isSelected
-                      ? appColors.star
-                      : appColors.inactive,
+                      ? appColors.starLegacy
+                      : appColors.inactiveLegacy,
                 ),
               ),
             );
@@ -373,7 +373,7 @@ class _BookQuickActionsModalContentState
     required VoidCallback onTap,
     bool isDestructive = false,
   }) {
-    final color = isDestructive ? appColors.destructive : appColors.textPrimary;
+    final color = isDestructive ? appColors.destructiveLegacy : appColors.textPrimaryLegacy;
 
     return InkWell(
       onTap: _isUpdating ? null : onTap,

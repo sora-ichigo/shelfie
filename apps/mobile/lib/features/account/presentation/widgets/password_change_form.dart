@@ -43,7 +43,7 @@ class PasswordChangeForm extends ConsumerWidget {
           Text(
             '8文字以上、英字と数字を含む',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colors?.textSecondary,
+                  color: colors?.textSecondaryLegacy,
                 ),
           ),
         ],
@@ -62,7 +62,7 @@ class PasswordChangeForm extends ConsumerWidget {
         Text(
           'パスワードを変更すると、すべてのデバイスで再ログインが必要になります。',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: colors?.textSecondary,
+                color: colors?.textSecondaryLegacy,
               ),
         ),
       ],

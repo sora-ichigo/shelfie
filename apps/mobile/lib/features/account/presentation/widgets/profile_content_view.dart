@@ -154,12 +154,12 @@ class _ProfileContentViewState extends State<ProfileContentView> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 64, color: appColors.textSecondary),
+              Icon(icon, size: 64, color: appColors.textSecondaryLegacy),
               const SizedBox(height: AppSpacing.md),
               Text(
                 'フォローすると見られます',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
             ],
@@ -194,7 +194,7 @@ class _ProfileContentViewState extends State<ProfileContentView> {
           child: Center(
             child: Text(
               'まだ本が登録されていません',
-              style: TextStyle(color: appColors.textSecondary),
+              style: TextStyle(color: appColors.textSecondaryLegacy),
             ),
           ),
         )
@@ -251,7 +251,7 @@ class _ProfileContentViewState extends State<ProfileContentView> {
           child: Center(
             child: Text(
               'エラーが発生しました',
-              style: TextStyle(color: appColors.textSecondary),
+              style: TextStyle(color: appColors.textSecondaryLegacy),
             ),
           ),
         ),
@@ -274,7 +274,7 @@ class _ProfileContentViewState extends State<ProfileContentView> {
           child: Center(
             child: Text(
               'まだブックリストがありません',
-              style: TextStyle(color: appColors.textSecondary),
+              style: TextStyle(color: appColors.textSecondaryLegacy),
             ),
           ),
         ),
@@ -389,12 +389,12 @@ class _BookListGridItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.md),
               child: summary.coverImages.isEmpty
                   ? ColoredBox(
-                      color: appColors.surface,
+                      color: appColors.surfaceLegacy,
                       child: Center(
                         child: Icon(
                           Icons.collections_bookmark,
                           size: 32,
-                          color: appColors.textSecondary,
+                          color: appColors.textSecondaryLegacy,
                         ),
                       ),
                     )

@@ -21,7 +21,7 @@ class BookListCard extends StatelessWidget {
     final appColors = theme.extension<AppColors>()!;
 
     return Material(
-      color: appColors.surface,
+      color: appColors.surfaceLegacy,
       borderRadius: BorderRadius.circular(AppRadius.xl),
       child: InkWell(
         onTap: onTap,
@@ -76,7 +76,7 @@ class _CardContent extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: appColors.textSecondary,
+                    color: appColors.textSecondaryLegacy,
                   ),
                 ),
               ],
@@ -84,7 +84,7 @@ class _CardContent extends StatelessWidget {
           ),
           Icon(
             Icons.chevron_right,
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ],
       ),
@@ -100,12 +100,12 @@ class _CoverPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: appColors.surface,
+      color: appColors.surfaceLegacy,
       child: Center(
         child: Icon(
           Icons.collections_bookmark,
           size: 32,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );
@@ -232,13 +232,13 @@ class _CoverImage extends StatelessWidget {
       height: double.infinity,
       fit: BoxFit.cover,
       placeholder: (context, url) => ColoredBox(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
       ),
       errorWidget: (context, url, error) => ColoredBox(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
         child: Icon(
           Icons.book,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );
@@ -259,13 +259,13 @@ class SingleCoverImage extends StatelessWidget {
       imageUrl: imageUrl,
       fit: BoxFit.cover,
       placeholder: (context, url) => ColoredBox(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
       ),
       errorWidget: (context, url, error) => ColoredBox(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
         child: Icon(
           Icons.book,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );

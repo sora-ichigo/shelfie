@@ -249,8 +249,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           child: FilledButton(
             onPressed: () => context.push(AppRoutes.accountEdit),
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.surfaceElevated,
-              foregroundColor: appColors.textPrimary,
+              backgroundColor: appColors.surfaceElevatedLegacy,
+              foregroundColor: appColors.textPrimaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
@@ -277,8 +277,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                     )
                 : null,
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.surfaceElevated,
-              foregroundColor: appColors.textPrimary,
+              backgroundColor: appColors.surfaceElevatedLegacy,
+              foregroundColor: appColors.textPrimaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
@@ -311,8 +311,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                 )
             : null,
         style: FilledButton.styleFrom(
-          backgroundColor: appColors.surfaceElevated,
-          foregroundColor: appColors.textPrimary,
+          backgroundColor: appColors.surfaceElevatedLegacy,
+          foregroundColor: appColors.textPrimaryLegacy,
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           padding: const EdgeInsets.symmetric(
@@ -339,8 +339,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                 .read(followStateProvider.notifier)
                 .sendFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.primary,
-              foregroundColor: appColors.textPrimary,
+              backgroundColor: appColors.primaryLegacy,
+              foregroundColor: appColors.textPrimaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
@@ -365,8 +365,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                 .read(followStateProvider.notifier)
                 .cancelFollowRequest(userId: _userId),
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.surfaceElevated,
-              foregroundColor: appColors.textSecondary,
+              backgroundColor: appColors.surfaceElevatedLegacy,
+              foregroundColor: appColors.textSecondaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
@@ -386,14 +386,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                 .read(followStateProvider.notifier)
                 .unfollow(userId: _userId),
             style: OutlinedButton.styleFrom(
-              foregroundColor: appColors.destructive,
+              foregroundColor: appColors.destructiveLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
               ),
-              side: BorderSide(color: appColors.destructive),
+              side: BorderSide(color: appColors.destructiveLegacy),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),

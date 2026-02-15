@@ -58,7 +58,7 @@ class _SimpleContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      decoration: BoxDecoration(color: accentColor ?? appColors.surface),
+      decoration: BoxDecoration(color: accentColor ?? appColors.surfaceLegacy),
       child: Padding(
         padding: AppSpacing.all(48),
         child: Column(
@@ -82,7 +82,7 @@ class _SimpleContent extends StatelessWidget {
                 style: textTheme.titleLarge?.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class _SimpleContent extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: textTheme.bodyMedium?.copyWith(
                   fontSize: 52,
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                 ),
               ),
             ),
@@ -122,7 +122,7 @@ class _SimpleContent extends StatelessWidget {
                     'Shelfie',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: appColors.textPrimary,
+                      color: appColors.textPrimaryLegacy,
                       fontSize: 52,
                     ),
                   ),
@@ -148,13 +148,13 @@ class _CardContent extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return ColoredBox(
-      color: accentColor ?? appColors.surface,
+      color: accentColor ?? appColors.surfaceLegacy,
       child: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 190, vertical: 48),
           padding: const EdgeInsets.all(40),
           decoration: BoxDecoration(
-            color: appColors.overlay.withOpacity(0.4),
+            color: appColors.overlayLegacy.withOpacity(0.4),
             borderRadius: AppRadius.circular(32),
           ),
           child: Column(
@@ -178,7 +178,7 @@ class _CardContent extends StatelessWidget {
                 style: textTheme.titleLarge?.copyWith(
                   fontSize: 64,
                   fontWeight: FontWeight.w600,
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                 ),
               ),
               const SizedBox(height: AppSpacing.xxs),
@@ -190,7 +190,7 @@ class _CardContent extends StatelessWidget {
                 style: textTheme.bodyMedium?.copyWith(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
               const SizedBox(height: 48),
@@ -211,7 +211,7 @@ class _CardContent extends StatelessWidget {
                     Text(
                       'Shelfie',
                       style: textTheme.bodySmall?.copyWith(
-                        color: appColors.textPrimary,
+                        color: appColors.textPrimaryLegacy,
                         fontWeight: FontWeight.w600,
                         fontSize: 52,
                       ),
@@ -240,7 +240,7 @@ class _CoverImage extends StatelessWidget {
         borderRadius: AppRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: colors.overlay.withOpacity(0.25),
+            color: colors.overlayLegacy.withOpacity(0.25),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -265,9 +265,9 @@ class _CoverImage extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return ColoredBox(
-      color: colors.surfaceElevated,
+      color: colors.surfaceElevatedLegacy,
       child: Center(
-        child: Icon(Icons.book, size: 32, color: colors.textSecondary),
+        child: Icon(Icons.book, size: 32, color: colors.textSecondaryLegacy),
       ),
     );
   }

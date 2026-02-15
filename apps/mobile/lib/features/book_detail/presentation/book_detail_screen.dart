@@ -122,7 +122,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
 
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final accentColor = _gradientColor ?? appColors.surface;
+    final accentColor = _gradientColor ?? appColors.surfaceLegacy;
     final gradientHeight =
         MediaQuery.of(context).padding.top +
         kToolbarHeight +
@@ -145,7 +145,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [accentColor, accentColor, appColors.background],
+                  colors: [accentColor, accentColor, appColors.backgroundLegacy],
                   stops: const [0.0, 0.2, 1.0],
                 ),
               ),
@@ -258,7 +258,7 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      backgroundColor: appColors.surface,
+      backgroundColor: appColors.surfaceLegacy,
       builder: (context) => _BookDetailMoreSheet(
         bookId: widget.bookId,
         onAddToListPressed: _onAddToListPressed,
@@ -590,7 +590,7 @@ class _BookDetailMoreSheet extends ConsumerWidget {
     required bool enabled,
     VoidCallback? onTap,
   }) {
-    final color = enabled ? appColors.textPrimary : appColors.textSecondary;
+    final color = enabled ? appColors.textPrimaryLegacy : appColors.textSecondaryLegacy;
 
     return InkWell(
       onTap: onTap,

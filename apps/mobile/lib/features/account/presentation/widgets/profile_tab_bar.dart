@@ -35,7 +35,7 @@ class ProfileTabBar extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: appColors.border, width: 0.5)),
+        border: Border(bottom: BorderSide(color: appColors.borderLegacy, width: 0.5)),
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
@@ -70,7 +70,7 @@ class _TabButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final color = isSelected ? appColors.textPrimary : appColors.textSecondary;
+    final color = isSelected ? appColors.textPrimaryLegacy : appColors.textSecondaryLegacy;
 
     return GestureDetector(
       onTap: onTap,
@@ -97,7 +97,7 @@ class _TabButton extends StatelessWidget {
             height: 2,
             width: 32,
             decoration: BoxDecoration(
-              color: isSelected ? appColors.textPrimary : Colors.transparent,
+              color: isSelected ? appColors.textPrimaryLegacy : Colors.transparent,
               borderRadius: BorderRadius.circular(1),
             ),
           ),

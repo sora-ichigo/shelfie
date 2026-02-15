@@ -45,7 +45,7 @@ class BaseBottomSheet extends StatelessWidget {
       width: 40,
       height: 4,
       decoration: BoxDecoration(
-        color: appColors.inactive,
+        color: appColors.inactiveLegacy,
         borderRadius: BorderRadius.circular(2),
       ),
     );

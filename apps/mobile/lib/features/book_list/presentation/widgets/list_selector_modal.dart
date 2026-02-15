@@ -23,7 +23,7 @@ Future<void> showListSelectorModal({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _ListSelectorModalContent(
       userBookId: userBookId,
     ),
@@ -109,16 +109,16 @@ class _ListSelectorModalContentState
 
     return FilledButton.icon(
       onPressed: _onCreateNewList,
-      icon: Icon(Icons.add, color: appColors.background),
+      icon: Icon(Icons.add, color: appColors.backgroundLegacy),
       label: Text(
         '新しいリストを作成',
         style: theme.textTheme.labelLarge?.copyWith(
-          color: appColors.background,
+          color: appColors.backgroundLegacy,
         ),
       ),
       style: FilledButton.styleFrom(
-        backgroundColor: appColors.textPrimary,
-        foregroundColor: appColors.background,
+        backgroundColor: appColors.textPrimaryLegacy,
+        foregroundColor: appColors.backgroundLegacy,
         minimumSize: const Size(double.infinity, 0),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: RoundedRectangleBorder(
@@ -152,7 +152,7 @@ class _ListSelectorModalContentState
           child: Text(
             failure.userMessage,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.destructive,
+              color: appColors.destructiveLegacy,
             ),
           ),
         ),
@@ -175,20 +175,20 @@ class _ListSelectorModalContentState
             Icon(
               Icons.playlist_add,
               size: 48,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'リストがありません',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
               '新しいリストを作成してください',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
           ],
@@ -368,7 +368,7 @@ class _ListItem extends StatelessWidget {
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: appColors.surface,
+          color: appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(8),
         ),
         child: list.coverImages.isNotEmpty
@@ -379,7 +379,7 @@ class _ListItem extends StatelessWidget {
             : Center(
                 child: Icon(
                   Icons.collections_bookmark,
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
       ),
@@ -394,7 +394,7 @@ class _ListItem extends StatelessWidget {
       subtitle: Text(
         '${list.bookCount}冊',
         style: theme.textTheme.bodySmall?.copyWith(
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
       trailing: _buildTrailing(appColors),
@@ -422,7 +422,7 @@ class _ListItem extends StatelessWidget {
         children: [
           Icon(
             Icons.check_circle,
-            color: appColors.primary,
+            color: appColors.primaryLegacy,
           ),
           const SizedBox(width: 4),
           IconButton(
@@ -430,7 +430,7 @@ class _ListItem extends StatelessWidget {
             icon: Icon(
               Icons.close,
               size: 20,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             visualDensity: VisualDensity.compact,
           ),

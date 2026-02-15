@@ -43,10 +43,10 @@ class AvatarEditor extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppSpacing.xs),
               decoration: BoxDecoration(
-                color: appColors.surface,
+                color: appColors.surfaceLegacy,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: appColors.background,
+                  color: appColors.backgroundLegacy,
                   width: 2,
                 ),
               ),

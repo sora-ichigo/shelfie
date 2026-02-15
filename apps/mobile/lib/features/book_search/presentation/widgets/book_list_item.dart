@@ -46,7 +46,7 @@ class BookListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
           if (_hasPublisherInfo())
@@ -55,7 +55,7 @@ class BookListItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
         ],
@@ -93,12 +93,12 @@ class BookListItem extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: appColors.surfaceElevated,
+        color: appColors.surfaceElevatedLegacy,
         borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Icon(
         Icons.book,
-        color: appColors.textSecondary,
+        color: appColors.textSecondaryLegacy,
       ),
     );
   }
@@ -125,7 +125,7 @@ class BookListItem extends StatelessWidget {
         children: [
           Icon(
             Icons.check_circle,
-            color: appColors.primary,
+            color: appColors.primaryLegacy,
           ),
           const SizedBox(width: 4),
           IconButton(
@@ -133,7 +133,7 @@ class BookListItem extends StatelessWidget {
             icon: Icon(
               Icons.close,
               size: 20,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             tooltip: 'マイライブラリから削除',
             visualDensity: VisualDensity.compact,

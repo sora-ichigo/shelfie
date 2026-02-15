@@ -79,13 +79,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             Icon(
               Icons.person_outline,
               size: 64,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'ログインするとプロフィールが表示されます',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
             ),
           ],
@@ -215,7 +215,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               const Spacer(),
               IconTapArea(
                 icon: Icons.add,
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
                 semanticLabel: 'リストを作成',
                 onTap: _onCreateBookList,
               ),
@@ -261,8 +261,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           child: FilledButton(
             onPressed: () => context.push(AppRoutes.accountEdit),
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.surfaceElevated,
-              foregroundColor: appColors.textPrimary,
+              backgroundColor: appColors.surfaceElevatedLegacy,
+              foregroundColor: appColors.textPrimaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(
@@ -289,8 +289,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     )
                 : null,
             style: FilledButton.styleFrom(
-              backgroundColor: appColors.surfaceElevated,
-              foregroundColor: appColors.textPrimary,
+              backgroundColor: appColors.surfaceElevatedLegacy,
+              foregroundColor: appColors.textPrimaryLegacy,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               padding: const EdgeInsets.symmetric(

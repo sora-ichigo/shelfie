@@ -38,8 +38,8 @@ class _RegistrationLegalLinksState extends State<RegistrationLegalLinks> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final textColor = appColors.textSecondary;
-    final linkColor = appColors.primary;
+    final textColor = appColors.textSecondaryLegacy;
+    final linkColor = appColors.primaryLegacy;
 
     final textStyle = theme.textTheme.bodySmall?.copyWith(
       color: textColor,

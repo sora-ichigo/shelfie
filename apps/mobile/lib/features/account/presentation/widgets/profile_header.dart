@@ -73,7 +73,7 @@ class ProfileHeader extends StatelessWidget {
                         Text(
                           '@$handle',
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: appColors.textSecondary,
+                            color: appColors.textSecondaryLegacy,
                           ),
                         ),
                     ],
@@ -104,7 +104,7 @@ class ProfileHeader extends StatelessWidget {
                     vertical: AppSpacing.xxs,
                   ),
                   decoration: BoxDecoration(
-                    color: appColors.surface,
+                    color: appColors.surfaceLegacy,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -143,7 +143,7 @@ class ProfileHeader extends StatelessWidget {
                       Text(
                         '@$instagramHandle',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: appColors.textSecondary,
+                          color: appColors.textSecondaryLegacy,
                         ),
                       ),
                     ],
@@ -218,7 +218,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.labelSmall?.copyWith(
-            color: appColors?.textSecondary,
+            color: appColors?.textSecondaryLegacy,
           ),
         ),
       ],

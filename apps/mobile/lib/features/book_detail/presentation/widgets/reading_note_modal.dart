@@ -24,7 +24,7 @@ Future<void> showReadingNoteModal({
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -86,25 +86,25 @@ class _ReadingNoteModalContentState
             controller: _controller,
             maxLines: 6,
             minLines: 3,
-            style: TextStyle(color: appColors.textPrimary),
-            cursorColor: appColors.primary,
+            style: TextStyle(color: appColors.textPrimaryLegacy),
+            cursorColor: appColors.primaryLegacy,
             decoration: InputDecoration(
               hintText: '自分用のメモを書く...',
-              hintStyle: TextStyle(color: appColors.inactive),
+              hintStyle: TextStyle(color: appColors.inactiveLegacy),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: appColors.border),
+                borderSide: BorderSide(color: appColors.borderLegacy),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: appColors.border),
+                borderSide: BorderSide(color: appColors.borderLegacy),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: appColors.primary),
+                borderSide: BorderSide(color: appColors.primaryLegacy),
               ),
               filled: true,
-              fillColor: appColors.surfaceElevated,
+              fillColor: appColors.surfaceElevatedLegacy,
               contentPadding: AppSpacing.all(AppSpacing.md),
             ),
             enabled: !_isSaving,
@@ -116,7 +116,7 @@ class _ReadingNoteModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: appColors.destructive,
+                  color: appColors.destructiveLegacy,
                 ),
               ),
             ),
@@ -137,8 +137,8 @@ class _ReadingNoteModalContentState
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
-                foregroundColor: theme.extension<AppColors>()!.textPrimary,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevatedLegacy,
+                foregroundColor: theme.extension<AppColors>()!.textPrimaryLegacy,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -162,7 +162,7 @@ class _ReadingNoteModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: appColors.primary,
+          color: appColors.primaryLegacy,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(
@@ -171,8 +171,8 @@ class _ReadingNoteModalContentState
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: appColors.textPrimary,
-            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
+            foregroundColor: appColors.textPrimaryLegacy,
+            disabledForegroundColor: appColors.textPrimaryLegacy.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -183,7 +183,7 @@ class _ReadingNoteModalContentState
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: appColors.textPrimary,
+                    color: appColors.textPrimaryLegacy,
                   ),
                 )
               : const Text('保存'),

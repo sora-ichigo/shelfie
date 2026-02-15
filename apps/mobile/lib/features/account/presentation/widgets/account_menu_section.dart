@@ -39,13 +39,13 @@ class AccountMenuSection extends StatelessWidget {
           child: Text(
             title,
             style: theme.textTheme.titleSmall?.copyWith(
-              color: colors?.textSecondary,
+              color: colors?.textSecondaryLegacy,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Material(
-          color: colors?.surface,
+          color: colors?.surfaceLegacy,
           borderRadius: BorderRadius.circular(AppSpacing.md),
           clipBehavior: Clip.antiAlias,
           child: Column(
@@ -107,13 +107,13 @@ class _MenuItemTile extends StatelessWidget {
                       vertical: AppSpacing.xxs,
                     ),
                     decoration: BoxDecoration(
-                      color: colors?.primary.withOpacity(0.2),
+                      color: colors?.primaryLegacy.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(AppSpacing.xxs),
                     ),
                     child: Text(
                       item.badge!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colors?.primary,
+                        color: colors?.primaryLegacy,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -122,7 +122,7 @@ class _MenuItemTile extends StatelessWidget {
                 ],
                 Icon(
                   Icons.chevron_right,
-                  color: colors?.textSecondary,
+                  color: colors?.textSecondaryLegacy,
                 ),
               ],
             ),
@@ -133,7 +133,7 @@ class _MenuItemTile extends StatelessWidget {
             height: 1,
             indent: item.icon != null ? AppSpacing.md + 24 + AppSpacing.sm : AppSpacing.md,
             endIndent: AppSpacing.md,
-            color: colors?.border,
+            color: colors?.borderLegacy,
           ),
       ],
     );

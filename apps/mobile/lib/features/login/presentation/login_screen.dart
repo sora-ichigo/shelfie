@@ -55,7 +55,7 @@ class LoginScreen extends ConsumerWidget {
           ),
           if (isLoading)
             ColoredBox(
-              color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.26),
+              color: Theme.of(context).extension<AppColors>()!.overlayLegacy.withOpacity(0.26),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),

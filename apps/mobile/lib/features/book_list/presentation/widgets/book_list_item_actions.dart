@@ -44,12 +44,12 @@ class _BookListItemActionsState extends ConsumerState<BookListItemActions> {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: appColors.textSecondary,
+                    color: appColors.textSecondaryLegacy,
                   ),
                 )
               : Icon(
                   Icons.delete_outline,
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
           onPressed: _isDeleting ? null : _onDeleteTap,
         ),
@@ -59,13 +59,13 @@ class _BookListItemActionsState extends ConsumerState<BookListItemActions> {
             index: widget.index!,
             child: Icon(
               Icons.drag_handle,
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           )
         else
           Icon(
             Icons.drag_handle,
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
       ],
     );

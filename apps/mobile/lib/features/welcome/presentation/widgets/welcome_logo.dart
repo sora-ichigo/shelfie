@@ -30,14 +30,14 @@ class WelcomeLogo extends StatelessWidget {
             fontWeight: FontWeight.w600,
             letterSpacing: 0.0,
             height: 1.2,
-            color: appColors.textPrimary,
+            color: appColors.textPrimaryLegacy,
           ),
         ),
         SizedBox(height: AppSpacing.xs),
         Text(
           '読書家のための本棚',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
         ),
       ],

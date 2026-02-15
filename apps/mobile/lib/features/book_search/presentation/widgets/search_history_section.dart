@@ -43,7 +43,7 @@ class SearchHistorySection extends StatelessWidget {
                   Icon(
                     Icons.history,
                     size: 20,
-                    color: appColors.inactive,
+                    color: appColors.inactiveLegacy,
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
@@ -57,7 +57,7 @@ class SearchHistorySection extends StatelessWidget {
                 child: Text(
                   'すべて削除',
                   style: TextStyle(
-                    color: appColors.destructive,
+                    color: appColors.destructiveLegacy,
                     fontSize: 12,
                   ),
                 ),
@@ -80,10 +80,10 @@ class SearchHistorySection extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: AppSpacing.md),
-                  color: appColors.destructive,
+                  color: appColors.destructiveLegacy,
                   child: Icon(
                     Icons.delete_outline,
-                    color: appColors.textPrimary,
+                    color: appColors.textPrimaryLegacy,
                   ),
                 ),
                 onDismissed: (_) => onHistoryDeleted(entry.query),
@@ -121,7 +121,7 @@ class _SearchHistoryListItem extends StatelessWidget {
       title: Text(
         entry.query,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,

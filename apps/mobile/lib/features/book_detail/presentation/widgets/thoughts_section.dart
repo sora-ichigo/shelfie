@@ -30,13 +30,13 @@ class ThoughtsSection extends StatelessWidget {
             Icon(
               Icons.public,
               size: 16,
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
             ),
             const SizedBox(width: 2),
             Text(
               'フォロワーに公開されます',
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.extension<AppColors>()!.textSecondary,
+                color: theme.extension<AppColors>()!.textSecondaryLegacy,
               ),
             ),
           ],
@@ -48,7 +48,7 @@ class ThoughtsSection extends StatelessWidget {
           Text(
             '最終更新: ${_formatDateTime(shelfEntry.thoughtsUpdatedAt!)}',
             style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.extension<AppColors>()!.textSecondary,
+              color: theme.extension<AppColors>()!.textSecondaryLegacy,
             ),
           ),
         ],
@@ -67,9 +67,9 @@ class ThoughtsSection extends StatelessWidget {
         width: double.infinity,
         padding: AppSpacing.all(AppSpacing.sm),
         decoration: BoxDecoration(
-          color: appColors.surface,
+          color: appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: appColors.border),
+          border: Border.all(color: appColors.borderLegacy),
         ),
         child: Row(
           children: [
@@ -79,12 +79,12 @@ class ThoughtsSection extends StatelessWidget {
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: shelfEntry.hasThoughts
                       ? null
-                      : appColors.textSecondary,
+                      : appColors.textSecondaryLegacy,
                 ),
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            Icon(Icons.chevron_right, color: appColors.textSecondary),
+            Icon(Icons.chevron_right, color: appColors.textSecondaryLegacy),
           ],
         ),
       ),

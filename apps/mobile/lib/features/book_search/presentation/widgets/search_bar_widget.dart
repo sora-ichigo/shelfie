@@ -44,15 +44,15 @@ class SearchBarWidget extends StatelessWidget {
                   onChanged: onChanged,
                   onSubmitted: onSubmitted,
                   textInputAction: TextInputAction.search,
-                  cursorColor: appColors.primary,
-                  style: TextStyle(color: appColors.textPrimary),
+                  cursorColor: appColors.primaryLegacy,
+                  style: TextStyle(color: appColors.textPrimaryLegacy),
                   decoration: InputDecoration(
                     hintText: hintText,
-                    hintStyle: TextStyle(color: appColors.inactive),
-                    prefixIcon: Icon(Icons.search, color: appColors.inactive),
+                    hintStyle: TextStyle(color: appColors.inactiveLegacy),
+                    prefixIcon: Icon(Icons.search, color: appColors.inactiveLegacy),
                     suffixIcon: value.text.isNotEmpty
                         ? IconButton(
-                            icon: Icon(Icons.clear, color: appColors.inactive),
+                            icon: Icon(Icons.clear, color: appColors.inactiveLegacy),
                             onPressed: () {
                               controller?.clear();
                               onChanged('');
@@ -60,18 +60,18 @@ class SearchBarWidget extends StatelessWidget {
                           )
                         : null,
                     filled: true,
-                    fillColor: appColors.surface,
+                    fillColor: appColors.surfaceLegacy,
                     border: OutlineInputBorder(
                       borderRadius: borderRadius,
                       borderSide: BorderSide.none,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: borderRadius,
-                      borderSide: BorderSide(color: appColors.border),
+                      borderSide: BorderSide(color: appColors.borderLegacy),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: borderRadius,
-                      borderSide: BorderSide(color: appColors.primary),
+                      borderSide: BorderSide(color: appColors.primaryLegacy),
                     ),
                     contentPadding: AppSpacing.vertical(AppSpacing.sm),
                   ),
@@ -91,7 +91,7 @@ class SearchBarWidget extends StatelessWidget {
                         onPressed: onCancelPressed,
                         child: Text(
                           'キャンセル',
-                          style: TextStyle(color: appColors.textSecondary),
+                          style: TextStyle(color: appColors.textSecondaryLegacy),
                         ),
                       ),
                     ],
@@ -113,11 +113,11 @@ class SearchBarWidget extends StatelessWidget {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.camera_alt_outlined, color: appColors.textPrimary),
+                                Icon(Icons.camera_alt_outlined, color: appColors.textPrimaryLegacy),
                                 Text(
                                   'バーコード',
                                   style: theme.textTheme.labelSmall?.copyWith(
-                                    color: appColors.textSecondary,
+                                    color: appColors.textSecondaryLegacy,
                                   ),
                                 ),
                               ],
