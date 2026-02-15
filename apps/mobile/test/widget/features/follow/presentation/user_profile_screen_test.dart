@@ -455,6 +455,23 @@ void main() {
       });
     });
 
+    group('ナビゲーション', () {
+      testWidgets('ナビゲーションスタックがない場合、AppBar に戻るボタンが表示される',
+          (tester) async {
+        final profile = _createProfile();
+        await tester.pumpWidget(buildSubject(profile: profile));
+        await tester.pump();
+
+        expect(
+          find.descendant(
+            of: find.byType(AppBar),
+            matching: find.byIcon(Icons.arrow_back_ios),
+          ),
+          findsOneWidget,
+        );
+      });
+    });
+
     group('タブバー', () {
       testWidgets('本棚とブックリストのタブが表示される', (tester) async {
         final profile = _createProfile(

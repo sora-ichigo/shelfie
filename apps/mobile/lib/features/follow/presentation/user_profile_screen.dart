@@ -134,6 +134,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
 
     return Scaffold(
       appBar: AppBar(
+        leading: Navigator.canPop(context)
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () => context.go(AppRoutes.home),
+              ),
         title: Text(
           widget.profile.user.handle ?? widget.profile.user.name ?? '',
           style: theme.textTheme.titleMedium,
