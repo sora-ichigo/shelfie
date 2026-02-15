@@ -18,6 +18,7 @@ environment_variables = {
   FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@shelfie-production-485714.iam.gserviceaccount.com"
   SENTRY_DSN            = "https://fb439c238a42f7a94e2f35d8cc75fdac@o4510782375395328.ingest.us.sentry.io/4510782384111616"
   SENTRY_ENVIRONMENT    = "prod"
+  APP_URL               = "https://shelfie-web.vercel.app"
 }
 
 # Secret Manager (create secrets manually: gcloud secrets create <secret-name> --data-file=-)
