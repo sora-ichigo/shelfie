@@ -35,11 +35,11 @@ class LoginHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: colors?.primary,
+                backgroundColor: colors?.primaryLegacy,
                 child: Icon(
                   Icons.lock_outline,
                   size: 40,
-                  color: colors?.background,
+                  color: colors?.backgroundLegacy,
                 ),
               ),
               const SizedBox(height: AppSpacing.lg),
@@ -53,7 +53,7 @@ class LoginHeader extends StatelessWidget {
               Text(
                 'おかえりなさい',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colors?.textSecondary,
+                  color: colors?.textSecondaryLegacy,
                 ),
               ),
             ],

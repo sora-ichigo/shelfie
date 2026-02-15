@@ -133,12 +133,12 @@ class _RecentBookCard extends StatelessWidget {
   Widget _buildPlaceholder(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
     return ColoredBox(
-      color: appColors.surfaceElevated,
+      color: appColors.surfaceElevatedLegacy,
       child: Center(
         child: Icon(
           Icons.book,
           size: 40,
-          color: appColors.textSecondary,
+          color: appColors.textSecondaryLegacy,
         ),
       ),
     );

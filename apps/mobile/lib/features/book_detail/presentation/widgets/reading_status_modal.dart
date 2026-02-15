@@ -38,7 +38,7 @@ Future<ReadingStatus?> showReadingStatusModal({
   return showModalBottomSheet<ReadingStatus>(
     context: context,
     isScrollControlled: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => _ReadingStatusModalContent(
       mode: ReadingStatusModalMode.update,
       currentStatus: currentStatus,
@@ -60,7 +60,7 @@ Future<({ReadingStatus status, int? rating})?> showAddToShelfModal({
     context: context,
     isScrollControlled: true,
     useRootNavigator: true,
-    backgroundColor: appColors.surface,
+    backgroundColor: appColors.surfaceLegacy,
     builder: (context) => const _ReadingStatusModalContent(
       mode: ReadingStatusModalMode.addToShelf,
       currentStatus: ReadingStatus.interested,
@@ -133,7 +133,7 @@ class _ReadingStatusModalContentState
               child: Text(
                 _error!.userMessage,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.extension<AppColors>()!.destructive,
+                  color: theme.extension<AppColors>()!.destructiveLegacy,
                 ),
               ),
             ),
@@ -198,10 +198,10 @@ class _ReadingStatusModalContentState
         decoration: BoxDecoration(
           color: isSelected
               ? statusColor.withOpacity(0.15)
-              : appColors.surface,
+              : appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? statusColor : appColors.border,
+            color: isSelected ? statusColor : appColors.borderLegacy,
           ),
         ),
         child: Center(
@@ -209,7 +209,7 @@ class _ReadingStatusModalContentState
             status.displayName,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: isSelected ? statusColor : appColors.textSecondary,
+              color: isSelected ? statusColor : appColors.textSecondaryLegacy,
             ),
           ),
         ),
@@ -227,7 +227,7 @@ class _ReadingStatusModalContentState
         Text(
           '評価（任意）',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -254,8 +254,8 @@ class _ReadingStatusModalContentState
                   isSelected ? Icons.star_rounded : Icons.star_border_rounded,
                   size: AppIconSize.xxl,
                   color: isSelected
-                      ? appColors.star
-                      : appColors.textSecondary.withOpacity(0.4),
+                      ? appColors.starLegacy
+                      : appColors.textSecondaryLegacy.withOpacity(0.4),
                 ),
               ),
             );
@@ -274,8 +274,8 @@ class _ReadingStatusModalContentState
             child: ElevatedButton(
               onPressed: _isSaving ? null : () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.extension<AppColors>()!.surfaceElevated,
-                foregroundColor: theme.extension<AppColors>()!.textPrimary,
+                backgroundColor: theme.extension<AppColors>()!.surfaceElevatedLegacy,
+                foregroundColor: theme.extension<AppColors>()!.textPrimaryLegacy,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -300,7 +300,7 @@ class _ReadingStatusModalContentState
       height: 48,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: appColors.primary,
+          color: appColors.primaryLegacy,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ElevatedButton(
@@ -309,8 +309,8 @@ class _ReadingStatusModalContentState
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             disabledBackgroundColor: Colors.transparent,
-            foregroundColor: appColors.textPrimary,
-            disabledForegroundColor: appColors.textPrimary.withOpacity(0.5),
+            foregroundColor: appColors.textPrimaryLegacy,
+            disabledForegroundColor: appColors.textPrimaryLegacy.withOpacity(0.5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -321,7 +321,7 @@ class _ReadingStatusModalContentState
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: appColors.textPrimary,
+                    color: appColors.textPrimaryLegacy,
                   ),
                 )
               : Text(_primaryButtonLabel),

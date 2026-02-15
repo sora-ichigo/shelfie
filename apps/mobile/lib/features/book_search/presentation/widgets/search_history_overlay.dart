@@ -45,7 +45,7 @@ class SearchHistoryOverlay extends StatelessWidget {
               Text(
                 '検索履歴',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: appColors.textSecondary,
+                      color: appColors.textSecondaryLegacy,
                     ),
               ),
               TextButton(
@@ -53,7 +53,7 @@ class SearchHistoryOverlay extends StatelessWidget {
                 child: Text(
                   'すべて削除',
                   style: TextStyle(
-                    color: appColors.destructive,
+                    color: appColors.destructiveLegacy,
                     fontSize: 12,
                   ),
                 ),
@@ -73,10 +73,10 @@ class SearchHistoryOverlay extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: AppSpacing.md),
-                  color: appColors.destructive,
+                  color: appColors.destructiveLegacy,
                   child: Icon(
                     Icons.delete_outline,
-                    color: appColors.textPrimary,
+                    color: appColors.textPrimaryLegacy,
                   ),
                 ),
                 onDismissed: (_) => onHistoryDeleted(entry.query),
@@ -111,7 +111,7 @@ class _SearchHistoryItem extends StatelessWidget {
       leading: Icon(
         Icons.history,
         size: 20,
-        color: appColors.textSecondary,
+        color: appColors.textSecondaryLegacy,
       ),
       title: Text(
         entry.query,

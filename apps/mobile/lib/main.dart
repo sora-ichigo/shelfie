@@ -64,7 +64,7 @@ Future<void> _initAndRunApp() async {
 
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.light.copyWith(
-      systemNavigationBarColor: AppColors.dark.background,
+      systemNavigationBarColor: AppColors.dark.backgroundLegacy,
     ),
   );
 
@@ -182,7 +182,7 @@ class _AppInitializerState extends ConsumerState<_AppInitializer> {
         home: Scaffold(
           body: Center(
             child: CircularProgressIndicator(
-              color: AppColors.dark.primary,
+              color: AppColors.dark.primaryLegacy,
             ),
           ),
         ),

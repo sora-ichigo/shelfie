@@ -20,10 +20,10 @@ class PasswordResetSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: colors.surface,
+        color: colors.surfaceLegacy,
         borderRadius: BorderRadius.circular(AppSpacing.md),
         border: Border.all(
-          color: colors.border,
+          color: colors.borderLegacy,
         ),
       ),
       child: Column(
@@ -34,7 +34,7 @@ class PasswordResetSection extends StatelessWidget {
               Icon(
                 Icons.mail_outline,
                 size: 20,
-                color: colors.textSecondary,
+                color: colors.textSecondaryLegacy,
               ),
               const SizedBox(width: AppSpacing.xs),
               Text(
@@ -49,7 +49,7 @@ class PasswordResetSection extends StatelessWidget {
           Text(
             '登録されているメールアドレスにパスワードリセット用のリンクを送信します。',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: colors.textSecondary,
+              color: colors.textSecondaryLegacy,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -60,7 +60,7 @@ class PasswordResetSection extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                 side: BorderSide(
-                  color: colors.primary,
+                  color: colors.primaryLegacy,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppSpacing.sm),
@@ -72,12 +72,12 @@ class PasswordResetSection extends StatelessWidget {
                       width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: colors.primary,
+                        color: colors.primaryLegacy,
                       ),
                     )
                   : Text(
                       'リセットメールを送信',
-                      style: TextStyle(color: colors.primary),
+                      style: TextStyle(color: colors.primaryLegacy),
                     ),
             ),
           ),

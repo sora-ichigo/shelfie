@@ -121,13 +121,13 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
               Icon(
                 Icons.error_outline,
                 size: 64,
-                color: appColors.textSecondary,
+                color: appColors.textSecondaryLegacy,
               ),
               const SizedBox(height: AppSpacing.md),
               Text(
                 'エラーが発生しました',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -172,13 +172,13 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           Icon(
             CupertinoIcons.bell,
             size: 64,
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
             'お知らせはまだありません',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
+              color: appColors.textSecondaryLegacy,
             ),
           ),
         ],
@@ -302,7 +302,7 @@ class _NotificationTile extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: notification.isRead ? null : appColors.surface,
+          color: notification.isRead ? null : appColors.surfaceLegacy,
         ),
         child: Row(
           children: [
@@ -315,7 +315,7 @@ class _NotificationTile extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: appColors.textPrimary,
+                    color: appColors.textPrimaryLegacy,
                   ),
                   children: [
                     TextSpan(
@@ -327,7 +327,7 @@ class _NotificationTile extends StatelessWidget {
                     TextSpan(text: _notificationText(notification.type)),
                     TextSpan(
                       text: formatTimeAgo(notification.createdAt),
-                      style: TextStyle(color: appColors.textSecondary),
+                      style: TextStyle(color: appColors.textSecondaryLegacy),
                     ),
                   ],
                 ),
@@ -366,7 +366,7 @@ class _NotificationTile extends StatelessWidget {
         child: Text(
           '削除',
           style: theme.textTheme.labelLarge?.copyWith(
-            color: appColors.textPrimary,
+            color: appColors.textPrimaryLegacy,
           ),
         ),
       ),
@@ -401,7 +401,7 @@ class _PrimaryButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: appColors.primary,
+        backgroundColor: appColors.primaryLegacy,
         padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.xxs,
           horizontal: AppSpacing.md,
@@ -415,7 +415,7 @@ class _PrimaryButton extends StatelessWidget {
       child: Text(
         label,
         style: theme.textTheme.labelLarge?.copyWith(
-          color: appColors.textPrimary,
+          color: appColors.textPrimaryLegacy,
         ),
       ),
     );

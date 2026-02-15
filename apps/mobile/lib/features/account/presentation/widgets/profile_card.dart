@@ -26,7 +26,7 @@ class ProfileCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: colors?.surface,
+        color: colors?.surfaceLegacy,
         borderRadius: BorderRadius.circular(AppSpacing.md),
       ),
       child: Column(
@@ -49,7 +49,7 @@ class ProfileCard extends StatelessWidget {
                     Text(
                       profile.email,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: colors?.textSecondary,
+                        color: colors?.textSecondaryLegacy,
                       ),
                     ),
                   ],
@@ -59,7 +59,7 @@ class ProfileCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Divider(
-            color: colors?.textSecondary.withOpacity(0.2),
+            color: colors?.textSecondaryLegacy.withOpacity(0.2),
             height: 1,
           ),
           const SizedBox(height: AppSpacing.md),
@@ -116,7 +116,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: colors?.textSecondary,
+            color: colors?.textSecondaryLegacy,
           ),
         ),
       ],

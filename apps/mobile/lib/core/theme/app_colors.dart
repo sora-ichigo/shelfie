@@ -2,47 +2,33 @@ import 'package:flutter/material.dart';
 
 /// アプリケーション全体のカスタムカラースキーム
 ///
-/// Material 3 の ColorScheme を補完するセマンティックカラーを定義する。
-/// ThemeExtension を継承することで、ThemeData に統合し、
+/// 新デザインシステムへの移行中のため、既存のセマンティックカラーは
+/// Legacy サフィックス付きで定義されている。
+/// 新しいカラートークンは別途追加予定。
+///
 /// Theme.of(context).extension<AppColors>() でアクセスできる。
-///
-/// ## カラー設計の原則
-///
-/// 1. **Primitive Colors（基盤カラー）**: 生の色値。private static const で定義。
-/// 2. **Semantic Colors（意味的カラー）**: 用途に基づいた名前。UIで直接使用する。
-///
-/// ## セマンティックカラーの分類
-///
-/// - **Background / Surface 系**: background, surface, surfaceElevated
-/// - **Text 系**: textPrimary, textSecondary
-/// - **Interactive 系**: primary, primaryPressed
-/// - **Utility 系**: border, inactive
-/// - **Feedback 系**: star, destructive, success, warning, info
-///
-/// 現在はダークモードのみをサポートする。
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
-    required this.primary,
-    required this.primaryPressed,
-    required this.background,
-    required this.surface,
-    required this.surfaceElevated,
-    required this.border,
-    required this.inactive,
-    required this.textPrimary,
-    required this.textSecondary,
-    required this.star,
-    required this.destructive,
-    required this.success,
-    required this.warning,
-    required this.info,
-    required this.overlay,
+    required this.primaryLegacy,
+    required this.primaryPressedLegacy,
+    required this.backgroundLegacy,
+    required this.surfaceLegacy,
+    required this.surfaceElevatedLegacy,
+    required this.borderLegacy,
+    required this.inactiveLegacy,
+    required this.textPrimaryLegacy,
+    required this.textSecondaryLegacy,
+    required this.starLegacy,
+    required this.destructiveLegacy,
+    required this.successLegacy,
+    required this.warningLegacy,
+    required this.infoLegacy,
+    required this.overlayLegacy,
   });
 
   // ===========================================================================
   // Primitive Colors（基盤カラー）
-  // 直接使用せず、セマンティックカラーにマップして使用する
   // ===========================================================================
 
   static const Color _primary = Color(0xFF2B9E8F);
@@ -62,107 +48,78 @@ class AppColors extends ThemeExtension<AppColors> {
   static const Color _overlay = Color(0xFF000000);
 
   // ===========================================================================
-  // Semantic Colors（意味的カラー）
+  // Legacy Semantic Colors
   // ===========================================================================
 
-  /// プライマリカラー（選択中タブ、アクティブチップ、CTAボタン）
-  final Color primary;
+  final Color primaryLegacy;
+  final Color primaryPressedLegacy;
+  final Color backgroundLegacy;
+  final Color surfaceLegacy;
+  final Color surfaceElevatedLegacy;
+  final Color borderLegacy;
+  final Color inactiveLegacy;
+  final Color textPrimaryLegacy;
+  final Color textSecondaryLegacy;
+  final Color starLegacy;
+  final Color destructiveLegacy;
+  final Color successLegacy;
+  final Color warningLegacy;
+  final Color infoLegacy;
+  final Color overlayLegacy;
 
-  /// ボタンのタップ時のプライマリカラー
-  final Color primaryPressed;
-
-  /// 画面の基本背景色
-  final Color background;
-
-  /// カード、チップ、入力欄の背景色
-  final Color surface;
-
-  /// モーダル、ボトムシート内の要素の背景色
-  final Color surfaceElevated;
-
-  /// 区切り線、ボタン枠線
-  final Color border;
-
-  /// 空の星、ハンドル、無効化アイコン
-  final Color inactive;
-
-  /// メインのテキスト・アイコン色
-  final Color textPrimary;
-
-  /// 補助テキスト、著者名、プレースホルダー
-  final Color textSecondary;
-
-  /// レーティングの星
-  final Color star;
-
-  /// 削除ボタン、エラー
-  final Color destructive;
-
-  /// 成功状態を表すカラー
-  final Color success;
-
-  /// 警告状態を表すカラー
-  final Color warning;
-
-  /// 情報を表すカラー
-  final Color info;
-
-  /// 半透明オーバーレイの基底色（`.withOpacity()` と組み合わせて使用）
-  final Color overlay;
-
-  /// ダークモード用のカラースキーム（デフォルト）
   static const dark = AppColors(
-    primary: _primary,
-    primaryPressed: _primaryPressed,
-    background: _background,
-    surface: _surface,
-    surfaceElevated: _surfaceElevated,
-    border: _border,
-    inactive: _inactive,
-    textPrimary: _textPrimary,
-    textSecondary: _textSecondary,
-    star: _star,
-    destructive: _destructive,
-    success: _success,
-    warning: _warning,
-    info: _info,
-    overlay: _overlay,
+    primaryLegacy: _primary,
+    primaryPressedLegacy: _primaryPressed,
+    backgroundLegacy: _background,
+    surfaceLegacy: _surface,
+    surfaceElevatedLegacy: _surfaceElevated,
+    borderLegacy: _border,
+    inactiveLegacy: _inactive,
+    textPrimaryLegacy: _textPrimary,
+    textSecondaryLegacy: _textSecondary,
+    starLegacy: _star,
+    destructiveLegacy: _destructive,
+    successLegacy: _success,
+    warningLegacy: _warning,
+    infoLegacy: _info,
+    overlayLegacy: _overlay,
   );
 
   @override
   AppColors copyWith({
-    Color? primary,
-    Color? primaryPressed,
-    Color? background,
-    Color? surface,
-    Color? surfaceElevated,
-    Color? border,
-    Color? inactive,
-    Color? textPrimary,
-    Color? textSecondary,
-    Color? star,
-    Color? destructive,
-    Color? success,
-    Color? warning,
-    Color? info,
-    Color? overlay,
+    Color? primaryLegacy,
+    Color? primaryPressedLegacy,
+    Color? backgroundLegacy,
+    Color? surfaceLegacy,
+    Color? surfaceElevatedLegacy,
+    Color? borderLegacy,
+    Color? inactiveLegacy,
+    Color? textPrimaryLegacy,
+    Color? textSecondaryLegacy,
+    Color? starLegacy,
+    Color? destructiveLegacy,
+    Color? successLegacy,
+    Color? warningLegacy,
+    Color? infoLegacy,
+    Color? overlayLegacy,
   }) {
     return AppColors(
-      primary: primary ?? this.primary,
-      primaryPressed: primaryPressed ?? this.primaryPressed,
-      background: background ?? this.background,
-      surface: surface ?? this.surface,
-      surfaceElevated: surfaceElevated ?? this.surfaceElevated,
-      border: border ?? this.border,
-      inactive: inactive ?? this.inactive,
-      textPrimary: textPrimary ?? this.textPrimary,
-      textSecondary: textSecondary ?? this.textSecondary,
-      star: star ?? this.star,
-      destructive: destructive ?? this.destructive,
-      success: success ?? this.success,
-      warning: warning ?? this.warning,
-      info: info ?? this.info,
-      overlay: overlay ?? this.overlay,
+      primaryLegacy: primaryLegacy ?? this.primaryLegacy,
+      primaryPressedLegacy: primaryPressedLegacy ?? this.primaryPressedLegacy,
+      backgroundLegacy: backgroundLegacy ?? this.backgroundLegacy,
+      surfaceLegacy: surfaceLegacy ?? this.surfaceLegacy,
+      surfaceElevatedLegacy:
+          surfaceElevatedLegacy ?? this.surfaceElevatedLegacy,
+      borderLegacy: borderLegacy ?? this.borderLegacy,
+      inactiveLegacy: inactiveLegacy ?? this.inactiveLegacy,
+      textPrimaryLegacy: textPrimaryLegacy ?? this.textPrimaryLegacy,
+      textSecondaryLegacy: textSecondaryLegacy ?? this.textSecondaryLegacy,
+      starLegacy: starLegacy ?? this.starLegacy,
+      destructiveLegacy: destructiveLegacy ?? this.destructiveLegacy,
+      successLegacy: successLegacy ?? this.successLegacy,
+      warningLegacy: warningLegacy ?? this.warningLegacy,
+      infoLegacy: infoLegacy ?? this.infoLegacy,
+      overlayLegacy: overlayLegacy ?? this.overlayLegacy,
     );
   }
 
@@ -170,21 +127,27 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors lerp(AppColors? other, double t) {
     if (other is! AppColors) return this;
     return AppColors(
-      primary: Color.lerp(primary, other.primary, t)!,
-      primaryPressed: Color.lerp(primaryPressed, other.primaryPressed, t)!,
-      background: Color.lerp(background, other.background, t)!,
-      surface: Color.lerp(surface, other.surface, t)!,
-      surfaceElevated: Color.lerp(surfaceElevated, other.surfaceElevated, t)!,
-      border: Color.lerp(border, other.border, t)!,
-      inactive: Color.lerp(inactive, other.inactive, t)!,
-      textPrimary: Color.lerp(textPrimary, other.textPrimary, t)!,
-      textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
-      star: Color.lerp(star, other.star, t)!,
-      destructive: Color.lerp(destructive, other.destructive, t)!,
-      success: Color.lerp(success, other.success, t)!,
-      warning: Color.lerp(warning, other.warning, t)!,
-      info: Color.lerp(info, other.info, t)!,
-      overlay: Color.lerp(overlay, other.overlay, t)!,
+      primaryLegacy: Color.lerp(primaryLegacy, other.primaryLegacy, t)!,
+      primaryPressedLegacy:
+          Color.lerp(primaryPressedLegacy, other.primaryPressedLegacy, t)!,
+      backgroundLegacy:
+          Color.lerp(backgroundLegacy, other.backgroundLegacy, t)!,
+      surfaceLegacy: Color.lerp(surfaceLegacy, other.surfaceLegacy, t)!,
+      surfaceElevatedLegacy:
+          Color.lerp(surfaceElevatedLegacy, other.surfaceElevatedLegacy, t)!,
+      borderLegacy: Color.lerp(borderLegacy, other.borderLegacy, t)!,
+      inactiveLegacy: Color.lerp(inactiveLegacy, other.inactiveLegacy, t)!,
+      textPrimaryLegacy:
+          Color.lerp(textPrimaryLegacy, other.textPrimaryLegacy, t)!,
+      textSecondaryLegacy:
+          Color.lerp(textSecondaryLegacy, other.textSecondaryLegacy, t)!,
+      starLegacy: Color.lerp(starLegacy, other.starLegacy, t)!,
+      destructiveLegacy:
+          Color.lerp(destructiveLegacy, other.destructiveLegacy, t)!,
+      successLegacy: Color.lerp(successLegacy, other.successLegacy, t)!,
+      warningLegacy: Color.lerp(warningLegacy, other.warningLegacy, t)!,
+      infoLegacy: Color.lerp(infoLegacy, other.infoLegacy, t)!,
+      overlayLegacy: Color.lerp(overlayLegacy, other.overlayLegacy, t)!,
     );
   }
 }

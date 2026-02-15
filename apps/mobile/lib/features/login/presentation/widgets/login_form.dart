@@ -59,7 +59,7 @@ class _ForgotPasswordLink extends StatelessWidget {
         child: Text(
           'パスワードを忘れた方',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: appColors.primary,
+            color: appColors.primaryLegacy,
           ),
         ),
       ),

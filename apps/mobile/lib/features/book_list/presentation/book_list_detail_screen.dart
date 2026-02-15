@@ -110,7 +110,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     size: 64,
                     color: Theme.of(context)
                         .extension<AppColors>()!
-                        .textSecondary,
+                        .textSecondaryLegacy,
                   ),
                   const SizedBox(height: AppSpacing.md),
                   Text(
@@ -118,7 +118,7 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context)
                               .extension<AppColors>()!
-                              .textSecondary,
+                              .textSecondaryLegacy,
                         ),
                   ),
                 ],
@@ -155,16 +155,16 @@ class _BookListDetailScreenState extends ConsumerState<BookListDetailScreen> {
 
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: appColors.surface,
+      backgroundColor: appColors.surfaceLegacy,
       builder: (context) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.delete_outline, color: appColors.destructive),
+              leading: Icon(Icons.delete_outline, color: appColors.destructiveLegacy),
               title: Text(
                 'リストを削除',
-                style: TextStyle(color: appColors.destructive),
+                style: TextStyle(color: appColors.destructiveLegacy),
               ),
               onTap: () {
                 Navigator.of(context).pop();
@@ -603,9 +603,9 @@ class _ActionButtons extends StatelessWidget {
               icon: const Icon(Icons.add, size: 20),
               label: const Text('本を追加'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: appColors.textPrimary,
-                foregroundColor: appColors.overlay.withOpacity(0.87),
-                iconColor: appColors.overlay.withOpacity(0.87),
+                backgroundColor: appColors.textPrimaryLegacy,
+                foregroundColor: appColors.overlayLegacy.withOpacity(0.87),
+                iconColor: appColors.overlayLegacy.withOpacity(0.87),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
@@ -617,7 +617,7 @@ class _ActionButtons extends StatelessWidget {
           _CircleIconButton(
             icon: Icons.more_vert,
             onPressed: onMore,
-            backgroundColor: appColors.surface,
+            backgroundColor: appColors.surfaceLegacy,
           ),
         ],
       ),
@@ -687,7 +687,7 @@ class _BookListItemTile extends StatelessWidget {
               child: Text(
                 '$position',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textSecondary,
+                  color: appColors.textSecondaryLegacy,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -704,7 +704,7 @@ class _BookListItemTile extends StatelessWidget {
                       placeholder: (context, url) => Container(
                         width: 50,
                         height: 75,
-                        color: appColors.surface,
+                        color: appColors.surfaceLegacy,
                       ),
                       errorWidget: (context, url, error) => _BookPlaceholder(
                         appColors: appColors,
@@ -730,7 +730,7 @@ class _BookListItemTile extends StatelessWidget {
                     Text(
                       userBook.authors.join('、'),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: appColors.textSecondary,
+                        color: appColors.textSecondaryLegacy,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -757,12 +757,12 @@ class _BookPlaceholder extends StatelessWidget {
       width: 50,
       height: 75,
       decoration: BoxDecoration(
-        color: appColors.surface,
+        color: appColors.surfaceLegacy,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Icon(
         Icons.book,
-        color: appColors.textSecondary,
+        color: appColors.textSecondaryLegacy,
         size: 24,
       ),
     );
@@ -788,7 +788,7 @@ class _StatsSection extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: appColors.textSecondary.withOpacity(0.2),
+            color: appColors.textSecondaryLegacy.withOpacity(0.2),
           ),
         ),
       ),
@@ -834,7 +834,7 @@ class _StatItem extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodySmall?.copyWith(
-            color: appColors.textSecondary,
+            color: appColors.textSecondaryLegacy,
           ),
         ),
       ],

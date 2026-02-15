@@ -65,7 +65,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
     }
 
     return Scaffold(
-      backgroundColor: appColors.overlay,
+      backgroundColor: appColors.overlayLegacy,
       body: Stack(
         children: [
           if (_controller case final controller?)
@@ -93,7 +93,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
                   child: Text(
                     'カメラの初期化に失敗しました',
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      color: appColors.textPrimary,
+                      color: appColors.textPrimaryLegacy,
                     ),
                   ),
                 );
@@ -112,11 +112,11 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
 
   Widget _buildPermissionDeniedView(ThemeData theme, AppColors appColors) {
     return Scaffold(
-      backgroundColor: appColors.overlay,
+      backgroundColor: appColors.overlayLegacy,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.close, color: appColors.textPrimary),
+          icon: Icon(Icons.close, color: appColors.textPrimaryLegacy),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -129,13 +129,13 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
               Icon(
                 Icons.camera_alt_outlined,
                 size: 64,
-                color: appColors.textPrimary.withOpacity(0.54),
+                color: appColors.textPrimaryLegacy.withOpacity(0.54),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 'カメラへのアクセスが拒否されています',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -143,7 +143,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
               Text(
                 '本のバーコードをスキャンするには、設定からカメラへのアクセスを許可してください。',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: appColors.textPrimary.withOpacity(0.7),
+                  color: appColors.textPrimaryLegacy.withOpacity(0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -168,14 +168,14 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-              icon: Icon(Icons.close, color: appColors.textPrimary),
+              icon: Icon(Icons.close, color: appColors.textPrimaryLegacy),
               onPressed: () => Navigator.of(context).pop(),
             ),
             if (_controller != null)
               IconButton(
                 icon: Icon(
                   Icons.flash_off,
-                  color: appColors.textPrimary,
+                  color: appColors.textPrimaryLegacy,
                 ),
                 onPressed: () => _controller?.toggleTorch(),
               ),
@@ -190,8 +190,8 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
       key: const Key('scan_overlay'),
       child: CustomPaint(
         painter: _ScanOverlayPainter(
-          borderColor: appColors.primary,
-          overlayColor: appColors.overlay,
+          borderColor: appColors.primaryLegacy,
+          overlayColor: appColors.overlayLegacy,
         ),
         child: const SizedBox.expand(),
       ),
@@ -206,7 +206,7 @@ class _ISBNScanScreenState extends ConsumerState<ISBNScanScreen> {
       child: Text(
         'バーコードを枠内に合わせてください',
         style: theme.textTheme.bodyLarge?.copyWith(
-          color: appColors.textPrimary,
+          color: appColors.textPrimaryLegacy,
         ),
         textAlign: TextAlign.center,
       ),

@@ -73,13 +73,13 @@ class _Chip extends StatelessWidget {
           vertical: AppSpacing.xxs,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? appColors.primary : appColors.surface,
+          color: isSelected ? appColors.primaryLegacy : appColors.surfaceLegacy,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           displayText,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: isSelected ? appColors.textPrimary : appColors.textSecondary,
+            color: isSelected ? appColors.textPrimaryLegacy : appColors.textSecondaryLegacy,
           ),
         ),
       ),

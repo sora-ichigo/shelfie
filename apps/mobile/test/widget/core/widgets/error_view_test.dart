@@ -194,7 +194,7 @@ void main() {
         );
 
         final icon = tester.widget<Icon>(find.byIcon(Icons.wifi_off));
-        expect(icon.color, equals(AppColors.dark.warning));
+        expect(icon.color, equals(AppColors.dark.warningLegacy));
       });
 
       testWidgets('uses error color for ServerFailure', (tester) async {
@@ -205,7 +205,7 @@ void main() {
         );
 
         final icon = tester.widget<Icon>(find.byIcon(Icons.cloud_off));
-        expect(icon.color, equals(AppColors.dark.destructive));
+        expect(icon.color, equals(AppColors.dark.destructiveLegacy));
       });
 
       testWidgets('uses warning color for AuthFailure', (tester) async {
@@ -216,7 +216,7 @@ void main() {
         );
 
         final icon = tester.widget<Icon>(find.byIcon(Icons.lock_outline));
-        expect(icon.color, equals(AppColors.dark.warning));
+        expect(icon.color, equals(AppColors.dark.warningLegacy));
       });
 
       testWidgets('uses warning color for ValidationFailure', (tester) async {
@@ -228,7 +228,7 @@ void main() {
 
         final icon =
             tester.widget<Icon>(find.byIcon(Icons.warning_amber_outlined));
-        expect(icon.color, equals(AppColors.dark.warning));
+        expect(icon.color, equals(AppColors.dark.warningLegacy));
       });
 
       testWidgets('uses error color for UnexpectedFailure', (tester) async {
@@ -239,7 +239,7 @@ void main() {
         );
 
         final icon = tester.widget<Icon>(find.byIcon(Icons.error_outline));
-        expect(icon.color, equals(AppColors.dark.destructive));
+        expect(icon.color, equals(AppColors.dark.destructiveLegacy));
       });
     });
 
@@ -296,7 +296,7 @@ void main() {
         expect(appColors, equals(AppColors.dark));
 
         final icon = tester.widget<Icon>(find.byIcon(Icons.wifi_off));
-        expect(icon.color, equals(AppColors.dark.warning));
+        expect(icon.color, equals(AppColors.dark.warningLegacy));
       });
 
       testWidgets('retry button is visible in dark theme', (tester) async {

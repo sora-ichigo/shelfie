@@ -102,10 +102,10 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     return switch (widget.type) {
-      AppSnackBarType.success => appColors.success,
-      AppSnackBarType.warning => appColors.warning,
-      AppSnackBarType.error => appColors.destructive,
-      AppSnackBarType.info => appColors.info,
+      AppSnackBarType.success => appColors.successLegacy,
+      AppSnackBarType.warning => appColors.warningLegacy,
+      AppSnackBarType.error => appColors.destructiveLegacy,
+      AppSnackBarType.info => appColors.infoLegacy,
     };
   }
 
@@ -142,7 +142,7 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: appColors.overlay.withValues(alpha: 0.2),
+                        color: appColors.overlayLegacy.withValues(alpha: 0.2),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -151,13 +151,13 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Row(
                     children: [
-                      Icon(_getIcon(), color: appColors.textPrimary, size: 24),
+                      Icon(_getIcon(), color: appColors.textPrimaryLegacy, size: 24),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           widget.message,
                           style: TextStyle(
-                            color: appColors.textPrimary,
+                            color: appColors.textPrimaryLegacy,
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.none,
@@ -169,7 +169,7 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
                         CupertinoButton(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           minimumSize: Size.zero,
-                          color: appColors.textPrimary.withValues(alpha: 0.2),
+                          color: appColors.textPrimaryLegacy.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                           onPressed: () {
                             widget.onActionPressed?.call();
@@ -178,7 +178,7 @@ class _SnackBarWidgetState extends State<_SnackBarWidget>
                           child: Text(
                             widget.action!,
                             style: TextStyle(
-                              color: appColors.textPrimary,
+                              color: appColors.textPrimaryLegacy,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               decoration: TextDecoration.none,

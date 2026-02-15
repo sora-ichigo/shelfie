@@ -7,8 +7,8 @@ class RegistrationBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
-    final accentColor = appColors.primary;
-    final backgroundColor = appColors.background;
+    final accentColor = appColors.primaryLegacy;
+    final backgroundColor = appColors.backgroundLegacy;
 
     return SizedBox.expand(
       child: DecoratedBox(

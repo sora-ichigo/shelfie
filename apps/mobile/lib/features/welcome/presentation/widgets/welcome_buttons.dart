@@ -26,7 +26,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onLoginPressed,
             child: Text(
               'ログイン',
-              style: baseTextStyle?.copyWith(color: appColors.overlay),
+              style: baseTextStyle?.copyWith(color: appColors.overlayLegacy),
             ),
           ),
         ),
@@ -37,7 +37,7 @@ class WelcomeButtons extends StatelessWidget {
             onPressed: onRegisterPressed,
             child: Text(
               '新規登録',
-              style: baseTextStyle?.copyWith(color: appColors.textPrimary),
+              style: baseTextStyle?.copyWith(color: appColors.textPrimaryLegacy),
             ),
           ),
         ),

@@ -19,26 +19,26 @@ abstract final class AppTheme {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.dark,
-      surface: AppColors.dark.background,
+      surface: AppColors.dark.backgroundLegacy,
       onSurface: Colors.white,
     );
 
     final textTheme = AppTypography.textTheme.apply(
       fontFamily: 'NotoSansJP',
-      bodyColor: AppColors.dark.textPrimary,
-      displayColor: AppColors.dark.textPrimary,
+      bodyColor: AppColors.dark.textPrimaryLegacy,
+      displayColor: AppColors.dark.textPrimaryLegacy,
     );
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: AppColors.dark.background,
+      scaffoldBackgroundColor: AppColors.dark.backgroundLegacy,
       textTheme: textTheme,
       iconTheme: const IconThemeData(color: Colors.white),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-          systemNavigationBarColor: AppColors.dark.background,
+          systemNavigationBarColor: AppColors.dark.backgroundLegacy,
         ),
       ),
       extensions: const [AppColors.dark],
@@ -64,21 +64,21 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: textTheme.bodyMedium?.copyWith(
-          color: AppColors.dark.textSecondary,
+          color: AppColors.dark.textSecondaryLegacy,
         ),
-        prefixIconColor: AppColors.dark.textSecondary,
-        suffixIconColor: AppColors.dark.textSecondary,
+        prefixIconColor: AppColors.dark.textSecondaryLegacy,
+        suffixIconColor: AppColors.dark.textSecondaryLegacy,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+          borderSide: BorderSide(color: AppColors.dark.textSecondaryLegacy),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.textSecondary),
+          borderSide: BorderSide(color: AppColors.dark.textSecondaryLegacy),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          borderSide: BorderSide(color: AppColors.dark.primary),
+          borderSide: BorderSide(color: AppColors.dark.primaryLegacy),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),

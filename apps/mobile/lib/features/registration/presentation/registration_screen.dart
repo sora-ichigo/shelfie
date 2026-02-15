@@ -59,7 +59,7 @@ class RegistrationScreen extends ConsumerWidget {
           ),
           if (isLoading)
             ColoredBox(
-              color: Theme.of(context).extension<AppColors>()!.overlay.withOpacity(0.26),
+              color: Theme.of(context).extension<AppColors>()!.overlayLegacy.withOpacity(0.26),
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
@@ -131,7 +131,7 @@ class _GuestModeLink extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
-    final mutedColor = appColors.textSecondary;
+    final mutedColor = appColors.textSecondaryLegacy;
 
     return Center(
       child: GestureDetector(
