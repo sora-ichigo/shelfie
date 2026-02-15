@@ -147,6 +147,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   SliverFillRemaining(
+                    hasScrollBody: false,
                     child: _buildEmptyState(theme, appColors),
                   ),
                 ],

@@ -88,6 +88,9 @@ class ProfileContentView extends StatelessWidget {
     if (onRefresh != null) {
       return RefreshIndicator(
         onRefresh: onRefresh!,
+        notificationPredicate: (notification) {
+          return notification.metrics.axis == Axis.vertical;
+        },
         child: nestedScrollView,
       );
     }
