@@ -8,9 +8,18 @@ part 'reading_status_counts_notifier.g.dart';
 
 @riverpod
 class ReadingStatusCountsNotifier extends _$ReadingStatusCountsNotifier {
+  Map<ReadingStatus, int>? _cachedCounts;
+
   @override
   Map<ReadingStatus, int> build() {
     ref.watch(shelfVersionProvider);
+
+    final cached = _cachedCounts;
+    if (cached != null) {
+      Future.microtask(_loadCounts);
+      return cached;
+    }
+
     Future.microtask(_loadCounts);
     return {};
   }
@@ -43,6 +52,8 @@ class ReadingStatusCountsNotifier extends _$ReadingStatusCountsNotifier {
     });
 
     final entries = await Future.wait(futures);
-    state = Map.fromEntries(entries);
+    final newCounts = Map.fromEntries(entries);
+    _cachedCounts = newCounts;
+    state = newCounts;
   }
 }
