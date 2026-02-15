@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shelfie/core/theme/app_colors.dart';
@@ -56,8 +57,15 @@ class ProfileContentView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final nestedScrollView = NestedScrollView(
+    return NestedScrollView(
+      physics: onRefresh != null
+          ? const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            )
+          : null,
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
+        if (onRefresh != null)
+          CupertinoSliverRefreshControl(onRefresh: onRefresh),
         SliverToBoxAdapter(child: header),
         SliverPersistentHeader(
           pinned: true,
@@ -84,18 +92,6 @@ class ProfileContentView extends StatelessWidget {
               ],
             ),
     );
-
-    if (onRefresh != null) {
-      return RefreshIndicator(
-        onRefresh: onRefresh!,
-        notificationPredicate: (notification) {
-          return notification.metrics.axis == Axis.vertical;
-        },
-        child: nestedScrollView,
-      );
-    }
-
-    return nestedScrollView;
   }
 
   Widget _buildNotFollowingPlaceholder(BuildContext context) {
