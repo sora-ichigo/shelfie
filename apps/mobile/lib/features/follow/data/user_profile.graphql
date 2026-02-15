@@ -8,6 +8,7 @@ query UserProfile($handle: String!) {
       bio
       bookCount
       instagramHandle
+      shareUrl
     }
     outgoingFollowStatus
     incomingFollowStatus

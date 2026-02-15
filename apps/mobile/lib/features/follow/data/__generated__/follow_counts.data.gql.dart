@@ -21,7 +21,7 @@ abstract class GFollowCountsData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GFollowCountsData_followCounts get followCounts;
+  GFollowCountsData_followCounts? get followCounts;
   static Serializer<GFollowCountsData> get serializer =>
       _$gFollowCountsDataSerializer;
 
@@ -52,8 +52,8 @@ abstract class GFollowCountsData_followCounts
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get followingCount;
-  int get followerCount;
+  int? get followingCount;
+  int? get followerCount;
   static Serializer<GFollowCountsData_followCounts> get serializer =>
       _$gFollowCountsDataFollowCountsSerializer;
 

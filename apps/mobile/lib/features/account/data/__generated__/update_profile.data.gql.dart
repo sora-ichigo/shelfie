@@ -176,6 +176,7 @@ abstract class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_
   String? get bio;
   String? get instagramHandle;
   String? get handle;
+  String? get shareUrl;
   static Serializer<
           GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data>
       get serializer =>

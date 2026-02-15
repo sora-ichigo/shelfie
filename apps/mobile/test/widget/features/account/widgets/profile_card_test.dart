@@ -22,6 +22,7 @@ void main() {
       bookCount: bookCount,
       bio: null,
       instagramHandle: null,
+      shareUrl: null,
       readingStartYear: readingStartYear,
       readingStartMonth: readingStartMonth,
       createdAt: DateTime(2020, 4, 1),

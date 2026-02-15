@@ -203,24 +203,6 @@ abstract class GLoginUserInput
       );
 }
 
-class GNotificationType extends EnumClass {
-  const GNotificationType._(String name) : super(name);
-
-  static const GNotificationType FOLLOW_REQUEST_APPROVED =
-      _$gNotificationTypeFOLLOW_REQUEST_APPROVED;
-
-  static const GNotificationType FOLLOW_REQUEST_RECEIVED =
-      _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
-
-  static Serializer<GNotificationType> get serializer =>
-      _$gNotificationTypeSerializer;
-
-  static BuiltSet<GNotificationType> get values => _$gNotificationTypeValues;
-
-  static GNotificationType valueOf(String name) =>
-      _$gNotificationTypeValueOf(name);
-}
-
 abstract class GMyBookListsInput
     implements Built<GMyBookListsInput, GMyBookListsInputBuilder> {
   GMyBookListsInput._();
@@ -271,6 +253,24 @@ abstract class GMyShelfInput
         GMyShelfInput.serializer,
         json,
       );
+}
+
+class GNotificationType extends EnumClass {
+  const GNotificationType._(String name) : super(name);
+
+  static const GNotificationType FOLLOW_REQUEST_APPROVED =
+      _$gNotificationTypeFOLLOW_REQUEST_APPROVED;
+
+  static const GNotificationType FOLLOW_REQUEST_RECEIVED =
+      _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
+
+  static Serializer<GNotificationType> get serializer =>
+      _$gNotificationTypeSerializer;
+
+  static BuiltSet<GNotificationType> get values => _$gNotificationTypeValues;
+
+  static GNotificationType valueOf(String name) =>
+      _$gNotificationTypeValueOf(name);
 }
 
 class GReadingStatus extends EnumClass {
@@ -540,13 +540,13 @@ const Map<String, Set<String>> possibleTypesMap = {
     'AuthError',
     'MutationRefreshTokenSuccess',
   },
-  'MutationRejectFollowRequestResult': {
-    'MutationRejectFollowRequestSuccess',
-    'ValidationError',
-  },
   'MutationRegisterUserResult': {
     'AuthError',
     'MutationRegisterUserSuccess',
+  },
+  'MutationRejectFollowRequestResult': {
+    'MutationRejectFollowRequestSuccess',
+    'ValidationError',
   },
   'MutationSendFollowRequestResult': {
     'MutationSendFollowRequestSuccess',
@@ -556,12 +556,12 @@ const Map<String, Set<String>> possibleTypesMap = {
     'AuthError',
     'MutationSendPasswordResetEmailSuccess',
   },
-  'MutationUpdateProfileResult': {
-    'MutationUpdateProfileSuccess',
-    'ValidationError',
-  },
   'MutationUnfollowResult': {
     'MutationUnfollowSuccess',
+    'ValidationError',
+  },
+  'MutationUpdateProfileResult': {
+    'MutationUpdateProfileSuccess',
     'ValidationError',
   },
   'QueryGetUploadCredentialsResult': {

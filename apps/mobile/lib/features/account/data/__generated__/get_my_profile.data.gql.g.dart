@@ -190,6 +190,13 @@ class _$GGetMyProfileData_me__asUserSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.shareUrl;
+    if (value != null) {
+      result
+        ..add('shareUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -243,6 +250,10 @@ class _$GGetMyProfileData_me__asUserSerializer
           break;
         case 'handle':
           result.handle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'shareUrl':
+          result.shareUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -527,6 +538,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
   final String? instagramHandle;
   @override
   final String? handle;
+  @override
+  final String? shareUrl;
 
   factory _$GGetMyProfileData_me__asUser(
           [void Function(GGetMyProfileData_me__asUserBuilder)? updates]) =>
@@ -542,7 +555,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
       required this.bookCount,
       this.bio,
       this.instagramHandle,
-      this.handle})
+      this.handle,
+      this.shareUrl})
       : super._();
   @override
   GGetMyProfileData_me__asUser rebuild(
@@ -566,7 +580,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
         bookCount == other.bookCount &&
         bio == other.bio &&
         instagramHandle == other.instagramHandle &&
-        handle == other.handle;
+        handle == other.handle &&
+        shareUrl == other.shareUrl;
   }
 
   @override
@@ -582,6 +597,7 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
     _$hash = $jc(_$hash, bio.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
     _$hash = $jc(_$hash, handle.hashCode);
+    _$hash = $jc(_$hash, shareUrl.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -598,7 +614,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
           ..add('bookCount', bookCount)
           ..add('bio', bio)
           ..add('instagramHandle', instagramHandle)
-          ..add('handle', handle))
+          ..add('handle', handle)
+          ..add('shareUrl', shareUrl))
         .toString();
   }
 }
@@ -650,6 +667,10 @@ class GGetMyProfileData_me__asUserBuilder
   String? get handle => _$this._handle;
   set handle(String? handle) => _$this._handle = handle;
 
+  String? _shareUrl;
+  String? get shareUrl => _$this._shareUrl;
+  set shareUrl(String? shareUrl) => _$this._shareUrl = shareUrl;
+
   GGetMyProfileData_me__asUserBuilder() {
     GGetMyProfileData_me__asUser._initializeBuilder(this);
   }
@@ -667,6 +688,7 @@ class GGetMyProfileData_me__asUserBuilder
       _bio = $v.bio;
       _instagramHandle = $v.instagramHandle;
       _handle = $v.handle;
+      _shareUrl = $v.shareUrl;
       _$v = null;
     }
     return this;
@@ -700,6 +722,7 @@ class GGetMyProfileData_me__asUserBuilder
           bio: bio,
           instagramHandle: instagramHandle,
           handle: handle,
+          shareUrl: shareUrl,
         );
     replace(_$result);
     return _$result;

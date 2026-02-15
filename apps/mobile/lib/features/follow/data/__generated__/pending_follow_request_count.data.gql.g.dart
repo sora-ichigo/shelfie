@@ -28,11 +28,14 @@ class _$GPendingFollowRequestCountDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'pendingFollowRequestCount',
-      serializers.serialize(object.pendingFollowRequestCount,
-          specifiedType: const FullType(int)),
     ];
-
+    Object? value;
+    value = object.pendingFollowRequestCount;
+    if (value != null) {
+      result
+        ..add('pendingFollowRequestCount')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -54,7 +57,7 @@ class _$GPendingFollowRequestCountDataSerializer
           break;
         case 'pendingFollowRequestCount':
           result.pendingFollowRequestCount = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -67,14 +70,14 @@ class _$GPendingFollowRequestCountData extends GPendingFollowRequestCountData {
   @override
   final String G__typename;
   @override
-  final int pendingFollowRequestCount;
+  final int? pendingFollowRequestCount;
 
   factory _$GPendingFollowRequestCountData(
           [void Function(GPendingFollowRequestCountDataBuilder)? updates]) =>
       (GPendingFollowRequestCountDataBuilder()..update(updates))._build();
 
   _$GPendingFollowRequestCountData._(
-      {required this.G__typename, required this.pendingFollowRequestCount})
+      {required this.G__typename, this.pendingFollowRequestCount})
       : super._();
   @override
   GPendingFollowRequestCountData rebuild(
@@ -158,10 +161,7 @@ class GPendingFollowRequestCountDataBuilder
         _$GPendingFollowRequestCountData._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
               G__typename, r'GPendingFollowRequestCountData', 'G__typename'),
-          pendingFollowRequestCount: BuiltValueNullFieldError.checkNotNull(
-              pendingFollowRequestCount,
-              r'GPendingFollowRequestCountData',
-              'pendingFollowRequestCount'),
+          pendingFollowRequestCount: pendingFollowRequestCount,
         );
     replace(_$result);
     return _$result;

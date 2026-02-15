@@ -11,6 +11,7 @@ mutation UpdateProfile($input: UpdateProfileInput!) {
         bio
         instagramHandle
         handle
+        shareUrl
       }
     }
     ... on ValidationError {

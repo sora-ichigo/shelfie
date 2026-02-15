@@ -90,24 +90,44 @@ class _$GUserProfileData_userProfileSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'user',
-      serializers.serialize(object.user,
-          specifiedType: const FullType(GUserProfileData_userProfile_user)),
-      'outgoingFollowStatus',
-      serializers.serialize(object.outgoingFollowStatus,
-          specifiedType: const FullType(_i2.GFollowStatus)),
-      'incomingFollowStatus',
-      serializers.serialize(object.incomingFollowStatus,
-          specifiedType: const FullType(_i2.GFollowStatus)),
-      'followCounts',
-      serializers.serialize(object.followCounts,
-          specifiedType:
-              const FullType(GUserProfileData_userProfile_followCounts)),
-      'isOwnProfile',
-      serializers.serialize(object.isOwnProfile,
-          specifiedType: const FullType(bool)),
     ];
-
+    Object? value;
+    value = object.user;
+    if (value != null) {
+      result
+        ..add('user')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GUserProfileData_userProfile_user)));
+    }
+    value = object.outgoingFollowStatus;
+    if (value != null) {
+      result
+        ..add('outgoingFollowStatus')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GFollowStatus)));
+    }
+    value = object.incomingFollowStatus;
+    if (value != null) {
+      result
+        ..add('incomingFollowStatus')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i2.GFollowStatus)));
+    }
+    value = object.followCounts;
+    if (value != null) {
+      result
+        ..add('followCounts')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(GUserProfileData_userProfile_followCounts)));
+    }
+    value = object.isOwnProfile;
+    if (value != null) {
+      result
+        ..add('isOwnProfile')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -135,13 +155,13 @@ class _$GUserProfileData_userProfileSerializer
           break;
         case 'outgoingFollowStatus':
           result.outgoingFollowStatus = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GFollowStatus))!
-              as _i2.GFollowStatus;
+                  specifiedType: const FullType(_i2.GFollowStatus))
+              as _i2.GFollowStatus?;
           break;
         case 'incomingFollowStatus':
           result.incomingFollowStatus = serializers.deserialize(value,
-                  specifiedType: const FullType(_i2.GFollowStatus))!
-              as _i2.GFollowStatus;
+                  specifiedType: const FullType(_i2.GFollowStatus))
+              as _i2.GFollowStatus?;
           break;
         case 'followCounts':
           result.followCounts.replace(serializers.deserialize(value,
@@ -151,7 +171,7 @@ class _$GUserProfileData_userProfileSerializer
           break;
         case 'isOwnProfile':
           result.isOwnProfile = serializers.deserialize(value,
-              specifiedType: const FullType(bool))! as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -224,6 +244,13 @@ class _$GUserProfileData_userProfile_userSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.shareUrl;
+    if (value != null) {
+      result
+        ..add('shareUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -271,6 +298,10 @@ class _$GUserProfileData_userProfile_userSerializer
           result.instagramHandle = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'shareUrl':
+          result.shareUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -296,14 +327,20 @@ class _$GUserProfileData_userProfile_followCountsSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'followingCount',
-      serializers.serialize(object.followingCount,
-          specifiedType: const FullType(int)),
-      'followerCount',
-      serializers.serialize(object.followerCount,
-          specifiedType: const FullType(int)),
     ];
-
+    Object? value;
+    value = object.followingCount;
+    if (value != null) {
+      result
+        ..add('followingCount')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.followerCount;
+    if (value != null) {
+      result
+        ..add('followerCount')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -325,11 +362,11 @@ class _$GUserProfileData_userProfile_followCountsSerializer
           break;
         case 'followingCount':
           result.followingCount = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'followerCount':
           result.followerCount = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -454,15 +491,15 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
   @override
   final String G__typename;
   @override
-  final GUserProfileData_userProfile_user user;
+  final GUserProfileData_userProfile_user? user;
   @override
-  final _i2.GFollowStatus outgoingFollowStatus;
+  final _i2.GFollowStatus? outgoingFollowStatus;
   @override
-  final _i2.GFollowStatus incomingFollowStatus;
+  final _i2.GFollowStatus? incomingFollowStatus;
   @override
-  final GUserProfileData_userProfile_followCounts followCounts;
+  final GUserProfileData_userProfile_followCounts? followCounts;
   @override
-  final bool isOwnProfile;
+  final bool? isOwnProfile;
 
   factory _$GUserProfileData_userProfile(
           [void Function(GUserProfileData_userProfileBuilder)? updates]) =>
@@ -470,11 +507,11 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
 
   _$GUserProfileData_userProfile._(
       {required this.G__typename,
-      required this.user,
-      required this.outgoingFollowStatus,
-      required this.incomingFollowStatus,
-      required this.followCounts,
-      required this.isOwnProfile})
+      this.user,
+      this.outgoingFollowStatus,
+      this.incomingFollowStatus,
+      this.followCounts,
+      this.isOwnProfile})
       : super._();
   @override
   GUserProfileData_userProfile rebuild(
@@ -569,10 +606,10 @@ class GUserProfileData_userProfileBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _user = $v.user.toBuilder();
+      _user = $v.user?.toBuilder();
       _outgoingFollowStatus = $v.outgoingFollowStatus;
       _incomingFollowStatus = $v.incomingFollowStatus;
-      _followCounts = $v.followCounts.toBuilder();
+      _followCounts = $v.followCounts?.toBuilder();
       _isOwnProfile = $v.isOwnProfile;
       _$v = null;
     }
@@ -599,27 +636,20 @@ class GUserProfileData_userProfileBuilder
           _$GUserProfileData_userProfile._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GUserProfileData_userProfile', 'G__typename'),
-            user: user.build(),
-            outgoingFollowStatus: BuiltValueNullFieldError.checkNotNull(
-                outgoingFollowStatus,
-                r'GUserProfileData_userProfile',
-                'outgoingFollowStatus'),
-            incomingFollowStatus: BuiltValueNullFieldError.checkNotNull(
-                incomingFollowStatus,
-                r'GUserProfileData_userProfile',
-                'incomingFollowStatus'),
-            followCounts: followCounts.build(),
-            isOwnProfile: BuiltValueNullFieldError.checkNotNull(
-                isOwnProfile, r'GUserProfileData_userProfile', 'isOwnProfile'),
+            user: _user?.build(),
+            outgoingFollowStatus: outgoingFollowStatus,
+            incomingFollowStatus: incomingFollowStatus,
+            followCounts: _followCounts?.build(),
+            isOwnProfile: isOwnProfile,
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'user';
-        user.build();
+        _user?.build();
 
         _$failedField = 'followCounts';
-        followCounts.build();
+        _followCounts?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'GUserProfileData_userProfile', _$failedField, e.toString());
@@ -649,6 +679,8 @@ class _$GUserProfileData_userProfile_user
   final int bookCount;
   @override
   final String? instagramHandle;
+  @override
+  final String? shareUrl;
 
   factory _$GUserProfileData_userProfile_user(
           [void Function(GUserProfileData_userProfile_userBuilder)? updates]) =>
@@ -662,7 +694,8 @@ class _$GUserProfileData_userProfile_user
       this.handle,
       this.bio,
       required this.bookCount,
-      this.instagramHandle})
+      this.instagramHandle,
+      this.shareUrl})
       : super._();
   @override
   GUserProfileData_userProfile_user rebuild(
@@ -684,7 +717,8 @@ class _$GUserProfileData_userProfile_user
         handle == other.handle &&
         bio == other.bio &&
         bookCount == other.bookCount &&
-        instagramHandle == other.instagramHandle;
+        instagramHandle == other.instagramHandle &&
+        shareUrl == other.shareUrl;
   }
 
   @override
@@ -698,6 +732,7 @@ class _$GUserProfileData_userProfile_user
     _$hash = $jc(_$hash, bio.hashCode);
     _$hash = $jc(_$hash, bookCount.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
+    _$hash = $jc(_$hash, shareUrl.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -712,7 +747,8 @@ class _$GUserProfileData_userProfile_user
           ..add('handle', handle)
           ..add('bio', bio)
           ..add('bookCount', bookCount)
-          ..add('instagramHandle', instagramHandle))
+          ..add('instagramHandle', instagramHandle)
+          ..add('shareUrl', shareUrl))
         .toString();
   }
 }
@@ -756,6 +792,10 @@ class GUserProfileData_userProfile_userBuilder
   set instagramHandle(String? instagramHandle) =>
       _$this._instagramHandle = instagramHandle;
 
+  String? _shareUrl;
+  String? get shareUrl => _$this._shareUrl;
+  set shareUrl(String? shareUrl) => _$this._shareUrl = shareUrl;
+
   GUserProfileData_userProfile_userBuilder() {
     GUserProfileData_userProfile_user._initializeBuilder(this);
   }
@@ -771,6 +811,7 @@ class GUserProfileData_userProfile_userBuilder
       _bio = $v.bio;
       _bookCount = $v.bookCount;
       _instagramHandle = $v.instagramHandle;
+      _shareUrl = $v.shareUrl;
       _$v = null;
     }
     return this;
@@ -803,6 +844,7 @@ class GUserProfileData_userProfile_userBuilder
           bookCount: BuiltValueNullFieldError.checkNotNull(
               bookCount, r'GUserProfileData_userProfile_user', 'bookCount'),
           instagramHandle: instagramHandle,
+          shareUrl: shareUrl,
         );
     replace(_$result);
     return _$result;
@@ -814,9 +856,9 @@ class _$GUserProfileData_userProfile_followCounts
   @override
   final String G__typename;
   @override
-  final int followingCount;
+  final int? followingCount;
   @override
-  final int followerCount;
+  final int? followerCount;
 
   factory _$GUserProfileData_userProfile_followCounts(
           [void Function(GUserProfileData_userProfile_followCountsBuilder)?
@@ -825,9 +867,7 @@ class _$GUserProfileData_userProfile_followCounts
           ._build();
 
   _$GUserProfileData_userProfile_followCounts._(
-      {required this.G__typename,
-      required this.followingCount,
-      required this.followerCount})
+      {required this.G__typename, this.followingCount, this.followerCount})
       : super._();
   @override
   GUserProfileData_userProfile_followCounts rebuild(
@@ -924,10 +964,8 @@ class GUserProfileData_userProfile_followCountsBuilder
         _$GUserProfileData_userProfile_followCounts._(
           G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
               r'GUserProfileData_userProfile_followCounts', 'G__typename'),
-          followingCount: BuiltValueNullFieldError.checkNotNull(followingCount,
-              r'GUserProfileData_userProfile_followCounts', 'followingCount'),
-          followerCount: BuiltValueNullFieldError.checkNotNull(followerCount,
-              r'GUserProfileData_userProfile_followCounts', 'followerCount'),
+          followingCount: followingCount,
+          followerCount: followerCount,
         );
     replace(_$result);
     return _$result;

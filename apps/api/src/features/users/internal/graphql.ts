@@ -1,3 +1,4 @@
+import { config } from "../../../config/index.js";
 import type { User } from "../../../db/schema/users.js";
 import type { Builder } from "../../../graphql/builder.js";
 import { transformImageKitUrl } from "../../../infra/imagekit-url-transformer.js";
@@ -109,6 +110,18 @@ export function registerUserTypes(
             return 0;
           }
           return bookShelfRepositoryInstance.countUserBooks(user.id);
+        },
+      }),
+      shareUrl: t.string({
+        description: "The shareable URL for the user's profile",
+        nullable: true,
+        resolve: (user) => {
+          if (!user.handle) return null;
+          const appUrl = config.getOrDefault(
+            "APP_URL",
+            "http://localhost:3000",
+          );
+          return `${appUrl}/u/${user.handle}`;
         },
       }),
     }),

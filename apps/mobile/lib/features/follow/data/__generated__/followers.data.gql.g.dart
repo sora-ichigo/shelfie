@@ -25,12 +25,16 @@ class _$GFollowersDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'followers',
-      serializers.serialize(object.followers,
-          specifiedType: const FullType(
-              BuiltList, const [const FullType(GFollowersData_followers)])),
     ];
-
+    Object? value;
+    value = object.followers;
+    if (value != null) {
+      result
+        ..add('followers')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(GFollowersData_followers)])));
+    }
     return result;
   }
 
@@ -156,13 +160,12 @@ class _$GFollowersData extends GFollowersData {
   @override
   final String G__typename;
   @override
-  final BuiltList<GFollowersData_followers> followers;
+  final BuiltList<GFollowersData_followers>? followers;
 
   factory _$GFollowersData([void Function(GFollowersDataBuilder)? updates]) =>
       (GFollowersDataBuilder()..update(updates))._build();
 
-  _$GFollowersData._({required this.G__typename, required this.followers})
-      : super._();
+  _$GFollowersData._({required this.G__typename, this.followers}) : super._();
   @override
   GFollowersData rebuild(void Function(GFollowersDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
@@ -218,7 +221,7 @@ class GFollowersDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _followers = $v.followers.toBuilder();
+      _followers = $v.followers?.toBuilder();
       _$v = null;
     }
     return this;
@@ -244,13 +247,13 @@ class GFollowersDataBuilder
           _$GFollowersData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GFollowersData', 'G__typename'),
-            followers: followers.build(),
+            followers: _followers?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'followers';
-        followers.build();
+        _followers?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'GFollowersData', _$failedField, e.toString());

@@ -26,11 +26,15 @@ class _$GFollowCountsDataSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'followCounts',
-      serializers.serialize(object.followCounts,
-          specifiedType: const FullType(GFollowCountsData_followCounts)),
     ];
-
+    Object? value;
+    value = object.followCounts;
+    if (value != null) {
+      result
+        ..add('followCounts')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(GFollowCountsData_followCounts)));
+    }
     return result;
   }
 
@@ -81,14 +85,20 @@ class _$GFollowCountsData_followCountsSerializer
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'followingCount',
-      serializers.serialize(object.followingCount,
-          specifiedType: const FullType(int)),
-      'followerCount',
-      serializers.serialize(object.followerCount,
-          specifiedType: const FullType(int)),
     ];
-
+    Object? value;
+    value = object.followingCount;
+    if (value != null) {
+      result
+        ..add('followingCount')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.followerCount;
+    if (value != null) {
+      result
+        ..add('followerCount')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -110,11 +120,11 @@ class _$GFollowCountsData_followCountsSerializer
           break;
         case 'followingCount':
           result.followingCount = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'followerCount':
           result.followerCount = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -127,13 +137,13 @@ class _$GFollowCountsData extends GFollowCountsData {
   @override
   final String G__typename;
   @override
-  final GFollowCountsData_followCounts followCounts;
+  final GFollowCountsData_followCounts? followCounts;
 
   factory _$GFollowCountsData(
           [void Function(GFollowCountsDataBuilder)? updates]) =>
       (GFollowCountsDataBuilder()..update(updates))._build();
 
-  _$GFollowCountsData._({required this.G__typename, required this.followCounts})
+  _$GFollowCountsData._({required this.G__typename, this.followCounts})
       : super._();
   @override
   GFollowCountsData rebuild(void Function(GFollowCountsDataBuilder) updates) =>
@@ -191,7 +201,7 @@ class GFollowCountsDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _followCounts = $v.followCounts.toBuilder();
+      _followCounts = $v.followCounts?.toBuilder();
       _$v = null;
     }
     return this;
@@ -217,13 +227,13 @@ class GFollowCountsDataBuilder
           _$GFollowCountsData._(
             G__typename: BuiltValueNullFieldError.checkNotNull(
                 G__typename, r'GFollowCountsData', 'G__typename'),
-            followCounts: followCounts.build(),
+            followCounts: _followCounts?.build(),
           );
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'followCounts';
-        followCounts.build();
+        _followCounts?.build();
       } catch (e) {
         throw BuiltValueNestedFieldError(
             r'GFollowCountsData', _$failedField, e.toString());
@@ -239,18 +249,16 @@ class _$GFollowCountsData_followCounts extends GFollowCountsData_followCounts {
   @override
   final String G__typename;
   @override
-  final int followingCount;
+  final int? followingCount;
   @override
-  final int followerCount;
+  final int? followerCount;
 
   factory _$GFollowCountsData_followCounts(
           [void Function(GFollowCountsData_followCountsBuilder)? updates]) =>
       (GFollowCountsData_followCountsBuilder()..update(updates))._build();
 
   _$GFollowCountsData_followCounts._(
-      {required this.G__typename,
-      required this.followingCount,
-      required this.followerCount})
+      {required this.G__typename, this.followingCount, this.followerCount})
       : super._();
   @override
   GFollowCountsData_followCounts rebuild(
@@ -343,10 +351,8 @@ class GFollowCountsData_followCountsBuilder
         _$GFollowCountsData_followCounts._(
           G__typename: BuiltValueNullFieldError.checkNotNull(
               G__typename, r'GFollowCountsData_followCounts', 'G__typename'),
-          followingCount: BuiltValueNullFieldError.checkNotNull(followingCount,
-              r'GFollowCountsData_followCounts', 'followingCount'),
-          followerCount: BuiltValueNullFieldError.checkNotNull(followerCount,
-              r'GFollowCountsData_followCounts', 'followerCount'),
+          followingCount: followingCount,
+          followerCount: followerCount,
         );
     replace(_$result);
     return _$result;
