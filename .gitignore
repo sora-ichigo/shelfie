@@ -55,6 +55,11 @@ apps/api/tmp/
 .lefthook/
 lefthook-local.yml
 
+# Pencil
+images/
+pencil/
+*.pen
+
 # Misc
 *.local
 .cache/
