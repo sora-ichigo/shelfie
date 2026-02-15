@@ -21,7 +21,7 @@ abstract class GFollowersData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  BuiltList<GFollowersData_followers> get followers;
+  BuiltList<GFollowersData_followers>? get followers;
   static Serializer<GFollowersData> get serializer =>
       _$gFollowersDataSerializer;
 

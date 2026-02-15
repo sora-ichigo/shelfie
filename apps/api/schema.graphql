@@ -861,6 +861,9 @@ type User {
   """The display name of the user"""
   name: String
 
+  """The shareable URL for the user's profile"""
+  shareUrl: String
+
   """When the user was last updated"""
   updatedAt: DateTime
 }

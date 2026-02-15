@@ -267,6 +267,13 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.shareUrl;
+    if (value != null) {
+      result
+        ..add('shareUrl')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -321,6 +328,10 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
           break;
         case 'handle':
           result.handle = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'shareUrl':
+          result.shareUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -772,6 +783,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
   final String? instagramHandle;
   @override
   final String? handle;
+  @override
+  final String? shareUrl;
 
   factory _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data(
           [void Function(
@@ -791,7 +804,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       required this.bookCount,
       this.bio,
       this.instagramHandle,
-      this.handle})
+      this.handle,
+      this.shareUrl})
       : super._();
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data rebuild(
@@ -820,7 +834,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         bookCount == other.bookCount &&
         bio == other.bio &&
         instagramHandle == other.instagramHandle &&
-        handle == other.handle;
+        handle == other.handle &&
+        shareUrl == other.shareUrl;
   }
 
   @override
@@ -836,6 +851,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
     _$hash = $jc(_$hash, bio.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
     _$hash = $jc(_$hash, handle.hashCode);
+    _$hash = $jc(_$hash, shareUrl.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -853,7 +869,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           ..add('bookCount', bookCount)
           ..add('bio', bio)
           ..add('instagramHandle', instagramHandle)
-          ..add('handle', handle))
+          ..add('handle', handle)
+          ..add('shareUrl', shareUrl))
         .toString();
   }
 }
@@ -906,6 +923,10 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   String? get handle => _$this._handle;
   set handle(String? handle) => _$this._handle = handle;
 
+  String? _shareUrl;
+  String? get shareUrl => _$this._shareUrl;
+  set shareUrl(String? shareUrl) => _$this._shareUrl = shareUrl;
+
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder() {
     GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         ._initializeBuilder(this);
@@ -925,6 +946,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
       _bio = $v.bio;
       _instagramHandle = $v.instagramHandle;
       _handle = $v.handle;
+      _shareUrl = $v.shareUrl;
       _$v = null;
     }
     return this;
@@ -971,6 +993,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
           bio: bio,
           instagramHandle: instagramHandle,
           handle: handle,
+          shareUrl: shareUrl,
         );
     replace(_$result);
     return _$result;

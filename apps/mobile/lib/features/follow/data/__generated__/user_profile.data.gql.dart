@@ -53,11 +53,11 @@ abstract class GUserProfileData_userProfile
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  GUserProfileData_userProfile_user get user;
-  _i2.GFollowStatus get outgoingFollowStatus;
-  _i2.GFollowStatus get incomingFollowStatus;
-  GUserProfileData_userProfile_followCounts get followCounts;
-  bool get isOwnProfile;
+  GUserProfileData_userProfile_user? get user;
+  _i2.GFollowStatus? get outgoingFollowStatus;
+  _i2.GFollowStatus? get incomingFollowStatus;
+  GUserProfileData_userProfile_followCounts? get followCounts;
+  bool? get isOwnProfile;
   static Serializer<GUserProfileData_userProfile> get serializer =>
       _$gUserProfileDataUserProfileSerializer;
 
@@ -95,6 +95,7 @@ abstract class GUserProfileData_userProfile_user
   String? get bio;
   int get bookCount;
   String? get instagramHandle;
+  String? get shareUrl;
   static Serializer<GUserProfileData_userProfile_user> get serializer =>
       _$gUserProfileDataUserProfileUserSerializer;
 
@@ -127,8 +128,8 @@ abstract class GUserProfileData_userProfile_followCounts
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get followingCount;
-  int get followerCount;
+  int? get followingCount;
+  int? get followerCount;
   static Serializer<GUserProfileData_userProfile_followCounts> get serializer =>
       _$gUserProfileDataUserProfileFollowCountsSerializer;
 

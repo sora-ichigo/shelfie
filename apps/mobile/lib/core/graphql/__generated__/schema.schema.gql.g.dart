@@ -290,12 +290,12 @@ Serializer<GFollowStatus> _$gFollowStatusSerializer =
     _$GFollowStatusSerializer();
 Serializer<GLoginUserInput> _$gLoginUserInputSerializer =
     _$GLoginUserInputSerializer();
-Serializer<GNotificationType> _$gNotificationTypeSerializer =
-    _$GNotificationTypeSerializer();
 Serializer<GMyBookListsInput> _$gMyBookListsInputSerializer =
     _$GMyBookListsInputSerializer();
 Serializer<GMyShelfInput> _$gMyShelfInputSerializer =
     _$GMyShelfInputSerializer();
+Serializer<GNotificationType> _$gNotificationTypeSerializer =
+    _$GNotificationTypeSerializer();
 Serializer<GReadingStatus> _$gReadingStatusSerializer =
     _$GReadingStatusSerializer();
 Serializer<GRefreshTokenInput> _$gRefreshTokenInputSerializer =
@@ -674,24 +674,6 @@ class _$GLoginUserInputSerializer
   }
 }
 
-class _$GNotificationTypeSerializer
-    implements PrimitiveSerializer<GNotificationType> {
-  @override
-  final Iterable<Type> types = const <Type>[GNotificationType];
-  @override
-  final String wireName = 'GNotificationType';
-
-  @override
-  Object serialize(Serializers serializers, GNotificationType object,
-          {FullType specifiedType = FullType.unspecified}) =>
-      object.name;
-
-  @override
-  GNotificationType deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
-      GNotificationType.valueOf(serialized as String);
-}
-
 class _$GMyBookListsInputSerializer
     implements StructuredSerializer<GMyBookListsInput> {
   @override
@@ -842,6 +824,24 @@ class _$GMyShelfInputSerializer implements StructuredSerializer<GMyShelfInput> {
 
     return result.build();
   }
+}
+
+class _$GNotificationTypeSerializer
+    implements PrimitiveSerializer<GNotificationType> {
+  @override
+  final Iterable<Type> types = const <Type>[GNotificationType];
+  @override
+  final String wireName = 'GNotificationType';
+
+  @override
+  Object serialize(Serializers serializers, GNotificationType object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  GNotificationType deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      GNotificationType.valueOf(serialized as String);
 }
 
 class _$GReadingStatusSerializer

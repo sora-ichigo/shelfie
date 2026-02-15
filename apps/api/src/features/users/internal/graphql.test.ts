@@ -178,6 +178,23 @@ describe("User GraphQL Types", () => {
       expect(instagramHandleField).toBeDefined();
       expect(instagramHandleField?.type.toString()).toBe("String");
     });
+
+    it("should have shareUrl field as nullable String", () => {
+      const builder = createTestBuilder();
+      registerUserTypes(builder);
+
+      builder.queryType({
+        fields: (t) => ({
+          _empty: t.string({ resolve: () => "" }),
+        }),
+      });
+
+      const schema = builder.toSchema();
+      const shareUrlField = getField(schema, "User", "shareUrl");
+
+      expect(shareUrlField).toBeDefined();
+      expect(shareUrlField?.type.toString()).toBe("String");
+    });
   });
 
   describe("userByHandle query", () => {

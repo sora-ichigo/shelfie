@@ -216,22 +216,40 @@ class _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequ
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'senderId',
-      serializers.serialize(object.senderId,
-          specifiedType: const FullType(int)),
-      'receiverId',
-      serializers.serialize(object.receiverId,
-          specifiedType: const FullType(int)),
-      'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(_i3.GFollowRequestStatus)),
-      'createdAt',
-      serializers.serialize(object.createdAt,
-          specifiedType: const FullType(DateTime)),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.senderId;
+    if (value != null) {
+      result
+        ..add('senderId')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.receiverId;
+    if (value != null) {
+      result
+        ..add('receiverId')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GFollowRequestStatus)));
+    }
+    value = object.createdAt;
+    if (value != null) {
+      result
+        ..add('createdAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     return result;
   }
 
@@ -254,24 +272,24 @@ class _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequ
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'senderId':
           result.senderId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'receiverId':
           result.receiverId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'status':
           result.status = serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GFollowRequestStatus))!
-              as _i3.GFollowRequestStatus;
+                  specifiedType: const FullType(_i3.GFollowRequestStatus))
+              as _i3.GFollowRequestStatus?;
           break;
         case 'createdAt':
           result.createdAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -714,15 +732,15 @@ class _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequ
   @override
   final String G__typename;
   @override
-  final int id;
+  final int? id;
   @override
-  final int senderId;
+  final int? senderId;
   @override
-  final int receiverId;
+  final int? receiverId;
   @override
-  final _i3.GFollowRequestStatus status;
+  final _i3.GFollowRequestStatus? status;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   factory _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data(
           [void Function(
@@ -734,11 +752,11 @@ class _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequ
 
   _$GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data._(
       {required this.G__typename,
-      required this.id,
-      required this.senderId,
-      required this.receiverId,
-      required this.status,
-      required this.createdAt})
+      this.id,
+      this.senderId,
+      this.receiverId,
+      this.status,
+      this.createdAt})
       : super._();
   @override
   GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data
@@ -875,26 +893,11 @@ class GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowReques
               G__typename,
               r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
               'G__typename'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
-              'id'),
-          senderId: BuiltValueNullFieldError.checkNotNull(
-              senderId,
-              r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
-              'senderId'),
-          receiverId: BuiltValueNullFieldError.checkNotNull(
-              receiverId,
-              r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
-              'receiverId'),
-          status: BuiltValueNullFieldError.checkNotNull(
-              status,
-              r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
-              'status'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt,
-              r'GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess_data',
-              'createdAt'),
+          id: id,
+          senderId: senderId,
+          receiverId: receiverId,
+          status: status,
+          createdAt: createdAt,
         );
     replace(_$result);
     return _$result;

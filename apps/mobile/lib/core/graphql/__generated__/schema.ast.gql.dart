@@ -94,6 +94,85 @@ const AddBookInput = _i1.InputObjectTypeDefinitionNode(
     ),
   ],
 );
+const AppNotification = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'AppNotification'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'createdAt'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'DateTime'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'followRequestId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'incomingFollowStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowStatus'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'isRead'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'outgoingFollowStatus'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowStatus'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'sender'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'User'),
+        isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'type'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'NotificationType'),
+        isNonNull: true,
+      ),
+    ),
+  ],
+);
 const AuthError = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'AuthError'),
   directives: [],
@@ -226,85 +305,6 @@ const AuthErrorResult = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Boolean'),
         isNonNull: false,
-      ),
-    ),
-  ],
-);
-const AppNotification = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'AppNotification'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'createdAt'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'DateTime'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'followRequestId'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: false,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'incomingFollowStatus'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'FollowStatus'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'outgoingFollowStatus'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'FollowStatus'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'isRead'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Boolean'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'sender'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'User'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'type'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'NotificationType'),
-        isNonNull: true,
       ),
     ),
   ],
@@ -994,127 +994,6 @@ const DateTime = _i1.ScalarTypeDefinitionNode(
   name: _i1.NameNode(value: 'DateTime'),
   directives: [],
 );
-const FollowCounts = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'FollowCounts'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'followerCount'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'followingCount'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-  ],
-);
-const FollowRequest = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'FollowRequest'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'createdAt'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'DateTime'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'id'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'receiverId'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'senderId'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'status'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'FollowRequestStatus'),
-        isNonNull: true,
-      ),
-    ),
-  ],
-);
-const FollowRequestStatus = _i1.EnumTypeDefinitionNode(
-  name: _i1.NameNode(value: 'FollowRequestStatus'),
-  directives: [],
-  values: [
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'APPROVED'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'REJECTED'),
-      directives: [],
-    ),
-  ],
-);
-const FollowStatus = _i1.EnumTypeDefinitionNode(
-  name: _i1.NameNode(value: 'FollowStatus'),
-  directives: [],
-  values: [
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'FOLLOWED_BY'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'FOLLOWING'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'NONE'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING_RECEIVED'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'PENDING_SENT'),
-      directives: [],
-    ),
-  ],
-);
 const DeleteAccountResult = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'DeleteAccountResult'),
   directives: [],
@@ -1171,6 +1050,127 @@ const DeviceToken = _i1.ObjectTypeDefinitionNode(
         name: _i1.NameNode(value: 'Int'),
         isNonNull: false,
       ),
+    ),
+  ],
+);
+const FollowCounts = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'FollowCounts'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'followerCount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'followingCount'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
+const FollowRequest = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'FollowRequest'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'createdAt'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'DateTime'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'id'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'receiverId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'senderId'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Int'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'status'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowRequestStatus'),
+        isNonNull: false,
+      ),
+    ),
+  ],
+);
+const FollowRequestStatus = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'FollowRequestStatus'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'APPROVED'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'PENDING'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'REJECTED'),
+      directives: [],
+    ),
+  ],
+);
+const FollowStatus = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'FollowStatus'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOWED_BY'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOWING'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'NONE'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'PENDING_RECEIVED'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'PENDING_SENT'),
+      directives: [],
     ),
   ],
 );
@@ -1290,66 +1290,6 @@ const MeResult = _i1.UnionTypeDefinitionNode(
     ),
   ],
 );
-const MutationApproveFollowRequestResult = _i1.UnionTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationApproveFollowRequestResult'),
-  directives: [],
-  types: [
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'MutationApproveFollowRequestSuccess'),
-      isNonNull: false,
-    ),
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'ValidationError'),
-      isNonNull: false,
-    ),
-  ],
-);
-const MutationApproveFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationApproveFollowRequestSuccess'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'data'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'FollowRequest'),
-        isNonNull: true,
-      ),
-    )
-  ],
-);
-const MutationCancelFollowRequestResult = _i1.UnionTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationCancelFollowRequestResult'),
-  directives: [],
-  types: [
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'MutationCancelFollowRequestSuccess'),
-      isNonNull: false,
-    ),
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'ValidationError'),
-      isNonNull: false,
-    ),
-  ],
-);
-const MutationCancelFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationCancelFollowRequestSuccess'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'data'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'Boolean'),
-        isNonNull: true,
-      ),
-    )
-  ],
-);
 const Mutation = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'Mutation'),
   directives: [],
@@ -1384,25 +1324,6 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'approveFollowRequest'),
-      directives: [],
-      args: [
-        _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'requestId'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-            name: _i1.NameNode(value: 'Int'),
-            isNonNull: true,
-          ),
-          defaultValue: null,
-        )
-      ],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'MutationApproveFollowRequestResult'),
-        isNonNull: false,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'addBookToShelf'),
       directives: [],
       args: [
@@ -1419,6 +1340,25 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'UserBook'),
         isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'approveFollowRequest'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'requestId'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'Int'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationApproveFollowRequestResult'),
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -1573,25 +1513,6 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'rejectFollowRequest'),
-      directives: [],
-      args: [
-        _i1.InputValueDefinitionNode(
-          name: _i1.NameNode(value: 'requestId'),
-          directives: [],
-          type: _i1.NamedTypeNode(
-            name: _i1.NameNode(value: 'Int'),
-            isNonNull: true,
-          ),
-          defaultValue: null,
-        )
-      ],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'MutationRejectFollowRequestResult'),
-        isNonNull: false,
-      ),
-    ),
-    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'registerUser'),
       directives: [],
       args: [
@@ -1607,6 +1528,25 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MutationRegisterUserResult'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'rejectFollowRequest'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'requestId'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'Int'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'MutationRejectFollowRequestResult'),
         isNonNull: false,
       ),
     ),
@@ -1978,6 +1918,66 @@ const Mutation = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const MutationApproveFollowRequestResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationApproveFollowRequestResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationApproveFollowRequestSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationApproveFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationApproveFollowRequestSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowRequest'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationCancelFollowRequestResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationCancelFollowRequestResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationCancelFollowRequestSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationCancelFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationCancelFollowRequestSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
 const MutationChangePasswordResult = _i1.UnionTypeDefinitionNode(
   name: _i1.NameNode(value: 'MutationChangePasswordResult'),
   directives: [],
@@ -2098,36 +2098,6 @@ const MutationRefreshTokenSuccess = _i1.ObjectTypeDefinitionNode(
     )
   ],
 );
-const MutationRejectFollowRequestResult = _i1.UnionTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationRejectFollowRequestResult'),
-  directives: [],
-  types: [
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'MutationRejectFollowRequestSuccess'),
-      isNonNull: false,
-    ),
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'ValidationError'),
-      isNonNull: false,
-    ),
-  ],
-);
-const MutationRejectFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationRejectFollowRequestSuccess'),
-  directives: [],
-  interfaces: [],
-  fields: [
-    _i1.FieldDefinitionNode(
-      name: _i1.NameNode(value: 'data'),
-      directives: [],
-      args: [],
-      type: _i1.NamedTypeNode(
-        name: _i1.NameNode(value: 'FollowRequest'),
-        isNonNull: true,
-      ),
-    )
-  ],
-);
 const MutationRegisterUserResult = _i1.UnionTypeDefinitionNode(
   name: _i1.NameNode(value: 'MutationRegisterUserResult'),
   directives: [],
@@ -2153,6 +2123,36 @@ const MutationRegisterUserSuccess = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'LoginResult'),
+        isNonNull: true,
+      ),
+    )
+  ],
+);
+const MutationRejectFollowRequestResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRejectFollowRequestResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationRejectFollowRequestSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
+const MutationRejectFollowRequestSuccess = _i1.ObjectTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationRejectFollowRequestSuccess'),
+  directives: [],
+  interfaces: [],
+  fields: [
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'data'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'FollowRequest'),
         isNonNull: true,
       ),
     )
@@ -2218,20 +2218,6 @@ const MutationSendPasswordResetEmailSuccess = _i1.ObjectTypeDefinitionNode(
     )
   ],
 );
-const MutationUpdateProfileResult = _i1.UnionTypeDefinitionNode(
-  name: _i1.NameNode(value: 'MutationUpdateProfileResult'),
-  directives: [],
-  types: [
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'MutationUpdateProfileSuccess'),
-      isNonNull: false,
-    ),
-    _i1.NamedTypeNode(
-      name: _i1.NameNode(value: 'ValidationError'),
-      isNonNull: false,
-    ),
-  ],
-);
 const MutationUnfollowResult = _i1.UnionTypeDefinitionNode(
   name: _i1.NameNode(value: 'MutationUnfollowResult'),
   directives: [],
@@ -2262,6 +2248,20 @@ const MutationUnfollowSuccess = _i1.ObjectTypeDefinitionNode(
     )
   ],
 );
+const MutationUpdateProfileResult = _i1.UnionTypeDefinitionNode(
+  name: _i1.NameNode(value: 'MutationUpdateProfileResult'),
+  directives: [],
+  types: [
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'MutationUpdateProfileSuccess'),
+      isNonNull: false,
+    ),
+    _i1.NamedTypeNode(
+      name: _i1.NameNode(value: 'ValidationError'),
+      isNonNull: false,
+    ),
+  ],
+);
 const MutationUpdateProfileSuccess = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'MutationUpdateProfileSuccess'),
   directives: [],
@@ -2276,20 +2276,6 @@ const MutationUpdateProfileSuccess = _i1.ObjectTypeDefinitionNode(
         isNonNull: true,
       ),
     )
-  ],
-);
-const NotificationType = _i1.EnumTypeDefinitionNode(
-  name: _i1.NameNode(value: 'NotificationType'),
-  directives: [],
-  values: [
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'FOLLOW_REQUEST_APPROVED'),
-      directives: [],
-    ),
-    _i1.EnumValueDefinitionNode(
-      name: _i1.NameNode(value: 'FOLLOW_REQUEST_RECEIVED'),
-      directives: [],
-    ),
   ],
 );
 const MyBookListsInput = _i1.InputObjectTypeDefinitionNode(
@@ -2450,6 +2436,20 @@ const MyShelfResult = _i1.ObjectTypeDefinitionNode(
     ),
   ],
 );
+const NotificationType = _i1.EnumTypeDefinitionNode(
+  name: _i1.NameNode(value: 'NotificationType'),
+  directives: [],
+  values: [
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOW_REQUEST_APPROVED'),
+      directives: [],
+    ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'FOLLOW_REQUEST_RECEIVED'),
+      directives: [],
+    ),
+  ],
+);
 const Query = _i1.ObjectTypeDefinitionNode(
   name: _i1.NameNode(value: 'Query'),
   directives: [],
@@ -2518,7 +2518,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
       ],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'FollowCounts'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -2541,7 +2541,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
             name: _i1.NameNode(value: 'Int'),
             isNonNull: false,
           ),
-          defaultValue: null,
+          defaultValue: _i1.IntValueNode(value: '20'),
         ),
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'userId'),
@@ -2558,7 +2558,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
           name: _i1.NameNode(value: 'User'),
           isNonNull: true,
         ),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -2581,7 +2581,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
             name: _i1.NameNode(value: 'Int'),
             isNonNull: false,
           ),
-          defaultValue: null,
+          defaultValue: _i1.IntValueNode(value: '20'),
         ),
         _i1.InputValueDefinitionNode(
           name: _i1.NameNode(value: 'userId'),
@@ -2598,7 +2598,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
           name: _i1.NameNode(value: 'User'),
           isNonNull: true,
         ),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -2722,7 +2722,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Int'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -2745,7 +2745,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
             name: _i1.NameNode(value: 'Int'),
             isNonNull: false,
           ),
-          defaultValue: null,
+          defaultValue: _i1.IntValueNode(value: '20'),
         ),
       ],
       type: _i1.ListTypeNode(
@@ -2753,7 +2753,7 @@ const Query = _i1.ObjectTypeDefinitionNode(
           name: _i1.NameNode(value: 'FollowRequest'),
           isNonNull: true,
         ),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -2866,6 +2866,25 @@ const Query = _i1.ObjectTypeDefinitionNode(
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'MyBookListsResult'),
         isNonNull: true,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'userByHandle'),
+      directives: [],
+      args: [
+        _i1.InputValueDefinitionNode(
+          name: _i1.NameNode(value: 'handle'),
+          directives: [],
+          type: _i1.NamedTypeNode(
+            name: _i1.NameNode(value: 'String'),
+            isNonNull: true,
+          ),
+          defaultValue: null,
+        )
+      ],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'User'),
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3424,6 +3443,15 @@ const User = _i1.ObjectTypeDefinitionNode(
       ),
     ),
     _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'shareUrl'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'updatedAt'),
       directives: [],
       args: [],
@@ -3617,7 +3645,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'FollowCounts'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3626,7 +3654,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'FollowStatus'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3635,7 +3663,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'Boolean'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3644,7 +3672,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'FollowStatus'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
     _i1.FieldDefinitionNode(
@@ -3653,7 +3681,7 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'User'),
-        isNonNull: true,
+        isNonNull: false,
       ),
     ),
   ],
@@ -3694,10 +3722,10 @@ const ValidationError = _i1.ObjectTypeDefinitionNode(
 );
 const document = _i1.DocumentNode(definitions: [
   AddBookInput,
+  AppNotification,
   AuthError,
   AuthErrorCode,
   AuthErrorResult,
-  AppNotification,
   Book,
   BookDetail,
   BookList,
@@ -3711,22 +3739,22 @@ const document = _i1.DocumentNode(definitions: [
   ChangePasswordResult,
   CreateBookListInput,
   DateTime,
+  DeleteAccountResult,
+  DeviceToken,
   FollowCounts,
   FollowRequest,
   FollowRequestStatus,
   FollowStatus,
-  DeleteAccountResult,
-  DeviceToken,
   ImageUploadError,
   ListIdsContainingUserBookResult,
   LoginResult,
   LoginUserInput,
   MeResult,
+  Mutation,
   MutationApproveFollowRequestResult,
   MutationApproveFollowRequestSuccess,
   MutationCancelFollowRequestResult,
   MutationCancelFollowRequestSuccess,
-  Mutation,
   MutationChangePasswordResult,
   MutationChangePasswordSuccess,
   MutationDeleteAccountResult,
@@ -3735,23 +3763,23 @@ const document = _i1.DocumentNode(definitions: [
   MutationLoginUserSuccess,
   MutationRefreshTokenResult,
   MutationRefreshTokenSuccess,
-  MutationRejectFollowRequestResult,
-  MutationRejectFollowRequestSuccess,
   MutationRegisterUserResult,
   MutationRegisterUserSuccess,
+  MutationRejectFollowRequestResult,
+  MutationRejectFollowRequestSuccess,
   MutationSendFollowRequestResult,
   MutationSendFollowRequestSuccess,
   MutationSendPasswordResetEmailResult,
   MutationSendPasswordResetEmailSuccess,
-  MutationUpdateProfileResult,
   MutationUnfollowResult,
   MutationUnfollowSuccess,
+  MutationUpdateProfileResult,
   MutationUpdateProfileSuccess,
-  NotificationType,
   MyBookListsInput,
   MyBookListsResult,
   MyShelfInput,
   MyShelfResult,
+  NotificationType,
   Query,
   QueryGetUploadCredentialsResult,
   QueryGetUploadCredentialsSuccess,

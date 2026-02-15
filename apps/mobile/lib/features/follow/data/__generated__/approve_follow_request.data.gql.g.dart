@@ -218,22 +218,40 @@ class _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowR
       '__typename',
       serializers.serialize(object.G__typename,
           specifiedType: const FullType(String)),
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'senderId',
-      serializers.serialize(object.senderId,
-          specifiedType: const FullType(int)),
-      'receiverId',
-      serializers.serialize(object.receiverId,
-          specifiedType: const FullType(int)),
-      'status',
-      serializers.serialize(object.status,
-          specifiedType: const FullType(_i3.GFollowRequestStatus)),
-      'createdAt',
-      serializers.serialize(object.createdAt,
-          specifiedType: const FullType(DateTime)),
     ];
-
+    Object? value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.senderId;
+    if (value != null) {
+      result
+        ..add('senderId')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.receiverId;
+    if (value != null) {
+      result
+        ..add('receiverId')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.status;
+    if (value != null) {
+      result
+        ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(_i3.GFollowRequestStatus)));
+    }
+    value = object.createdAt;
+    if (value != null) {
+      result
+        ..add('createdAt')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DateTime)));
+    }
     return result;
   }
 
@@ -256,24 +274,24 @@ class _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowR
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'senderId':
           result.senderId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'receiverId':
           result.receiverId = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'status':
           result.status = serializers.deserialize(value,
-                  specifiedType: const FullType(_i3.GFollowRequestStatus))!
-              as _i3.GFollowRequestStatus;
+                  specifiedType: const FullType(_i3.GFollowRequestStatus))
+              as _i3.GFollowRequestStatus?;
           break;
         case 'createdAt':
           result.createdAt = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+              specifiedType: const FullType(DateTime)) as DateTime?;
           break;
       }
     }
@@ -719,15 +737,15 @@ class _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowR
   @override
   final String G__typename;
   @override
-  final int id;
+  final int? id;
   @override
-  final int senderId;
+  final int? senderId;
   @override
-  final int receiverId;
+  final int? receiverId;
   @override
-  final _i3.GFollowRequestStatus status;
+  final _i3.GFollowRequestStatus? status;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   factory _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data(
           [void Function(
@@ -739,11 +757,11 @@ class _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowR
 
   _$GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data._(
       {required this.G__typename,
-      required this.id,
-      required this.senderId,
-      required this.receiverId,
-      required this.status,
-      required this.createdAt})
+      this.id,
+      this.senderId,
+      this.receiverId,
+      this.status,
+      this.createdAt})
       : super._();
   @override
   GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data
@@ -880,26 +898,11 @@ class GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowReq
               G__typename,
               r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
               'G__typename'),
-          id: BuiltValueNullFieldError.checkNotNull(
-              id,
-              r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
-              'id'),
-          senderId: BuiltValueNullFieldError.checkNotNull(
-              senderId,
-              r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
-              'senderId'),
-          receiverId: BuiltValueNullFieldError.checkNotNull(
-              receiverId,
-              r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
-              'receiverId'),
-          status: BuiltValueNullFieldError.checkNotNull(
-              status,
-              r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
-              'status'),
-          createdAt: BuiltValueNullFieldError.checkNotNull(
-              createdAt,
-              r'GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess_data',
-              'createdAt'),
+          id: id,
+          senderId: senderId,
+          receiverId: receiverId,
+          status: status,
+          createdAt: createdAt,
         );
     replace(_$result);
     return _$result;

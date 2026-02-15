@@ -315,11 +315,11 @@ class FollowRepository {
     if (result
         is GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess) {
       return right(_mapFollowRequest(
-        id: result.data.id,
-        senderId: result.data.senderId,
-        receiverId: result.data.receiverId,
-        status: result.data.status,
-        createdAt: result.data.createdAt,
+        id: result.data.id ?? 0,
+        senderId: result.data.senderId ?? 0,
+        receiverId: result.data.receiverId ?? 0,
+        status: result.data.status ?? GFollowRequestStatus.PENDING,
+        createdAt: result.data.createdAt ?? DateTime.now(),
       ));
     }
 
@@ -360,11 +360,11 @@ class FollowRepository {
     if (result
         is GApproveFollowRequestData_approveFollowRequest__asMutationApproveFollowRequestSuccess) {
       return right(_mapFollowRequest(
-        id: result.data.id,
-        senderId: result.data.senderId,
-        receiverId: result.data.receiverId,
-        status: result.data.status,
-        createdAt: result.data.createdAt,
+        id: result.data.id ?? 0,
+        senderId: result.data.senderId ?? 0,
+        receiverId: result.data.receiverId ?? 0,
+        status: result.data.status ?? GFollowRequestStatus.PENDING,
+        createdAt: result.data.createdAt ?? DateTime.now(),
       ));
     }
 
@@ -405,11 +405,11 @@ class FollowRepository {
     if (result
         is GRejectFollowRequestData_rejectFollowRequest__asMutationRejectFollowRequestSuccess) {
       return right(_mapFollowRequest(
-        id: result.data.id,
-        senderId: result.data.senderId,
-        receiverId: result.data.receiverId,
-        status: result.data.status,
-        createdAt: result.data.createdAt,
+        id: result.data.id ?? 0,
+        senderId: result.data.senderId ?? 0,
+        receiverId: result.data.receiverId ?? 0,
+        status: result.data.status ?? GFollowRequestStatus.PENDING,
+        createdAt: result.data.createdAt ?? DateTime.now(),
       ));
     }
 
@@ -514,15 +514,15 @@ class FollowRepository {
       ));
     }
 
-    final requests = data.pendingFollowRequests.map((item) {
+    final requests = data.pendingFollowRequests?.map((item) {
       return _mapFollowRequest(
-        id: item.id,
-        senderId: item.senderId,
-        receiverId: item.receiverId,
-        status: item.status,
-        createdAt: item.createdAt,
+        id: item.id ?? 0,
+        senderId: item.senderId ?? 0,
+        receiverId: item.receiverId ?? 0,
+        status: item.status ?? GFollowRequestStatus.PENDING,
+        createdAt: item.createdAt ?? DateTime.now(),
       );
-    }).toList();
+    }).toList() ?? [];
 
     return right(requests);
   }
@@ -546,7 +546,7 @@ class FollowRepository {
       ));
     }
 
-    return right(data.pendingFollowRequestCount);
+    return right(data.pendingFollowRequestCount ?? 0);
   }
 
   Either<Failure, List<UserSummary>> _handleFollowingResponse(
@@ -568,14 +568,14 @@ class FollowRepository {
       ));
     }
 
-    final users = data.following.map((item) {
+    final users = data.following?.map((item) {
       return UserSummary(
         id: item.id ?? 0,
         name: item.name,
         avatarUrl: item.avatarUrl,
         handle: item.handle,
       );
-    }).toList();
+    }).toList() ?? [];
 
     return right(users);
   }
@@ -599,14 +599,14 @@ class FollowRepository {
       ));
     }
 
-    final users = data.followers.map((item) {
+    final users = data.followers?.map((item) {
       return UserSummary(
         id: item.id ?? 0,
         name: item.name,
         avatarUrl: item.avatarUrl,
         handle: item.handle,
       );
-    }).toList();
+    }).toList() ?? [];
 
     return right(users);
   }
@@ -631,8 +631,8 @@ class FollowRepository {
     }
 
     return right(FollowCounts(
-      followingCount: data.followCounts.followingCount,
-      followerCount: data.followCounts.followerCount,
+      followingCount: data.followCounts?.followingCount ?? 0,
+      followerCount: data.followCounts?.followerCount ?? 0,
     ));
   }
 
@@ -664,21 +664,22 @@ class FollowRepository {
 
     return right(UserProfileModel(
       user: UserSummary(
-        id: profile.user.id ?? 0,
-        name: profile.user.name,
-        avatarUrl: profile.user.avatarUrl,
-        handle: profile.user.handle,
+        id: profile.user?.id ?? 0,
+        name: profile.user?.name,
+        avatarUrl: profile.user?.avatarUrl,
+        handle: profile.user?.handle,
       ),
       outgoingFollowStatus: _mapFollowStatus(profile.outgoingFollowStatus),
       incomingFollowStatus: _mapFollowStatus(profile.incomingFollowStatus),
       followCounts: FollowCounts(
-        followingCount: profile.followCounts.followingCount,
-        followerCount: profile.followCounts.followerCount,
+        followingCount: profile.followCounts?.followingCount ?? 0,
+        followerCount: profile.followCounts?.followerCount ?? 0,
       ),
-      isOwnProfile: profile.isOwnProfile,
-      bio: profile.user.bio,
-      instagramHandle: profile.user.instagramHandle,
-      bookCount: profile.user.bookCount,
+      isOwnProfile: profile.isOwnProfile ?? false,
+      bio: profile.user?.bio,
+      instagramHandle: profile.user?.instagramHandle,
+      shareUrl: profile.user?.shareUrl,
+      bookCount: profile.user?.bookCount,
     ));
   }
 
@@ -719,7 +720,8 @@ class FollowRepository {
     };
   }
 
-  FollowStatusType _mapFollowStatus(GFollowStatus status) {
+  FollowStatusType _mapFollowStatus(GFollowStatus? status) {
+    if (status == null) return FollowStatusType.none;
     return switch (status) {
       GFollowStatus.NONE => FollowStatusType.none,
       GFollowStatus.PENDING_SENT => FollowStatusType.pendingSent,

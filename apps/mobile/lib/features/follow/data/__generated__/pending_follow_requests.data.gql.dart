@@ -25,7 +25,7 @@ abstract class GPendingFollowRequestsData
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  BuiltList<GPendingFollowRequestsData_pendingFollowRequests>
+  BuiltList<GPendingFollowRequestsData_pendingFollowRequests>?
       get pendingFollowRequests;
   static Serializer<GPendingFollowRequestsData> get serializer =>
       _$gPendingFollowRequestsDataSerializer;
@@ -58,11 +58,11 @@ abstract class GPendingFollowRequestsData_pendingFollowRequests
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get id;
-  int get senderId;
-  int get receiverId;
-  _i2.GFollowRequestStatus get status;
-  DateTime get createdAt;
+  int? get id;
+  int? get senderId;
+  int? get receiverId;
+  _i2.GFollowRequestStatus? get status;
+  DateTime? get createdAt;
   static Serializer<GPendingFollowRequestsData_pendingFollowRequests>
       get serializer =>
           _$gPendingFollowRequestsDataPendingFollowRequestsSerializer;

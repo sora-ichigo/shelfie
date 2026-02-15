@@ -13,6 +13,7 @@ import 'package:shelfie/features/account/domain/user_profile.dart';
 import 'package:shelfie/features/account/presentation/widgets/no_book_lists_message.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_content_view.dart';
 import 'package:shelfie/features/account/presentation/widgets/profile_header.dart';
+import 'package:shelfie/features/account/presentation/widgets/profile_share_bottom_sheet.dart';
 import 'package:shelfie/features/account/presentation/widgets/reading_status_chips.dart';
 import 'package:shelfie/features/book_list/application/book_list_notifier.dart';
 import 'package:shelfie/features/book_list/application/book_list_state.dart';
@@ -148,7 +149,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               type: 'followers',
             ),
           ),
-          actionButtons: _buildEditShareButtons(appColors, theme),
+          actionButtons: _buildEditShareButtons(appColors, theme, profile),
         ),
         books: booksState.books,
         isBooksLoading: booksState.isLoading,
@@ -237,7 +238,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     }
   }
 
-  Widget _buildEditShareButtons(AppColors appColors, ThemeData theme) {
+  Widget _buildEditShareButtons(
+    AppColors appColors,
+    ThemeData theme,
+    UserProfile profile,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -265,7 +270,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         const SizedBox(width: AppSpacing.xs),
         Expanded(
           child: FilledButton(
-            onPressed: () {},
+            onPressed: profile.shareUrl != null
+                ? () => showProfileShareBottomSheet(
+                      context: context,
+                      shareUrl: profile.shareUrl!,
+                    )
+                : null,
             style: FilledButton.styleFrom(
               backgroundColor: appColors.surfaceElevated,
               foregroundColor: appColors.textPrimary,

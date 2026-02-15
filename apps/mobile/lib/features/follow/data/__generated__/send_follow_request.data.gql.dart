@@ -170,11 +170,11 @@ abstract class GSendFollowRequestData_sendFollowRequest__asMutationSendFollowReq
 
   @BuiltValueField(wireName: '__typename')
   String get G__typename;
-  int get id;
-  int get senderId;
-  int get receiverId;
-  _i3.GFollowRequestStatus get status;
-  DateTime get createdAt;
+  int? get id;
+  int? get senderId;
+  int? get receiverId;
+  _i3.GFollowRequestStatus? get status;
+  DateTime? get createdAt;
   static Serializer<
           GSendFollowRequestData_sendFollowRequest__asMutationSendFollowRequestSuccess_data>
       get serializer =>
