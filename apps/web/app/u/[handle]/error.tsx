@@ -43,9 +43,10 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh",
+    height: "100dvh",
     backgroundColor: "#121212",
     padding: "16px",
+    boxSizing: "border-box",
   },
   card: {
     maxWidth: "400px",
