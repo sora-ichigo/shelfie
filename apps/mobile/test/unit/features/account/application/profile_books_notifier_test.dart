@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/account/application/profile_books_notifier.dart';
 import 'package:shelfie/features/account/application/profile_books_state.dart';
@@ -250,6 +252,110 @@ void main() {
       );
 
       // refresh マイクロタスクの完了を待つ
+      await Future<void>.delayed(Duration.zero);
+    });
+
+    test('フィルタ選択中に読書状態が変更された本がリストから即座に除外される', () async {
+      final readingBooks = [
+        _createBook('book-1', 'Reading Book 1'),
+        _createBook('book-2', 'Reading Book 2'),
+      ];
+
+      stubGetMyShelf(items: []);
+      stubGetMyShelfForStatus(
+        status: GReadingStatus.READING,
+        items: readingBooks,
+        totalCount: 2,
+      );
+
+      final container = createContainer();
+
+      container.listen(
+        profileBooksNotifierProvider,
+        (_, __) {},
+        fireImmediately: true,
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      // フィルタを「読書中」に設定
+      await container
+          .read(profileBooksNotifierProvider.notifier)
+          .setFilter(ReadingStatus.reading);
+
+      expect(container.read(profileBooksNotifierProvider).books.length, 2);
+
+      // shelfStateProvider にエントリを登録
+      final shelfNotifier = container.read(shelfStateProvider.notifier);
+      for (final book in readingBooks) {
+        shelfNotifier.registerEntry(
+          ShelfEntry(
+            userBookId: book.userBookId,
+            externalId: book.externalId,
+            readingStatus: ReadingStatus.reading,
+            addedAt: DateTime(2024, 1, 1),
+          ),
+        );
+      }
+
+      // book-1 の読書状態を「読了」に変更（クイックアクションをシミュレート）
+      shelfNotifier.updateReadingStatus(
+        externalId: 'book-1',
+        status: ReadingStatus.completed,
+      );
+
+      // book-1 がリストから除外されていることを確認
+      final stateAfter = container.read(profileBooksNotifierProvider);
+      expect(stateAfter.books.length, 1);
+      expect(stateAfter.books.first.externalId, 'book-2');
+      expect(stateAfter.totalCount, 1);
+
+      await Future<void>.delayed(Duration.zero);
+    });
+
+    test('フィルタ未選択時に読書状態が変更されてもリストは変わらない', () async {
+      final books = [
+        _createBook('book-1', 'Book 1'),
+        _createBook('book-2', 'Book 2'),
+      ];
+
+      stubGetMyShelf(items: books, totalCount: 2);
+
+      final container = createContainer();
+
+      container.listen(
+        profileBooksNotifierProvider,
+        (_, __) {},
+        fireImmediately: true,
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      expect(container.read(profileBooksNotifierProvider).books.length, 2);
+      expect(
+        container.read(profileBooksNotifierProvider).selectedFilter,
+        isNull,
+      );
+
+      // shelfStateProvider にエントリを登録
+      final shelfNotifier = container.read(shelfStateProvider.notifier);
+      shelfNotifier.registerEntry(
+        ShelfEntry(
+          userBookId: books[0].userBookId,
+          externalId: 'book-1',
+          readingStatus: ReadingStatus.reading,
+          addedAt: DateTime(2024, 1, 1),
+        ),
+      );
+
+      // 読書状態を変更
+      shelfNotifier.updateReadingStatus(
+        externalId: 'book-1',
+        status: ReadingStatus.completed,
+      );
+
+      // フィルタ未選択なのでリストは変わらない
+      final stateAfter = container.read(profileBooksNotifierProvider);
+      expect(stateAfter.books.length, 2);
+
       await Future<void>.delayed(Duration.zero);
     });
   });

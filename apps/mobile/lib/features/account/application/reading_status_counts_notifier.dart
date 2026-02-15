@@ -1,5 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
+import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/book_detail/domain/reading_status.dart';
 import 'package:shelfie/features/book_shelf/data/book_shelf_repository.dart';
@@ -14,6 +16,11 @@ class ReadingStatusCountsNotifier extends _$ReadingStatusCountsNotifier {
   Map<ReadingStatus, int> build() {
     ref.watch(shelfVersionProvider);
 
+    ref.listen<Map<String, ShelfEntry>>(
+      shelfStateProvider,
+      (previous, next) => _syncWithShelfState(previous, next),
+    );
+
     final cached = _cachedCounts;
     if (cached != null) {
       Future.microtask(_loadCounts);
@@ -22,6 +29,32 @@ class ReadingStatusCountsNotifier extends _$ReadingStatusCountsNotifier {
 
     Future.microtask(_loadCounts);
     return {};
+  }
+
+  void _syncWithShelfState(
+    Map<String, ShelfEntry>? previous,
+    Map<String, ShelfEntry> next,
+  ) {
+    if (previous == null || state.isEmpty) return;
+
+    final updated = Map<ReadingStatus, int>.from(state);
+    var hasChanges = false;
+
+    for (final entry in next.entries) {
+      final prev = previous[entry.key];
+      if (prev != null && prev.readingStatus != entry.value.readingStatus) {
+        updated[prev.readingStatus] =
+            (updated[prev.readingStatus] ?? 1) - 1;
+        updated[entry.value.readingStatus] =
+            (updated[entry.value.readingStatus] ?? 0) + 1;
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges) {
+      _cachedCounts = updated;
+      state = updated;
+    }
   }
 
   Future<void> refresh() async {

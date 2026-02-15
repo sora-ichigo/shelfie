@@ -7,7 +7,7 @@ part of 'reading_status_counts_notifier.dart';
 // **************************************************************************
 
 String _$readingStatusCountsNotifierHash() =>
-    r'0c74a1c0e889882b7da72013551f347956467e94';
+    r'76da9009e939479e1b6c09745f4bbaeb066332db';
 
 /// See also [ReadingStatusCountsNotifier].
 @ProviderFor(ReadingStatusCountsNotifier)

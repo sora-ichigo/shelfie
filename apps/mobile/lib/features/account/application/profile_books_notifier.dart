@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/graphql/__generated__/schema.schema.gql.dart';
+import 'package:shelfie/core/state/shelf_entry.dart';
 import 'package:shelfie/core/state/shelf_state_notifier.dart';
 import 'package:shelfie/core/state/shelf_version.dart';
 import 'package:shelfie/features/account/application/profile_books_state.dart';
@@ -33,6 +34,11 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
   ProfileBooksState build() {
     ref.watch(shelfVersionProvider);
 
+    ref.listen<Map<String, ShelfEntry>>(
+      shelfStateProvider,
+      (previous, next) => _syncWithShelfState(previous, next),
+    );
+
     final cached = _cachedState;
     if (cached != null) {
       Future.microtask(refresh);
@@ -41,6 +47,28 @@ class ProfileBooksNotifier extends _$ProfileBooksNotifier {
 
     Future.microtask(_loadBooks);
     return const ProfileBooksState(isLoading: true);
+  }
+
+  void _syncWithShelfState(
+    Map<String, ShelfEntry>? previous,
+    Map<String, ShelfEntry> next,
+  ) {
+    if (previous == null) return;
+    final filter = state.selectedFilter;
+    if (filter == null) return;
+
+    final updatedBooks = state.books.where((book) {
+      final entry = next[book.externalId];
+      if (entry == null) return true;
+      return entry.readingStatus == filter;
+    }).toList();
+
+    if (updatedBooks.length != state.books.length) {
+      _emit(state.copyWith(
+        books: updatedBooks,
+        totalCount: state.totalCount - (state.books.length - updatedBooks.length),
+      ));
+    }
   }
 
   Future<void> _loadBooks() async {
