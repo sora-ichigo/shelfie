@@ -5,7 +5,6 @@ import 'package:shelfie/core/theme/app_spacing.dart';
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({
     required this.onChanged,
-    required this.onScanPressed,
     super.key,
     this.controller,
     this.focusNode,
@@ -16,7 +15,6 @@ class SearchBarWidget extends StatelessWidget {
   });
 
   final void Function(String) onChanged;
-  final VoidCallback onScanPressed;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String)? onSubmitted;
@@ -96,37 +94,7 @@ class SearchBarWidget extends StatelessWidget {
                       ),
                     ],
                   )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(width: AppSpacing.xs),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: onScanPressed,
-                          borderRadius: borderRadius,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.sm,
-                              vertical: AppSpacing.xs,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.camera_alt_outlined, color: appColors.textPrimary),
-                                Text(
-                                  'バーコード',
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: appColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                : const SizedBox.shrink(),
           ),
         ],
       ),

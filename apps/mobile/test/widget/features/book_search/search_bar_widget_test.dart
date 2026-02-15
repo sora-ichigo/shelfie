@@ -6,7 +6,6 @@ import 'package:shelfie/features/book_search/presentation/widgets/search_bar_wid
 void main() {
   Widget buildSearchBarWidget({
     void Function(String)? onChanged,
-    VoidCallback? onScanPressed,
     TextEditingController? controller,
   }) {
     return MaterialApp(
@@ -14,7 +13,6 @@ void main() {
       home: Scaffold(
         body: SearchBarWidget(
           onChanged: onChanged ?? (_) {},
-          onScanPressed: onScanPressed ?? () {},
           controller: controller,
         ),
       ),
@@ -40,12 +38,6 @@ void main() {
       expect(find.byIcon(Icons.search), findsOneWidget);
     });
 
-    testWidgets('ISBNスキャンボタンが表示される', (tester) async {
-      await tester.pumpWidget(buildSearchBarWidget());
-
-      expect(find.byIcon(Icons.camera_alt_outlined), findsOneWidget);
-    });
-
     testWidgets('テキスト入力時にコールバックが呼ばれる', (tester) async {
       String? changedValue;
 
@@ -56,18 +48,6 @@ void main() {
       await tester.enterText(find.byType(TextField), 'テスト');
 
       expect(changedValue, 'テスト');
-    });
-
-    testWidgets('スキャンボタンタップ時にコールバックが呼ばれる', (tester) async {
-      var scanPressed = false;
-
-      await tester.pumpWidget(
-        buildSearchBarWidget(onScanPressed: () => scanPressed = true),
-      );
-
-      await tester.tap(find.byIcon(Icons.camera_alt_outlined));
-
-      expect(scanPressed, isTrue);
     });
 
     testWidgets('コントローラーが正しく動作する', (tester) async {

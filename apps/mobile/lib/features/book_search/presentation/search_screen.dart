@@ -16,13 +16,17 @@ import 'package:shelfie/features/book_search/application/book_search_notifier.da
 import 'package:shelfie/features/book_search/application/book_search_state.dart';
 import 'package:shelfie/features/book_search/application/recent_books_notifier.dart';
 import 'package:shelfie/features/book_search/application/search_history_notifier.dart';
+import 'package:shelfie/features/book_search/application/shelf_authors_notifier.dart';
 import 'package:shelfie/features/book_search/data/book_search_repository.dart';
 import 'package:shelfie/features/book_search/domain/recent_book_entry.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/author_chips_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/book_list_item.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/genre_chips_section.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/isbn_scan_result_dialog.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/no_result_message.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_book_quick_actions_modal.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/recent_books_section.dart';
+import 'package:shelfie/features/book_search/presentation/widgets/scan_promotion_card.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_bar_widget.dart';
 import 'package:shelfie/features/book_search/presentation/widgets/search_history_section.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -118,7 +122,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   focusNode: _focusNode,
                   onChanged: _onSearchChanged,
                   onSubmitted: _onSearchSubmitted,
-                  onScanPressed: _onScanPressed,
                   showCancelButton: isSearchActive,
                   onCancelPressed: _onCancel,
                   hintText: 'タイトル、著者名、タグ',
@@ -179,38 +182,53 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Widget _buildInitialState() {
     final recentBooksAsync = ref.watch(recentBooksNotifierProvider);
+    final shelfAuthorsAsync = ref.watch(shelfAuthorsProvider);
 
-    return recentBooksAsync.when(
-      data: (recentBooks) {
-        if (recentBooks.isEmpty) {
-          return const SizedBox.shrink();
-        }
+    final bottomInset =
+        MediaQuery.of(context).padding.bottom + kBottomNavigationBarHeight;
 
-        final bottomInset = MediaQuery.of(context).padding.bottom +
-            kBottomNavigationBarHeight;
-
-        return Align(
-          key: const ValueKey('recent_books_section'),
-          alignment: Alignment.topCenter,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: bottomInset),
-            child: RecentBooksSection(
-              books: recentBooks,
-              onBookTap: (book) => context.push(
-                AppRoutes.bookDetail(
-                  bookId: book.bookId,
-                  source: book.source != null
-                      ? BookSource.values.byName(book.source!)
-                      : BookSource.rakuten,
-                ),
-              ),
-              onBookLongPress: _onRecentBookLongPress,
+    return SingleChildScrollView(
+      key: const ValueKey('initial_state'),
+      padding: EdgeInsets.only(bottom: bottomInset),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ScanPromotionCard(onTap: _onScanPressed),
+          const SizedBox(height: AppSpacing.md),
+          shelfAuthorsAsync.when(
+            data: (authors) => AuthorChipsSection(
+              authors: authors,
+              onAuthorTap: _onAuthorChipTap,
             ),
+            loading: () => const SizedBox.shrink(),
+            error: (_, __) => const SizedBox.shrink(),
           ),
-        );
-      },
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+          const SizedBox(height: AppSpacing.md),
+          GenreChipsSection(onGenreTap: _onGenreChipTap),
+          const SizedBox(height: AppSpacing.md),
+          recentBooksAsync.when(
+            data: (recentBooks) {
+              if (recentBooks.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return RecentBooksSection(
+                books: recentBooks,
+                onBookTap: (book) => context.push(
+                  AppRoutes.bookDetail(
+                    bookId: book.bookId,
+                    source: book.source != null
+                        ? BookSource.values.byName(book.source!)
+                        : BookSource.rakuten,
+                  ),
+                ),
+                onBookLongPress: _onRecentBookLongPress,
+              );
+            },
+            loading: () => const SizedBox.shrink(),
+            error: (_, __) => const SizedBox.shrink(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -408,6 +426,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _onClearAllHistory() {
     ref.read(searchHistoryNotifierProvider.notifier).clearAll();
+  }
+
+  void _onAuthorChipTap(String authorName) {
+    _searchController.text = authorName;
+    _onSearchSubmitted(authorName);
+  }
+
+  void _onGenreChipTap(String genre) {
+    _searchController.text = genre;
+    _onSearchSubmitted(genre);
   }
 
   Future<void> _onScanPressed() async {
