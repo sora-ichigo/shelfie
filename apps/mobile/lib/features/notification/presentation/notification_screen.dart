@@ -211,12 +211,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           onFollow: () => ref
               .read(followStateProvider.notifier)
               .sendFollowRequest(userId: notification.sender.id),
-          onUnfollow: () => ref
-              .read(followStateProvider.notifier)
-              .unfollow(userId: notification.sender.id),
-          onCancelRequest: () => ref
-              .read(followStateProvider.notifier)
-              .cancelFollowRequest(userId: notification.sender.id),
         );
       },
     );
@@ -246,8 +240,6 @@ class _NotificationTile extends StatelessWidget {
     this.onApprove,
     this.onReject,
     this.onFollow,
-    this.onUnfollow,
-    this.onCancelRequest,
   });
 
   final NotificationModel notification;
@@ -255,8 +247,6 @@ class _NotificationTile extends StatelessWidget {
   final VoidCallback? onApprove;
   final VoidCallback? onReject;
   final VoidCallback? onFollow;
-  final VoidCallback? onUnfollow;
-  final VoidCallback? onCancelRequest;
 
   @override
   Widget build(BuildContext context) {
@@ -356,15 +346,6 @@ class _NotificationTile extends StatelessWidget {
           ),
         ),
       ],
-      FollowStatusType.following => [
-        const SizedBox(width: AppSpacing.xs),
-        _SecondaryButton(
-          label: 'フォロー中',
-          onPressed: onUnfollow,
-          appColors: appColors,
-          theme: theme,
-        ),
-      ],
       FollowStatusType.followedBy => [
         const SizedBox(width: AppSpacing.xs),
         _PrimaryButton(
@@ -375,6 +356,7 @@ class _NotificationTile extends StatelessWidget {
         ),
       ],
       FollowStatusType.none ||
+      FollowStatusType.following ||
       FollowStatusType.pendingSent => [],
     };
   }
@@ -384,15 +366,6 @@ class _NotificationTile extends StatelessWidget {
     AppColors appColors,
   ) {
     return switch (displayStatus) {
-      FollowStatusType.following => [
-        const SizedBox(width: AppSpacing.xs),
-        _SecondaryButton(
-          label: 'フォロー中',
-          onPressed: onUnfollow,
-          appColors: appColors,
-          theme: theme,
-        ),
-      ],
       FollowStatusType.none ||
       FollowStatusType.followedBy => [
         const SizedBox(width: AppSpacing.xs),
@@ -403,15 +376,8 @@ class _NotificationTile extends StatelessWidget {
           theme: theme,
         ),
       ],
-      FollowStatusType.pendingSent => [
-        const SizedBox(width: AppSpacing.xs),
-        _SecondaryButton(
-          label: 'リクエスト済み',
-          onPressed: onCancelRequest,
-          appColors: appColors,
-          theme: theme,
-        ),
-      ],
+      FollowStatusType.following ||
+      FollowStatusType.pendingSent ||
       FollowStatusType.pendingReceived => [],
     };
   }
@@ -445,45 +411,6 @@ class _PrimaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: TextButton.styleFrom(
         backgroundColor: appColors.primary,
-        padding: const EdgeInsets.symmetric(
-          vertical: AppSpacing.xxs,
-          horizontal: AppSpacing.md,
-        ),
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-        ),
-      ),
-      child: Text(
-        label,
-        style: theme.textTheme.labelLarge?.copyWith(
-          color: appColors.textPrimary,
-        ),
-      ),
-    );
-  }
-}
-
-class _SecondaryButton extends StatelessWidget {
-  const _SecondaryButton({
-    required this.label,
-    required this.onPressed,
-    required this.appColors,
-    required this.theme,
-  });
-
-  final String label;
-  final VoidCallback? onPressed;
-  final AppColors appColors;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        backgroundColor: appColors.surface,
         padding: const EdgeInsets.symmetric(
           vertical: AppSpacing.xxs,
           horizontal: AppSpacing.md,
