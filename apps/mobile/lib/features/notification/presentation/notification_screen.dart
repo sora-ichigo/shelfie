@@ -141,27 +141,24 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         ),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return RefreshIndicator(
-              onRefresh: _onRefresh,
-              child: CustomScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: _buildEmptyState(theme, appColors),
-                  ),
-                ],
+            return CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
+              slivers: [
+                CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: _buildEmptyState(theme, appColors),
+                ),
+              ],
             );
           }
-          return RefreshIndicator(
-            onRefresh: _onRefresh,
-            child: _buildNotificationList(
-              notifications,
-              followState,
-              theme,
-              appColors,
-            ),
+          return _buildNotificationList(
+            notifications,
+            followState,
+            theme,
+            appColors,
           );
         },
       ),
@@ -196,47 +193,54 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     ThemeData theme,
     AppColors appColors,
   ) {
-    return ListView.builder(
+    return CustomScrollView(
       controller: _scrollController,
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: notifications.length,
-      itemBuilder: (context, index) {
-        final notification = notifications[index];
-        final status = followState[notification.sender.id];
-        final displayStatus = _deriveDisplayStatus(
-          status ??
-              (
-                outgoing: notification.outgoingFollowStatus,
-                incoming: notification.incomingFollowStatus,
-              ),
-        );
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      slivers: [
+        CupertinoSliverRefreshControl(onRefresh: _onRefresh),
+        SliverList.builder(
+          itemCount: notifications.length,
+          itemBuilder: (context, index) {
+            final notification = notifications[index];
+            final status = followState[notification.sender.id];
+            final displayStatus = _deriveDisplayStatus(
+              status ??
+                  (
+                    outgoing: notification.outgoingFollowStatus,
+                    incoming: notification.incomingFollowStatus,
+                  ),
+            );
 
-        return _NotificationTile(
-          notification: notification,
-          displayStatus: displayStatus,
-          onApprove: notification.followRequestId != null
-              ? () => ref.read(followStateProvider.notifier).approveRequest(
-                    userId: notification.sender.id,
-                    requestId: notification.followRequestId!,
-                  )
-              : null,
-          onReject: notification.followRequestId != null
-              ? () => ref.read(followStateProvider.notifier).rejectRequest(
-                    userId: notification.sender.id,
-                    requestId: notification.followRequestId!,
-                  )
-              : null,
-          onFollow: () => ref
-              .read(followStateProvider.notifier)
-              .sendFollowRequest(userId: notification.sender.id),
-          onUnfollow: () => ref
-              .read(followStateProvider.notifier)
-              .unfollow(userId: notification.sender.id),
-          onCancelRequest: () => ref
-              .read(followStateProvider.notifier)
-              .cancelFollowRequest(userId: notification.sender.id),
-        );
-      },
+            return _NotificationTile(
+              notification: notification,
+              displayStatus: displayStatus,
+              onApprove: notification.followRequestId != null
+                  ? () => ref.read(followStateProvider.notifier).approveRequest(
+                        userId: notification.sender.id,
+                        requestId: notification.followRequestId!,
+                      )
+                  : null,
+              onReject: notification.followRequestId != null
+                  ? () => ref.read(followStateProvider.notifier).rejectRequest(
+                        userId: notification.sender.id,
+                        requestId: notification.followRequestId!,
+                      )
+                  : null,
+              onFollow: () => ref
+                  .read(followStateProvider.notifier)
+                  .sendFollowRequest(userId: notification.sender.id),
+              onUnfollow: () => ref
+                  .read(followStateProvider.notifier)
+                  .unfollow(userId: notification.sender.id),
+              onCancelRequest: () => ref
+                  .read(followStateProvider.notifier)
+                  .cancelFollowRequest(userId: notification.sender.id),
+            );
+          },
+        ),
+      ],
     );
   }
 
