@@ -122,6 +122,10 @@ export function createFollowService(
         });
       }
 
+      if (existingRequest) {
+        await repository.deleteRequest(existingRequest.id);
+      }
+
       const request = await repository.createRequest({
         senderId,
         receiverId,
@@ -205,10 +209,7 @@ export function createFollowService(
         return validation;
       }
 
-      const updatedRequest = await repository.updateRequestStatus(
-        requestId,
-        "rejected",
-      );
+      await repository.deleteRequest(requestId);
 
       notificationAppService
         .deleteNotification({
@@ -224,7 +225,7 @@ export function createFollowService(
           );
         });
 
-      return ok(updatedRequest);
+      return ok({ ...validation.data, status: "rejected" });
     },
 
     async unfollow(
