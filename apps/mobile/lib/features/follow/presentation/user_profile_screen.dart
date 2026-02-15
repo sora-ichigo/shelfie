@@ -40,12 +40,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   bool _bookListLoaded = false;
+  late UserProfileModel _profile;
 
-  int get _userId => widget.profile.user.id;
+  int get _userId => _profile.user.id;
 
   @override
   void initState() {
     super.initState();
+    _profile = widget.profile;
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_onTabChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,8 +55,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
       if (existing == null) {
         ref.read(followStateProvider.notifier).registerStatus(
               userId: _userId,
-              outgoing: widget.profile.outgoingFollowStatus,
-              incoming: widget.profile.incomingFollowStatus,
+              outgoing: _profile.outgoingFollowStatus,
+              incoming: _profile.incomingFollowStatus,
             );
       }
     });
@@ -72,12 +74,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
     final currentStatus =
         ref.read(followStateProvider)[_userId] ??
             (
-              outgoing: widget.profile.outgoingFollowStatus,
-              incoming: widget.profile.incomingFollowStatus,
+              outgoing: _profile.outgoingFollowStatus,
+              incoming: _profile.incomingFollowStatus,
             );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
-        widget.profile.isOwnProfile;
-    final canViewContent = isFollowing || widget.profile.isPublic;
+        _profile.isOwnProfile;
+    final canViewContent = isFollowing || _profile.isPublic;
 
     if (canViewContent) {
       _bookListLoaded = true;
@@ -88,7 +90,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   }
 
   Future<void> _onRefresh() async {
-    final handle = widget.profile.user.handle;
+    final handle = _profile.user.handle;
     ref.invalidate(followCountsNotifierProvider(_userId));
     await Future.wait([
       ref.read(userProfileBooksNotifierProvider(_userId).notifier).refresh(),
@@ -103,12 +105,14 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
         ref.read(followRepositoryProvider).getUserProfile(handle: handle).then(
               (result) => result.fold(
                 (_) {},
-                (profile) =>
-                    ref.read(followStateProvider.notifier).registerStatus(
-                          userId: _userId,
-                          outgoing: profile.outgoingFollowStatus,
-                          incoming: profile.incomingFollowStatus,
-                        ),
+                (profile) {
+                  setState(() => _profile = profile);
+                  ref.read(followStateProvider.notifier).registerStatus(
+                        userId: _userId,
+                        outgoing: profile.outgoingFollowStatus,
+                        incoming: profile.incomingFollowStatus,
+                      );
+                },
               ),
             ),
     ]);
@@ -121,12 +125,12 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
     final currentStatus =
         ref.watch(followStateProvider.select((s) => s[_userId])) ??
             (
-              outgoing: widget.profile.outgoingFollowStatus,
-              incoming: widget.profile.incomingFollowStatus,
+              outgoing: _profile.outgoingFollowStatus,
+              incoming: _profile.incomingFollowStatus,
             );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
-        widget.profile.isOwnProfile;
-    final canViewContent = isFollowing || widget.profile.isPublic;
+        _profile.isOwnProfile;
+    final canViewContent = isFollowing || _profile.isPublic;
     final followCounts = ref.watch(followCountsNotifierProvider(_userId));
 
     final booksState =
@@ -143,7 +147,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
                 onPressed: () => context.go(AppRoutes.home),
               ),
         title: Text(
-          widget.profile.user.handle ?? widget.profile.user.name ?? '',
+          _profile.user.handle ?? _profile.user.name ?? '',
           style: theme.textTheme.titleMedium,
         ),
         centerTitle: true,
@@ -159,19 +163,19 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           children: [
             const SizedBox(height: AppSpacing.md),
             ProfileHeader(
-              name: widget.profile.user.name,
-              avatarUrl: widget.profile.user.avatarUrl,
-              handle: widget.profile.user.handle,
-              bio: widget.profile.bio,
-              instagramHandle: widget.profile.instagramHandle,
-              bookCount: widget.profile.bookCount ?? 0,
+              name: _profile.user.name,
+              avatarUrl: _profile.user.avatarUrl,
+              handle: _profile.user.handle,
+              bio: _profile.bio,
+              instagramHandle: _profile.instagramHandle,
+              bookCount: _profile.bookCount ?? 0,
               followingCount: followCounts.valueOrNull?.followingCount
-                  ?? widget.profile.followCounts.followingCount,
+                  ?? _profile.followCounts.followingCount,
               followerCount: followCounts.valueOrNull?.followerCount
-                  ?? widget.profile.followCounts.followerCount,
+                  ?? _profile.followCounts.followerCount,
               onFollowingTap: widget.onFollowingTap,
               onFollowersTap: widget.onFollowersTap,
-              actionButtons: widget.profile.isOwnProfile
+              actionButtons: _profile.isOwnProfile
                   ? _buildEditShareButtons(appColors, theme)
                   : _buildActionButton(appColors, theme, currentStatus),
             ),
@@ -244,7 +248,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   }
 
   Widget _buildEditShareButtons(AppColors appColors, ThemeData theme) {
-    final shareUrl = widget.profile.shareUrl;
+    final shareUrl = _profile.shareUrl;
     return Row(
       children: [
         Expanded(
@@ -303,7 +307,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
 
   Widget _buildActionButton(
       AppColors appColors, ThemeData theme, FollowDirectionalStatus status) {
-    final shareUrl = widget.profile.shareUrl;
+    final shareUrl = _profile.shareUrl;
     final shareButton = Expanded(
       child: FilledButton(
         onPressed: shareUrl != null
