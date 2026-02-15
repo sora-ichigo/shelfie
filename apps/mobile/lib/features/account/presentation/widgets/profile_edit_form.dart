@@ -15,6 +15,8 @@ class ProfileEditForm extends StatelessWidget {
     required this.onHandleChanged,
     required this.onBioChanged,
     required this.onInstagramHandleChanged,
+    required this.isPublic,
+    required this.onIsPublicChanged,
     this.nameError,
     this.handleError,
     this.bioError,
@@ -31,6 +33,8 @@ class ProfileEditForm extends StatelessWidget {
   final ValueChanged<String> onHandleChanged;
   final ValueChanged<String> onBioChanged;
   final ValueChanged<String> onInstagramHandleChanged;
+  final bool isPublic;
+  final ValueChanged<bool> onIsPublicChanged;
   final String? nameError;
   final String? handleError;
   final String? bioError;
@@ -117,6 +121,24 @@ class ProfileEditForm extends StatelessWidget {
           style: theme.textTheme.bodySmall?.copyWith(
             color: colors?.textSecondaryLegacy,
           ),
+        ),
+        const SizedBox(height: AppSpacing.xl),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(
+            'アカウントを公開する',
+            style: theme.textTheme.bodyMedium,
+          ),
+          subtitle: Text(
+            isPublic
+                ? '誰でもプロフィールと本棚を閲覧でき、フォローリクエストなしでフォローできます'
+                : 'フォロワーのみがプロフィールと本棚を閲覧できます',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors?.textSecondaryLegacy,
+            ),
+          ),
+          value: isPublic,
+          onChanged: onIsPublicChanged,
         ),
       ],
     );

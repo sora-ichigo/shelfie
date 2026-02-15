@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/follow_version.dart';
 import 'package:shelfie/features/follow/data/follow_repository.dart';
+import 'package:shelfie/features/follow/domain/follow_request_status.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 
 part 'follow_state_notifier.g.dart';
@@ -80,7 +81,10 @@ class FollowState extends _$FollowState {
     _operatingUsers.remove(userId);
   }
 
-  Future<void> sendFollowRequest({required int userId}) async {
+  Future<void> sendFollowRequest({
+    required int userId,
+    bool isTargetPublic = false,
+  }) async {
     final current = state[userId];
     if (current == null) return;
     if (_operatingUsers.contains(userId)) return;
@@ -89,7 +93,12 @@ class FollowState extends _$FollowState {
     final previous = current;
     state = {
       ...state,
-      userId: (outgoing: FollowStatusType.pendingSent, incoming: current.incoming),
+      userId: (
+        outgoing: isTargetPublic
+            ? FollowStatusType.following
+            : FollowStatusType.pendingSent,
+        incoming: current.incoming,
+      ),
     };
 
     final repo = ref.read(followRepositoryProvider);
@@ -97,7 +106,15 @@ class FollowState extends _$FollowState {
 
     result.fold(
       (_) => state = {...state, userId: previous},
-      (_) => ref.read(followVersionProvider.notifier).increment(),
+      (followRequest) {
+        if (followRequest.status == FollowRequestStatus.approved) {
+          state = {
+            ...state,
+            userId: (outgoing: FollowStatusType.following, incoming: current.incoming),
+          };
+        }
+        ref.read(followVersionProvider.notifier).increment();
+      },
     );
 
     _operatingUsers.remove(userId);

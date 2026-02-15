@@ -30,6 +30,8 @@ Widget buildForm({
         onBioChanged: onBioChanged ?? (_) {},
         onInstagramHandleChanged: onInstagramHandleChanged ?? (_) {},
         nameError: nameError,
+        isPublic: false,
+        onIsPublicChanged: (_) {},
       ),
       ),
     ),

@@ -579,10 +579,8 @@ export function registerBookListsQueries(
     userBookLists: t.field({
       type: MyBookListsResultRef,
       nullable: false,
-      description: "Get book lists of another user (requires following)",
-      authScopes: {
-        loggedIn: true,
-      },
+      description:
+        "Get book lists of another user (public accounts or following required)",
       args: {
         userId: t.arg.int({ required: true }),
         input: t.arg({
@@ -595,44 +593,45 @@ export function registerBookListsQueries(
         args,
         context,
       ): Promise<BookListSummaryResult> => {
-        const authenticatedContext = context as AuthenticatedContext;
-
-        if (!authenticatedContext.user?.uid) {
-          throw new GraphQLError("Authentication required", {
-            extensions: { code: "UNAUTHENTICATED" },
-          });
-        }
-
         if (!followService) {
           throw new GraphQLError("Service unavailable", {
             extensions: { code: "INTERNAL_ERROR" },
           });
         }
 
-        const currentUserResult = await userService.getUserByFirebaseUid(
-          authenticatedContext.user.uid,
-        );
-
-        if (!currentUserResult.success) {
+        const targetUserResult = await userService.getUserById({
+          id: args.userId,
+        });
+        if (!targetUserResult.success) {
           throw new GraphQLError("User not found", {
             extensions: { code: "USER_NOT_FOUND" },
           });
         }
+        const targetUser = targetUserResult.data;
 
-        const isOwnProfile = currentUserResult.data.id === args.userId;
-
-        if (!isOwnProfile) {
-          const status = await followService.getFollowStatus(
-            currentUserResult.data.id,
-            args.userId,
+        if (context.user?.uid) {
+          const currentUserResult = await userService.getUserByFirebaseUid(
+            context.user.uid,
           );
-
-          if (status.outgoing !== "FOLLOWING") {
-            throw new GraphQLError(
-              "You must follow this user to view their book lists",
-              { extensions: { code: "FORBIDDEN" } },
-            );
+          if (currentUserResult.success) {
+            const isOwnProfile = currentUserResult.data.id === args.userId;
+            if (!isOwnProfile && !targetUser.isPublic) {
+              const status = await followService.getFollowStatus(
+                currentUserResult.data.id,
+                args.userId,
+              );
+              if (status.outgoing !== "FOLLOWING") {
+                throw new GraphQLError(
+                  "You must follow this user to view their book lists",
+                  { extensions: { code: "FORBIDDEN" } },
+                );
+              }
+            }
           }
+        } else if (!targetUser.isPublic) {
+          throw new GraphQLError("Authentication required", {
+            extensions: { code: "UNAUTHENTICATED" },
+          });
         }
 
         const input = args.input ?? {};

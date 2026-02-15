@@ -12,6 +12,7 @@ mutation UpdateProfile($input: UpdateProfileInput!) {
         instagramHandle
         handle
         shareUrl
+        isPublic
       }
     }
     ... on ValidationError {

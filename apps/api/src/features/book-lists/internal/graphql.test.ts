@@ -257,6 +257,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -317,6 +318,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -378,6 +380,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -418,6 +421,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -452,6 +456,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -491,6 +496,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -583,6 +589,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -625,6 +632,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -669,6 +677,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -714,6 +723,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -756,6 +766,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -793,6 +804,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -832,6 +844,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -867,6 +880,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -907,6 +921,7 @@ describe("BookLists GraphQL", () => {
             bio: null,
             instagramHandle: null,
             handle: null,
+            isPublic: false,
             createdAt: new Date(),
             updatedAt: new Date(),
           }),
@@ -971,6 +986,21 @@ describe("BookLists GraphQL", () => {
         },
       ];
 
+      vi.mocked(userService.getUserById).mockResolvedValue(
+        ok({
+          id: 200,
+          firebaseUid: "target-firebase-uid",
+          email: "target@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          isPublic: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
       vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
         ok({
           id: 100,
@@ -981,6 +1011,7 @@ describe("BookLists GraphQL", () => {
           bio: null,
           instagramHandle: null,
           handle: null,
+          isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         }),
@@ -1021,6 +1052,21 @@ describe("BookLists GraphQL", () => {
     it("should throw FORBIDDEN error when user is not following the target", async () => {
       const schema = buildSchemaWithUserBookLists();
 
+      vi.mocked(userService.getUserById).mockResolvedValue(
+        ok({
+          id: 200,
+          firebaseUid: "target-firebase-uid",
+          email: "target@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          isPublic: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
       vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
         ok({
           id: 100,
@@ -1031,6 +1077,7 @@ describe("BookLists GraphQL", () => {
           bio: null,
           instagramHandle: null,
           handle: null,
+          isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         }),
@@ -1069,6 +1116,21 @@ describe("BookLists GraphQL", () => {
         },
       ];
 
+      vi.mocked(userService.getUserById).mockResolvedValue(
+        ok({
+          id: 100,
+          firebaseUid: "test-firebase-uid",
+          email: "test@example.com",
+          name: null,
+          avatarUrl: null,
+          bio: null,
+          instagramHandle: null,
+          handle: null,
+          isPublic: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
       vi.mocked(userService.getUserByFirebaseUid).mockResolvedValue(
         ok({
           id: 100,
@@ -1079,6 +1141,7 @@ describe("BookLists GraphQL", () => {
           bio: null,
           instagramHandle: null,
           handle: null,
+          isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         }),

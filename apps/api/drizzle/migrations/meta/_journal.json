@@ -120,6 +120,13 @@
       "when": 1739588400000,
       "tag": "0016_notifications-timestamp-with-timezone",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1739674800000,
+      "tag": "0017_add_is_public_to_users",
+      "breakpoints": true
     }
   ]
 }

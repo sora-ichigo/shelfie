@@ -23,6 +23,7 @@ mixin _$UserProfileModel {
       throw _privateConstructorUsedError;
   FollowCounts get followCounts => throw _privateConstructorUsedError;
   bool get isOwnProfile => throw _privateConstructorUsedError;
+  bool get isPublic => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get instagramHandle => throw _privateConstructorUsedError;
   String? get shareUrl => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $UserProfileModelCopyWith<$Res> {
       FollowStatusType incomingFollowStatus,
       FollowCounts followCounts,
       bool isOwnProfile,
+      bool isPublic,
       String? bio,
       String? instagramHandle,
       String? shareUrl,
@@ -76,6 +78,7 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
     Object? incomingFollowStatus = null,
     Object? followCounts = null,
     Object? isOwnProfile = null,
+    Object? isPublic = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
     Object? shareUrl = freezed,
@@ -101,6 +104,10 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
       isOwnProfile: null == isOwnProfile
           ? _value.isOwnProfile
           : isOwnProfile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
       bio: freezed == bio
           ? _value.bio
@@ -156,6 +163,7 @@ abstract class _$$UserProfileModelImplCopyWith<$Res>
       FollowStatusType incomingFollowStatus,
       FollowCounts followCounts,
       bool isOwnProfile,
+      bool isPublic,
       String? bio,
       String? instagramHandle,
       String? shareUrl,
@@ -185,6 +193,7 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
     Object? incomingFollowStatus = null,
     Object? followCounts = null,
     Object? isOwnProfile = null,
+    Object? isPublic = null,
     Object? bio = freezed,
     Object? instagramHandle = freezed,
     Object? shareUrl = freezed,
@@ -210,6 +219,10 @@ class __$$UserProfileModelImplCopyWithImpl<$Res>
       isOwnProfile: null == isOwnProfile
           ? _value.isOwnProfile
           : isOwnProfile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
               as bool,
       bio: freezed == bio
           ? _value.bio
@@ -240,6 +253,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       required this.incomingFollowStatus,
       required this.followCounts,
       required this.isOwnProfile,
+      required this.isPublic,
       this.bio,
       this.instagramHandle,
       this.shareUrl,
@@ -256,6 +270,8 @@ class _$UserProfileModelImpl implements _UserProfileModel {
   @override
   final bool isOwnProfile;
   @override
+  final bool isPublic;
+  @override
   final String? bio;
   @override
   final String? instagramHandle;
@@ -266,7 +282,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
 
   @override
   String toString() {
-    return 'UserProfileModel(user: $user, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, bookCount: $bookCount)';
+    return 'UserProfileModel(user: $user, outgoingFollowStatus: $outgoingFollowStatus, incomingFollowStatus: $incomingFollowStatus, followCounts: $followCounts, isOwnProfile: $isOwnProfile, isPublic: $isPublic, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, bookCount: $bookCount)';
   }
 
   @override
@@ -283,6 +299,8 @@ class _$UserProfileModelImpl implements _UserProfileModel {
                 other.followCounts == followCounts) &&
             (identical(other.isOwnProfile, isOwnProfile) ||
                 other.isOwnProfile == isOwnProfile) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.instagramHandle, instagramHandle) ||
                 other.instagramHandle == instagramHandle) &&
@@ -300,6 +318,7 @@ class _$UserProfileModelImpl implements _UserProfileModel {
       incomingFollowStatus,
       followCounts,
       isOwnProfile,
+      isPublic,
       bio,
       instagramHandle,
       shareUrl,
@@ -322,6 +341,7 @@ abstract class _UserProfileModel implements UserProfileModel {
       required final FollowStatusType incomingFollowStatus,
       required final FollowCounts followCounts,
       required final bool isOwnProfile,
+      required final bool isPublic,
       final String? bio,
       final String? instagramHandle,
       final String? shareUrl,
@@ -337,6 +357,8 @@ abstract class _UserProfileModel implements UserProfileModel {
   FollowCounts get followCounts;
   @override
   bool get isOwnProfile;
+  @override
+  bool get isPublic;
   @override
   String? get bio;
   @override

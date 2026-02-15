@@ -21,6 +21,7 @@ mixin _$ProfileFormData {
   String get handle => throw _privateConstructorUsedError;
   String get bio => throw _privateConstructorUsedError;
   String get instagramHandle => throw _privateConstructorUsedError;
+  bool get isPublic => throw _privateConstructorUsedError;
   XFile? get pendingAvatarImage => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
@@ -43,6 +44,7 @@ abstract class $ProfileFormDataCopyWith<$Res> {
       String handle,
       String bio,
       String instagramHandle,
+      bool isPublic,
       XFile? pendingAvatarImage,
       bool hasChanges});
 }
@@ -67,6 +69,7 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
     Object? handle = null,
     Object? bio = null,
     Object? instagramHandle = null,
+    Object? isPublic = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -91,6 +94,10 @@ class _$ProfileFormDataCopyWithImpl<$Res, $Val extends ProfileFormData>
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
           : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
@@ -117,6 +124,7 @@ abstract class _$$ProfileFormDataImplCopyWith<$Res>
       String handle,
       String bio,
       String instagramHandle,
+      bool isPublic,
       XFile? pendingAvatarImage,
       bool hasChanges});
 }
@@ -139,6 +147,7 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
     Object? handle = null,
     Object? bio = null,
     Object? instagramHandle = null,
+    Object? isPublic = null,
     Object? pendingAvatarImage = freezed,
     Object? hasChanges = null,
   }) {
@@ -163,6 +172,10 @@ class __$$ProfileFormDataImplCopyWithImpl<$Res>
           ? _value.instagramHandle
           : instagramHandle // ignore: cast_nullable_to_non_nullable
               as String,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
       pendingAvatarImage: freezed == pendingAvatarImage
           ? _value.pendingAvatarImage
           : pendingAvatarImage // ignore: cast_nullable_to_non_nullable
@@ -184,6 +197,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
       this.handle = '',
       this.bio = '',
       this.instagramHandle = '',
+      this.isPublic = false,
       this.pendingAvatarImage,
       this.hasChanges = false});
 
@@ -203,6 +217,9 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
   @JsonKey()
   final String instagramHandle;
   @override
+  @JsonKey()
+  final bool isPublic;
+  @override
   final XFile? pendingAvatarImage;
   @override
   @JsonKey()
@@ -210,7 +227,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
 
   @override
   String toString() {
-    return 'ProfileFormData(name: $name, email: $email, handle: $handle, bio: $bio, instagramHandle: $instagramHandle, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
+    return 'ProfileFormData(name: $name, email: $email, handle: $handle, bio: $bio, instagramHandle: $instagramHandle, isPublic: $isPublic, pendingAvatarImage: $pendingAvatarImage, hasChanges: $hasChanges)';
   }
 
   @override
@@ -224,6 +241,8 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.instagramHandle, instagramHandle) ||
                 other.instagramHandle == instagramHandle) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
             (identical(other.pendingAvatarImage, pendingAvatarImage) ||
                 other.pendingAvatarImage == pendingAvatarImage) &&
             (identical(other.hasChanges, hasChanges) ||
@@ -232,7 +251,7 @@ class _$ProfileFormDataImpl implements _ProfileFormData {
 
   @override
   int get hashCode => Object.hash(runtimeType, name, email, handle, bio,
-      instagramHandle, pendingAvatarImage, hasChanges);
+      instagramHandle, isPublic, pendingAvatarImage, hasChanges);
 
   /// Create a copy of ProfileFormData
   /// with the given fields replaced by the non-null parameter values.
@@ -251,6 +270,7 @@ abstract class _ProfileFormData implements ProfileFormData {
       final String handle,
       final String bio,
       final String instagramHandle,
+      final bool isPublic,
       final XFile? pendingAvatarImage,
       final bool hasChanges}) = _$ProfileFormDataImpl;
 
@@ -264,6 +284,8 @@ abstract class _ProfileFormData implements ProfileFormData {
   String get bio;
   @override
   String get instagramHandle;
+  @override
+  bool get isPublic;
   @override
   XFile? get pendingAvatarImage;
   @override

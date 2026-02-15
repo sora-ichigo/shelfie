@@ -678,6 +678,7 @@ class FollowRepository {
         followerCount: profile.followCounts?.followerCount ?? 0,
       ),
       isOwnProfile: profile.isOwnProfile ?? false,
+      isPublic: profile.isPublic ?? false,
       bio: profile.user?.bio,
       instagramHandle: profile.user?.instagramHandle,
       shareUrl: profile.user?.shareUrl,

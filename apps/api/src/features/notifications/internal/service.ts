@@ -7,11 +7,13 @@ import type {
 
 export type NotificationType =
   | "follow_request_received"
-  | "follow_request_approved";
+  | "follow_request_approved"
+  | "new_follower";
 
 const VALID_NOTIFICATION_TYPES: ReadonlySet<string> = new Set([
   "follow_request_received",
   "follow_request_approved",
+  "new_follower",
 ]);
 
 export interface CreateNotificationInput {

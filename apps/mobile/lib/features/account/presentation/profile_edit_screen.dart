@@ -143,6 +143,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           onBioChanged: formNotifier.updateBio,
                           onInstagramHandleChanged:
                               formNotifier.updateInstagramHandle,
+                          isPublic: formState.isPublic,
+                          onIsPublicChanged: (value) => formNotifier.updateIsPublic(value: value),
                           nameError:
                               showErrors ? formNotifier.nameError : null,
                           handleError:

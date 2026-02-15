@@ -24,6 +24,7 @@ void main() {
         bio: '自己紹介テキスト',
         instagramHandle: 'test_insta',
         bookCount: 42,
+        isPublic: false,
       );
 
       expect(profile.user, equals(user));
@@ -43,6 +44,7 @@ void main() {
         incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: true,
+        isPublic: false,
       );
 
       expect(profile.bio, isNull);
@@ -57,6 +59,7 @@ void main() {
         incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
+        isPublic: false,
       );
 
       final updated = original.copyWith(
@@ -77,6 +80,7 @@ void main() {
         incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
+        isPublic: false,
       );
 
       final updated = original.copyWith(
@@ -94,6 +98,7 @@ void main() {
         incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
+        isPublic: false,
       );
       final profile2 = UserProfileModel(
         user: user,
@@ -101,6 +106,7 @@ void main() {
         incomingFollowStatus: FollowStatusType.none,
         followCounts: followCounts,
         isOwnProfile: false,
+        isPublic: false,
       );
 
       expect(profile1, equals(profile2));

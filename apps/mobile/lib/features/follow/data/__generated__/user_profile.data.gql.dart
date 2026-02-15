@@ -58,6 +58,7 @@ abstract class GUserProfileData_userProfile
   _i2.GFollowStatus? get incomingFollowStatus;
   GUserProfileData_userProfile_followCounts? get followCounts;
   bool? get isOwnProfile;
+  bool? get isPublic;
   static Serializer<GUserProfileData_userProfile> get serializer =>
       _$gUserProfileDataUserProfileSerializer;
 

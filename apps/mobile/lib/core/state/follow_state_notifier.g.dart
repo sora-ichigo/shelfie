@@ -6,7 +6,7 @@ part of 'follow_state_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$followStateHash() => r'904477fb8fb00d6d5bbdda99be24eab443b32b63';
+String _$followStateHash() => r'6d146d667fc67b70ce98b2e02ef6708f3094f8b1';
 
 /// See also [FollowState].
 @ProviderFor(FollowState)

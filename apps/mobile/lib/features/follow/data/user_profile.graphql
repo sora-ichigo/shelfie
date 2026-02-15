@@ -17,5 +17,6 @@ query UserProfile($handle: String!) {
       followerCount
     }
     isOwnProfile
+    isPublic
   }
 }

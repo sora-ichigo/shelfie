@@ -1,1 +1,1 @@
-enum NotificationType { followRequestReceived, followRequestApproved }
+enum NotificationType { followRequestReceived, followRequestApproved, newFollower }

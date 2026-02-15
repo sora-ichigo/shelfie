@@ -3,6 +3,7 @@ import { err, ok, type Result } from "../../../errors/result.js";
 import type { LoggerService } from "../../../logger/index.js";
 import type { NotificationService } from "../../device-tokens/index.js";
 import type { NotificationAppService } from "../../notifications/index.js";
+import type { UserRepository } from "../../users/internal/repository.js";
 import type { FollowRepository } from "./repository.js";
 
 export type FollowStatus =
@@ -65,6 +66,7 @@ export function createFollowService(
   notificationAppService: NotificationAppService,
   pushNotificationService: NotificationService,
   logger: LoggerService,
+  userRepository?: UserRepository,
 ): FollowService {
   function validateRequest(
     request: FollowRequest | null,
@@ -124,6 +126,51 @@ export function createFollowService(
 
       if (existingRequest) {
         await repository.deleteRequest(existingRequest.id);
+      }
+
+      const receiver = userRepository
+        ? await userRepository.findById(receiverId)
+        : null;
+      const isReceiverPublic = receiver?.isPublic ?? false;
+
+      if (isReceiverPublic) {
+        const request = await repository.createRequest({
+          senderId,
+          receiverId,
+        });
+        await repository.updateRequestStatus(request.id, "approved");
+        await repository.createFollow(senderId, receiverId);
+
+        notificationAppService
+          .createNotification({
+            recipientId: receiverId,
+            senderId,
+            type: "new_follower",
+          })
+          .catch((error) => {
+            logger.error(
+              "Failed to create app notification for new follower",
+              error instanceof Error ? error : undefined,
+              { senderId: String(senderId), receiverId: String(receiverId) },
+            );
+          });
+
+        pushNotificationService
+          .sendNotification({
+            title: "新しいフォロワー",
+            body: "フォローされました",
+            userIds: [receiverId],
+            data: { type: "new_follower", route: "/notifications" },
+          })
+          .catch((error) => {
+            logger.error(
+              "Failed to send push notification for new follower",
+              error instanceof Error ? error : undefined,
+              { senderId: String(senderId), receiverId: String(receiverId) },
+            );
+          });
+
+        return ok({ ...request, status: "approved" });
       }
 
       const request = await repository.createRequest({

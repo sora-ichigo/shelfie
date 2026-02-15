@@ -23,6 +23,9 @@ export function registerNotificationTypes(builder: Builder): void {
       FOLLOW_REQUEST_APPROVED: {
         value: "follow_request_approved",
       },
+      NEW_FOLLOWER: {
+        value: "new_follower",
+      },
     } as const,
   });
 
@@ -44,7 +47,8 @@ export function registerNotificationTypes(builder: Builder): void {
         resolve: (parent) =>
           parent.notification.type as
             | "follow_request_received"
-            | "follow_request_approved",
+            | "follow_request_approved"
+            | "new_follower",
       }),
       isRead: t.boolean({
         nullable: false,

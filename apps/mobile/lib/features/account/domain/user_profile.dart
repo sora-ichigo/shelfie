@@ -17,6 +17,7 @@ class UserProfile with _$UserProfile {
     required int? readingStartYear,
     required int? readingStartMonth,
     required DateTime createdAt,
+    required bool isPublic,
   }) = _UserProfile;
 
   factory UserProfile.guest() => UserProfile(
@@ -32,5 +33,6 @@ class UserProfile with _$UserProfile {
     readingStartYear: null,
     readingStartMonth: null,
     createdAt: DateTime.now(),
+    isPublic: false,
   );
 }

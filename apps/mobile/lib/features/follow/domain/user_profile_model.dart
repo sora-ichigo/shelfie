@@ -14,6 +14,7 @@ class UserProfileModel with _$UserProfileModel {
     required FollowStatusType incomingFollowStatus,
     required FollowCounts followCounts,
     required bool isOwnProfile,
+    required bool isPublic,
     String? bio,
     String? instagramHandle,
     String? shareUrl,

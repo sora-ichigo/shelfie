@@ -166,6 +166,7 @@ describe("AuthService.register", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -293,6 +294,7 @@ describe("AuthService.register", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -350,6 +352,7 @@ describe("AuthService.getCurrentUser", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -399,6 +402,7 @@ describe("AuthService.getCurrentUser", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -429,6 +433,7 @@ describe("AuthService.getCurrentUser", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -479,6 +484,7 @@ describe("AuthService.getCurrentUser", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -525,6 +531,7 @@ describe("AuthService.login", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -645,6 +652,7 @@ describe("AuthService.login", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1079,6 +1087,7 @@ describe("AuthService.deleteAccount", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1131,6 +1140,7 @@ describe("AuthService.deleteAccount", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -1165,6 +1175,7 @@ describe("AuthService.deleteAccount", () => {
       bio: null,
       instagramHandle: null,
       handle: null,
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

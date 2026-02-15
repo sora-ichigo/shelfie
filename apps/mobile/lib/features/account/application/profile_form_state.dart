@@ -15,6 +15,7 @@ class ProfileFormData with _$ProfileFormData {
     @Default('') String handle,
     @Default('') String bio,
     @Default('') String instagramHandle,
+    @Default(false) bool isPublic,
     XFile? pendingAvatarImage,
     @Default(false) bool hasChanges,
   }) = _ProfileFormData;
@@ -34,6 +35,7 @@ class ProfileFormState extends _$ProfileFormState {
       handle: profile.handle ?? '',
       bio: profile.bio ?? '',
       instagramHandle: profile.instagramHandle ?? '',
+      isPublic: profile.isPublic,
     );
   }
 
@@ -51,6 +53,10 @@ class ProfileFormState extends _$ProfileFormState {
 
   void updateInstagramHandle(String value) {
     state = state.copyWith(instagramHandle: value, hasChanges: true);
+  }
+
+  void updateIsPublic({required bool value}) {
+    state = state.copyWith(isPublic: value, hasChanges: true);
   }
 
   void setAvatarImage(XFile? image) {

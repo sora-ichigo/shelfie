@@ -28,6 +28,7 @@ export interface UpdateProfileInput {
   bio?: string;
   instagramHandle?: string;
   handle?: string;
+  isPublic?: boolean;
 }
 
 export interface DeleteAccountInput {
@@ -186,6 +187,9 @@ export function createUserService(repository: UserRepository): UserService {
       }
       if (input.handle !== undefined) {
         updateData.handle = input.handle;
+      }
+      if (input.isPublic !== undefined) {
+        updateData.isPublic = input.isPublic;
       }
 
       const updatedUser = await repository.update(input.userId, updateData);

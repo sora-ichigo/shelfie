@@ -18,6 +18,7 @@ void main() {
         readingStartYear: 2020,
         readingStartMonth: 1,
         createdAt: createdAt,
+        isPublic: false,
       );
 
       expect(profile.id, equals(1));
@@ -44,6 +45,7 @@ void main() {
         readingStartYear: null,
         readingStartMonth: null,
         createdAt: DateTime(2024, 1, 1),
+        isPublic: false,
       );
 
       expect(profile.name, isNull);
@@ -66,6 +68,7 @@ void main() {
         readingStartYear: 2020,
         readingStartMonth: 1,
         createdAt: DateTime(2024, 1, 1),
+        isPublic: false,
       );
 
       final updated = original.copyWith(
@@ -96,6 +99,7 @@ void main() {
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
+        isPublic: false,
       );
       final profile2 = UserProfile(
         id: 1,
@@ -110,6 +114,7 @@ void main() {
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
+        isPublic: false,
       );
 
       expect(profile1, equals(profile2));
@@ -131,6 +136,7 @@ void main() {
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
+        isPublic: false,
       );
       final profile2 = UserProfile(
         id: 1,
@@ -145,6 +151,7 @@ void main() {
         readingStartYear: 2021,
         readingStartMonth: 1,
         createdAt: createdAt,
+        isPublic: false,
       );
 
       expect(profile1, isNot(equals(profile2)));

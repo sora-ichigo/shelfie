@@ -54,6 +54,7 @@ class AccountRepository {
     String? bio,
     String? instagramHandle,
     String? handle,
+    bool? isPublic,
   }) async {
     final request = GUpdateProfileReq(
       (b) => b
@@ -61,7 +62,8 @@ class AccountRepository {
         ..vars.input.avatarUrl = avatarUrl
         ..vars.input.bio = bio
         ..vars.input.instagramHandle = instagramHandle
-        ..vars.input.handle = handle,
+        ..vars.input.handle = handle
+        ..vars.input.isPublic = isPublic,
     );
 
     try {
@@ -302,6 +304,7 @@ class AccountRepository {
       readingStartYear: createdAt.year,
       readingStartMonth: createdAt.month,
       createdAt: createdAt,
+      isPublic: user.isPublic ?? false,
     );
   }
 
@@ -322,6 +325,7 @@ class AccountRepository {
       readingStartYear: createdAt.year,
       readingStartMonth: createdAt.month,
       createdAt: createdAt,
+      isPublic: user.isPublic ?? false,
     );
   }
 }

@@ -429,8 +429,6 @@ type Mutation {
 
   """Login with email and password"""
   loginUser(input: LoginUserInput!): MutationLoginUserResult
-
-  """Mark a specific notification as read"""
   markNotificationAsRead(notificationId: Int!): Boolean
 
   """Refresh ID token using refresh token"""
@@ -614,6 +612,7 @@ type MyShelfResult {
 enum NotificationType {
   FOLLOW_REQUEST_APPROVED
   FOLLOW_REQUEST_RECEIVED
+  NEW_FOLLOWER
 }
 
 type Query {
@@ -812,6 +811,9 @@ input UpdateProfileInput {
   """User Instagram handle"""
   instagramHandle: String
 
+  """Whether the user's profile is public"""
+  isPublic: Boolean
+
   """User display name"""
   name: String!
 }
@@ -859,6 +861,9 @@ type User {
 
   """The user's Instagram handle"""
   instagramHandle: String
+
+  """Whether the user's profile is public"""
+  isPublic: Boolean
 
   """The display name of the user"""
   name: String
@@ -931,6 +936,7 @@ type UserProfile {
   followCounts: FollowCounts
   incomingFollowStatus: FollowStatus
   isOwnProfile: Boolean
+  isPublic: Boolean
   outgoingFollowStatus: FollowStatus
   user: User
 }

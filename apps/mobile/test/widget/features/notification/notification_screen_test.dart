@@ -137,6 +137,28 @@ void main() {
       );
     });
 
+    testWidgets('newFollower の通知テキストを正しく表示すること', (tester) async {
+      final notification = createNotification(
+        id: 10,
+        name: 'フォロワーユーザー',
+        handle: 'follower_user',
+        type: NotificationType.newFollower,
+        outgoingFollowStatus: FollowStatusType.none,
+        incomingFollowStatus: FollowStatusType.following,
+      );
+
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([notification]));
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(
+        find.textContaining('があなたをフォローしました'),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('お知らせが0件の場合に空状態メッセージを表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([]));

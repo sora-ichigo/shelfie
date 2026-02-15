@@ -366,6 +366,89 @@ void main() {
         verifyNever(() =>
             mockRepository.sendFollowRequest(receiverId: any(named: 'receiverId')));
       });
+
+      test('公開アカウントへのフォローで楽観的に outgoing を following に更新すること',
+          () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer((_) async => right(FollowRequestModel(
+                  id: 1,
+                  sender: const UserSummary(
+                      id: 1, name: null, avatarUrl: null, handle: null),
+                  receiver: const UserSummary(
+                      id: targetUserId,
+                      name: null,
+                      avatarUrl: null,
+                      handle: null),
+                  status: FollowRequestStatus.approved,
+                  createdAt: DateTime(2024, 1, 1),
+                )));
+
+        final notifier = container.read(followStateProvider.notifier);
+        notifier.registerStatus(
+          userId: targetUserId,
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.none,
+        );
+
+        final future = notifier.sendFollowRequest(
+            userId: targetUserId, isTargetPublic: true);
+
+        final state = container.read(followStateProvider);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.following);
+
+        await future;
+      });
+
+      test('公開アカウントへのフォローで incoming を保持すること', () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer((_) async => right(FollowRequestModel(
+                  id: 1,
+                  sender: const UserSummary(
+                      id: 1, name: null, avatarUrl: null, handle: null),
+                  receiver: const UserSummary(
+                      id: targetUserId,
+                      name: null,
+                      avatarUrl: null,
+                      handle: null),
+                  status: FollowRequestStatus.approved,
+                  createdAt: DateTime(2024, 1, 1),
+                )));
+
+        final notifier = container.read(followStateProvider.notifier);
+        notifier.registerStatus(
+          userId: targetUserId,
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.following,
+        );
+
+        final future = notifier.sendFollowRequest(
+            userId: targetUserId, isTargetPublic: true);
+
+        final state = container.read(followStateProvider);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.following);
+        expect(state[targetUserId]?.incoming, FollowStatusType.following);
+
+        await future;
+      });
+
+      test('公開アカウントへのフォロー失敗時にロールバックすること', () async {
+        when(() => mockRepository.sendFollowRequest(receiverId: targetUserId))
+            .thenAnswer((_) async =>
+                left(const NetworkFailure(message: 'Network error')));
+
+        final notifier = container.read(followStateProvider.notifier);
+        notifier.registerStatus(
+          userId: targetUserId,
+          outgoing: FollowStatusType.none,
+          incoming: FollowStatusType.none,
+        );
+
+        await notifier.sendFollowRequest(
+            userId: targetUserId, isTargetPublic: true);
+
+        final state = container.read(followStateProvider);
+        expect(state[targetUserId]?.outgoing, FollowStatusType.none);
+      });
     });
 
     group('cancelFollowRequest', () {

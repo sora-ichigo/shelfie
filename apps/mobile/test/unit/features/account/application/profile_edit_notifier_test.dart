@@ -43,6 +43,7 @@ void main() {
       readingStartYear: 2020,
       readingStartMonth: 1,
       createdAt: DateTime(2020, 1, 1),
+      isPublic: false,
     );
   }
 
@@ -102,6 +103,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async => right(updatedProfile));
 
@@ -141,6 +143,7 @@ void main() {
             bio: '新しい自己紹介',
             instagramHandle: 'new_insta',
             handle: 'newhandle',
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async => right(updatedProfile));
 
@@ -178,6 +181,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async {
           await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -217,6 +221,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async => left(failure));
 
@@ -251,6 +256,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async => left(failure));
 
@@ -302,6 +308,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
           ),
         ).thenAnswer((_) async => right(updatedProfile));
 
@@ -361,6 +368,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
             onProgress: any(named: 'onProgress'),
           ),
         ).thenAnswer((_) async => right(updatedProfile));
@@ -403,6 +411,7 @@ void main() {
             bio: any(named: 'bio'),
             instagramHandle: any(named: 'instagramHandle'),
             handle: any(named: 'handle'),
+            isPublic: any(named: 'isPublic'),
             onProgress: any(named: 'onProgress'),
           ),
         ).thenAnswer(

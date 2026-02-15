@@ -59,6 +59,7 @@ describe("UserRepository", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -93,6 +94,7 @@ describe("UserRepository", () => {
         bio: "Hello",
         instagramHandle: null,
         handle: "testuser",
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -126,6 +128,7 @@ describe("UserRepository", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -167,6 +170,7 @@ describe("UserRepository", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

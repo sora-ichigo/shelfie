@@ -28,6 +28,7 @@ mixin _$UserProfile {
   int? get readingStartYear => throw _privateConstructorUsedError;
   int? get readingStartMonth => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  bool get isPublic => throw _privateConstructorUsedError;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +55,8 @@ abstract class $UserProfileCopyWith<$Res> {
       String? shareUrl,
       int? readingStartYear,
       int? readingStartMonth,
-      DateTime createdAt});
+      DateTime createdAt,
+      bool isPublic});
 }
 
 /// @nodoc
@@ -84,6 +86,7 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
+    Object? isPublic = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -134,6 +137,10 @@ class _$UserProfileCopyWithImpl<$Res, $Val extends UserProfile>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -158,7 +165,8 @@ abstract class _$$UserProfileImplCopyWith<$Res>
       String? shareUrl,
       int? readingStartYear,
       int? readingStartMonth,
-      DateTime createdAt});
+      DateTime createdAt,
+      bool isPublic});
 }
 
 /// @nodoc
@@ -186,6 +194,7 @@ class __$$UserProfileImplCopyWithImpl<$Res>
     Object? readingStartYear = freezed,
     Object? readingStartMonth = freezed,
     Object? createdAt = null,
+    Object? isPublic = null,
   }) {
     return _then(_$UserProfileImpl(
       id: null == id
@@ -236,6 +245,10 @@ class __$$UserProfileImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -255,7 +268,8 @@ class _$UserProfileImpl implements _UserProfile {
       required this.shareUrl,
       required this.readingStartYear,
       required this.readingStartMonth,
-      required this.createdAt});
+      required this.createdAt,
+      required this.isPublic});
 
   @override
   final int id;
@@ -281,10 +295,12 @@ class _$UserProfileImpl implements _UserProfile {
   final int? readingStartMonth;
   @override
   final DateTime createdAt;
+  @override
+  final bool isPublic;
 
   @override
   String toString() {
-    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, email: $email, name: $name, avatarUrl: $avatarUrl, handle: $handle, bookCount: $bookCount, bio: $bio, instagramHandle: $instagramHandle, shareUrl: $shareUrl, readingStartYear: $readingStartYear, readingStartMonth: $readingStartMonth, createdAt: $createdAt, isPublic: $isPublic)';
   }
 
   @override
@@ -310,7 +326,9 @@ class _$UserProfileImpl implements _UserProfile {
             (identical(other.readingStartMonth, readingStartMonth) ||
                 other.readingStartMonth == readingStartMonth) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic));
   }
 
   @override
@@ -327,7 +345,8 @@ class _$UserProfileImpl implements _UserProfile {
       shareUrl,
       readingStartYear,
       readingStartMonth,
-      createdAt);
+      createdAt,
+      isPublic);
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
@@ -351,7 +370,8 @@ abstract class _UserProfile implements UserProfile {
       required final String? shareUrl,
       required final int? readingStartYear,
       required final int? readingStartMonth,
-      required final DateTime createdAt}) = _$UserProfileImpl;
+      required final DateTime createdAt,
+      required final bool isPublic}) = _$UserProfileImpl;
 
   @override
   int get id;
@@ -377,6 +397,8 @@ abstract class _UserProfile implements UserProfile {
   int? get readingStartMonth;
   @override
   DateTime get createdAt;
+  @override
+  bool get isPublic;
 
   /// Create a copy of UserProfile
   /// with the given fields replaced by the non-null parameter values.
