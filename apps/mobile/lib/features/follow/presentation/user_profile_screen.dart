@@ -15,6 +15,7 @@ import 'package:shelfie/features/follow/application/user_profile_book_lists_noti
 import 'package:shelfie/features/follow/application/user_profile_books_notifier.dart';
 import 'package:shelfie/features/follow/application/user_profile_sort_option_notifier.dart';
 import 'package:shelfie/features/follow/application/user_reading_status_counts_notifier.dart';
+import 'package:shelfie/features/follow/data/follow_repository.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 import 'package:shelfie/features/follow/domain/user_profile_model.dart';
 import 'package:shelfie/routing/app_router.dart';
@@ -86,6 +87,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
   }
 
   Future<void> _onRefresh() async {
+    final handle = widget.profile.user.handle;
     ref.invalidate(followCountsNotifierProvider(_userId));
     await Future.wait([
       ref.read(userProfileBooksNotifierProvider(_userId).notifier).refresh(),
@@ -96,6 +98,18 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
           .read(userReadingStatusCountsNotifierProvider(_userId).notifier)
           .refresh(),
       ref.read(followCountsNotifierProvider(_userId).future),
+      if (handle != null)
+        ref.read(followRepositoryProvider).getUserProfile(handle: handle).then(
+              (result) => result.fold(
+                (_) {},
+                (profile) =>
+                    ref.read(followStateProvider.notifier).registerStatus(
+                          userId: _userId,
+                          outgoing: profile.outgoingFollowStatus,
+                          incoming: profile.incomingFollowStatus,
+                        ),
+              ),
+            ),
     ]);
   }
 

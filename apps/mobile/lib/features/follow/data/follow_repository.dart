@@ -267,7 +267,9 @@ class FollowRepository {
     required String handle,
   }) async {
     final request = GUserProfileReq(
-      (b) => b..vars.handle = handle,
+      (b) => b
+        ..vars.handle = handle
+        ..fetchPolicy = FetchPolicy.NetworkOnly,
     );
 
     try {
