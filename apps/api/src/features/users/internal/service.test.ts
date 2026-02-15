@@ -29,6 +29,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -71,6 +72,7 @@ describe("UserService", () => {
         bio: "Hello",
         instagramHandle: null,
         handle: "testuser",
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -112,6 +114,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -142,6 +145,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -173,6 +177,7 @@ describe("UserService", () => {
           bio: null,
           instagramHandle: null,
           handle: null,
+          isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -185,6 +190,7 @@ describe("UserService", () => {
           bio: null,
           instagramHandle: null,
           handle: null,
+          isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -213,6 +219,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -254,6 +261,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -288,6 +296,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -318,6 +327,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -353,6 +363,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -433,6 +444,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -484,6 +496,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -538,6 +551,42 @@ describe("UserService", () => {
       }
     });
 
+    it("should update user profile with isPublic", async () => {
+      const mockRepo = createMockRepository();
+      const mockUser: User = {
+        id: 1,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid-test",
+        name: "Test User",
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        isPublic: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      const updatedUser: User = {
+        ...mockUser,
+        isPublic: true,
+        updatedAt: new Date(),
+      };
+      vi.mocked(mockRepo.findById).mockResolvedValue(mockUser);
+      vi.mocked(mockRepo.update).mockResolvedValue(updatedUser);
+
+      const service = createUserService(mockRepo);
+      const result = await service.updateProfile({
+        userId: 1,
+        name: "Test User",
+        isPublic: true,
+      });
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.isPublic).toBe(true);
+      }
+    });
+
     it("should update user profile with instagramHandle", async () => {
       const mockRepo = createMockRepository();
       const mockUser: User = {
@@ -549,6 +598,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -586,6 +636,7 @@ describe("UserService", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

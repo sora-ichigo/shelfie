@@ -2458,6 +2458,10 @@ const NotificationType = _i1.EnumTypeDefinitionNode(
       name: _i1.NameNode(value: 'FOLLOW_REQUEST_RECEIVED'),
       directives: [],
     ),
+    _i1.EnumValueDefinitionNode(
+      name: _i1.NameNode(value: 'NEW_FOLLOWER'),
+      directives: [],
+    ),
   ],
 );
 const Query = _i1.ObjectTypeDefinitionNode(
@@ -3304,6 +3308,15 @@ const UpdateProfileInput = _i1.InputObjectTypeDefinitionNode(
       defaultValue: null,
     ),
     _i1.InputValueDefinitionNode(
+      name: _i1.NameNode(value: 'isPublic'),
+      directives: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: false,
+      ),
+      defaultValue: null,
+    ),
+    _i1.InputValueDefinitionNode(
       name: _i1.NameNode(value: 'name'),
       directives: [],
       type: _i1.NamedTypeNode(
@@ -3440,6 +3453,15 @@ const User = _i1.ObjectTypeDefinitionNode(
       args: [],
       type: _i1.NamedTypeNode(
         name: _i1.NameNode(value: 'String'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'isPublic'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
         isNonNull: false,
       ),
     ),
@@ -3669,6 +3691,15 @@ const UserProfile = _i1.ObjectTypeDefinitionNode(
     ),
     _i1.FieldDefinitionNode(
       name: _i1.NameNode(value: 'isOwnProfile'),
+      directives: [],
+      args: [],
+      type: _i1.NamedTypeNode(
+        name: _i1.NameNode(value: 'Boolean'),
+        isNonNull: false,
+      ),
+    ),
+    _i1.FieldDefinitionNode(
+      name: _i1.NameNode(value: 'isPublic'),
       directives: [],
       args: [],
       type: _i1.NamedTypeNode(

@@ -92,6 +92,7 @@ describe("users schema", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -115,6 +116,7 @@ describe("users schema", () => {
         bio: null,
         instagramHandle: null,
         handle: null,
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

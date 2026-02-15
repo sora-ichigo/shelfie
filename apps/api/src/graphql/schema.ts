@@ -162,6 +162,7 @@ const followService = createFollowService(
   notificationAppService,
   pushNotificationService,
   logger,
+  userRepository,
 );
 registerBooksQueries(
   builder,

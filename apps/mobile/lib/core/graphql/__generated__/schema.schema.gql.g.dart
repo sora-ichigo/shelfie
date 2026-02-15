@@ -160,6 +160,8 @@ const GNotificationType _$gNotificationTypeFOLLOW_REQUEST_APPROVED =
     const GNotificationType._('FOLLOW_REQUEST_APPROVED');
 const GNotificationType _$gNotificationTypeFOLLOW_REQUEST_RECEIVED =
     const GNotificationType._('FOLLOW_REQUEST_RECEIVED');
+const GNotificationType _$gNotificationTypeNEW_FOLLOWER =
+    const GNotificationType._('NEW_FOLLOWER');
 
 GNotificationType _$gNotificationTypeValueOf(String name) {
   switch (name) {
@@ -167,6 +169,8 @@ GNotificationType _$gNotificationTypeValueOf(String name) {
       return _$gNotificationTypeFOLLOW_REQUEST_APPROVED;
     case 'FOLLOW_REQUEST_RECEIVED':
       return _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
+    case 'NEW_FOLLOWER':
+      return _$gNotificationTypeNEW_FOLLOWER;
     default:
       throw ArgumentError(name);
   }
@@ -176,6 +180,7 @@ final BuiltSet<GNotificationType> _$gNotificationTypeValues =
     BuiltSet<GNotificationType>(const <GNotificationType>[
   _$gNotificationTypeFOLLOW_REQUEST_APPROVED,
   _$gNotificationTypeFOLLOW_REQUEST_RECEIVED,
+  _$gNotificationTypeNEW_FOLLOWER,
 ]);
 
 const GReadingStatus _$gReadingStatusBACKLOG =
@@ -1249,6 +1254,13 @@ class _$GUpdateProfileInputSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.isPublic;
+    if (value != null) {
+      result
+        ..add('isPublic')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -1279,6 +1291,10 @@ class _$GUpdateProfileInputSerializer
         case 'instagramHandle':
           result.instagramHandle = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'isPublic':
+          result.isPublic = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
@@ -2591,6 +2607,8 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
   @override
   final String? instagramHandle;
   @override
+  final bool? isPublic;
+  @override
   final String name;
 
   factory _$GUpdateProfileInput(
@@ -2602,6 +2620,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
       this.bio,
       this.handle,
       this.instagramHandle,
+      this.isPublic,
       required this.name})
       : super._();
   @override
@@ -2621,6 +2640,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
         bio == other.bio &&
         handle == other.handle &&
         instagramHandle == other.instagramHandle &&
+        isPublic == other.isPublic &&
         name == other.name;
   }
 
@@ -2631,6 +2651,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
     _$hash = $jc(_$hash, bio.hashCode);
     _$hash = $jc(_$hash, handle.hashCode);
     _$hash = $jc(_$hash, instagramHandle.hashCode);
+    _$hash = $jc(_$hash, isPublic.hashCode);
     _$hash = $jc(_$hash, name.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -2643,6 +2664,7 @@ class _$GUpdateProfileInput extends GUpdateProfileInput {
           ..add('bio', bio)
           ..add('handle', handle)
           ..add('instagramHandle', instagramHandle)
+          ..add('isPublic', isPublic)
           ..add('name', name))
         .toString();
   }
@@ -2669,6 +2691,10 @@ class GUpdateProfileInputBuilder
   set instagramHandle(String? instagramHandle) =>
       _$this._instagramHandle = instagramHandle;
 
+  bool? _isPublic;
+  bool? get isPublic => _$this._isPublic;
+  set isPublic(bool? isPublic) => _$this._isPublic = isPublic;
+
   String? _name;
   String? get name => _$this._name;
   set name(String? name) => _$this._name = name;
@@ -2682,6 +2708,7 @@ class GUpdateProfileInputBuilder
       _bio = $v.bio;
       _handle = $v.handle;
       _instagramHandle = $v.instagramHandle;
+      _isPublic = $v.isPublic;
       _name = $v.name;
       _$v = null;
     }
@@ -2708,6 +2735,7 @@ class GUpdateProfileInputBuilder
           bio: bio,
           handle: handle,
           instagramHandle: instagramHandle,
+          isPublic: isPublic,
           name: BuiltValueNullFieldError.checkNotNull(
               name, r'GUpdateProfileInput', 'name'),
         );

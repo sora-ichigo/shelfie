@@ -26,6 +26,7 @@ void main() {
       readingStartYear: readingStartYear,
       readingStartMonth: readingStartMonth,
       createdAt: DateTime(2020, 4, 1),
+      isPublic: false,
     );
   }
 

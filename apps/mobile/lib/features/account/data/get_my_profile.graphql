@@ -11,6 +11,7 @@ query GetMyProfile {
       instagramHandle
       handle
       shareUrl
+      isPublic
     }
     ... on AuthErrorResult {
       code

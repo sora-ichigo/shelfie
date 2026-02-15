@@ -128,6 +128,13 @@ class _$GUserProfileData_userProfileSerializer
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
+    value = object.isPublic;
+    if (value != null) {
+      result
+        ..add('isPublic')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -171,6 +178,10 @@ class _$GUserProfileData_userProfileSerializer
           break;
         case 'isOwnProfile':
           result.isOwnProfile = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'isPublic':
+          result.isPublic = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
       }
@@ -500,6 +511,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
   final GUserProfileData_userProfile_followCounts? followCounts;
   @override
   final bool? isOwnProfile;
+  @override
+  final bool? isPublic;
 
   factory _$GUserProfileData_userProfile(
           [void Function(GUserProfileData_userProfileBuilder)? updates]) =>
@@ -511,7 +524,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
       this.outgoingFollowStatus,
       this.incomingFollowStatus,
       this.followCounts,
-      this.isOwnProfile})
+      this.isOwnProfile,
+      this.isPublic})
       : super._();
   @override
   GUserProfileData_userProfile rebuild(
@@ -531,7 +545,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
         outgoingFollowStatus == other.outgoingFollowStatus &&
         incomingFollowStatus == other.incomingFollowStatus &&
         followCounts == other.followCounts &&
-        isOwnProfile == other.isOwnProfile;
+        isOwnProfile == other.isOwnProfile &&
+        isPublic == other.isPublic;
   }
 
   @override
@@ -543,6 +558,7 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
     _$hash = $jc(_$hash, incomingFollowStatus.hashCode);
     _$hash = $jc(_$hash, followCounts.hashCode);
     _$hash = $jc(_$hash, isOwnProfile.hashCode);
+    _$hash = $jc(_$hash, isPublic.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -555,7 +571,8 @@ class _$GUserProfileData_userProfile extends GUserProfileData_userProfile {
           ..add('outgoingFollowStatus', outgoingFollowStatus)
           ..add('incomingFollowStatus', incomingFollowStatus)
           ..add('followCounts', followCounts)
-          ..add('isOwnProfile', isOwnProfile))
+          ..add('isOwnProfile', isOwnProfile)
+          ..add('isPublic', isPublic))
         .toString();
   }
 }
@@ -598,6 +615,10 @@ class GUserProfileData_userProfileBuilder
   bool? get isOwnProfile => _$this._isOwnProfile;
   set isOwnProfile(bool? isOwnProfile) => _$this._isOwnProfile = isOwnProfile;
 
+  bool? _isPublic;
+  bool? get isPublic => _$this._isPublic;
+  set isPublic(bool? isPublic) => _$this._isPublic = isPublic;
+
   GUserProfileData_userProfileBuilder() {
     GUserProfileData_userProfile._initializeBuilder(this);
   }
@@ -611,6 +632,7 @@ class GUserProfileData_userProfileBuilder
       _incomingFollowStatus = $v.incomingFollowStatus;
       _followCounts = $v.followCounts?.toBuilder();
       _isOwnProfile = $v.isOwnProfile;
+      _isPublic = $v.isPublic;
       _$v = null;
     }
     return this;
@@ -641,6 +663,7 @@ class GUserProfileData_userProfileBuilder
             incomingFollowStatus: incomingFollowStatus,
             followCounts: _followCounts?.build(),
             isOwnProfile: isOwnProfile,
+            isPublic: isPublic,
           );
     } catch (_) {
       late String _$failedField;

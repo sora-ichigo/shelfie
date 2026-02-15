@@ -110,6 +110,9 @@ export function registerFollowTypes(builder: Builder): void {
         resolve: (parent) => parent.followCounts,
       }),
       isOwnProfile: t.exposeBoolean("isOwnProfile"),
+      isPublic: t.boolean({
+        resolve: (parent) => parent.user.isPublic,
+      }),
     }),
   });
 }

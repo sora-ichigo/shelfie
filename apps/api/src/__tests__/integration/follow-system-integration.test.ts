@@ -712,6 +712,7 @@ describe("Follow System Integration", () => {
         bio: null,
         instagramHandle: null,
         handle: "sender",
+        isPublic: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

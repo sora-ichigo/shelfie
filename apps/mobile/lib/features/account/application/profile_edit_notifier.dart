@@ -55,6 +55,7 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
       bio: formState.bio,
       instagramHandle: formState.instagramHandle,
       handle: formState.handle,
+      isPublic: formState.isPublic,
       onProgress: (progress) {
         state = ProfileEditState.uploading(progress: progress);
       },
@@ -74,6 +75,7 @@ class ProfileEditNotifier extends _$ProfileEditNotifier {
       bio: formState.bio,
       instagramHandle: formState.instagramHandle,
       handle: formState.handle,
+      isPublic: formState.isPublic,
     );
 
     state = updateResult.fold<ProfileEditState>(

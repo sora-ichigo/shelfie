@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shelfie/core/state/follow_version.dart';
 import 'package:shelfie/features/follow/data/follow_repository.dart';
+import 'package:shelfie/features/follow/domain/follow_request_status.dart';
 import 'package:shelfie/features/follow/domain/follow_status_type.dart';
 
 part 'follow_state_notifier.g.dart';
@@ -97,7 +98,15 @@ class FollowState extends _$FollowState {
 
     result.fold(
       (_) => state = {...state, userId: previous},
-      (_) => ref.read(followVersionProvider.notifier).increment(),
+      (followRequest) {
+        if (followRequest.status == FollowRequestStatus.approved) {
+          state = {
+            ...state,
+            userId: (outgoing: FollowStatusType.following, incoming: current.incoming),
+          };
+        }
+        ref.read(followVersionProvider.notifier).increment();
+      },
     );
 
     _operatingUsers.remove(userId);

@@ -45,6 +45,7 @@ function createUpdateProfileInputRef(builder: Builder) {
     bio?: string;
     instagramHandle?: string;
     handle?: string;
+    isPublic?: boolean;
   }>("UpdateProfileInput");
 }
 
@@ -93,6 +94,9 @@ export function registerUserTypes(
       handle: t.exposeString("handle", {
         description: "The user's unique handle",
         nullable: true,
+      }),
+      isPublic: t.exposeBoolean("isPublic", {
+        description: "Whether the user's profile is public",
       }),
       createdAt: t.expose("createdAt", {
         type: "DateTime",
@@ -166,6 +170,10 @@ export function registerUserTypes(
         required: false,
         description: "User unique handle",
       }),
+      isPublic: t.boolean({
+        required: false,
+        description: "Whether the user's profile is public",
+      }),
     }),
   });
 }
@@ -233,6 +241,7 @@ export function registerUserMutations(
           bio: input.bio ?? undefined,
           instagramHandle: input.instagramHandle ?? undefined,
           handle: input.handle ?? undefined,
+          isPublic: input.isPublic ?? undefined,
         });
 
         if (!result.success) {

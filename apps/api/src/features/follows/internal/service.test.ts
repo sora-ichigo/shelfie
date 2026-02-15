@@ -2,9 +2,11 @@ import { describe, expect, it, vi } from "vitest";
 import type { FollowRequest } from "../../../db/schema/follow-requests.js";
 import type { Follow } from "../../../db/schema/follows.js";
 import type { AppNotification } from "../../../db/schema/notifications.js";
+import type { User } from "../../../db/schema/users.js";
 import type { LoggerService } from "../../../logger/index.js";
 import type { NotificationService } from "../../device-tokens/index.js";
 import type { NotificationAppService } from "../../notifications/index.js";
+import type { UserRepository } from "../../users/internal/repository.js";
 import type { FollowRepository } from "./repository.js";
 import { createFollowService } from "./service.js";
 
@@ -74,6 +76,36 @@ function createMockLogger(): LoggerService {
     warn: vi.fn(),
     error: vi.fn(),
     child: vi.fn().mockReturnThis(),
+  };
+}
+
+function createMockUserRepository(): UserRepository {
+  return {
+    findById: vi.fn(),
+    findByEmail: vi.fn(),
+    findByFirebaseUid: vi.fn(),
+    findByHandle: vi.fn(),
+    findMany: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  };
+}
+
+function createMockUser(overrides: Partial<User> = {}): User {
+  return {
+    id: 2,
+    email: "receiver@example.com",
+    firebaseUid: "firebase-uid-receiver",
+    name: "Receiver",
+    avatarUrl: null,
+    bio: null,
+    instagramHandle: null,
+    handle: null,
+    isPublic: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    ...overrides,
   };
 }
 
@@ -1240,6 +1272,129 @@ describe("FollowService", () => {
         1,
         [2, 3],
       );
+    });
+  });
+
+  describe("sendRequest to public account", () => {
+    it("should immediately create follow for public receiver", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const userRepo = createMockUserRepository();
+      const mockRequest = createMockFollowRequest();
+      const publicUser = createMockUser({ id: 2, isPublic: true });
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+      vi.mocked(repo.createRequest).mockResolvedValue(mockRequest);
+      vi.mocked(repo.updateRequestStatus).mockResolvedValue({
+        ...mockRequest,
+        status: "approved",
+      });
+      vi.mocked(repo.createFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
+      vi.mocked(userRepo.findById).mockResolvedValue(publicUser);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+        userRepo,
+      );
+      const result = await service.sendRequest(1, 2);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.status).toBe("approved");
+      }
+      expect(repo.createFollow).toHaveBeenCalledWith(1, 2);
+      expect(repo.updateRequestStatus).toHaveBeenCalledWith(
+        mockRequest.id,
+        "approved",
+      );
+    });
+
+    it("should send new_follower notification for public receiver", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const userRepo = createMockUserRepository();
+      const mockRequest = createMockFollowRequest();
+      const publicUser = createMockUser({ id: 2, isPublic: true });
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+      vi.mocked(repo.createRequest).mockResolvedValue(mockRequest);
+      vi.mocked(repo.updateRequestStatus).mockResolvedValue({
+        ...mockRequest,
+        status: "approved",
+      });
+      vi.mocked(repo.createFollow).mockResolvedValue(
+        createMockFollow({ followerId: 1, followeeId: 2 }),
+      );
+      vi.mocked(userRepo.findById).mockResolvedValue(publicUser);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+        userRepo,
+      );
+      await service.sendRequest(1, 2);
+
+      expect(notifService.createNotification).toHaveBeenCalledWith({
+        recipientId: 2,
+        senderId: 1,
+        type: "new_follower",
+      });
+
+      expect(pushService.sendNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: "新しいフォロワー",
+          body: "フォローされました",
+          userIds: [2],
+        }),
+      );
+    });
+
+    it("should send follow_request_received for private receiver", async () => {
+      const repo = createMockFollowRepository();
+      const notifService = createMockNotificationAppService();
+      const pushService = createMockPushNotificationService();
+      const logger = createMockLogger();
+      const userRepo = createMockUserRepository();
+      const mockRequest = createMockFollowRequest();
+      const privateUser = createMockUser({ id: 2, isPublic: false });
+
+      vi.mocked(repo.findFollow).mockResolvedValue(null);
+      vi.mocked(repo.findRequestBySenderAndReceiver).mockResolvedValue(null);
+      vi.mocked(repo.createRequest).mockResolvedValue(mockRequest);
+      vi.mocked(userRepo.findById).mockResolvedValue(privateUser);
+
+      const service = createFollowService(
+        repo,
+        notifService,
+        pushService,
+        logger,
+        userRepo,
+      );
+      const result = await service.sendRequest(1, 2);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.status).toBe("pending");
+      }
+      expect(repo.createFollow).not.toHaveBeenCalled();
+      expect(notifService.createNotification).toHaveBeenCalledWith({
+        recipientId: 2,
+        senderId: 1,
+        type: "follow_request_received",
+      });
     });
   });
 });

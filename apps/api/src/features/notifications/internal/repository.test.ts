@@ -83,6 +83,7 @@ const mockUser: User = {
   bio: null,
   instagramHandle: null,
   handle: "sender",
+  isPublic: false,
   createdAt: new Date(),
   updatedAt: new Date(),
 };

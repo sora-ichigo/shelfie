@@ -1,4 +1,11 @@
-import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const USERS_FIREBASE_UID_INDEX_NAME = "idx_users_firebase_uid";
 
@@ -13,6 +20,7 @@ export const users = pgTable(
     bio: text("bio"),
     instagramHandle: text("instagram_handle"),
     handle: text("handle").unique(),
+    isPublic: boolean("is_public").default(false).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },

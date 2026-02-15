@@ -197,6 +197,13 @@ class _$GGetMyProfileData_me__asUserSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.isPublic;
+    if (value != null) {
+      result
+        ..add('isPublic')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -255,6 +262,10 @@ class _$GGetMyProfileData_me__asUserSerializer
         case 'shareUrl':
           result.shareUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'isPublic':
+          result.isPublic = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -540,6 +551,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
   final String? handle;
   @override
   final String? shareUrl;
+  @override
+  final bool? isPublic;
 
   factory _$GGetMyProfileData_me__asUser(
           [void Function(GGetMyProfileData_me__asUserBuilder)? updates]) =>
@@ -556,7 +569,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
       this.bio,
       this.instagramHandle,
       this.handle,
-      this.shareUrl})
+      this.shareUrl,
+      this.isPublic})
       : super._();
   @override
   GGetMyProfileData_me__asUser rebuild(
@@ -581,7 +595,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
         bio == other.bio &&
         instagramHandle == other.instagramHandle &&
         handle == other.handle &&
-        shareUrl == other.shareUrl;
+        shareUrl == other.shareUrl &&
+        isPublic == other.isPublic;
   }
 
   @override
@@ -598,6 +613,7 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
     _$hash = $jc(_$hash, instagramHandle.hashCode);
     _$hash = $jc(_$hash, handle.hashCode);
     _$hash = $jc(_$hash, shareUrl.hashCode);
+    _$hash = $jc(_$hash, isPublic.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -615,7 +631,8 @@ class _$GGetMyProfileData_me__asUser extends GGetMyProfileData_me__asUser {
           ..add('bio', bio)
           ..add('instagramHandle', instagramHandle)
           ..add('handle', handle)
-          ..add('shareUrl', shareUrl))
+          ..add('shareUrl', shareUrl)
+          ..add('isPublic', isPublic))
         .toString();
   }
 }
@@ -671,6 +688,10 @@ class GGetMyProfileData_me__asUserBuilder
   String? get shareUrl => _$this._shareUrl;
   set shareUrl(String? shareUrl) => _$this._shareUrl = shareUrl;
 
+  bool? _isPublic;
+  bool? get isPublic => _$this._isPublic;
+  set isPublic(bool? isPublic) => _$this._isPublic = isPublic;
+
   GGetMyProfileData_me__asUserBuilder() {
     GGetMyProfileData_me__asUser._initializeBuilder(this);
   }
@@ -689,6 +710,7 @@ class GGetMyProfileData_me__asUserBuilder
       _instagramHandle = $v.instagramHandle;
       _handle = $v.handle;
       _shareUrl = $v.shareUrl;
+      _isPublic = $v.isPublic;
       _$v = null;
     }
     return this;
@@ -723,6 +745,7 @@ class GGetMyProfileData_me__asUserBuilder
           instagramHandle: instagramHandle,
           handle: handle,
           shareUrl: shareUrl,
+          isPublic: isPublic,
         );
     replace(_$result);
     return _$result;

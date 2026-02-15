@@ -43,6 +43,7 @@ void main() {
       readingStartYear: 2020,
       readingStartMonth: 1,
       createdAt: DateTime(2020, 1, 1),
+      isPublic: false,
     );
   }
 

@@ -264,6 +264,8 @@ class GNotificationType extends EnumClass {
   static const GNotificationType FOLLOW_REQUEST_RECEIVED =
       _$gNotificationTypeFOLLOW_REQUEST_RECEIVED;
 
+  static const GNotificationType NEW_FOLLOWER = _$gNotificationTypeNEW_FOLLOWER;
+
   static Serializer<GNotificationType> get serializer =>
       _$gNotificationTypeSerializer;
 
@@ -495,6 +497,7 @@ abstract class GUpdateProfileInput
   String? get bio;
   String? get handle;
   String? get instagramHandle;
+  bool? get isPublic;
   String get name;
   static Serializer<GUpdateProfileInput> get serializer =>
       _$gUpdateProfileInputSerializer;

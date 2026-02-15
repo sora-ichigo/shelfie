@@ -119,6 +119,7 @@ UserProfileModel _createProfile({
     isOwnProfile: isOwnProfile,
     bio: bio,
     bookCount: bookCount,
+    isPublic: false,
   );
 }
 

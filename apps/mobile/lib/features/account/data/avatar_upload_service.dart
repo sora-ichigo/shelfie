@@ -161,6 +161,7 @@ class AvatarUploadService {
     String? bio,
     String? instagramHandle,
     String? handle,
+    bool? isPublic,
     void Function(double progress)? onProgress,
   }) async {
     if (_repository == null) {
@@ -202,6 +203,7 @@ class AvatarUploadService {
       bio: bio,
       instagramHandle: instagramHandle,
       handle: handle,
+      isPublic: isPublic,
     );
   }
 

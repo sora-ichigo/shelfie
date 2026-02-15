@@ -77,8 +77,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
             );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
         widget.profile.isOwnProfile;
+    final canViewContent = isFollowing || widget.profile.isPublic;
 
-    if (isFollowing) {
+    if (canViewContent) {
       _bookListLoaded = true;
       ref
           .read(userProfileBookListsNotifierProvider(_userId).notifier)
@@ -125,6 +126,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
             );
     final isFollowing = currentStatus.outgoing == FollowStatusType.following ||
         widget.profile.isOwnProfile;
+    final canViewContent = isFollowing || widget.profile.isPublic;
     final followCounts = ref.watch(followCountsNotifierProvider(_userId));
 
     final booksState =
@@ -175,7 +177,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen>
             ),
           ],
         ),
-        showNotFollowingPlaceholder: !isFollowing,
+        showNotFollowingPlaceholder: !canViewContent,
         books: booksState.books,
         isBooksLoading: booksState.isLoading,
         isBooksLoadingMore: booksState.isLoadingMore,

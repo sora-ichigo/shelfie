@@ -274,6 +274,13 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.isPublic;
+    if (value != null) {
+      result
+        ..add('isPublic')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -333,6 +340,10 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataSer
         case 'shareUrl':
           result.shareUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
+          break;
+        case 'isPublic':
+          result.isPublic = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -785,6 +796,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
   final String? handle;
   @override
   final String? shareUrl;
+  @override
+  final bool? isPublic;
 
   factory _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data(
           [void Function(
@@ -805,7 +818,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
       this.bio,
       this.instagramHandle,
       this.handle,
-      this.shareUrl})
+      this.shareUrl,
+      this.isPublic})
       : super._();
   @override
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data rebuild(
@@ -835,7 +849,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         bio == other.bio &&
         instagramHandle == other.instagramHandle &&
         handle == other.handle &&
-        shareUrl == other.shareUrl;
+        shareUrl == other.shareUrl &&
+        isPublic == other.isPublic;
   }
 
   @override
@@ -852,6 +867,7 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
     _$hash = $jc(_$hash, instagramHandle.hashCode);
     _$hash = $jc(_$hash, handle.hashCode);
     _$hash = $jc(_$hash, shareUrl.hashCode);
+    _$hash = $jc(_$hash, isPublic.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -870,7 +886,8 @@ class _$GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
           ..add('bio', bio)
           ..add('instagramHandle', instagramHandle)
           ..add('handle', handle)
-          ..add('shareUrl', shareUrl))
+          ..add('shareUrl', shareUrl)
+          ..add('isPublic', isPublic))
         .toString();
   }
 }
@@ -927,6 +944,10 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
   String? get shareUrl => _$this._shareUrl;
   set shareUrl(String? shareUrl) => _$this._shareUrl = shareUrl;
 
+  bool? _isPublic;
+  bool? get isPublic => _$this._isPublic;
+  set isPublic(bool? isPublic) => _$this._isPublic = isPublic;
+
   GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuilder() {
     GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_data
         ._initializeBuilder(this);
@@ -947,6 +968,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
       _instagramHandle = $v.instagramHandle;
       _handle = $v.handle;
       _shareUrl = $v.shareUrl;
+      _isPublic = $v.isPublic;
       _$v = null;
     }
     return this;
@@ -994,6 +1016,7 @@ class GUpdateProfileData_updateProfile__asMutationUpdateProfileSuccess_dataBuild
           instagramHandle: instagramHandle,
           handle: handle,
           shareUrl: shareUrl,
+          isPublic: isPublic,
         );
     replace(_$result);
     return _$result;
