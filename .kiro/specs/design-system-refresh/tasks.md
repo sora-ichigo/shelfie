@@ -2,8 +2,8 @@
 
 ## Phase 1: トークン基盤構築
 
-- [ ] 1. AppColors に新カラートークンを追加する
-- [ ] 1.1 (P) design.pen の全 55 カラー変数に対応する新しいカラートークンプロパティを AppColors に追加する
+- [x] 1. AppColors に新カラートークンを追加する
+- [x] 1.1 (P) design.pen の全 55 カラー変数に対応する新しいカラートークンプロパティを AppColors に追加する
   - MD3 Core: Primary 系 4 色（primary, onPrimary, primaryContainer, onPrimaryContainer）を定義する
   - MD3 Core: Secondary 系 4 色（secondary, onSecondary, secondaryContainer, onSecondaryContainer）を定義する
   - MD3 Core: Tertiary 系 4 色（tertiary, onTertiary, tertiaryContainer, onTertiaryContainer）を定義する
