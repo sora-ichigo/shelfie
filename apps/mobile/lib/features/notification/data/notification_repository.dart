@@ -38,6 +38,7 @@ class NotificationRepository {
   }) async {
     final request = GNotificationsReq(
       (b) => b
+        ..fetchPolicy = FetchPolicy.NetworkOnly
         ..vars.cursor = cursor
         ..vars.limit = limit,
     );
