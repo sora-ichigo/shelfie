@@ -45,7 +45,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     if (!mounted) return;
     final state = ref.read(notificationListNotifierProvider);
     state.whenData(_registerFollowStates);
-    await notifier.markAsRead();
   }
 
   void _registerFollowStates(List<NotificationModel> notifications) {
@@ -191,14 +190,31 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
         return _NotificationTile(
           notification: notification,
           displayStatus: displayStatus,
+          onTap: () {
+            ref
+                .read(notificationListNotifierProvider.notifier)
+                .markAsReadById(notification.id);
+            final handle = notification.sender.handle;
+            if (handle != null) {
+              context.push(AppRoutes.userProfile(handle: handle));
+            }
+          },
           onApprove: notification.followRequestId != null
-              ? () => ref.read(followStateProvider.notifier).approveRequest(
-                    userId: notification.sender.id,
-                    requestId: notification.followRequestId!,
-                  )
+              ? () {
+                  ref
+                      .read(notificationListNotifierProvider.notifier)
+                      .markAsReadById(notification.id);
+                  ref.read(followStateProvider.notifier).approveRequest(
+                        userId: notification.sender.id,
+                        requestId: notification.followRequestId!,
+                      );
+                }
               : null,
           onReject: notification.followRequestId != null
               ? () {
+                  ref
+                      .read(notificationListNotifierProvider.notifier)
+                      .markAsReadById(notification.id);
                   ref.read(followStateProvider.notifier).rejectRequest(
                         userId: notification.sender.id,
                         requestId: notification.followRequestId!,
@@ -234,12 +250,14 @@ class _NotificationTile extends StatelessWidget {
   const _NotificationTile({
     required this.notification,
     required this.displayStatus,
+    this.onTap,
     this.onApprove,
     this.onReject,
   });
 
   final NotificationModel notification;
   final FollowStatusType displayStatus;
+  final VoidCallback? onTap;
   final VoidCallback? onApprove;
   final VoidCallback? onReject;
 
@@ -249,12 +267,7 @@ class _NotificationTile extends StatelessWidget {
     final appColors = theme.extension<AppColors>()!;
 
     return GestureDetector(
-      onTap: () {
-        final handle = notification.sender.handle;
-        if (handle != null) {
-          context.push(AppRoutes.userProfile(handle: handle));
-        }
-      },
+      onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
         padding: const EdgeInsets.symmetric(

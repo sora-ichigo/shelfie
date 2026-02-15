@@ -38,7 +38,7 @@ function createMockNotificationRepository(): NotificationRepository {
     create: vi.fn(),
     findByRecipient: vi.fn(),
     countUnreadByRecipient: vi.fn(),
-    markAsReadByRecipient: vi.fn(),
+    markAsReadById: vi.fn(),
     deleteBySenderAndType: vi.fn(),
   };
 }
@@ -732,10 +732,10 @@ describe("Follow System Integration", () => {
         "follow_request_received",
       );
 
-      // Step 4: 一括既読
-      vi.mocked(notifRepo.markAsReadByRecipient).mockResolvedValue(undefined);
-      await notificationAppService.markAllAsRead(2);
-      expect(notifRepo.markAsReadByRecipient).toHaveBeenCalledWith(2);
+      // Step 4: 個別既読
+      vi.mocked(notifRepo.markAsReadById).mockResolvedValue(undefined);
+      await notificationAppService.markAsRead(1, 2);
+      expect(notifRepo.markAsReadById).toHaveBeenCalledWith(1, 2);
 
       // Step 5: 既読後の未読件数
       vi.mocked(notifRepo.countUnreadByRecipient).mockResolvedValue(0);

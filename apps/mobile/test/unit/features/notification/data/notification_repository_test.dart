@@ -5,9 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gql_exec/gql_exec.dart' as gql;
 import 'package:mocktail/mocktail.dart';
 import 'package:shelfie/core/error/failure.dart';
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.data.gql.dart';
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.req.gql.dart';
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.var.gql.dart';
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.data.gql.dart';
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.req.gql.dart';
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.var.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/notifications.data.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/notifications.req.gql.dart';
 import 'package:shelfie/features/notification/data/__generated__/notifications.var.gql.dart';
@@ -31,7 +31,11 @@ void main() {
   setUpAll(() {
     registerFallbackValue(GNotificationsReq());
     registerFallbackValue(GUnreadNotificationCountReq());
-    registerFallbackValue(GMarkNotificationsAsReadReq());
+    registerFallbackValue(
+      GMarkNotificationAsReadReq(
+        (b) => b..vars.notificationId = 0,
+      ),
+    );
   });
 
   group('NotificationRepository', () {
@@ -285,109 +289,144 @@ void main() {
       });
     });
 
-    group('markAllAsRead', () {
+    group('markAsRead', () {
       test('returns right(null) on success', () async {
-        final data = GMarkNotificationsAsReadData.fromJson({
-          'markNotificationsAsRead': true,
+        final data = GMarkNotificationAsReadData.fromJson({
+          'markNotificationAsRead': true,
         });
 
-        final response = OperationResponse<GMarkNotificationsAsReadData,
-            GMarkNotificationsAsReadVars>(
-          operationRequest: GMarkNotificationsAsReadReq(),
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 1,
+          ),
           data: data,
         );
 
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenAnswer((_) => Stream.value(response));
 
-        final result = await repository.markAllAsRead();
+        final result = await repository.markAsRead(1);
 
         expect(result.isRight(), isTrue);
       });
 
-      test('uses NetworkOnly fetch policy', () async {
-        final data = GMarkNotificationsAsReadData.fromJson({
-          'markNotificationsAsRead': true,
+      test('passes notificationId to request', () async {
+        final data = GMarkNotificationAsReadData.fromJson({
+          'markNotificationAsRead': true,
         });
 
-        final response = OperationResponse<GMarkNotificationsAsReadData,
-            GMarkNotificationsAsReadVars>(
-          operationRequest: GMarkNotificationsAsReadReq(),
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 42,
+          ),
           data: data,
         );
 
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenAnswer((_) => Stream.value(response));
 
-        await repository.markAllAsRead();
+        await repository.markAsRead(42);
 
         final captured = verify(
-          () => mockClient.request(captureAny<GMarkNotificationsAsReadReq>()),
+          () => mockClient.request(captureAny<GMarkNotificationAsReadReq>()),
         ).captured;
-        final request = captured.first as GMarkNotificationsAsReadReq;
+        final request = captured.first as GMarkNotificationAsReadReq;
+        expect(request.vars.notificationId, equals(42));
+      });
+
+      test('uses NetworkOnly fetch policy', () async {
+        final data = GMarkNotificationAsReadData.fromJson({
+          'markNotificationAsRead': true,
+        });
+
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 1,
+          ),
+          data: data,
+        );
+
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
+            .thenAnswer((_) => Stream.value(response));
+
+        await repository.markAsRead(1);
+
+        final captured = verify(
+          () => mockClient.request(captureAny<GMarkNotificationAsReadReq>()),
+        ).captured;
+        final request = captured.first as GMarkNotificationAsReadReq;
         expect(request.fetchPolicy, FetchPolicy.NetworkOnly);
       });
 
-      test('returns ServerFailure when markNotificationsAsRead is not true',
+      test('returns ServerFailure when markNotificationAsRead is not true',
           () async {
-        final data = GMarkNotificationsAsReadData.fromJson({
-          'markNotificationsAsRead': false,
+        final data = GMarkNotificationAsReadData.fromJson({
+          'markNotificationAsRead': false,
         });
 
-        final response = OperationResponse<GMarkNotificationsAsReadData,
-            GMarkNotificationsAsReadVars>(
-          operationRequest: GMarkNotificationsAsReadReq(),
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 1,
+          ),
           data: data,
         );
 
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenAnswer((_) => Stream.value(response));
 
-        final result = await repository.markAllAsRead();
+        final result = await repository.markAsRead(1);
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ServerFailure>());
       });
 
       test('returns ServerFailure when API returns GraphQL errors', () async {
-        final response = OperationResponse<GMarkNotificationsAsReadData,
-            GMarkNotificationsAsReadVars>(
-          operationRequest: GMarkNotificationsAsReadReq(),
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 1,
+          ),
           graphqlErrors: [
             const gql.GraphQLError(message: 'Server error'),
           ],
         );
 
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenAnswer((_) => Stream.value(response));
 
-        final result = await repository.markAllAsRead();
+        final result = await repository.markAsRead(1);
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ServerFailure>());
       });
 
       test('returns NetworkFailure on SocketException', () async {
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenThrow(const SocketException('No internet'));
 
-        final result = await repository.markAllAsRead();
+        final result = await repository.markAsRead(1);
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<NetworkFailure>());
       });
 
       test('returns ServerFailure when data is null', () async {
-        final response = OperationResponse<GMarkNotificationsAsReadData,
-            GMarkNotificationsAsReadVars>(
-          operationRequest: GMarkNotificationsAsReadReq(),
+        final response = OperationResponse<GMarkNotificationAsReadData,
+            GMarkNotificationAsReadVars>(
+          operationRequest: GMarkNotificationAsReadReq(
+            (b) => b..vars.notificationId = 1,
+          ),
           data: null,
         );
 
-        when(() => mockClient.request(any<GMarkNotificationsAsReadReq>()))
+        when(() => mockClient.request(any<GMarkNotificationAsReadReq>()))
             .thenAnswer((_) => Stream.value(response));
 
-        final result = await repository.markAllAsRead();
+        final result = await repository.markAsRead(1);
 
         expect(result.isLeft(), isTrue);
         expect(result.getLeft().toNullable(), isA<ServerFailure>());

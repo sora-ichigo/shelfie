@@ -410,12 +410,12 @@ import 'package:shelfie/features/login/data/__generated__/login_user.req.gql.dar
     show GLoginUserReq;
 import 'package:shelfie/features/login/data/__generated__/login_user.var.gql.dart'
     show GLoginUserVars;
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.data.gql.dart'
-    show GMarkNotificationsAsReadData;
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.req.gql.dart'
-    show GMarkNotificationsAsReadReq;
-import 'package:shelfie/features/notification/data/__generated__/mark_notifications_as_read.var.gql.dart'
-    show GMarkNotificationsAsReadVars;
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.data.gql.dart'
+    show GMarkNotificationAsReadData;
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.req.gql.dart'
+    show GMarkNotificationAsReadReq;
+import 'package:shelfie/features/notification/data/__generated__/mark_notification_as_read.var.gql.dart'
+    show GMarkNotificationAsReadVars;
 import 'package:shelfie/features/notification/data/__generated__/notifications.data.gql.dart'
     show
         GNotificationsData,
@@ -585,9 +585,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GLoginUserInput,
   GLoginUserReq,
   GLoginUserVars,
-  GMarkNotificationsAsReadData,
-  GMarkNotificationsAsReadReq,
-  GMarkNotificationsAsReadVars,
+  GMarkNotificationAsReadData,
+  GMarkNotificationAsReadReq,
+  GMarkNotificationAsReadVars,
   GMyBookListsData,
   GMyBookListsData_myBookLists,
   GMyBookListsData_myBookLists_items,

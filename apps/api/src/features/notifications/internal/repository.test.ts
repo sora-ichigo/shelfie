@@ -96,7 +96,7 @@ describe("NotificationRepository", () => {
       expect(typeof repository.create).toBe("function");
       expect(typeof repository.findByRecipient).toBe("function");
       expect(typeof repository.countUnreadByRecipient).toBe("function");
-      expect(typeof repository.markAsReadByRecipient).toBe("function");
+      expect(typeof repository.markAsReadById).toBe("function");
       expect(typeof repository.deleteBySenderAndType).toBe("function");
     });
   });
@@ -198,13 +198,13 @@ describe("NotificationRepository", () => {
     });
   });
 
-  describe("markAsReadByRecipient", () => {
-    it("should mark all unread notifications as read for a recipient", async () => {
+  describe("markAsReadById", () => {
+    it("should mark a specific notification as read by id and recipientId", async () => {
       const mockDb = createMockDb();
       mockDb.setResults([]);
 
       const repository = createNotificationRepository(mockDb.query as never);
-      await repository.markAsReadByRecipient(2);
+      await repository.markAsReadById(1, 2);
 
       expect(mockDb.query.update).toHaveBeenCalled();
     });

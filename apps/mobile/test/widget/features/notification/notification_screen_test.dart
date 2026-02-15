@@ -103,8 +103,6 @@ void main() {
     testWidgets('お知らせ一覧を表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right(testNotifications));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -116,8 +114,6 @@ void main() {
     testWidgets('followRequestReceived の通知テキストを正しく表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([testNotifications[0]]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -131,8 +127,6 @@ void main() {
     testWidgets('followRequestApproved の通知テキストを正しく表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([testNotifications[1]]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -146,8 +140,6 @@ void main() {
     testWidgets('お知らせが0件の場合に空状態メッセージを表示すること', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -155,16 +147,31 @@ void main() {
       expect(find.text('お知らせはまだありません'), findsOneWidget);
     });
 
-    testWidgets('画面を開いた際に markAsRead が呼ばれること', (tester) async {
+    testWidgets('画面を開いた際に markAllAsRead が呼ばれないこと', (tester) async {
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right(testNotifications));
-      when(() => mockNotificationRepo.markAllAsRead())
+
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      verifyNever(() => mockNotificationRepo.markAsRead(any()));
+    });
+
+    testWidgets('通知タップ時に markAsRead が呼ばれること', (tester) async {
+      when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
+          .thenAnswer((_) async => right([testNotifications[1]]));
+      when(() => mockNotificationRepo.markAsRead(2))
           .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      verify(() => mockNotificationRepo.markAllAsRead()).called(1);
+      await tester.tap(find.textContaining('承認ユーザー'));
+      // GoRouter が未設定のため context.push でエラーが出るのでフラッシュする
+      tester.takeException();
+      await tester.pump();
+
+      verify(() => mockNotificationRepo.markAsRead(2)).called(1);
     });
 
     testWidgets('エラー時にリトライボタンを表示すること', (tester) async {
@@ -172,8 +179,6 @@ void main() {
           .thenAnswer(
         (_) async => left(const NetworkFailure(message: 'Network error')),
       );
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -193,8 +198,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -215,8 +218,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -237,8 +238,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -259,8 +258,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -281,8 +278,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -302,8 +297,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -328,8 +321,6 @@ void main() {
       when(() =>
               mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       final container = ProviderContainer(
         overrides: [
@@ -378,8 +369,6 @@ void main() {
       when(() =>
               mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       final container = ProviderContainer(
         overrides: [
@@ -425,8 +414,6 @@ void main() {
 
       when(() => mockNotificationRepo.getNotifications(limit: any(named: 'limit')))
           .thenAnswer((_) async => right([notification]));
-      when(() => mockNotificationRepo.markAllAsRead())
-          .thenAnswer((_) async => right(null));
 
       late ProviderContainer container;
       await tester.pumpWidget(

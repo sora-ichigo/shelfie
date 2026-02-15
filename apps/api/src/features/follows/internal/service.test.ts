@@ -47,7 +47,7 @@ function createMockNotificationAppService(): NotificationAppService {
     }),
     getNotifications: vi.fn(),
     getUnreadCount: vi.fn(),
-    markAllAsRead: vi.fn(),
+    markAsRead: vi.fn(),
     deleteNotification: vi.fn().mockResolvedValue(undefined),
   };
 }
