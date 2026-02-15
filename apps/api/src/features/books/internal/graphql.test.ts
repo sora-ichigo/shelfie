@@ -3117,6 +3117,21 @@ describe("userShelf query", () => {
       hasMore: false,
     };
 
+    vi.mocked(mockUserService.getUserById).mockResolvedValue(
+      ok({
+        id: 200,
+        email: "target@example.com",
+        firebaseUid: "target-firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        isPublic: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
       ok({
         id: 100,
@@ -3185,6 +3200,21 @@ describe("userShelf query", () => {
     const mockUserService = createMockUserService();
     const mockFollowService = createMockFollowService();
 
+    vi.mocked(mockUserService.getUserById).mockResolvedValue(
+      ok({
+        id: 200,
+        email: "target@example.com",
+        firebaseUid: "target-firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        isPublic: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
       ok({
         id: 100,
@@ -3275,6 +3305,21 @@ describe("userShelf query", () => {
       hasMore: false,
     };
 
+    vi.mocked(mockUserService.getUserById).mockResolvedValue(
+      ok({
+        id: 100,
+        email: "test@example.com",
+        firebaseUid: "firebase-uid",
+        name: null,
+        avatarUrl: null,
+        bio: null,
+        instagramHandle: null,
+        handle: null,
+        isPublic: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }),
+    );
     vi.mocked(mockUserService.getUserByFirebaseUid).mockResolvedValue(
       ok({
         id: 100,
