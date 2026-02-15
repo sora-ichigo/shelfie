@@ -11,7 +11,7 @@ import 'package:shelfie/features/book_list/presentation/widgets/book_list_card.d
 import 'package:shelfie/features/book_shelf/domain/shelf_book_item.dart';
 import 'package:shelfie/routing/app_router.dart';
 
-class ProfileContentView extends StatelessWidget {
+class ProfileContentView extends StatefulWidget {
   const ProfileContentView({
     required this.tabController,
     required this.header,
@@ -54,127 +54,143 @@ class ProfileContentView extends StatelessWidget {
   final Future<void> Function()? onRefresh;
 
   @override
+  State<ProfileContentView> createState() => _ProfileContentViewState();
+}
+
+class _ProfileContentViewState extends State<ProfileContentView> {
+  int _selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTab = widget.tabController.index;
+    widget.tabController.addListener(_onTabChanged);
+  }
+
+  @override
+  void didUpdateWidget(ProfileContentView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.tabController != widget.tabController) {
+      oldWidget.tabController.removeListener(_onTabChanged);
+      widget.tabController.addListener(_onTabChanged);
+      _selectedTab = widget.tabController.index;
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.removeListener(_onTabChanged);
+    super.dispose();
+  }
+
+  void _onTabChanged() {
+    if (widget.tabController.indexIsChanging) return;
+    final newIndex = widget.tabController.index;
+    if (_selectedTab != newIndex) {
+      setState(() {
+        _selectedTab = newIndex;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return NestedScrollView(
-      physics: onRefresh != null
-          ? const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            )
-          : null,
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        if (onRefresh != null)
-          CupertinoSliverRefreshControl(onRefresh: onRefresh),
-        SliverToBoxAdapter(child: header),
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: _TabBarDelegate(
-            child: ListenableBuilder(
-              listenable: tabController.animation!,
-              builder: (context, _) => ProfileTabBar(
-                selectedTab: ProfileTab
-                    .values[tabController.animation!.value.round()],
-                onTabChanged: (tab) => tabController.animateTo(tab.index),
-              ),
-            ),
-            backgroundColor: theme.scaffoldBackgroundColor,
-          ),
-        ),
-      ],
-      body: showNotFollowingPlaceholder
-          ? _buildNotFollowingPlaceholder(context)
-          : TabBarView(
-              controller: tabController,
-              children: [
-                _buildBookShelfTab(context),
-                _buildBookListTab(context),
-              ],
-            ),
-    );
-  }
-
-  Widget _buildNotFollowingPlaceholder(BuildContext context) {
-    final theme = Theme.of(context);
-    final appColors = theme.extension<AppColors>()!;
-
-    return TabBarView(
-      controller: tabController,
-      children: [
-        _buildPlaceholderContent(
-          appColors,
-          theme,
-          Icons.grid_view_rounded,
-        ),
-        _buildPlaceholderContent(
-          appColors,
-          theme,
-          Icons.library_books_rounded,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPlaceholderContent(
-    AppColors appColors,
-    ThemeData theme,
-    IconData icon,
-  ) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 64, color: appColors.textSecondary),
-          const SizedBox(height: AppSpacing.md),
-          Text(
-            'フォローすると見られます',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: appColors.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBookShelfTab(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification.metrics.pixels >=
-            notification.metrics.maxScrollExtent - 200) {
-          if (hasMoreBooks && !isBooksLoadingMore) {
-            onLoadMoreBooks();
+        if (_selectedTab == 0 &&
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 200) {
+          if (widget.hasMoreBooks && !widget.isBooksLoadingMore) {
+            widget.onLoadMoreBooks();
           }
         }
         return false;
       },
       child: CustomScrollView(
-        key: const PageStorageKey('bookShelf'),
-        slivers: _buildBookShelfSlivers(context),
+        physics: widget.onRefresh != null
+            ? const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              )
+            : null,
+        slivers: [
+          if (widget.onRefresh != null)
+            CupertinoSliverRefreshControl(onRefresh: widget.onRefresh),
+          SliverToBoxAdapter(child: widget.header),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _TabBarDelegate(
+              child: ProfileTabBar(
+                selectedTab: ProfileTab.values[_selectedTab],
+                onTabChanged: (tab) =>
+                    widget.tabController.animateTo(tab.index),
+              ),
+              backgroundColor: theme.scaffoldBackgroundColor,
+            ),
+          ),
+          if (widget.showNotFollowingPlaceholder)
+            ..._buildNotFollowingPlaceholder(context)
+          else if (_selectedTab == 0)
+            ..._buildBookShelfSlivers(context)
+          else
+            ..._buildBookListSlivers(context),
+        ],
       ),
     );
+  }
+
+  List<Widget> _buildNotFollowingPlaceholder(BuildContext context) {
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
+    final icon = _selectedTab == 0
+        ? Icons.grid_view_rounded
+        : Icons.library_books_rounded;
+
+    return [
+      SliverFillRemaining(
+        hasScrollBody: false,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 64, color: appColors.textSecondary),
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'フォローすると見られます',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: appColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 
   List<Widget> _buildBookShelfSlivers(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     return [
-      if (filterBar != null)
+      if (widget.filterBar != null)
         SliverPersistentHeader(
           pinned: true,
           delegate: _FilterBarDelegate(
-            child: filterBar!,
+            child: widget.filterBar!,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
         )
       else
         const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
-      if (isBooksLoading)
+      if (widget.isBooksLoading)
         const SliverFillRemaining(
+          hasScrollBody: false,
           child: Center(child: CircularProgressIndicator()),
         )
-      else if (books.isEmpty)
+      else if (widget.books.isEmpty)
         SliverFillRemaining(
+          hasScrollBody: false,
           child: Center(
             child: Text(
               'まだ本が登録されていません',
@@ -193,19 +209,19 @@ class ProfileContentView extends StatelessWidget {
               mainAxisSpacing: AppSpacing.md,
             ),
             delegate: SliverChildBuilderDelegate((context, index) {
-              if (index >= books.length) return null;
-              final book = books[index];
+              if (index >= widget.books.length) return null;
+              final book = widget.books[index];
               return ProfileBookCard(
                 book: book,
-                onTap: () => onBookTap(book),
-                onLongPress: onBookLongPress != null
-                    ? () => onBookLongPress!(book)
+                onTap: () => widget.onBookTap(book),
+                onLongPress: widget.onBookLongPress != null
+                    ? () => widget.onBookLongPress!(book)
                     : null,
               );
-            }, childCount: books.length),
+            }, childCount: widget.books.length),
           ),
         ),
-        if (isBooksLoadingMore)
+        if (widget.isBooksLoadingMore)
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.md),
@@ -216,27 +232,22 @@ class ProfileContentView extends StatelessWidget {
     ];
   }
 
-  Widget _buildBookListTab(BuildContext context) {
-    return CustomScrollView(
-      key: const PageStorageKey('bookList'),
-      slivers: _buildBookListSlivers(context),
-    );
-  }
-
   List<Widget> _buildBookListSlivers(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
 
-    if (isBookListsLoading) {
+    if (widget.isBookListsLoading) {
       return [
         const SliverFillRemaining(
+          hasScrollBody: false,
           child: Center(child: CircularProgressIndicator()),
         ),
       ];
     }
 
-    if (isBookListsError) {
+    if (widget.isBookListsError) {
       return [
         SliverFillRemaining(
+          hasScrollBody: false,
           child: Center(
             child: Text(
               'エラーが発生しました',
@@ -247,15 +258,19 @@ class ProfileContentView extends StatelessWidget {
       ];
     }
 
-    if (isBookListsEmpty && emptyBookListWidget != null) {
+    if (widget.isBookListsEmpty && widget.emptyBookListWidget != null) {
       return [
-        SliverFillRemaining(child: emptyBookListWidget),
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: widget.emptyBookListWidget,
+        ),
       ];
     }
 
-    if (bookLists.isEmpty) {
+    if (widget.bookLists.isEmpty) {
       return [
         SliverFillRemaining(
+          hasScrollBody: false,
           child: Center(
             child: Text(
               'まだブックリストがありません',
@@ -267,11 +282,11 @@ class ProfileContentView extends StatelessWidget {
     }
 
     return [
-      if (bookListActionBar != null)
+      if (widget.bookListActionBar != null)
         SliverPersistentHeader(
           pinned: true,
           delegate: _FilterBarDelegate(
-            child: bookListActionBar!,
+            child: widget.bookListActionBar!,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           ),
         )
@@ -287,9 +302,9 @@ class ProfileContentView extends StatelessWidget {
             childAspectRatio: 0.85,
           ),
           delegate: SliverChildBuilderDelegate((context, index) {
-            final list = bookLists[index];
+            final list = widget.bookLists[index];
             return _BookListGridItem(summary: list);
-          }, childCount: bookLists.length),
+          }, childCount: widget.bookLists.length),
         ),
       ),
     ];
